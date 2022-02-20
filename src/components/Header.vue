@@ -1,0 +1,46 @@
+<template>
+  <div class="flex justify-between p-2">
+    <h1 class="text-base">
+      Idux Playground
+      {{ versionText }}
+    </h1>
+    <IxSpace>
+      <IxButton @click="downloadProject(store)">
+        Download
+      </IxButton>
+      <IxButton @click="onShareClick">
+        Share
+      </IxButton>
+      <IxButton
+        mode="link"
+        href="https://github.com/brenner8023/idux-playground"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        GitHub
+      </IxButton>
+    </IxSpace>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { useMessage } from '@idux/components/message'
+import { downloadProject } from '@/utils'
+import type { ReplStore } from '@/repl-store'
+
+const props = defineProps<{
+  store: ReplStore
+}>()
+
+const { success, warning } = useMessage()
+const onShareClick = async () => {
+  if (!navigator.clipboard) {
+    warning('navigator.clipboard is undefined')
+    return
+  }
+  await navigator.clipboard.writeText(location.href)
+  success('Current URL has been copied to clipboard.')
+}
+
+const versionText = computed(() => ` ( Vue@${props.store.versions.Vue}, Idux@${props.store.versions.Idux} )`)
+</script>

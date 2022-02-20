@@ -1,0 +1,7 @@
+node_modules
+.DS_Store
+.pnpm-debug.log*
+dist
+public
+src/types/dts/components.d.ts
+src/types/dts/auto-imports.d.ts
