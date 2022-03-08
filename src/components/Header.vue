@@ -8,6 +8,17 @@
       <IxButton @click="downloadProject(store)">
         Download
       </IxButton>
+      <IxPopover>
+        <IxButton @mouseenter="updateQrcodeVal">
+          QRCode
+        </IxButton>
+        <template #content>
+          <QrcodeVue
+            :value="qrcodeVal"
+            :size="500"
+          />
+        </template>
+      </IxPopover>
       <IxButton @click="onShareClick">
         Share
       </IxButton>
@@ -27,6 +38,8 @@
 import { useMessage } from '@idux/components/message'
 import { downloadProject } from '@/utils'
 import type { ReplStore } from '@/repl-store'
+import QrcodeVue from 'qrcode.vue'
+
 
 const props = defineProps<{
   store: ReplStore
@@ -43,4 +56,10 @@ const onShareClick = async () => {
 }
 
 const versionText = computed(() => ` ( Vue@${props.store.versions.Vue}, Idux@${props.store.versions.Idux} )`)
+
+const qrcodeVal = ref('')
+
+const updateQrcodeVal = () => {
+  qrcodeVal.value = location.href
+}
 </script>
