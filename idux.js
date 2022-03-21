@@ -1,4 +1,4 @@
-import { computed, shallowRef, ref, toRaw, watch, unref, Fragment, Comment, Text, isVNode, effectScope, onScopeDispose, defineComponent, createVNode, Teleport, inject, onBeforeUnmount, onMounted, provide, watchEffect, reactive, normalizeClass, cloneVNode, getCurrentInstance, shallowReactive, Transition, mergeProps, withDirectives, vShow, toRef, customRef, nextTick, onUnmounted, normalizeStyle, resolveComponent, openBlock, createBlock, withCtx, renderSlot, createElementBlock, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, TransitionGroup, withKeys, onUpdated, toRefs, h as h$1, isProxy } from 'vue';
+import { computed as computed$1, shallowRef, ref, toRaw as toRaw$1, watch, unref, Fragment, Comment, Text, isVNode, effectScope, onScopeDispose, defineComponent, createVNode, Teleport, inject, onBeforeUnmount, onMounted, provide, watchEffect, reactive, normalizeClass, cloneVNode, getCurrentInstance, shallowReactive, Transition, mergeProps, withDirectives, vShow, customRef, nextTick, onUnmounted, toRef, normalizeStyle, resolveComponent, openBlock, createBlock, withCtx, renderSlot, createElementBlock, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, TransitionGroup, withKeys, onUpdated, toRefs, resolveDirective, h as h$1, isProxy } from 'vue';
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -153,7 +153,7 @@ var symbolTag$3 = '[object Symbol]';
  * _.isSymbol('abc');
  * // => false
  */
-function isSymbol(value) {
+function isSymbol$1(value) {
   return typeof value == 'symbol' ||
     (isObjectLike(value) && baseGetTag(value) == symbolTag$3);
 }
@@ -201,9 +201,9 @@ function arrayMap(array, iteratee) {
  * _.isArray(_.noop);
  * // => false
  */
-var isArray = Array.isArray;
+var isArray$1 = Array.isArray;
 
-var isArray$1 = isArray;
+var isArray$2 = isArray$1;
 
 /** Used as references for various `Number` constants. */
 var INFINITY$2 = 1 / 0;
@@ -225,11 +225,11 @@ function baseToString(value) {
   if (typeof value == 'string') {
     return value;
   }
-  if (isArray$1(value)) {
+  if (isArray$2(value)) {
     // Recursively convert values (susceptible to call stack limits).
     return arrayMap(value, baseToString) + '';
   }
-  if (isSymbol(value)) {
+  if (isSymbol$1(value)) {
     return symbolToString ? symbolToString.call(value) : '';
   }
   var result = (value + '');
@@ -342,7 +342,7 @@ function toNumber(value) {
   if (typeof value == 'number') {
     return value;
   }
-  if (isSymbol(value)) {
+  if (isSymbol$1(value)) {
     return NAN;
   }
   if (isObject(value)) {
@@ -474,7 +474,7 @@ var asyncTag = '[object AsyncFunction]',
  * _.isFunction(/abc/);
  * // => false
  */
-function isFunction(value) {
+function isFunction$1(value) {
   if (!isObject(value)) {
     return false;
   }
@@ -568,7 +568,7 @@ function baseIsNative(value) {
   if (!isObject(value) || isMasked(value)) {
     return false;
   }
-  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  var pattern = isFunction$1(value) ? reIsNative : reIsHostCtor;
   return pattern.test(toSource(value));
 }
 
@@ -1100,7 +1100,7 @@ var hasOwnProperty$c = objectProto$d.hasOwnProperty;
  * // => true
  */
 function lodash(value) {
-  if (isObjectLike(value) && !isArray$1(value) && !(value instanceof LazyWrapper)) {
+  if (isObjectLike(value) && !isArray$2(value) && !(value instanceof LazyWrapper)) {
     if (value instanceof LodashWrapper) {
       return value;
     }
@@ -2156,7 +2156,7 @@ function isLength(value) {
  * // => false
  */
 function isArrayLike(value) {
-  return value != null && isLength(value.length) && !isFunction(value);
+  return value != null && isLength(value.length) && !isFunction$1(value);
 }
 
 /**
@@ -2489,7 +2489,7 @@ var hasOwnProperty$9 = objectProto$9.hasOwnProperty;
  * @returns {Array} Returns the array of property names.
  */
 function arrayLikeKeys(value, inherited) {
-  var isArr = isArray$1(value),
+  var isArr = isArray$2(value),
       isArg = !isArr && isArguments$1(value),
       isBuff = !isArr && !isArg && isBuffer$1(value),
       isType = !isArr && !isArg && !isBuff && isTypedArray$1(value),
@@ -2679,12 +2679,12 @@ var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
  * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
  */
 function isKey(value, object) {
-  if (isArray$1(value)) {
+  if (isArray$2(value)) {
     return false;
   }
   var type = typeof value;
   if (type == 'number' || type == 'symbol' || type == 'boolean' ||
-      value == null || isSymbol(value)) {
+      value == null || isSymbol$1(value)) {
     return true;
   }
   return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
@@ -3243,7 +3243,7 @@ function toString(value) {
  * @returns {Array} Returns the cast property path array.
  */
 function castPath(value, object) {
-  if (isArray$1(value)) {
+  if (isArray$2(value)) {
     return value;
   }
   return isKey(value, object) ? [value] : stringToPath$1(toString(value));
@@ -3260,7 +3260,7 @@ var INFINITY = 1 / 0;
  * @returns {string|symbol} Returns the key.
  */
 function toKey(value) {
-  if (typeof value == 'string' || isSymbol(value)) {
+  if (typeof value == 'string' || isSymbol$1(value)) {
     return value;
   }
   var result = (value + '');
@@ -4211,7 +4211,7 @@ function copySymbolsIn(source, object) {
  */
 function baseGetAllKeys(object, keysFunc, symbolsFunc) {
   var result = keysFunc(object);
-  return isArray$1(object) ? result : arrayPush(result, symbolsFunc(object));
+  return isArray$2(object) ? result : arrayPush(result, symbolsFunc(object));
 }
 
 /**
@@ -4643,7 +4643,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
   if (!isObject(value)) {
     return value;
   }
-  var isArr = isArray$1(value);
+  var isArr = isArray$2(value);
   if (isArr) {
     result = initCloneArray(value);
     if (!isDeep) {
@@ -5150,8 +5150,8 @@ var hasOwnProperty$1 = objectProto.hasOwnProperty;
  * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
  */
 function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
-  var objIsArr = isArray$1(object),
-      othIsArr = isArray$1(other),
+  var objIsArr = isArray$2(object),
+      othIsArr = isArray$2(other),
       objTag = objIsArr ? arrayTag : getTag$1(object),
       othTag = othIsArr ? arrayTag : getTag$1(other);
 
@@ -5384,7 +5384,7 @@ function hasPath(object, path, hasFunc) {
   }
   length = object == null ? 0 : object.length;
   return !!length && isLength(length) && isIndex(key, length) &&
-    (isArray$1(object) || isArguments$1(object));
+    (isArray$2(object) || isArguments$1(object));
 }
 
 /**
@@ -5510,7 +5510,7 @@ function baseIteratee(value) {
     return identity;
   }
   if (typeof value == 'object') {
-    return isArray$1(value)
+    return isArray$2(value)
       ? baseMatchesProperty(value[0], value[1])
       : baseMatches(value);
   }
@@ -5942,13 +5942,13 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
   var isCommon = newValue === undefined;
 
   if (isCommon) {
-    var isArr = isArray$1(srcValue),
+    var isArr = isArray$2(srcValue),
         isBuff = !isArr && isBuffer$1(srcValue),
         isTyped = !isArr && !isBuff && isTypedArray$1(srcValue);
 
     newValue = srcValue;
     if (isArr || isBuff || isTyped) {
-      if (isArray$1(objValue)) {
+      if (isArray$2(objValue)) {
         newValue = objValue;
       }
       else if (isArrayLikeObject(objValue)) {
@@ -5971,7 +5971,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
       if (isArguments$1(objValue)) {
         newValue = toPlainObject(objValue);
       }
-      else if (!isObject(objValue) || isFunction(objValue)) {
+      else if (!isObject(objValue) || isFunction$1(objValue)) {
         newValue = initCloneObject(srcValue);
       }
     }
@@ -6043,7 +6043,7 @@ var stringTag = '[object String]';
  */
 function isString(value) {
   return typeof value == 'string' ||
-    (!isArray$1(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
+    (!isArray$2(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
 }
 
 /** `Object#toString` result references. */
@@ -6425,6 +6425,11 @@ function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable
     ? Object.freeze({})
     : {};
 (process.env.NODE_ENV !== 'production') ? Object.freeze([]) : [];
+const NOOP = () => { };
+const extend = Object.assign;
+const isArray = Array.isArray;
+const isFunction = (val) => typeof val === 'function';
+const isSymbol = (val) => typeof val === 'symbol';
 const objectToString = Object.prototype.toString;
 const toTypeString = (value) => objectToString.call(value);
 const toRawType = (value) => {
@@ -7042,7 +7047,7 @@ function callEmit(funcs, ...args) {
     return funcs(...args);
   }
 }
-IxPropTypes.oneOf([String, Number, Symbol]);
+const vKeyPropDef = IxPropTypes.oneOfType([String, Number, Symbol]);
 function createSharedComposable(composable) {
   let subscribers = 0;
   let state;
@@ -7064,24 +7069,24 @@ function createSharedComposable(composable) {
   };
 }
 function useState$1(defaultOrFactory, shallow = true) {
-  const defaultValue = isFunction(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
+  const defaultValue = isFunction$1(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
   const state = shallow ? shallowRef(defaultValue) : ref(defaultValue);
   const setState = (value) => {
-    if (value !== toRaw(state.value)) {
+    if (value !== toRaw$1(state.value)) {
       state.value = value;
     }
   };
-  return [computed(() => state.value), setState];
+  return [computed$1(() => state.value), setState];
 }
 function useControlledProp(props, key, defaultOrFactory) {
   const tempProp = ref(props[key]);
   watch(() => props[key], (value) => tempProp.value = value);
-  const state = computed(() => {
+  const state = computed$1(() => {
     var _a, _b;
-    return (_b = (_a = props[key]) != null ? _a : tempProp.value) != null ? _b : isFunction(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
+    return (_b = (_a = props[key]) != null ? _a : tempProp.value) != null ? _b : isFunction$1(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
   });
   const setState = (value) => {
-    if (value !== toRaw(state.value)) {
+    if (value !== toRaw$1(state.value)) {
       tempProp.value = value;
       callEmit(props[`onUpdate:${key}`], value);
     }
@@ -7095,7 +7100,7 @@ function isNumeric(val) {
   return !isNaN(parseFloat(val)) && isFinite(val);
 }
 function isPromise(val) {
-  return isObject(val) && isFunction(val.then) && isFunction(val.catch);
+  return isObject(val) && isFunction$1(val.then) && isFunction$1(val.catch);
 }
 const isHTMLElement$1 = (val) => toRawType(val).startsWith("HTML");
 function convertArray(value) {
@@ -7335,7 +7340,7 @@ on(document, "click", (event) => {
 function createHandler(el, binding) {
   const exclude = [el];
   let handler = NoopFunction;
-  if (isFunction(binding)) {
+  if (isFunction$1(binding)) {
     handler = binding;
   } else if (isObject(binding)) {
     exclude.push(...binding.exclude.filter(Boolean));
@@ -7356,8 +7361,8 @@ const clickOutside = {
 };
 
 const targetHashmap = {};
-function covertTarget$1(target) {
-  const temp = isFunction(target) ? target() : target;
+function convertTarget$1(target) {
+  const temp = isFunction$1(target) ? target() : target;
   if (!isString(temp)) {
     return temp;
   }
@@ -7395,7 +7400,7 @@ var Portal = defineComponent({
         loaded.value = load;
       }
     });
-    const target = computed(() => loaded.value && covertTarget$1(props.target));
+    const target = computed$1(() => loaded.value && convertTarget$1(props.target));
     return () => {
       const _target = target.value;
       if (!_target) {
@@ -7573,7 +7578,7 @@ class BlockScrollStrategy {
   }
 }
 function useGetKey(props) {
-  return computed(() => {
+  return computed$1(() => {
     const itemKey = props.itemKey;
     if (isString(itemKey)) {
       return (item) => {
@@ -7648,19 +7653,19 @@ const keepInRange = (maxScrollHeight, newScrollTop) => {
   return newTop;
 };
 function useScrollPlacement(props, holderRef, scrollTop, scrollHeight, changeScrollTop) {
-  const maxScrollHeight = computed(() => {
+  const maxScrollHeight = computed$1(() => {
     const height = scrollHeight.value;
     return height > 0 ? height - props.height : NaN;
   });
-  const scrolledTop = computed(() => scrollTop.value <= 0);
-  const scrolledBottom = computed(() => scrollTop.value >= maxScrollHeight.value);
+  const scrolledTop = computed$1(() => scrollTop.value <= 0);
+  const scrolledBottom = computed$1(() => scrollTop.value >= maxScrollHeight.value);
   watchEffect(() => {
     if (scrolledBottom.value) {
       callEmit(props.onScrolledBottom);
     }
   });
   const syncScrollTop = (newTop) => {
-    const value = isFunction(newTop) ? newTop(scrollTop.value) : newTop;
+    const value = isFunction$1(newTop) ? newTop(scrollTop.value) : newTop;
     const alignedTop = keepInRange(maxScrollHeight.value, value);
     const holderElement = holderRef.value;
     if (holderElement) {
@@ -7808,7 +7813,7 @@ function useScrollTo(props, holderRef, getKey, heights, collectHeight, setScroll
 }
 function useScrollVisible(props, scrollHeight) {
   const [visible, setScrollVisible] = useState$1(false);
-  const scrollVisible = computed(() => {
+  const scrollVisible = computed$1(() => {
     if (props.height >= scrollHeight.value) {
       return false;
     }
@@ -7835,7 +7840,7 @@ var Holder = defineComponent({
       syncScrollTop,
       originScroll
     } = inject(virtualScrollToken);
-    const style = computed(() => {
+    const style = computed$1(() => {
       const {
         height,
         fullHeight
@@ -7850,7 +7855,7 @@ var Holder = defineComponent({
         pointerEvents: useVirtual.value && scrollMoving.value ? "none" : void 0
       };
     });
-    const fillerStyle = computed(() => {
+    const fillerStyle = computed$1(() => {
       if (scrollOffset.value === void 0) {
         return void 0;
       }
@@ -7860,7 +7865,7 @@ var Holder = defineComponent({
         overflow: "hidden"
       };
     });
-    const contentStyle = computed(() => {
+    const contentStyle = computed$1(() => {
       const offset = scrollOffset.value;
       if (offset === void 0) {
         return {
@@ -8005,7 +8010,7 @@ function useContentResize(collectHeights) {
     contentRef
   };
 }
-const Item$3 = (_, {
+const Item$4 = (_, {
   slots
 }) => {
   const [firstChild] = slots.default();
@@ -8035,7 +8040,7 @@ var ScrollBar = defineComponent({
       handleThumbMouseMove,
       handleThumbMouseUp
     } = useEvents$5(enableScrollRange, enableHeightRange, thumbTop, scrollMoving, changeScrollMoving, syncScrollTop);
-    const style = useStyle$1(scrollVisible);
+    const style = useStyle(scrollVisible);
     const thumbClass = useThumbClass(scrollMoving);
     const thumbStyle = useThumbStyle(thumbHight, thumbTop);
     return () => createVNode("div", {
@@ -8060,7 +8065,7 @@ const getPageY = (evt) => {
 };
 const minHight = 20;
 const useThumbHight = (props) => {
-  return computed(() => {
+  return computed$1(() => {
     const {
       height,
       dataSource
@@ -8072,13 +8077,13 @@ const useThumbHight = (props) => {
   });
 };
 const useEnableScrollRange = (props, scrollHeight) => {
-  return computed(() => scrollHeight.value - props.height);
+  return computed$1(() => scrollHeight.value - props.height);
 };
 const useEnableHeightRange = (props, thumbHight) => {
-  return computed(() => props.height - thumbHight.value || 0);
+  return computed$1(() => props.height - thumbHight.value || 0);
 };
 const useThumbTop = (scrollTop, enableScrollRange, enableHeightRange) => {
-  return computed(() => {
+  return computed$1(() => {
     const _scrollTop = scrollTop.value;
     if (_scrollTop === 0 || enableScrollRange.value === 0) {
       return 0;
@@ -8145,8 +8150,8 @@ const useEvents$5 = (enableScrollRange, enableHeightRange, thumbTop, scrollMovin
     handleThumbMouseUp
   };
 };
-const useStyle$1 = (visible) => {
-  return computed(() => {
+const useStyle = (visible) => {
+  return computed$1(() => {
     return {
       width: "8px",
       top: 0,
@@ -8158,7 +8163,7 @@ const useStyle$1 = (visible) => {
   });
 };
 const useThumbClass = (scrollMoving) => {
-  return computed(() => {
+  return computed$1(() => {
     return {
       "cdk-virtual-scroll-thumb": true,
       "cdk-virtual-scroll-thumb-moving": scrollMoving.value
@@ -8166,7 +8171,7 @@ const useThumbClass = (scrollMoving) => {
   });
 };
 const useThumbStyle = (thumbHight, thumbTop) => {
-  return computed(() => {
+  return computed$1(() => {
     return {
       width: "100%",
       height: thumbHight.value + "px",
@@ -8200,7 +8205,7 @@ var VirtualScroll = defineComponent({
     expose,
     slots
   }) {
-    const useVirtual = computed(() => props.virtual && props.height > 0 && props.itemHeight > 0);
+    const useVirtual = computed$1(() => props.virtual && props.height > 0 && props.itemHeight > 0);
     const getKey = useGetKey(props);
     const {
       heights,
@@ -8249,7 +8254,7 @@ var VirtualScroll = defineComponent({
     expose({
       scrollTo
     });
-    const mergedData = computed(() => props.dataSource.slice(startIndex.value, endIndex.value + 1));
+    const mergedData = computed$1(() => props.dataSource.slice(startIndex.value, endIndex.value + 1));
     watch(mergedData, (data) => callEmit(props.onScrolledChange, startIndex.value, endIndex.value, data));
     let stopWatchScrollMoving;
     const clearWatch = () => {
@@ -8281,7 +8286,7 @@ var VirtualScroll = defineComponent({
       const itemRender = (_a = slots.item) != null ? _a : props.itemRender;
       const children = mergedData.value.map((item, index) => {
         const key = getKeyFn(item);
-        return createVNode(Item$3, {
+        return createVNode(Item$4, {
           "key": key,
           "ref": (instance) => setItem(key, instance)
         }, {
@@ -8306,7 +8311,7 @@ var VirtualScroll = defineComponent({
 });
 const CdkVirtualScroll = VirtualScroll;
 
-const version$2 = '1.0.0-alpha.6';
+const version$2 = '1.0.0-beta.2';
 
 const components$2 = [CdkPortal, CdkVirtualScroll];
 const directives$2 = {
@@ -15098,6 +15103,9 @@ const zhCN = {
     totalPrefix: "\u5171",
     totalSuffix: "\u6761"
   },
+  select: {
+    limitMessage: "\u8BE5\u9009\u62E9\u5668\u7684\u503C\u4E0D\u80FD\u8D85\u8FC7 ${0} \u9879"
+  },
   table: {
     expand: "\u5C55\u5F00\u884C",
     collapse: "\u6536\u8D77\u884C",
@@ -15123,6 +15131,11 @@ const zhCN = {
     separator: "\u81F3",
     placeholder: ["\u8D77\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4"]
   },
+  transfer: {
+    toSelect: "\u5F85\u9009",
+    selected: "\u5DF2\u9009",
+    searchPlaceholder: ["\u641C\u7D22\u5173\u952E\u5B57", "\u641C\u7D22\u5173\u952E\u5B57"]
+  },
   upload: {
     uploading: "\u6B63\u5728\u4E0A\u4F20...",
     error: "\u4E0A\u4F20\u5931\u8D25",
@@ -15133,18 +15146,368 @@ const zhCN = {
     download: "\u4E0B\u8F7D\u6587\u4EF6"
   }
 };
-const currentType = ref("zh-CN");
-const localeMap = { "zh-CN": zhCN };
-function getLocale(key) {
-  return computed(() => {
-    let currLocale = localeMap[currentType.value];
-    if (!currLocale) {
-      currLocale = zhCN;
-    }
-    return key ? currLocale[key] : currLocale;
-  });
-}
 
+function numFormatter(value, precision) {
+  const separator = ".";
+  const numReg = /^(\d+)(\.(\d+))?$/;
+  const numMatchRet = String(value).match(numReg);
+  if (!numMatchRet) {
+    return {
+      value: String(value),
+      int: "",
+      decimal: ""
+    };
+  } else {
+    const int = String(numMatchRet[1]);
+    let decimal = String(numMatchRet[3] || "").slice(0, precision).padEnd(precision, "0");
+    decimal = decimal.length > 0 ? `${separator}${decimal}` : "";
+    return {
+      value: `${int}${decimal}`,
+      int,
+      decimal
+    };
+  }
+}
+const defaultConfig$1 = {
+  common: {
+    prefixCls: "ix"
+  },
+  locale: zhCN,
+  alert: {
+    closable: false,
+    icon: {
+      success: "check-circle",
+      error: "info-circle",
+      info: "bulb",
+      warning: "exclamation-circle"
+    }
+  },
+  anchor: {
+    bounds: 5,
+    hideLinkBall: false
+  },
+  avatar: {
+    gap: 4,
+    icon: "user",
+    shape: "circle",
+    size: "md"
+  },
+  backTop: {
+    duration: 450,
+    visibilityHeight: 400
+  },
+  badge: {
+    showZero: false,
+    dot: false,
+    overflowCount: 99
+  },
+  button: {
+    size: "md"
+  },
+  card: {
+    borderless: false,
+    hoverable: false,
+    size: "md"
+  },
+  carousel: {
+    autoplayTime: 0,
+    dotPlacement: "bottom",
+    showArrow: false,
+    trigger: "click"
+  },
+  checkbox: {
+    size: "md"
+  },
+  collapse: {
+    accordion: false,
+    borderless: false,
+    expandIcon: "right",
+    ghost: false
+  },
+  datePicker: {
+    allowInput: true,
+    borderless: false,
+    clearable: false,
+    clearIcon: "close-circle",
+    size: "md",
+    suffix: "calendar"
+  },
+  dateRangePicker: {
+    separator: "swap-right"
+  },
+  divider: {
+    dashed: false,
+    labelPlacement: "center",
+    plain: false,
+    size: "md"
+  },
+  drawer: {
+    closable: true,
+    closeOnEsc: true,
+    closeIcon: "close",
+    height: 256,
+    mask: true,
+    maskClosable: true,
+    width: 480
+  },
+  dropdown: {
+    autoAdjust: true,
+    destroyOnHide: false,
+    offset: [0, 8],
+    placement: "bottomStart",
+    showArrow: false,
+    trigger: "hover"
+  },
+  empty: {
+    icon: "empty"
+  },
+  form: {
+    colonless: false,
+    labelAlign: "end",
+    layout: "horizontal",
+    size: "md"
+  },
+  icon: {},
+  input: {
+    borderless: false,
+    clearable: false,
+    clearIcon: "close-circle",
+    size: "md"
+  },
+  inputNumber: {
+    keyboard: true,
+    size: "md"
+  },
+  list: {
+    size: "md",
+    borderless: true
+  },
+  image: {
+    preview: true
+  },
+  imageViewer: {
+    loop: true,
+    maskClosable: true,
+    zoom: [0.5, 2]
+  },
+  menu: {
+    indent: 24,
+    offset: [0, 8],
+    suffix: "right",
+    theme: "light"
+  },
+  message: {
+    destroyOnHover: false,
+    duration: 3e3,
+    maxCount: 5,
+    icon: {
+      success: "check-circle-filled",
+      error: "close-circle-filled",
+      info: "info-circle-filled",
+      warning: "exclamation-circle-filled",
+      loading: "loading"
+    }
+  },
+  modal: {
+    centered: false,
+    closable: true,
+    closeIcon: "close",
+    closeOnEsc: true,
+    mask: true,
+    maskClosable: true,
+    width: 520
+  },
+  notification: {
+    destroyOnHover: false,
+    duration: 4500,
+    maxCount: 5,
+    offset: 24,
+    placement: "topEnd"
+  },
+  pagination: {
+    pageSize: 10,
+    pageSizes: [10, 20, 50, 100],
+    showQuickJumper: false,
+    showSizeChanger: false,
+    showTitle: true,
+    showTotal: true,
+    simple: false,
+    size: "md"
+  },
+  popconfirm: {
+    autoAdjust: true,
+    delay: 100,
+    destroyOnHide: false,
+    placement: "top",
+    trigger: "click"
+  },
+  popover: {
+    autoAdjust: true,
+    delay: 100,
+    destroyOnHide: false,
+    placement: "top",
+    showArrow: true,
+    trigger: "hover",
+    closeIcon: "close"
+  },
+  progress: {
+    strokeLinecap: "round",
+    size: "md",
+    format: (percent) => percent + "%"
+  },
+  radio: {
+    size: "md"
+  },
+  rate: {
+    allowHalf: false,
+    clearable: false,
+    count: 5,
+    icon: "star-filled",
+    size: "md"
+  },
+  result: {
+    status: "info"
+  },
+  row: {
+    wrap: true
+  },
+  select: {
+    borderless: false,
+    childrenKey: "children",
+    clearIcon: "close-circle",
+    labelKey: "label",
+    size: "md",
+    suffix: "down",
+    valueKey: "value"
+  },
+  skeleton: {
+    animated: true
+  },
+  space: {
+    size: "md",
+    wrap: true
+  },
+  spin: {
+    tip: "",
+    tipAlign: "vertical",
+    size: "md"
+  },
+  statistic: {
+    precision: 0,
+    formatter: numFormatter
+  },
+  stepper: {
+    clickable: false,
+    labelPlacement: "end",
+    size: "md"
+  },
+  table: {
+    borderless: true,
+    rowKey: "key",
+    size: "md",
+    extra: {
+      icon: "ellipsis"
+    },
+    pagination: {
+      position: "bottomEnd"
+    },
+    columnBase: {
+      align: "start",
+      sortable: {
+        nextTooltip: false,
+        orders: ["ascend", "descend"]
+      },
+      filterable: {
+        multiple: true,
+        footer: true
+      }
+    },
+    columnExpandable: {
+      icon: "right"
+    }
+  },
+  tag: {},
+  textarea: {
+    autoRows: false,
+    clearable: false,
+    clearIcon: "close-circle",
+    resize: "vertical",
+    showCount: false,
+    size: "md"
+  },
+  timePicker: {
+    borderless: false,
+    clearable: true,
+    clearIcon: "close-circle",
+    size: "md",
+    suffix: "clock-circle",
+    allowInput: true,
+    format: "HH:mm:ss"
+  },
+  timeRangePicker: {
+    borderless: false,
+    clearable: true,
+    clearIcon: "close-circle",
+    size: "md",
+    suffix: "clock-circle",
+    allowInput: true,
+    format: "HH:mm:ss"
+  },
+  transfer: {
+    getKey: "key",
+    clearable: true,
+    clearIcon: "clear",
+    showSelectAll: true
+  },
+  tooltip: {
+    autoAdjust: true,
+    delay: 100,
+    destroyOnHide: false,
+    placement: "top",
+    trigger: "hover"
+  },
+  tree: {
+    blocked: false,
+    expandIcon: "right",
+    nodeKey: "key",
+    showLine: false
+  },
+  treeSelect: {
+    size: "md",
+    suffix: "down",
+    childrenKey: "children",
+    labelKey: "label",
+    nodeKey: "key"
+  },
+  upload: {
+    multiple: false,
+    dragable: false,
+    directory: false,
+    name: "file",
+    withCredentials: false,
+    requestMethod: "post"
+  },
+  uploadFiles: {
+    type: "text",
+    icon: {
+      file: "paper-clip",
+      remove: "delete",
+      retry: "edit"
+    }
+  }
+};
+const tokens$1 = Object.keys(defaultConfig$1).map((key) => [key, Symbol(key)]);
+const tokenMap$1 = new Map(tokens$1);
+function useGlobalConfig$1(compName, config) {
+  const token = tokenMap$1.get(compName);
+  const currConfig = inject(token, defaultConfig$1[compName]);
+  if (!config) {
+    return currConfig;
+  }
+  const newConfig = reactive(merge$1(cloneDeep(currConfig), config));
+  provide(token, newConfig);
+  return [newConfig, (config2) => merge$1(newConfig, config2)];
+}
 const DATE_CONFIG_TOKEN = Symbol("DATE_CONFIG_TOKEN");
 let defaultDateConfig;
 function useDateConfig() {
@@ -15158,14 +15521,14 @@ function useDateConfig() {
   return defaultDateConfig;
 }
 function createDefaultDateConfig() {
-  const locale = getLocale("date");
+  const locale = useGlobalConfig$1("locale");
   const now = () => new Date();
-  const parse$1 = (dateString, format2) => parse(dateString, format2, now(), { locale: locale.value });
+  const parse$1 = (dateString, format2) => parse(dateString, format2, now(), { locale: locale.date });
   return {
     now,
     weekStartsOn: () => {
       var _a;
-      return ((_a = locale.value.options) == null ? void 0 : _a.weekStartsOn) || 1;
+      return ((_a = locale.date.options) == null ? void 0 : _a.weekStartsOn) || 1;
     },
     get: (date, type) => {
       switch (type) {
@@ -15176,7 +15539,7 @@ function createDefaultDateConfig() {
         case "month":
           return getMonth(date);
         case "week":
-          return getWeek(date, { locale: locale.value });
+          return getWeek(date, { locale: locale.date });
         case "date":
           return getDate(date);
         case "day":
@@ -15198,11 +15561,11 @@ function createDefaultDateConfig() {
         case "month":
           return setMonth(date, amount);
         case "week":
-          return setWeek(date, amount, { locale: locale.value });
+          return setWeek(date, amount, { locale: locale.date });
         case "date":
           return setDate(date, amount);
         case "day":
-          return setDay(date, amount, { locale: locale.value });
+          return setDay(date, amount, { locale: locale.date });
         case "hour":
           return setHours(date, amount);
         case "minute":
@@ -15235,7 +15598,7 @@ function createDefaultDateConfig() {
         case "month":
           return startOfMonth(date);
         case "week":
-          return startOfWeek(date, { locale: locale.value });
+          return startOfWeek(date, { locale: locale.date });
         case "date":
         case "day":
           return startOfDay(date);
@@ -15250,7 +15613,7 @@ function createDefaultDateConfig() {
         case "month":
           return endOfMonth(date);
         case "week":
-          return endOfWeek(date, { locale: locale.value });
+          return endOfWeek(date, { locale: locale.date });
         case "date":
         case "day":
           return endOfDay(date);
@@ -15265,7 +15628,7 @@ function createDefaultDateConfig() {
         case "month":
           return isSameMonth(date, dateToCompare);
         case "week":
-          return isSameWeek(date, dateToCompare, { locale: locale.value });
+          return isSameWeek(date, dateToCompare, { locale: locale.date });
         case "date":
         case "day":
           return isSameDay(date, dateToCompare);
@@ -15278,7 +15641,7 @@ function createDefaultDateConfig() {
       }
     },
     isValid: (date) => isValid(date),
-    format: (date, format$1$1) => format$1(date, format$1$1, { locale: locale.value }),
+    format: (date, format$1$1) => format$1(date, format$1$1, { locale: locale.date }),
     parse: parse$1,
     convert: (date, format2) => {
       if (isNil(date)) {
@@ -15287,7 +15650,7 @@ function createDefaultDateConfig() {
       return isString(date) ? parse$1(date, format2) : toDate(date);
     },
     getLocalizedLabels: (type, length, width) => {
-      const localize = locale.value.localize;
+      const localize = locale.date.localize;
       switch (type) {
         case "month":
           return Array.from({ length }).map((_, i) => localize.month(i, { width }));
@@ -15299,378 +15662,6 @@ function createDefaultDateConfig() {
     }
   };
 }
-function numFormatter(value, precision) {
-  const separator = ".";
-  const numReg = /^(\d+)(\.(\d+))?$/;
-  const numMatchRet = String(value).match(numReg);
-  if (!numMatchRet) {
-    return {
-      value: String(value),
-      int: "",
-      decimal: ""
-    };
-  } else {
-    const int = String(numMatchRet[1]);
-    let decimal = String(numMatchRet[3] || "").slice(0, precision).padEnd(precision, "0");
-    decimal = decimal.length > 0 ? `${separator}${decimal}` : "";
-    return {
-      value: `${int}${decimal}`,
-      int,
-      decimal
-    };
-  }
-}
-const common$1 = { prefixCls: "ix" };
-const icon = {};
-const tag = {};
-const divider = {
-  dashed: false,
-  labelPlacement: "center",
-  plain: false,
-  size: "md"
-};
-const space = { size: "md", wrap: true };
-const row = { wrap: true };
-const dropdown = {
-  autoAdjust: true,
-  destroyOnHide: false,
-  offset: [0, 8],
-  placement: "bottomStart",
-  showArrow: false,
-  trigger: "hover"
-};
-const menu = {
-  indent: 24,
-  offset: [0, 8],
-  suffix: "right",
-  theme: "light"
-};
-const pagination = {
-  pageSize: 10,
-  pageSizes: [10, 20, 50, 100],
-  showQuickJumper: false,
-  showSizeChanger: false,
-  showTitle: true,
-  showTotal: true,
-  simple: false,
-  size: "md"
-};
-const form = {
-  colonless: false,
-  labelAlign: "end",
-  layout: "horizontal",
-  size: "md"
-};
-const checkbox = { size: "md" };
-const datePicker = {
-  allowInput: true,
-  borderless: false,
-  clearable: false,
-  clearIcon: "close-circle",
-  size: "md",
-  suffix: "calendar"
-};
-const dateRangePicker = { separator: "swap-right" };
-const inputNumber = {
-  keyboard: true,
-  size: "md"
-};
-const input = {
-  borderless: false,
-  clearable: false,
-  clearIcon: "close-circle",
-  size: "md"
-};
-const rate = {
-  allowHalf: false,
-  clearable: false,
-  count: 5,
-  icon: "star-filled",
-  size: "md"
-};
-const radio = {
-  size: "md"
-};
-const select = {
-  borderless: false,
-  childrenKey: "children",
-  labelKey: "label",
-  size: "md",
-  suffix: "down",
-  valueKey: "value"
-};
-const textarea = {
-  autoRows: false,
-  clearable: false,
-  clearIcon: "close-circle",
-  resize: "vertical",
-  showCount: false,
-  size: "md"
-};
-const timePicker = {
-  borderless: false,
-  clearable: true,
-  clearIcon: "close-circle",
-  size: "md",
-  suffix: "clock-circle",
-  allowInput: true,
-  format: "HH:mm:ss"
-};
-const timeRangePicker = {
-  borderless: false,
-  clearable: true,
-  clearIcon: "close-circle",
-  size: "md",
-  suffix: "clock-circle",
-  allowInput: true,
-  format: "HH:mm:ss"
-};
-const treeSelect = {
-  size: "md",
-  suffix: "down",
-  childrenKey: "children",
-  labelKey: "label",
-  nodeKey: "key"
-};
-const upload$1 = {
-  multiple: false,
-  dragable: false,
-  directory: false,
-  name: "file",
-  withCredentials: false,
-  requestMethod: "post"
-};
-const uploadFiles = {
-  type: "text",
-  icon: {
-    file: "paper-clip",
-    remove: "delete",
-    retry: "edit"
-  }
-};
-const avatar = {
-  gap: 4,
-  icon: "user",
-  shape: "circle",
-  size: "md"
-};
-const badge = { showZero: false, dot: false, overflowCount: 99 };
-const card = {
-  borderless: false,
-  hoverable: false,
-  size: "md"
-};
-const empty = {
-  icon: "empty"
-};
-const list = {
-  size: "md",
-  borderless: true
-};
-const collapse = {
-  accordion: false,
-  borderless: false,
-  expandIcon: "right",
-  ghost: false
-};
-const image = {
-  preview: true
-};
-const imageViewer = {
-  loop: true,
-  maskClosable: true,
-  zoom: [0.5, 2]
-};
-const statistic = {
-  precision: 0,
-  formatter: numFormatter
-};
-const table = {
-  borderless: true,
-  rowKey: "key",
-  size: "md",
-  extra: { icon: "ellipsis" },
-  pagination: { position: "bottomEnd" },
-  columnBase: {
-    align: "start",
-    sortable: { nextTooltip: false, orders: ["ascend", "descend"] },
-    filterable: { multiple: true, footer: true }
-  },
-  columnExpandable: { icon: "right" }
-};
-const tooltip = {
-  autoAdjust: true,
-  delay: 100,
-  destroyOnHide: false,
-  placement: "top",
-  trigger: "hover"
-};
-const tree = {
-  blocked: false,
-  expandIcon: "right",
-  nodeKey: "key",
-  showLine: false
-};
-const popover = {
-  autoAdjust: true,
-  delay: 100,
-  destroyOnHide: false,
-  placement: "top",
-  showArrow: true,
-  trigger: "hover",
-  closeIcon: "close"
-};
-const message = {
-  destroyOnHover: false,
-  duration: 3e3,
-  maxCount: 5,
-  icon: {
-    success: "check-circle-filled",
-    error: "close-circle-filled",
-    info: "info-circle-filled",
-    warning: "exclamation-circle-filled",
-    loading: "loading"
-  }
-};
-const notification = {
-  destroyOnHover: false,
-  duration: 4500,
-  maxCount: 5,
-  offset: 24,
-  placement: "topEnd"
-};
-const modal = {
-  centered: false,
-  closable: true,
-  closeIcon: "close",
-  closeOnEsc: true,
-  mask: true,
-  maskClosable: true,
-  width: 520
-};
-const alert = {
-  closable: false,
-  icon: {
-    success: "check-circle",
-    error: "info-circle",
-    info: "bulb",
-    warning: "exclamation-circle"
-  }
-};
-const skeleton = {
-  animated: true
-};
-const carousel = {
-  autoplayTime: 0,
-  dotPlacement: "bottom",
-  showArrow: false,
-  trigger: "click"
-};
-const drawer = {
-  closable: true,
-  closeOnEsc: true,
-  closeIcon: "close",
-  height: 256,
-  mask: true,
-  maskClosable: true,
-  width: 480
-};
-const result = { status: "info" };
-const spin = {
-  tip: "",
-  tipAlign: "vertical",
-  size: "md"
-};
-const popconfirm = {
-  autoAdjust: true,
-  delay: 100,
-  destroyOnHide: false,
-  placement: "top",
-  trigger: "click"
-};
-const progress = {
-  strokeLinecap: "round",
-  size: "md",
-  format: (percent) => percent + "%"
-};
-const stepper = {
-  clickable: false,
-  labelPlacement: "end",
-  size: "md"
-};
-const backTop = {
-  duration: 450,
-  visibilityHeight: 400
-};
-const anchor = {
-  bounds: 5,
-  hideLinkBall: false
-};
-const defaultConfig$1 = {
-  common: common$1,
-  icon,
-  tag,
-  divider,
-  space,
-  row,
-  dropdown,
-  menu,
-  pagination,
-  form,
-  checkbox,
-  datePicker,
-  dateRangePicker,
-  input,
-  inputNumber,
-  rate,
-  radio,
-  select,
-  textarea,
-  timePicker,
-  timeRangePicker,
-  treeSelect,
-  upload: upload$1,
-  uploadFiles,
-  avatar,
-  badge,
-  card,
-  empty,
-  carousel,
-  list,
-  collapse,
-  image,
-  imageViewer,
-  statistic,
-  table,
-  tooltip,
-  tree,
-  popover,
-  alert,
-  skeleton,
-  message,
-  notification,
-  modal,
-  drawer,
-  result,
-  spin,
-  progress,
-  popconfirm,
-  stepper,
-  backTop,
-  anchor
-};
-const tokens$1 = Object.keys(defaultConfig$1).map((key) => [key, Symbol(key)]);
-const tokenMap$1 = new Map(tokens$1);
-function useGlobalConfig$1(compName, config) {
-  const token = tokenMap$1.get(compName);
-  const currConfig = inject(token, defaultConfig$1[compName]);
-  if (!config) {
-    return currConfig;
-  }
-  const cloneConfig = reactive(merge$1(cloneDeep(currConfig), config));
-  provide(token, cloneConfig);
-  return [cloneConfig, (config2) => merge$1(cloneConfig, config2)];
-}
 
 const iconProps = {
   name: IxPropTypes.string,
@@ -15679,19 +15670,19 @@ const iconProps = {
   color: IxPropTypes.string,
   size: IxPropTypes.oneOfType([String, Number])
 };
-var __defProp$u = Object.defineProperty;
-var __getOwnPropSymbols$A = Object.getOwnPropertySymbols;
-var __hasOwnProp$A = Object.prototype.hasOwnProperty;
-var __propIsEnum$A = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$u = (obj, key, value) => key in obj ? __defProp$u(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$u = (a, b) => {
+var __defProp$x = Object.defineProperty;
+var __getOwnPropSymbols$D = Object.getOwnPropertySymbols;
+var __hasOwnProp$D = Object.prototype.hasOwnProperty;
+var __propIsEnum$D = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$x = (obj, key, value) => key in obj ? __defProp$x(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$x = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$A.call(b, prop))
-      __defNormalProp$u(a, prop, b[prop]);
-  if (__getOwnPropSymbols$A)
-    for (var prop of __getOwnPropSymbols$A(b)) {
-      if (__propIsEnum$A.call(b, prop))
-        __defNormalProp$u(a, prop, b[prop]);
+    if (__hasOwnProp$D.call(b, prop))
+      __defNormalProp$x(a, prop, b[prop]);
+  if (__getOwnPropSymbols$D)
+    for (var prop of __getOwnPropSymbols$D(b)) {
+      if (__propIsEnum$D.call(b, prop))
+        __defNormalProp$x(a, prop, b[prop]);
     }
   return a;
 };
@@ -15754,7 +15745,7 @@ function loadSvgElementFormScript(iconName) {
       svg = yield cached;
     }
     if (!svg) {
-      svg = covertSVGElement(`<svg><use xlink:href="#${iconName}"></svg>`);
+      svg = convertSVGElement(`<svg><use xlink:href="#${iconName}"></svg>`);
       setSVGAttribute(svg, iconName);
       iconCache.set(cachedName, svg);
     }
@@ -15766,7 +15757,7 @@ function createSVGElement(iconName, loadIconDynamically) {
     let svg = null;
     const icon = yield loadIconDefinition(iconName, loadIconDynamically);
     if (icon) {
-      svg = covertSVGElement(icon.svg);
+      svg = convertSVGElement(icon.svg);
       if (svg) {
         setSVGAttribute(svg, iconName);
         iconCache.set(iconName, svg);
@@ -15800,7 +15791,7 @@ function loadIconDefinition(iconName, loadIconDynamically) {
 function validSVGString(svg) {
   return !!svg && svg.includes("<svg");
 }
-function covertSVGElement(svg) {
+function convertSVGElement(svg) {
   const div = document.createElement("div");
   div.innerHTML = svg;
   return div.querySelector("svg");
@@ -15818,13 +15809,13 @@ function setSVGAttribute(svg, iconName) {
   });
   svg.setAttribute("data-icon", iconName);
 }
-function covertSVGNode(child) {
+function convertSVGNode(child) {
   const node = getFirstValidNode(child);
   if (!node || node.type !== "svg") {
     Logger.warn("components/icon", "The children must is svg element");
     return;
   }
-  return cloneVNode(node, __spreadValues$u(__spreadValues$u({}, defaultSVGAttributes), node.props));
+  return cloneVNode(node, __spreadValues$x(__spreadValues$x({}, defaultSVGAttributes), node.props));
 }
 var __async$a = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
@@ -15853,7 +15844,7 @@ var Icon = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-icon`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-icon`);
     const config = useGlobalConfig$1("icon");
     const root = ref();
     onMounted(() => appendChild(props, config, root.value));
@@ -15865,7 +15856,7 @@ var Icon = defineComponent({
       clearSVGElement(rootElement);
       appendChild(props, config, rootElement);
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         name,
         rotate
@@ -15877,7 +15868,7 @@ var Icon = defineComponent({
         [`${prefixCls}-spinning`]: rotate === true
       });
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       const {
         rotate,
         color,
@@ -15908,7 +15899,7 @@ var Icon = defineComponent({
           "class": classes.value,
           "style": style.value,
           "role": "img"
-        }, [covertSVGNode((_a = slots.default) == null ? void 0 : _a.call(slots))]);
+        }, [convertSVGNode((_a = slots.default) == null ? void 0 : _a.call(slots))]);
       }
     };
   }
@@ -15954,6 +15945,10 @@ const Check = {
   name: "check",
   svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M167.29 445.278 437.84 715.83a10.779 10.779 0 0 0 15.2 0l403.886-403.78a10.779 10.779 0 0 1 15.253 0l22.85 22.852a10.779 10.779 0 0 1 0 15.252L453.094 792.091a10.779 10.779 0 0 1-15.252 0L129.13 483.38a10.779 10.779 0 0 1 0-15.251l22.906-22.852a10.779 10.779 0 0 1 15.252 0z"/></svg>'
 };
+const Clear = {
+  name: "clear",
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M243.2 320c7.04 0 12.8 5.76 12.8 12.8V896h512V332.8c0-7.04 5.76-12.8 12.8-12.8h38.4c7.04 0 12.8 5.76 12.8 12.8v614.08a12.8 12.8 0 0 1-12.8 12.8H204.8a12.8 12.8 0 0 1-12.8-12.8V332.8c0-7.04 5.76-12.8 12.8-12.8h38.4zm512-256c7.04 0 12.8 5.76 12.8 12.8V192h179.2c7.04 0 12.8 5.76 12.8 12.8v38.4a12.8 12.8 0 0 1-12.8 12.8H76.8A12.8 12.8 0 0 1 64 243.2v-38.4c0-7.04 5.76-12.8 12.8-12.8H256V76.8c0-7.04 5.76-12.8 12.8-12.8h486.4zm-50.752 64h-383.68l-.128 64h383.68v-64z"/></svg>'
+};
 const ClockCircle = {
   name: "clock-circle",
   svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 64a384 384 0 1 0 0 768 384 384 0 0 0 0-768z"/><path d="M512 268.8v291.456c0 7.04 5.76 12.8 12.8 12.8h166.4c7.04 0 12.8 5.76 12.8 12.8v38.4a12.8 12.8 0 0 1-12.8 12.8H460.8a12.8 12.8 0 0 1-12.8-12.8V268.8c0-7.04 5.76-12.8 12.8-12.8h38.4c7.04 0 12.8 5.76 12.8 12.8z"/></svg>'
@@ -15964,23 +15959,23 @@ const CloseCircleFilled = {
 };
 const CloseCircle = {
   name: "close-circle",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 64a384 384 0 1 0 0 768 384 384 0 0 0 0-768z"/><path d="M707.2 343.232a12.8 12.8 0 0 1 0 18.112L557.632 510.848l149.44 149.44a12.8 12.8 0 0 1 0 18.112l-27.2 27.136a12.8 12.8 0 0 1-18.048 0L512.384 556.16 362.944 705.6a12.8 12.8 0 0 1-18.048 0l-27.2-27.136a12.8 12.8 0 0 1 0-18.112L467.2 510.848l-147.264-147.2a12.8 12.8 0 0 1 0-18.112l27.136-27.136a12.8 12.8 0 0 1 18.112 0l147.264 147.2 149.568-149.504a12.8 12.8 0 0 1 18.048 0l27.2 27.136z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 64a384 384 0 1 0 0 768 384 384 0 0 0 0-768zm195.2 215.232a12.8 12.8 0 0 1 0 18.112L557.632 510.848l149.44 149.44a12.8 12.8 0 0 1 0 18.112l-27.2 27.136a12.8 12.8 0 0 1-18.048 0L512.384 556.16 362.944 705.6a12.8 12.8 0 0 1-18.048 0l-27.2-27.136a12.8 12.8 0 0 1 0-18.112L467.2 510.848l-147.264-147.2a12.8 12.8 0 0 1 0-18.112l27.136-27.136a12.8 12.8 0 0 1 18.112 0l147.264 147.2 149.568-149.504a12.8 12.8 0 0 1 18.048 0l27.2 27.136z"/></svg>'
 };
 const Close = {
   name: "close",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M191.68 146.432 877.568 832.32a12.8 12.8 0 0 1 0 18.112l-27.136 27.136a12.8 12.8 0 0 1-18.112 0L146.432 191.68a12.8 12.8 0 0 1 0-18.112l27.136-27.136a12.8 12.8 0 0 1 18.112 0z"/><path d="m850.432 146.432 27.136 27.136a12.8 12.8 0 0 1 0 18.112L191.68 877.568a12.8 12.8 0 0 1-18.112 0l-27.136-27.136a12.8 12.8 0 0 1 0-18.112L832.32 146.432a12.8 12.8 0 0 1 18.112 0z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M282.24 236.928 512 466.688l229.76-229.76a12.8 12.8 0 0 1 18.176 0l27.136 27.136a12.8 12.8 0 0 1 0 18.112L557.248 512l229.76 229.888a12.8 12.8 0 0 1 0 18.112l-27.072 27.136a12.8 12.8 0 0 1-18.112 0L512 557.248l-229.76 229.76a12.8 12.8 0 0 1-18.176 0l-27.136-27.072a12.8 12.8 0 0 1 0-18.112L466.688 512l-229.76-229.76a12.8 12.8 0 0 1 0-18.176l27.136-27.136a12.8 12.8 0 0 1 18.112 0z"/></svg>'
 };
 const DoubleLeft = {
   name: "double-left",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="m167.104 521.024 388.48 388.544a12.8 12.8 0 0 0 18.176 0l27.136-27.136a12.8 12.8 0 0 0 0-18.112L257.6 521.024a12.8 12.8 0 0 1 0-18.048L600.96 159.68a12.8 12.8 0 0 0 0-18.112l-27.136-27.136a12.8 12.8 0 0 0-18.112 0l-388.48 388.48a12.8 12.8 0 0 0 0 18.112zm192 0 388.48 388.544a12.8 12.8 0 0 0 18.176 0l27.136-27.136a12.8 12.8 0 0 0 0-18.112L449.6 521.024a12.8 12.8 0 0 1 0-18.048L792.896 159.68a12.8 12.8 0 0 0 0-18.112l-27.136-27.136a12.8 12.8 0 0 0-18.112 0l-388.48 388.48a12.8 12.8 0 0 0 0 18.112z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M533.504 265.344a32 32 0 0 1 0 45.312L342.336 501.76a12.8 12.8 0 0 0 0 18.112l192.512 192.512a32 32 0 0 1-45.248 45.248L265.344 533.504a32 32 0 0 1 0-45.248L488.32 265.344a32 32 0 0 1 45.248 0zm224 0a32 32 0 0 1 0 45.312L566.336 501.76a12.8 12.8 0 0 0 0 18.112l192.512 192.512a32 32 0 1 1-45.248 45.248L489.344 533.504a32 32 0 0 1 0-45.248l222.912-222.912a32 32 0 0 1 45.248 0z"/></svg>'
 };
 const DoubleRight = {
   name: "double-right",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="m856.896 521.024-388.48 388.544a12.8 12.8 0 0 1-18.176 0l-27.136-27.136a12.8 12.8 0 0 1 0-18.112L766.4 521.024a12.8 12.8 0 0 0 0-18.048L423.04 159.68a12.8 12.8 0 0 1 0-18.112l27.136-27.136a12.8 12.8 0 0 1 18.112 0l388.48 388.48a12.8 12.8 0 0 1 0 18.112zm-192 0-388.48 388.544a12.8 12.8 0 0 1-18.176 0l-27.136-27.136a12.8 12.8 0 0 1 0-18.112L574.4 521.024a12.8 12.8 0 0 0 0-18.048L231.04 159.68a12.8 12.8 0 0 1 0-18.112l27.136-27.136a12.8 12.8 0 0 1 18.112 0l388.48 388.48a12.8 12.8 0 0 1 0 18.112z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M490.752 265.344a32 32 0 0 0 0 45.312L681.92 501.824a12.8 12.8 0 0 1 0 18.112L489.344 712.448a32 32 0 0 0 45.312 45.248l224.192-224.192a32 32 0 0 0 0-45.248L536 265.344a32 32 0 0 0-45.248 0zm-224 0a32 32 0 0 0 0 45.312L457.92 501.76a12.8 12.8 0 0 1 0 18.112L265.344 712.384a32 32 0 1 0 45.312 45.248L534.848 533.44a32 32 0 0 0 0-45.248L312 265.344a32 32 0 0 0-45.248 0z"/></svg>'
 };
 const Down = {
   name: "down",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="m502.976 728.896-388.544-388.48a12.8 12.8 0 0 1 0-18.176l27.136-27.136a12.8 12.8 0 0 1 18.112 0L502.976 638.4a12.8 12.8 0 0 0 18.048 0L864.32 295.104a12.8 12.8 0 0 1 18.112 0l27.136 27.136a12.8 12.8 0 0 1 0 18.112l-388.48 388.48a12.8 12.8 0 0 1-18.112 0z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M534.016 661.568a29.888 29.888 0 0 1-45.376 0L265.408 414.144a38.336 38.336 0 0 1 0-50.24 29.888 29.888 0 0 1 45.312 0l191.552 212.288a11.968 11.968 0 0 0 18.112 0l192.896-213.76a29.888 29.888 0 0 1 45.312 0 38.336 38.336 0 0 1 0 50.24l-224.64 248.96z"/></svg>'
 };
 const Ellipsis = {
   name: "ellipsis",
@@ -16010,9 +16005,13 @@ const InfoCircle = {
   name: "info-circle",
   svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 64a384 384 0 1 0 0 768 384 384 0 0 0 0-768zm-19.2 128h38.4q12.8 0 12.8 12.8v358.4q0 12.8-12.8 12.8h-38.4q-12.8 0-12.8-12.8V268.8q0-12.8 12.8-12.8Zm20.032 464.96q48 0 48 48t-48 48q-48 0-48-48t48-48Z"/></svg>'
 };
+const LeftDouble = {
+  name: "left-double",
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M533.504 265.344a32 32 0 0 1 0 45.312L342.336 501.76a12.8 12.8 0 0 0 0 18.112l192.512 192.512a32 32 0 0 1-45.248 45.248L265.344 533.504a32 32 0 0 1 0-45.248L488.32 265.344a32 32 0 0 1 45.248 0zm224 0a32 32 0 0 1 0 45.312L566.336 501.76a12.8 12.8 0 0 0 0 18.112l192.512 192.512a32 32 0 1 1-45.248 45.248L489.344 533.504a32 32 0 0 1 0-45.248l222.912-222.912a32 32 0 0 1 45.248 0z"/></svg>'
+};
 const Left = {
   name: "left",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="m295.104 502.976 388.48-388.544a12.8 12.8 0 0 1 18.176 0l27.136 27.136a12.8 12.8 0 0 1 0 18.112L385.6 502.976a12.8 12.8 0 0 0 0 18.048L728.896 864.32a12.8 12.8 0 0 1 0 18.112l-27.136 27.136a12.8 12.8 0 0 1-18.112 0l-388.48-388.48a12.8 12.8 0 0 1 0-18.112z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M362.432 534.016a29.888 29.888 0 0 1 0-45.376l247.424-223.232a38.336 38.336 0 0 1 50.24 0 29.888 29.888 0 0 1 0 45.312L447.808 502.272a11.968 11.968 0 0 0 0 18.112l213.76 192.896a29.888 29.888 0 0 1 0 45.312 38.336 38.336 0 0 1-50.24 0l-248.96-224.64z"/></svg>'
 };
 const Loading$1 = {
   name: "loading",
@@ -16036,7 +16035,7 @@ const Minus = {
 };
 const Plus = {
   name: "plus",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M499.2 64c7.04 0 12.8 5.76 12.8 12.8l-.064 372.352 370.048.064c7.04 0 12.8 5.76 12.8 12.8v38.4a12.8 12.8 0 0 1-12.8 12.8l-370.048-.064L512 883.2a12.8 12.8 0 0 1-12.8 12.8h-38.4a12.8 12.8 0 0 1-12.8-12.8l-.064-370.048-372.352.064a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8l372.352-.064L448 76.8c0-7.04 5.76-12.8 12.8-12.8h38.4z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M499.2 128c7.04 0 12.8 5.312 12.8 11.84V448h308.16c6.528 0 11.84 5.76 11.84 12.8v38.4c0 7.04-5.312 12.8-11.84 12.8H512v308.16c0 6.528-5.76 11.84-12.8 11.84h-38.4c-7.04 0-12.8-5.312-12.8-11.84V512H139.84c-6.528 0-11.84-5.76-11.84-12.8v-38.4c0-7.04 5.312-12.8 11.84-12.8l308.16-.064V139.84c0-6.528 5.76-11.84 12.8-11.84h38.4z"/></svg>'
 };
 const QuestionCircleFilled = {
   name: "question-circle-filled",
@@ -16046,9 +16045,13 @@ const QuestionCircle = {
   name: "question-circle",
   svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 64a384 384 0 1 0 0 768 384 384 0 0 0 0-768zm0 64a192 192 0 1 1 0 384v-64a128 128 0 1 0-128-128h-64a192 192 0 0 1 192-192zm-32 320h64v115.2a12.8 12.8 0 0 1-12.8 12.8h-38.4a12.8 12.8 0 0 1-12.8-12.8V512zm32.832 208.96q48 0 48 48t-48 48q-48 0-48-48t48-48Z"/></svg>'
 };
+const RightDouble = {
+  name: "right-double",
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M490.752 265.344a32 32 0 0 0 0 45.312L681.92 501.824a12.8 12.8 0 0 1 0 18.112L489.344 712.448a32 32 0 0 0 45.312 45.248l224.192-224.192a32 32 0 0 0 0-45.248L536 265.344a32 32 0 0 0-45.248 0zm-224 0a32 32 0 0 0 0 45.312L457.92 501.76a12.8 12.8 0 0 1 0 18.112L265.344 712.384a32 32 0 1 0 45.312 45.248L534.848 533.44a32 32 0 0 0 0-45.248L312 265.344a32 32 0 0 0-45.248 0z"/></svg>'
+};
 const Right = {
   name: "right",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="m728.896 521.024-388.48 388.544a12.8 12.8 0 0 1-18.176 0l-27.136-27.136a12.8 12.8 0 0 1 0-18.112L638.4 521.024a12.8 12.8 0 0 0 0-18.048L295.04 159.68a12.8 12.8 0 0 1 0-18.112l27.136-27.136a12.8 12.8 0 0 1 18.112 0l388.48 388.48a12.8 12.8 0 0 1 0 18.112z"/></svg>'
+  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M661.568 534.016a29.888 29.888 0 0 0 0-45.376L414.144 265.408a38.336 38.336 0 0 0-50.24 0 29.888 29.888 0 0 0 0 45.312l212.288 191.552a11.968 11.968 0 0 1 0 18.112L362.432 713.28a29.888 29.888 0 0 0 0 45.312 38.336 38.336 0 0 0 50.24 0l248.96-224.64z"/></svg>'
 };
 const RotateLeft = {
   name: "rotate-left",
@@ -16097,6 +16100,7 @@ const IDUX_ICON_DEPENDENCIES = [
   Check,
   CheckCircle,
   CheckCircleFilled,
+  Clear,
   ClockCircle,
   Close,
   CloseCircle,
@@ -16112,6 +16116,7 @@ const IDUX_ICON_DEPENDENCIES = [
   InfoCircle,
   InfoCircleFilled,
   Left,
+  LeftDouble,
   Loading$1,
   Menu$1,
   MenuFold,
@@ -16121,6 +16126,7 @@ const IDUX_ICON_DEPENDENCIES = [
   QuestionCircle,
   QuestionCircleFilled,
   Right,
+  RightDouble,
   RotateLeft,
   RotateRight,
   Search,
@@ -16166,46 +16172,46 @@ const zhCNMessages = {
   },
   maxLength: (err, control) => {
     const name = control.name || defaultName$1;
-    return `${name}\u7684\u957F\u5EA6\u4E0D\u80FD\u5C0F\u4E8E ${err.maxLength}, \u5F53\u524D\u957F\u5EA6\u4E3A ${err.actual}`;
+    return `${name}\u7684\u957F\u5EA6\u4E0D\u80FD\u5927\u4E8E ${err.maxLength}, \u5F53\u524D\u957F\u5EA6\u4E3A ${err.actual}`;
   },
   pattern: (err, control) => {
     const name = control.name || defaultName$1;
     return `${name}\u4E0D\u80FD\u5339\u914D '${err.pattern}'`;
   }
 };
-var __defProp$1$c = Object.defineProperty;
-var __defProps$k = Object.defineProperties;
-var __getOwnPropDescs$k = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$f = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$f = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$f = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$c = (obj, key, value) => key in obj ? __defProp$1$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$c = (a, b) => {
+var __defProp$1$f = Object.defineProperty;
+var __defProps$m = Object.defineProperties;
+var __getOwnPropDescs$m = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$h = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$h = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$h = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$f = (obj, key, value) => key in obj ? __defProp$1$f(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$f = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$f.call(b, prop))
-      __defNormalProp$1$c(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$f)
-    for (var prop of __getOwnPropSymbols$1$f(b)) {
-      if (__propIsEnum$1$f.call(b, prop))
-        __defNormalProp$1$c(a, prop, b[prop]);
+    if (__hasOwnProp$1$h.call(b, prop))
+      __defNormalProp$1$f(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$h)
+    for (var prop of __getOwnPropSymbols$1$h(b)) {
+      if (__propIsEnum$1$h.call(b, prop))
+        __defNormalProp$1$f(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$k = (a, b) => __defProps$k(a, __getOwnPropDescs$k(b));
+var __spreadProps$m = (a, b) => __defProps$m(a, __getOwnPropDescs$m(b));
 const emailRegexp = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
 const _Validators = class {
   static setMessages(messages) {
-    _Validators.messages = __spreadValues$1$c(__spreadValues$1$c({}, _Validators.messages), messages);
+    _Validators.messages = __spreadValues$1$f(__spreadValues$1$f({}, _Validators.messages), messages);
   }
   static getError(key, control, errorContext = {}) {
     let message = void 0;
     const validMessage = _Validators.messages[key] || _Validators.messages.default || void 0;
-    if (isFunction(validMessage)) {
+    if (isFunction$1(validMessage)) {
       message = validMessage(errorContext, control);
     } else {
       message = validMessage;
     }
-    return __spreadProps$k(__spreadValues$1$c({}, errorContext), { message });
+    return __spreadProps$m(__spreadValues$1$f({}, errorContext), { message });
   }
   static required(value, control) {
     if (isEmpty(value)) {
@@ -16291,7 +16297,7 @@ const _Validators = class {
     if (!validators) {
       return void 0;
     }
-    const presentValidators = validators.filter(isFunction);
+    const presentValidators = validators.filter(isFunction$1);
     if (presentValidators.length == 0) {
       return void 0;
     }
@@ -16301,7 +16307,7 @@ const _Validators = class {
     if (!validators) {
       return void 0;
     }
-    const presentValidators = validators.filter(isFunction);
+    const presentValidators = validators.filter(isFunction$1);
     if (presentValidators.length == 0) {
       return void 0;
     }
@@ -16314,7 +16320,7 @@ const _Validators = class {
 let Validators = _Validators;
 Validators.messages = zhCNMessages;
 function isEmpty(val) {
-  return isNil(val) || val.length === 0 && (isString(val) || isArray$1(val));
+  return isNil(val) || val.length === 0 && (isString(val) || isArray$2(val));
 }
 function hasLength(val) {
   return !isNil(val) && isNumber(val.length);
@@ -16325,23 +16331,23 @@ function executeValidators(value, control, validators) {
 function mergeMessages(validateErrors) {
   let res = {};
   validateErrors.forEach((errors) => {
-    res = isNil(errors) ? res : __spreadValues$1$c(__spreadValues$1$c({}, res), errors);
+    res = isNil(errors) ? res : __spreadValues$1$f(__spreadValues$1$f({}, res), errors);
   });
   return Object.keys(res).length === 0 ? void 0 : res;
 }
-var __defProp$t = Object.defineProperty;
-var __getOwnPropSymbols$z = Object.getOwnPropertySymbols;
-var __hasOwnProp$z = Object.prototype.hasOwnProperty;
-var __propIsEnum$z = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$t = (obj, key, value) => key in obj ? __defProp$t(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$t = (a, b) => {
+var __defProp$w = Object.defineProperty;
+var __getOwnPropSymbols$C = Object.getOwnPropertySymbols;
+var __hasOwnProp$C = Object.prototype.hasOwnProperty;
+var __propIsEnum$C = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$w = (obj, key, value) => key in obj ? __defProp$w(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$w = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$z.call(b, prop))
-      __defNormalProp$t(a, prop, b[prop]);
-  if (__getOwnPropSymbols$z)
-    for (var prop of __getOwnPropSymbols$z(b)) {
-      if (__propIsEnum$z.call(b, prop))
-        __defNormalProp$t(a, prop, b[prop]);
+    if (__hasOwnProp$C.call(b, prop))
+      __defNormalProp$w(a, prop, b[prop]);
+  if (__getOwnPropSymbols$C)
+    for (var prop of __getOwnPropSymbols$C(b)) {
+      if (__propIsEnum$C.call(b, prop))
+        __defNormalProp$w(a, prop, b[prop]);
     }
   return a;
 };
@@ -16369,10 +16375,10 @@ function isOptions(val) {
   return isPlainObject(val);
 }
 function toValidator(validator) {
-  return isArray$1(validator) ? Validators.compose(validator) : validator;
+  return isArray$2(validator) ? Validators.compose(validator) : validator;
 }
 function toAsyncValidator(asyncValidator) {
-  return isArray$1(asyncValidator) ? Validators.composeAsync(asyncValidator) : asyncValidator;
+  return isArray$2(asyncValidator) ? Validators.composeAsync(asyncValidator) : asyncValidator;
 }
 let controlId = 0;
 class AbstractControl {
@@ -16480,7 +16486,7 @@ class AbstractControl {
     if (isNil(path)) {
       return void 0;
     }
-    if (!isArray$1(path)) {
+    if (!isArray$2(path)) {
       path = path.toString().split(".");
     }
     if (path.length === 0) {
@@ -16563,25 +16569,25 @@ class AbstractControl {
     this._disabled = ref(disabled);
   }
   _init() {
-    this.controls = computed(() => this._controls.value);
-    this.valueRef = computed(() => this._valueRef.value);
+    this.controls = computed$1(() => this._controls.value);
+    this.valueRef = computed$1(() => this._valueRef.value);
     this._initErrorsAndStatus();
-    this.errors = computed(() => this._errors.value);
-    this.status = computed(() => {
+    this.errors = computed$1(() => this._errors.value);
+    this.status = computed$1(() => {
       const selfStatus = this._status.value;
       if (selfStatus === "valid") {
         return this._controlsStatus.value;
       }
       return selfStatus;
     });
-    this.valid = computed(() => this.status.value === "valid");
-    this.invalid = computed(() => this.status.value === "invalid");
-    this.validating = computed(() => this.status.value === "validating");
-    this.disabled = computed(() => this._disabled.value);
-    this.blurred = computed(() => this._blurred.value);
-    this.unblurred = computed(() => !this._blurred.value);
-    this.dirty = computed(() => this._dirty.value);
-    this.pristine = computed(() => !this._dirty.value);
+    this.valid = computed$1(() => this.status.value === "valid");
+    this.invalid = computed$1(() => this.status.value === "invalid");
+    this.validating = computed$1(() => this.status.value === "validating");
+    this.disabled = computed$1(() => this._disabled.value);
+    this.blurred = computed$1(() => this._blurred.value);
+    this.unblurred = computed$1(() => !this._blurred.value);
+    this.dirty = computed$1(() => this._dirty.value);
+    this.pristine = computed$1(() => !this._dirty.value);
   }
   _initErrorsAndStatus() {
     const disabled = this._disabled.value;
@@ -16650,7 +16656,7 @@ class FormGroup extends AbstractControl {
     Object.keys(controls).forEach((key) => cb(controls[key], key));
   }
   addControl(name, control) {
-    const controls = __spreadValues$t({}, this._controls.value);
+    const controls = __spreadValues$w({}, this._controls.value);
     if (hasOwnProperty(controls, name)) {
       return;
     }
@@ -16659,13 +16665,13 @@ class FormGroup extends AbstractControl {
     this._controls.value = controls;
   }
   removeControl(name) {
-    const controls = __spreadValues$t({}, this._controls.value);
+    const controls = __spreadValues$w({}, this._controls.value);
     delete controls[name];
     this._controls.value = controls;
   }
   setControl(name, control) {
     control.setParent(this);
-    const controls = __spreadValues$t({}, this._controls.value);
+    const controls = __spreadValues$w({}, this._controls.value);
     controls[name] = control;
     this._controls.value = controls;
   }
@@ -16730,7 +16736,7 @@ class FormGroup extends AbstractControl {
 class FormArray extends AbstractControl {
   constructor(controls, validatorOrOptions, asyncValidator) {
     super(controls, validatorOrOptions, asyncValidator);
-    this.length = computed(() => this._controls.value.length);
+    this.length = computed$1(() => this._controls.value.length);
     this._watchValid();
     this._watchValue();
     this._watchStatus();
@@ -16883,13 +16889,13 @@ function useValueAccessor(options) {
     } else {
       const tempRef = ref(props[valueKey]);
       watchStop = watch(() => props[valueKey], (value) => tempRef.value = value);
-      accessor.valueRef = computed(() => {
+      accessor.valueRef = computed$1(() => {
         var _a;
         return (_a = props[valueKey]) != null ? _a : tempRef.value;
       });
-      accessor.disabled = computed(() => props[disabledKey]);
+      accessor.disabled = computed$1(() => props[disabledKey]);
       accessor.setValue = (value) => {
-        if (value != toRaw(accessor.valueRef.value)) {
+        if (value != toRaw$1(accessor.valueRef.value)) {
           tempRef.value = value;
           callEmit(props[`onUpdate:${valueKey}`], value);
         }
@@ -17021,7 +17027,7 @@ function useMediaQuery(value) {
       _queries.delete(query.media);
     });
   });
-  return computed(() => {
+  return computed$1(() => {
     let matches = false;
     const medias = {};
     queries.forEach((query) => {
@@ -17107,12 +17113,12 @@ var Col = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-col`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-col`);
     const {
       mergedGutters
     } = inject(rowToken);
-    const classes = computed(() => generateAllCls(props, mergedPrefixCls.value));
-    const style = computed(() => {
+    const classes = computed$1(() => generateAllCls(props, mergedPrefixCls.value));
+    const style = computed$1(() => {
       const style2 = {};
       const [verticalGutter, horizontalGutter] = mergedGutters.value;
       if (verticalGutter > 0) {
@@ -17178,13 +17184,13 @@ var Row = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-row`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-row`);
     const config = useGlobalConfig$1("row");
     const mergedGutters = useGutters(props);
     provide(rowToken, {
       mergedGutters
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         align,
         justify,
@@ -17198,7 +17204,7 @@ var Row = defineComponent({
         [`${prefixCls}-nowrap`]: !wrap
       });
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       const [verticalGutter, horizontalGutter] = mergedGutters.value;
       const style2 = {};
       if (verticalGutter > 0) {
@@ -17219,12 +17225,12 @@ var Row = defineComponent({
 });
 function useGutters(props) {
   const breakpoints = useSharedBreakpoints();
-  return computed(() => {
+  return computed$1(() => {
     const {
       gutter
     } = props;
     const results = [0, 0];
-    const gutters = isArray$1(gutter) ? gutter : [gutter, gutter];
+    const gutters = isArray$2(gutter) ? gutter : [gutter, gutter];
     gutters.forEach((item, index) => {
       if (isObject(item)) {
         BREAKPOINTS_KEYS.some((key) => {
@@ -19238,13 +19244,13 @@ function useState(options) {
   });
 }
 function useBaseOptions(state) {
-  return computed(() => {
+  return computed$1(() => {
     const { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust } = state;
     return { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust };
   });
 }
 function useVisibility(state) {
-  return computed(() => !state.disabled && state.visible);
+  return computed$1(() => !state.disabled && state.visible);
 }
 function usePlacement(state) {
   const _placement = ref(state.placement);
@@ -19252,18 +19258,18 @@ function usePlacement(state) {
     _placement.value = value;
   };
   watch(() => state.placement, updatePlacement);
-  const placement = computed(() => _placement.value);
+  const placement = computed$1(() => _placement.value);
   return { placement, updatePlacement };
 }
 function useDelay(state) {
-  const covertDelay = (delay) => {
+  const convertDelay = (delay) => {
     if (Array.isArray(delay)) {
       const [show, hide] = delay;
       return { show: show != null ? show : defaultDelay$2, hide: hide != null ? hide : defaultDelay$2 };
     }
     return { show: delay, hide: delay };
   };
-  return computed(() => covertDelay(state.delay));
+  return computed$1(() => convertDelay(state.delay));
 }
 function useTimer() {
   let timer = null;
@@ -19306,7 +19312,7 @@ function useTriggerEvents(baseOptions, eventOptions) {
     contextmenu: { onClick, onContextmenu },
     manual: {}
   };
-  return computed(() => eventsMap[baseOptions.trigger]);
+  return computed$1(() => eventsMap[baseOptions.trigger]);
 }
 function usePopperEvents(baseOptions, eventOptions) {
   const { show, hide } = eventOptions;
@@ -19319,7 +19325,7 @@ function usePopperEvents(baseOptions, eventOptions) {
     contextmenu: NoopObject,
     manual: NoopObject
   };
-  return computed(() => baseOptions.allowEnter ? eventsMap[baseOptions.trigger] : NoopObject);
+  return computed$1(() => baseOptions.allowEnter ? eventsMap[baseOptions.trigger] : NoopObject);
 }
 function convertOptions$1(baseOptions, extraOptions) {
   const { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust } = baseOptions;
@@ -19474,25 +19480,25 @@ const overlayProps = {
   "onUpdate:placement": IxPropTypes.emit(),
   onAfterLeave: IxPropTypes.emit()
 };
-var __defProp$s = Object.defineProperty;
-var __defProps$j = Object.defineProperties;
-var __getOwnPropDescs$j = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$y = Object.getOwnPropertySymbols;
-var __hasOwnProp$y = Object.prototype.hasOwnProperty;
-var __propIsEnum$y = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$s = (obj, key, value) => key in obj ? __defProp$s(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$s = (a, b) => {
+var __defProp$v = Object.defineProperty;
+var __defProps$l = Object.defineProperties;
+var __getOwnPropDescs$l = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$B = Object.getOwnPropertySymbols;
+var __hasOwnProp$B = Object.prototype.hasOwnProperty;
+var __propIsEnum$B = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$v = (obj, key, value) => key in obj ? __defProp$v(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$v = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$y.call(b, prop))
-      __defNormalProp$s(a, prop, b[prop]);
-  if (__getOwnPropSymbols$y)
-    for (var prop of __getOwnPropSymbols$y(b)) {
-      if (__propIsEnum$y.call(b, prop))
-        __defNormalProp$s(a, prop, b[prop]);
+    if (__hasOwnProp$B.call(b, prop))
+      __defNormalProp$v(a, prop, b[prop]);
+  if (__getOwnPropSymbols$B)
+    for (var prop of __getOwnPropSymbols$B(b)) {
+      if (__propIsEnum$B.call(b, prop))
+        __defNormalProp$v(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$j = (a, b) => __defProps$j(a, __getOwnPropDescs$j(b));
+var __spreadProps$l = (a, b) => __defProps$l(a, __getOwnPropDescs$l(b));
 var Overlay$1 = defineComponent({
   inheritAttrs: false,
   props: overlayProps,
@@ -19502,7 +19508,7 @@ var Overlay$1 = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-overlay`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-overlay`);
     const popperOptions = usePopperOptions(props);
     const {
       arrowRef,
@@ -19518,7 +19524,7 @@ var Overlay$1 = defineComponent({
       show,
       hide,
       destroy
-    } = usePopper(__spreadProps$j(__spreadValues$s({}, popperOptions.value), {
+    } = usePopper(__spreadProps$l(__spreadValues$v({}, popperOptions.value), {
       visible: props.visible
     }));
     onMounted(() => initialize());
@@ -19556,7 +19562,7 @@ var Overlay$1 = defineComponent({
       if (!getFirstValidNode(contentNode)) {
         return triggerNode;
       }
-      const trigger = renderTrigger$1(props, triggerNode, __spreadValues$s({
+      const trigger = renderTrigger$1(props, triggerNode, __spreadValues$v({
         ref: triggerRef
       }, triggerEvents.value), handleClickOutside);
       const content = renderContent$2(props, mergedPrefixCls, visibility, contentNode, arrowRef, popperRef, popperEvents, attrs);
@@ -19576,7 +19582,7 @@ var Overlay$1 = defineComponent({
   }
 });
 function usePopperOptions(props) {
-  return computed(() => {
+  return computed$1(() => {
     const {
       allowEnter,
       autoAdjust,
@@ -19639,7 +19645,7 @@ function useTooltipOverlay(props, config, mergedPrefixCls) {
     return (_a = overlayRef.value) == null ? void 0 : _a.updatePopper();
   };
   const [visible, setVisible] = useControlledProp(props, "visible", false);
-  const overlayProps = computed(() => {
+  const overlayProps = computed$1(() => {
     var _a, _b, _c, _d, _e, _f, _g;
     const trigger = (_a = props.trigger) != null ? _a : config.trigger;
     return {
@@ -19666,7 +19672,7 @@ var Tooltip = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-tooltip`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tooltip`);
     const config = useGlobalConfig$1("tooltip");
     const {
       overlayRef,
@@ -19712,23 +19718,25 @@ function useFormItemRegister(control) {
     onBeforeUnmount(() => unregisterControl(key));
   }
 }
-const colProp = IxPropTypes.oneOfType([String, Number, IxPropTypes.object()]);
+const colProp = IxPropTypes.oneOfType([Number, String, IxPropTypes.object()]);
 const formProps = {
-  colonless: IxPropTypes.bool,
   control: controlPropDef,
+  colonless: IxPropTypes.bool,
   controlCol: colProp,
-  hasFeedback: IxPropTypes.bool.def(false),
+  hasFeedback: IxPropTypes.bool,
   labelAlign: IxPropTypes.oneOf(["start", "end"]),
   labelCol: colProp,
   layout: IxPropTypes.oneOf(["horizontal", "vertical", "inline"]),
-  size: IxPropTypes.oneOf(["lg", "md", "sm"])
+  size: IxPropTypes.oneOf(["lg", "md", "sm"]),
+  statusIcon: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]).def(false)
 };
 const formItemProps = {
   colonless: IxPropTypes.bool,
   control: controlPropDef,
   controlCol: colProp,
-  extra: IxPropTypes.string,
   hasFeedback: IxPropTypes.bool,
+  extra: IxPropTypes.string,
+  extraMessage: IxPropTypes.string,
   label: IxPropTypes.string,
   labelAlign: IxPropTypes.oneOf(["start", "end"]),
   labelCol: colProp,
@@ -19740,7 +19748,8 @@ const formItemProps = {
     IxPropTypes.func(),
     IxPropTypes.object()
   ]),
-  status: IxPropTypes.oneOf(["valid", "invalid", "validating"])
+  status: IxPropTypes.oneOf(["valid", "invalid", "validating"]),
+  statusIcon: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()])
 };
 const formWrapperProps = {
   control: controlPropDef
@@ -19754,196 +19763,70 @@ var Form = defineComponent({
     const control = useValueControl();
     provide(FORMS_CONTROL_TOKEN, control);
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-form`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-form`);
     const config = useGlobalConfig$1("form");
-    const colonless = computed(() => {
-      var _a;
-      return (_a = props.colonless) != null ? _a : config.colonless;
-    });
-    const labelAlign = computed(() => {
-      var _a;
-      return (_a = props.labelAlign) != null ? _a : config.labelAlign;
-    });
-    const layout = computed(() => {
+    const layout = computed$1(() => {
       var _a;
       return (_a = props.layout) != null ? _a : config.layout;
     });
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a;
       return (_a = props.size) != null ? _a : config.size;
     });
     provide(formToken, {
-      colonless,
-      controlCol: toRef(props, "controlCol"),
-      hasFeedback: toRef(props, "hasFeedback"),
-      labelAlign,
-      labelCol: toRef(props, "labelCol")
+      props,
+      config
     });
     provide(FORM_TOKEN, {
       size
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
-      return {
+      return normalizeClass({
         [prefixCls]: true,
         [`${prefixCls}-${layout.value}`]: true,
         [`${prefixCls}-${size.value}`]: true
-      };
+      });
     });
-    return () => {
-      var _a;
-      return createVNode("form", {
-        "class": classes.value
-      }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]);
-    };
+    return () => createVNode("form", {
+      "class": classes.value
+    }, [slots.default && slots.default()]);
   }
 });
-var __getOwnPropSymbols$x = Object.getOwnPropertySymbols;
-var __hasOwnProp$x = Object.prototype.hasOwnProperty;
-var __propIsEnum$x = Object.prototype.propertyIsEnumerable;
+var __defProp$u = Object.defineProperty;
+var __getOwnPropSymbols$A = Object.getOwnPropertySymbols;
+var __hasOwnProp$A = Object.prototype.hasOwnProperty;
+var __propIsEnum$A = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$u = (obj, key, value) => key in obj ? __defProp$u(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$u = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$A.call(b, prop))
+      __defNormalProp$u(a, prop, b[prop]);
+  if (__getOwnPropSymbols$A)
+    for (var prop of __getOwnPropSymbols$A(b)) {
+      if (__propIsEnum$A.call(b, prop))
+        __defNormalProp$u(a, prop, b[prop]);
+    }
+  return a;
+};
 var __objRest$h = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$x.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$A.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$x)
-    for (var prop of __getOwnPropSymbols$x(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$x.call(source, prop))
+  if (source != null && __getOwnPropSymbols$A)
+    for (var prop of __getOwnPropSymbols$A(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$A.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
 };
-var FormItem = defineComponent({
-  name: "IxFormItem",
-  props: formItemProps,
-  setup(props, {
-    slots
-  }) {
-    const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-form-item`);
-    const formContext = inject(formToken, null);
-    const labelColConfig = computed(() => {
-      var _a;
-      return normalizeColConfig((_a = props.labelCol) != null ? _a : formContext == null ? void 0 : formContext.labelCol.value);
-    });
-    const controlColConfig = computed(() => {
-      var _a;
-      return normalizeColConfig((_a = props.controlCol) != null ? _a : formContext == null ? void 0 : formContext.controlCol.value);
-    });
-    const hasFeedback = computed(() => {
-      var _a;
-      return (_a = props.hasFeedback) != null ? _a : !!(formContext == null ? void 0 : formContext.hasFeedback.value);
-    });
-    const {
-      status,
-      statusIcon,
-      message
-    } = useControlStatus(props);
-    const classes = computed(() => {
-      const prefixCls = mergedPrefixCls.value;
-      const currStatus = status.value;
-      return {
-        [prefixCls]: true,
-        [`${prefixCls}-has-feedback`]: hasFeedback.value && !!currStatus,
-        [`${prefixCls}-has-message`]: !!message.value,
-        [`${prefixCls}-${currStatus}`]: !!currStatus
-      };
-    });
-    const labelClasses = computed(() => {
-      const prefixCls = mergedPrefixCls.value;
-      const {
-        colonless = formContext == null ? void 0 : formContext.colonless.value,
-        labelAlign = formContext == null ? void 0 : formContext.labelAlign.value,
-        required
-      } = props;
-      return {
-        [`${prefixCls}-label`]: true,
-        [`${prefixCls}-label-colonless`]: colonless,
-        [`${prefixCls}-label-required`]: required,
-        [`${prefixCls}-label-start`]: labelAlign === "start"
-      };
-    });
-    return () => {
-      const prefixCls = mergedPrefixCls.value;
-      return createVNode(IxRow, {
-        "class": classes.value
-      }, {
-        default: () => [renderLabel$1(props, slots, labelClasses, labelColConfig, prefixCls), renderControl(props, slots, controlColConfig, hasFeedback, statusIcon, message, prefixCls)]
-      });
-    };
-  }
-});
-function renderLabel$1(props, slots, classes, labelColConfig, prefixCls) {
-  var _a;
-  const {
-    label,
-    labelFor,
-    labelTooltip
-  } = props;
-  const {
-    label: labelSlot,
-    labelTooltip: labelTooltipSlot
-  } = slots;
-  if (!(label || labelSlot || labelTooltip || labelTooltipSlot)) {
-    return void 0;
-  }
-  const tooltipNode = (_a = labelTooltipSlot == null ? void 0 : labelTooltipSlot()) != null ? _a : labelTooltip && createVNode(IxTooltip, {
-    "title": labelTooltip
-  }, {
-    default: () => [createVNode(IxIcon, {
-      "name": "question-circle"
-    }, null)]
-  });
-  return createVNode(IxCol, mergeProps({
-    "class": classes.value
-  }, labelColConfig.value), {
-    default: () => {
-      var _a2;
-      return [createVNode("label", {
-        "for": labelFor
-      }, [(_a2 = labelSlot == null ? void 0 : labelSlot()) != null ? _a2 : label, tooltipNode && createVNode("span", {
-        "class": `${prefixCls}-label-tooltip`
-      }, [tooltipNode])])];
-    }
-  });
-}
-function renderControl(props, slots, controlColConfig, hasFeedback, statusIcon, message, prefixCls) {
-  var _a;
-  const {
-    extra
-  } = props;
-  const {
-    extra: extraSlot
-  } = slots;
-  const statusNode = hasFeedback.value && statusIcon.value && createVNode("span", {
-    "class": `${prefixCls}-status-icon`
-  }, [createVNode(IxIcon, {
-    "name": statusIcon.value
-  }, null)]);
-  const messageNode = message.value && createVNode("div", {
-    "class": `${prefixCls}-message`
-  }, [message.value]);
-  const extraNode = (_a = extraSlot == null ? void 0 : extraSlot()) != null ? _a : extra;
-  const extraWrapper = extraNode && createVNode("div", {
-    "class": `${prefixCls}-extra`
-  }, [extraNode]);
-  return createVNode(IxCol, mergeProps({
-    "class": `${prefixCls}-control`
-  }, controlColConfig.value), {
-    default: () => {
-      var _a2;
-      return [createVNode("div", {
-        "class": `${prefixCls}-control-input`
-      }, [createVNode("div", {
-        "class": `${prefixCls}-control-input-content`
-      }, [(_a2 = slots.default) == null ? void 0 : _a2.call(slots)]), statusNode]), messageNode, extraWrapper];
-    }
-  });
-}
-function normalizeColConfig(col) {
-  return isNumber(col) || isString(col) ? {
-    span: col
-  } : col;
+function useFormItem(props, formProps2) {
+  const control = useControl();
+  const status = useStatus$2(props, control);
+  const statusIcon = useStatusIcon(props, formProps2, status);
+  const message = useMessage(props, control, status);
+  return { status, statusIcon, message };
 }
 function useControl() {
   const firstChildControl = shallowRef();
@@ -19964,10 +19847,7 @@ function useControl() {
       firstChildControl.value = void 0;
     }
   };
-  provide(FORM_ITEM_TOKEN, {
-    registerControl,
-    unregisterControl
-  });
+  provide(FORM_ITEM_TOKEN, { registerControl, unregisterControl });
   const selfControl = useValueControl();
   const control = shallowRef();
   watch([selfControl, firstChildControl], ([self, child]) => {
@@ -19975,32 +19855,11 @@ function useControl() {
     if (control.value !== target) {
       control.value = target;
     }
-  }, {
-    immediate: true
-  });
+  }, { immediate: true });
   return control;
 }
-const iconTypeMap = {
-  invalid: "close-circle-filled",
-  validating: "loading",
-  valid: "check-circle-filled"
-};
-function useControlStatus(props) {
-  const control = useControl();
-  const status = useStatus$2(props, control);
-  const message = useMessage(props, control, status);
-  const statusIcon = computed(() => {
-    const currStatus = status.value;
-    return currStatus ? iconTypeMap[currStatus] : void 0;
-  });
-  return {
-    status,
-    statusIcon,
-    message
-  };
-}
 function useStatus$2(props, control) {
-  return computed(() => {
+  return computed$1(() => {
     if (props.status) {
       return props.status;
     }
@@ -20008,26 +19867,43 @@ function useStatus$2(props, control) {
     if (!currControl) {
       return void 0;
     }
-    const {
-      trigger,
-      dirty,
-      blurred
-    } = currControl;
+    const { trigger, dirty, blurred } = currControl;
     if (trigger === "change" && dirty.value || trigger === "blur" && blurred.value) {
       return currControl.status.value;
     }
     return void 0;
   });
 }
-function useMessage(props, control, status) {
-  const locale = getLocale();
-  const messages = computed(() => {
-    const message = props.message;
-    return isString(message) || isFunction(message) ? {
-      invalid: message
-    } : message || {};
+const defaultIconMap$1 = {
+  invalid: "close-circle-filled",
+  validating: "loading",
+  valid: "check-circle-filled"
+};
+function useStatusIcon(props, formProps2, status) {
+  return computed$1(() => {
+    var _a, _b, _c;
+    const currStatus = status.value;
+    if (!currStatus) {
+      return void 0;
+    }
+    const icon = (_c = (_b = (_a = props.hasFeedback) != null ? _a : props.statusIcon) != null ? _b : formProps2 == null ? void 0 : formProps2.hasFeedback) != null ? _c : formProps2 == null ? void 0 : formProps2.statusIcon;
+    if (process.env.NODE_ENV !== "production" && (props.hasFeedback || (formProps2 == null ? void 0 : formProps2.hasFeedback))) {
+      Logger.warn("components/form", "`hasFeedback` was deprecated, please use `statusIcon` instead.");
+    }
+    if (!icon) {
+      return void 0;
+    }
+    const iconMap = isObject(icon) ? __spreadValues$u(__spreadValues$u({}, defaultIconMap$1), icon) : defaultIconMap$1;
+    return iconMap[currStatus];
   });
-  return computed(() => {
+}
+function useMessage(props, control, status) {
+  const locale = useGlobalConfig$1("locale");
+  const messages = computed$1(() => {
+    const message = props.message;
+    return isString(message) || isFunction$1(message) ? { invalid: message } : message || {};
+  });
+  return computed$1(() => {
     const currStatus = status.value;
     if (!currStatus) {
       return void 0;
@@ -20036,35 +19912,169 @@ function useMessage(props, control, status) {
     if (currMessage) {
       return isString(currMessage) ? currMessage : currMessage(control.value);
     }
-    const currControl = control.value;
-    return getMessageByError(currControl, currControl == null ? void 0 : currControl.errors.value, locale);
+    return getMessage(control, locale);
   });
 }
-function getMessageByError(control, error, locale) {
-  if (!error) {
+function getMessage(control, locale) {
+  const currControl = control.value;
+  if (!currControl) {
     return void 0;
   }
+  const error = currControl.errors.value;
   for (const key in error) {
-    const _a = error[key], {
-      message
-    } = _a, rest = __objRest$h(_a, [
-      "message"
-    ]);
+    const _a = error[key], { message } = _a, rest = __objRest$h(_a, ["message"]);
     if (message) {
       if (isString(message)) {
         return message;
       }
-      if (isFunction(message)) {
-        return message(rest, control);
+      if (isFunction$1(message)) {
+        return message(rest, currControl);
       }
-      const currMessage = message[locale.value.type];
+      const currMessage = message[locale.type];
       if (isString(currMessage)) {
         return currMessage;
       }
-      return currMessage(rest, control);
+      return currMessage(rest, currControl);
     }
   }
   return void 0;
+}
+var FormItem = defineComponent({
+  name: "IxFormItem",
+  props: formItemProps,
+  setup(props, {
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-form-item`);
+    const {
+      props: formProps2,
+      config
+    } = inject(formToken, null) || {};
+    const colonless = computed$1(() => {
+      var _a, _b;
+      return (_b = (_a = props.colonless) != null ? _a : formProps2 == null ? void 0 : formProps2.colonless) != null ? _b : config == null ? void 0 : config.colonless;
+    });
+    const labelAlign = computed$1(() => {
+      var _a, _b;
+      return (_b = (_a = props.labelAlign) != null ? _a : formProps2 == null ? void 0 : formProps2.labelAlign) != null ? _b : config == null ? void 0 : config.labelAlign;
+    });
+    const labelColConfig = computed$1(() => {
+      var _a;
+      return normalizeColConfig((_a = props.labelCol) != null ? _a : formProps2 == null ? void 0 : formProps2.labelCol);
+    });
+    const controlColConfig = computed$1(() => {
+      var _a;
+      return normalizeColConfig((_a = props.controlCol) != null ? _a : formProps2 == null ? void 0 : formProps2.controlCol);
+    });
+    const {
+      status,
+      statusIcon,
+      message
+    } = useFormItem(props, formProps2);
+    const classes = computed$1(() => {
+      const prefixCls = mergedPrefixCls.value;
+      const currStatus = status.value;
+      return normalizeClass({
+        [prefixCls]: true,
+        [`${prefixCls}-with-message`]: !!message.value,
+        [`${prefixCls}-with-status-icon`]: !!statusIcon.value,
+        [`${prefixCls}-${currStatus}`]: !!currStatus
+      });
+    });
+    const labelClasses = computed$1(() => {
+      const prefixCls = mergedPrefixCls.value;
+      return normalizeClass({
+        [`${prefixCls}-label`]: true,
+        [`${prefixCls}-label-colon`]: !colonless.value,
+        [`${prefixCls}-label-required`]: props.required,
+        [`${prefixCls}-label-start`]: labelAlign.value === "start"
+      });
+    });
+    return () => {
+      const prefixCls = mergedPrefixCls.value;
+      return createVNode(IxRow, {
+        "class": classes.value
+      }, {
+        default: () => [renderLabel$1(props, slots, labelClasses, labelColConfig, prefixCls), renderControl(props, slots, controlColConfig, statusIcon, message, prefixCls)]
+      });
+    };
+  }
+});
+function normalizeColConfig(col) {
+  return isNumber(col) || isString(col) ? {
+    span: col
+  } : col;
+}
+function renderLabel$1(props, slots, classes, labelColConfig, prefixCls) {
+  const {
+    label,
+    labelFor,
+    labelTooltip
+  } = props;
+  const {
+    label: labelSlot,
+    labelTooltip: labelTooltipSlot
+  } = slots;
+  if (!(label || labelSlot)) {
+    return void 0;
+  }
+  const tooltipNode = renderTooltip(labelTooltipSlot, labelTooltip);
+  return createVNode(IxCol, mergeProps({
+    "class": classes.value
+  }, labelColConfig.value), {
+    default: () => [createVNode("label", {
+      "for": labelFor
+    }, [labelSlot ? labelSlot() : label, tooltipNode && createVNode("span", {
+      "class": `${prefixCls}-label-tooltip`
+    }, [tooltipNode])])]
+  });
+}
+function renderControl(props, slots, controlColConfig, statusIcon, message, prefixCls) {
+  const {
+    extra,
+    extraMessage
+  } = props;
+  const {
+    extra: extraSlot,
+    extraMessage: extraMessageSlot
+  } = slots;
+  if (process.env.NODE_ENV !== "production" && (extra || extraSlot)) {
+    Logger.warn("components/form", "`extra` was deprecated, please use `extraMessage` instead.");
+  }
+  const statusNode = statusIcon.value && createVNode("span", {
+    "class": `${prefixCls}-status-icon`
+  }, [createVNode(IxIcon, {
+    "name": statusIcon.value
+  }, null)]);
+  const messageNode = message.value && createVNode("div", {
+    "class": `${prefixCls}-message`
+  }, [message.value]);
+  const extraNode = extraSlot ? extraSlot() : extraMessageSlot ? extraMessageSlot() : extra || extraMessage;
+  const extraWrapper = extraNode && createVNode("div", {
+    "class": `${prefixCls}-extra-message`
+  }, [extraNode]);
+  return createVNode(IxCol, mergeProps({
+    "class": `${prefixCls}-control`
+  }, controlColConfig.value), {
+    default: () => [createVNode("div", {
+      "class": `${prefixCls}-control-input`
+    }, [createVNode("div", {
+      "class": `${prefixCls}-control-input-content`
+    }, [slots.default && slots.default()]), statusNode]), messageNode, extraWrapper]
+  });
+}
+function renderTooltip(slot, tooltip) {
+  if (slot) {
+    return slot();
+  }
+  return tooltip && createVNode(IxTooltip, {
+    "title": tooltip
+  }, {
+    default: () => [createVNode(IxIcon, {
+      "name": "question-circle"
+    }, null)]
+  });
 }
 var FormWrapper = defineComponent({
   name: "IxFormWrapper",
@@ -20091,19 +20101,19 @@ function isFakeTouchstartFromScreenReader(event) {
   const touch = event.touches && event.touches[0] || event.changedTouches && event.changedTouches[0];
   return !!touch && touch.identifier === -1 && (touch.radiusX == null || touch.radiusX === 1) && (touch.radiusY == null || touch.radiusY === 1);
 }
-var __defProp$1$b = Object.defineProperty;
-var __getOwnPropSymbols$1$e = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$e = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$e = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$b = (obj, key, value) => key in obj ? __defProp$1$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$b = (a, b) => {
+var __defProp$1$e = Object.defineProperty;
+var __getOwnPropSymbols$1$g = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$g = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$g = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$e = (obj, key, value) => key in obj ? __defProp$1$e(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$e = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$e.call(b, prop))
-      __defNormalProp$1$b(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$e)
-    for (var prop of __getOwnPropSymbols$1$e(b)) {
-      if (__propIsEnum$1$e.call(b, prop))
-        __defNormalProp$1$b(a, prop, b[prop]);
+    if (__hasOwnProp$1$g.call(b, prop))
+      __defNormalProp$1$e(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$g)
+    for (var prop of __getOwnPropSymbols$1$g(b)) {
+      if (__propIsEnum$1$g.call(b, prop))
+        __defNormalProp$1$e(a, prop, b[prop]);
     }
   return a;
 };
@@ -20118,7 +20128,7 @@ const modalityEventListenerOptions = normalizePassiveListenerOptions({
 });
 function useInputModalityDetector(options) {
   const contextOptions = inject(INPUT_MODALITY_DETECTOR_OPTIONS_TOKEN, INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS);
-  const _options = __spreadValues$1$b(__spreadValues$1$b({}, contextOptions), options);
+  const _options = __spreadValues$1$e(__spreadValues$1$e({}, contextOptions), options);
   const _modality = ref(null);
   const _modalityDetected = customRef((track, trigger) => {
     let value = null;
@@ -20182,19 +20192,19 @@ function useInputModalityDetector(options) {
   };
 }
 const useSharedInputModalityDetector = createSharedComposable(() => useInputModalityDetector());
-var __defProp$r = Object.defineProperty;
-var __getOwnPropSymbols$w = Object.getOwnPropertySymbols;
-var __hasOwnProp$w = Object.prototype.hasOwnProperty;
-var __propIsEnum$w = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$r = (obj, key, value) => key in obj ? __defProp$r(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$r = (a, b) => {
+var __defProp$t = Object.defineProperty;
+var __getOwnPropSymbols$z = Object.getOwnPropertySymbols;
+var __hasOwnProp$z = Object.prototype.hasOwnProperty;
+var __propIsEnum$z = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$t = (obj, key, value) => key in obj ? __defProp$t(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$t = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$w.call(b, prop))
-      __defNormalProp$r(a, prop, b[prop]);
-  if (__getOwnPropSymbols$w)
-    for (var prop of __getOwnPropSymbols$w(b)) {
-      if (__propIsEnum$w.call(b, prop))
-        __defNormalProp$r(a, prop, b[prop]);
+    if (__hasOwnProp$z.call(b, prop))
+      __defNormalProp$t(a, prop, b[prop]);
+  if (__getOwnPropSymbols$z)
+    for (var prop of __getOwnPropSymbols$z(b)) {
+      if (__propIsEnum$z.call(b, prop))
+        __defNormalProp$t(a, prop, b[prop]);
     }
   return a;
 };
@@ -20209,7 +20219,7 @@ const captureEventListenerOptions = normalizePassiveListenerOptions({
 function useFocusMonitor(options) {
   var _a;
   const contextOptions = inject(FOCUS_MONITOR_OPTIONS_TOKEN, FOCUS_MONITOR_DEFAULT_OPTIONS);
-  const _options = __spreadValues$r(__spreadValues$r({}, contextOptions), options);
+  const _options = __spreadValues$t(__spreadValues$t({}, contextOptions), options);
   const _detectionMode = _options.detectionMode;
   const _inputModalityDetector = (_a = _options.inputModalityDetector) != null ? _a : useSharedInputModalityDetector();
   let _origin = null;
@@ -20236,7 +20246,7 @@ function useFocusMonitor(options) {
   function monitor(element, checkChildren = false) {
     const nativeElement = convertElement(element);
     if (!isBrowser || !nativeElement || nativeElement.nodeType !== 1) {
-      return computed(() => ({ origin: null }));
+      return computed$1(() => ({ origin: null }));
     }
     const rootNode = _getShadowRoot(nativeElement) || _getDocument();
     const cachedInfo = _elementInfo.get(nativeElement);
@@ -20244,7 +20254,7 @@ function useFocusMonitor(options) {
       if (checkChildren) {
         cachedInfo.checkChildren = true;
       }
-      return computed(() => cachedInfo.subject.value);
+      return computed$1(() => cachedInfo.subject.value);
     }
     const info = {
       checkChildren,
@@ -20253,7 +20263,7 @@ function useFocusMonitor(options) {
     };
     _elementInfo.set(nativeElement, info);
     _registerGlobalListeners(info);
-    return computed(() => info.subject.value);
+    return computed$1(() => info.subject.value);
   }
   function stopMonitoring(element) {
     const nativeElement = convertElement(element);
@@ -20435,8 +20445,8 @@ const statusColors = ["primary", "info", "pending", "success", "warning", "error
 function isStatusColor(color) {
   return statusColors.includes(color);
 }
-function covertTarget(target) {
-  const temp = isFunction(target) ? target() : target;
+function convertTarget(target) {
+  const temp = isFunction$1(target) ? target() : target;
   if (isString(temp)) {
     const targetDom = document.querySelector(temp);
     if (targetDom) {
@@ -20448,7 +20458,7 @@ function covertTarget(target) {
   }
   return temp || window;
 }
-function covertIconVNode(slots, props, key) {
+function convertIconVNode(slots, props, key) {
   let iconSlot;
   let iconName;
   if (key) {
@@ -20465,7 +20475,7 @@ function covertIconVNode(slots, props, key) {
   }
   return isString(iconName) ? createVNode(IxIcon, { name: iconName }, null) : iconName;
 }
-function covertStringVNode(slots, props, key) {
+function convertStringVNode(slots, props, key) {
   let labelSlot;
   let label;
   if (key) {
@@ -20598,25 +20608,25 @@ function calcPosition(affixRect, offsetOption, target) {
   }
   return style;
 }
-var __defProp$q = Object.defineProperty;
-var __defProps$i = Object.defineProperties;
-var __getOwnPropDescs$i = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$v = Object.getOwnPropertySymbols;
-var __hasOwnProp$v = Object.prototype.hasOwnProperty;
-var __propIsEnum$v = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$q = (obj, key, value) => key in obj ? __defProp$q(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$q = (a, b) => {
+var __defProp$s = Object.defineProperty;
+var __defProps$k = Object.defineProperties;
+var __getOwnPropDescs$k = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$y = Object.getOwnPropertySymbols;
+var __hasOwnProp$y = Object.prototype.hasOwnProperty;
+var __propIsEnum$y = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$s = (obj, key, value) => key in obj ? __defProp$s(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$s = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$v.call(b, prop))
-      __defNormalProp$q(a, prop, b[prop]);
-  if (__getOwnPropSymbols$v)
-    for (var prop of __getOwnPropSymbols$v(b)) {
-      if (__propIsEnum$v.call(b, prop))
-        __defNormalProp$q(a, prop, b[prop]);
+    if (__hasOwnProp$y.call(b, prop))
+      __defNormalProp$s(a, prop, b[prop]);
+  if (__getOwnPropSymbols$y)
+    for (var prop of __getOwnPropSymbols$y(b)) {
+      if (__propIsEnum$y.call(b, prop))
+        __defNormalProp$s(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$i = (a, b) => __defProps$i(a, __getOwnPropDescs$i(b));
+var __spreadProps$k = (a, b) => __defProps$k(a, __getOwnPropDescs$k(b));
 var Affix = defineComponent({
   name: "IxAffix",
   props: affixProps,
@@ -20624,13 +20634,13 @@ var Affix = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-affix`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-affix`);
     const contentStyle = ref({});
     const affixStyle = ref({});
     const targetRef = ref(null);
     const affixRef = ref(null);
     const contentRef = ref(null);
-    const offset = computed(() => normalizeOffset(props.offset));
+    const offset = computed$1(() => normalizeOffset(props.offset));
     const isStickyRef = ref(false);
     watch(isStickyRef, (value) => {
       var _a;
@@ -20656,7 +20666,7 @@ var Affix = defineComponent({
           width,
           height
         } = getTargetSize(contentRef.value);
-        contentStyle.value = __spreadProps$i(__spreadValues$q({}, contentStyle.value), {
+        contentStyle.value = __spreadProps$k(__spreadValues$s({}, contentStyle.value), {
           width: `${width}px`,
           height: `${height}px`
         });
@@ -20691,7 +20701,7 @@ var Affix = defineComponent({
       measure();
     });
     function initContainer() {
-      targetRef.value = covertTarget(props.target);
+      targetRef.value = convertTarget(props.target);
       observeTarget(targetRef.value, throttleMeasure);
     }
     return () => {
@@ -20732,7 +20742,7 @@ var __async$8 = (__this, __arguments, generator) => {
   });
 };
 function useCloseable(props, config) {
-  const closeable = computed(() => {
+  const closeable = computed$1(() => {
     var _a;
     return (_a = props.closable) != null ? _a : config.closable;
   });
@@ -20747,13 +20757,13 @@ function useCloseable(props, config) {
   });
   return { closeable, visible, handleClose };
 }
-function usePagination$1(props, titleChildren) {
+function usePagination$2(props, titleChildren) {
   const [pageIndex, setPageIndex] = useControlledPageIndex(props);
-  const pageTotal = computed(() => titleChildren.value.length);
-  const pageText = computed(() => `${pageIndex.value}/${pageTotal.value}`);
-  const isPagination = computed(() => props.pagination && pageTotal.value > 1);
-  const leftDisabled = computed(() => pageIndex.value <= 1);
-  const rightDisabled = computed(() => pageIndex.value >= pageTotal.value);
+  const pageTotal = computed$1(() => titleChildren.value.length);
+  const pageText = computed$1(() => `${pageIndex.value}/${pageTotal.value}`);
+  const isPagination = computed$1(() => props.pagination && pageTotal.value > 1);
+  const leftDisabled = computed$1(() => pageIndex.value <= 1);
+  const rightDisabled = computed$1(() => pageIndex.value >= pageTotal.value);
   const offsetPageIndex = (offset) => {
     if (offset === -1 && leftDisabled.value) {
       return;
@@ -20780,7 +20790,7 @@ function useControlledPageIndex(props) {
       tempProp.value = pagination.pageIndex;
     }
   });
-  const state = computed(() => {
+  const state = computed$1(() => {
     const { pagination } = props;
     if (isObject(pagination) && !isNil(pagination.pageIndex)) {
       return pagination.pageIndex;
@@ -20816,16 +20826,16 @@ var Alert = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-alert`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-alert`);
     const config = useGlobalConfig$1("alert");
-    const mergedIcon = computed(() => {
+    const mergedIcon = computed$1(() => {
       if (props.icon !== void 0) {
         return props.icon;
       }
       const iconConfig = config.icon;
       return isObject(iconConfig) ? iconConfig[props.type] : iconConfig;
     });
-    const titleChildren = computed(() => {
+    const titleChildren = computed$1(() => {
       if (slots.default) {
         return flattenNode(slots.default());
       }
@@ -20838,13 +20848,13 @@ var Alert = defineComponent({
       leftDisabled,
       rightDisabled,
       offsetPageIndex
-    } = usePagination$1(props, titleChildren);
+    } = usePagination$2(props, titleChildren);
     const {
       closeable,
       visible,
       handleClose
     } = useCloseable(props, config);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -20852,14 +20862,14 @@ var Alert = defineComponent({
         [`${prefixCls}-with-description`]: slots.description || props.description
       });
     });
-    const paginationLeftIconClass = computed(() => {
+    const paginationLeftIconClass = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-pagination-icon`]: true,
         [`${prefixCls}-pagination-disabled`]: leftDisabled.value
       });
     });
-    const paginationRightIconClass = computed(() => {
+    const paginationRightIconClass = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-pagination-icon`]: true,
@@ -20936,13 +20946,13 @@ var Anchor = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-anchor`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-anchor`);
     const config = useGlobalConfig$1("anchor");
-    const hideLinkBall = computed(() => {
+    const hideLinkBall = computed$1(() => {
       var _a;
       return (_a = props.hideLinkBall) != null ? _a : config.hideLinkBall;
     });
-    const wrapperStyle = computed(() => {
+    const wrapperStyle = computed$1(() => {
       const {
         offsetTop
       } = props;
@@ -21030,7 +21040,7 @@ const useLinks = (props, config) => {
 const useInkBall = (activeLink, mergedPrefixCls) => {
   const anchorRef = ref();
   const inkBallElRef = ref();
-  const inkBallClasses = computed(() => {
+  const inkBallClasses = computed$1(() => {
     const prefixCls = mergedPrefixCls.value;
     return {
       [`${prefixCls}-ink-ball`]: true,
@@ -21087,14 +21097,14 @@ const getCurrentAnchor = (links, container, offsetTop, bounds) => {
   return maxSection.link;
 };
 const useScroll$1 = (props, config, links, setActiveLink) => {
-  const bounds = computed(() => {
+  const bounds = computed$1(() => {
     var _a;
     return (_a = props.bounds) != null ? _a : config.bounds;
   });
   const container = ref();
   const eventType = "scroll";
   let animating = false;
-  const targetOffset = computed(() => {
+  const targetOffset = computed$1(() => {
     var _a, _b;
     return (_b = (_a = props.targetOffset) != null ? _a : props.offsetTop) != null ? _b : 0;
   });
@@ -21122,12 +21132,12 @@ const useScroll$1 = (props, config, links, setActiveLink) => {
   };
   watch(() => props.target, () => {
     off(container.value, eventType, handleScroll);
-    container.value = covertTarget(props.target);
+    container.value = convertTarget(props.target);
     on(container.value, eventType, handleScroll);
     handleScroll();
   });
   onMounted(() => {
-    container.value = covertTarget(props.target);
+    container.value = convertTarget(props.target);
     on(container.value, eventType, handleScroll);
     handleScroll();
   });
@@ -21145,7 +21155,7 @@ var AnchorLink = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-anchor-link`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-anchor-link`);
     const {
       registerLink,
       unregisterLink,
@@ -21158,8 +21168,8 @@ var AnchorLink = defineComponent({
     });
     onMounted(() => registerLink(props.href));
     onBeforeUnmount(() => unregisterLink(props.href));
-    const isActive = computed(() => activeLink.value === props.href);
-    const classes = computed(() => {
+    const isActive = computed$1(() => activeLink.value === props.href);
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [`${prefixCls}-title`]: true,
@@ -21212,7 +21222,7 @@ var Avatar = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-avatar`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-avatar`);
     const config = useGlobalConfig$1("avatar");
     const showText = ref(false);
     watchEffect(() => {
@@ -21222,7 +21232,7 @@ var Avatar = defineComponent({
     watchEffect(() => {
       showIcon.value = !props.src && !showText.value;
     });
-    const icon$$ = computed(() => {
+    const icon$$ = computed$1(() => {
       var _a;
       return (_a = props.icon) != null ? _a : config.icon;
     });
@@ -21233,7 +21243,7 @@ var Avatar = defineComponent({
       avatarStyle,
       textStyle
     } = useSize$1(props, config);
-    const classes = useClasses$8(props, config, size, showText, showIcon, mergedPrefixCls);
+    const classes = useClasses$6(props, config, size, showText, showIcon, mergedPrefixCls);
     const handleError = (evt) => {
       const result = callEmit(props.onError, evt);
       if (result !== false && !evt.defaultPrevented) {
@@ -21272,8 +21282,8 @@ var Avatar = defineComponent({
     };
   }
 });
-const useClasses$8 = (props, config, size, showText, showIcon, mergedPrefixCls) => {
-  return computed(() => {
+const useClasses$6 = (props, config, size, showText, showIcon, mergedPrefixCls) => {
+  return computed$1(() => {
     var _a;
     const shape = (_a = props.shape) != null ? _a : config.shape;
     const sizeValue = size.value;
@@ -21288,7 +21298,7 @@ const useClasses$8 = (props, config, size, showText, showIcon, mergedPrefixCls) 
 };
 const useSizeStyle = (size) => {
   const breakpoints = useSharedBreakpoints();
-  return computed(() => {
+  return computed$1(() => {
     let currSize;
     const sizeValue = size.value;
     if (isNumber(sizeValue)) {
@@ -21323,17 +21333,17 @@ const renderIcon$6 = (iconSlot, icon) => {
 const useSize$1 = (props, config) => {
   const avatarRef = ref();
   const textRef = ref();
-  const size = computed(() => {
+  const size = computed$1(() => {
     var _a;
     return (_a = props.size) != null ? _a : config.size;
   });
-  const gap = computed(() => {
+  const gap = computed$1(() => {
     var _a;
     return (_a = props.gap) != null ? _a : config.gap;
   });
   const avatarStyle = useSizeStyle(size);
   const textScale = ref(1);
-  const textStyle = computed(() => ({
+  const textStyle = computed$1(() => ({
     transform: `scale(${textScale.value}) translateX(-50%)`,
     lineHeight: avatarStyle.value.lineHeight
   }));
@@ -21387,12 +21397,12 @@ var BackTop = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-back-top`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-back-top`);
     const config = useGlobalConfig$1("backTop");
     const eventType = "scroll";
     const visible = ref(false);
     const container = ref(null);
-    const duration = computed(() => {
+    const duration = computed$1(() => {
       var _a;
       return (_a = props.duration) != null ? _a : config.duration;
     });
@@ -21415,7 +21425,7 @@ var BackTop = defineComponent({
     const throttledScrollHandler = throttle(handleScroll, 300);
     onMounted(() => {
       nextTick(() => {
-        container.value = covertTarget(props.target);
+        container.value = convertTarget(props.target);
         on(container.value, eventType, throttledScrollHandler);
         handleScroll();
       });
@@ -21453,23 +21463,23 @@ var Badge = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-badge`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-badge`);
     const badgeConfig = useGlobalConfig$1("badge");
-    const showZero = computed(() => {
+    const showZero = computed$1(() => {
       var _a;
       return (_a = props.showZero) != null ? _a : badgeConfig.showZero;
     });
-    const dot = computed(() => {
+    const dot = computed$1(() => {
       var _a;
       return (_a = props.dot) != null ? _a : badgeConfig.dot;
     });
-    const overflowCount = computed(() => {
+    const overflowCount = computed$1(() => {
       var _a;
       return (_a = props.overflowCount) != null ? _a : badgeConfig.overflowCount;
     });
-    const hasDefaultSlot = computed(() => hasSlot(slots));
-    const hasCountSlot = computed(() => hasSlot(slots, "count"));
-    const classes = useClasses$7(props, hasDefaultSlot, hasCountSlot, showZero, dot, mergedPrefixCls);
+    const hasDefaultSlot = computed$1(() => hasSlot(slots));
+    const hasCountSlot = computed$1(() => hasSlot(slots, "count"));
+    const classes = useClasses$5(props, hasDefaultSlot, hasCountSlot, showZero, dot, mergedPrefixCls);
     const styles = useStyles(props, hasCountSlot, dot);
     const countValue = useCountValue(props, hasCountSlot, showZero, dot, overflowCount);
     return () => {
@@ -21485,7 +21495,7 @@ var Badge = defineComponent({
   }
 });
 const useCountValue = (props, hasCountSlot, showZero, dot, overflowCount) => {
-  return computed(() => {
+  return computed$1(() => {
     if (!hasCountSlot.value && !dot.value) {
       if (!showZero.value && +props.count === 0) {
         return false;
@@ -21499,7 +21509,7 @@ const useCountValue = (props, hasCountSlot, showZero, dot, overflowCount) => {
   });
 };
 const useStyles = (props, hasCountSlot, dot) => {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     const color = (_a = props.color) != null ? _a : "";
     if (hasCountSlot.value) {
@@ -21517,8 +21527,8 @@ const useStyles = (props, hasCountSlot, dot) => {
     }
   });
 };
-const useClasses$7 = (props, hasDefaultSlot, hasCountSlot, showZero, dot, mergedPrefixCls) => {
-  return computed(() => {
+const useClasses$5 = (props, hasDefaultSlot, hasCountSlot, showZero, dot, mergedPrefixCls) => {
+  return computed$1(() => {
     const prefixCls = mergedPrefixCls.value;
     return {
       [prefixCls]: true,
@@ -21546,7 +21556,7 @@ var Breadcrumb = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-breadcrumb`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-breadcrumb`);
     provide(breadcrumbToken, {
       mergedPrefixCls,
       separatorRef: toRef(props, "separator")
@@ -21600,7 +21610,7 @@ const buttonProps = {
   ghost: IxPropTypes.bool,
   disabled: IxPropTypes.bool,
   loading: IxPropTypes.bool,
-  size: IxPropTypes.oneOf(["lg", "md", "sm"]),
+  size: IxPropTypes.oneOf(["lg", "xl", "md", "sm", "xs"]),
   shape: IxPropTypes.oneOf(["circle", "round"]),
   block: IxPropTypes.bool,
   icon: IxPropTypes.string,
@@ -21608,7 +21618,7 @@ const buttonProps = {
 };
 const buttonGroupProps = {
   mode: IxPropTypes.oneOf(["primary", "default", "dashed", "text", "link"]),
-  size: IxPropTypes.oneOf(["lg", "md", "sm"]),
+  size: IxPropTypes.oneOf(["lg", "xl", "md", "sm", "xs"]),
   shape: IxPropTypes.oneOf(["circle", "round"])
 };
 var Button = defineComponent({
@@ -21618,18 +21628,19 @@ var Button = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-button`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-button`);
+    const config = useGlobalConfig$1("button");
     const groupProps = inject(buttonToken, {});
     const formContext = inject(FORM_TOKEN, null);
-    const mode = computed(() => {
+    const mode = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.mode) != null ? _a : groupProps.mode) != null ? _b : "default";
     });
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a, _b, _c;
-      return (_c = (_b = (_a = props.size) != null ? _a : groupProps.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : "md";
+      return (_c = (_b = (_a = props.size) != null ? _a : groupProps.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : config.size;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         block,
         danger,
@@ -21695,7 +21706,7 @@ var ButtonGroup = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-button-group`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-button-group`);
     provide(buttonToken, props);
     return () => createVNode("div", {
       "class": mergedPrefixCls.value
@@ -21731,8 +21742,8 @@ var Header$2 = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-header`);
-    const classes = computed(() => {
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-header`);
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -21741,16 +21752,16 @@ var Header$2 = defineComponent({
         [`${prefixCls}-${props.size}`]: true
       });
     });
-    const avatarSize = computed(() => avatarSizeTransformMap[props.size]);
+    const avatarSize = computed$1(() => avatarSizeTransformMap[props.size]);
     const onPrefixClick = (evt) => !props.disabled && callEmit(props.onPrefixClick, evt);
     const onSuffixClick = (evt) => !props.disabled && callEmit(props.onSuffixClick, evt);
     return () => {
       const prefixCls = mergedPrefixCls.value;
-      const prefixIconNode = covertIconVNode(slots, props, "prefix");
-      const suffixIconNode = covertIconVNode(slots, props, "suffix");
-      const titleNode = covertStringVNode(slots.default, props.title);
-      const subTitleNode = covertStringVNode(slots, props, "subTitle");
-      const descriptionNode = covertStringVNode(slots, props, "description");
+      const prefixIconNode = convertIconVNode(slots, props, "prefix");
+      const suffixIconNode = convertIconVNode(slots, props, "suffix");
+      const titleNode = convertStringVNode(slots.default, props.title);
+      const subTitleNode = convertStringVNode(slots, props, "subTitle");
+      const descriptionNode = convertStringVNode(slots, props, "description");
       return createVNode("div", {
         "class": classes.value
       }, [createVNode("div", {
@@ -21787,19 +21798,19 @@ const renderAvatar = (slot, avatar, size) => {
 };
 const IxHeader = Header$2;
 
-var __defProp$p = Object.defineProperty;
-var __getOwnPropSymbols$u = Object.getOwnPropertySymbols;
-var __hasOwnProp$u = Object.prototype.hasOwnProperty;
-var __propIsEnum$u = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$p = (obj, key, value) => key in obj ? __defProp$p(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$p = (a, b) => {
+var __defProp$r = Object.defineProperty;
+var __getOwnPropSymbols$x = Object.getOwnPropertySymbols;
+var __hasOwnProp$x = Object.prototype.hasOwnProperty;
+var __propIsEnum$x = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$r = (obj, key, value) => key in obj ? __defProp$r(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$r = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$u.call(b, prop))
-      __defNormalProp$p(a, prop, b[prop]);
-  if (__getOwnPropSymbols$u)
-    for (var prop of __getOwnPropSymbols$u(b)) {
-      if (__propIsEnum$u.call(b, prop))
-        __defNormalProp$p(a, prop, b[prop]);
+    if (__hasOwnProp$x.call(b, prop))
+      __defNormalProp$r(a, prop, b[prop]);
+  if (__getOwnPropSymbols$x)
+    for (var prop of __getOwnPropSymbols$x(b)) {
+      if (__propIsEnum$x.call(b, prop))
+        __defNormalProp$r(a, prop, b[prop]);
     }
   return a;
 };
@@ -21812,14 +21823,14 @@ const Header$1 = (props, {
   if (!props.header && !props.closable) {
     return void 0;
   }
-  const headerProps = covertProps(props);
+  const headerProps = convertProps(props);
   const headerSlots = {
     suffix: slots.closeIcon
   };
   return createVNode(IxHeader, headerProps, headerSlots);
 };
 const defaultSize = "sm";
-function covertProps(props) {
+function convertProps(props) {
   var _a;
   const {
     closable,
@@ -21830,7 +21841,7 @@ function covertProps(props) {
   const headerProps = isString(header) ? {
     size: defaultSize,
     title: header
-  } : __spreadValues$p({
+  } : __spreadValues$r({
     size: defaultSize
   }, header);
   if (closable) {
@@ -21858,17 +21869,17 @@ const cardProps = {
 const cardGridProps = {
   hoverable: IxPropTypes.bool
 };
-var __getOwnPropSymbols$t = Object.getOwnPropertySymbols;
-var __hasOwnProp$t = Object.prototype.hasOwnProperty;
-var __propIsEnum$t = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$w = Object.getOwnPropertySymbols;
+var __hasOwnProp$w = Object.prototype.hasOwnProperty;
+var __propIsEnum$w = Object.prototype.propertyIsEnumerable;
 var __objRest$g = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$t.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$w.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$t)
-    for (var prop of __getOwnPropSymbols$t(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$t.call(source, prop))
+  if (source != null && __getOwnPropSymbols$w)
+    for (var prop of __getOwnPropSymbols$w(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$w.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -21880,23 +21891,23 @@ var Card = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-card`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-card`);
     const config = useGlobalConfig$1("card");
-    const hoverable = computed(() => {
+    const hoverable = computed$1(() => {
       var _a;
       return (_a = props.hoverable) != null ? _a : config.hoverable;
     });
     provide(cardToken, {
       hoverable
     });
-    const children = computed(() => {
+    const children = computed$1(() => {
       var _a;
       return ((_a = slots.default) == null ? void 0 : _a.call(slots)) || [];
     });
-    const hasGrid = computed(() => {
+    const hasGrid = computed$1(() => {
       return children.value.some((node) => node.type && node.type.name === "IxCardGrid");
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         borderless = config.borderless,
         loading,
@@ -22008,11 +22019,11 @@ var CardGrid = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-card-grid`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-card-grid`);
     const {
       hoverable
     } = inject(cardToken);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
@@ -22115,19 +22126,19 @@ const carouselProps = {
   trigger: IxPropTypes.oneOf(dotTrigger),
   onChange: IxPropTypes.emit()
 };
-var __defProp$o = Object.defineProperty;
-var __getOwnPropSymbols$s = Object.getOwnPropertySymbols;
-var __hasOwnProp$s = Object.prototype.hasOwnProperty;
-var __propIsEnum$s = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$o = (obj, key, value) => key in obj ? __defProp$o(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$o = (a, b) => {
+var __defProp$q = Object.defineProperty;
+var __getOwnPropSymbols$v = Object.getOwnPropertySymbols;
+var __hasOwnProp$v = Object.prototype.hasOwnProperty;
+var __propIsEnum$v = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$q = (obj, key, value) => key in obj ? __defProp$q(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$q = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$s.call(b, prop))
-      __defNormalProp$o(a, prop, b[prop]);
-  if (__getOwnPropSymbols$s)
-    for (var prop of __getOwnPropSymbols$s(b)) {
-      if (__propIsEnum$s.call(b, prop))
-        __defNormalProp$o(a, prop, b[prop]);
+    if (__hasOwnProp$v.call(b, prop))
+      __defNormalProp$q(a, prop, b[prop]);
+  if (__getOwnPropSymbols$v)
+    for (var prop of __getOwnPropSymbols$v(b)) {
+      if (__propIsEnum$v.call(b, prop))
+        __defNormalProp$q(a, prop, b[prop]);
     }
   return a;
 };
@@ -22140,32 +22151,32 @@ var Carousel = defineComponent({
   }) {
     const carouselRef = ref(null);
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-carousel`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-carousel`);
     const config = useGlobalConfig$1("carousel");
-    const autoplayTime = computed(() => {
+    const autoplayTime = computed$1(() => {
       var _a;
       return (_a = props.autoplayTime) != null ? _a : config.autoplayTime;
     });
-    const dotPlacement2 = computed(() => {
+    const dotPlacement2 = computed$1(() => {
       var _a;
       return (_a = props.dotPlacement) != null ? _a : config.dotPlacement;
     });
-    const showArrow = computed(() => {
+    const showArrow = computed$1(() => {
       var _a;
       return (_a = props.showArrow) != null ? _a : config.showArrow;
     });
-    const trigger = computed(() => {
+    const trigger = computed$1(() => {
       var _a;
       return (_a = props.trigger) != null ? _a : config.trigger;
     });
-    const children = computed(() => {
+    const children = computed$1(() => {
       var _a;
       return flattenNode((_a = slots.default) == null ? void 0 : _a.call(slots));
     });
-    const length = computed(() => children.value.length);
-    const vertical = computed(() => dotPlacement2.value === "start" || dotPlacement2.value === "end");
-    const itemClass = computed(() => `${mergedPrefixCls.value}-slide-item`);
-    const size = computed(() => {
+    const length = computed$1(() => children.value.length);
+    const vertical = computed$1(() => dotPlacement2.value === "start" || dotPlacement2.value === "end");
+    const itemClass = computed$1(() => `${mergedPrefixCls.value}-slide-item`);
+    const size = computed$1(() => {
       var _a, _b, _c;
       const carousel = carouselRef.value;
       return {
@@ -22173,25 +22184,25 @@ var Carousel = defineComponent({
         height: (_c = (_b = carousel == null ? void 0 : carousel.querySelector(`.${itemClass.value}`)) == null ? void 0 : _b.offsetHeight) != null ? _c : 0
       };
     });
-    const total = computed(() => length.value + 2);
-    const slidesStyle = computed(() => {
+    const total = computed$1(() => length.value + 2);
+    const slidesStyle = computed$1(() => {
       const index = activeIndex.value % total.value;
       const offset = vertical.value ? {
         top: `-${size.value.height * index}px`
       } : {
         left: `-${size.value.width * index}px`
       };
-      return __spreadValues$o({
+      return __spreadValues$q({
         width: `${total.value * size.value.width}px`
       }, offset);
     });
-    const slideItemStyle = computed(() => {
+    const slideItemStyle = computed$1(() => {
       return {
         width: `${size.value.width}px`,
         height: "100%"
       };
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -22199,13 +22210,13 @@ var Carousel = defineComponent({
         [`${prefixCls}-horizontal`]: !vertical.value
       });
     });
-    const slidesClass = computed(() => {
+    const slidesClass = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-slides`]: true
       });
     });
-    const dotClass = computed(() => {
+    const dotClass = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-dot`]: true,
@@ -22328,17 +22339,17 @@ const checkboxGroupProps = {
   "onUpdate:value": IxPropTypes.emit(),
   onChange: IxPropTypes.emit()
 };
-var __getOwnPropSymbols$r = Object.getOwnPropertySymbols;
-var __hasOwnProp$r = Object.prototype.hasOwnProperty;
-var __propIsEnum$r = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$u = Object.getOwnPropertySymbols;
+var __hasOwnProp$u = Object.prototype.hasOwnProperty;
+var __propIsEnum$u = Object.prototype.propertyIsEnumerable;
 var __objRest$f = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$r.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$u.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$r)
-    for (var prop of __getOwnPropSymbols$r(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$r.call(source, prop))
+  if (source != null && __getOwnPropSymbols$u)
+    for (var prop of __getOwnPropSymbols$u(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$u.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -22353,7 +22364,7 @@ var Checkbox$1 = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-checkbox`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-checkbox`);
     const config = useGlobalConfig$1("checkbox");
     const {
       elementRef,
@@ -22366,15 +22377,15 @@ var Checkbox$1 = defineComponent({
     });
     const formContext = inject(FORM_TOKEN, null);
     const checkboxGroup = inject(checkboxGroupToken, null);
-    const mergedName = computed(() => {
+    const mergedName = computed$1(() => {
       var _a;
       return (_a = attrs.name) != null ? _a : checkboxGroup == null ? void 0 : checkboxGroup.props.name;
     });
-    const isButtoned = computed(() => {
+    const isButtoned = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.buttoned) != null ? _a : checkboxGroup == null ? void 0 : checkboxGroup.props.buttoned) != null ? _b : false;
     });
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a, _b, _c;
       return (_c = (_b = (_a = props.size) != null ? _a : checkboxGroup == null ? void 0 : checkboxGroup.props.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : config.size;
     });
@@ -22386,7 +22397,7 @@ var Checkbox$1 = defineComponent({
       handleBlur,
       handleFocus
     } = useCheckbox(props, checkboxGroup);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         indeterminate
       } = props;
@@ -22421,7 +22432,7 @@ var Checkbox$1 = defineComponent({
         "tabindex"
       ]);
       const prefixCls = mergedPrefixCls.value;
-      const labelNode = covertStringVNode(slots.default, label);
+      const labelNode = convertStringVNode(slots.default, label);
       return createVNode("label", {
         "class": classes.value,
         "style": style,
@@ -22471,11 +22482,11 @@ const useCheckbox = (props, checkboxGroup) => {
       props: groupProps,
       accessor
     } = checkboxGroup;
-    isChecked = computed(() => {
+    isChecked = computed$1(() => {
       var _a, _b;
       return ((_a = accessor.valueRef.value) != null ? _a : []).includes((_b = props.value) != null ? _b : props.trueValue);
     });
-    isDisabled = computed(() => {
+    isDisabled = computed$1(() => {
       var _a;
       return (_a = accessor.disabled.value) != null ? _a : !!props.disabled;
     });
@@ -22493,6 +22504,7 @@ const useCheckbox = (props, checkboxGroup) => {
         value
       } = props;
       const checkValue = checked ? trueValue : falseValue;
+      const oldCheckValue = !checked ? trueValue : falseValue;
       const oldValue = (_a = accessor.valueRef.value) != null ? _a : [];
       const newValue = [...oldValue];
       const checkValueIndex = newValue.indexOf(value);
@@ -22502,13 +22514,13 @@ const useCheckbox = (props, checkboxGroup) => {
         newValue.splice(checkValueIndex, 1);
       }
       accessor.setValue(newValue);
-      callEmit(props.onChange, checkValue, !checkValue);
+      callEmit(props.onChange, checkValue, oldCheckValue);
       callEmit(groupProps.onChange, newValue, oldValue);
     };
   } else {
     const accessor = useFormAccessor("checked");
-    isChecked = computed(() => accessor.valueRef.value === props.trueValue);
-    isDisabled = computed(() => accessor.disabled.value);
+    isChecked = computed$1(() => accessor.valueRef.value === props.trueValue);
+    isDisabled = computed$1(() => accessor.disabled.value);
     handleBlur = (evt) => {
       isFocused.value = false;
       callEmit(props.onBlur, evt);
@@ -22521,8 +22533,9 @@ const useCheckbox = (props, checkboxGroup) => {
         falseValue
       } = props;
       const newChecked = checked ? trueValue : falseValue;
+      const oldChecked = !checked ? trueValue : falseValue;
       accessor.setValue(newChecked);
-      callEmit(props.onChange, newChecked, !newChecked);
+      callEmit(props.onChange, newChecked, oldChecked);
     };
   }
   return {
@@ -22541,13 +22554,13 @@ var CheckboxGroup = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-checkbox-group`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-checkbox-group`);
     const accessor = useFormAccessor();
     provide(checkboxGroupToken, {
       props,
       accessor
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         gap
       } = props;
@@ -22557,7 +22570,7 @@ var CheckboxGroup = defineComponent({
         [`${prefixCls}-with-gap`]: gap != null
       });
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       const {
         gap
       } = props;
@@ -22597,7 +22610,7 @@ var CollapseTransition = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-collapse-transition`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-collapse-transition`);
     const onBeforeEnter = (el) => {
       const mode = props.mode;
       el.style[mode] = `0px`;
@@ -22671,21 +22684,21 @@ var Collapse = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-collapse`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-collapse`);
     const config = useGlobalConfig$1("collapse");
-    const accordion = computed(() => {
+    const accordion = computed$1(() => {
       var _a;
       return (_a = props.accordion) != null ? _a : config.accordion;
     });
-    const borderless = computed(() => {
+    const borderless = computed$1(() => {
       var _a;
       return (_a = props.borderless) != null ? _a : config.borderless;
     });
-    const expandIcon = computed(() => {
+    const expandIcon = computed$1(() => {
       var _a;
       return (_a = props.expandIcon) != null ? _a : config.expandIcon;
     });
-    const ghost = computed(() => {
+    const ghost = computed$1(() => {
       var _a;
       return (_a = props.ghost) != null ? _a : config.ghost;
     });
@@ -22707,7 +22720,7 @@ var Collapse = defineComponent({
       expandIcon,
       handleExpand
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -22730,7 +22743,7 @@ var CollapsePanel = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-collapse-panel`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-collapse-panel`);
     const {
       slots: collapseSlots,
       expandedKeys,
@@ -22738,8 +22751,8 @@ var CollapsePanel = defineComponent({
       handleExpand
     } = inject(collapseToken);
     const key = useKey();
-    const isExpanded = computed(() => expandedKeys.value.includes(key));
-    const classes = computed(() => {
+    const isExpanded = computed$1(() => expandedKeys.value.includes(key));
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}`]: true,
@@ -22827,7 +22840,7 @@ function useActiveDate(props, dateConfig, activeType) {
   };
   watch(() => props.value, (value) => value && setActiveDate(value));
   watch(() => props.visible, (visible) => visible && props.value && setActiveDate(props.value));
-  const startActiveDate = computed(() => {
+  const startActiveDate = computed$1(() => {
     const currDate = tempDate.value;
     const currType = activeType.value;
     const { startOf, set, get } = dateConfig;
@@ -22847,7 +22860,7 @@ function useActiveDate(props, dateConfig, activeType) {
     }
   });
   return {
-    activeDate: computed(() => tempDate.value),
+    activeDate: computed$1(() => tempDate.value),
     setActiveDate,
     startActiveDate
   };
@@ -22862,7 +22875,7 @@ function useActiveType(props) {
   };
 }
 function useMaxIndex(activeType, dateConfig, activeDate) {
-  const maxRowIndex = computed(() => {
+  const maxRowIndex = computed$1(() => {
     const currType = activeType.value;
     const { weekStartsOn, get, startOf, endOf } = dateConfig;
     switch (currType) {
@@ -22891,7 +22904,7 @@ function useMaxIndex(activeType, dateConfig, activeDate) {
         return 0;
     }
   });
-  const maxCellIndex = computed(() => {
+  const maxCellIndex = computed$1(() => {
     const currType = activeType.value;
     switch (currType) {
       case "date":
@@ -22953,22 +22966,22 @@ var PanelCell$1 = defineComponent({
       maxRowIndex,
       maxCellIndex
     } = inject(datePanelToken);
-    const offsetIndex = computed(() => props.rowIndex * maxCellIndex.value + props.cellIndex);
-    const cellDate = computed(() => {
+    const offsetIndex = computed$1(() => props.rowIndex * maxCellIndex.value + props.cellIndex);
+    const cellDate = computed$1(() => {
       const currType = activeType.value;
       const offsetUnit = dayTypes.includes(currType) ? "day" : currType;
       return dateConfig.add(startActiveDate.value, offsetIndex.value, offsetUnit);
     });
-    const isDisabled = computed(() => {
+    const isDisabled = computed$1(() => {
       var _a;
       return (_a = panelProps.disabledDate) == null ? void 0 : _a.call(panelProps, cellDate.value);
     });
-    const isSelected = computed(() => {
+    const isSelected = computed$1(() => {
       const currValue = panelProps.value;
       return currValue && dateConfig.isSame(currValue, cellDate.value, activeType.value);
     });
-    const isToday = computed(() => dayTypes.includes(activeType.value) && dateConfig.isSame(cellDate.value, dateConfig.now(), "day"));
-    const outView = computed(() => {
+    const isToday = computed$1(() => dayTypes.includes(activeType.value) && dateConfig.isSame(cellDate.value, dateConfig.now(), "day"));
+    const outView = computed$1(() => {
       const currType = activeType.value;
       if (dayTypes.includes(activeType.value)) {
         return !dateConfig.isSame(cellDate.value, activeDate.value, "month");
@@ -22979,7 +22992,7 @@ var PanelCell$1 = defineComponent({
       }
       return false;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-cell`;
       if (props.isWeek) {
         return normalizeClass({
@@ -23043,7 +23056,7 @@ var PanelRow = defineComponent({
       activeType,
       maxCellIndex
     } = inject(datePanelToken);
-    const cells = computed(() => {
+    const cells = computed$1(() => {
       const {
         rowIndex
       } = props;
@@ -23115,7 +23128,7 @@ var PanelBody = defineComponent({
   }
 });
 function useTheadCells(dateConfig, activeType, maxCellIndex) {
-  return computed(() => {
+  return computed$1(() => {
     const currType = activeType.value;
     const isWeek = currType === "week";
     const cols = isWeek ? [{
@@ -23135,17 +23148,17 @@ function useTheadCells(dateConfig, activeType, maxCellIndex) {
     return cols;
   });
 }
-var __getOwnPropSymbols$q = Object.getOwnPropertySymbols;
-var __hasOwnProp$q = Object.prototype.hasOwnProperty;
-var __propIsEnum$q = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$t = Object.getOwnPropertySymbols;
+var __hasOwnProp$t = Object.prototype.hasOwnProperty;
+var __propIsEnum$t = Object.prototype.propertyIsEnumerable;
 var __objRest$e = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$q.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$t.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$q)
-    for (var prop of __getOwnPropSymbols$q(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$q.call(source, prop))
+  if (source != null && __getOwnPropSymbols$t)
+    for (var prop of __getOwnPropSymbols$t(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$t.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -23185,7 +23198,7 @@ var PanelHeader = defineComponent({
         nextDecade,
         nextYear,
         nextMonth
-      } = locale.value;
+      } = locale.datePicker;
       const currType = activeType.value;
       const prev = !hidePrevNextTypes.includes(activeType.value);
       const next = !hidePrevNextTypes.includes(activeType.value);
@@ -23246,7 +23259,7 @@ function useContents(activeType, activeDate, locale, dateConfig, setActiveType) 
     evt.stopPropagation();
     setActiveType(type);
   };
-  return computed(() => {
+  return computed$1(() => {
     const currType = activeType.value;
     const currDate = activeDate.value;
     const {
@@ -23254,7 +23267,7 @@ function useContents(activeType, activeDate, locale, dateConfig, setActiveType) 
       monthSelect,
       yearFormat,
       monthFormat
-    } = locale.value;
+    } = locale.datePicker;
     const {
       format,
       get
@@ -23299,9 +23312,9 @@ var DatePanel = defineComponent({
   setup(props, {
     slots
   }) {
-    const locale = getLocale("datePicker");
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-date-panel`);
+    const locale = useGlobalConfig$1("locale");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-date-panel`);
     const dateConfig = useDateConfig();
     const {
       activeType,
@@ -23350,7 +23363,7 @@ const defaultFormat = {
   year: "yyyy"
 };
 function useFormat(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     let format = props.format;
     if (format) {
       return format;
@@ -23392,7 +23405,7 @@ function useInputState$2(props, dateConfig, accessor, formatRef) {
     if (!isValid(currDate) || format(currDate, formatText2) != value) {
       return;
     }
-    const oldDate = toRaw(accessor.valueRef.value);
+    const oldDate = toRaw$1(accessor.valueRef.value);
     accessor.setValue(currDate);
     callEmit(props.onChange, currDate, oldDate);
   };
@@ -23496,21 +23509,21 @@ var Trigger$3 = defineComponent({
       setOverlayOpened
     } = inject(datePickerToken);
     const formContext = inject(FORM_TOKEN, null);
-    const placeholder = computed(() => {
+    const placeholder = computed$1(() => {
       var _a;
-      return (_a = props.placeholder) != null ? _a : locale.value[`${props.type}Placeholder`];
+      return (_a = props.placeholder) != null ? _a : locale.datePicker[`${props.type}Placeholder`];
     });
-    const inputSize = computed(() => Math.max(10, format.value.length) + 2);
-    const allowInput = computed(() => {
+    const inputSize = computed$1(() => Math.max(10, format.value.length) + 2);
+    const allowInput = computed$1(() => {
       var _a;
       return (_a = props.allowInput) != null ? _a : config.allowInput;
     });
-    const clearable = computed(() => !accessor.disabled.value && props.clearable && inputValue.value.length > 0);
-    const suffix = computed(() => {
+    const clearable = computed$1(() => !accessor.disabled.value && props.clearable && inputValue.value.length > 0);
+    const suffix = computed$1(() => {
       var _a;
       return (_a = props.suffix) != null ? _a : config.suffix;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       var _a;
       const {
         borderless = config.borderless,
@@ -23599,25 +23612,25 @@ var Trigger$3 = defineComponent({
     };
   }
 });
-var __defProp$1$a = Object.defineProperty;
-var __defProps$1$4 = Object.defineProperties;
-var __getOwnPropDescs$1$4 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$d = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$d = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$d = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$a = (obj, key, value) => key in obj ? __defProp$1$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$a = (a, b) => {
+var __defProp$1$d = Object.defineProperty;
+var __defProps$1$6 = Object.defineProperties;
+var __getOwnPropDescs$1$6 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$f = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$f = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$f = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$d = (obj, key, value) => key in obj ? __defProp$1$d(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$d = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$d.call(b, prop))
-      __defNormalProp$1$a(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$d)
-    for (var prop of __getOwnPropSymbols$1$d(b)) {
-      if (__propIsEnum$1$d.call(b, prop))
-        __defNormalProp$1$a(a, prop, b[prop]);
+    if (__hasOwnProp$1$f.call(b, prop))
+      __defNormalProp$1$d(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$f)
+    for (var prop of __getOwnPropSymbols$1$f(b)) {
+      if (__propIsEnum$1$f.call(b, prop))
+        __defNormalProp$1$d(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$1$4 = (a, b) => __defProps$1$4(a, __getOwnPropDescs$1$4(b));
+var __spreadProps$1$6 = (a, b) => __defProps$1$6(a, __getOwnPropDescs$1$6(b));
 const datePickerCommonProps = {
   control: controlPropDef,
   open: IxPropTypes.bool,
@@ -23642,7 +23655,7 @@ const datePickerCommonProps = {
   onFocus: IxPropTypes.emit(),
   onBlur: IxPropTypes.emit()
 };
-const datePickerProps = __spreadProps$1$4(__spreadValues$1$a({}, datePickerCommonProps), {
+const datePickerProps = __spreadProps$1$6(__spreadValues$1$d({}, datePickerCommonProps), {
   value: IxPropTypes.oneOfType([Number, String, Date]),
   defaultOpenValue: IxPropTypes.oneOfType([Number, String, Date]),
   placeholder: IxPropTypes.string,
@@ -23651,7 +23664,7 @@ const datePickerProps = __spreadProps$1$4(__spreadValues$1$a({}, datePickerCommo
   onChange: IxPropTypes.emit(),
   onInput: IxPropTypes.emit()
 });
-__spreadProps$1$4(__spreadValues$1$a({}, datePickerCommonProps), {
+__spreadProps$1$6(__spreadValues$1$d({}, datePickerCommonProps), {
   value: IxPropTypes.array(),
   defaultOpenValue: IxPropTypes.array(),
   placeholder: IxPropTypes.arrayOf(String),
@@ -23671,25 +23684,25 @@ __spreadProps$1$4(__spreadValues$1$a({}, datePickerCommonProps), {
   cellIndex: IxPropTypes.number.isRequired,
   isWeek: IxPropTypes.bool
 });
-var __defProp$n = Object.defineProperty;
-var __defProps$h = Object.defineProperties;
-var __getOwnPropDescs$h = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$p = Object.getOwnPropertySymbols;
-var __hasOwnProp$p = Object.prototype.hasOwnProperty;
-var __propIsEnum$p = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$n = (obj, key, value) => key in obj ? __defProp$n(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$n = (a, b) => {
+var __defProp$p = Object.defineProperty;
+var __defProps$j = Object.defineProperties;
+var __getOwnPropDescs$j = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$s = Object.getOwnPropertySymbols;
+var __hasOwnProp$s = Object.prototype.hasOwnProperty;
+var __propIsEnum$s = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$p = (obj, key, value) => key in obj ? __defProp$p(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$p = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$p.call(b, prop))
-      __defNormalProp$n(a, prop, b[prop]);
-  if (__getOwnPropSymbols$p)
-    for (var prop of __getOwnPropSymbols$p(b)) {
-      if (__propIsEnum$p.call(b, prop))
-        __defNormalProp$n(a, prop, b[prop]);
+    if (__hasOwnProp$s.call(b, prop))
+      __defNormalProp$p(a, prop, b[prop]);
+  if (__getOwnPropSymbols$s)
+    for (var prop of __getOwnPropSymbols$s(b)) {
+      if (__propIsEnum$s.call(b, prop))
+        __defNormalProp$p(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$h = (a, b) => __defProps$h(a, __getOwnPropDescs$h(b));
+var __spreadProps$j = (a, b) => __defProps$j(a, __getOwnPropDescs$j(b));
 const defaultOffset$3 = [0, 8];
 var DatePicker = defineComponent({
   name: "IxDatePicker",
@@ -23700,9 +23713,9 @@ var DatePicker = defineComponent({
     expose,
     slots
   }) {
-    const locale = getLocale("datePicker");
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-date-picker`);
+    const locale = useGlobalConfig$1("locale");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-date-picker`);
     const config = useGlobalConfig$1("datePicker");
     const dateConfig = useDateConfig();
     const focusMonitor = useSharedFocusMonitor();
@@ -23730,14 +23743,14 @@ var DatePicker = defineComponent({
       setPanelDate
     } = usePanelState(props, dateConfig, accessor, format);
     const handlePanelCellClick = (date) => {
-      const oldDate = toRaw(accessor.valueRef.value);
+      const oldDate = toRaw$1(accessor.valueRef.value);
       if (!oldDate || !dateConfig.isSame(date, dateConfig.convert(oldDate, format.value), props.type)) {
         setOverlayOpened(false);
         accessor.setValue(date);
         callEmit(props.onChange, date, oldDate);
       }
     };
-    provide(datePickerToken, __spreadProps$h(__spreadValues$n({
+    provide(datePickerToken, __spreadProps$j(__spreadValues$p({
       props,
       slots,
       locale,
@@ -23760,7 +23773,7 @@ var DatePicker = defineComponent({
         ;
       opened ? focus() : blur();
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         overlayClassName
       } = props;
@@ -23770,7 +23783,7 @@ var DatePicker = defineComponent({
         [overlayClassName || ""]: !!overlayClassName
       });
     });
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
     });
@@ -23815,9 +23828,9 @@ var Divider = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-divider`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-divider`);
     const config = useGlobalConfig$1("divider");
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         dashed = config.dashed,
         label,
@@ -23845,7 +23858,7 @@ var Divider = defineComponent({
     });
     return () => {
       const prefixCls = mergedPrefixCls.value;
-      const labelNode = covertStringVNode(slots.default, props.label);
+      const labelNode = convertStringVNode(slots.default, props.label);
       return createVNode("div", {
         "class": classes.value
       }, [labelNode && createVNode("span", {
@@ -23866,7 +23879,7 @@ var Mask = defineComponent({
   props: maskProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-mask`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-mask`);
     return () => {
       const {
         mask,
@@ -23905,30 +23918,30 @@ const footerProps = {
   okLoading: IxPropTypes.bool,
   okText: IxPropTypes.string
 };
-var __defProp$m = Object.defineProperty;
-var __getOwnPropSymbols$o = Object.getOwnPropertySymbols;
-var __hasOwnProp$o = Object.prototype.hasOwnProperty;
-var __propIsEnum$o = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$m = (obj, key, value) => key in obj ? __defProp$m(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$m = (a, b) => {
+var __defProp$o = Object.defineProperty;
+var __getOwnPropSymbols$r = Object.getOwnPropertySymbols;
+var __hasOwnProp$r = Object.prototype.hasOwnProperty;
+var __propIsEnum$r = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$o = (obj, key, value) => key in obj ? __defProp$o(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$o = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$o.call(b, prop))
-      __defNormalProp$m(a, prop, b[prop]);
-  if (__getOwnPropSymbols$o)
-    for (var prop of __getOwnPropSymbols$o(b)) {
-      if (__propIsEnum$o.call(b, prop))
-        __defNormalProp$m(a, prop, b[prop]);
+    if (__hasOwnProp$r.call(b, prop))
+      __defNormalProp$o(a, prop, b[prop]);
+  if (__getOwnPropSymbols$r)
+    for (var prop of __getOwnPropSymbols$r(b)) {
+      if (__propIsEnum$r.call(b, prop))
+        __defNormalProp$o(a, prop, b[prop]);
     }
   return a;
 };
 var __objRest$d = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$o.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$r.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$o)
-    for (var prop of __getOwnPropSymbols$o(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$o.call(source, prop))
+  if (source != null && __getOwnPropSymbols$r)
+    for (var prop of __getOwnPropSymbols$r(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$r.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -23938,7 +23951,7 @@ var Footer = defineComponent({
   setup(props, {
     slots
   }) {
-    const cancelButtonProps = computed(() => {
+    const cancelButtonProps = computed$1(() => {
       const {
         cancel,
         cancelButton,
@@ -23949,14 +23962,14 @@ var Footer = defineComponent({
       if (!cancelVisible || !cancel && !cancelText && !cancelButton) {
         return void 0;
       }
-      return __spreadValues$m({
+      return __spreadValues$o({
         key: "__IDUX_FOOTER_BUTTON_CANCEL",
         text: cancelText,
         onClick: cancel,
         loading: cancelLoading
       }, cancelButton);
     });
-    const okButtonProps = computed(() => {
+    const okButtonProps = computed$1(() => {
       const {
         ok,
         okButton,
@@ -23966,7 +23979,7 @@ var Footer = defineComponent({
       if (!ok && !okText && !okButton) {
         return void 0;
       }
-      return __spreadValues$m({
+      return __spreadValues$o({
         key: "__IDUX_FOOTER_BUTTON_OK",
         text: okText,
         onClick: ok,
@@ -24014,19 +24027,19 @@ const \u0275Footer = Footer;
 const drawerToken = Symbol("drawerToken");
 const drawerProviderToken = Symbol("drawerProviderToken");
 const DRAWER_TOKEN = Symbol("DRAWER_TOKEN");
-var __defProp$1$9 = Object.defineProperty;
-var __getOwnPropSymbols$1$c = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$c = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$c = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$9 = (obj, key, value) => key in obj ? __defProp$1$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$9 = (a, b) => {
+var __defProp$1$c = Object.defineProperty;
+var __getOwnPropSymbols$1$e = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$e = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$e = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$c = (obj, key, value) => key in obj ? __defProp$1$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$c = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$c.call(b, prop))
-      __defNormalProp$1$9(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$c)
-    for (var prop of __getOwnPropSymbols$1$c(b)) {
-      if (__propIsEnum$1$c.call(b, prop))
-        __defNormalProp$1$9(a, prop, b[prop]);
+    if (__hasOwnProp$1$e.call(b, prop))
+      __defNormalProp$1$c(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$e)
+    for (var prop of __getOwnPropSymbols$1$e(b)) {
+      if (__propIsEnum$1$e.call(b, prop))
+        __defNormalProp$1$c(a, prop, b[prop]);
     }
   return a;
 };
@@ -24065,9 +24078,9 @@ var DrawerWrapper = defineComponent({
       maskClosable,
       zIndex
     } = useConfig$1(props, config);
-    const transitionName = computed(() => `${common.prefixCls}-${drawerTransitionMap[props.placement]}`);
-    const isHorizontal = computed(() => horizontalPlacement.includes(props.placement));
-    const placementStyle = computed(() => {
+    const transitionName = computed$1(() => `${common.prefixCls}-${drawerTransitionMap[props.placement]}`);
+    const isHorizontal = computed$1(() => horizontalPlacement.includes(props.placement));
+    const placementStyle = computed$1(() => {
       const {
         width,
         height,
@@ -24089,12 +24102,12 @@ var DrawerWrapper = defineComponent({
           [placement]: 0
         };
       }
-      return __spreadValues$1$9({
+      return __spreadValues$1$c({
         width: convertCssPixel(width || (horizontal ? config.width : "100%")),
         height: convertCssPixel(height || (horizontal ? "100%" : config.height))
       }, offsetObj);
     });
-    const transformStyle = computed(() => {
+    const transformStyle = computed$1(() => {
       const {
         placement
       } = props;
@@ -24108,7 +24121,7 @@ var DrawerWrapper = defineComponent({
       }
       return transform;
     });
-    const wrapperClasses = computed(() => {
+    const wrapperClasses = computed$1(() => {
       const {
         wrapperClassName = ""
       } = props;
@@ -24123,14 +24136,14 @@ var DrawerWrapper = defineComponent({
         [wrapperClassName]: !!wrapperClassName
       });
     });
-    const wrapperStyle = computed(() => {
+    const wrapperStyle = computed$1(() => {
       const placement = mask.value ? void 0 : placementStyle.value;
-      return __spreadValues$1$9({
+      return __spreadValues$1$c({
         zIndex: zIndex.value,
         transform: transformStyle.value
       }, placement);
     });
-    const contentStyle = computed(() => {
+    const contentStyle = computed$1(() => {
       return mask.value ? placementStyle.value : void 0;
     });
     const wrapperRef = ref();
@@ -24207,27 +24220,27 @@ var DrawerWrapper = defineComponent({
   }
 });
 function useConfig$1(props, config) {
-  const closable = computed(() => {
+  const closable = computed$1(() => {
     var _a;
     return (_a = props.closable) != null ? _a : config.closable;
   });
-  const closeIcon = computed(() => {
+  const closeIcon = computed$1(() => {
     var _a;
     return (_a = props.closeIcon) != null ? _a : config.closeIcon;
   });
-  const closeOnEsc = computed(() => {
+  const closeOnEsc = computed$1(() => {
     var _a;
     return (_a = props.closeOnEsc) != null ? _a : config.closeOnEsc;
   });
-  const mask = computed(() => {
+  const mask = computed$1(() => {
     var _a;
     return (_a = props.mask) != null ? _a : config.mask;
   });
-  const maskClosable = computed(() => {
+  const maskClosable = computed$1(() => {
     var _a;
     return (_a = props.maskClosable) != null ? _a : config.maskClosable;
   });
-  const zIndex = computed(() => {
+  const zIndex = computed$1(() => {
     var _a;
     return (_a = props.zIndex) != null ? _a : config.zIndex;
   });
@@ -24330,7 +24343,7 @@ function useEvents$4(props, wrapperRef, animatedVisible) {
     animatedVisible.value = true;
   };
   const onAfterLeave = () => {
-    if (lastOutSideActiveElement && isFunction(lastOutSideActiveElement.focus)) {
+    if (lastOutSideActiveElement && isFunction$1(lastOutSideActiveElement.focus)) {
       const wrapperElement = wrapperRef.value;
       const activeElement = document.activeElement;
       if (!activeElement || activeElement === document.body || activeElement === wrapperElement || wrapperElement.contains(activeElement)) {
@@ -24400,13 +24413,13 @@ var Drawer = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-drawer`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-drawer`);
     const config = useGlobalConfig$1("drawer");
-    const mask = computed(() => {
+    const mask = computed$1(() => {
       var _a;
       return (_a = props.mask) != null ? _a : config.mask;
     });
-    const zIndex = computed(() => {
+    const zIndex = computed$1(() => {
       var _a;
       return (_a = props.zIndex) != null ? _a : config.zIndex;
     });
@@ -24447,7 +24460,7 @@ var Drawer = defineComponent({
     provide(DRAWER_TOKEN, apis);
     expose(apis);
     useScrollStrategy$1(props, mask, mergedVisible);
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -24472,7 +24485,7 @@ var Drawer = defineComponent({
 function useVisible$2(props) {
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   const animatedVisible = ref();
-  const mergedVisible = computed(() => {
+  const mergedVisible = computed$1(() => {
     const currVisible = visible.value;
     const currAnimatedVisible = animatedVisible.value;
     if (currAnimatedVisible === void 0 || currVisible) {
@@ -24561,30 +24574,30 @@ function useLevel(visible) {
     pull
   };
 }
-var __defProp$l = Object.defineProperty;
-var __getOwnPropSymbols$n = Object.getOwnPropertySymbols;
-var __hasOwnProp$n = Object.prototype.hasOwnProperty;
-var __propIsEnum$n = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$l = (obj, key, value) => key in obj ? __defProp$l(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$l = (a, b) => {
+var __defProp$n = Object.defineProperty;
+var __getOwnPropSymbols$q = Object.getOwnPropertySymbols;
+var __hasOwnProp$q = Object.prototype.hasOwnProperty;
+var __propIsEnum$q = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$n = (obj, key, value) => key in obj ? __defProp$n(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$n = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$n.call(b, prop))
-      __defNormalProp$l(a, prop, b[prop]);
-  if (__getOwnPropSymbols$n)
-    for (var prop of __getOwnPropSymbols$n(b)) {
-      if (__propIsEnum$n.call(b, prop))
-        __defNormalProp$l(a, prop, b[prop]);
+    if (__hasOwnProp$q.call(b, prop))
+      __defNormalProp$n(a, prop, b[prop]);
+  if (__getOwnPropSymbols$q)
+    for (var prop of __getOwnPropSymbols$q(b)) {
+      if (__propIsEnum$q.call(b, prop))
+        __defNormalProp$n(a, prop, b[prop]);
     }
   return a;
 };
 var __objRest$c = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$n.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$q.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$n)
-    for (var prop of __getOwnPropSymbols$n(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$n.call(source, prop))
+  if (source != null && __getOwnPropSymbols$q)
+    for (var prop of __getOwnPropSymbols$q(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$q.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -24689,7 +24702,7 @@ function useDrawer$1() {
     const currIndex = getCurrIndex(key);
     if (currIndex !== -1) {
       const tempDrawers = [...drawers.value];
-      const newItem = __spreadValues$l(__spreadValues$l({}, drawers.value[currIndex]), item);
+      const newItem = __spreadValues$n(__spreadValues$n({}, drawers.value[currIndex]), item);
       tempDrawers.splice(currIndex, 1, newItem);
       drawers.value = tempDrawers;
     }
@@ -24753,7 +24766,7 @@ var Dropdown = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-dropdown`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-dropdown`);
     const config = useGlobalConfig$1("dropdown");
     const [visibility, setVisibility] = useControlledProp(props, "visible", false);
     const configProps = useConfigProps(props, config, mergedPrefixCls, setVisibility);
@@ -24776,7 +24789,7 @@ var Dropdown = defineComponent({
   }
 });
 function useConfigProps(props, config, mergedPrefixCls, setVisibility) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     const trigger = (_a = props.trigger) != null ? _a : config.trigger;
     return {
@@ -24805,13 +24818,13 @@ var Empty$1 = defineComponent({
   setup(props, {
     slots
   }) {
-    const emptyLocale = getLocale("empty");
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-empty`);
+    const locale = useGlobalConfig$1("locale");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-empty`);
     const config = useGlobalConfig$1("empty");
-    const description = computed(() => {
+    const description = computed$1(() => {
       var _a;
-      return (_a = props.description) != null ? _a : emptyLocale.value.description;
+      return (_a = props.description) != null ? _a : locale.empty.description;
     });
     return () => {
       const prefixCls = mergedPrefixCls.value;
@@ -24850,25 +24863,148 @@ function renderImage(props, slots, config) {
 }
 const IxEmpty = Empty$1;
 
-var __defProp$1$8 = Object.defineProperty;
-var __defProps$g = Object.defineProperties;
-var __getOwnPropDescs$g = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$b = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$b = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$b = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$8 = (obj, key, value) => key in obj ? __defProp$1$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$8 = (a, b) => {
+const debounceTime = 10;
+const defaultScale = 1;
+const defaultRotate = 0;
+const defaultScaleStep = 0.2;
+const defaultRotateStep = 90;
+function useOprList(goHandle, rotateHandle, scaleHandle, setVisible, scaleDisabled, switchDisabled, switchVisible) {
+  const goNext = () => goHandle("next");
+  const goPrevious = () => goHandle("previous");
+  const rotateLeft = () => rotateHandle("left");
+  const rotateRight = () => rotateHandle("right");
+  const zoomOut = () => scaleHandle("out");
+  const zoomIn = () => scaleHandle("in");
+  const close = () => setVisible(false);
+  return computed$1(() => [
+    {
+      key: "goPrevious",
+      icon: "left",
+      opr: goPrevious,
+      disabled: switchDisabled.value.previous,
+      visible: switchVisible.value
+    },
+    { key: "goNext", icon: "right", opr: goNext, disabled: switchDisabled.value.next, visible: switchVisible.value },
+    { key: "rotateLeft", icon: "rotate-left", opr: rotateLeft, visible: true },
+    { key: "rotateRight", icon: "rotate-right", opr: rotateRight, visible: true },
+    { key: "zoomOut", icon: "zoom-out", opr: zoomOut, disabled: scaleDisabled.value.out, visible: true },
+    { key: "zoomIn", icon: "zoom-in", opr: zoomIn, disabled: scaleDisabled.value.in, visible: true },
+    { key: "close", icon: "close", opr: close, visible: true }
+  ]);
+}
+function useImgStyleOpr(zoom) {
+  const scale = ref(defaultScale);
+  const rotate = ref(defaultRotate);
+  const rotateFactor = {
+    left: -1,
+    right: 1
+  };
+  const scaleFactor = {
+    in: 1,
+    out: -1
+  };
+  const initScale = computed$1(() => {
+    const [zoomOut, zoomIn] = zoom.value;
+    if (zoomOut > defaultScale) {
+      return zoomOut;
+    }
+    if (zoomIn < defaultScale) {
+      return zoomIn;
+    }
+    return defaultScale;
+  });
+  watchEffect(() => scale.value = initScale.value);
+  const scaleDisabled = computed$1(() => {
+    const [zoomOut, zoomIn] = zoom.value;
+    return {
+      in: scale.value >= zoomIn,
+      out: scale.value <= zoomOut
+    };
+  });
+  const transformStyle = computed$1(() => ({ transform: `scale(${scale.value}) rotate(${rotate.value}deg)` }));
+  const rotateHandle = debounce$1((direction = "left", rotateStep = defaultRotateStep) => {
+    rotate.value = rotate.value + rotateStep * rotateFactor[direction];
+  }, debounceTime);
+  const scaleHandle = debounce$1((direction, scaleStep = defaultScaleStep) => {
+    if (scaleDisabled.value[direction]) {
+      return;
+    }
+    scale.value = scale.value + scaleStep * scaleFactor[direction];
+  }, debounceTime);
+  const resetTransform = () => {
+    scale.value = initScale.value;
+    rotate.value = defaultRotate;
+  };
+  return {
+    transformStyle,
+    scaleDisabled,
+    rotateHandle,
+    scaleHandle,
+    resetTransform
+  };
+}
+function useImgSwitch(props, loop) {
+  const [activeIndex, setIndex] = useControlledProp(props, "activeIndex", 0);
+  const switchDisabled = computed$1(() => ({
+    previous: !loop.value && activeIndex.value === 0,
+    next: !loop.value && activeIndex.value === props.images.length - 1
+  }));
+  const switchVisible = computed$1(() => props.images.length > 1);
+  const goHandle = debounce$1((direction = "next") => {
+    if (direction === "next") {
+      if (switchDisabled.value.next || switchDisabled.value.previous) {
+        return;
+      }
+      setIndex(activeIndex.value >= props.images.length - 1 ? 0 : activeIndex.value + 1);
+      return;
+    }
+    setIndex(activeIndex.value <= 0 ? props.images.length - 1 : activeIndex.value - 1);
+  }, debounceTime);
+  return {
+    activeIndex,
+    switchDisabled,
+    switchVisible,
+    goHandle
+  };
+}
+const OprIcon = (props) => {
+  const {
+    disabled,
+    icon,
+    prefixCls,
+    opr
+  } = props;
+  const key = useKey();
+  const classes = computed$1(() => normalizeClass({
+    [`${prefixCls}-opr-item`]: true,
+    [`${prefixCls}-opr-item-disabled`]: disabled
+  }));
+  return createVNode(IxIcon, {
+    "class": classes.value,
+    "name": icon,
+    "onClick": opr,
+    "key": key
+  }, null);
+};
+var __defProp$2$5 = Object.defineProperty;
+var __defProps$1$5 = Object.defineProperties;
+var __getOwnPropDescs$1$5 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$2$8 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$8 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$8 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$5 = (obj, key, value) => key in obj ? __defProp$2$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$5 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$b.call(b, prop))
-      __defNormalProp$1$8(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$b)
-    for (var prop of __getOwnPropSymbols$1$b(b)) {
-      if (__propIsEnum$1$b.call(b, prop))
-        __defNormalProp$1$8(a, prop, b[prop]);
+    if (__hasOwnProp$2$8.call(b, prop))
+      __defNormalProp$2$5(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$8)
+    for (var prop of __getOwnPropSymbols$2$8(b)) {
+      if (__propIsEnum$2$8.call(b, prop))
+        __defNormalProp$2$5(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$g = (a, b) => __defProps$g(a, __getOwnPropDescs$g(b));
+var __spreadProps$1$5 = (a, b) => __defProps$1$5(a, __getOwnPropDescs$1$5(b));
 const zoomValidator = {
   validator: (val) => val.length === 2,
   msg: "zoom only accepts the length of the array is 2"
@@ -24876,7 +25012,7 @@ const zoomValidator = {
 const imageViewerProps = {
   visible: IxPropTypes.bool,
   activeIndex: IxPropTypes.number,
-  images: IxPropTypes.array().isRequired,
+  images: IxPropTypes.array().def([]),
   zoom: IxPropTypes.custom(zoomValidator.validator, zoomValidator.msg),
   loop: IxPropTypes.bool,
   target: portalTargetDef,
@@ -24887,54 +25023,73 @@ const imageViewerProps = {
 const imageProps = {
   src: IxPropTypes.string.isRequired,
   preview: IxPropTypes.bool,
-  imageViewer: IxPropTypes.shape(__spreadProps$g(__spreadValues$1$8({}, imageViewerProps), { images: IxPropTypes.array() })),
+  imageViewer: IxPropTypes.shape(__spreadProps$1$5(__spreadValues$2$5({}, imageViewerProps), { images: IxPropTypes.array() })),
   onLoad: IxPropTypes.emit(),
   onError: IxPropTypes.emit()
 };
-const imageViewerContentProps = __spreadValues$1$8({
-  mergedPrefixCls: IxPropTypes.string.isRequired
-}, imageViewerProps);
+var __defProp$1$b = Object.defineProperty;
+var __defProps$i = Object.defineProperties;
+var __getOwnPropDescs$i = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$d = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$d = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$d = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$b = (obj, key, value) => key in obj ? __defProp$1$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$b = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1$d.call(b, prop))
+      __defNormalProp$1$b(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$d)
+    for (var prop of __getOwnPropSymbols$1$d(b)) {
+      if (__propIsEnum$1$d.call(b, prop))
+        __defNormalProp$1$b(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$i = (a, b) => __defProps$i(a, __getOwnPropDescs$i(b));
 const mousewheelEventName = isFirefox ? "DOMMouseScroll" : "mousewheel";
-const debounceTime = 10;
-var ImageViewerContent = defineComponent({
-  name: "IxImageViewerContent",
-  props: imageViewerContentProps,
+var ImageViewer = defineComponent({
+  name: "IxImageViewer",
+  props: imageViewerProps,
   setup(props) {
+    const common = useGlobalConfig$1("common");
     const config = useGlobalConfig$1("imageViewer");
-    const zoom = useZoomRange(props, config);
-    const maskClosable = useMaskClosable(props, config);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-image-viewer`);
     const [visible, setVisible] = useControlledProp(props, "visible", false);
+    const zoom = computed$1(() => {
+      var _a;
+      return (_a = props.zoom) != null ? _a : config.zoom;
+    });
+    const loop = computed$1(() => {
+      var _a;
+      return (_a = props.loop) != null ? _a : config.loop;
+    });
+    const maskClosable = computed$1(() => {
+      var _a;
+      return (_a = props.maskClosable) != null ? _a : config.maskClosable;
+    });
+    const target = computed$1(() => {
+      var _a, _b;
+      return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
+    });
     const {
-      calcTransform,
+      transformStyle,
       scaleDisabled,
       rotateHandle,
       scaleHandle,
       resetTransform
-    } = useStyleOpr(zoom);
+    } = useImgStyleOpr(zoom);
     const {
       activeIndex,
       switchDisabled,
       switchVisible,
       goHandle
-    } = useSwitch(props, config);
-    const oprList = useOprList({
-      goNext: () => goHandle("next"),
-      goPrevious: () => goHandle("previous"),
-      rotateLeft: () => rotateHandle("left"),
-      rotateRight: () => rotateHandle("right"),
-      zoomOut: () => scaleHandle("out"),
-      zoomIn: () => scaleHandle("in"),
-      close: () => setVisible(false)
-    }, scaleDisabled, switchDisabled, switchVisible);
+    } = useImgSwitch(props, loop);
+    const onClickLayer = () => maskClosable.value && setVisible(false);
+    const oprList = useOprList(goHandle, rotateHandle, scaleHandle, setVisible, scaleDisabled, switchDisabled, switchVisible);
     const {
       onWheelScroll,
       onKeydown
-    } = getImageEvent(visible, {
-      setVisible,
-      scaleHandle,
-      goHandle
-    });
-    const onClickLayer = () => maskClosable.value && setVisible(false);
+    } = getImageEvent(visible, setVisible, scaleHandle, goHandle);
     onMounted(() => {
       window.addEventListener(mousewheelEventName, onWheelScroll, {
         passive: false,
@@ -24949,179 +25104,41 @@ var ImageViewerContent = defineComponent({
     watch([visible, activeIndex], ([visible$$]) => {
       visible$$ && resetTransform();
     });
-    return () => createVNode("div", {
-      "class": props.mergedPrefixCls
-    }, [renderOprNode(props, oprList), renderPreviewImg(props, calcTransform, activeIndex, onClickLayer)]);
+    return () => {
+      const prefixCls = mergedPrefixCls.value;
+      const curImgSrc = props.images[activeIndex.value];
+      return createVNode(CdkPortal, {
+        "target": target.value,
+        "load": visible.value
+      }, {
+        default: () => [createVNode(Transition, {
+          "name": `${common.prefixCls}-zoom-big-fast`,
+          "appear": true
+        }, {
+          default: () => [visible.value && createVNode("div", {
+            "class": prefixCls
+          }, [createVNode("div", {
+            "class": `${prefixCls}-opr`
+          }, [oprList.value.filter((item) => item.visible).map((item) => {
+            const oprIconProps = __spreadProps$i(__spreadValues$1$b({}, item), {
+              prefixCls
+            });
+            return createVNode(OprIcon, oprIconProps, null);
+          })]), createVNode("div", {
+            "class": `${prefixCls}-preview`,
+            "onClick": onClickLayer
+          }, [createVNode("img", {
+            "class": `${prefixCls}-preview-img`,
+            "src": curImgSrc,
+            "style": transformStyle.value
+          }, null)])])]
+        })]
+      });
+    };
   }
 });
-function renderOprNode(props, oprList) {
-  return createVNode("div", {
-    "class": `${props.mergedPrefixCls}-opr`
-  }, [oprList.value.filter((item) => item.visible).map((item) => {
-    const iconClasses = computed(() => normalizeClass([`${props.mergedPrefixCls}-opr-item`, {
-      [`${props.mergedPrefixCls}-opr-item-disabled`]: item.disabled
-    }]));
-    return createVNode(IxIcon, {
-      "class": iconClasses.value,
-      "name": item.icon,
-      "onClick": item.opr,
-      "key": item.key
-    }, null);
-  })]);
-}
-function renderPreviewImg(props, calcTransform, activeIndex, onClickLayer) {
-  var _a;
-  const curImgSrc = ((_a = props.images) != null ? _a : [])[activeIndex.value];
-  return createVNode("div", {
-    "class": `${props.mergedPrefixCls}-preview`,
-    "onClick": onClickLayer
-  }, [createVNode("img", {
-    "class": `${props.mergedPrefixCls}-preview-img`,
-    "src": curImgSrc,
-    "style": calcTransform.value
-  }, null)]);
-}
-function useOprList({
-  goNext,
-  goPrevious,
-  rotateLeft,
-  rotateRight,
-  zoomOut,
-  zoomIn,
-  close
-}, scaleDisabled, switchDisabled, switchVisible) {
-  return computed(() => [{
-    key: "goPrevious",
-    icon: "left",
-    opr: goPrevious,
-    disabled: switchDisabled.value.previous,
-    visible: switchVisible.value
-  }, {
-    key: "goNext",
-    icon: "right",
-    opr: goNext,
-    disabled: switchDisabled.value.next,
-    visible: switchVisible.value
-  }, {
-    key: "rotateLeft",
-    icon: "rotate-left",
-    opr: rotateLeft,
-    visible: true
-  }, {
-    key: "rotateRight",
-    icon: "rotate-right",
-    opr: rotateRight,
-    visible: true
-  }, {
-    key: "zoomOut",
-    icon: "zoom-out",
-    opr: zoomOut,
-    disabled: scaleDisabled.value.out,
-    visible: true
-  }, {
-    key: "zoomIn",
-    icon: "zoom-in",
-    opr: zoomIn,
-    disabled: scaleDisabled.value.in,
-    visible: true
-  }, {
-    key: "close",
-    icon: "close",
-    opr: close,
-    visible: true
-  }]);
-}
-function useSwitch(props, config) {
-  const [activeIndex, setIndex] = useControlledProp(props, "activeIndex", 0);
-  const loop = computed(() => {
-    var _a;
-    return (_a = props.loop) != null ? _a : config.loop;
-  });
-  const switchDisabled = computed(() => ({
-    previous: !loop.value && activeIndex.value === 0,
-    next: !loop.value && activeIndex.value === props.images.length - 1
-  }));
-  const switchVisible = computed(() => props.images.length > 1);
-  const goHandle = debounce$1((direction = "next") => {
-    if (direction === "next") {
-      if (switchDisabled.value.next) {
-        return;
-      }
-      setIndex(activeIndex.value >= props.images.length - 1 ? 0 : activeIndex.value + 1);
-      return;
-    }
-    if (switchDisabled.value.previous) {
-      return;
-    }
-    setIndex(activeIndex.value <= 0 ? props.images.length - 1 : activeIndex.value - 1);
-  }, debounceTime);
-  return {
-    activeIndex,
-    switchDisabled,
-    switchVisible,
-    goHandle
-  };
-}
-function useStyleOpr(zoom) {
-  const initScale = computed(() => getInitScale(zoom.value));
-  const initRotate = 0;
-  const scale = ref(1);
-  const rotate = ref(initRotate);
-  const rotateFactor = {
-    left: -1,
-    right: 1
-  };
-  const scaleFactor = {
-    in: 1,
-    out: -1
-  };
-  watchEffect(() => scale.value = initScale.value);
-  const scaleDisabled = computed(() => ({
-    in: scale.value >= zoom.value[1],
-    out: scale.value <= zoom.value[0]
-  }));
-  const calcTransform = computed(() => ({
-    transform: `scale(${scale.value}) rotate(${rotate.value}deg)`
-  }));
-  const rotateHandle = debounce$1((direction = "left", rotateStep = 90) => {
-    rotate.value = rotate.value + rotateStep * rotateFactor[direction];
-  }, debounceTime);
-  const scaleHandle = debounce$1((direction, scaleStep = 0.2) => {
-    if (scaleDisabled.value[direction]) {
-      return;
-    }
-    scale.value = scale.value + scaleStep * scaleFactor[direction];
-  }, debounceTime);
-  const resetTransform = () => {
-    scale.value = initScale.value;
-    rotate.value = initRotate;
-  };
-  return {
-    calcTransform,
-    scaleDisabled,
-    rotateHandle,
-    scaleHandle,
-    resetTransform
-  };
-}
-function useZoomRange(props, config) {
-  return computed(() => {
-    var _a;
-    return (_a = props.zoom) != null ? _a : config.zoom;
-  });
-}
-function useMaskClosable(props, config) {
-  return computed(() => {
-    var _a;
-    return (_a = props.maskClosable) != null ? _a : config.maskClosable;
-  });
-}
-function getImageEvent(visible, {
-  setVisible,
-  scaleHandle,
-  goHandle
-}) {
-  const scroll = (e) => {
+function getImageEvent(visible, setVisible, scaleHandle, goHandle) {
+  const onWheelScroll = (e) => {
     var _a;
     if (!visible.value) {
       return;
@@ -25142,7 +25159,7 @@ function getImageEvent(visible, {
     ArrowRight: () => goHandle("next"),
     Escape: () => setVisible(false)
   };
-  const keyDown = (e) => {
+  const onKeydown = (e) => {
     if (!visible.value) {
       return;
     }
@@ -25152,74 +25169,34 @@ function getImageEvent(visible, {
     }
   };
   return {
-    onWheelScroll: scroll,
-    onKeydown: keyDown
+    onWheelScroll,
+    onKeydown
   };
 }
-function getInitScale(zoom) {
-  const defaultScale = 1;
-  if (zoom[0] > defaultScale) {
-    return zoom[0];
-  }
-  if (zoom[1] < defaultScale) {
-    return zoom[1];
-  }
-  return defaultScale;
-}
-var ImageViewer = defineComponent({
-  name: "IxImageViewer",
-  props: imageViewerProps,
-  setup(props) {
-    const common = useGlobalConfig$1("common");
-    const config = useGlobalConfig$1("imageViewer");
-    const [visible] = useControlledProp(props, "visible", false);
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-image-viewer`);
-    const target = useTarget(props, config, mergedPrefixCls);
-    return () => createVNode(CdkPortal, {
-      "target": target.value,
-      "load": visible.value
-    }, {
-      default: () => [createVNode(Transition, {
-        "name": `${common.prefixCls}-zoom-big-fast`,
-        "appear": true
-      }, {
-        default: () => [visible.value && createVNode(ImageViewerContent, mergeProps({
-          "mergedPrefixCls": mergedPrefixCls.value
-        }, props), null)]
-      })]
-    });
-  }
-});
-function useTarget(props, config, mergedPrefixCls) {
-  return computed(() => {
-    var _a, _b;
-    return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
-  });
-}
-var __defProp$k = Object.defineProperty;
-var __getOwnPropSymbols$m = Object.getOwnPropertySymbols;
-var __hasOwnProp$m = Object.prototype.hasOwnProperty;
-var __propIsEnum$m = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$k = (obj, key, value) => key in obj ? __defProp$k(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$k = (a, b) => {
+var __defProp$m = Object.defineProperty;
+var __getOwnPropSymbols$p = Object.getOwnPropertySymbols;
+var __hasOwnProp$p = Object.prototype.hasOwnProperty;
+var __propIsEnum$p = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$m = (obj, key, value) => key in obj ? __defProp$m(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$m = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$m.call(b, prop))
-      __defNormalProp$k(a, prop, b[prop]);
-  if (__getOwnPropSymbols$m)
-    for (var prop of __getOwnPropSymbols$m(b)) {
-      if (__propIsEnum$m.call(b, prop))
-        __defNormalProp$k(a, prop, b[prop]);
+    if (__hasOwnProp$p.call(b, prop))
+      __defNormalProp$m(a, prop, b[prop]);
+  if (__getOwnPropSymbols$p)
+    for (var prop of __getOwnPropSymbols$p(b)) {
+      if (__propIsEnum$p.call(b, prop))
+        __defNormalProp$m(a, prop, b[prop]);
     }
   return a;
 };
 var __objRest$b = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$m.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$p.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$m)
-    for (var prop of __getOwnPropSymbols$m(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$m.call(source, prop))
+  if (source != null && __getOwnPropSymbols$p)
+    for (var prop of __getOwnPropSymbols$p(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$p.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -25240,7 +25217,7 @@ var Image = defineComponent({
       "style"
     ]);
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-image`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-image`);
     const config = useGlobalConfig$1("image");
     const preview = usePreview(props, config);
     const {
@@ -25253,10 +25230,10 @@ var Image = defineComponent({
       outerClasses,
       overLayerClasses,
       imageClasses
-    } = useClasses$6(mergedPrefixCls, className, status, preview);
+    } = useClasses$4(mergedPrefixCls, className, status, preview);
     return () => {
       var _a2;
-      const imageViewerProps2 = __spreadValues$k({
+      const imageViewerProps2 = __spreadValues$m({
         visible: viewerVisible.value,
         "onUpdate:visible": setVisible,
         images: [props.src]
@@ -25306,12 +25283,12 @@ function useViewerVisible() {
   };
   return [viewerVisible, setVisible];
 }
-function useClasses$6(mergedPrefixCls, className, status, preview) {
-  const outerClasses = computed(() => normalizeClass([mergedPrefixCls.value, className, `${mergedPrefixCls.value}-${status.value}`, {
+function useClasses$4(mergedPrefixCls, className, status, preview) {
+  const outerClasses = computed$1(() => normalizeClass([mergedPrefixCls.value, className, `${mergedPrefixCls.value}-${status.value}`, {
     [`${mergedPrefixCls.value}-preview`]: preview.value
   }]));
-  const overLayerClasses = computed(() => normalizeClass(`${mergedPrefixCls.value}-layer`));
-  const imageClasses = computed(() => normalizeClass([`${mergedPrefixCls.value}-inner`, {
+  const overLayerClasses = computed$1(() => normalizeClass(`${mergedPrefixCls.value}-layer`));
+  const imageClasses = computed$1(() => normalizeClass([`${mergedPrefixCls.value}-inner`, {
     [`${mergedPrefixCls.value}-inner-hidden`]: status.value !== "loaded"
   }]));
   return {
@@ -25321,7 +25298,7 @@ function useClasses$6(mergedPrefixCls, className, status, preview) {
   };
 }
 function usePreview(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     return (_a = props.preview) != null ? _a : config.preview;
   });
@@ -25364,17 +25341,17 @@ const inputProps$1 = {
   suffix: IxPropTypes.string,
   onClear: IxPropTypes.func()
 };
-var __getOwnPropSymbols$l = Object.getOwnPropertySymbols;
-var __hasOwnProp$l = Object.prototype.hasOwnProperty;
-var __propIsEnum$l = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$o = Object.getOwnPropertySymbols;
+var __hasOwnProp$o = Object.prototype.hasOwnProperty;
+var __propIsEnum$o = Object.prototype.propertyIsEnumerable;
 var __objRest$a = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$l.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$o.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$l)
-    for (var prop of __getOwnPropSymbols$l(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$l.call(source, prop))
+  if (source != null && __getOwnPropSymbols$o)
+    for (var prop of __getOwnPropSymbols$o(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$o.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -25388,13 +25365,13 @@ var Input$3 = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-input`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-input`);
     const inputRef = ref();
     const getInputElement = () => inputRef.value;
     expose({
       getInputElement
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         borderless,
         clearable,
@@ -25440,7 +25417,7 @@ var Input$3 = defineComponent({
       const clearNode = clearable && createVNode("span", {
         "class": `${prefixCls}-clear${clearVisible ? " visible" : ""}`,
         "onClick": onClear
-      }, [createVNode(IxIcon, {
+      }, [slots.clearIcon ? slots.clearIcon() : createVNode(IxIcon, {
         "name": clearIcon
       }, null)]);
       if (!(addonBeforeNode || addonAfterNode || prefixNode || suffixNode || clearNode)) {
@@ -25504,25 +25481,25 @@ function renderIcon$5(slot, prop, cls) {
 }
 const \u0275Input = Input$3;
 
-var __defProp$j = Object.defineProperty;
-var __defProps$f = Object.defineProperties;
-var __getOwnPropDescs$f = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$k = Object.getOwnPropertySymbols;
-var __hasOwnProp$k = Object.prototype.hasOwnProperty;
-var __propIsEnum$k = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$j = (obj, key, value) => key in obj ? __defProp$j(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$j = (a, b) => {
+var __defProp$l = Object.defineProperty;
+var __defProps$h = Object.defineProperties;
+var __getOwnPropDescs$h = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$n = Object.getOwnPropertySymbols;
+var __hasOwnProp$n = Object.prototype.hasOwnProperty;
+var __propIsEnum$n = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$l = (obj, key, value) => key in obj ? __defProp$l(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$l = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$k.call(b, prop))
-      __defNormalProp$j(a, prop, b[prop]);
-  if (__getOwnPropSymbols$k)
-    for (var prop of __getOwnPropSymbols$k(b)) {
-      if (__propIsEnum$k.call(b, prop))
-        __defNormalProp$j(a, prop, b[prop]);
+    if (__hasOwnProp$n.call(b, prop))
+      __defNormalProp$l(a, prop, b[prop]);
+  if (__getOwnPropSymbols$n)
+    for (var prop of __getOwnPropSymbols$n(b)) {
+      if (__propIsEnum$n.call(b, prop))
+        __defNormalProp$l(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$f = (a, b) => __defProps$f(a, __getOwnPropDescs$f(b));
+var __spreadProps$h = (a, b) => __defProps$h(a, __getOwnPropDescs$h(b));
 const commonProps = {
   value: IxPropTypes.string,
   control: controlPropDef,
@@ -25540,7 +25517,7 @@ const commonProps = {
   onFocus: IxPropTypes.emit(),
   onBlur: IxPropTypes.emit()
 };
-const inputProps = __spreadProps$f(__spreadValues$j({}, commonProps), {
+const inputProps = __spreadProps$h(__spreadValues$l({}, commonProps), {
   addonAfter: IxPropTypes.string,
   addonBefore: IxPropTypes.string,
   borderless: IxPropTypes.bool,
@@ -25549,15 +25526,15 @@ const inputProps = __spreadProps$f(__spreadValues$j({}, commonProps), {
 });
 function useInput(props, config) {
   const accessor = useFormAccessor();
-  const clearable = computed(() => {
+  const clearable = computed$1(() => {
     var _a;
     return (_a = props.clearable) != null ? _a : config.clearable;
   });
-  const clearIcon = computed(() => {
+  const clearIcon = computed$1(() => {
     var _a;
     return (_a = props.clearIcon) != null ? _a : config.clearIcon;
   });
-  const clearVisible = computed(() => !accessor.disabled.value && !props.readonly && !!accessor.valueRef.value);
+  const clearVisible = computed$1(() => !accessor.disabled.value && !props.readonly && !!accessor.valueRef.value);
   const isFocused = ref(false);
   const handleFocus = (evt) => {
     isFocused.value = true;
@@ -25582,13 +25559,13 @@ function useInput(props, config) {
   };
   watch(accessor.valueRef, () => syncValue());
   const isComposing = ref(false);
-  const handleInput = (evt) => {
-    callEmit(props.onInput, evt);
+  const handleInput = (evt, emitInput = true) => {
+    emitInput && callEmit(props.onInput, evt);
     if (isComposing.value) {
       return;
     }
     const { value } = evt.target;
-    const oldValue = toRaw(accessor.valueRef.value);
+    const oldValue = toRaw$1(accessor.valueRef.value);
     if (value !== oldValue) {
       accessor.setValue(value);
       callEmit(props.onChange, value, oldValue);
@@ -25603,7 +25580,7 @@ function useInput(props, config) {
     callEmit(props.onCompositionEnd, evt);
     if (isComposing.value) {
       isComposing.value = false;
-      handleInput(evt);
+      handleInput(evt, false);
     }
   };
   const handleClear = (evt) => {
@@ -25637,7 +25614,7 @@ var Input$2 = defineComponent({
   }) {
     const config = useGlobalConfig$1("input");
     const formContext = inject(FORM_TOKEN, null);
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value) != null ? _b : config.size;
     });
@@ -25718,16 +25695,16 @@ function useInputNumber(props, config) {
   const accessor = useFormAccessor();
   const displayValue = ref("");
   const isIllegal = ref(true);
-  const nowValue = computed(() => {
+  const nowValue = computed$1(() => {
     var _a;
     return (_a = accessor.valueRef.value) != null ? _a : void 0;
   });
-  const isKeyboard = computed(() => {
+  const isKeyboard = computed$1(() => {
     var _a;
     return (_a = props.keyboard) != null ? _a : config.keyboard;
   });
-  const isDisabled = computed(() => accessor == null ? void 0 : accessor.disabled.value);
-  const precision = computed(() => {
+  const isDisabled = computed$1(() => accessor == null ? void 0 : accessor.disabled.value);
+  const precision = computed$1(() => {
     const stepPrecision = getPrecision(props.step);
     if (props.precision !== void 0) {
       if (process.env.NODE_ENV !== "production" && stepPrecision > props.precision) {
@@ -25737,8 +25714,8 @@ function useInputNumber(props, config) {
     }
     return Math.max(getPrecision(accessor.valueRef.value), stepPrecision);
   });
-  const disabledDec = computed(() => getIncValueFormAccessor(-props.step) < props.min);
-  const disabledInc = computed(() => getIncValueFormAccessor(props.step) > props.max);
+  const disabledDec = computed$1(() => getIncValueFormAccessor(-props.step) < props.min);
+  const disabledInc = computed$1(() => getIncValueFormAccessor(props.step) > props.max);
   function getIncValueFormAccessor(step) {
     const { value } = accessor.valueRef;
     let newVal = step;
@@ -25776,7 +25753,7 @@ function useInputNumber(props, config) {
     }
   }
   function updateModelValue(newVal) {
-    const oldVal = toRaw(accessor.valueRef.value);
+    const oldVal = toRaw$1(accessor.valueRef.value);
     if (newVal !== oldVal) {
       accessor.setValue(newVal);
       callEmit(props.onChange, newVal, oldVal);
@@ -25904,12 +25881,12 @@ var InputNumber = defineComponent({
       blur
     });
     const formContext = inject(FORM_TOKEN, null);
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-input-number`);
-    const size = computed(() => {
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-input-number`);
+    const size = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value) != null ? _b : config.size;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -25974,7 +25951,7 @@ var Layout = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout`);
     return () => {
       var _a;
       return createVNode("section", {
@@ -25990,7 +25967,7 @@ var LayoutContent = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-content`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-content`);
     return () => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
@@ -26007,7 +25984,7 @@ var LayoutFooter = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-footer`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-footer`);
     return () => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
@@ -26024,7 +26001,7 @@ var LayoutHeader = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-header`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-header`);
     return () => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
@@ -26041,9 +26018,9 @@ var LayoutSider = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-sider`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-sider`);
     const collapsed = useCollapsed(props);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -26060,13 +26037,13 @@ var LayoutSider = defineComponent({
 });
 const useCollapsed = (props) => {
   const [collapsed, setCollapsed] = useControlledProp(props, "collapsed", false);
-  const breakpointIndex = computed(() => {
+  const breakpointIndex = computed$1(() => {
     const {
       breakpoint
     } = props;
     return breakpoint ? BREAKPOINTS_KEYS.indexOf(breakpoint) : -1;
   });
-  const useBreakpoint = computed(() => breakpointIndex.value > -1);
+  const useBreakpoint = computed$1(() => breakpointIndex.value > -1);
   let stopBreakpoints;
   watch(useBreakpoint, (breakpoint) => {
     stopBreakpoints == null ? void 0 : stopBreakpoints();
@@ -26098,7 +26075,7 @@ var Loading = defineComponent({
   props: loadingProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-loading`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-loading`);
     return () => {
       const prefixCls = mergedPrefixCls.value;
       const {
@@ -26208,26 +26185,26 @@ var Spin = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-spin`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-spin`);
     const spinConfig = useGlobalConfig$1("spin");
     const {
       size,
       strokeWidth,
       radius
     } = useSize(props, spinConfig);
-    const hasDefaultSlot = computed(() => hasSlot(slots));
-    const mregedIcon = computed(() => {
+    const hasDefaultSlot = computed$1(() => hasSlot(slots));
+    const mregedIcon = computed$1(() => {
       var _a;
       return (_a = props.icon) != null ? _a : spinConfig.icon;
     });
-    const mergedTip = computed(() => {
+    const mergedTip = computed$1(() => {
       var _a;
       return (_a = props.tip) != null ? _a : spinConfig.tip;
     });
     const {
       spinnerClassName,
       containerClassName
-    } = useClasses$5(props, spinConfig, size, hasDefaultSlot, mergedPrefixCls);
+    } = useClasses$3(props, spinConfig, size, hasDefaultSlot, mergedPrefixCls);
     const renderContent = () => {
       if (!slots.default) {
         return null;
@@ -26284,15 +26261,15 @@ var Spin = defineComponent({
   }
 });
 const useSize = (props, config) => {
-  const size = computed(() => {
+  const size = computed$1(() => {
     var _a;
     return (_a = props.size) != null ? _a : config.size;
   });
-  const strokeWidth = computed(() => {
+  const strokeWidth = computed$1(() => {
     var _a, _b, _c;
     return (_c = (_b = props.strokeWidth) != null ? _b : (_a = config.strokeWidth) == null ? void 0 : _a[size.value]) != null ? _c : defaultStrokeWidth$1[size.value];
   });
-  const radius = computed(() => {
+  const radius = computed$1(() => {
     var _a, _b, _c;
     return (_c = (_b = props.radius) != null ? _b : (_a = config.radius) == null ? void 0 : _a[size.value]) != null ? _c : defaultRadius[size.value];
   });
@@ -26302,14 +26279,14 @@ const useSize = (props, config) => {
     radius
   };
 };
-const useClasses$5 = (props, config, size, hasDefaultSlot, mergedPrefixCls) => {
+const useClasses$3 = (props, config, size, hasDefaultSlot, mergedPrefixCls) => {
   const prefixCls = mergedPrefixCls.value;
-  const spinnerClassName = computed(() => {
+  const spinnerClassName = computed$1(() => {
     var _a;
     const tipAlign = (_a = props.tipAlign) != null ? _a : config.tipAlign;
     return normalizeClass([`${prefixCls}-spinner`, `${prefixCls}-spinner-tip-${tipAlign}`, `${prefixCls}-spinner-${size.value}`]);
   });
-  const containerClassName = computed(() => {
+  const containerClassName = computed$1(() => {
     if (!hasDefaultSlot.value) {
       return [];
     }
@@ -26345,7 +26322,7 @@ const listWrapProps = {
 const listItemWrapProps = {
   grid: IxPropTypes.object()
 };
-var _export_sfc$1 = (sfc, props) => {
+var _export_sfc = (sfc, props) => {
   const target = sfc.__vccOpts || sfc;
   for (const [key, val] of props) {
     target[key] = val;
@@ -26371,7 +26348,7 @@ function _sfc_render$3(_ctx, _cache, $props, $setup, $data, $options) {
     renderSlot(_ctx.$slots, "default")
   ]));
 }
-var ListWrap = /* @__PURE__ */ _export_sfc$1(_sfc_main$3, [["render", _sfc_render$3]]);
+var ListWrap = /* @__PURE__ */ _export_sfc(_sfc_main$3, [["render", _sfc_render$3]]);
 const listToken = Symbol("list");
 const _sfc_main$2 = defineComponent({
   name: "IxList",
@@ -26384,14 +26361,14 @@ const _sfc_main$2 = defineComponent({
   props: listProps,
   emits: ["loadMore"],
   setup(props, { slots, emit }) {
-    provide(listToken, computed(() => props.grid));
-    const isUseGrid = computed(() => !!props.grid);
-    const isShowEmpty = computed(() => !slots.default);
-    const isShowLoadMore = computed(() => slots.loadMore || props.loadMore);
-    const isShowHeader = computed(() => slots.header || props.header);
-    const isShowFooter = computed(() => slots.footer || props.footer);
+    provide(listToken, computed$1(() => props.grid));
+    const isUseGrid = computed$1(() => !!props.grid);
+    const isShowEmpty = computed$1(() => !slots.default);
+    const isShowLoadMore = computed$1(() => slots.loadMore || props.loadMore);
+    const isShowHeader = computed$1(() => slots.header || props.header);
+    const isShowFooter = computed$1(() => slots.footer || props.footer);
     const listConfig = useGlobalConfig$1("list");
-    const classes = useClasses$4(props, listConfig);
+    const classes = useClasses$2(props, listConfig);
     const loadMoreLoading = ref(false);
     const handleLoadMoreClick = () => {
       loadMoreLoading.value = true;
@@ -26412,8 +26389,8 @@ const _sfc_main$2 = defineComponent({
     };
   }
 });
-const useClasses$4 = (props, listConfig) => {
-  return computed(() => {
+const useClasses$2 = (props, listConfig) => {
+  return computed$1(() => {
     var _a, _b;
     const borderless = (_a = props.borderless) != null ? _a : listConfig.borderless;
     const size = (_b = props.size) != null ? _b : listConfig.size;
@@ -26497,8 +26474,8 @@ function _sfc_render$2(_ctx, _cache, $props, $setup, $data, $options) {
     ])) : createCommentVNode("v-if", true)
   ], 2);
 }
-var List = /* @__PURE__ */ _export_sfc$1(_sfc_main$2, [["render", _sfc_render$2]]);
-const _sfc_main$1$1 = defineComponent({
+var List = /* @__PURE__ */ _export_sfc(_sfc_main$2, [["render", _sfc_render$2]]);
+const _sfc_main$1 = defineComponent({
   components: { IxCol },
   props: listItemWrapProps
 });
@@ -26524,8 +26501,8 @@ function _sfc_render$1(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 8, ["xs", "sm", "md", "lg", "xl"]));
 }
-var ListItemWrap = /* @__PURE__ */ _export_sfc$1(_sfc_main$1$1, [["render", _sfc_render$1]]);
-const _sfc_main$4 = defineComponent({
+var ListItemWrap = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render$1]]);
+const _sfc_main = defineComponent({
   name: "IxListItem",
   components: { ListItemWrap },
   props: listItemProps,
@@ -26557,24 +26534,24 @@ const useGrid = (grid) => {
     xl: xlSpan || defaultSpan
   };
 };
-const _hoisted_1$4 = { class: "ix-list-item-title" };
-const _hoisted_2$2 = { class: "ix-list-item-content" };
-const _hoisted_3$2 = { class: "ix-list-item-extra" };
-function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
+const _hoisted_1 = { class: "ix-list-item-title" };
+const _hoisted_2 = { class: "ix-list-item-content" };
+const _hoisted_3 = { class: "ix-list-item-extra" };
+function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
   const _component_list_item_wrap = resolveComponent("list-item-wrap");
   return openBlock(), createBlock(_component_list_item_wrap, { grid: _ctx.gird }, {
     default: withCtx(() => [
-      createElementVNode("div", _hoisted_1$4, [
+      createElementVNode("div", _hoisted_1, [
         renderSlot(_ctx.$slots, "title", {}, () => [
           createTextVNode(toDisplayString(_ctx.title), 1)
         ])
       ]),
-      createElementVNode("div", _hoisted_2$2, [
+      createElementVNode("div", _hoisted_2, [
         renderSlot(_ctx.$slots, "default", {}, () => [
           createTextVNode(toDisplayString(_ctx.content), 1)
         ])
       ]),
-      createElementVNode("div", _hoisted_3$2, [
+      createElementVNode("div", _hoisted_3, [
         renderSlot(_ctx.$slots, "extra", {}, () => [
           createTextVNode(toDisplayString(_ctx.extra), 1)
         ])
@@ -26583,7 +26560,7 @@ function _sfc_render$4(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   }, 8, ["grid"]);
 }
-var ListItem = /* @__PURE__ */ _export_sfc$1(_sfc_main$4, [["render", _sfc_render$4]]);
+var ListItem = /* @__PURE__ */ _export_sfc(_sfc_main, [["render", _sfc_render]]);
 const IxList = List;
 const IxListItem = ListItem;
 
@@ -26607,23 +26584,23 @@ const MenuDivider$1 = () => {
 };
 MenuDivider$1.displayName = "IxMenuDivider";
 MenuDivider$1[dividerKey] = true;
-var __getOwnPropSymbols$2$5 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$5 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$5 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$2$7 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$7 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$7 = Object.prototype.propertyIsEnumerable;
 var __objRest$9 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$2$5.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$2$7.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$2$5)
-    for (var prop of __getOwnPropSymbols$2$5(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$5.call(source, prop))
+  if (source != null && __getOwnPropSymbols$2$7)
+    for (var prop of __getOwnPropSymbols$2$7(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$7.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
 };
 function useDataSource$1(props, slots) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     const { dataSource } = props;
     if (dataSource) {
@@ -26707,9 +26684,14 @@ function useExpanded$1(props) {
       }
     }
   };
+  let cachedExpandedKeys = [];
   watch(() => props.collapsed, (collapsed) => {
     if (collapsed) {
+      cachedExpandedKeys = [...expandedKeys.value];
       setExpandedKeys([]);
+    } else {
+      setExpandedKeys(cachedExpandedKeys);
+      cachedExpandedKeys = [];
     }
   });
   return { expandedKeys, handleExpand };
@@ -26749,9 +26731,9 @@ const MenuDivider = () => {
   }, null);
 };
 MenuDivider.displayName = "MenuDivider";
-const usePaddingLeft = (mode, indent, level, grouped) => {
-  return computed(() => {
-    if (mode.value !== "inline") {
+const usePaddingLeft = (menuProps2, mode, indent, level, grouped) => {
+  return computed$1(() => {
+    if (mode.value !== "inline" || menuProps2.collapsed) {
       return void 0;
     }
     const groupedLeft = grouped ? 8 : 0;
@@ -26783,43 +26765,43 @@ const menuItemGroupProps = {
 const menuSubProps = {
   data: IxPropTypes.object().isRequired
 };
-var __defProp$1$7 = Object.defineProperty;
-var __defProps$1$3 = Object.defineProperties;
-var __getOwnPropDescs$1$3 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$a = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$a = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$a = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$7 = (obj, key, value) => key in obj ? __defProp$1$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$7 = (a, b) => {
+var __defProp$1$a = Object.defineProperty;
+var __defProps$1$4 = Object.defineProperties;
+var __getOwnPropDescs$1$4 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$c = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$c = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$c = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$a = (obj, key, value) => key in obj ? __defProp$1$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$a = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$a.call(b, prop))
-      __defNormalProp$1$7(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$a)
-    for (var prop of __getOwnPropSymbols$1$a(b)) {
-      if (__propIsEnum$1$a.call(b, prop))
-        __defNormalProp$1$7(a, prop, b[prop]);
+    if (__hasOwnProp$1$c.call(b, prop))
+      __defNormalProp$1$a(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$c)
+    for (var prop of __getOwnPropSymbols$1$c(b)) {
+      if (__propIsEnum$1$c.call(b, prop))
+        __defNormalProp$1$a(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$1$3 = (a, b) => __defProps$1$3(a, __getOwnPropDescs$1$3(b));
+var __spreadProps$1$4 = (a, b) => __defProps$1$4(a, __getOwnPropDescs$1$4(b));
 var MenuItem = defineComponent({
   name: "MenuItem",
   props: menuItemProps,
   setup(props) {
     const key = useKey();
     const {
+      props: menuProps2,
       slots: menuSlots,
       mergedPrefixCls,
       indent,
-      mode,
       selectedKeys,
       handleSelected,
       handleClick
     } = inject(menuToken);
     const menuSubContext = inject(menuSubToken, null);
     const menuItemGroupContext = inject(menuItemGroupToken, false);
-    const isSelected = computed(() => selectedKeys.value.includes(key));
-    const classes = computed(() => {
+    const isSelected = computed$1(() => selectedKeys.value.includes(key));
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-item`;
       return normalizeClass({
         [prefixCls]: true,
@@ -26828,14 +26810,14 @@ var MenuItem = defineComponent({
       });
     });
     const level = menuSubContext ? menuSubContext.level + 1 : 1;
-    const paddingLeft = usePaddingLeft(mode, indent, level, menuItemGroupContext);
-    const style = computed(() => {
+    const mode = computed$1(() => menuProps2.mode);
+    const paddingLeft = usePaddingLeft(menuProps2, mode, indent, level, menuItemGroupContext);
+    const style = computed$1(() => {
       return {
         paddingLeft: paddingLeft.value
       };
     });
     const onClick = (evt) => {
-      evt.stopPropagation();
       handleSelected(key);
       handleClick(key, "item", evt);
       menuSubContext == null ? void 0 : menuSubContext.handleItemClick();
@@ -26858,7 +26840,7 @@ var MenuItem = defineComponent({
       const iconSlot = isString(iconRender) ? menuSlots[iconRender] : iconRender;
       const labelRender = (_b = customLabel != null ? customLabel : slots.label) != null ? _b : "itemLabel";
       const labelSlot = isString(labelRender) ? menuSlots[labelRender] : labelRender;
-      const slotProps = iconSlot || labelSlot ? __spreadProps$1$3(__spreadValues$1$7({}, props.data), {
+      const slotProps = iconSlot || labelSlot ? __spreadProps$1$4(__spreadValues$1$a({}, props.data), {
         selected: isSelected.value
       }) : void 0;
       const iconNode = coverIcon(iconSlot, slotProps, icon);
@@ -26879,21 +26861,21 @@ var MenuItemGroup = defineComponent({
     const key = useKey();
     provide(menuItemGroupToken, true);
     const {
+      props: menuProps2,
       slots: menuSlots,
       mergedPrefixCls,
-      mode,
       indent,
       handleClick
     } = inject(menuToken);
     const menuSubContext = inject(menuSubToken, null);
     const menuItemGroupContext = inject(menuItemGroupToken, null);
     const level = menuSubContext ? menuSubContext.level + 1 : 1;
-    const paddingLeft = usePaddingLeft(mode, indent, level, !!menuItemGroupContext);
-    const labelStyle = computed(() => ({
+    const mode = computed$1(() => menuProps2.mode);
+    const paddingLeft = usePaddingLeft(menuProps2, mode, indent, level, !!menuItemGroupContext);
+    const labelStyle = computed$1(() => ({
       paddingLeft: paddingLeft.value
     }));
     const onClick = (evt) => {
-      evt.stopPropagation();
       handleClick(key, "itemGroup", evt);
     };
     return () => {
@@ -26920,11 +26902,10 @@ var MenuItemGroup = defineComponent({
       const prefixCls = `${mergedPrefixCls.value}-item-group`;
       return createVNode("li", mergeProps({
         "class": prefixCls
-      }, additional, {
-        "onClick": onClick
-      }), [createVNode("div", {
+      }, additional), [createVNode("div", {
         "class": `${prefixCls}-label`,
-        "style": labelStyle.value
+        "style": labelStyle.value,
+        "onClick": onClick
       }, [iconNode, createVNode("span", null, [labelNode])]), createVNode("ul", {
         "class": `${prefixCls}-content`
       }, [coverChildren(children)])]);
@@ -26941,7 +26922,7 @@ var InlineContent = defineComponent({
       props,
       isExpanded
     } = inject(menuSubToken);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-inline`]: true
@@ -26958,35 +26939,37 @@ var InlineContent = defineComponent({
     };
   }
 });
-var __defProp$i = Object.defineProperty;
-var __defProps$e = Object.defineProperties;
-var __getOwnPropDescs$e = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$j = Object.getOwnPropertySymbols;
-var __hasOwnProp$j = Object.prototype.hasOwnProperty;
-var __propIsEnum$j = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$i = (obj, key, value) => key in obj ? __defProp$i(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$i = (a, b) => {
+var __defProp$k = Object.defineProperty;
+var __defProps$g = Object.defineProperties;
+var __getOwnPropDescs$g = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$m = Object.getOwnPropertySymbols;
+var __hasOwnProp$m = Object.prototype.hasOwnProperty;
+var __propIsEnum$m = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$k = (obj, key, value) => key in obj ? __defProp$k(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$k = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$j.call(b, prop))
-      __defNormalProp$i(a, prop, b[prop]);
-  if (__getOwnPropSymbols$j)
-    for (var prop of __getOwnPropSymbols$j(b)) {
-      if (__propIsEnum$j.call(b, prop))
-        __defNormalProp$i(a, prop, b[prop]);
+    if (__hasOwnProp$m.call(b, prop))
+      __defNormalProp$k(a, prop, b[prop]);
+  if (__getOwnPropSymbols$m)
+    for (var prop of __getOwnPropSymbols$m(b)) {
+      if (__propIsEnum$m.call(b, prop))
+        __defNormalProp$k(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$e = (a, b) => __defProps$e(a, __getOwnPropDescs$e(b));
+var __spreadProps$g = (a, b) => __defProps$g(a, __getOwnPropDescs$g(b));
 var Label = defineComponent({
   name: "MenuSubLabel",
   setup() {
     const {
       slots: menuSlots,
       config,
-      mergedPrefixCls
+      mergedPrefixCls,
+      handleClick
     } = inject(menuToken);
     const {
       props,
+      key,
       isExpanded,
       isSelected,
       changeExpanded,
@@ -26994,32 +26977,36 @@ var Label = defineComponent({
       mode,
       paddingLeft
     } = inject(menuSubToken);
-    const suffix = computed(() => {
+    const suffix = computed$1(() => {
       var _a;
       return (_a = props.data.suffix) != null ? _a : config.suffix;
     });
-    const rotate = computed(() => {
+    const rotate = computed$1(() => {
       if (mode.value === "inline") {
         return isExpanded.value ? -90 : 90;
       }
       return 0;
     });
-    const events = computed(() => {
+    const events = computed$1(() => {
       if (props.data.disabled) {
         return void 0;
       }
       if (mode.value === "inline") {
         return {
-          onClick: () => changeExpanded(!isExpanded.value)
+          onClick: (evt) => {
+            handleClick(key, "sub", evt);
+            changeExpanded(!isExpanded.value);
+          }
         };
       } else {
         return {
+          onClick: (evt) => handleClick(key, "sub", evt),
           onMouseenter: () => handleMouseEvent(true),
           onMouseleave: () => handleMouseEvent(false)
         };
       }
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       return {
         paddingLeft: paddingLeft.value
       };
@@ -27043,7 +27030,7 @@ var Label = defineComponent({
       const labelSlot = isString(labelRender) ? menuSlots[labelRender] : labelRender;
       const suffixRender = (_c = customSuffix != null ? customSuffix : slots.suffix) != null ? _c : "subSuffix";
       const suffixSlot = isString(suffixRender) ? menuSlots[suffixRender] : suffixRender;
-      const slotProps = iconSlot || labelSlot || suffixSlot ? __spreadProps$e(__spreadValues$i({}, props.data), {
+      const slotProps = iconSlot || labelSlot || suffixSlot ? __spreadProps$g(__spreadValues$k({}, props.data), {
         expanded: isExpanded.value,
         selected: isSelected.value
       }) : void 0;
@@ -27072,7 +27059,7 @@ var OverlayContent = defineComponent({
       handleMouseEvent
     } = inject(menuSubToken);
     const dropdownContext = inject(dropdownToken, null);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -27081,7 +27068,7 @@ var OverlayContent = defineComponent({
         [`${prefixCls}-${theme.value}`]: true
       });
     });
-    const events = computed(() => {
+    const events = computed$1(() => {
       if (props.data.disabled) {
         return void 0;
       }
@@ -27101,29 +27088,27 @@ var MenuSub = defineComponent({
   props: menuSubProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedTransitionName = computed(() => `${common.prefixCls}-fade`);
+    const mergedTransitionName = computed$1(() => `${common.prefixCls}-fade`);
     const {
       props: menuProps2,
       config,
       mergedPrefixCls,
       indent,
-      mode: menuMode,
       selectedKeys,
       expandedKeys,
-      handleExpand,
-      handleClick
+      handleExpand
     } = inject(menuToken);
     const menuSubContext = inject(menuSubToken, null);
     const menuItemGroupContext = inject(menuItemGroupToken, false);
     const key = useKey();
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = menuProps2.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
     });
-    const mode = useMode(menuMode, menuSubContext);
+    const mode = useMode(menuProps2, menuSubContext);
     const level = menuSubContext ? menuSubContext.level + 1 : 1;
-    const paddingLeft = usePaddingLeft(mode, indent, level, menuItemGroupContext);
-    const isSelected = computed(() => getState(props.data.children, selectedKeys.value));
+    const paddingLeft = usePaddingLeft(menuProps2, mode, indent, level, menuItemGroupContext);
+    const isSelected = computed$1(() => getState(props.data.children, selectedKeys.value));
     const {
       isExpanded,
       changeExpanded,
@@ -27136,6 +27121,7 @@ var MenuSub = defineComponent({
     };
     provide(menuSubToken, {
       props,
+      key,
       isExpanded,
       isSelected,
       mode,
@@ -27145,8 +27131,8 @@ var MenuSub = defineComponent({
       handleMouseEvent,
       handleItemClick
     });
-    const placement = computed(() => mode.value === "vertical" ? "rightStart" : "bottomStart");
-    const classes = computed(() => {
+    const placement = computed$1(() => mode.value === "vertical" ? "rightStart" : "bottomStart");
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-sub`;
       return normalizeClass({
         [prefixCls]: true,
@@ -27156,7 +27142,7 @@ var MenuSub = defineComponent({
         [`${prefixCls}-${mode.value}`]: true
       });
     });
-    const overlayClasses = computed(() => {
+    const overlayClasses = computed$1(() => {
       const {
         overlayClassName
       } = menuProps2;
@@ -27165,14 +27151,10 @@ var MenuSub = defineComponent({
         [overlayClassName || ""]: !!overlayClassName
       });
     });
-    const offset = computed(() => {
+    const offset = computed$1(() => {
       var _a;
       return (_a = props.data.offset) != null ? _a : config.offset;
     });
-    const onClick = (evt) => {
-      evt.stopPropagation();
-      handleClick(key, "sub", evt);
-    };
     return () => {
       const {
         additional,
@@ -27203,31 +27185,28 @@ var MenuSub = defineComponent({
       }
       return createVNode("li", mergeProps({
         "class": classes.value
-      }, additional, {
-        "onClick": disabled ? void 0 : onClick
-      }), [children]);
+      }, additional), [children]);
     };
   }
 });
-function useMode(menuMode, menuSubContext) {
-  const currMode = menuMode.value;
-  const defaultMode = currMode !== "inline" && !!menuSubContext ? "vertical" : currMode;
+function useMode(menuProps2, menuSubContext) {
+  const defaultMode = menuProps2.mode !== "inline" && !!menuSubContext ? "vertical" : menuProps2.mode;
   const [mode, setMode] = useState$1(defaultMode);
-  watch(menuMode, (mode2) => {
+  watch(() => menuProps2.mode, (mode2) => {
     nextTick(() => setMode(mode2 !== "inline" && !!menuSubContext ? "vertical" : mode2));
   });
   return mode;
 }
 function useExpanded(props, key, expandedKeys, handleExpand, mode) {
   const isHover = ref(false);
-  const isExpanded = computed(() => {
+  const isExpanded = computed$1(() => {
     if (mode.value === "inline") {
       return expandedKeys.value.includes(key);
     }
     return isHover.value && expandedKeys.value.includes(key) || childExpanded.value;
   });
   const changeExpanded = (expanded) => handleExpand(key, expanded);
-  const childExpanded = computed(() => getState(props.data.children, expandedKeys.value));
+  const childExpanded = computed$1(() => getState(props.data.children, expandedKeys.value));
   const handleMouseEvent = debounce$1((value) => isHover.value = value, 100);
   watch([mode, childExpanded, isHover], ([currMode, currChildExpanded, currIsHover]) => {
     if (currMode !== "inline") {
@@ -27298,20 +27277,14 @@ var Menu = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-menu`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-menu`);
     const config = useGlobalConfig$1("menu");
-    const indent = computed(() => {
+    const indent = computed$1(() => {
       var _a;
       return (_a = props.indent) != null ? _a : config.indent;
     });
-    const mode = computed(() => {
-      const {
-        collapsed,
-        mode: mode2
-      } = props;
-      return collapsed && mode2 !== "horizontal" ? "vertical" : mode2;
-    });
-    const theme = computed(() => {
+    const mode = computed$1(() => props.mode);
+    const theme = computed$1(() => {
       var _a;
       return (_a = props.theme) != null ? _a : config.theme;
     });
@@ -27337,7 +27310,6 @@ var Menu = defineComponent({
       config,
       mergedPrefixCls,
       indent,
-      mode,
       theme,
       expandedKeys,
       handleExpand,
@@ -27345,7 +27317,7 @@ var Menu = defineComponent({
       handleSelected,
       handleClick
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -27390,13 +27362,13 @@ var Message = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-message`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-message`);
     const config = useGlobalConfig$1("message");
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return [prefixCls, `${prefixCls}-${props.type}`];
     });
-    const mergedIcon = computed(() => {
+    const mergedIcon = computed$1(() => {
       const {
         icon,
         type
@@ -27430,15 +27402,15 @@ var Message = defineComponent({
   }
 });
 const useEvents$3 = (props, config) => {
-  const duration = computed(() => {
+  const duration = computed$1(() => {
     var _a;
     return (_a = props.duration) != null ? _a : config.duration;
   });
-  const destroyOnHover = computed(() => {
+  const destroyOnHover = computed$1(() => {
     var _a;
     return (_a = props.destroyOnHover) != null ? _a : config.destroyOnHover;
   });
-  const autoClose = computed(() => duration.value > 0);
+  const autoClose = computed$1(() => duration.value > 0);
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   let timer = null;
   const startTimer = () => {
@@ -27481,33 +27453,33 @@ const useEvents$3 = (props, config) => {
   };
 };
 const messageProviderToken = Symbol("messageProviderToken");
-var __defProp$h = Object.defineProperty;
-var __defProps$d = Object.defineProperties;
-var __getOwnPropDescs$d = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$i = Object.getOwnPropertySymbols;
-var __hasOwnProp$i = Object.prototype.hasOwnProperty;
-var __propIsEnum$i = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$h = (obj, key, value) => key in obj ? __defProp$h(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$h = (a, b) => {
+var __defProp$j = Object.defineProperty;
+var __defProps$f = Object.defineProperties;
+var __getOwnPropDescs$f = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$l = Object.getOwnPropertySymbols;
+var __hasOwnProp$l = Object.prototype.hasOwnProperty;
+var __propIsEnum$l = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$j = (obj, key, value) => key in obj ? __defProp$j(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$j = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$i.call(b, prop))
-      __defNormalProp$h(a, prop, b[prop]);
-  if (__getOwnPropSymbols$i)
-    for (var prop of __getOwnPropSymbols$i(b)) {
-      if (__propIsEnum$i.call(b, prop))
-        __defNormalProp$h(a, prop, b[prop]);
+    if (__hasOwnProp$l.call(b, prop))
+      __defNormalProp$j(a, prop, b[prop]);
+  if (__getOwnPropSymbols$l)
+    for (var prop of __getOwnPropSymbols$l(b)) {
+      if (__propIsEnum$l.call(b, prop))
+        __defNormalProp$j(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$d = (a, b) => __defProps$d(a, __getOwnPropDescs$d(b));
+var __spreadProps$f = (a, b) => __defProps$f(a, __getOwnPropDescs$f(b));
 var __objRest$8 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$i.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$l.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$i)
-    for (var prop of __getOwnPropSymbols$i(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$i.call(source, prop))
+  if (source != null && __getOwnPropSymbols$l)
+    for (var prop of __getOwnPropSymbols$l(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$l.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -27522,15 +27494,15 @@ var MessageProvider = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-message`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-message`);
     const config = useGlobalConfig$1("message");
-    const style = computed(() => {
+    const style = computed$1(() => {
       var _a;
       return {
         top: convertCssPixel((_a = props.top) != null ? _a : config.top)
       };
     });
-    const maxCount = computed(() => {
+    const maxCount = computed$1(() => {
       var _a;
       return (_a = props.maxCount) != null ? _a : config.maxCount;
     });
@@ -27560,7 +27532,7 @@ var MessageProvider = defineComponent({
     };
     provide(messageProviderToken, apis);
     expose(apis);
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -27621,7 +27593,7 @@ const useMessage$1 = (maxCount) => {
       messages.value = messages.value.slice(-maxCount.value + 1);
     }
     const key = (_a = item.key) != null ? _a : uniqueId("ix-message");
-    messages.value.push(__spreadProps$d(__spreadValues$h({}, item), {
+    messages.value.push(__spreadProps$f(__spreadValues$j({}, item), {
       key
     }));
     return key;
@@ -27629,7 +27601,7 @@ const useMessage$1 = (maxCount) => {
   const update = (key, item) => {
     const currIndex = getCurrIndex(key);
     if (currIndex !== -1) {
-      const newItem = __spreadValues$h(__spreadValues$h({}, messages.value[currIndex]), item);
+      const newItem = __spreadValues$j(__spreadValues$j({}, messages.value[currIndex]), item);
       messages.value.splice(currIndex, 1, newItem);
     }
   };
@@ -27661,7 +27633,7 @@ const useMessage$1 = (maxCount) => {
   };
   const messageTypes = ["info", "success", "warning", "error", "loading"];
   const [info, success, warning, error, loading] = messageTypes.map((type) => {
-    return (content, options) => open(__spreadProps$d(__spreadValues$h({}, options), {
+    return (content, options) => open(__spreadProps$f(__spreadValues$j({}, options), {
       content,
       type
     }));
@@ -27702,8 +27674,8 @@ var ModalBody = defineComponent({
       config,
       mergedPrefixCls
     } = inject(modalToken);
-    const isDefault = computed(() => props.type === "default");
-    const iconName = computed(() => {
+    const isDefault = computed$1(() => props.type === "default");
+    const iconName = computed$1(() => {
       var _a, _b;
       const {
         icon,
@@ -27755,19 +27727,19 @@ const renderTitle = (prefixCls, titleSlot, title) => {
     "class": `${prefixCls}-title`
   }, [children]);
 };
-var __defProp$1$6 = Object.defineProperty;
-var __getOwnPropSymbols$1$9 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$9 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$9 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$6 = (obj, key, value) => key in obj ? __defProp$1$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$6 = (a, b) => {
+var __defProp$1$9 = Object.defineProperty;
+var __getOwnPropSymbols$1$b = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$b = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$b = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$9 = (obj, key, value) => key in obj ? __defProp$1$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$9 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$9.call(b, prop))
-      __defNormalProp$1$6(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$9)
-    for (var prop of __getOwnPropSymbols$1$9(b)) {
-      if (__propIsEnum$1$9.call(b, prop))
-        __defNormalProp$1$6(a, prop, b[prop]);
+    if (__hasOwnProp$1$b.call(b, prop))
+      __defNormalProp$1$9(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$b)
+    for (var prop of __getOwnPropSymbols$1$b(b)) {
+      if (__propIsEnum$1$b.call(b, prop))
+        __defNormalProp$1$9(a, prop, b[prop]);
     }
   return a;
 };
@@ -27780,6 +27752,7 @@ var ModalWrapper = defineComponent({
       props,
       slots,
       common,
+      locale,
       config,
       mergedPrefixCls,
       visible,
@@ -27803,26 +27776,25 @@ var ModalWrapper = defineComponent({
       maskClosable,
       zIndex
     } = useConfig(props, config);
-    const locale = getLocale("modal");
-    const cancelVisible = computed(() => props.type === "default" || props.type === "confirm");
-    const cancelText = computed(() => {
+    const cancelVisible = computed$1(() => props.type === "default" || props.type === "confirm");
+    const cancelText = computed$1(() => {
       var _a;
-      return (_a = props.cancelText) != null ? _a : locale.value.cancelText;
+      return (_a = props.cancelText) != null ? _a : locale.modal.cancelText;
     });
-    const okText = computed(() => {
+    const okText = computed$1(() => {
       if (props.okText) {
         return props.okText;
       }
-      return cancelVisible.value ? locale.value.okText : locale.value.justOkText;
+      return cancelVisible.value ? locale.modal.okText : locale.modal.justOkText;
     });
-    const placementStyle = computed(() => {
+    const placementStyle = computed$1(() => {
       const top = centered.value ? 0 : convertCssPixel(props.offset);
       return {
         top,
         width: width.value
       };
     });
-    const wrapperClasses = computed(() => {
+    const wrapperClasses = computed$1(() => {
       const {
         wrapperClassName = ""
       } = props;
@@ -27834,14 +27806,14 @@ var ModalWrapper = defineComponent({
         [wrapperClassName]: !!wrapperClassName
       };
     });
-    const wrapperStyle = computed(() => {
+    const wrapperStyle = computed$1(() => {
       return {
         zIndex: zIndex.value
       };
     });
     const modalTransformOrigin = ref();
-    const contentStyle = computed(() => {
-      return __spreadValues$1$6({
+    const contentStyle = computed$1(() => {
+      return __spreadValues$1$9({
         transformOrigin: modalTransformOrigin.value
       }, placementStyle.value);
     });
@@ -27919,35 +27891,35 @@ var ModalWrapper = defineComponent({
   }
 });
 function useConfig(props, config) {
-  const centered = computed(() => {
+  const centered = computed$1(() => {
     var _a;
     return (_a = props.centered) != null ? _a : config.centered;
   });
-  const closable = computed(() => {
+  const closable = computed$1(() => {
     var _a;
     return (_a = props.closable) != null ? _a : config.closable;
   });
-  const closeIcon = computed(() => {
+  const closeIcon = computed$1(() => {
     var _a;
     return (_a = props.closeIcon) != null ? _a : config.closeIcon;
   });
-  const closeOnEsc = computed(() => {
+  const closeOnEsc = computed$1(() => {
     var _a;
     return (_a = props.closeOnEsc) != null ? _a : config.closeOnEsc;
   });
-  const mask = computed(() => {
+  const mask = computed$1(() => {
     var _a;
     return (_a = props.mask) != null ? _a : config.mask;
   });
-  const maskClosable = computed(() => {
+  const maskClosable = computed$1(() => {
     var _a;
     return (_a = props.maskClosable) != null ? _a : config.maskClosable;
   });
-  const width = computed(() => {
+  const width = computed$1(() => {
     var _a;
     return convertCssPixel((_a = props.width) != null ? _a : config.width);
   });
-  const zIndex = computed(() => {
+  const zIndex = computed$1(() => {
     var _a;
     return (_a = props.zIndex) != null ? _a : config.zIndex;
   });
@@ -28060,7 +28032,7 @@ function useEvents$2(props, wrapperRef, modalRef, animatedVisible, modalTransfor
     animatedVisible.value = true;
   };
   const onAfterLeave = () => {
-    if (lastOutSideActiveElement && isFunction(lastOutSideActiveElement.focus)) {
+    if (lastOutSideActiveElement && isFunction$1(lastOutSideActiveElement.focus)) {
       const wrapperElement = wrapperRef.value;
       const activeElement = document.activeElement;
       if (!activeElement || activeElement === document.body || activeElement === wrapperElement || wrapperElement.contains(activeElement)) {
@@ -28139,13 +28111,14 @@ var Modal = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-modal`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-modal`);
+    const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("modal");
-    const mask = computed(() => {
+    const mask = computed$1(() => {
       var _a;
       return (_a = props.mask) != null ? _a : config.mask;
     });
-    const zIndex = computed(() => {
+    const zIndex = computed$1(() => {
       var _a;
       return (_a = props.zIndex) != null ? _a : config.zIndex;
     });
@@ -28167,6 +28140,7 @@ var Modal = defineComponent({
       props,
       slots,
       common,
+      locale,
       config,
       mergedPrefixCls,
       visible,
@@ -28184,7 +28158,7 @@ var Modal = defineComponent({
     provide(MODAL_TOKEN, apis);
     expose(apis);
     useScrollStrategy(props, mask, mergedVisible);
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -28209,7 +28183,7 @@ var Modal = defineComponent({
 function useVisible$1(props) {
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   const animatedVisible = ref();
-  const mergedVisible = computed(() => {
+  const mergedVisible = computed$1(() => {
     const currVisible = visible.value;
     const currAnimatedVisible = animatedVisible.value;
     if (currAnimatedVisible === void 0 || currVisible) {
@@ -28288,33 +28262,33 @@ function useTrigger$1(props, setVisible) {
     ok
   };
 }
-var __defProp$g = Object.defineProperty;
-var __defProps$c = Object.defineProperties;
-var __getOwnPropDescs$c = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$h = Object.getOwnPropertySymbols;
-var __hasOwnProp$h = Object.prototype.hasOwnProperty;
-var __propIsEnum$h = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$g = (obj, key, value) => key in obj ? __defProp$g(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$g = (a, b) => {
+var __defProp$i = Object.defineProperty;
+var __defProps$e = Object.defineProperties;
+var __getOwnPropDescs$e = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$k = Object.getOwnPropertySymbols;
+var __hasOwnProp$k = Object.prototype.hasOwnProperty;
+var __propIsEnum$k = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$i = (obj, key, value) => key in obj ? __defProp$i(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$i = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$h.call(b, prop))
-      __defNormalProp$g(a, prop, b[prop]);
-  if (__getOwnPropSymbols$h)
-    for (var prop of __getOwnPropSymbols$h(b)) {
-      if (__propIsEnum$h.call(b, prop))
-        __defNormalProp$g(a, prop, b[prop]);
+    if (__hasOwnProp$k.call(b, prop))
+      __defNormalProp$i(a, prop, b[prop]);
+  if (__getOwnPropSymbols$k)
+    for (var prop of __getOwnPropSymbols$k(b)) {
+      if (__propIsEnum$k.call(b, prop))
+        __defNormalProp$i(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$c = (a, b) => __defProps$c(a, __getOwnPropDescs$c(b));
+var __spreadProps$e = (a, b) => __defProps$e(a, __getOwnPropDescs$e(b));
 var __objRest$7 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$h.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$k.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$h)
-    for (var prop of __getOwnPropSymbols$h(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$h.call(source, prop))
+  if (source != null && __getOwnPropSymbols$k)
+    for (var prop of __getOwnPropSymbols$k(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$k.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -28433,7 +28407,7 @@ function useModal$1() {
     const currIndex = getCurrIndex(key);
     if (currIndex !== -1) {
       const tempModals = [...modals.value];
-      const newItem = __spreadValues$g(__spreadValues$g({}, modals.value[currIndex]), item);
+      const newItem = __spreadValues$i(__spreadValues$i({}, modals.value[currIndex]), item);
       tempModals.splice(currIndex, 1, newItem);
       modals.value = tempModals;
     }
@@ -28465,7 +28439,7 @@ function useModal$1() {
   };
   const modalTypes = ["confirm", "info", "success", "warning", "error"];
   const [confirm, info, success, warning, error] = modalTypes.map((type) => {
-    return (options) => open(__spreadProps$c(__spreadValues$g({}, options), {
+    return (options) => open(__spreadProps$e(__spreadValues$i({}, options), {
       type
     }));
   });
@@ -28510,13 +28484,13 @@ var Space = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-space`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-space`);
     const config = useGlobalConfig$1("space");
-    const wrap = computed(() => {
+    const wrap = computed$1(() => {
       var _a;
       return (_a = props.wrap) != null ? _a : config.wrap;
     });
-    const vertical = computed(() => {
+    const vertical = computed$1(() => {
       const {
         direction,
         vertical: vertical2
@@ -28527,14 +28501,14 @@ var Space = defineComponent({
       }
       return vertical2;
     });
-    const mergedGaps = computed(() => {
+    const mergedGaps = computed$1(() => {
       const {
         size = config.size
       } = props;
       const sizes = Array.isArray(size) ? size : [size, size];
       return sizes.map((size2) => defaultSizeMap[size2] || convertCssPixel(size2));
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         align,
         justify,
@@ -28550,7 +28524,7 @@ var Space = defineComponent({
         [`${prefixCls}-nowrap`]: !wrap.value
       });
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       const [rowGap, columnGap] = mergedGaps.value;
       if (flexGapSupported) {
         return `gap: ${rowGap} ${columnGap}`;
@@ -28566,11 +28540,11 @@ var Space = defineComponent({
       }
       const prefixCls = mergedPrefixCls.value;
       const children = [];
-      let separatorNode = covertStringVNode(slots, props, "split");
+      let separatorNode = convertStringVNode(slots, props, "split");
       if (separatorNode) {
         process.env.NODE_ENV !== "production" && Logger.warn("components/space", "`split` was deprecated, please use `separator` instead");
       } else {
-        separatorNode = covertStringVNode(slots, props, "separator");
+        separatorNode = convertStringVNode(slots, props, "separator");
       }
       const lastIndex = nodes.length - 1;
       nodes.forEach((node, index) => {
@@ -28642,30 +28616,30 @@ const notificationProviderProps = {
   maxCount: IxPropTypes.number,
   target: portalTargetDef
 };
-var __defProp$1$5 = Object.defineProperty;
-var __getOwnPropSymbols$1$8 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$8 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$8 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$5 = (obj, key, value) => key in obj ? __defProp$1$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$5 = (a, b) => {
+var __defProp$1$8 = Object.defineProperty;
+var __getOwnPropSymbols$1$a = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$a = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$a = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$8 = (obj, key, value) => key in obj ? __defProp$1$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$8 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$8.call(b, prop))
-      __defNormalProp$1$5(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$8)
-    for (var prop of __getOwnPropSymbols$1$8(b)) {
-      if (__propIsEnum$1$8.call(b, prop))
-        __defNormalProp$1$5(a, prop, b[prop]);
+    if (__hasOwnProp$1$a.call(b, prop))
+      __defNormalProp$1$8(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$a)
+    for (var prop of __getOwnPropSymbols$1$a(b)) {
+      if (__propIsEnum$1$a.call(b, prop))
+        __defNormalProp$1$8(a, prop, b[prop]);
     }
   return a;
 };
 var __objRest$6 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$1$8.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$1$a.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$1$8)
-    for (var prop of __getOwnPropSymbols$1$8(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$8.call(source, prop))
+  if (source != null && __getOwnPropSymbols$1$a)
+    for (var prop of __getOwnPropSymbols$1$a(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$a.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -28684,9 +28658,9 @@ var Notification = defineComponent({
     slots
   }) {
     const commonCfg = useGlobalConfig$1("common");
-    const comPrefix = computed(() => `${commonCfg.prefixCls}-notification`);
+    const comPrefix = computed$1(() => `${commonCfg.prefixCls}-notification`);
     const config = useGlobalConfig$1("notification");
-    const wrapCls = useClasses$3(props, comPrefix);
+    const wrapCls = useClasses$1(props, comPrefix);
     const icon = useIcon$2(props, config);
     const closeIcon = useCloseIcon(props, config);
     const {
@@ -28722,34 +28696,34 @@ var Notification = defineComponent({
     };
   }
 });
-function useClasses$3(props, comPrefix) {
-  return computed(() => [comPrefix.value, {
+function useClasses$1(props, comPrefix) {
+  return computed$1(() => [comPrefix.value, {
     [`${comPrefix.value}-${props.type}`]: props.type
   }]);
 }
 function useIcon$2(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
-    const iconMap = __spreadValues$1$5(__spreadValues$1$5({}, defaultIcon), config.icon);
+    const iconMap = __spreadValues$1$8(__spreadValues$1$8({}, defaultIcon), config.icon);
     return (_a = props.icon) != null ? _a : props.type && iconMap[props.type];
   });
 }
 function useCloseIcon(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b;
     return (_b = (_a = props.closeIcon) != null ? _a : config.closeIcon) != null ? _b : defaultCloseIcon;
   });
 }
 function useVisible(props, config) {
-  const duration = computed(() => {
+  const duration = computed$1(() => {
     var _a;
     return (_a = props.duration) != null ? _a : config.duration;
   });
-  const destroyOnHover = computed(() => {
+  const destroyOnHover = computed$1(() => {
     var _a;
     return (_a = props.destroyOnHover) != null ? _a : config.destroyOnHover;
   });
-  const autoClose = computed(() => duration.value > 0);
+  const autoClose = computed$1(() => duration.value > 0);
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   let timer = null;
   const startTimer = () => {
@@ -28815,7 +28789,7 @@ function getFooterNode(footer) {
   if (!footer) {
     return "";
   }
-  if (!isArray$1(footer)) {
+  if (!isArray$2(footer)) {
     return footer;
   }
   const footerButtons = footer.map((item) => {
@@ -28833,25 +28807,25 @@ function getFooterNode(footer) {
   });
 }
 const notificationProviderToken = Symbol("notificationProviderToken");
-var __defProp$f = Object.defineProperty;
-var __defProps$b = Object.defineProperties;
-var __getOwnPropDescs$b = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$g = Object.getOwnPropertySymbols;
-var __hasOwnProp$g = Object.prototype.hasOwnProperty;
-var __propIsEnum$g = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$f = (obj, key, value) => key in obj ? __defProp$f(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$f = (a, b) => {
+var __defProp$h = Object.defineProperty;
+var __defProps$d = Object.defineProperties;
+var __getOwnPropDescs$d = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$j = Object.getOwnPropertySymbols;
+var __hasOwnProp$j = Object.prototype.hasOwnProperty;
+var __propIsEnum$j = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$h = (obj, key, value) => key in obj ? __defProp$h(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$h = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$g.call(b, prop))
-      __defNormalProp$f(a, prop, b[prop]);
-  if (__getOwnPropSymbols$g)
-    for (var prop of __getOwnPropSymbols$g(b)) {
-      if (__propIsEnum$g.call(b, prop))
-        __defNormalProp$f(a, prop, b[prop]);
+    if (__hasOwnProp$j.call(b, prop))
+      __defNormalProp$h(a, prop, b[prop]);
+  if (__getOwnPropSymbols$j)
+    for (var prop of __getOwnPropSymbols$j(b)) {
+      if (__propIsEnum$j.call(b, prop))
+        __defNormalProp$h(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$b = (a, b) => __defProps$b(a, __getOwnPropDescs$b(b));
+var __spreadProps$d = (a, b) => __defProps$d(a, __getOwnPropDescs$d(b));
 const groupPositions = {
   topStart: ["top", "left"],
   topEnd: ["top", "right"],
@@ -28867,9 +28841,9 @@ var NotificationProvider = defineComponent({
     expose
   }) {
     const commonCfg = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${commonCfg.prefixCls}-notification`);
+    const mergedPrefixCls = computed$1(() => `${commonCfg.prefixCls}-notification`);
     const config = useGlobalConfig$1("notification");
-    const maxCount = computed(() => {
+    const maxCount = computed$1(() => {
       var _a;
       return (_a = props.maxCount) != null ? _a : config.maxCount;
     });
@@ -28898,7 +28872,7 @@ var NotificationProvider = defineComponent({
     const placementNotifications = usePlacementNotifications(props, config, notifications);
     provide(notificationProviderToken, apis);
     expose(apis);
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -28943,7 +28917,7 @@ var NotificationProvider = defineComponent({
   }
 });
 function usePlacementNotifications(props, config, notifications) {
-  return computed(() => {
+  return computed$1(() => {
     const initValue = getPlacementInitValue(() => []);
     const {
       destroyOnHover,
@@ -28955,7 +28929,7 @@ function usePlacementNotifications(props, config, notifications) {
       return initValue;
     }
     return notifications.value.reduce((acc, item) => {
-      const notificationProps2 = getRealObj(__spreadValues$f({
+      const notificationProps2 = getRealObj(__spreadValues$h({
         destroyOnHover,
         duration,
         closeIcon,
@@ -28983,7 +28957,7 @@ function useNotification$1(maxCount) {
       notifications.value = notifications.value.slice(-maxCount.value + 1);
     }
     const key = (_a = item.key) != null ? _a : uniqueId("ix-notification");
-    notifications.value.push(__spreadProps$b(__spreadValues$f({}, item), {
+    notifications.value.push(__spreadProps$d(__spreadValues$h({}, item), {
       key
     }));
     return key;
@@ -28991,7 +28965,7 @@ function useNotification$1(maxCount) {
   const update = (key, item) => {
     const currIndex = getCurrIndex(key);
     if (currIndex !== -1) {
-      const newItem = __spreadValues$f(__spreadValues$f({}, notifications.value[currIndex]), item);
+      const newItem = __spreadValues$h(__spreadValues$h({}, notifications.value[currIndex]), item);
       notifications.value.splice(currIndex, 1, newItem);
     }
   };
@@ -29021,7 +28995,7 @@ function useNotification$1(maxCount) {
     }
     return ref2;
   };
-  const [info, success, warning, error] = notificationType.map((type) => (options) => open(__spreadProps$b(__spreadValues$f({}, options), {
+  const [info, success, warning, error] = notificationType.map((type) => (options) => open(__spreadProps$d(__spreadValues$h({}, options), {
     type
   })));
   return {
@@ -29044,7 +29018,7 @@ function getGroupPosition(props, config, placement) {
   return getPosition(realOffset, realPlacement);
 }
 function getPosition(offset, placement) {
-  const offsets = isArray$1(offset) ? offset : [offset, offset];
+  const offsets = isArray$2(offset) ? offset : [offset, offset];
   const [verticalOffset, horizontalOffset] = offsets.map(convertCssPixel);
   const [verticalPosition, horizontalPosition] = groupPositions[placement];
   return {
@@ -29068,7 +29042,7 @@ function getRealObj(obj) {
 function getPlacementInitValue(initValueFn) {
   return notificationPlacement.reduce((acc, item) => {
     const cloneValue = initValueFn();
-    return __spreadProps$b(__spreadValues$f({}, acc), {
+    return __spreadProps$d(__spreadValues$h({}, acc), {
       [item]: cloneValue
     });
   }, {});
@@ -29092,25 +29066,226 @@ const Empty = (props, {
 };
 const \u0275Empty = Empty;
 
+const overflowItemProps = {
+  prefixCls: IxPropTypes.string.isRequired,
+  display: IxPropTypes.bool.def(true),
+  itemKey: vKeyPropDef.isRequired,
+  data: IxPropTypes.object(),
+  onSizeChange: IxPropTypes.func()
+};
+const overflowProps = {
+  maxLabel: IxPropTypes.oneOfType([IxPropTypes.number, IxPropTypes.oneOf(["responsive"])]).def(Number.MAX_SAFE_INTEGER),
+  getKey: IxPropTypes.func().isRequired,
+  prefixCls: IxPropTypes.string.isRequired,
+  dataSource: IxPropTypes.array().def(() => [])
+};
+var Item$3 = defineComponent({
+  name: "IxOverflowItem",
+  props: overflowItemProps,
+  setup(props, {
+    slots
+  }) {
+    const itemElRef = ref();
+    const handleResize = (entry) => {
+      var _a;
+      return callEmit(props.onSizeChange, entry.target, (_a = props.itemKey) != null ? _a : "");
+    };
+    onMounted(() => onResize(itemElRef.value, handleResize));
+    onBeforeUnmount(() => {
+      offResize(itemElRef.value, handleResize);
+    });
+    return () => {
+      var _a;
+      return withDirectives(createVNode("div", {
+        "class": `${props.prefixCls}-item`,
+        "ref": itemElRef
+      }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]), [[vShow, props.display]]);
+    };
+  }
+});
+const restNodeKey = "__IDUX_OVERFLOW_REST";
+const suffixNodeKey = "__IDUX_OVERFLOW_SUFFIX";
+const responsive = "responsive";
+var Overflow = defineComponent({
+  name: "IxOverflow",
+  props: overflowProps,
+  setup(props, {
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-overflow`);
+    const containerElRef = ref();
+    const {
+      containerWidth,
+      setContainerWidth
+    } = useContainerSize(containerElRef);
+    const {
+      itemsWidthMap,
+      setItemWidth
+    } = useItemSize();
+    const restWidth = ref(0);
+    const suffixWidth = ref(0);
+    const displayCount = ref(props.dataSource.length);
+    const isResposive = computed$1(() => props.maxLabel === responsive);
+    const restReady = ref(false);
+    const showRest = computed$1(() => isResposive.value || isNumber(props.maxLabel) && props.dataSource.length > props.maxLabel);
+    const mergedData = computed$1(() => {
+      if (!isResposive.value) {
+        return props.dataSource.slice(0, props.maxLabel);
+      }
+      return props.dataSource;
+    });
+    const restData = computed$1(() => props.dataSource.slice(displayCount.value));
+    const displayRest = computed$1(() => restReady.value && !!restData.value.length);
+    watch([itemsWidthMap, containerWidth, restWidth, suffixWidth, mergedData], () => {
+      var _a;
+      const len = props.dataSource.length;
+      const lastIndex = len - 1;
+      const data = (_a = props.dataSource) != null ? _a : [];
+      let totalWidth = 0;
+      if (!len) {
+        displayCount.value = 0;
+        return;
+      }
+      if (!isResposive.value) {
+        displayCount.value = Math.min(props.maxLabel, len);
+        restReady.value = true;
+        return;
+      }
+      for (let i = 0; i < len; i++) {
+        const getItemWidth = (index) => {
+          var _a2;
+          return (_a2 = itemsWidthMap.value.get(props.getKey(data[index]))) != null ? _a2 : 0;
+        };
+        const internalContainerWidth = containerWidth.value - suffixWidth.value;
+        const curItemWidth = getItemWidth(i);
+        if (!curItemWidth) {
+          displayCount.value = i + 1;
+          break;
+        }
+        restReady.value = true;
+        totalWidth += curItemWidth;
+        if (i === lastIndex && totalWidth <= internalContainerWidth) {
+          displayCount.value = i + 1;
+          break;
+        } else if (totalWidth + restWidth.value > internalContainerWidth) {
+          displayCount.value = i;
+          break;
+        }
+        displayCount.value = i + 1;
+      }
+    }, {
+      deep: true,
+      immediate: true,
+      flush: "post"
+    });
+    onMounted(() => {
+      onResize(containerElRef.value, setContainerWidth);
+    });
+    onBeforeUnmount(() => offResize(containerElRef.value, setContainerWidth));
+    const itemSharedProps = {
+      prefixCls: mergedPrefixCls.value
+    };
+    const internalRenderItem = (item, index) => {
+      var _a, _b;
+      if (!slots.item) {
+        throwError("components/_private/overflow", "item slot must be provided");
+      }
+      const nodeContent = (_b = (_a = slots.item) == null ? void 0 : _a.call(slots, item)) != null ? _b : "";
+      return createVNode(Item$3, mergeProps(itemSharedProps, {
+        "itemKey": props.getKey(item),
+        "display": index < displayCount.value,
+        "onSizeChange": (itemEl, key) => setItemWidth(key, itemEl)
+      }), {
+        default: () => [nodeContent]
+      });
+    };
+    const internalRenderRest = (rest) => {
+      var _a, _b;
+      const nodeContent = (_b = (_a = slots.rest) == null ? void 0 : _a.call(slots, rest)) != null ? _b : `+ ${rest.length} ...`;
+      return createVNode(Item$3, mergeProps(itemSharedProps, {
+        "class": `${mergedPrefixCls.value}-rest`,
+        "itemKey": restNodeKey,
+        "display": displayRest.value,
+        "onSizeChange": (itemEl) => {
+          var _a2;
+          return restWidth.value = (_a2 = itemEl.clientWidth) != null ? _a2 : 0;
+        }
+      }), {
+        default: () => [nodeContent]
+      });
+    };
+    const internalRenderSuffix = () => {
+      var _a, _b;
+      const nodeContent = (_b = (_a = slots.suffix) == null ? void 0 : _a.call(slots)) != null ? _b : null;
+      return nodeContent ? createVNode(Item$3, mergeProps(itemSharedProps, {
+        "class": `${mergedPrefixCls.value}-suffix`,
+        "itemKey": suffixNodeKey,
+        "onSizeChange": (itemEl) => {
+          var _a2;
+          return suffixWidth.value = (_a2 = itemEl.clientWidth) != null ? _a2 : 0;
+        }
+      }), {
+        default: () => [nodeContent]
+      }) : null;
+    };
+    return () => {
+      return createVNode("div", {
+        "class": `${mergedPrefixCls.value} ${props.prefixCls}-overflow`,
+        "ref": containerElRef
+      }, [mergedData.value.map(internalRenderItem), showRest.value && internalRenderRest(restData.value), internalRenderSuffix()]);
+    };
+  }
+});
+const useContainerSize = (containerElRef) => {
+  const containerWidth = ref(0);
+  const setContainerWidth = () => {
+    var _a, _b;
+    containerWidth.value = (_b = (_a = containerElRef.value) == null ? void 0 : _a.clientWidth) != null ? _b : 0;
+  };
+  return {
+    containerWidth,
+    setContainerWidth
+  };
+};
+const useItemSize = () => {
+  const itemsWidthMap = ref(/* @__PURE__ */ new Map());
+  const setItemWidth = (key, itemEl) => {
+    var _a;
+    if (!itemEl && itemsWidthMap.value.get(key)) {
+      itemsWidthMap.value.delete(key);
+    } else {
+      (itemEl == null ? void 0 : itemEl.clientWidth) && itemsWidthMap.value.set(key, (_a = itemEl == null ? void 0 : itemEl.clientWidth) != null ? _a : 0);
+    }
+  };
+  return {
+    itemsWidthMap,
+    setItemWidth
+  };
+};
+const \u0275Overflow = Overflow;
+
 function useActiveState(props, flattedOptions, selectedValue, inputValue, scrollTo) {
   const activeIndex = ref(0);
   onMounted(() => {
     watchEffect(() => {
-      const { compareWith, allowInput } = props;
+      var _a;
+      const allowInput = props.allowInput;
       const options = flattedOptions.value;
       let currIndex;
       if (allowInput && inputValue.value) {
         const searchValue = inputValue.value;
         currIndex = options.findIndex((option) => option.value === searchValue);
       } else {
+        const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
         const currValue = selectedValue.value;
-        currIndex = options.findIndex((option) => currValue.some((value) => compareWith(option.value, value)));
+        currIndex = options.findIndex((option) => currValue.some((value) => compareFn(option.value, value)));
       }
       currIndex = currIndex === -1 ? 0 : currIndex;
       activeIndex.value = getEnabledActiveIndex(options, currIndex, 1);
     });
   });
-  const activeOption = computed(() => flattedOptions.value[activeIndex.value]);
+  const activeOption = computed$1(() => flattedOptions.value[activeIndex.value]);
   const changeActive = (currIndex, offset) => {
     const enabledIndex = getEnabledActiveIndex(flattedOptions.value, currIndex, offset);
     if (enabledIndex !== activeIndex.value) {
@@ -29162,13 +29337,14 @@ function useInputState$1(props, inputRef, accessor) {
     callEmit(props.onCompositionStart, evt);
   };
   const handleCompositionEnd = (evt) => {
+    callEmit(props.onCompositionEnd, evt);
     if (isComposing.value) {
       isComposing.value = false;
+      handleInput(evt, false);
     }
-    callEmit(props.onCompositionEnd, evt);
   };
-  const handleInput = (evt) => {
-    callEmit(props.onInput, evt);
+  const handleInput = (evt, emitInput = true) => {
+    emitInput && callEmit(props.onInput, evt);
     if (isComposing.value) {
       return;
     }
@@ -29228,42 +29404,45 @@ function generateOption(value) {
   const rawOption = { label: value, value };
   return { key: keyPrefix + value, label: value, value, rawOption };
 }
-var __getOwnPropSymbols$2$4 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$4 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$4 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$2$6 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$6 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$6 = Object.prototype.propertyIsEnumerable;
 var __objRest$1$1 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$2$4.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$2$6.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$2$4)
-    for (var prop of __getOwnPropSymbols$2$4(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$4.call(source, prop))
+  if (source != null && __getOwnPropSymbols$2$6)
+    for (var prop of __getOwnPropSymbols$2$6(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$6.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
 };
 function useMergedOptions(props, slots, config) {
-  return computed(() => {
-    var _a;
-    const { options } = props;
-    if (options) {
-      return mergeOptions(props, config, options);
+  return computed$1(() => {
+    var _a, _b;
+    const dataSource = (_a = props.options) != null ? _a : props.dataSource;
+    if (dataSource) {
+      if (process.env.NODE_ENV !== "production" && props.options) {
+        Logger.warn("components/select", "`options` was deprecated, please use `dataSource` instead");
+      }
+      return mergeOptions(props, config, dataSource);
     } else {
-      return convertOptions((_a = slots.default) == null ? void 0 : _a.call(slots));
+      return convertOptions((_b = slots.default) == null ? void 0 : _b.call(slots));
     }
   });
 }
 function useFlattedOptions(props, mergedOptions, inputValue) {
   const searchFilter = useSearchFilter(props);
-  return computed(() => {
+  return computed$1(() => {
     const options = mergedOptions.value;
     const searchValue = inputValue.value;
     if (!searchValue) {
       return options;
     }
     const filter = searchFilter.value;
-    const filteredOptions = !filter ? options : options.filter((option) => filter(searchValue, option.rawOption));
+    const filteredOptions = !filter ? options : options.filter((option) => filter(option.rawOption, searchValue));
     const { allowInput } = props;
     if (allowInput) {
       const matchedOption = filteredOptions.find((option) => option.label === searchValue);
@@ -29287,7 +29466,7 @@ function mergeOptions(props, config, originalOptions) {
       mergedOptions.push(...children.map((option, index2) => {
         var _a;
         return {
-          key: (_a = option.key) != null ? _a : `${isSymbol(groupKey) ? String(groupKey) : groupKey}-${index2}`,
+          key: (_a = option.key) != null ? _a : `${isSymbol$1(groupKey) ? String(groupKey) : groupKey}-${index2}`,
           label: option[labelKey],
           value: option[valueKey],
           disabled: option.disabled,
@@ -29318,7 +29497,7 @@ function convertOptions(nodes, parentKey, grouped) {
       const _disabled = disabled || disabled === "";
       const rawOption = { key, disabled: _disabled, label, value, additional, customLabel: customLabel != null ? customLabel : customLabel2 };
       const option = {
-        key: key != null ? key : `${isSymbol(parentKey) ? String(parentKey) : parentKey}-${index}`,
+        key: key != null ? key : `${isSymbol$1(parentKey) ? String(parentKey) : parentKey}-${index}`,
         label,
         value,
         disabled: _disabled,
@@ -29338,26 +29517,30 @@ function convertOptions(nodes, parentKey, grouped) {
   });
   return mergedOptions;
 }
-const getDefaultFilter = (props) => {
-  return (searchValue, option) => {
+const getDefaultSearchFn = (props) => {
+  return (option, searchValue) => {
     var _a, _b, _c;
     const filterField = (_a = props.labelKey) != null ? _a : "label";
     return (_c = (_b = option[filterField]) == null ? void 0 : _b.toLowerCase().includes(searchValue.toLowerCase())) != null ? _c : false;
   };
 };
 function useSearchFilter(props) {
-  return computed(() => {
-    const { searchFilter } = props;
-    if (isFunction(searchFilter)) {
-      return searchFilter;
+  return computed$1(() => {
+    var _a;
+    const searchFn = (_a = props.searchFilter) != null ? _a : props.searchFn;
+    if (isFunction$1(searchFn)) {
+      if (process.env.NODE_ENV !== "production" && props.searchFilter) {
+        Logger.warn("components/select", "`searchFilter` was deprecated, please use `searchFn` instead");
+      }
+      return searchFn;
     }
-    return searchFilter ? getDefaultFilter(props) : false;
+    return searchFn ? getDefaultSearchFn(props) : false;
   });
 }
 function useOverlayProps$1(props, triggerRef) {
   const overlayRef = ref();
   const overlayWidth = ref();
-  const overlayStyle = computed(() => ({ width: overlayWidth.value }));
+  const overlayStyle = computed$1(() => ({ width: overlayWidth.value }));
   const [overlayOpened, setOverlayOpened] = useControlledProp(props, "open", false);
   const updatePopper = () => {
     var _a, _b;
@@ -29380,45 +29563,55 @@ function useOverlayProps$1(props, triggerRef) {
   });
   return { overlayRef, overlayStyle, overlayOpened, setOverlayOpened };
 }
-function useSelectedState$1(props, accessor, mergedOptions) {
-  const selectedValue = computed(() => convertArray(accessor.valueRef.value));
-  const selectedOptions = computed(() => {
-    const { compareWith } = props;
+function useSelectedState$1(props, accessor, mergedOptions, locale) {
+  const selectedValue = computed$1(() => convertArray(accessor.valueRef.value));
+  const selectedOptions = computed$1(() => {
+    var _a;
+    const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
     const options = mergedOptions.value;
     return selectedValue.value.map((value) => {
-      var _a;
-      return (_a = options.find((option) => compareWith(option.value, value))) != null ? _a : generateOption(value);
+      var _a2;
+      return (_a2 = options.find((option) => compareFn(option.value, value))) != null ? _a2 : generateOption(value);
     });
+  });
+  const selectedLimit = computed$1(() => selectedValue.value.length >= props.multipleLimit);
+  const selectedLimitTitle = computed$1(() => {
+    if (!selectedLimit.value) {
+      return "";
+    }
+    return locale.select.limitMessage.replace("${0}", `${props.multipleLimit}`);
   });
   const setValue = (value) => {
     const currValue = props.multiple ? value : value[0];
-    const oldValue = toRaw(accessor.valueRef.value);
+    const oldValue = toRaw$1(accessor.valueRef.value);
     if (currValue !== oldValue) {
       accessor.setValue(currValue);
       callEmit(props.onChange, currValue, oldValue);
     }
   };
   const changeSelected = (value) => {
-    const { compareWith, multiple, multipleLimit } = props;
+    var _a;
+    const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
+    const { multiple } = props;
     const currValue = selectedValue.value;
-    const targetIndex = currValue.findIndex((item) => compareWith(item, value));
+    const targetIndex = currValue.findIndex((item) => compareFn(item, value));
     const isSelected = targetIndex > -1;
     if (!multiple) {
       !isSelected && setValue([value]);
-    } else {
-      if (isSelected) {
-        setValue(currValue.filter((_, index) => targetIndex !== index));
-      } else {
-        if (currValue.length < multipleLimit) {
-          setValue([...currValue, value]);
-        } else {
-          setValue([...currValue.slice(-multipleLimit + 1), value]);
-        }
-      }
+      return;
+    }
+    if (isSelected) {
+      setValue(currValue.filter((_, index) => targetIndex !== index));
+      return;
+    }
+    if (!selectedLimit.value) {
+      setValue([...currValue, value]);
     }
   };
   const handleItemRemove = (value) => {
-    setValue(selectedValue.value.filter((item) => !props.compareWith(value, item)));
+    var _a;
+    const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
+    setValue(selectedValue.value.filter((item) => !compareFn(value, item)));
   };
   const handleClear = (evt) => {
     evt.stopPropagation();
@@ -29428,6 +29621,8 @@ function useSelectedState$1(props, accessor, mergedOptions) {
   return {
     selectedValue,
     selectedOptions,
+    selectedLimit,
+    selectedLimitTitle,
     changeSelected,
     handleItemRemove,
     handleClear
@@ -29446,6 +29641,7 @@ const defaultStyle = {
   overflow: "hidden"
 };
 const ListBox = () => {
+  var _a;
   const {
     props,
     slots,
@@ -29455,13 +29651,14 @@ const ListBox = () => {
     activeOption
   } = inject(selectToken);
   const currSelectedValue = selectedValue.value;
-  const {
-    compareWith
-  } = props;
+  const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
+  if (process.env.NODE_ENV !== "production" && props.compareWith) {
+    Logger.warn("components/select", "`compareWith` was deprecated, please use `compareFn` instead");
+  }
   return createVNode("div", {
     "role": "listbox",
     "style": defaultStyle
-  }, [renderOption(slots, mergedOptions.value[activeIndex.value - 1], currSelectedValue, compareWith), renderOption(slots, activeOption.value, currSelectedValue, compareWith), renderOption(slots, mergedOptions.value[activeIndex.value + 1], currSelectedValue, compareWith)]);
+  }, [renderOption(slots, mergedOptions.value[activeIndex.value - 1], currSelectedValue, compareFn), renderOption(slots, activeOption.value, currSelectedValue, compareFn), renderOption(slots, mergedOptions.value[activeIndex.value + 1], currSelectedValue, compareFn)]);
 };
 const renderOption = (slots, option, selectedValue, compareWith) => {
   if (!option) {
@@ -29481,20 +29678,24 @@ const renderOption = (slots, option, selectedValue, compareWith) => {
     "aria-selected": selected
   }, [renderOptionLabel(slots, rawOption, label)]);
 };
-const defaultCompareWith = (o1, o2) => o1 === o2;
+const defaultCompareFn = (o1, o2) => o1 === o2;
 const selectProps = {
-  value: IxPropTypes.oneOfType([String, Number, Object]),
   control: controlPropDef,
+  value: IxPropTypes.any,
   open: IxPropTypes.bool,
   allowInput: IxPropTypes.bool.def(false),
   autofocus: IxPropTypes.bool.def(false),
   borderless: IxPropTypes.bool,
   childrenKey: IxPropTypes.string,
   clearable: IxPropTypes.bool.def(false),
-  compareWith: IxPropTypes.func().def(defaultCompareWith),
+  clearIcon: IxPropTypes.string,
+  compareWith: IxPropTypes.func(),
+  compareFn: IxPropTypes.func().def(defaultCompareFn),
+  dataSource: IxPropTypes.array(),
   disabled: IxPropTypes.bool.def(false),
   empty: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
-  maxLabelCount: IxPropTypes.number.def(Number.MAX_SAFE_INTEGER),
+  maxLabelCount: IxPropTypes.oneOfType([IxPropTypes.number, IxPropTypes.oneOf(["responsive"])]),
+  maxLabel: IxPropTypes.oneOfType([IxPropTypes.number, IxPropTypes.oneOf(["responsive"])]).def(Number.MAX_SAFE_INTEGER),
   multiple: IxPropTypes.bool.def(false),
   multipleLimit: IxPropTypes.number.def(Number.MAX_SAFE_INTEGER),
   labelKey: IxPropTypes.string,
@@ -29504,7 +29705,8 @@ const selectProps = {
   placeholder: IxPropTypes.string,
   readonly: IxPropTypes.bool.def(false),
   searchable: IxPropTypes.oneOfType([Boolean, IxPropTypes.oneOf(["overlay"])]).def(false),
-  searchFilter: IxPropTypes.oneOfType([Boolean, IxPropTypes.func()]).def(true),
+  searchFilter: IxPropTypes.oneOfType([Boolean, IxPropTypes.func()]),
+  searchFn: IxPropTypes.oneOfType([Boolean, IxPropTypes.func()]).def(true),
   size: IxPropTypes.oneOf(["sm", "md", "lg"]),
   suffix: IxPropTypes.string,
   target: portalTargetDef,
@@ -29550,31 +29752,30 @@ var Option = defineComponent({
       slots,
       mergedPrefixCls,
       selectedValue,
+      selectedLimit,
+      selectedLimitTitle,
       handleOptionClick,
       activeOption,
       changeActive
     } = inject(selectToken);
-    const isActive = computed(() => {
+    const isActive = computed$1(() => {
+      var _a, _b;
+      const {
+        value
+      } = props;
+      const compareFn = (_a = selectProps2.compareWith) != null ? _a : selectProps2.compareFn;
+      const activeValue = (_b = activeOption.value) == null ? void 0 : _b.value;
+      return compareFn(activeValue, value);
+    });
+    const isSelected = computed$1(() => {
       var _a;
       const {
         value
       } = props;
-      const {
-        compareWith
-      } = selectProps2;
-      const activeValue = (_a = activeOption.value) == null ? void 0 : _a.value;
-      return compareWith(activeValue, value);
+      const compareFn = (_a = selectProps2.compareWith) != null ? _a : selectProps2.compareFn;
+      return selectedValue.value.some((item) => compareFn(item, value));
     });
-    const isSelected = computed(() => {
-      const {
-        value
-      } = props;
-      const {
-        compareWith
-      } = selectProps2;
-      return selectedValue.value.some((item) => compareWith(item, value));
-    });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         disabled,
         type
@@ -29603,14 +29804,14 @@ var Option = defineComponent({
       const prefixCls = `${mergedPrefixCls.value}-option`;
       return createVNode("div", mergeProps({
         "class": classes.value,
+        "title": disabled || selected ? void 0 : selectedLimitTitle.value,
         "onMouseenter": disabled ? void 0 : handleMouseEnter,
-        "onClick": disabled ? void 0 : handleClick
-      }, rawOption.additional, {
+        "onClick": disabled ? void 0 : handleClick,
         "aria-label": label,
         "aria-selected": selected
-      }), [multiple && createVNode(IxCheckbox, {
-        "checked": isSelected.value,
-        "disabled": disabled
+      }, rawOption.additional), [multiple && createVNode(IxCheckbox, {
+        "checked": selected,
+        "disabled": disabled || !selected && selectedLimit.value
       }, null), createVNode("span", {
         "class": `${prefixCls}-label`
       }, [renderOptionLabel(slots, rawOption, label)])]);
@@ -29643,17 +29844,17 @@ var OptionGroup = defineComponent({
     };
   }
 });
-var __getOwnPropSymbols$1$7 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$7 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$7 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$1$9 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$9 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$9 = Object.prototype.propertyIsEnumerable;
 var __objRest$5 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$1$7.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$1$9.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$1$7)
-    for (var prop of __getOwnPropSymbols$1$7(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$7.call(source, prop))
+  if (source != null && __getOwnPropSymbols$1$9)
+    for (var prop of __getOwnPropSymbols$1$9(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$9.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -29752,10 +29953,10 @@ var Input$1 = defineComponent({
       handleCompositionEnd,
       handleInput
     } = inject(selectToken);
-    const style = computed(() => ({
+    const style = computed$1(() => ({
       width: inputWidth.value
     }));
-    const innerStyle = computed(() => {
+    const innerStyle = computed$1(() => {
       const {
         allowInput,
         searchable
@@ -29808,7 +30009,7 @@ const Item$2 = (props, {
   const classes = prefixCls + (disabled ? ` ${prefixCls}-disabled` : "");
   const handleClick = (evt) => {
     evt.stopPropagation();
-    handleItemRemove(value);
+    handleItemRemove == null ? void 0 : handleItemRemove(value);
   };
   return createVNode("div", {
     "class": classes
@@ -29827,6 +30028,7 @@ var Selector$1 = defineComponent({
     const {
       props: selectProps2,
       slots,
+      config,
       mergedPrefixCls,
       isDisabled,
       selectedValue,
@@ -29836,33 +30038,15 @@ var Selector$1 = defineComponent({
       inputValue,
       isComposing
     } = inject(selectToken);
-    const selectedItems = computed(() => {
-      const {
-        maxLabelCount
-      } = selectProps2;
-      const options = selectedOptions.value;
-      const items = options.slice(0, maxLabelCount);
-      if (options.length > maxLabelCount) {
-        const key = "IDUX_SELECT_MAX_ITEM";
-        const label = `+ ${options.length - maxLabelCount} ...`;
-        const value = options.slice(maxLabelCount).map((option) => option.rawOption);
-        items.push({
-          isMax: true,
-          key,
-          label,
-          value
-        });
-      }
-      return items;
-    });
-    const showItems = computed(() => {
-      return selectProps2.multiple || selectedValue.value.length > 0 && !isComposing.value && (!inputValue.value || selectProps2.searchable === "overlay");
-    });
-    const showPlaceholder = computed(() => {
+    const showPlaceholder = computed$1(() => {
       return selectedValue.value.length === 0 && !isComposing.value && (!inputValue.value || selectProps2.searchable === "overlay");
     });
+    const clearIcon = computed$1(() => {
+      var _a;
+      return (_a = selectProps2.clearIcon) != null ? _a : config.clearIcon;
+    });
     return () => {
-      var _a, _b, _c, _d;
+      var _a, _b, _c, _d, _e;
       const {
         clearable,
         suffix
@@ -29874,17 +30058,25 @@ var Selector$1 = defineComponent({
       const disabled = isDisabled.value;
       const prefixCls = `${mergedPrefixCls.value}-selector`;
       const itemPrefixCls = `${prefixCls}-item`;
-      const itemNodes = selectedItems.value.map((item) => {
-        var _a2, _b2, _c2;
+      if (process.env.NODE_ENV !== "production" && selectProps2.maxLabelCount) {
+        Logger.warn("components/select", "`maxLabelCount` was deprecated, please use `maxLabel` instead");
+      }
+      if (process.env.NODE_ENV !== "production" && slots.maxLabel) {
+        Logger.warn("components/select", "slot `maxLabel` was deprecated, please use slot `overflowedLabel` instead");
+      }
+      if (process.env.NODE_ENV !== "production" && slots.label) {
+        Logger.warn("components/select", "slots `label` was deprecated, please use slots `selectedLabel` instead");
+      }
+      const renderItem = (item) => {
+        var _a2;
         const {
           key,
-          isMax,
           label,
           value,
           rawOption
         } = item;
         const _disabled = disabled || item.disabled;
-        const removable = multiple && !_disabled && !readonly && !isMax;
+        const removable = multiple && !_disabled && !readonly;
         const itemProps = {
           key,
           disabled: _disabled,
@@ -29894,37 +30086,50 @@ var Selector$1 = defineComponent({
           handleItemRemove,
           title: label
         };
-        let labelNode;
-        if (isMax) {
-          if (process.env.NODE_ENV !== "production" && slots.maxLabel) {
-            Logger.warn("components/select", "slot `maxLabel` was deprecated, please use slot `overflowedLabel` instead");
-          }
-          const overflowedLabelSlot = (_a2 = slots.overflowedLabel) != null ? _a2 : slots.maxLabel;
-          labelNode = (_b2 = overflowedLabelSlot == null ? void 0 : overflowedLabelSlot(item.value)) != null ? _b2 : label;
-        } else {
-          if (process.env.NODE_ENV !== "production" && slots.label) {
-            Logger.warn("components/select", "slots `label` was deprecated, please use slots `selectedLabel` instead");
-          }
-          const selectedLabelSlot = (_c2 = slots.label) != null ? _c2 : slots.selectedLabel;
-          labelNode = selectedLabelSlot ? selectedLabelSlot(rawOption) : renderOptionLabel(slots, rawOption, label);
-        }
+        const selectedLabelSlot = (_a2 = slots.label) != null ? _a2 : slots.selectedLabel;
+        const labelNode = selectedLabelSlot ? selectedLabelSlot(rawOption) : renderOptionLabel(slots, rawOption, label);
         return createVNode(Item$2, itemProps, {
           default: () => [labelNode]
         });
-      });
+      };
+      const renderRest = (rest) => {
+        var _a2, _b2;
+        const key = "IDUX_SELECT_MAX_ITEM";
+        const itemProps = {
+          key,
+          prefixCls: itemPrefixCls,
+          removable: false,
+          value: null
+        };
+        const overflowedLabelSlot = (_a2 = slots.overflowedLabel) != null ? _a2 : slots.maxLabel;
+        const labelNode = (_b2 = overflowedLabelSlot == null ? void 0 : overflowedLabelSlot(rest)) != null ? _b2 : `+ ${rest.length} ...`;
+        return createVNode(Item$2, itemProps, {
+          default: () => [labelNode]
+        });
+      };
+      const overflowSlot = {
+        item: renderItem,
+        rest: renderRest,
+        suffix: () => createVNode(Input$1, null, null)
+      };
       return createVNode("div", {
         "class": prefixCls
-      }, [showItems.value && itemNodes, createVNode(Input$1, null, null), showPlaceholder.value && createVNode("div", {
+      }, [createVNode(\u0275Overflow, {
+        "prefixCls": prefixCls,
+        "dataSource": selectedOptions.value,
+        "maxLabel": (_a = selectProps2.maxLabelCount) != null ? _a : selectProps2.maxLabel,
+        "getKey": (item) => item.key
+      }, overflowSlot), showPlaceholder.value && createVNode("div", {
         "class": `${prefixCls}-placeholder`
-      }, [createTextVNode(" "), (_b = (_a = slots.placeholder) == null ? void 0 : _a.call(slots)) != null ? _b : selectProps2.placeholder]), (slots.suffix || suffix) && createVNode("div", {
+      }, [createTextVNode(" "), (_c = (_b = slots.placeholder) == null ? void 0 : _b.call(slots)) != null ? _c : selectProps2.placeholder]), (slots.suffix || suffix) && createVNode("div", {
         "class": `${prefixCls}-suffix`
-      }, [(_d = (_c = slots.suffix) == null ? void 0 : _c.call(slots)) != null ? _d : createVNode(IxIcon, {
+      }, [(_e = (_d = slots.suffix) == null ? void 0 : _d.call(slots)) != null ? _e : createVNode(IxIcon, {
         "name": suffix
       }, null)]), clearable && createVNode("div", {
         "class": `${prefixCls}-clear`,
         "onClick": handleClear
-      }, [createVNode(IxIcon, {
-        "name": "close-circle"
+      }, [slots.clearIcon ? slots.clearIcon() : createVNode(IxIcon, {
+        "name": clearIcon.value
       }, null)])]);
     };
   }
@@ -29958,13 +30163,13 @@ var Trigger$2 = defineComponent({
       changeSelected
     } = inject(selectToken);
     const formContext = inject(FORM_TOKEN, null);
-    const clearable = computed(() => {
+    const clearable = computed$1(() => {
       return !isDisabled.value && !props.readonly && props.clearable && selectedValue.value.length > 0;
     });
-    const searchable = computed(() => {
+    const searchable = computed$1(() => {
       return !isDisabled.value && !props.readonly && props.searchable;
     });
-    const suffix = computed(() => {
+    const suffix = computed$1(() => {
       const {
         suffix: suffix2
       } = props;
@@ -29973,7 +30178,7 @@ var Trigger$2 = defineComponent({
       }
       return props.searchable === true && isFocused.value ? "search" : config.suffix;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       var _a;
       const {
         borderless = config.borderless,
@@ -29983,7 +30188,7 @@ var Trigger$2 = defineComponent({
       } = props;
       const disabled = isDisabled.value;
       const prefixCls = mergedPrefixCls.value;
-      return {
+      return normalizeClass({
         [prefixCls]: true,
         [`${prefixCls}-borderless`]: borderless,
         [`${prefixCls}-clearable`]: clearable.value,
@@ -29996,7 +30201,7 @@ var Trigger$2 = defineComponent({
         [`${prefixCls}-searchable`]: searchable.value,
         [`${prefixCls}-with-suffix`]: slots.suffix || suffix.value,
         [`${prefixCls}-${size}`]: true
-      };
+      });
     });
     const handleClick = () => {
       const currOpened = overlayOpened.value;
@@ -30059,19 +30264,19 @@ var Trigger$2 = defineComponent({
     };
   }
 });
-var __defProp$e = Object.defineProperty;
-var __getOwnPropSymbols$f = Object.getOwnPropertySymbols;
-var __hasOwnProp$f = Object.prototype.hasOwnProperty;
-var __propIsEnum$f = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$e = (obj, key, value) => key in obj ? __defProp$e(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$e = (a, b) => {
+var __defProp$g = Object.defineProperty;
+var __getOwnPropSymbols$i = Object.getOwnPropertySymbols;
+var __hasOwnProp$i = Object.prototype.hasOwnProperty;
+var __propIsEnum$i = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$g = (obj, key, value) => key in obj ? __defProp$g(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$g = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$f.call(b, prop))
-      __defNormalProp$e(a, prop, b[prop]);
-  if (__getOwnPropSymbols$f)
-    for (var prop of __getOwnPropSymbols$f(b)) {
-      if (__propIsEnum$f.call(b, prop))
-        __defNormalProp$e(a, prop, b[prop]);
+    if (__hasOwnProp$i.call(b, prop))
+      __defNormalProp$g(a, prop, b[prop]);
+  if (__getOwnPropSymbols$i)
+    for (var prop of __getOwnPropSymbols$i(b)) {
+      if (__propIsEnum$i.call(b, prop))
+        __defNormalProp$g(a, prop, b[prop]);
     }
   return a;
 };
@@ -30086,8 +30291,9 @@ var Select = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-select`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-select`);
     const config = useGlobalConfig$1("select");
+    const locale = useGlobalConfig$1("locale");
     const focusMonitor = useSharedFocusMonitor();
     const {
       elementRef: inputRef,
@@ -30112,7 +30318,7 @@ var Select = defineComponent({
       setOverlayOpened
     } = useOverlayProps$1(props, triggerRef);
     const accessor = useFormAccessor();
-    const isDisabled = computed(() => accessor.disabled.value);
+    const isDisabled = computed$1(() => accessor.disabled.value);
     const mergedOptions = useMergedOptions(props, slots, config);
     const inputStateContext = useInputState$1(props, inputRef, accessor);
     const {
@@ -30120,7 +30326,7 @@ var Select = defineComponent({
       clearInput
     } = inputStateContext;
     const flattedOptions = useFlattedOptions(props, mergedOptions, inputValue);
-    const selectedStateContext = useSelectedState$1(props, accessor, mergedOptions);
+    const selectedStateContext = useSelectedState$1(props, accessor, mergedOptions, locale);
     const {
       selectedValue,
       changeSelected
@@ -30135,7 +30341,7 @@ var Select = defineComponent({
         setOverlayOpened(false);
       }
     };
-    provide(selectToken, __spreadValues$e(__spreadValues$e(__spreadValues$e({
+    provide(selectToken, __spreadValues$g(__spreadValues$g(__spreadValues$g({
       props,
       slots,
       config,
@@ -30159,7 +30365,7 @@ var Select = defineComponent({
       opened ? focus() : blur();
       clearInput();
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         overlayClassName
       } = props;
@@ -30169,7 +30375,7 @@ var Select = defineComponent({
         [overlayClassName || ""]: !!overlayClassName
       });
     });
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
     });
@@ -30202,8 +30408,8 @@ const IxSelect = Select;
 const IxSelectOption = SelectOption;
 const IxSelectOptionGroup = SelectOptionGroup;
 
-function useItems(activeIndex, lastIndex) {
-  return computed(() => {
+function useItems$1(activeIndex, lastIndex) {
+  return computed$1(() => {
     const currActiveIndex = activeIndex.value;
     const currLastIndex = lastIndex.value;
     let items;
@@ -30254,7 +30460,7 @@ function usePages(props, config) {
   var _a;
   const [activeIndex, setActiveIndex] = useControlledProp(props, "pageIndex", 1);
   const [activeSize, setActiveSize] = useControlledProp(props, "pageSize", (_a = props.pageSize) != null ? _a : config.pageSize);
-  const lastIndex = computed(() => Math.ceil(props.total / activeSize.value));
+  const lastIndex = computed$1(() => Math.ceil(props.total / activeSize.value));
   const changePageIndex = (index) => {
     const validIndex = validatePageIndex(index, lastIndex.value);
     if (validIndex !== activeIndex.value) {
@@ -30329,20 +30535,20 @@ var Item$1 = defineComponent({
       activeIndex,
       changePageIndex
     } = inject(paginationToken);
-    const isActive = computed(() => activeIndex.value === props.index);
-    const isDisabled = computed(() => props.disabled || paginationProps2.disabled);
-    const showTitle = computed(() => {
+    const isActive = computed$1(() => activeIndex.value === props.index);
+    const isDisabled = computed$1(() => props.disabled || paginationProps2.disabled);
+    const showTitle = computed$1(() => {
       var _a;
       return (_a = paginationProps2.showTitle) != null ? _a : config.showTitle;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-item`;
       return {
         [prefixCls]: true,
         [`${prefixCls}-active`]: isActive.value
       };
     });
-    const title = computed(() => {
+    const title = computed$1(() => {
       if (!showTitle.value) {
         return void 0;
       }
@@ -30353,7 +30559,7 @@ var Item$1 = defineComponent({
       if (type === "page") {
         return index.toString();
       }
-      return locale.value[type];
+      return locale.pagination[type];
     });
     const onClick = () => {
       if (isDisabled.value) {
@@ -30442,7 +30648,7 @@ var Jumper = defineComponent({
       const {
         jumpTo,
         page
-      } = locale.value;
+      } = locale.pagination;
       return createVNode("li", {
         "class": prefixCls
       }, [jumpTo, createVNode(\u0275Input, {
@@ -30464,13 +30670,13 @@ var Sizes = defineComponent({
       activeSize,
       changePageSize
     } = inject(paginationToken);
-    const sizeOptions = computed(() => {
+    const sizeOptions = computed$1(() => {
       const {
         pageSizes = config.pageSizes
       } = props;
       const {
         itemsPerPage
-      } = locale.value;
+      } = locale.pagination;
       return pageSizes.map((size2) => {
         return {
           value: size2,
@@ -30502,7 +30708,7 @@ var Total = defineComponent({
       activeSize,
       mergedPrefixCls
     } = inject(paginationToken);
-    const range = computed(() => {
+    const range = computed$1(() => {
       const currIndex = activeIndex.value;
       const currSize = activeSize.value;
       const firstIndex = (currIndex - 1) * currSize + 1;
@@ -30517,7 +30723,7 @@ var Total = defineComponent({
       const {
         totalPrefix,
         totalSuffix
-      } = locale.value;
+      } = locale.pagination;
       const children = slots.total ? slots.total({
         total,
         range: range.value,
@@ -30537,26 +30743,26 @@ var Pagination = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-pagination`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-pagination`);
+    const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("pagination");
-    const locale = getLocale("pagination");
-    const showTotal = computed(() => {
+    const showTotal = computed$1(() => {
       var _a;
       return (_a = props.showTotal) != null ? _a : config.showTotal;
     });
-    const simple = computed(() => {
+    const simple = computed$1(() => {
       var _a;
       return (_a = props.simple) != null ? _a : config.simple;
     });
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a;
       return (_a = props.size) != null ? _a : config.size;
     });
-    const showQuickJumper = computed(() => {
+    const showQuickJumper = computed$1(() => {
       var _a;
       return (_a = props.showQuickJumper) != null ? _a : config.showQuickJumper;
     });
-    const showSizeChanger = computed(() => {
+    const showSizeChanger = computed$1(() => {
       var _a;
       return (_a = props.showSizeChanger) != null ? _a : config.showSizeChanger;
     });
@@ -30567,7 +30773,7 @@ var Pagination = defineComponent({
       changePageIndex,
       changePageSize
     } = usePages(props, config);
-    const items = useItems(activeIndex, lastIndex);
+    const items = useItems$1(activeIndex, lastIndex);
     const jumpToIndex = useJumpToIndex(activeIndex, changePageIndex, simple);
     provide(paginationToken, {
       props,
@@ -30583,7 +30789,7 @@ var Pagination = defineComponent({
       changePageSize,
       jumpToIndex
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -30630,19 +30836,19 @@ var Pagination = defineComponent({
 const IxPagination = Pagination;
 
 const popconfirmToken = Symbol("popconfirmToken");
-var __defProp$1$4 = Object.defineProperty;
-var __getOwnPropSymbols$1$6 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$6 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$6 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$4 = (obj, key, value) => key in obj ? __defProp$1$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$4 = (a, b) => {
+var __defProp$1$7 = Object.defineProperty;
+var __getOwnPropSymbols$1$8 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$8 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$8 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$7 = (obj, key, value) => key in obj ? __defProp$1$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$7 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$6.call(b, prop))
-      __defNormalProp$1$4(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$6)
-    for (var prop of __getOwnPropSymbols$1$6(b)) {
-      if (__propIsEnum$1$6.call(b, prop))
-        __defNormalProp$1$4(a, prop, b[prop]);
+    if (__hasOwnProp$1$8.call(b, prop))
+      __defNormalProp$1$7(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$8)
+    for (var prop of __getOwnPropSymbols$1$8(b)) {
+      if (__propIsEnum$1$8.call(b, prop))
+        __defNormalProp$1$7(a, prop, b[prop]);
     }
   return a;
 };
@@ -30651,43 +30857,40 @@ var PopconfirmContent = defineComponent({
     const {
       props,
       slots,
+      locale,
       mergedPrefixCls,
       cancelLoading,
       okLoading,
       cancel,
       ok
     } = inject(popconfirmToken);
-    const locale = getLocale("popconfirm");
-    const cancelText = computed(() => {
+    const cancelText = computed$1(() => {
       var _a;
-      return (_a = props.cancelText) != null ? _a : locale.value.cancelText;
+      return (_a = props.cancelText) != null ? _a : locale.popconfirm.cancelText;
     });
-    const okText = computed(() => {
+    const okText = computed$1(() => {
       var _a;
-      return (_a = props.okText) != null ? _a : locale.value.okText;
+      return (_a = props.okText) != null ? _a : locale.popconfirm.okText;
     });
-    const cancelButton = computed(() => {
-      return __spreadValues$1$4({
+    const cancelButton = computed$1(() => {
+      return __spreadValues$1$7({
         size: "sm"
       }, props.cancelButton);
     });
-    const okButton = computed(() => {
-      return __spreadValues$1$4({
+    const okButton = computed$1(() => {
+      return __spreadValues$1$7({
         size: "sm"
       }, props.okButton);
     });
     return () => {
-      var _a, _b, _c, _d;
       const prefixCls = mergedPrefixCls.value;
-      if (slots.title || props.title)
-        ;
       return createVNode("div", {
         "class": `${prefixCls}-wrapper`
       }, [createVNode("div", {
         "class": `${prefixCls}-title`
-      }, [(_b = (_a = slots.icon) == null ? void 0 : _a.call(slots)) != null ? _b : createVNode(IxIcon, {
+      }, [slots.icon ? slots.icon() : createVNode(IxIcon, {
         "name": props.icon
-      }, null), createVNode("span", null, [(_d = (_c = slots.title) == null ? void 0 : _c.call(slots)) != null ? _d : props.title])]), createVNode(\u0275Footer, {
+      }, null), createVNode("span", null, [slots.title ? slots.title() : props.title])]), createVNode(\u0275Footer, {
         "class": `${prefixCls}-footer`,
         "cancel": cancel,
         "cancelButton": cancelButton.value,
@@ -30702,26 +30905,26 @@ var PopconfirmContent = defineComponent({
     };
   }
 });
-var __defProp$d = Object.defineProperty;
-var __defProps$a = Object.defineProperties;
-var __getOwnPropDescs$a = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$e = Object.getOwnPropertySymbols;
-var __hasOwnProp$e = Object.prototype.hasOwnProperty;
-var __propIsEnum$e = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$d = (obj, key, value) => key in obj ? __defProp$d(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$d = (a, b) => {
+var __defProp$f = Object.defineProperty;
+var __defProps$c = Object.defineProperties;
+var __getOwnPropDescs$c = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$h = Object.getOwnPropertySymbols;
+var __hasOwnProp$h = Object.prototype.hasOwnProperty;
+var __propIsEnum$h = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$f = (obj, key, value) => key in obj ? __defProp$f(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$f = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$e.call(b, prop))
-      __defNormalProp$d(a, prop, b[prop]);
-  if (__getOwnPropSymbols$e)
-    for (var prop of __getOwnPropSymbols$e(b)) {
-      if (__propIsEnum$e.call(b, prop))
-        __defNormalProp$d(a, prop, b[prop]);
+    if (__hasOwnProp$h.call(b, prop))
+      __defNormalProp$f(a, prop, b[prop]);
+  if (__getOwnPropSymbols$h)
+    for (var prop of __getOwnPropSymbols$h(b)) {
+      if (__propIsEnum$h.call(b, prop))
+        __defNormalProp$f(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$a = (a, b) => __defProps$a(a, __getOwnPropDescs$a(b));
-const popconfirmProps = __spreadProps$a(__spreadValues$d({}, tooltipProps), {
+var __spreadProps$c = (a, b) => __defProps$c(a, __getOwnPropDescs$c(b));
+const popconfirmProps = __spreadProps$c(__spreadValues$f({}, tooltipProps), {
   cancelButton: IxPropTypes.object(),
   cancelText: IxPropTypes.string,
   okButton: IxPropTypes.object(),
@@ -30760,7 +30963,8 @@ var Popconfirm = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-popconfirm`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-popconfirm`);
+    const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("popconfirm");
     const {
       overlayRef,
@@ -30778,6 +30982,7 @@ var Popconfirm = defineComponent({
     provide(popconfirmToken, {
       props,
       slots,
+      locale,
       mergedPrefixCls,
       visible,
       cancelLoading,
@@ -30839,26 +31044,26 @@ function useTrigger(props, setVisible) {
 }
 const IxPopconfirm = Popconfirm;
 
-var __defProp$c = Object.defineProperty;
-var __defProps$9 = Object.defineProperties;
-var __getOwnPropDescs$9 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$d = Object.getOwnPropertySymbols;
-var __hasOwnProp$d = Object.prototype.hasOwnProperty;
-var __propIsEnum$d = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$c = (obj, key, value) => key in obj ? __defProp$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$c = (a, b) => {
+var __defProp$e = Object.defineProperty;
+var __defProps$b = Object.defineProperties;
+var __getOwnPropDescs$b = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$g = Object.getOwnPropertySymbols;
+var __hasOwnProp$g = Object.prototype.hasOwnProperty;
+var __propIsEnum$g = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$e = (obj, key, value) => key in obj ? __defProp$e(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$e = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$d.call(b, prop))
-      __defNormalProp$c(a, prop, b[prop]);
-  if (__getOwnPropSymbols$d)
-    for (var prop of __getOwnPropSymbols$d(b)) {
-      if (__propIsEnum$d.call(b, prop))
-        __defNormalProp$c(a, prop, b[prop]);
+    if (__hasOwnProp$g.call(b, prop))
+      __defNormalProp$e(a, prop, b[prop]);
+  if (__getOwnPropSymbols$g)
+    for (var prop of __getOwnPropSymbols$g(b)) {
+      if (__propIsEnum$g.call(b, prop))
+        __defNormalProp$e(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$9 = (a, b) => __defProps$9(a, __getOwnPropDescs$9(b));
-const popoverProps = __spreadProps$9(__spreadValues$c({}, tooltipProps), {
+var __spreadProps$b = (a, b) => __defProps$b(a, __getOwnPropDescs$b(b));
+const popoverProps = __spreadProps$b(__spreadValues$e({}, tooltipProps), {
   closable: IxPropTypes.bool.def(false),
   closeIcon: IxPropTypes.oneOfType([String, IxPropTypes.vNode]),
   header: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
@@ -30872,7 +31077,7 @@ var Popover = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-popover`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-popover`);
     const config = useGlobalConfig$1("popover");
     const {
       overlayRef,
@@ -30884,7 +31089,7 @@ var Popover = defineComponent({
     expose({
       updatePopper
     });
-    const closeIcon = computed(() => {
+    const closeIcon = computed$1(() => {
       var _a;
       return (_a = props.closeIcon) != null ? _a : config.closeIcon;
     });
@@ -30935,7 +31140,7 @@ const defaultIcons = {
   exception: "close"
 };
 function useIcons(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     return {
       success: (_d = (_c = (_a = props.icons) == null ? void 0 : _a.success) != null ? _c : (_b = config.icon) == null ? void 0 : _b.success) != null ? _d : defaultIcons.success,
@@ -30943,17 +31148,17 @@ function useIcons(props, config) {
     };
   });
 }
-var __getOwnPropSymbols$2$3 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$3 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$3 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$2$5 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$5 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$5 = Object.prototype.propertyIsEnumerable;
 var __objRest$4 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$2$3.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$2$5.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$2$3)
-    for (var prop of __getOwnPropSymbols$2$3(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$3.call(source, prop))
+  if (source != null && __getOwnPropSymbols$2$5)
+    for (var prop of __getOwnPropSymbols$2$5(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$5.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -31003,10 +31208,10 @@ const handleCircleGradient = (strokeColor) => {
 const useInfo = (props, config, progressStatus2, percent, success) => {
   var _a;
   const formatFn = (_a = props.format) != null ? _a : config.format;
-  const formattedText = computed(() => formatFn(percent.value, success.value.percent));
-  const showSuccessIcon = computed(() => progressStatus2.value === "success" || progressStatus2.value === "normal" && percent.value === fullPercent);
-  const showExceptionIcon = computed(() => progressStatus2.value === "exception");
-  const showFormat = computed(() => isFunction(props.format) || !(showSuccessIcon.value || showExceptionIcon.value));
+  const formattedText = computed$1(() => formatFn(percent.value, success.value.percent));
+  const showSuccessIcon = computed$1(() => progressStatus2.value === "success" || progressStatus2.value === "normal" && percent.value === fullPercent);
+  const showExceptionIcon = computed$1(() => progressStatus2.value === "exception");
+  const showFormat = computed$1(() => isFunction$1(props.format) || !(showSuccessIcon.value || showExceptionIcon.value));
   return {
     formattedText,
     showFormat,
@@ -31070,29 +31275,29 @@ function renderIcon$3(icon, cls) {
   }
   return icon;
 }
-var __defProp$1$3 = Object.defineProperty;
-var __defProps$1$2 = Object.defineProperties;
-var __getOwnPropDescs$1$2 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$5 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$5 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$5 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$3 = (obj, key, value) => key in obj ? __defProp$1$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$3 = (a, b) => {
+var __defProp$1$6 = Object.defineProperty;
+var __defProps$1$3 = Object.defineProperties;
+var __getOwnPropDescs$1$3 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$7 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$7 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$7 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$6 = (obj, key, value) => key in obj ? __defProp$1$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$6 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$5.call(b, prop))
-      __defNormalProp$1$3(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$5)
-    for (var prop of __getOwnPropSymbols$1$5(b)) {
-      if (__propIsEnum$1$5.call(b, prop))
-        __defNormalProp$1$3(a, prop, b[prop]);
+    if (__hasOwnProp$1$7.call(b, prop))
+      __defNormalProp$1$6(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$7)
+    for (var prop of __getOwnPropSymbols$1$7(b)) {
+      if (__propIsEnum$1$7.call(b, prop))
+        __defNormalProp$1$6(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$1$2 = (a, b) => __defProps$1$2(a, __getOwnPropDescs$1$2(b));
+var __spreadProps$1$3 = (a, b) => __defProps$1$3(a, __getOwnPropDescs$1$3(b));
 function useProps(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b, _c;
-    return __spreadProps$1$2(__spreadValues$1$3({}, props), {
+    return __spreadProps$1$3(__spreadValues$1$6({}, props), {
       size: (_a = props.size) != null ? _a : config.size,
       strokeWidth: (_b = props.strokeWidth) != null ? _b : config.strokeWidth,
       strokeLinecap: (_c = props.strokeLinecap) != null ? _c : config.strokeLinecap
@@ -31110,15 +31315,15 @@ var Circle = defineComponent({
       percent,
       formattedSuccess
     } = inject(progressContext);
-    const circleMergedPrefixCls = computed(() => `${mergedPrefixCls.value}-circle`);
+    const circleMergedPrefixCls = computed$1(() => `${mergedPrefixCls.value}-circle`);
     const computedProps = useProps(props, config);
-    const strokeWidth = computed(() => {
+    const strokeWidth = computed$1(() => {
       var _a;
       return convertNumber((_a = computedProps.value.strokeWidth) != null ? _a : config.defaultCircleStrokeWidth, defaultStrokeWidth);
     });
-    const isGradient = computed(() => isObject(computedProps.value.strokeColor));
+    const isGradient = computed$1(() => isObject(computedProps.value.strokeColor));
     const linearGradientId = ref(`ix-progress-gradient-${uniqueId()}`);
-    const calcSharedProperties = computed(() => {
+    const calcSharedProperties = computed$1(() => {
       var _a, _b;
       const isCircle = computedProps.value.type === "circle";
       const radius = 50 - strokeWidth.value / 2;
@@ -31132,33 +31337,33 @@ var Circle = defineComponent({
         gapDegree: convertNumber((_b = computedProps.value.gapDegree) != null ? _b : isCircle ? 0 : 75)
       };
     });
-    const circleGradient = computed(() => {
+    const circleGradient = computed$1(() => {
       return isGradient.value ? handleCircleGradient(computedProps.value.strokeColor) : [];
     });
     const pathString = usePathString(calcSharedProperties);
     const trailPathStyle = useTrailPathStyle(calcSharedProperties);
     const strokePath = useCirclePath(calcSharedProperties, computedProps.value, percent, formattedSuccess);
-    const trailPathAttr = computed(() => ({
+    const trailPathAttr = computed$1(() => ({
       stroke: "#f5f5f5",
       "fill-opacity": "0",
       "stroke-linecap": computedProps.value.strokeLinecap,
       "stroke-width": strokeWidth.value,
       d: pathString.value
     }));
-    const strokePathAttr = computed(() => ({
+    const strokePathAttr = computed$1(() => ({
       "fill-opacity": "0",
       "stroke-linecap": computedProps.value.strokeLinecap,
       "stroke-width": computedProps.value.percent ? strokeWidth.value : 0,
       d: pathString.value
     }));
-    const circleClasses = computed(() => {
+    const circleClasses = computed$1(() => {
       const prefixCls = circleMergedPrefixCls.value;
       return {
         [prefixCls]: true,
         [`${prefixCls}-gradient`]: isGradient.value
       };
     });
-    const circleStyle = computed(() => ({
+    const circleStyle = computed$1(() => ({
       width: computedProps.value.width && `${computedProps.value.width}px`,
       height: computedProps.value.width && `${computedProps.value.width}px`,
       fontSize: computedProps.value.width && `${convertNumber(computedProps.value.width) * 0.15 + 6}px`
@@ -31195,7 +31400,7 @@ var Circle = defineComponent({
   }
 });
 function usePathString(calcSharedProperties) {
-  return computed(() => {
+  return computed$1(() => {
     const {
       radius,
       gapPosition
@@ -31228,7 +31433,7 @@ function usePathString(calcSharedProperties) {
   });
 }
 function useTrailPathStyle(calcSharedProperties) {
-  return computed(() => {
+  return computed$1(() => {
     const {
       len,
       gapDegree
@@ -31241,7 +31446,7 @@ function useTrailPathStyle(calcSharedProperties) {
   });
 }
 function useCirclePath(calcSharedProperties, props, percent, success) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     const successPercent = success.value.percent;
     const {
@@ -31278,8 +31483,8 @@ var Line = defineComponent({
       formattedSuccess
     } = inject(progressContext);
     const computedProps = useProps(props, config);
-    const lineMergedPrefixCls = computed(() => `${mergedPrefixCls.value}-line`);
-    const lineClasses = computed(() => {
+    const lineMergedPrefixCls = computed$1(() => `${mergedPrefixCls.value}-line`);
+    const lineClasses = computed$1(() => {
       const prefixCls = lineMergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -31287,7 +31492,7 @@ var Line = defineComponent({
         [`${prefixCls}-round`]: computedProps.value.strokeLinecap === "round"
       };
     });
-    const successStyle = computed(() => {
+    const successStyle = computed$1(() => {
       var _a, _b;
       return {
         height: computedProps.value.strokeWidth && `${computedProps.value.strokeWidth}px`,
@@ -31295,7 +31500,7 @@ var Line = defineComponent({
         background: (_b = formattedSuccess.value.strokeColor) != null ? _b : ""
       };
     });
-    const bgStyle = computed(() => {
+    const bgStyle = computed$1(() => {
       var _a;
       return {
         height: computedProps.value.strokeWidth && `${computedProps.value.strokeWidth}px`,
@@ -31341,7 +31546,7 @@ const progressProps = {
   icons: IxPropTypes.object()
 };
 function useStatus(props, percent, success) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     if (!progressStatus.includes(props.status) && (percent.value >= fullPercent || success.value.percent >= fullPercent)) {
       return "success";
@@ -31349,25 +31554,25 @@ function useStatus(props, percent, success) {
     return (_a = props.status) != null ? _a : "normal";
   });
 }
-var __defProp$b = Object.defineProperty;
-var __defProps$8 = Object.defineProperties;
-var __getOwnPropDescs$8 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$c = Object.getOwnPropertySymbols;
-var __hasOwnProp$c = Object.prototype.hasOwnProperty;
-var __propIsEnum$c = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$b = (obj, key, value) => key in obj ? __defProp$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$b = (a, b) => {
+var __defProp$d = Object.defineProperty;
+var __defProps$a = Object.defineProperties;
+var __getOwnPropDescs$a = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$f = Object.getOwnPropertySymbols;
+var __hasOwnProp$f = Object.prototype.hasOwnProperty;
+var __propIsEnum$f = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$d = (obj, key, value) => key in obj ? __defProp$d(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$d = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$c.call(b, prop))
-      __defNormalProp$b(a, prop, b[prop]);
-  if (__getOwnPropSymbols$c)
-    for (var prop of __getOwnPropSymbols$c(b)) {
-      if (__propIsEnum$c.call(b, prop))
-        __defNormalProp$b(a, prop, b[prop]);
+    if (__hasOwnProp$f.call(b, prop))
+      __defNormalProp$d(a, prop, b[prop]);
+  if (__getOwnPropSymbols$f)
+    for (var prop of __getOwnPropSymbols$f(b)) {
+      if (__propIsEnum$f.call(b, prop))
+        __defNormalProp$d(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$8 = (a, b) => __defProps$8(a, __getOwnPropDescs$8(b));
+var __spreadProps$a = (a, b) => __defProps$a(a, __getOwnPropDescs$a(b));
 var Progress = defineComponent({
   name: "IxProgress",
   props: progressProps,
@@ -31376,16 +31581,16 @@ var Progress = defineComponent({
   }) {
     const config = useGlobalConfig$1("progress");
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-progress`);
-    const percent = computed(() => convertPercent(props.percent));
-    const formattedSuccess = computed(() => {
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-progress`);
+    const percent = computed$1(() => convertPercent(props.percent));
+    const formattedSuccess = computed$1(() => {
       var _a;
-      return __spreadProps$8(__spreadValues$b({}, props.success), {
+      return __spreadProps$a(__spreadValues$d({}, props.success), {
         percent: convertPercent((_a = props.success) == null ? void 0 : _a.percent)
       });
     });
     const status = useStatus(props, percent, formattedSuccess);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -31413,10 +31618,10 @@ const IxProgress = Progress;
 
 const radioGroupToken = Symbol("radioGroupToken");
 const radioProps = {
+  control: controlPropDef,
   checked: IxPropTypes.bool,
   autofocus: IxPropTypes.bool.def(false),
   buttoned: IxPropTypes.bool,
-  control: controlPropDef,
   disabled: IxPropTypes.bool,
   label: IxPropTypes.string,
   mode: IxPropTypes.oneOf(["default", "primary"]),
@@ -31428,9 +31633,10 @@ const radioProps = {
   onFocus: IxPropTypes.emit()
 };
 const radioGroupProps = {
-  value: IxPropTypes.any,
   control: controlPropDef,
+  value: IxPropTypes.any,
   buttoned: IxPropTypes.bool.def(false),
+  dataSource: IxPropTypes.array(),
   disabled: IxPropTypes.bool.def(false),
   gap: IxPropTypes.oneOfType([Number, String]),
   name: IxPropTypes.string,
@@ -31440,17 +31646,17 @@ const radioGroupProps = {
   "onUpdate:value": IxPropTypes.emit(),
   onChange: IxPropTypes.emit()
 };
-var __getOwnPropSymbols$b = Object.getOwnPropertySymbols;
-var __hasOwnProp$b = Object.prototype.hasOwnProperty;
-var __propIsEnum$b = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$e = Object.getOwnPropertySymbols;
+var __hasOwnProp$e = Object.prototype.hasOwnProperty;
+var __propIsEnum$e = Object.prototype.propertyIsEnumerable;
 var __objRest$3 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$b.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$e.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$b)
-    for (var prop of __getOwnPropSymbols$b(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$b.call(source, prop))
+  if (source != null && __getOwnPropSymbols$e)
+    for (var prop of __getOwnPropSymbols$e(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$e.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -31465,7 +31671,7 @@ var Radio = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-radio`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-radio`);
     const config = useGlobalConfig$1("radio");
     const {
       elementRef,
@@ -31478,19 +31684,19 @@ var Radio = defineComponent({
     });
     const formContext = inject(FORM_TOKEN, null);
     const radioGroup = inject(radioGroupToken, null);
-    const mergedName = computed(() => {
+    const mergedName = computed$1(() => {
       var _a;
       return (_a = attrs.name) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.name;
     });
-    const isButtoned = computed(() => {
+    const isButtoned = computed$1(() => {
       var _a;
       return (_a = props.buttoned) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.buttoned;
     });
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a, _b, _c;
       return (_c = (_b = (_a = props.size) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : config.size;
     });
-    const mode = computed(() => {
+    const mode = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.mode) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.mode) != null ? _b : "default";
     });
@@ -31502,7 +31708,7 @@ var Radio = defineComponent({
       handleBlur,
       handleFocus
     } = useRadio(props, radioGroup, elementRef);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const buttoned = isButtoned.value;
       const prefixCls = mergedPrefixCls.value;
       const classes2 = {
@@ -31583,8 +31789,8 @@ const useRadio = (props, radioGroup, elementRef) => {
       accessor,
       props: groupProps
     } = radioGroup;
-    isChecked = computed(() => accessor.valueRef.value === props.value);
-    isDisabled = computed(() => {
+    isChecked = computed$1(() => accessor.valueRef.value === props.value);
+    isDisabled = computed$1(() => {
       var _a;
       return (_a = props.disabled) != null ? _a : accessor.disabled.value;
     });
@@ -31597,16 +31803,17 @@ const useRadio = (props, radioGroup, elementRef) => {
       if (elementRef.value) {
         const checked = evt.target.checked;
         const value = props.value;
+        const oldValue = accessor.valueRef.value;
         accessor.setValue(value);
         elementRef.value.checked = false;
-        callEmit(props.onChange, checked);
-        callEmit(groupProps.onChange, value);
+        callEmit(props.onChange, checked, !checked);
+        callEmit(groupProps.onChange, value, oldValue);
       }
     };
   } else {
     const accessor = useFormAccessor("checked");
-    isChecked = computed(() => !!accessor.valueRef.value);
-    isDisabled = computed(() => accessor.disabled.value);
+    isChecked = computed$1(() => !!accessor.valueRef.value);
+    isDisabled = computed$1(() => accessor.disabled.value);
     handleBlur = (evt) => {
       isFocused.value = false;
       callEmit(props.onBlur, evt);
@@ -31617,7 +31824,7 @@ const useRadio = (props, radioGroup, elementRef) => {
         const checked = evt.target.checked;
         accessor.setValue(checked);
         elementRef.value.checked = false;
-        callEmit(props.onChange, checked);
+        callEmit(props.onChange, checked, !checked);
       }
     };
   }
@@ -31642,29 +31849,34 @@ var RadioGroup = defineComponent({
       accessor
     });
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-radio-group`);
-    const classes = computed(() => {
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-radio-group`);
+    const classes = computed$1(() => {
       const {
         gap
       } = props;
       const prefixCls = mergedPrefixCls.value;
-      return {
+      return normalizeClass({
         [prefixCls]: true,
         [`${prefixCls}-with-gap`]: !isNil(gap)
-      };
+      });
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       const {
         gap
       } = props;
-      return gap !== 0 ? `gap: ${convertCssPixel(gap)};` : void 0;
+      return gap != null ? `gap: ${convertCssPixel(gap)};` : void 0;
     });
     return () => {
       var _a;
       const {
-        options
+        options,
+        dataSource
       } = props;
-      const children = options ? options.map((option) => createVNode(Radio, option, null)) : (_a = slots.default) == null ? void 0 : _a.call(slots);
+      if (options) {
+        Logger.warn("components/radio", "`options` was deprecated, please use `dataSource` instead");
+      }
+      const data = options != null ? options : dataSource;
+      const children = data ? data.map((item) => createVNode(Radio, item, null)) : (_a = slots.default) == null ? void 0 : _a.call(slots);
       return createVNode("div", {
         "class": classes.value,
         "style": style.value
@@ -31714,7 +31926,7 @@ var RateItem = defineComponent({
       }
     };
     const handleMouseMove = (evt) => props.onMouseMove(evt, liRef.value, props.index);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         focused,
         index,
@@ -31777,7 +31989,7 @@ var Rate = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-rate`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-rate`);
     const config = useGlobalConfig$1("rate");
     const formContext = inject(FORM_TOKEN, null);
     const {
@@ -31790,23 +32002,23 @@ var Rate = defineComponent({
       blur
     });
     const accessor = useFormAccessor();
-    const countRef = computed(() => {
+    const countRef = computed$1(() => {
       var _a;
       return convertNumber((_a = props.count) != null ? _a : config.count);
     });
-    const iconRef = computed(() => {
+    const iconRef = computed$1(() => {
       var _a;
       return (_a = props.icon) != null ? _a : config.icon;
     });
-    const allowHalfRef = computed(() => {
+    const allowHalfRef = computed$1(() => {
       var _a;
       return (_a = props.allowHalf) != null ? _a : config.allowHalf;
     });
-    const clearableRef = computed(() => {
+    const clearableRef = computed$1(() => {
       var _a;
       return (_a = props.clearable) != null ? _a : config.clearable;
     });
-    const isDisabled = computed(() => accessor.disabled.value);
+    const isDisabled = computed$1(() => accessor.disabled.value);
     const isFocused = ref(false);
     const hoverValue = ref();
     const changeValue = (value) => {
@@ -31868,11 +32080,11 @@ var Rate = defineComponent({
     const handleMouseLeave = () => {
       hoverValue.value = void 0;
     };
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value) != null ? _b : config.size;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -31954,7 +32166,7 @@ var Result = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-result`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-result`);
     const resultConfig = useGlobalConfig$1("result");
     const className = useClassName(props, mergedPrefixCls, resultConfig);
     const currentIcon = useIcon$1(props, resultConfig);
@@ -31986,7 +32198,7 @@ function renderIcon$2(prefixCls, iconSlot, icon) {
   return renderSlottedNode(`${prefixCls}-icon`, iconSlot, content);
 }
 function useClassName(props, mergedPrefixCls, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     const prefixCls = mergedPrefixCls.value;
     const status = (_a = props.status) != null ? _a : config.status;
@@ -31997,7 +32209,7 @@ function useClassName(props, mergedPrefixCls, config) {
   });
 }
 function useIcon$1(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b, _c, _d;
     const status = (_a = props.status) != null ? _a : config.status;
     return (_d = (_c = props.icon) != null ? _c : (_b = config.icon) == null ? void 0 : _b[status]) != null ? _d : defaultIconMap[status];
@@ -32022,9 +32234,9 @@ var Skeleton = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-skeleton`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-skeleton`);
     const config = useGlobalConfig$1("skeleton");
-    const loaderClass = computed(() => {
+    const loaderClass = computed$1(() => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
@@ -32033,7 +32245,7 @@ var Skeleton = defineComponent({
         [`${prefixCls}-animated`]: (_a = props.animated) != null ? _a : config.animated
       });
     });
-    const loaderStyle = computed(() => {
+    const loaderStyle = computed$1(() => {
       const {
         width,
         height,
@@ -32122,7 +32334,7 @@ var IxSliderMarks = defineComponent({
       reverse,
       vertical
     } = inject(sliderToken);
-    const mergedPrefixCls = computed(() => `${prefixCls.value}-mark`);
+    const mergedPrefixCls = computed$1(() => `${prefixCls.value}-mark`);
     return () => {
       return createVNode("div", {
         "class": mergedPrefixCls.value
@@ -32141,7 +32353,7 @@ function renderMarks(props, values, marks, max, min, prefixCls, range, reverse, 
     let markLabel = void 0;
     if (isString(markValue) || isVNode(markValue)) {
       markLabel = markValue;
-    } else if (isFunction(markValue)) {
+    } else if (isFunction$1(markValue)) {
       markLabel = markValue();
     } else if (isObj) {
       markLabel = markValue.label;
@@ -32248,7 +32460,7 @@ var IxSliderThumb = defineComponent({
     const isHovering = ref(false);
     const tooltipRef = ref(null);
     const thumbRef = ref(null);
-    const mergedPrefixCls = computed(() => `${prefixCls.value}-thumb`);
+    const mergedPrefixCls = computed$1(() => `${prefixCls.value}-thumb`);
     const showTooltip = () => tooltipVisible.value !== false && (mergedTooltipVisible.value = true);
     const hideTooltip = () => tooltipVisible.value !== true && (mergedTooltipVisible.value = false);
     onUpdated(() => {
@@ -32299,7 +32511,7 @@ var IxSliderThumb = defineComponent({
           "onFocus": disabled.value ? NoopFunction : handleFocus,
           "onBlur": disabled.value ? NoopFunction : handleBlur
         }), null)],
-        title: () => isFunction(tooltipFormatter.value) ? tooltipFormatter.value(props.value) : createVNode("span", null, [props.value])
+        title: () => isFunction$1(tooltipFormatter.value) ? tooltipFormatter.value(props.value) : createVNode("span", null, [props.value])
       });
     };
   }
@@ -32312,19 +32524,19 @@ function useSlider(props) {
   const activeIndex = ref(-1);
   const railRef = ref(null);
   const isDragging = ref(false);
-  const isDisabled = computed(() => accessor == null ? void 0 : accessor.disabled.value);
-  const precision = computed(() => {
+  const isDisabled = computed$1(() => accessor == null ? void 0 : accessor.disabled.value);
+  const precision = computed$1(() => {
     const precisions = [props.min, props.max, props.step].map((num) => {
       const decimal = `${num}`.split(".")[1];
       return decimal ? decimal.length : 0;
     });
     return Math.max(...precisions);
   });
-  const stepPrecision = computed(() => {
+  const stepPrecision = computed$1(() => {
     const decimal = `${props.step}`.split(".")[1];
     return decimal ? decimal.length : 0;
   });
-  const direction = computed(() => {
+  const direction = computed$1(() => {
     if (props.vertical) {
       return props.reverse ? sliderStartDirection.ttb : sliderStartDirection.btt;
     }
@@ -32413,7 +32625,7 @@ function useSlider(props) {
   }
   function handleMouseUpOnDocument() {
     stopDragging();
-    callEmit(props.onChange, toRaw(valuesRef.value));
+    callEmit(props.onChange, toRaw$1(valuesRef.value));
   }
   function handleMouseUp() {
     var _a, _b;
@@ -32553,25 +32765,25 @@ function useSlider(props) {
     handleMarkClick
   };
 }
-var __defProp$a = Object.defineProperty;
-var __defProps$7 = Object.defineProperties;
-var __getOwnPropDescs$7 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$a = Object.getOwnPropertySymbols;
-var __hasOwnProp$a = Object.prototype.hasOwnProperty;
-var __propIsEnum$a = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$a = (obj, key, value) => key in obj ? __defProp$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$a = (a, b) => {
+var __defProp$c = Object.defineProperty;
+var __defProps$9 = Object.defineProperties;
+var __getOwnPropDescs$9 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$d = Object.getOwnPropertySymbols;
+var __hasOwnProp$d = Object.prototype.hasOwnProperty;
+var __propIsEnum$d = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$c = (obj, key, value) => key in obj ? __defProp$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$c = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$a.call(b, prop))
-      __defNormalProp$a(a, prop, b[prop]);
-  if (__getOwnPropSymbols$a)
-    for (var prop of __getOwnPropSymbols$a(b)) {
-      if (__propIsEnum$a.call(b, prop))
-        __defNormalProp$a(a, prop, b[prop]);
+    if (__hasOwnProp$d.call(b, prop))
+      __defNormalProp$c(a, prop, b[prop]);
+  if (__getOwnPropSymbols$d)
+    for (var prop of __getOwnPropSymbols$d(b)) {
+      if (__propIsEnum$d.call(b, prop))
+        __defNormalProp$c(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$7 = (a, b) => __defProps$7(a, __getOwnPropDescs$7(b));
+var __spreadProps$9 = (a, b) => __defProps$9(a, __getOwnPropDescs$9(b));
 var Slider = defineComponent({
   name: "IxSlider",
   props: sliderProps,
@@ -32596,15 +32808,15 @@ var Slider = defineComponent({
     const {
       trackStyle
     } = useTrack(props, valuesRef, direction);
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-slider`);
-    const thumbs = computed(() => valuesRef.value.slice(0, props.range ? 2 : 1));
-    const thumbTransformOfStyle = computed(() => {
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-slider`);
+    const thumbs = computed$1(() => valuesRef.value.slice(0, props.range ? 2 : 1));
+    const thumbTransformOfStyle = computed$1(() => {
       if (props.vertical) {
         return props.reverse ? `translateY(-50%)` : `translateY(50%)`;
       }
       return props.reverse ? `translateX(50%)` : `translateX(-50%)`;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -32613,7 +32825,7 @@ var Slider = defineComponent({
         [`${prefixCls}-with-marks`]: !isUndefined(props.marks)
       };
     });
-    provide(sliderToken, __spreadProps$7(__spreadValues$a({}, toRefs(props)), {
+    provide(sliderToken, __spreadProps$9(__spreadValues$c({}, toRefs(props)), {
       direction,
       dragging: isDragging,
       values: valuesRef,
@@ -32664,9 +32876,9 @@ var Slider = defineComponent({
   }
 });
 function useTrack(props, values, direction) {
-  const maxValue = computed(() => Math.max(...values.value));
-  const minValue = computed(() => Math.min(...values.value));
-  const trackStyle = computed(() => {
+  const maxValue = computed$1(() => Math.max(...values.value));
+  const minValue = computed$1(() => Math.min(...values.value));
+  const trackStyle = computed$1(() => {
     return {
       [direction.value]: props.range ? `${(minValue.value - props.min) / (props.max - props.min) * 100}%` : "0%",
       [props.vertical ? "height" : "width"]: props.range ? `${(maxValue.value - minValue.value) / (props.max - props.min) * 100}%` : `${(+values.value[0] - props.min) / (props.max - props.min) * 100}%`
@@ -32693,7 +32905,7 @@ var Statistic = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-statistic`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-statistic`);
     const statisticConfig = useGlobalConfig$1("statistic");
     const formatedValue = useFomat(props, statisticConfig);
     return () => {
@@ -32728,7 +32940,7 @@ var Statistic = defineComponent({
   }
 });
 const useFomat = (props, config) => {
-  return computed(() => {
+  return computed$1(() => {
     const precision = props.precision || config.precision;
     const formatter = props.formatter || config.formatter;
     return formatter(props.value, precision);
@@ -32755,6 +32967,25 @@ const stepperItemProps = {
   title: IxPropTypes.string,
   status: IxPropTypes.oneOf(["process", "finish", "wait", "error"])
 };
+var __defProp$b = Object.defineProperty;
+var __defProps$8 = Object.defineProperties;
+var __getOwnPropDescs$8 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$c = Object.getOwnPropertySymbols;
+var __hasOwnProp$c = Object.prototype.hasOwnProperty;
+var __propIsEnum$c = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$b = (obj, key, value) => key in obj ? __defProp$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$b = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$c.call(b, prop))
+      __defNormalProp$b(a, prop, b[prop]);
+  if (__getOwnPropSymbols$c)
+    for (var prop of __getOwnPropSymbols$c(b)) {
+      if (__propIsEnum$c.call(b, prop))
+        __defNormalProp$b(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$8 = (a, b) => __defProps$8(a, __getOwnPropDescs$8(b));
 var Stepper = defineComponent({
   name: "IxStepper",
   props: stepperProps,
@@ -32762,12 +32993,15 @@ var Stepper = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-stepper`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-stepper`);
     const config = useGlobalConfig$1("stepper");
-    const classes = computed(() => {
+    const size = computed$1(() => {
+      var _a;
+      return (_a = props.size) != null ? _a : config.size;
+    });
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
-        size = config.size,
         labelPlacement = config.labelPlacement,
         percent,
         vertical
@@ -32775,14 +33009,16 @@ var Stepper = defineComponent({
       return normalizeClass({
         [prefixCls]: true,
         [`${prefixCls}-label-${labelPlacement}`]: true,
-        [`${prefixCls}-${size}`]: true,
+        [`${prefixCls}-${size.value}`]: true,
         [`${prefixCls}-vertical`]: vertical,
         [`${prefixCls}-with-percent`]: percent != null
       });
     });
     const [activeKey, setActiveKey] = useControlledProp(props, "activeKey");
     provide(stepperToken, {
-      props,
+      props: reactive(__spreadProps$8(__spreadValues$b({}, toRefs(props)), {
+        size
+      })),
       slots,
       activeKey,
       setActiveKey
@@ -32812,14 +33048,14 @@ var StepperItem = defineComponent({
   }) {
     const key = useKey();
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-stepper-item`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-stepper-item`);
     const {
       props: parentProps,
       activeKey,
       setActiveKey
     } = inject(stepperToken);
-    const isActive = computed(() => activeKey.value === key);
-    const status = computed(() => {
+    const isActive = computed$1(() => activeKey.value === key);
+    const status = computed$1(() => {
       if (props.status) {
         return props.status;
       }
@@ -32827,12 +33063,12 @@ var StepperItem = defineComponent({
         return parentProps.status;
       }
       const currActiveKey = activeKey.value;
-      if (!currActiveKey || isSymbol(currActiveKey) || isSymbol(key)) {
+      if (!currActiveKey || isSymbol$1(currActiveKey) || isSymbol$1(key)) {
         return "wait";
       }
       return currActiveKey > key ? "finish" : "wait";
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
         disabled,
@@ -32857,8 +33093,8 @@ var StepperItem = defineComponent({
       const prefixCls = mergedPrefixCls.value;
       const clickable = parentProps.clickable && !props.disabled;
       const iconNode = renderIcon$1(props, slots, parentProps, status, key);
-      const titleNode = covertStringVNode(slots, props, "title");
-      const descriptionNode = covertStringVNode(slots, props, "description");
+      const titleNode = convertStringVNode(slots, props, "title");
+      const descriptionNode = convertStringVNode(slots, props, "description");
       return createVNode("div", {
         "class": classes.value,
         "role": clickable ? "button" : void 0,
@@ -32938,7 +33174,7 @@ var Switch = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-switch`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-switch`);
     const {
       elementRef,
       focus,
@@ -32950,8 +33186,8 @@ var Switch = defineComponent({
       blur
     });
     const accessor = useFormAccessor("checked");
-    const isChecked = computed(() => accessor.valueRef.value);
-    const isDisabled = computed(() => {
+    const isChecked = computed$1(() => accessor.valueRef.value);
+    const isDisabled = computed$1(() => {
       var _a;
       return (_a = props.disabled) != null ? _a : accessor.disabled.value;
     });
@@ -32969,11 +33205,11 @@ var Switch = defineComponent({
       callEmit(props.onBlur, evt);
       accessor.markAsBlurred();
     };
-    const size = computed(() => {
+    const size = computed$1(() => {
       var _a;
       return (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         loading
       } = props;
@@ -33019,8 +33255,8 @@ const TableColumn = () => {
 TableColumn.displayName = "IxTableColumn";
 TableColumn[tableColumnKey] = true;
 var __defProp$5$1 = Object.defineProperty;
-var __defProps$5 = Object.defineProperties;
-var __getOwnPropDescs$5 = Object.getOwnPropertyDescriptors;
+var __defProps$5$1 = Object.defineProperties;
+var __getOwnPropDescs$5$1 = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$5$1 = Object.getOwnPropertySymbols;
 var __hasOwnProp$5$1 = Object.prototype.hasOwnProperty;
 var __propIsEnum$5$1 = Object.prototype.propertyIsEnumerable;
@@ -33036,7 +33272,7 @@ var __spreadValues$5$1 = (a, b) => {
     }
   return a;
 };
-var __spreadProps$5 = (a, b) => __defProps$5(a, __getOwnPropDescs$5(b));
+var __spreadProps$5$1 = (a, b) => __defProps$5$1(a, __getOwnPropDescs$5$1(b));
 var __objRest$2 = (source, exclude) => {
   var target = {};
   for (var prop in source)
@@ -33051,7 +33287,7 @@ var __objRest$2 = (source, exclude) => {
 };
 function useColumns(props, slots, config, scrollBarSizeOnFixedHolder) {
   const breakpoints = useSharedBreakpoints();
-  const mergedColumns = computed(() => {
+  const mergedColumns = computed$1(() => {
     var _a;
     const { columns } = props;
     if (columns && columns.length > 0) {
@@ -33062,11 +33298,11 @@ function useColumns(props, slots, config, scrollBarSizeOnFixedHolder) {
   });
   const { flattedColumns, scrollBarColumn, flattedColumnsWithScrollBar } = useFlattedColumns(mergedColumns, scrollBarSizeOnFixedHolder);
   const fixedColumnKeys = useFixedColumnKeys(flattedColumnsWithScrollBar);
-  const hasEllipsis = computed(() => flattedColumns.value.some((column) => column.ellipsis));
-  const hasFixed = computed(() => flattedColumns.value.some((column) => column.fixed));
+  const hasEllipsis = computed$1(() => props.ellipsis || flattedColumns.value.some((column) => column.ellipsis));
+  const hasFixed = computed$1(() => flattedColumns.value.some((column) => column.fixed));
   const { columnWidths, columnWidthsWithScrollBar, changeColumnWidth } = useColumnWidths(flattedColumns, scrollBarColumn);
   const { columnOffsets, columnOffsetsWithScrollBar } = useColumnOffsets(columnWidths, columnWidthsWithScrollBar);
-  const mergedRows = computed(() => mergeRows(mergedColumns.value, scrollBarColumn.value));
+  const mergedRows = computed$1(() => mergeRows(mergedColumns.value, scrollBarColumn.value));
   return {
     flattedColumns,
     scrollBarColumn,
@@ -33083,7 +33319,7 @@ function useColumns(props, slots, config, scrollBarSizeOnFixedHolder) {
   };
 }
 function mergeColumns(columns, breakpoints, baseConfig, expandableConfig) {
-  return columns.filter((column) => !column.responsive || column.responsive.some((key) => breakpoints[key])).map((column, index) => covertColumn(column, breakpoints, baseConfig, expandableConfig, index));
+  return columns.filter((column) => !column.responsive || column.responsive.some((key) => breakpoints[key])).map((column, index) => convertColumn(column, breakpoints, baseConfig, expandableConfig, index));
 }
 function convertColumns(nodes) {
   const columns = [];
@@ -33092,7 +33328,7 @@ function convertColumns(nodes) {
     const _a = props || {}, { key = index, editable, ellipsis } = _a, newColumn = __objRest$2(_a, ["key", "editable", "ellipsis"]);
     newColumn.key = key;
     newColumn.editable = editable || editable === "";
-    newColumn.editable = ellipsis || ellipsis === "";
+    newColumn.ellipsis = ellipsis || ellipsis === "";
     const { default: defaultSlot, cell, title, expand, icon } = children || {};
     if (defaultSlot) {
       newColumn.children = convertColumns(defaultSlot());
@@ -33113,22 +33349,22 @@ function convertColumns(nodes) {
   });
   return columns;
 }
-function covertColumn(column, breakpoints, baseConfig, expandableConfig, index) {
+function convertColumn(column, breakpoints, baseConfig, expandableConfig, index) {
   var _a;
   const { align = baseConfig.align } = column;
   if ("type" in column) {
     const key = `IDUX_TABLE_KEY_${column.type}`;
     if (column.type === "expandable") {
       const { icon = expandableConfig.icon } = column;
-      return __spreadProps$5(__spreadValues$5$1({}, column), { key, align, icon });
+      return __spreadProps$5$1(__spreadValues$5$1({}, column), { key, align, icon });
     } else {
       const multiple = (_a = column.multiple) != null ? _a : true;
-      return __spreadProps$5(__spreadValues$5$1({}, column), { key, align, multiple });
+      return __spreadProps$5$1(__spreadValues$5$1({}, column), { key, align, multiple });
     }
   } else {
     const { key, dataKey, sortable, filterable, children } = column;
     const _key = key != null ? key : convertArray(dataKey).join("-") || `'IDUX_TABLE_KEY_${index}`;
-    const newColumn = __spreadProps$5(__spreadValues$5$1({}, column), { key: _key, align });
+    const newColumn = __spreadProps$5$1(__spreadValues$5$1({}, column), { key: _key, align });
     if (sortable) {
       newColumn.sortable = __spreadValues$5$1(__spreadValues$5$1({}, baseConfig.sortable), sortable);
     }
@@ -33142,8 +33378,8 @@ function covertColumn(column, breakpoints, baseConfig, expandableConfig, index) 
   }
 }
 function useFlattedColumns(mergedColumns, scrollBarSizeOnFixedHolder) {
-  const flattedColumns = computed(() => flatColumns(mergedColumns.value));
-  const scrollBarColumn = computed(() => {
+  const flattedColumns = computed$1(() => flatColumns(mergedColumns.value));
+  const scrollBarColumn = computed$1(() => {
     const scrollBarSize = scrollBarSizeOnFixedHolder.value;
     if (scrollBarSize === 0) {
       return void 0;
@@ -33157,7 +33393,7 @@ function useFlattedColumns(mergedColumns, scrollBarSizeOnFixedHolder) {
       width: scrollBarSize
     };
   });
-  const flattedColumnsWithScrollBar = computed(() => {
+  const flattedColumnsWithScrollBar = computed$1(() => {
     const columns = flattedColumns.value;
     if (columns.length === 0) {
       return columns;
@@ -33184,7 +33420,7 @@ function flatColumns(columns) {
   return result;
 }
 function useFixedColumnKeys(flattedColumnsWithScrollBar) {
-  return computed(() => {
+  return computed$1(() => {
     let lastStartKey;
     let firstEndKey;
     flattedColumnsWithScrollBar.value.forEach((column) => {
@@ -33212,11 +33448,11 @@ function useColumnWidths(flattedColumns, scrollBarColumn) {
     }
     widthString.value = columns.map((column) => widthMap[column.key]).join("-");
   });
-  const columnWidths = computed(() => {
+  const columnWidths = computed$1(() => {
     const _widthString = widthString.value;
     return _widthString ? _widthString.split("-").map(Number) : [];
   });
-  const columnWidthsWithScrollBar = computed(() => {
+  const columnWidthsWithScrollBar = computed$1(() => {
     const widths = columnWidths.value;
     if (widths.length === 0) {
       return widths;
@@ -33234,8 +33470,8 @@ function useColumnWidths(flattedColumns, scrollBarColumn) {
   return { columnWidths, columnWidthsWithScrollBar, changeColumnWidth };
 }
 function useColumnOffsets(columnWidths, columnWidthsWithScrollBar) {
-  const columnOffsets = computed(() => calculateOffsets(columnWidths.value));
-  const columnOffsetsWithScrollBar = computed(() => calculateOffsets(columnWidthsWithScrollBar.value));
+  const columnOffsets = computed$1(() => calculateOffsets(columnWidths.value));
+  const columnOffsetsWithScrollBar = computed$1(() => calculateOffsets(columnWidthsWithScrollBar.value));
   return { columnOffsets, columnOffsetsWithScrollBar };
 }
 function calculateOffsets(widths) {
@@ -33275,7 +33511,7 @@ function mergeRows(mergedColumns, scrollBarColumn) {
         }
       }
       const colEnd = colStart + titleColSpan - 1;
-      rows[rowIndex].push(__spreadProps$5(__spreadValues$5$1({}, column), { titleColSpan, colStart, colEnd, hasChildren }));
+      rows[rowIndex].push(__spreadProps$5$1(__spreadValues$5$1({}, column), { titleColSpan, colStart, colEnd, hasChildren }));
       colStart += titleColSpan;
       return titleColSpan;
     });
@@ -33293,39 +33529,39 @@ function mergeRows(mergedColumns, scrollBarColumn) {
   });
   return rows;
 }
-var __defProp$4$1 = Object.defineProperty;
-var __defProps$4 = Object.defineProperties;
-var __getOwnPropDescs$4 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$4$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$4$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$4$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$4$1 = (obj, key, value) => key in obj ? __defProp$4$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$4$1 = (a, b) => {
+var __defProp$4$2 = Object.defineProperty;
+var __defProps$4$1 = Object.defineProperties;
+var __getOwnPropDescs$4$1 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$4$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$4$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$4$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$4$2 = (obj, key, value) => key in obj ? __defProp$4$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$4$2 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$4$1.call(b, prop))
-      __defNormalProp$4$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$4$1)
-    for (var prop of __getOwnPropSymbols$4$1(b)) {
-      if (__propIsEnum$4$1.call(b, prop))
-        __defNormalProp$4$1(a, prop, b[prop]);
+    if (__hasOwnProp$4$2.call(b, prop))
+      __defNormalProp$4$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$4$2)
+    for (var prop of __getOwnPropSymbols$4$2(b)) {
+      if (__propIsEnum$4$2.call(b, prop))
+        __defNormalProp$4$2(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$4 = (a, b) => __defProps$4(a, __getOwnPropDescs$4(b));
+var __spreadProps$4$1 = (a, b) => __defProps$4$1(a, __getOwnPropDescs$4$1(b));
 function useDataSource(props, getRowKey, activeSortable, activeFilters, expandedRowKeys, mergedPagination) {
-  const mergedData = computed(() => {
+  const mergedData = computed$1(() => {
     const { dataSource, childrenKey } = props;
     const getKey = getRowKey.value;
-    return dataSource.map((record) => covertMergeData(record, getKey, childrenKey));
+    return dataSource.map((record) => convertMergeData(record, getKey, childrenKey));
   });
-  const mergedMap = computed(() => {
+  const mergedMap = computed$1(() => {
     const map = /* @__PURE__ */ new Map();
-    covertDataMap(mergedData.value, map);
+    convertDataMap(mergedData.value, map);
     return map;
   });
-  const filteredData = computed(() => filterData(mergedData.value, activeFilters.value, expandedRowKeys.value));
-  const sortedData = computed(() => sortData(filteredData.value, activeSortable, expandedRowKeys.value));
-  const paginatedData = computed(() => {
+  const filteredData = computed$1(() => filterData(mergedData.value, activeFilters.value, expandedRowKeys.value));
+  const sortedData = computed$1(() => sortData(filteredData.value, activeSortable, expandedRowKeys.value));
+  const paginatedData = computed$1(() => {
     const pagination = mergedPagination.value;
     const data = sortedData.value;
     if (pagination === null || !pagination.pageSize) {
@@ -33340,12 +33576,12 @@ function useDataSource(props, getRowKey, activeSortable, activeFilters, expanded
       return data.slice(startIndex, startIndex + pageSize);
     }
   });
-  const paginatedMap = computed(() => {
+  const paginatedMap = computed$1(() => {
     const map = /* @__PURE__ */ new Map();
-    covertDataMap(paginatedData.value, map);
+    convertDataMap(paginatedData.value, map);
     return map;
   });
-  const flattedData = computed(() => {
+  const flattedData = computed$1(() => {
     const expandedKeys = expandedRowKeys.value;
     if (expandedKeys.length > 0) {
       return flatData(paginatedData.value, expandedKeys, 0);
@@ -33354,21 +33590,21 @@ function useDataSource(props, getRowKey, activeSortable, activeFilters, expanded
   });
   return { filteredData, flattedData, mergedMap, paginatedMap };
 }
-function covertMergeData(record, getRowKey, childrenKey, parentKey) {
+function convertMergeData(record, getRowKey, childrenKey, parentKey) {
   const rowKey = getRowKey(record);
   const result = { record, rowKey, parentKey };
   const subData = record[childrenKey];
   if (subData) {
-    result.children = subData.map((subRecord) => covertMergeData(subRecord, getRowKey, childrenKey, rowKey));
+    result.children = subData.map((subRecord) => convertMergeData(subRecord, getRowKey, childrenKey, rowKey));
   }
   return result;
 }
-function covertDataMap(mergedData, map) {
+function convertDataMap(mergedData, map) {
   mergedData.forEach((item) => {
     const { rowKey, children } = item;
     map.set(rowKey, item);
     if (children) {
-      covertDataMap(children, map);
+      convertDataMap(children, map);
     }
   });
 }
@@ -33398,7 +33634,7 @@ function filterData(mergedData, activeFilters, expandedRowKeys) {
     if (isExpanded && children && children.length) {
       const newChildren = filterData(children, activeFilters, expandedRowKeys);
       if (newChildren.length !== children.length) {
-        newItem = __spreadProps$4(__spreadValues$4$1({}, item), { children: newChildren });
+        newItem = __spreadProps$4$1(__spreadValues$4$2({}, item), { children: newChildren });
       }
     }
     return valid || isExpanded && newItem.children ? newItem : null;
@@ -33417,7 +33653,7 @@ function flatData(mergedData, expandedRowKeys, level) {
   }, []);
 }
 function useExpandable$1(props, flattedColumns) {
-  const expandable = computed(() => flattedColumns.value.find((column) => "type" in column && column.type === "expandable"));
+  const expandable = computed$1(() => flattedColumns.value.find((column) => "type" in column && column.type === "expandable"));
   const [expandedRowKeys, setExpandedRowKeys] = useControlledProp(props, "expandedRowKeys", () => []);
   const handleExpandChange = (key, record) => {
     const { onChange, onExpand } = expandable.value || {};
@@ -33451,7 +33687,7 @@ function useFilterable(flattedColumns) {
   const setFilterBy = (key, filterBy) => {
     filterByMap[key] = filterBy;
   };
-  const filterableColumns = computed(() => flattedColumns.value.filter((column) => !!column.filterable));
+  const filterableColumns = computed$1(() => flattedColumns.value.filter((column) => !!column.filterable));
   watch(filterableColumns, (columns) => {
     columns.forEach((column) => {
       var _a;
@@ -33460,7 +33696,7 @@ function useFilterable(flattedColumns) {
       }
     });
   }, { immediate: true });
-  const activeFilters = computed(() => filterableColumns.value.map((column) => {
+  const activeFilters = computed$1(() => filterableColumns.value.map((column) => {
     const filterable = column.filterable;
     const filter = filterable.filter;
     const filterBy = filterable.filterBy || filterByMap[column.key];
@@ -33472,8 +33708,8 @@ function useFilterable(flattedColumns) {
     setFilterBy
   };
 }
-function useGetRowKey(props, config) {
-  return computed(() => {
+function useGetRowKey$1(props, config) {
+  return computed$1(() => {
     var _a;
     const rowKey = (_a = props.rowKey) != null ? _a : config.rowKey;
     if (isString(rowKey)) {
@@ -33488,30 +33724,30 @@ function useGetRowKey(props, config) {
     return rowKey;
   });
 }
-var __defProp$3$1 = Object.defineProperty;
+var __defProp$3$2 = Object.defineProperty;
 var __defProps$3$1 = Object.defineProperties;
 var __getOwnPropDescs$3$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$3$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$3$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$3$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$3$1 = (obj, key, value) => key in obj ? __defProp$3$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$3$1 = (a, b) => {
+var __getOwnPropSymbols$3$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$3$2 = (obj, key, value) => key in obj ? __defProp$3$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$3$2 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$3$1.call(b, prop))
-      __defNormalProp$3$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$3$1)
-    for (var prop of __getOwnPropSymbols$3$1(b)) {
-      if (__propIsEnum$3$1.call(b, prop))
-        __defNormalProp$3$1(a, prop, b[prop]);
+    if (__hasOwnProp$3$2.call(b, prop))
+      __defNormalProp$3$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$3$2)
+    for (var prop of __getOwnPropSymbols$3$2(b)) {
+      if (__propIsEnum$3$2.call(b, prop))
+        __defNormalProp$3$2(a, prop, b[prop]);
     }
   return a;
 };
 var __spreadProps$3$1 = (a, b) => __defProps$3$1(a, __getOwnPropDescs$3$1(b));
-function usePagination(props, config) {
+function usePagination$1(props, config) {
   const paginationConfig = useGlobalConfig$1("pagination");
   const pageIndex = ref();
   const pageSize = ref();
-  const tempPagination = computed(() => {
+  const tempPagination = computed$1(() => {
     const { pagination } = props;
     if (pagination === false) {
       return null;
@@ -33534,12 +33770,12 @@ function usePagination(props, config) {
     pageSize.value = size;
     callEmit((_a = tempPagination.value) == null ? void 0 : _a["onUpdate:pageSize"], size);
   };
-  const mergedPagination = computed(() => {
+  const mergedPagination = computed$1(() => {
     const pagination = tempPagination.value;
     if (pagination === null) {
       return null;
     }
-    return __spreadProps$3$1(__spreadValues$3$1(__spreadValues$3$1({}, config.pagination), pagination), {
+    return __spreadProps$3$1(__spreadValues$3$2(__spreadValues$3$2({}, config.pagination), pagination), {
       pageIndex: pageIndex.value,
       pageSize: pageSize.value,
       "onUpdate:pageIndex": handlePageIndexChange,
@@ -33553,16 +33789,16 @@ function useScroll(props, { isSticky, stickyScrollLeft }) {
   const { scrollHeadRef, scrollBodyRef, scrollFootRef, handleScroll, pingedStart, pingedEnd } = useScrollRef(stickyScrollLeft);
   process.env.NODE_ENV !== "production" && ((_a = props.scroll) == null ? void 0 : _a.x) && Logger.warn("components/table", "`scroll.x` was deprecated, please use `scroll.width` instead");
   process.env.NODE_ENV !== "production" && ((_b = props.scroll) == null ? void 0 : _b.y) && Logger.warn("components/table", "`scroll.y` was deprecated, please use `scroll.height` instead");
-  const scrollWidth = computed(() => {
+  const scrollWidth = computed$1(() => {
     var _a2, _b2;
     return convertCssPixel(((_a2 = props.scroll) == null ? void 0 : _a2.width) || ((_b2 = props.scroll) == null ? void 0 : _b2.x));
   });
-  const scrollHeight = computed(() => {
+  const scrollHeight = computed$1(() => {
     var _a2, _b2;
     return convertCssPixel(((_a2 = props.scroll) == null ? void 0 : _a2.height) || ((_b2 = props.scroll) == null ? void 0 : _b2.y));
   });
-  const scrollBarSize = computed(() => props.virtual ? 0 : getScrollBarSize(convertElement(scrollBodyRef)));
-  const scrollBarSizeOnFixedHolder = computed(() => isSticky.value ? 0 : scrollHeight.value ? scrollBarSize.value : 0);
+  const scrollBarSize = computed$1(() => props.virtual ? 0 : getScrollBarSize(convertElement(scrollBodyRef)));
+  const scrollBarSizeOnFixedHolder = computed$1(() => isSticky.value ? 0 : scrollHeight.value ? scrollBarSize.value : 0);
   const scrollTo = (options) => {
     var _a2;
     if (props.virtual) {
@@ -33649,9 +33885,9 @@ function useScrollRef(stickyScrollLeft) {
   };
 }
 function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMap }) {
-  const selectable = computed(() => flattedColumns.value.find((column) => "type" in column && column.type === "selectable"));
+  const selectable = computed$1(() => flattedColumns.value.find((column) => "type" in column && column.type === "selectable"));
   const [selectedRowKeys, setSelectedRowKeys] = useControlledProp(props, "selectedRowKeys", () => []);
-  const currentPageRowKeys = computed(() => {
+  const currentPageRowKeys = computed$1(() => {
     const { disabled } = selectable.value || {};
     const enabledRowKeys = [];
     const disabledRowKeys = [];
@@ -33664,7 +33900,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     });
     return { enabledRowKeys, disabledRowKeys };
   });
-  const indeterminateRowKeys = computed(() => {
+  const indeterminateRowKeys = computed$1(() => {
     const indeterminateKeySet = /* @__PURE__ */ new Set();
     const selectedKeys = selectedRowKeys.value;
     const { disabledRowKeys } = currentPageRowKeys.value;
@@ -33685,7 +33921,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     });
     return [...indeterminateKeySet];
   });
-  const countCurrentPageSelected = computed(() => {
+  const countCurrentPageSelected = computed$1(() => {
     const selectedKeys = selectedRowKeys.value;
     const { disabledRowKeys } = currentPageRowKeys.value;
     let total = 0;
@@ -33696,7 +33932,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     }, 0);
     return total;
   });
-  const currentPageAllSelected = computed(() => {
+  const currentPageAllSelected = computed$1(() => {
     const dataCount = paginatedMap.value.size;
     const disabledCount = currentPageRowKeys.value.disabledRowKeys.length;
     if (dataCount === 0 || dataCount === disabledCount) {
@@ -33704,7 +33940,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     }
     return dataCount === disabledCount + countCurrentPageSelected.value;
   });
-  const currentPageSomeSelected = computed(() => !currentPageAllSelected.value && countCurrentPageSelected.value > 0);
+  const currentPageSomeSelected = computed$1(() => !currentPageAllSelected.value && countCurrentPageSelected.value > 0);
   const emitChange = (tempRowKeys) => {
     setSelectedRowKeys(tempRowKeys);
     const dataMap = mergedMap.value;
@@ -33812,12 +34048,12 @@ const invertMenuItemKey = Symbol("IDUX_TABLE_KEY_selectable-invert");
 const noneMenuItemKey = Symbol("IDUX_TABLE_KEY_selectable-none");
 const pageInvertMenuItemKey = Symbol("IDUX_TABLE_KEY_selectable-pageInvert");
 function useMergedMenus(selectable, locale) {
-  return computed(() => {
+  return computed$1(() => {
     const { menus } = selectable.value || {};
     if (!menus || menus.length === 0) {
       return [];
     }
-    const { selectAll, selectInvert, selectNone, selectPageInvert } = locale.value;
+    const { selectAll, selectInvert, selectNone, selectPageInvert } = locale.table;
     return menus.map((item) => {
       if (isString(item)) {
         if (item === "all") {
@@ -33893,7 +34129,7 @@ function useMenuClickHandle(selectable, mergedMap, paginatedMap, selectedRowKeys
   ]);
   return (options) => {
     const key = options.key;
-    if (isSymbol(key) && menuClickHandles.has(key)) {
+    if (isSymbol$1(key) && menuClickHandles.has(key)) {
       const handle = menuClickHandles.get(key);
       handle();
       return;
@@ -33914,7 +34150,7 @@ function useMenuClickHandle(selectable, mergedMap, paginatedMap, selectedRowKeys
 }
 function useSortable(flattedColumns) {
   var _a, _b;
-  const activeSortColumn = computed(() => flattedColumns.value.find((column) => {
+  const activeSortColumn = computed$1(() => flattedColumns.value.find((column) => {
     var _a2;
     return (_a2 = column.sortable) == null ? void 0 : _a2.orderBy;
   }));
@@ -33960,8 +34196,8 @@ function getCurrOrderBy(orders, currOrderBy) {
   return orders[orders.indexOf(currOrderBy) + 1];
 }
 function useSticky(props) {
-  const isSticky = computed(() => !!props.sticky);
-  const mergedSticky = computed(() => {
+  const isSticky = computed$1(() => !!props.sticky);
+  const mergedSticky = computed$1(() => {
     const { sticky } = props;
     const {
       offsetHead = 0,
@@ -33980,7 +34216,7 @@ function useSticky(props) {
   return { isSticky, mergedSticky, stickyScrollLeft };
 }
 function useTableLayout(props, { hasEllipsis, hasFixed }, { scrollWidth, scrollHeight }, isSticky) {
-  return computed(() => {
+  return computed$1(() => {
     if (props.tableLayout) {
       return props.tableLayout;
     }
@@ -33995,31 +34231,31 @@ function useTableLayout(props, { hasEllipsis, hasFixed }, { scrollWidth, scrollH
 }
 function useTags(props) {
   return {
-    tableTag: computed(() => {
+    tableTag: computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.table) != null ? _b : "table";
     }),
-    headTag: computed(() => {
+    headTag: computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.head) != null ? _b : "thead";
     }),
-    headRowTag: computed(() => {
+    headRowTag: computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.headRow) != null ? _b : "tr";
     }),
-    headColTag: computed(() => {
+    headColTag: computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.headCol) != null ? _b : "th";
     }),
-    bodyTag: computed(() => {
+    bodyTag: computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.body) != null ? _b : "tbody";
     }),
-    bodyRowTag: computed(() => {
+    bodyRowTag: computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.bodyRow) != null ? _b : "tr";
     }),
-    bodyColTag: computed(() => {
+    bodyColTag: computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.bodyCol) != null ? _b : "td";
     })
@@ -34040,7 +34276,7 @@ var ColGroup = defineComponent({
       mergedSelectableMenus,
       mergedPrefixCls
     } = inject(TABLE_TOKEN);
-    const isRender = computed(() => flattedColumns.value.some((column) => !!column.width || "type" in column));
+    const isRender = computed$1(() => flattedColumns.value.some((column) => !!column.width || "type" in column));
     return () => {
       const {
         ixFixedHolder
@@ -34089,16 +34325,16 @@ var FixedHolder = defineComponent({
       columnWidths
     } = inject(TABLE_TOKEN);
     useScrollEvents(scrollHeadRef, handleScroll);
-    const isMaxContent = computed(() => scrollWidth.value === "max-content");
-    const hasData = computed(() => flattedData.value.length > 0);
-    const classes = computed(() => {
+    const isMaxContent = computed$1(() => scrollWidth.value === "max-content");
+    const hasData = computed$1(() => flattedData.value.length > 0);
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [`${prefixCls}-fixed-holder`]: true,
         [`${prefixCls}-sticky-holder`]: isSticky.value
       };
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       const sticky = isSticky.value;
       const {
         offsetHead,
@@ -34110,7 +34346,7 @@ var FixedHolder = defineComponent({
         bottom: sticky ? offsetFoot : void 0
       };
     });
-    const tableStyle = computed(() => {
+    const tableStyle = computed$1(() => {
       const visibility = hasData.value && !columnWidths.value.length ? "hidden" : void 0;
       return {
         tableLayout: "fixed",
@@ -34161,7 +34397,7 @@ var StickyScroll = defineComponent({
     const delta = ref(0);
     const bodyClientWidth = ref(0);
     const bodyScrollWidth = ref(0);
-    const scrollBarWidth = computed(() => {
+    const scrollBarWidth = computed$1(() => {
       const clientWidth = bodyClientWidth.value;
       const scrollWidth = bodyScrollWidth.value;
       return scrollWidth && clientWidth * (clientWidth / scrollWidth);
@@ -34182,21 +34418,21 @@ var StickyScroll = defineComponent({
         bodyScrollWidth.value = scrollWidth;
       }
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       return {
         height: getScrollBarSize(),
         width: bodyClientWidth.value,
         bottom: mergedSticky.value.offsetScroll
       };
     });
-    const scrollBarClasses = computed(() => {
+    const scrollBarClasses = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [`${prefixCls}-sticky-scroll-bar`]: true,
         [`${prefixCls}-sticky-scroll-bar-active`]: isActive.value
       };
     });
-    const scrollBarStyle = computed(() => {
+    const scrollBarStyle = computed$1(() => {
       return {
         width: `${scrollBarWidth.value}px`,
         transform: `translate3d(${stickyScrollLeft.value}px, 0, 0)`
@@ -34280,6 +34516,32 @@ var StickyScroll = defineComponent({
     };
   }
 });
+var BodyRowSingle = defineComponent({
+  setup(_, {
+    slots
+  }) {
+    const {
+      flattedColumns,
+      bodyRowTag,
+      bodyColTag
+    } = inject(TABLE_TOKEN);
+    const columnCount = computed$1(() => flattedColumns.value.length);
+    return () => {
+      const BodyRowTag = bodyRowTag.value;
+      const BodyColTag = bodyColTag.value;
+      return createVNode(BodyRowTag, null, {
+        default: () => [createVNode(BodyColTag, {
+          "colSpan": columnCount.value
+        }, {
+          default: () => {
+            var _a;
+            return [(_a = slots.default) == null ? void 0 : _a.call(slots)];
+          }
+        })]
+      });
+    };
+  }
+});
 const tableProps = {
   expandedRowKeys: IxPropTypes.array(),
   selectedRowKeys: IxPropTypes.array(),
@@ -34287,6 +34549,7 @@ const tableProps = {
   childrenKey: IxPropTypes.string.def("children"),
   columns: IxPropTypes.array().def(() => []),
   dataSource: IxPropTypes.array().def(() => []),
+  ellipsis: IxPropTypes.bool.def(false),
   empty: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
   header: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
   headless: IxPropTypes.bool,
@@ -34347,464 +34610,6 @@ const tableFilterableTriggerProps = {
   filterable: IxPropTypes.object().isRequired,
   onUpdateFilterBy: IxPropTypes.func().isRequired
 });
-function getColTitle(ellipsis, children, title) {
-  if (!ellipsis) {
-    return void 0;
-  }
-  let _title = title;
-  if (isString(children)) {
-    _title = children;
-  } else {
-    const node = getFirstValidNode(children);
-    if (node && isString(node.children)) {
-      _title = node.children;
-    }
-  }
-  return _title;
-}
-var __defProp$2$2 = Object.defineProperty;
-var __defProps$2$1 = Object.defineProperties;
-var __getOwnPropDescs$2$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$2$2 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$2 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$2 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2$2 = (obj, key, value) => key in obj ? __defProp$2$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2$2 = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$2$2.call(b, prop))
-      __defNormalProp$2$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2$2)
-    for (var prop of __getOwnPropSymbols$2$2(b)) {
-      if (__propIsEnum$2$2.call(b, prop))
-        __defNormalProp$2$2(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps$2$1 = (a, b) => __defProps$2$1(a, __getOwnPropDescs$2$1(b));
-var BodyCell = defineComponent({
-  props: tableBodyCellProps,
-  setup(props) {
-    const {
-      mergedPrefixCls,
-      slots,
-      activeSortable,
-      fixedColumnKeys,
-      columnOffsets,
-      isSticky,
-      expandable,
-      selectable,
-      bodyColTag
-    } = inject(TABLE_TOKEN);
-    const dataValue = useDataValue(props);
-    const classes = computed(() => {
-      const {
-        key,
-        fixed,
-        align,
-        ellipsis
-      } = props.column;
-      const prefixCls = mergedPrefixCls.value;
-      let classes2 = {
-        [`${prefixCls}-sorted`]: activeSortable.key === key && !!activeSortable.orderBy,
-        [`${prefixCls}-align-${align}`]: !!align,
-        [`${prefixCls}-ellipsis`]: !!ellipsis
-      };
-      if (fixed) {
-        const {
-          lastStartKey,
-          firstEndKey
-        } = fixedColumnKeys.value;
-        classes2 = __spreadProps$2$1(__spreadValues$2$2({}, classes2), {
-          [`${prefixCls}-fix-start`]: fixed === "start",
-          [`${prefixCls}-fix-start-last`]: lastStartKey === key,
-          [`${prefixCls}-fix-end`]: fixed === "end",
-          [`${prefixCls}-fix-end-first`]: firstEndKey === key,
-          [`${prefixCls}-fix-sticky`]: isSticky.value
-        });
-      }
-      return normalizeClass(classes2);
-    });
-    const style = computed(() => {
-      const {
-        fixed
-      } = props.column;
-      if (!fixed) {
-        return;
-      }
-      const {
-        starts,
-        ends
-      } = columnOffsets.value;
-      const offsets = fixed === "start" ? starts : ends;
-      const fixedOffset = convertCssPixel(offsets[props.colIndex]);
-      return {
-        position: "sticky",
-        left: fixed === "start" ? fixedOffset : void 0,
-        right: fixed === "end" ? fixedOffset : void 0
-      };
-    });
-    const handleClick = (evt) => {
-      evt.stopPropagation();
-    };
-    return () => {
-      const {
-        type,
-        additional
-      } = props.column;
-      let children;
-      let title;
-      if (type === "selectable") {
-        children = renderSelectableChildren(props, selectable, handleClick);
-      } else {
-        const {
-          ellipsis
-        } = props.column;
-        const text = dataValue.value;
-        children = renderChildren$2(props, slots, dataValue.value);
-        title = getColTitle(ellipsis, children, text);
-      }
-      const BodyColTag = bodyColTag.value;
-      return createVNode(BodyColTag, mergeProps({
-        "class": classes.value,
-        "style": style.value,
-        "title": title
-      }, additional), {
-        default: () => [type === "expandable" && renderExpandableChildren(props, slots, expandable, mergedPrefixCls.value), children]
-      });
-    };
-  }
-});
-function useDataValue(props) {
-  return computed(() => {
-    const {
-      column,
-      record
-    } = props;
-    const dataKeys = convertArray(column.dataKey);
-    if (dataKeys.length <= 0) {
-      return void 0;
-    }
-    let value = record;
-    for (let index = 0; index < dataKeys.length; index++) {
-      if (!value) {
-        break;
-      }
-      const key = dataKeys[index];
-      value = value[key];
-    }
-    return value;
-  });
-}
-function renderChildren$2(props, slots, value) {
-  const {
-    record,
-    rowIndex,
-    column
-  } = props;
-  const {
-    customRender,
-    customCell
-  } = column;
-  if (process.env.NODE_ENV !== "production" && customRender) {
-    Logger.warn("components/table", "`customRender` was deprecated, please use `customCell` instead");
-  }
-  const cellRender = customRender != null ? customRender : customCell;
-  if (isFunction(cellRender)) {
-    return cellRender({
-      value,
-      record,
-      rowIndex
-    });
-  } else if (isString(cellRender) && slots[cellRender]) {
-    return slots[cellRender]({
-      value,
-      record,
-      rowIndex
-    });
-  }
-  return value;
-}
-function renderExpandableChildren(props, slots, expandable, prefixCls) {
-  const {
-    icon,
-    customIcon,
-    indent
-  } = expandable.value;
-  const {
-    record,
-    expanded,
-    level = 0,
-    disabled
-  } = props;
-  const onExpand = props.handleExpend;
-  const style = {
-    marginLeft: indent ? convertCssPixel(level * indent) : void 0
-  };
-  let iconNode;
-  if (disabled) {
-    iconNode = null;
-  } else if (isFunction(customIcon)) {
-    iconNode = customIcon({
-      expanded: !!expanded,
-      record
-    });
-  } else if (isString(customIcon) && slots[customIcon]) {
-    iconNode = slots[customIcon]({
-      expanded,
-      record
-    });
-  } else {
-    iconNode = createVNode(IxIcon, {
-      "name": icon,
-      "rotate": expanded ? 90 : 0
-    }, null);
-  }
-  return createVNode("button", {
-    "class": `${prefixCls}-expandable-trigger`,
-    "style": style,
-    "onClick": onExpand
-  }, [iconNode]);
-}
-function renderSelectableChildren(props, selectable, onClick) {
-  const {
-    selected: checked,
-    indeterminate,
-    disabled,
-    handleSelect: onChange
-  } = props;
-  const {
-    multiple
-  } = selectable.value;
-  if (multiple) {
-    const checkboxProps = {
-      checked,
-      disabled,
-      indeterminate,
-      onChange,
-      onClick
-    };
-    return createVNode(IxCheckbox, checkboxProps, null);
-  } else {
-    const radioProps = {
-      checked,
-      disabled,
-      onChange,
-      onClick
-    };
-    return createVNode(IxRadio, radioProps, null);
-  }
-}
-var BodyRowSingle = defineComponent({
-  setup(_, {
-    slots
-  }) {
-    const {
-      flattedColumns,
-      bodyRowTag,
-      bodyColTag
-    } = inject(TABLE_TOKEN);
-    const columnCount = computed(() => flattedColumns.value.length);
-    return () => {
-      const BodyRowTag = bodyRowTag.value;
-      const BodyColTag = bodyColTag.value;
-      return createVNode(BodyRowTag, null, {
-        default: () => [createVNode(BodyColTag, {
-          "colSpan": columnCount.value
-        }, {
-          default: () => {
-            var _a;
-            return [(_a = slots.default) == null ? void 0 : _a.call(slots)];
-          }
-        })]
-      });
-    };
-  }
-});
-var BodyRow = defineComponent({
-  props: tableBodyRowProps,
-  setup(props) {
-    const {
-      props: tableProps2,
-      mergedPrefixCls,
-      slots,
-      flattedColumns,
-      expandable,
-      handleExpandChange,
-      checkExpandDisabled,
-      selectable,
-      selectedRowKeys,
-      indeterminateRowKeys,
-      handleSelectChange,
-      currentPageRowKeys,
-      bodyRowTag
-    } = inject(TABLE_TOKEN);
-    const {
-      expandDisabled,
-      handleExpend,
-      selectDisabled,
-      handleSelect,
-      clickEvents
-    } = useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange, selectable, handleSelectChange, currentPageRowKeys);
-    const isSelected = computed(() => selectedRowKeys.value.includes(props.rowKey));
-    const isIndeterminate = computed(() => indeterminateRowKeys.value.includes(props.rowKey));
-    const classes = useClasses$2(props, tableProps2, isSelected, mergedPrefixCls);
-    return () => {
-      const children = renderChildren$1(props, flattedColumns, expandDisabled.value, handleExpend, isSelected, isIndeterminate, selectDisabled, handleSelect);
-      const BodyRowTag = bodyRowTag.value;
-      const nodes = [createVNode(BodyRowTag, mergeProps({
-        "class": classes.value
-      }, clickEvents.value), {
-        default: () => [children]
-      })];
-      if (props.expanded) {
-        const expandedContext = renderExpandedContext(props, slots, expandable.value);
-        expandedContext && nodes.push(expandedContext);
-      }
-      return nodes;
-    };
-  }
-});
-function useClasses$2(props, tableProps2, isSelected, mergedPrefixCls) {
-  const rowClassName = computed(() => tableProps2.rowClassName ? tableProps2.rowClassName(props.record, props.rowIndex) : void 0);
-  return computed(() => {
-    const prefixCls = `${mergedPrefixCls.value}-row`;
-    const {
-      level,
-      expanded
-    } = props;
-    const computeRowClassName = rowClassName.value;
-    return normalizeClass({
-      [`${prefixCls}-level-${level}`]: !!level,
-      [`${prefixCls}-selected`]: isSelected.value,
-      [`${prefixCls}-expanded`]: expanded,
-      [computeRowClassName]: !!computeRowClassName
-    });
-  });
-}
-function useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange, selectable, handleSelectChange, currentPageRowKeys) {
-  const expandDisabled = computed(() => checkExpandDisabled(props.rowData));
-  const expendTrigger = computed(() => {
-    var _a;
-    return (_a = expandable.value) == null ? void 0 : _a.trigger;
-  });
-  const handleExpend = () => {
-    const {
-      rowKey,
-      record
-    } = props;
-    handleExpandChange(rowKey, record);
-  };
-  const selectDisabled = computed(() => currentPageRowKeys.value.disabledRowKeys.includes(props.rowKey));
-  const selectTrigger = computed(() => {
-    var _a;
-    return (_a = selectable.value) == null ? void 0 : _a.trigger;
-  });
-  const handleSelect = () => {
-    const {
-      rowKey,
-      record
-    } = props;
-    handleSelectChange(rowKey, record);
-  };
-  const handleClick = () => {
-    if (expendTrigger.value === "click" && !expandDisabled.value) {
-      handleExpend();
-    }
-    if (selectTrigger.value === "click" && !selectDisabled.value) {
-      handleSelect();
-    }
-  };
-  const handleDblclick = () => {
-    if (expendTrigger.value === "dblclick" && !expandDisabled.value) {
-      handleExpend();
-    }
-    if (selectTrigger.value === "dblclick" && !selectDisabled.value) {
-      handleSelect();
-    }
-  };
-  const clickEvents = computed(() => {
-    const onClick = expendTrigger.value === "click" || selectTrigger.value === "click" ? handleClick : void 0;
-    const onDblclick = expendTrigger.value === "dblclick" || selectTrigger.value === "dblclick" ? handleDblclick : void 0;
-    return {
-      onClick,
-      onDblclick
-    };
-  });
-  return {
-    expandDisabled,
-    handleExpend,
-    selectDisabled,
-    handleSelect,
-    clickEvents
-  };
-}
-function renderChildren$1(props, flattedColumns, expandDisabled, handleExpend, isSelected, isIndeterminate, selectDisabled, handleSelect) {
-  const children = [];
-  const {
-    rowIndex,
-    record,
-    level
-  } = props;
-  flattedColumns.value.forEach((column, colIndex) => {
-    const {
-      type,
-      colSpan: getColSpan,
-      rowSpan: getRowSpan,
-      key
-    } = column;
-    const colSpan = getColSpan == null ? void 0 : getColSpan(record, rowIndex);
-    const rowSpan = getRowSpan == null ? void 0 : getRowSpan(record, rowIndex);
-    if (colSpan === 0 || rowSpan === 0) {
-      return;
-    }
-    const colProps = {
-      colSpan: colSpan === 1 ? void 0 : colSpan,
-      rowSpan: rowSpan === 1 ? void 0 : rowSpan,
-      rowIndex,
-      colIndex,
-      record,
-      column,
-      level,
-      key
-    };
-    if (type === "expandable") {
-      colProps.expanded = props.expanded;
-      colProps.disabled = expandDisabled;
-      colProps.handleExpend = handleExpend;
-    } else if (type === "selectable") {
-      colProps.selected = isSelected.value;
-      colProps.indeterminate = isIndeterminate.value;
-      colProps.disabled = selectDisabled.value;
-      colProps.handleSelect = handleSelect;
-    }
-    children.push(createVNode(BodyCell, colProps, null));
-  });
-  return children;
-}
-function renderExpandedContext(props, slots, expandable) {
-  const {
-    customExpand
-  } = expandable || {};
-  const {
-    record,
-    rowIndex
-  } = props;
-  let expandedContext;
-  if (isFunction(customExpand)) {
-    expandedContext = customExpand({
-      record,
-      rowIndex
-    });
-  } else if (isString(customExpand) && slots[customExpand]) {
-    expandedContext = slots[customExpand]({
-      record,
-      rowIndex
-    });
-  }
-  return expandedContext && createVNode(BodyRowSingle, null, {
-    default: () => [expandedContext]
-  });
-}
 var MeasureCell = defineComponent({
   props: tableMeasureCellProps,
   setup(props) {
@@ -34871,6 +34676,457 @@ var MeasureRow = defineComponent({
     };
   }
 });
+function getColTitle(ellipsis, children, title) {
+  if (!ellipsis) {
+    return void 0;
+  }
+  let _title = title;
+  if (isString(children)) {
+    _title = children;
+  } else {
+    const node = getFirstValidNode(children);
+    if (node && isString(node.children)) {
+      _title = node.children;
+    }
+  }
+  return _title;
+}
+var __defProp$2$4 = Object.defineProperty;
+var __defProps$2$1 = Object.defineProperties;
+var __getOwnPropDescs$2$1 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$2$4 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$4 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$4 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$4 = (obj, key, value) => key in obj ? __defProp$2$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$4 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$2$4.call(b, prop))
+      __defNormalProp$2$4(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$4)
+    for (var prop of __getOwnPropSymbols$2$4(b)) {
+      if (__propIsEnum$2$4.call(b, prop))
+        __defNormalProp$2$4(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$2$1 = (a, b) => __defProps$2$1(a, __getOwnPropDescs$2$1(b));
+var BodyCell = defineComponent({
+  props: tableBodyCellProps,
+  setup(props) {
+    const {
+      props: tableProps2,
+      slots,
+      mergedPrefixCls,
+      activeSortable,
+      fixedColumnKeys,
+      columnOffsets,
+      isSticky,
+      expandable,
+      selectable,
+      bodyColTag
+    } = inject(TABLE_TOKEN);
+    const dataValue = useDataValue(props);
+    const classes = computed$1(() => {
+      const {
+        key,
+        fixed,
+        align,
+        ellipsis = tableProps2.ellipsis
+      } = props.column;
+      const prefixCls = mergedPrefixCls.value;
+      let classes2 = {
+        [`${prefixCls}-sorted`]: activeSortable.key === key && !!activeSortable.orderBy,
+        [`${prefixCls}-align-${align}`]: !!align,
+        [`${prefixCls}-ellipsis`]: ellipsis
+      };
+      if (fixed) {
+        const {
+          lastStartKey,
+          firstEndKey
+        } = fixedColumnKeys.value;
+        classes2 = __spreadProps$2$1(__spreadValues$2$4({}, classes2), {
+          [`${prefixCls}-fix-start`]: fixed === "start",
+          [`${prefixCls}-fix-start-last`]: lastStartKey === key,
+          [`${prefixCls}-fix-end`]: fixed === "end",
+          [`${prefixCls}-fix-end-first`]: firstEndKey === key,
+          [`${prefixCls}-fix-sticky`]: isSticky.value
+        });
+      }
+      return normalizeClass(classes2);
+    });
+    const style = computed$1(() => {
+      const {
+        fixed
+      } = props.column;
+      if (!fixed) {
+        return;
+      }
+      const {
+        starts,
+        ends
+      } = columnOffsets.value;
+      const offsets = fixed === "start" ? starts : ends;
+      const fixedOffset = convertCssPixel(offsets[props.colIndex]);
+      return {
+        position: "sticky",
+        left: fixed === "start" ? fixedOffset : void 0,
+        right: fixed === "end" ? fixedOffset : void 0
+      };
+    });
+    const handleClick = (evt) => {
+      evt.stopPropagation();
+    };
+    return () => {
+      const {
+        type,
+        additional
+      } = props.column;
+      let children;
+      let title;
+      if (type === "selectable") {
+        children = renderSelectableChildren(props, selectable, handleClick);
+      } else {
+        const {
+          ellipsis = tableProps2.ellipsis
+        } = props.column;
+        const text = dataValue.value;
+        children = renderChildren$2(props, slots, dataValue.value);
+        title = getColTitle(ellipsis, children, text);
+      }
+      const BodyColTag = bodyColTag.value;
+      return createVNode(BodyColTag, mergeProps({
+        "class": classes.value,
+        "style": style.value,
+        "title": title
+      }, additional), {
+        default: () => [type === "expandable" && renderExpandableChildren(props, slots, expandable, mergedPrefixCls.value), children]
+      });
+    };
+  }
+});
+function useDataValue(props) {
+  return computed$1(() => {
+    const {
+      column,
+      record
+    } = props;
+    const dataKeys = convertArray(column.dataKey);
+    if (dataKeys.length <= 0) {
+      return void 0;
+    }
+    let value = record;
+    for (let index = 0; index < dataKeys.length; index++) {
+      if (!value) {
+        break;
+      }
+      const key = dataKeys[index];
+      value = value[key];
+    }
+    return value;
+  });
+}
+function renderChildren$2(props, slots, value) {
+  const {
+    record,
+    rowIndex,
+    column
+  } = props;
+  const {
+    customRender,
+    customCell
+  } = column;
+  if (process.env.NODE_ENV !== "production" && customRender) {
+    Logger.warn("components/table", "`customRender` was deprecated, please use `customCell` instead");
+  }
+  const cellRender = customRender != null ? customRender : customCell;
+  if (isFunction$1(cellRender)) {
+    return cellRender({
+      value,
+      record,
+      rowIndex
+    });
+  } else if (isString(cellRender) && slots[cellRender]) {
+    return slots[cellRender]({
+      value,
+      record,
+      rowIndex
+    });
+  }
+  return value;
+}
+function renderExpandableChildren(props, slots, expandable, prefixCls) {
+  const {
+    icon,
+    customIcon,
+    indent
+  } = expandable.value;
+  const {
+    record,
+    expanded,
+    level = 0,
+    disabled
+  } = props;
+  const onExpand = props.handleExpend;
+  const style = {
+    marginLeft: indent ? convertCssPixel(level * indent) : void 0
+  };
+  let iconNode;
+  if (disabled) {
+    iconNode = null;
+  } else if (isFunction$1(customIcon)) {
+    iconNode = customIcon({
+      expanded: !!expanded,
+      record
+    });
+  } else if (isString(customIcon) && slots[customIcon]) {
+    iconNode = slots[customIcon]({
+      expanded,
+      record
+    });
+  } else {
+    iconNode = createVNode(IxIcon, {
+      "name": icon,
+      "rotate": expanded ? 90 : 0
+    }, null);
+  }
+  return createVNode("button", {
+    "class": `${prefixCls}-expandable-trigger`,
+    "style": style,
+    "onClick": onExpand
+  }, [iconNode]);
+}
+function renderSelectableChildren(props, selectable, onClick) {
+  const {
+    selected: checked,
+    indeterminate,
+    disabled,
+    handleSelect: onChange
+  } = props;
+  const {
+    multiple
+  } = selectable.value;
+  if (multiple) {
+    const checkboxProps = {
+      checked,
+      disabled,
+      indeterminate,
+      onChange,
+      onClick
+    };
+    return createVNode(IxCheckbox, checkboxProps, null);
+  } else {
+    const radioProps = {
+      checked,
+      disabled,
+      onChange,
+      onClick
+    };
+    return createVNode(IxRadio, radioProps, null);
+  }
+}
+var BodyRow = defineComponent({
+  props: tableBodyRowProps,
+  setup(props) {
+    const {
+      props: tableProps2,
+      mergedPrefixCls,
+      flattedColumns,
+      expandable,
+      handleExpandChange,
+      checkExpandDisabled,
+      selectable,
+      selectedRowKeys,
+      indeterminateRowKeys,
+      handleSelectChange,
+      currentPageRowKeys,
+      bodyRowTag
+    } = inject(TABLE_TOKEN);
+    const {
+      expandDisabled,
+      handleExpend,
+      selectDisabled,
+      handleSelect,
+      clickEvents
+    } = useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange, selectable, handleSelectChange, currentPageRowKeys);
+    const isSelected = computed$1(() => selectedRowKeys.value.includes(props.rowKey));
+    const isIndeterminate = computed$1(() => indeterminateRowKeys.value.includes(props.rowKey));
+    const classes = useClasses(props, tableProps2, isSelected, mergedPrefixCls);
+    return () => {
+      const children = renderChildren$1(props, flattedColumns, expandDisabled.value, handleExpend, isSelected, isIndeterminate, selectDisabled, handleSelect);
+      const BodyRowTag = bodyRowTag.value;
+      return createVNode(BodyRowTag, mergeProps({
+        "class": classes.value
+      }, clickEvents.value), {
+        default: () => [children]
+      });
+    };
+  }
+});
+function useClasses(props, tableProps2, isSelected, mergedPrefixCls) {
+  const rowClassName = computed$1(() => tableProps2.rowClassName ? tableProps2.rowClassName(props.record, props.rowIndex) : void 0);
+  return computed$1(() => {
+    const prefixCls = `${mergedPrefixCls.value}-row`;
+    const {
+      level,
+      expanded
+    } = props;
+    const computeRowClassName = rowClassName.value;
+    return normalizeClass({
+      [`${prefixCls}-level-${level}`]: !!level,
+      [`${prefixCls}-selected`]: isSelected.value,
+      [`${prefixCls}-expanded`]: expanded,
+      [computeRowClassName]: !!computeRowClassName
+    });
+  });
+}
+function useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange, selectable, handleSelectChange, currentPageRowKeys) {
+  const expandDisabled = computed$1(() => checkExpandDisabled(props.rowData));
+  const expendTrigger = computed$1(() => {
+    var _a;
+    return (_a = expandable.value) == null ? void 0 : _a.trigger;
+  });
+  const handleExpend = () => {
+    const {
+      rowKey,
+      record
+    } = props;
+    handleExpandChange(rowKey, record);
+  };
+  const selectDisabled = computed$1(() => currentPageRowKeys.value.disabledRowKeys.includes(props.rowKey));
+  const selectTrigger = computed$1(() => {
+    var _a;
+    return (_a = selectable.value) == null ? void 0 : _a.trigger;
+  });
+  const handleSelect = () => {
+    const {
+      rowKey,
+      record
+    } = props;
+    handleSelectChange(rowKey, record);
+  };
+  const handleClick = () => {
+    if (expendTrigger.value === "click" && !expandDisabled.value) {
+      handleExpend();
+    }
+    if (selectTrigger.value === "click" && !selectDisabled.value) {
+      handleSelect();
+    }
+  };
+  const handleDblclick = () => {
+    if (expendTrigger.value === "dblclick" && !expandDisabled.value) {
+      handleExpend();
+    }
+    if (selectTrigger.value === "dblclick" && !selectDisabled.value) {
+      handleSelect();
+    }
+  };
+  const clickEvents = computed$1(() => {
+    const onClick = expendTrigger.value === "click" || selectTrigger.value === "click" ? handleClick : void 0;
+    const onDblclick = expendTrigger.value === "dblclick" || selectTrigger.value === "dblclick" ? handleDblclick : void 0;
+    return {
+      onClick,
+      onDblclick
+    };
+  });
+  return {
+    expandDisabled,
+    handleExpend,
+    selectDisabled,
+    handleSelect,
+    clickEvents
+  };
+}
+function renderChildren$1(props, flattedColumns, expandDisabled, handleExpend, isSelected, isIndeterminate, selectDisabled, handleSelect) {
+  const children = [];
+  const {
+    rowIndex,
+    record,
+    level
+  } = props;
+  flattedColumns.value.forEach((column, colIndex) => {
+    const {
+      type,
+      colSpan: getColSpan,
+      rowSpan: getRowSpan,
+      key
+    } = column;
+    const colSpan = getColSpan == null ? void 0 : getColSpan(record, rowIndex);
+    const rowSpan = getRowSpan == null ? void 0 : getRowSpan(record, rowIndex);
+    if (colSpan === 0 || rowSpan === 0) {
+      return;
+    }
+    const colProps = {
+      colSpan: colSpan === 1 ? void 0 : colSpan,
+      rowSpan: rowSpan === 1 ? void 0 : rowSpan,
+      rowIndex,
+      colIndex,
+      record,
+      column,
+      level,
+      key
+    };
+    if (type === "expandable") {
+      colProps.expanded = props.expanded;
+      colProps.disabled = expandDisabled;
+      colProps.handleExpend = handleExpend;
+    } else if (type === "selectable") {
+      colProps.selected = isSelected.value;
+      colProps.indeterminate = isIndeterminate.value;
+      colProps.disabled = selectDisabled.value;
+      colProps.handleSelect = handleSelect;
+    }
+    children.push(createVNode(BodyCell, colProps, null));
+  });
+  return children;
+}
+function renderBodyRow(item, rowIndex, slots, expandable) {
+  const nodes = [];
+  const {
+    expanded,
+    level,
+    record,
+    rowKey
+  } = item;
+  const rowProps = {
+    key: rowKey,
+    expanded,
+    level,
+    record,
+    rowData: item,
+    rowIndex,
+    rowKey
+  };
+  nodes.push(createVNode(BodyRow, rowProps, null));
+  if (expanded) {
+    const expandedContext = renderExpandedContext(rowProps, slots, expandable);
+    expandedContext && nodes.push(expandedContext);
+  }
+  return nodes;
+}
+function renderExpandedContext(props, slots, expandable) {
+  const {
+    customExpand
+  } = expandable || {};
+  const {
+    record,
+    rowIndex
+  } = props;
+  let expandedContext;
+  if (isFunction$1(customExpand)) {
+    expandedContext = customExpand({
+      record,
+      rowIndex
+    });
+  } else if (isString(customExpand) && slots[customExpand]) {
+    expandedContext = slots[customExpand]({
+      record,
+      rowIndex
+    });
+  }
+  return expandedContext && createVNode(BodyRowSingle, null, {
+    default: () => [expandedContext]
+  });
+}
 var Body = defineComponent({
   setup(_, {
     slots
@@ -34879,12 +35135,13 @@ var Body = defineComponent({
       props,
       slots: tableSlots,
       flattedData,
+      expandable,
       scrollWidth,
       scrollHeight,
       isSticky,
       bodyTag
     } = inject(TABLE_TOKEN);
-    const showMeasure = computed(() => scrollWidth.value || scrollHeight.value || isSticky.value);
+    const showMeasure = computed$1(() => scrollWidth.value || scrollHeight.value || isSticky.value);
     return () => {
       const children = [];
       if (tableSlots.alert) {
@@ -34898,22 +35155,7 @@ var Body = defineComponent({
           children.push(...slots.default());
         } else {
           data.forEach((item, rowIndex) => {
-            const {
-              expanded,
-              level,
-              record,
-              rowKey
-            } = item;
-            const rowProps = {
-              key: rowKey,
-              expanded,
-              level,
-              record,
-              rowData: item,
-              rowIndex,
-              rowKey
-            };
-            children.push(createVNode(BodyRow, rowProps, null));
+            children.push(...renderBodyRow(item, rowIndex, tableSlots, expandable.value));
           });
         }
       } else {
@@ -34939,11 +35181,11 @@ var FilterableTrigger = defineComponent({
       locale,
       mergedPrefixCls
     } = inject(TABLE_TOKEN);
-    const multiple = computed(() => {
+    const multiple = computed$1(() => {
       var _a;
       return (_a = props.filterable.multiple) != null ? _a : config.columnBase.filterable.multiple;
     });
-    const footer = computed(() => {
+    const footer = computed$1(() => {
       var _a;
       return (_a = props.filterable.footer) != null ? _a : config.columnBase.filterable.footer;
     });
@@ -34982,7 +35224,7 @@ var FilterableTrigger = defineComponent({
         customMenu,
         menus
       } = props.filterable;
-      if (isFunction(customMenu)) {
+      if (isFunction$1(customMenu)) {
         children.push(customMenu());
       } else if (isString(customMenu) && slots[customMenu]) {
         children.push(slots[customMenu]());
@@ -34994,7 +35236,7 @@ var FilterableTrigger = defineComponent({
       }
       return children;
     };
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-filterable-trigger`;
       return normalizeClass({
         [prefixCls]: true,
@@ -35005,7 +35247,7 @@ var FilterableTrigger = defineComponent({
       const {
         customTrigger
       } = props.filterable;
-      if (isFunction(customTrigger)) {
+      if (isFunction$1(customTrigger)) {
         return customTrigger();
       }
       if (isString(customTrigger) && slots[customTrigger]) {
@@ -35050,7 +35292,7 @@ const renderFooter$1 = (locale, mergedPrefixCls, handleConfirm, handleReset) => 
   const {
     filterConfirm,
     filterReset
-  } = locale.value;
+  } = locale.table;
   return createVNode("div", {
     "class": `${mergedPrefixCls.value}-filterable-trigger-footer`
   }, [createVNode(IxButton, {
@@ -35079,7 +35321,7 @@ var SelectableTrigger = defineComponent({
       mergedSelectableMenus,
       handleSelectableMenuClick
     } = inject(TABLE_TOKEN);
-    const disabled = computed(() => {
+    const disabled = computed$1(() => {
       const dataCount = paginatedMap.value.size;
       return dataCount === 0 || dataCount === currentPageRowKeys.value.disabledRowKeys.length;
     });
@@ -35140,7 +35382,7 @@ var SortableTrigger = defineComponent({
         orders,
         nextTooltip
       } = sortable;
-      const title = nextTooltip && getNextTooltipTitle(locale.value, orders, activeOrderBy);
+      const title = nextTooltip && getNextTooltipTitle(locale.table, orders, activeOrderBy);
       const sortableTriggerNode = renderSortTrigger(mergedPrefixCls, orders, activeOrderBy);
       return title ? createVNode(IxTooltip, {
         "title": title
@@ -35177,31 +35419,32 @@ function renderSortTrigger(mergedPrefixCls, orders, activeOrderBy) {
     "class": `${prefixCls}-sortable-trigger`
   }, [upNode, downNode]);
 }
-var __defProp$1$2 = Object.defineProperty;
-var __defProps$1$1 = Object.defineProperties;
-var __getOwnPropDescs$1$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$4 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$4 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$4 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$2 = (obj, key, value) => key in obj ? __defProp$1$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$2 = (a, b) => {
+var __defProp$1$5 = Object.defineProperty;
+var __defProps$1$2 = Object.defineProperties;
+var __getOwnPropDescs$1$2 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$6 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$6 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$6 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$5 = (obj, key, value) => key in obj ? __defProp$1$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$5 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$4.call(b, prop))
-      __defNormalProp$1$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$4)
-    for (var prop of __getOwnPropSymbols$1$4(b)) {
-      if (__propIsEnum$1$4.call(b, prop))
-        __defNormalProp$1$2(a, prop, b[prop]);
+    if (__hasOwnProp$1$6.call(b, prop))
+      __defNormalProp$1$5(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$6)
+    for (var prop of __getOwnPropSymbols$1$6(b)) {
+      if (__propIsEnum$1$6.call(b, prop))
+        __defNormalProp$1$5(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$1$1 = (a, b) => __defProps$1$1(a, __getOwnPropDescs$1$1(b));
+var __spreadProps$1$2 = (a, b) => __defProps$1$2(a, __getOwnPropDescs$1$2(b));
 var HeadCell = defineComponent({
   props: tableHeadCellProps,
   setup(props) {
     const {
-      mergedPrefixCls,
+      props: tableProps2,
       slots,
+      mergedPrefixCls,
       fixedColumnKeys,
       columnOffsetsWithScrollBar,
       isSticky,
@@ -35211,12 +35454,13 @@ var HeadCell = defineComponent({
       filterByMap,
       setFilterBy
     } = inject(TABLE_TOKEN);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         type,
         align,
-        hasChildren,
+        ellipsis = tableProps2.ellipsis,
         fixed,
+        hasChildren,
         key,
         sortable,
         filterable
@@ -35224,17 +35468,18 @@ var HeadCell = defineComponent({
       const prefixCls = mergedPrefixCls.value;
       let classes2 = {
         [`${prefixCls}-cell-${type}`]: !!type,
-        [`${prefixCls}-cell-sortable`]: !!sortable,
         [`${prefixCls}-cell-filterable`]: !!filterable,
+        [`${prefixCls}-cell-sortable`]: !!sortable,
         [`${prefixCls}-align-${align}`]: !hasChildren && !!align,
-        [`${prefixCls}-align-center`]: hasChildren
+        [`${prefixCls}-align-center`]: hasChildren,
+        [`${prefixCls}-ellipsis`]: ellipsis
       };
       if (fixed) {
         const {
           lastStartKey,
           firstEndKey
         } = fixedColumnKeys.value;
-        classes2 = __spreadProps$1$1(__spreadValues$1$2({}, classes2), {
+        classes2 = __spreadProps$1$2(__spreadValues$1$5({}, classes2), {
           [`${prefixCls}-fix-start`]: fixed === "start",
           [`${prefixCls}-fix-start-last`]: lastStartKey === key,
           [`${prefixCls}-fix-end`]: fixed === "end",
@@ -35244,7 +35489,7 @@ var HeadCell = defineComponent({
       }
       return normalizeClass(classes2);
     });
-    const style = computed(() => {
+    const style = computed$1(() => {
       const {
         fixed,
         colStart,
@@ -35266,8 +35511,8 @@ var HeadCell = defineComponent({
         right: fixed === "end" ? fixedOffset : void 0
       };
     });
-    const activeSortOrderBy = computed(() => activeSortable.key === props.column.key && !!activeSortable.orderBy ? activeSortable.orderBy : void 0);
-    const activeFilterBy = computed(() => filterByMap[props.column.key]);
+    const activeSortOrderBy = computed$1(() => activeSortable.key === props.column.key && !!activeSortable.orderBy ? activeSortable.orderBy : void 0);
+    const activeFilterBy = computed$1(() => filterByMap[props.column.key]);
     const onUpdateFilterBy = (filterBy) => {
       const {
         key,
@@ -35303,7 +35548,7 @@ var HeadCell = defineComponent({
         const {
           title,
           customTitle,
-          ellipsis,
+          ellipsis = tableProps2.ellipsis,
           sortable,
           filterable
         } = props.column;
@@ -35339,7 +35584,7 @@ var HeadCell = defineComponent({
 });
 function renderChildren(title, customTitle, slots) {
   let children = title;
-  if (isFunction(customTitle)) {
+  if (isFunction$1(customTitle)) {
     children = customTitle({
       title
     });
@@ -35412,6 +35657,8 @@ var MainTable = defineComponent({
   setup() {
     const {
       props,
+      slots,
+      expandable,
       mergedPrefixCls,
       changeColumnWidth,
       flattedData,
@@ -35471,7 +35718,7 @@ var MainTable = defineComponent({
       });
     });
     onBeforeUnmount(() => offResize(mainTableRef.value, handleWrapperResize));
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-container`]: true,
@@ -35483,7 +35730,7 @@ var MainTable = defineComponent({
         [`${prefixCls}-scroll-vertical`]: scrollHeight.value
       });
     });
-    const contentStyle = computed(() => {
+    const contentStyle = computed$1(() => {
       var _a;
       const width = scrollWidth.value;
       const height = scrollHeight.value;
@@ -35496,7 +35743,7 @@ var MainTable = defineComponent({
         [fullHeight ? "height" : "maxHeight"]: height
       };
     });
-    const tableStyle = computed(() => {
+    const tableStyle = computed$1(() => {
       return {
         tableLayout: tableLayout.value,
         width: scrollWidth.value,
@@ -35519,24 +35766,7 @@ var MainTable = defineComponent({
           const itemRender = ({
             item,
             index
-          }) => {
-            const {
-              expanded,
-              level,
-              record,
-              rowKey
-            } = item;
-            const rowProps = {
-              key: rowKey,
-              expanded,
-              level,
-              record,
-              rowData: item,
-              rowIndex: index,
-              rowKey
-            };
-            return createVNode(BodyRow, rowProps, null);
-          };
+          }) => renderBodyRow(item, index, slots, expandable.value);
           const contentRender = (children2) => {
             return createVNode(TableTag, {
               "style": tableStyle.value
@@ -35555,7 +35785,7 @@ var MainTable = defineComponent({
             y,
             fullHeight
           } = scroll;
-          process.env.NODE_ENV !== "production" && !isNumber(height || y) && Logger.warn("components/table", "scroll.y must is a valid number when enable virtual scroll");
+          process.env.NODE_ENV !== "production" && !isNumber(height || y) && Logger.warn("components/table", "`scroll.height` must is a valid number when enable virtual scroll");
           tableBody = createVNode(CdkVirtualScroll, {
             "ref": scrollBodyRef,
             "style": contentStyle.value,
@@ -35630,25 +35860,25 @@ function renderPagination(mergedPagination, filteredData, prefixCls) {
   }
   return [top, bottom];
 }
-var __defProp$9 = Object.defineProperty;
-var __defProps$6 = Object.defineProperties;
-var __getOwnPropDescs$6 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$9 = Object.getOwnPropertySymbols;
-var __hasOwnProp$9 = Object.prototype.hasOwnProperty;
-var __propIsEnum$9 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$9 = (obj, key, value) => key in obj ? __defProp$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$9 = (a, b) => {
+var __defProp$a = Object.defineProperty;
+var __defProps$7 = Object.defineProperties;
+var __getOwnPropDescs$7 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$b = Object.getOwnPropertySymbols;
+var __hasOwnProp$b = Object.prototype.hasOwnProperty;
+var __propIsEnum$b = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$a = (obj, key, value) => key in obj ? __defProp$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$a = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$9.call(b, prop))
-      __defNormalProp$9(a, prop, b[prop]);
-  if (__getOwnPropSymbols$9)
-    for (var prop of __getOwnPropSymbols$9(b)) {
-      if (__propIsEnum$9.call(b, prop))
-        __defNormalProp$9(a, prop, b[prop]);
+    if (__hasOwnProp$b.call(b, prop))
+      __defNormalProp$a(a, prop, b[prop]);
+  if (__getOwnPropSymbols$b)
+    for (var prop of __getOwnPropSymbols$b(b)) {
+      if (__propIsEnum$b.call(b, prop))
+        __defNormalProp$a(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$6 = (a, b) => __defProps$6(a, __getOwnPropDescs$6(b));
+var __spreadProps$7 = (a, b) => __defProps$7(a, __getOwnPropDescs$7(b));
 var Table = defineComponent({
   name: "IxTable",
   props: tableProps,
@@ -35656,12 +35886,12 @@ var Table = defineComponent({
     expose,
     slots
   }) {
-    const config = useGlobalConfig$1("table");
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-table`);
-    const locale = getLocale("table");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-table`);
+    const locale = useGlobalConfig$1("locale");
+    const config = useGlobalConfig$1("table");
     const tags = useTags(props);
-    const getRowKey = useGetRowKey(props, config);
+    const getRowKey = useGetRowKey$1(props, config);
     const stickyContext = useSticky(props);
     const scrollContext = useScroll(props, stickyContext);
     const columnsContext = useColumns(props, slots, config, scrollContext.scrollBarSizeOnFixedHolder);
@@ -35671,10 +35901,10 @@ var Table = defineComponent({
     const tableLayout = useTableLayout(props, columnsContext, scrollContext, stickyContext.isSticky);
     const {
       mergedPagination
-    } = usePagination(props, config);
+    } = usePagination$1(props, config);
     const dataContext = useDataSource(props, getRowKey, sortableContext.activeSortable, filterableContext.activeFilters, expandableContext.expandedRowKeys, mergedPagination);
     const selectableContext = useSelectable$1(props, locale, columnsContext.flattedColumns, dataContext);
-    const context = __spreadValues$9(__spreadValues$9(__spreadValues$9(__spreadProps$6(__spreadValues$9(__spreadValues$9(__spreadValues$9(__spreadValues$9(__spreadValues$9(__spreadProps$6(__spreadValues$9({
+    const context = __spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadProps$7(__spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadProps$7(__spreadValues$a({
       props,
       mergedPrefixCls,
       slots,
@@ -35690,7 +35920,7 @@ var Table = defineComponent({
     expose({
       scrollTo: scrollContext.scrollTo
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
         borderless = config.borderless,
@@ -35710,7 +35940,7 @@ var Table = defineComponent({
       const footer = renderFooter(slots, prefixCls);
       const [paginationTop, paginationBottom] = renderPagination(mergedPagination.value, dataContext.filteredData.value, prefixCls);
       const children = [header, paginationTop, createVNode(MainTable, null, null), paginationBottom, footer];
-      const spinProps = covertSpinProps(props.spin);
+      const spinProps = convertSpinProps(props.spin);
       const spinWrapper = spinProps ? createVNode(IxSpin, spinProps, {
         default: () => [children]
       }) : children;
@@ -35720,7 +35950,7 @@ var Table = defineComponent({
     };
   }
 });
-function covertSpinProps(spin) {
+function convertSpinProps(spin) {
   return isBoolean(spin) ? {
     spinning: spin
   } : spin;
@@ -35781,9 +36011,9 @@ var TabNav = defineComponent({
       handleTabClick
     } = inject(tabsToken);
     const selfElRef = ref(null);
-    const isSelected = computed(() => selectedKey.value === key);
-    const prefixCls = computed(() => `${mergedPrefixCls.value}-nav`);
-    const classes = computed(() => {
+    const isSelected = computed$1(() => selectedKey.value === key);
+    const prefixCls = computed$1(() => `${mergedPrefixCls.value}-nav`);
+    const classes = computed$1(() => {
       return normalizeClass({
         [`${prefixCls.value}-tab`]: true,
         [`${prefixCls.value}-tab-selected`]: isSelected.value,
@@ -35814,7 +36044,7 @@ var TabNav = defineComponent({
   }
 });
 function useSelectedElOffset(isHorizontal, selectedElRef) {
-  const selectedElOffset = computed(() => {
+  const selectedElOffset = computed$1(() => {
     var _a, _b, _c, _d;
     if (isHorizontal.value) {
       return (_b = (_a = selectedElRef.value) == null ? void 0 : _a.offsetLeft) != null ? _b : 0;
@@ -35833,10 +36063,10 @@ function useNavRelatedElSize(isHorizontal, navWrapperElRef, navElRef, navPreElRe
   const navHeight = ref(0);
   const navPreNextWidth = ref(0);
   const navPreNextHeight = ref(0);
-  const navSize = computed(() => isHorizontal.value ? navWidth.value : navHeight.value);
-  const navWrapperSize = computed(() => isHorizontal.value ? navWrapperWidth.value : navWrapperHeight.value);
-  const navPreNextSize = computed(() => isHorizontal.value ? navPreNextWidth.value : navPreNextHeight.value);
-  const selectedElSize = computed(() => {
+  const navSize = computed$1(() => isHorizontal.value ? navWidth.value : navHeight.value);
+  const navWrapperSize = computed$1(() => isHorizontal.value ? navWrapperWidth.value : navWrapperHeight.value);
+  const navPreNextSize = computed$1(() => isHorizontal.value ? navPreNextWidth.value : navPreNextHeight.value);
+  const selectedElSize = computed$1(() => {
     var _a, _b, _c, _d;
     if (isHorizontal.value) {
       return (_b = (_a = selectedElRef.value) == null ? void 0 : _a.offsetWidth) != null ? _b : 0;
@@ -35862,7 +36092,7 @@ function useNavRelatedElSize(isHorizontal, navWrapperElRef, navElRef, navPreElRe
   };
 }
 function useVisibleSize(navWrapperSize, selectedElOffset, navOffset) {
-  return computed(() => {
+  return computed$1(() => {
     return navWrapperSize.value - (selectedElOffset.value - navOffset.value);
   });
 }
@@ -35873,17 +36103,17 @@ var Tabs = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-tabs`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tabs`);
     const navWrapperElRef = ref(null);
     const navElRef = ref(null);
     const navBarElRef = ref(null);
     const navPreElRef = ref(null);
     const selectedElRef = ref(null);
     const [selectedKey, setSelectedKey] = useControlledProp(props, "selectedKey");
-    const isLineType = computed(() => props.type === "line");
-    const isSegmentType = computed(() => props.type === "segment");
+    const isLineType = computed$1(() => props.type === "line");
+    const isSegmentType = computed$1(() => props.type === "segment");
     const horizontalPlacement = ["top", "bottom"];
-    const isHorizontal = computed(() => horizontalPlacement.includes(props.placement));
+    const isHorizontal = computed$1(() => horizontalPlacement.includes(props.placement));
     const {
       navSize,
       navWrapperSize,
@@ -35896,7 +36126,7 @@ var Tabs = defineComponent({
       selectedElOffset
     } = useSelectedElOffset(isHorizontal, selectedElRef);
     const visibleSize = useVisibleSize(navWrapperSize, selectedElOffset, navOffset);
-    const hasScroll = computed(() => navSize.value > navWrapperSize.value);
+    const hasScroll = computed$1(() => navSize.value > navWrapperSize.value);
     const updateNavOffset = () => {
       if (visibleSize.value < selectedElSize.value) {
         navOffset.value += selectedElSize.value - visibleSize.value;
@@ -35906,7 +36136,7 @@ var Tabs = defineComponent({
     };
     const preReached = ref(false);
     const nextReached = ref(false);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         type,
         placement,
@@ -36053,7 +36283,7 @@ var Tabs = defineComponent({
   }
 });
 function useNavPreNextClasses(props, mergedPrefixCls, type, disabled) {
-  return computed(() => {
+  return computed$1(() => {
     const {
       placement
     } = props;
@@ -36108,16 +36338,16 @@ var Tag = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-tag`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tag`);
     const config = useGlobalConfig$1("tag");
-    const isPresetOrStatusColor = computed(() => {
+    const isPresetOrStatusColor = computed$1(() => {
       const color = props.color;
       if (!color) {
         return false;
       }
       return isPresetColor(color) || isStatusColor(color);
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         shape = config.shape,
         color,
@@ -36134,7 +36364,7 @@ var Tag = defineComponent({
         [`${prefixCls}-has-color`]: !isPreset && color
       });
     });
-    const style = computed(() => ({
+    const style = computed$1(() => ({
       backgroundColor: isPresetOrStatusColor.value ? void 0 : props.color
     }));
     return () => {
@@ -36167,26 +36397,26 @@ function renderNumericPrefix(prefixCls, number, style) {
 }
 const IxTag = Tag;
 
-var __defProp$8 = Object.defineProperty;
-var __defProps$3 = Object.defineProperties;
-var __getOwnPropDescs$3 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$3 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$3 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$3 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$8 = (obj, key, value) => key in obj ? __defProp$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$8 = (a, b) => {
+var __defProp$9 = Object.defineProperty;
+var __defProps$6 = Object.defineProperties;
+var __getOwnPropDescs$6 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$5 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$5 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$5 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$9 = (obj, key, value) => key in obj ? __defProp$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$9 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$3.call(b, prop))
-      __defNormalProp$8(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$3)
-    for (var prop of __getOwnPropSymbols$1$3(b)) {
-      if (__propIsEnum$1$3.call(b, prop))
-        __defNormalProp$8(a, prop, b[prop]);
+    if (__hasOwnProp$1$5.call(b, prop))
+      __defNormalProp$9(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$5)
+    for (var prop of __getOwnPropSymbols$1$5(b)) {
+      if (__propIsEnum$1$5.call(b, prop))
+        __defNormalProp$9(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$3 = (a, b) => __defProps$3(a, __getOwnPropDescs$3(b));
-const textareaProps = __spreadProps$3(__spreadValues$8({}, commonProps), {
+var __spreadProps$6 = (a, b) => __defProps$6(a, __getOwnPropDescs$6(b));
+const textareaProps = __spreadProps$6(__spreadValues$9({}, commonProps), {
   autoRows: IxPropTypes.oneOfType([Boolean, IxPropTypes.shape({ minRows: Number, maxRows: Number })]),
   computeCount: IxPropTypes.func(),
   maxCount: IxPropTypes.oneOfType([Number, String]),
@@ -36299,17 +36529,17 @@ function useAutoRows(textareaRef, autoRows, accessor) {
     isDestroyed = true;
   });
 }
-var __getOwnPropSymbols$8 = Object.getOwnPropertySymbols;
-var __hasOwnProp$8 = Object.prototype.hasOwnProperty;
-var __propIsEnum$8 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$a = Object.getOwnPropertySymbols;
+var __hasOwnProp$a = Object.prototype.hasOwnProperty;
+var __propIsEnum$a = Object.prototype.propertyIsEnumerable;
 var __objRest$1 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$8.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$a.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$8)
-    for (var prop of __getOwnPropSymbols$8(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$8.call(source, prop))
+  if (source != null && __getOwnPropSymbols$a)
+    for (var prop of __getOwnPropSymbols$a(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$a.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -36324,7 +36554,7 @@ var Textarea = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-textarea`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-textarea`);
     const config = useGlobalConfig$1("textarea");
     const {
       elementRef,
@@ -36350,7 +36580,7 @@ var Textarea = defineComponent({
     onMounted(() => {
       syncValue();
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         showCount = config.showCount,
         size = config.size
@@ -36366,11 +36596,11 @@ var Textarea = defineComponent({
       return normalizeClass([classes2, attrs.class]);
     });
     const dataCount = useDataCount(props, config, accessor);
-    const autoRows = computed(() => {
+    const autoRows = computed$1(() => {
       var _a;
       return (_a = props.autoRows) != null ? _a : config.autoRows;
     });
-    const resize = computed(() => {
+    const resize = computed$1(() => {
       var _a;
       const resize2 = (_a = props.resize) != null ? _a : config.resize;
       if (autoRows.value) {
@@ -36379,7 +36609,7 @@ var Textarea = defineComponent({
         return resize2;
       }
     });
-    const textareaStyle = computed(() => ({
+    const textareaStyle = computed$1(() => ({
       resize: resize.value
     }));
     useAutoRows(elementRef, autoRows, accessor);
@@ -36412,7 +36642,7 @@ var Textarea = defineComponent({
   }
 });
 function useDataCount(props, config, accessor) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b, _c, _d;
     const showCount = (_a = props.showCount) != null ? _a : config.showCount;
     const computeCount = (_b = props.computeCount) != null ? _b : config.computeCount;
@@ -36431,7 +36661,6 @@ function useDataCount(props, config, accessor) {
   });
 }
 function renderSuffix(isClearable, clearIconSlot, clearIcon, clearVisible, onClear, prefixCls) {
-  var _a;
   if (!isClearable) {
     return null;
   }
@@ -36439,38 +36668,35 @@ function renderSuffix(isClearable, clearIconSlot, clearIcon, clearVisible, onCle
   if (!clearVisible) {
     classes += ` ${prefixCls}-suffix-hidden`;
   }
-  const children = (_a = clearIconSlot == null ? void 0 : clearIconSlot({
-    onClear
-  })) != null ? _a : createVNode(IxIcon, {
-    "name": clearIcon,
-    "onClick": onClear
-  }, null);
   return createVNode("span", {
-    "class": classes
-  }, [children]);
+    "class": classes,
+    "onClick": onClear
+  }, [clearIconSlot ? clearIconSlot() : createVNode(IxIcon, {
+    "name": clearIcon
+  }, null)]);
 }
 const IxTextarea = Textarea;
 
 const timePanelContext = Symbol("timePanelContext");
-var __defProp$7 = Object.defineProperty;
-var __defProps$2 = Object.defineProperties;
-var __getOwnPropDescs$2 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$7 = Object.getOwnPropertySymbols;
-var __hasOwnProp$7 = Object.prototype.hasOwnProperty;
-var __propIsEnum$7 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$7 = (obj, key, value) => key in obj ? __defProp$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$7 = (a, b) => {
+var __defProp$8 = Object.defineProperty;
+var __defProps$5 = Object.defineProperties;
+var __getOwnPropDescs$5 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$9 = Object.getOwnPropertySymbols;
+var __hasOwnProp$9 = Object.prototype.hasOwnProperty;
+var __propIsEnum$9 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$8 = (obj, key, value) => key in obj ? __defProp$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$8 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$7.call(b, prop))
-      __defNormalProp$7(a, prop, b[prop]);
-  if (__getOwnPropSymbols$7)
-    for (var prop of __getOwnPropSymbols$7(b)) {
-      if (__propIsEnum$7.call(b, prop))
-        __defNormalProp$7(a, prop, b[prop]);
+    if (__hasOwnProp$9.call(b, prop))
+      __defNormalProp$8(a, prop, b[prop]);
+  if (__getOwnPropSymbols$9)
+    for (var prop of __getOwnPropSymbols$9(b)) {
+      if (__propIsEnum$9.call(b, prop))
+        __defNormalProp$8(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$2 = (a, b) => __defProps$2(a, __getOwnPropDescs$2(b));
+var __spreadProps$5 = (a, b) => __defProps$5(a, __getOwnPropDescs$5(b));
 const baseTimePanelProps = {
   disabledHours: IxPropTypes.func().def(() => []),
   disabledMinutes: IxPropTypes.func().def(() => []),
@@ -36480,7 +36706,7 @@ const baseTimePanelProps = {
   minuteStep: IxPropTypes.number.def(1),
   secondStep: IxPropTypes.number.def(1)
 };
-const timePanelProps = __spreadProps$2(__spreadValues$7({}, baseTimePanelProps), {
+const timePanelProps = __spreadProps$5(__spreadValues$8({}, baseTimePanelProps), {
   value: IxPropTypes.object(),
   defaultOpenValue: IxPropTypes.object(),
   visible: IxPropTypes.bool,
@@ -36509,7 +36735,7 @@ var PanelCell = defineComponent({
     const {
       mergedPrefixCls
     } = inject(timePanelContext);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-cell`;
       return {
         [prefixCls]: true,
@@ -36522,7 +36748,7 @@ var PanelCell = defineComponent({
         callEmit(props.onChange, props.value);
       }
     };
-    const displayValue = computed(() => displayFormat(props.value));
+    const displayValue = computed$1(() => displayFormat(props.value));
     return () => createVNode("li", {
       "class": classes.value,
       "onClick": onClick
@@ -36672,16 +36898,16 @@ function calculateValue(dateConfig, dateNow, type, is12Hours, value) {
 }
 function useOptions(props, dateConfig) {
   const { get } = dateConfig;
-  const defaultOpenValue = computed(() => {
+  const defaultOpenValue = computed$1(() => {
     var _a;
     return (_a = props.defaultOpenValue) != null ? _a : dateConfig.startOf(dateConfig.now(), "date");
   });
-  const selectedValue = computed(() => {
+  const selectedValue = computed$1(() => {
     var _a;
     return (_a = props.value) != null ? _a : defaultOpenValue.value;
   });
-  const viewHours = computed(() => calculateViewHour(get(selectedValue.value, "hour"), props.use12Hours));
-  const ampm = computed(() => normalizeAmPm(get(selectedValue.value, "hour"), props.use12Hours));
+  const viewHours = computed$1(() => calculateViewHour(get(selectedValue.value, "hour"), props.use12Hours));
+  const ampm = computed$1(() => normalizeAmPm(get(selectedValue.value, "hour"), props.use12Hours));
   function getOptions(type) {
     const getHourOptions = () => {
       const options = generateNumericOptions(props.use12Hours ? 12 : 24, props.hourStep, props.disabledHours(ampm.value), props.hideDisabledOptions);
@@ -36726,7 +36952,7 @@ function useOptions(props, dateConfig) {
     return (value) => onChange(type, value);
   }
   const getProps = (type) => {
-    return computed(() => ({
+    return computed$1(() => ({
       selectedValue: getSelectedValue(type),
       options: getOptions(type),
       onChange: getOnChange(type)
@@ -36763,7 +36989,7 @@ var TimePanel = defineComponent({
   props: timePanelProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-panel`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-panel`);
     const dateConfig = useDateConfig();
     const {
       hourOptionsProps,
@@ -36774,7 +37000,7 @@ var TimePanel = defineComponent({
     provide(timePanelContext, {
       mergedPrefixCls
     });
-    const columns = computed(() => {
+    const columns = computed$1(() => {
       const result = [];
       props.hourEnabled && result.push(hourOptionsProps.value);
       props.minuteEnabled && result.push(minuteOptionsProps.value);
@@ -36794,7 +37020,7 @@ var TimePanel = defineComponent({
 const \u0275TimePanel = TimePanel;
 
 function useInputEnableStatus(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     const allowInput = (_a = props.allowInput) != null ? _a : config.allowInput;
     return {
@@ -36813,8 +37039,8 @@ function usePickerControl(valueProp, dateConfig, format, inputPreProcessors, val
   const [inputValue, setInputValue] = useState$1(void 0);
   const [panelValue, setPanelValue] = useState$1(void 0);
   const { parse, format: formatDate } = dateConfig;
-  const dateValue = computed(() => convertToDate(dateConfig, valueProp.value, format.value));
-  const formatedDateValue = computed(() => isString(valueProp.value) ? valueProp.value : dateValue.value ? formatDate(dateValue.value, format.value) : "");
+  const dateValue = computed$1(() => convertToDate(dateConfig, valueProp.value, format.value));
+  const formatedDateValue = computed$1(() => isString(valueProp.value) ? valueProp.value : dateValue.value ? formatDate(dateValue.value, format.value) : "");
   function init() {
     var _a;
     if (!inputValue.value || parse(inputValue.value, format.value).valueOf() !== ((_a = dateValue.value) == null ? void 0 : _a.valueOf())) {
@@ -36850,14 +37076,14 @@ function preProcessInputValue(value, inputPreProcessors) {
   return inputPreProcessors.reduce((result, processor) => processor(result), value);
 }
 function useRangePickerControl(valueProp, dateConfig, format, inputPreProcessors, validateInput, onChange) {
-  const rangeValueRef = computed(() => {
-    if (!isArray$1(valueProp.value)) {
+  const rangeValueRef = computed$1(() => {
+    if (!isArray$2(valueProp.value)) {
       return [void 0, void 0];
     }
     return valueProp.value.map((v) => convertToDate(dateConfig, v, format.value));
   });
-  const fromValue = computed(() => rangeValueRef.value[0]);
-  const toValue = computed(() => rangeValueRef.value[1]);
+  const fromValue = computed$1(() => rangeValueRef.value[0]);
+  const toValue = computed$1(() => rangeValueRef.value[1]);
   const fromControl = usePickerControl(fromValue, dateConfig, format, inputPreProcessors, validateInput, (value) => {
     onChange([value, toValue.value]);
   });
@@ -36867,7 +37093,7 @@ function useRangePickerControl(valueProp, dateConfig, format, inputPreProcessors
   return [fromControl, toControl];
 }
 function useCommonInputProps(props, config, formContext) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b, _c, _d, _e;
     return {
       borderless: (_a = props.borderless) != null ? _a : config.borderless,
@@ -36885,11 +37111,11 @@ function useCommonTriggerProps(props, timePickerContext2) {
     formContext,
     commonBindings: { isDisabled, isFocused, handleBlur, handleFocus }
   } = timePickerContext2;
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     const pickerClearable = (_a = pickerProps.clearable) != null ? _a : config.clearable;
     const enableExternalInput = ((_b = pickerProps.allowInput) != null ? _b : config.allowInput) === true;
-    const valueNotEmpty = isArray$1(props.value) ? props.value.some((v) => !!v) : !!props.value;
+    const valueNotEmpty = isArray$2(props.value) ? props.value.some((v) => !!v) : !!props.value;
     return {
       disabled: (_c = isDisabled == null ? void 0 : isDisabled.value) != null ? _c : pickerProps.disabled,
       focused: (isFocused == null ? void 0 : isFocused.value) || overlayOpened.value,
@@ -36905,7 +37131,7 @@ function useCommonTriggerProps(props, timePickerContext2) {
   });
 }
 function useCommonPanelProps(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     const {
       disabledHours,
       disabledMinutes,
@@ -36935,7 +37161,7 @@ function useCommonPanelProps(props, config) {
 }
 const defaultOffset$1 = [0, 8];
 function useCommonOverlayProps(props, config, mergedPrefixCls, setVisibility) {
-  return computed(() => {
+  return computed$1(() => {
     var _a, _b;
     return {
       class: props.overlayClassName,
@@ -36950,11 +37176,11 @@ function useCommonOverlayProps(props, config, mergedPrefixCls, setVisibility) {
   });
 }
 function valueIsRange(value) {
-  return isArray$1(value);
+  return isArray$2(value);
 }
 function useTimePickerCommonBindings(props) {
   const accessor = useFormAccessor();
-  const isDisabled = computed(() => accessor.disabled.value);
+  const isDisabled = computed$1(() => accessor.disabled.value);
   const [isFocused, setFocused] = useState$1(false);
   function handleChange(value) {
     let newValue;
@@ -37006,6 +37232,7 @@ var Overlay = defineComponent({
     const {
       slots,
       props,
+      locale,
       config,
       format,
       dateConfig,
@@ -37025,7 +37252,6 @@ var Overlay = defineComponent({
       handleInputChange,
       handlePanelChange
     } = inject(timePickerControl);
-    const locale = getLocale("timePicker");
     const handleInputClear = (evt) => {
       evt.stopPropagation();
       handleClear(evt);
@@ -37057,7 +37283,7 @@ var Overlay = defineComponent({
         "value": inputValue.value,
         "disabled": isDisabled.value,
         "readonly": props.readonly,
-        "placeholder": (_a = props.placeholder) != null ? _a : locale.value.placeholder,
+        "placeholder": (_a = props.placeholder) != null ? _a : locale.timePicker.placeholder,
         "onChange": handleInputChange,
         "onClear": handleInputClear
       }), inputSlots), createVNode(\u0275TimePanel, mergeProps(panelProps.value, {
@@ -37069,26 +37295,26 @@ var Overlay = defineComponent({
     };
   }
 });
-var __defProp$2$1 = Object.defineProperty;
-var __defProps$1 = Object.defineProperties;
-var __getOwnPropDescs$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$2$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2$1 = (obj, key, value) => key in obj ? __defProp$2$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2$1 = (a, b) => {
+var __defProp$2$3 = Object.defineProperty;
+var __defProps$4 = Object.defineProperties;
+var __getOwnPropDescs$4 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$2$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$3 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$3 = (obj, key, value) => key in obj ? __defProp$2$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$3 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$2$1.call(b, prop))
-      __defNormalProp$2$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2$1)
-    for (var prop of __getOwnPropSymbols$2$1(b)) {
-      if (__propIsEnum$2$1.call(b, prop))
-        __defNormalProp$2$1(a, prop, b[prop]);
+    if (__hasOwnProp$2$3.call(b, prop))
+      __defNormalProp$2$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$3)
+    for (var prop of __getOwnPropSymbols$2$3(b)) {
+      if (__propIsEnum$2$3.call(b, prop))
+        __defNormalProp$2$3(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$1 = (a, b) => __defProps$1(a, __getOwnPropDescs$1(b));
-const basePickerProps = __spreadProps$1(__spreadValues$2$1({}, baseTimePanelProps), {
+var __spreadProps$4 = (a, b) => __defProps$4(a, __getOwnPropDescs$4(b));
+const basePickerProps = __spreadProps$4(__spreadValues$2$3({}, baseTimePanelProps), {
   open: IxPropTypes.bool,
   control: controlPropDef,
   allowInput: IxPropTypes.oneOfType([Boolean, IxPropTypes.oneOf(["overlay"])]),
@@ -37108,7 +37334,7 @@ const basePickerProps = __spreadProps$1(__spreadValues$2$1({}, baseTimePanelProp
   onFocus: IxPropTypes.emit(),
   onBlur: IxPropTypes.emit()
 });
-const timePickerProps = __spreadProps$1(__spreadValues$2$1({}, basePickerProps), {
+const timePickerProps = __spreadProps$4(__spreadValues$2$3({}, basePickerProps), {
   value: IxPropTypes.oneOfType([Number, String, Date]),
   defaultOpenValue: IxPropTypes.oneOfType([Number, String, Date]),
   disabled: IxPropTypes.bool.def(false),
@@ -37117,7 +37343,7 @@ const timePickerProps = __spreadProps$1(__spreadValues$2$1({}, basePickerProps),
   "onUpdate:value": IxPropTypes.emit(),
   onChange: IxPropTypes.emit()
 });
-const timeRangePickerProps = __spreadProps$1(__spreadValues$2$1({}, basePickerProps), {
+const timeRangePickerProps = __spreadProps$4(__spreadValues$2$3({}, basePickerProps), {
   value: IxPropTypes.object(),
   defaultOpenValue: IxPropTypes.object(),
   disabled: IxPropTypes.bool.def(false),
@@ -37154,8 +37380,8 @@ var BaseTrigger = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-picker-trigger`);
-    const isDisabled = computed(() => props.disabled);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-picker-trigger`);
+    const isDisabled = computed$1(() => props.disabled);
     const focusMonitor = useSharedFocusMonitor();
     const triggerRef = ref();
     onMounted(() => {
@@ -37173,7 +37399,7 @@ var BaseTrigger = defineComponent({
         }
       });
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -37206,17 +37432,14 @@ var BaseTrigger = defineComponent({
       }, null)]);
     };
     const renderClearIcon = () => {
-      var _a, _b;
       if (!props.clearable || isDisabled.value) {
         return null;
       }
       return createVNode("span", {
-        "class": `${mergedPrefixCls.value}-clear-icon`
-      }, [(_b = (_a = slots.clearIcon) == null ? void 0 : _a.call(slots, {
-        onClear
-      })) != null ? _b : props.clearIcon && createVNode(IxIcon, {
-        "name": props.clearIcon,
+        "class": `${mergedPrefixCls.value}-clear-icon`,
         "onClick": onClear
+      }, [slots.clearIcon ? slots.clearIcon() : props.clearIcon && createVNode(IxIcon, {
+        "name": props.clearIcon
       }, null)]);
     };
     return () => {
@@ -37229,19 +37452,19 @@ var BaseTrigger = defineComponent({
     };
   }
 });
-var __defProp$1$1 = Object.defineProperty;
-var __getOwnPropSymbols$1$2 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$2 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$2 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$1 = (obj, key, value) => key in obj ? __defProp$1$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$1 = (a, b) => {
+var __defProp$1$4 = Object.defineProperty;
+var __getOwnPropSymbols$1$4 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$4 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$4 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$4 = (obj, key, value) => key in obj ? __defProp$1$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$4 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$2.call(b, prop))
-      __defNormalProp$1$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$2)
-    for (var prop of __getOwnPropSymbols$1$2(b)) {
-      if (__propIsEnum$1$2.call(b, prop))
-        __defNormalProp$1$1(a, prop, b[prop]);
+    if (__hasOwnProp$1$4.call(b, prop))
+      __defNormalProp$1$4(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$4)
+    for (var prop of __getOwnPropSymbols$1$4(b)) {
+      if (__propIsEnum$1$4.call(b, prop))
+        __defNormalProp$1$4(a, prop, b[prop]);
     }
   return a;
 };
@@ -37250,14 +37473,14 @@ var Trigger$1 = defineComponent({
   props: timePickerTriggerProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-picker-trigger`);
-    const locale = getLocale("timePicker");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-picker-trigger`);
     const context = inject(timePickerContext);
     const {
-      dateConfig,
       props: pickerProps,
-      format,
       slots,
+      dateConfig,
+      locale,
+      format,
       inputEnableStatus,
       setOverlayOpened,
       commonBindings: {
@@ -37275,9 +37498,9 @@ var Trigger$1 = defineComponent({
       }
       setOverlayOpened(true);
     };
-    const placeholder = computed(() => {
+    const placeholder = computed$1(() => {
       var _a;
-      return (_a = pickerProps.placeholder) != null ? _a : locale.value.placeholder;
+      return (_a = pickerProps.placeholder) != null ? _a : locale.timePicker.placeholder;
     });
     const triggerProps = useCommonTriggerProps(props, context);
     const renderContent = () => {
@@ -37309,7 +37532,7 @@ var Trigger$1 = defineComponent({
     return () => createVNode(BaseTrigger, mergeProps(triggerProps.value, {
       "onClick": handleClick,
       "onClear": handleClear
-    }), __spreadValues$1$1({
+    }), __spreadValues$1$4({
       default: () => [renderContent()]
     }, slots));
   }
@@ -37320,16 +37543,17 @@ var TimePicker = defineComponent({
   setup(props, {
     slots
   }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-picker`);
+    const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("timePicker");
     const dateConfig = useDateConfig();
     const {
       isValid,
       parse
     } = dateConfig;
-    const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-picker`);
     const [visibility, setVisibility] = useControlledProp(props, "open", false);
-    const format = computed(() => {
+    const format = computed$1(() => {
       var _a;
       return (_a = props.format) != null ? _a : config.format;
     });
@@ -37353,14 +37577,15 @@ var TimePicker = defineComponent({
     const formContext = inject(FORM_TOKEN, null);
     provide(timePickerControl, pickerControl);
     provide(timePickerContext, {
-      dateConfig,
-      config,
       props,
+      slots,
+      dateConfig,
+      locale,
+      config,
+      mergedPrefixCls,
       format,
       formContext,
-      slots,
       overlayOpened: visibility,
-      mergedPrefixCls,
       inputEnableStatus,
       commonBindings,
       setOverlayOpened: changeVisible
@@ -37387,14 +37612,15 @@ var RangeOverlay = defineComponent({
   setup() {
     const {
       props,
-      config,
-      dateConfig,
-      format,
       slots,
+      dateConfig,
+      locale,
+      config,
+      mergedPrefixCls,
+      format,
       inputEnableStatus,
       overlayOpened,
       formContext,
-      mergedPrefixCls,
       bufferValue,
       commonBindings: {
         isDisabled,
@@ -37404,7 +37630,6 @@ var RangeOverlay = defineComponent({
       setOverlayOpened
     } = inject(timeRangePickerContext);
     const [fromPickerControl, toPickerControl] = inject(timeRangePickerControl);
-    const locale = getLocale("timeRangePicker");
     const inputProps = useCommonInputProps(props, config, formContext);
     const panelProps = useCommonPanelProps(props, config);
     const handleConfirm = () => {
@@ -37453,7 +37678,7 @@ var RangeOverlay = defineComponent({
         "size": "sm",
         "onClick": handleConfirm
       }, {
-        default: () => [locale.value.okText]
+        default: () => [locale.timeRangePicker.okText]
       });
     };
     return () => {
@@ -37463,27 +37688,27 @@ var RangeOverlay = defineComponent({
         "class": prefixCls
       }, [createVNode("div", {
         "class": `${prefixCls}-content`
-      }, [renderSide2(fromPickerControl, (_b = (_a = props.placeholder) == null ? void 0 : _a[0]) != null ? _b : locale.value.placeholder[0], (_c = props.defaultOpenValue) == null ? void 0 : _c[0]), createVNode("div", {
+      }, [renderSide2(fromPickerControl, (_b = (_a = props.placeholder) == null ? void 0 : _a[0]) != null ? _b : locale.timeRangePicker.placeholder[0], (_c = props.defaultOpenValue) == null ? void 0 : _c[0]), createVNode("div", {
         "class": `${prefixCls}-gap`
-      }, [renderSeparator()]), renderSide2(toPickerControl, (_e = (_d = props.placeholder) == null ? void 0 : _d[1]) != null ? _e : locale.value.placeholder[1], (_f = props.defaultOpenValue) == null ? void 0 : _f[1])]), createVNode("div", {
+      }, [renderSeparator()]), renderSide2(toPickerControl, (_e = (_d = props.placeholder) == null ? void 0 : _d[1]) != null ? _e : locale.timeRangePicker.placeholder[1], (_f = props.defaultOpenValue) == null ? void 0 : _f[1])]), createVNode("div", {
         "class": `${prefixCls}-footer`
       }, [renderFooter()])]);
     };
   }
 });
-var __defProp$6 = Object.defineProperty;
-var __getOwnPropSymbols$6 = Object.getOwnPropertySymbols;
-var __hasOwnProp$6 = Object.prototype.hasOwnProperty;
-var __propIsEnum$6 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$6 = (obj, key, value) => key in obj ? __defProp$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$6 = (a, b) => {
+var __defProp$7 = Object.defineProperty;
+var __getOwnPropSymbols$8 = Object.getOwnPropertySymbols;
+var __hasOwnProp$8 = Object.prototype.hasOwnProperty;
+var __propIsEnum$8 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$7 = (obj, key, value) => key in obj ? __defProp$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$7 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$6.call(b, prop))
-      __defNormalProp$6(a, prop, b[prop]);
-  if (__getOwnPropSymbols$6)
-    for (var prop of __getOwnPropSymbols$6(b)) {
-      if (__propIsEnum$6.call(b, prop))
-        __defNormalProp$6(a, prop, b[prop]);
+    if (__hasOwnProp$8.call(b, prop))
+      __defNormalProp$7(a, prop, b[prop]);
+  if (__getOwnPropSymbols$8)
+    for (var prop of __getOwnPropSymbols$8(b)) {
+      if (__propIsEnum$8.call(b, prop))
+        __defNormalProp$7(a, prop, b[prop]);
     }
   return a;
 };
@@ -37492,15 +37717,15 @@ var RangeTrigger = defineComponent({
   props: timeRangePickerTriggerProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const commonPrefixCls = computed(() => common.prefixCls);
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-range-picker-trigger`);
-    const locale = getLocale("timeRangePicker");
+    const commonPrefixCls = computed$1(() => common.prefixCls);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-range-picker-trigger`);
     const context = inject(timeRangePickerContext);
     const {
-      dateConfig,
       props: pickerProps,
-      format,
       slots,
+      dateConfig,
+      locale,
+      format,
       inputEnableStatus,
       setOverlayOpened,
       renderSeparator,
@@ -37516,9 +37741,9 @@ var RangeTrigger = defineComponent({
       }
       setOverlayOpened(true);
     };
-    const placeholder = computed(() => {
+    const placeholder = computed$1(() => {
       var _a, _b, _c, _d;
-      return [(_b = (_a = pickerProps.placeholder) == null ? void 0 : _a[0]) != null ? _b : locale.value.placeholder[0], (_d = (_c = pickerProps.placeholder) == null ? void 0 : _c[1]) != null ? _d : locale.value.placeholder[1]];
+      return [(_b = (_a = pickerProps.placeholder) == null ? void 0 : _a[0]) != null ? _b : locale.timeRangePicker.placeholder[0], (_d = (_c = pickerProps.placeholder) == null ? void 0 : _c[1]) != null ? _d : locale.timeRangePicker.placeholder[1]];
     });
     const triggerProps = useCommonTriggerProps(props, context);
     const renderContent = () => {
@@ -37539,7 +37764,7 @@ var RangeTrigger = defineComponent({
     return () => createVNode(BaseTrigger, mergeProps(triggerProps.value, {
       "onClick": handleClick,
       "onClear": handleClear
-    }), __spreadValues$6({
+    }), __spreadValues$7({
       default: () => [renderContent()]
     }, slots));
   }
@@ -37575,17 +37800,17 @@ var TimeRangePicker = defineComponent({
   setup(props, {
     slots
   }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-range-picker`);
+    const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("timeRangePicker");
     const dateConfig = useDateConfig();
     const {
       isValid,
       parse
     } = dateConfig;
-    const locale = getLocale("timeRangePicker");
-    const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-range-picker`);
     const [visibility, setVisibility] = useControlledProp(props, "open", false);
-    const format = computed(() => {
+    const format = computed$1(() => {
       var _a;
       return (_a = props.format) != null ? _a : config.format;
     });
@@ -37594,8 +37819,8 @@ var TimeRangePicker = defineComponent({
       accessor,
       isDisabled
     } = commonBindings;
-    const accessorDateValue = computed(() => {
-      if (!isArray$1(accessor.valueRef.value)) {
+    const accessorDateValue = computed$1(() => {
+      if (!isArray$2(accessor.valueRef.value)) {
         return [void 0, void 0];
       }
       return accessor.valueRef.value.map((v) => convertToDate(dateConfig, v, format.value));
@@ -37613,18 +37838,19 @@ var TimeRangePicker = defineComponent({
     const formContext = inject(FORM_TOKEN, null);
     const renderSeparator = () => {
       var _a, _b, _c;
-      return (_c = (_b = (_a = slots.separator) == null ? void 0 : _a.call(slots)) != null ? _b : props.separator) != null ? _c : locale.value.separator;
+      return (_c = (_b = (_a = slots.separator) == null ? void 0 : _a.call(slots)) != null ? _b : props.separator) != null ? _c : locale.timeRangePicker.separator;
     };
     provide(timeRangePickerControl, rangePickerControl);
     provide(timeRangePickerContext, {
-      dateConfig,
-      config,
       props,
+      slots,
+      dateConfig,
+      locale,
+      config,
+      mergedPrefixCls,
       format,
       formContext,
-      slots,
       overlayOpened: visibility,
-      mergedPrefixCls,
       inputEnableStatus,
       commonBindings,
       bufferValue,
@@ -37651,166 +37877,1785 @@ var TimeRangePicker = defineComponent({
 const IxTimePicker = TimePicker;
 const IxTimeRangePicker = TimeRangePicker;
 
+let activeEffectScope;
+function recordEffectScope(effect, scope = activeEffectScope) {
+    if (scope && scope.active) {
+        scope.effects.push(effect);
+    }
+}
+
+const createDep = (effects) => {
+    const dep = new Set(effects);
+    dep.w = 0;
+    dep.n = 0;
+    return dep;
+};
+const wasTracked = (dep) => (dep.w & trackOpBit) > 0;
+const newTracked = (dep) => (dep.n & trackOpBit) > 0;
+const initDepMarkers = ({ deps }) => {
+    if (deps.length) {
+        for (let i = 0; i < deps.length; i++) {
+            deps[i].w |= trackOpBit; // set was tracked
+        }
+    }
+};
+const finalizeDepMarkers = (effect) => {
+    const { deps } = effect;
+    if (deps.length) {
+        let ptr = 0;
+        for (let i = 0; i < deps.length; i++) {
+            const dep = deps[i];
+            if (wasTracked(dep) && !newTracked(dep)) {
+                dep.delete(effect);
+            }
+            else {
+                deps[ptr++] = dep;
+            }
+            // clear bits
+            dep.w &= ~trackOpBit;
+            dep.n &= ~trackOpBit;
+        }
+        deps.length = ptr;
+    }
+};
+// The number of effects currently being tracked recursively.
+let effectTrackDepth = 0;
+let trackOpBit = 1;
+/**
+ * The bitwise track markers support at most 30 levels of recursion.
+ * This value is chosen to enable modern JS engines to use a SMI on all platforms.
+ * When recursion depth is greater, fall back to using a full cleanup.
+ */
+const maxMarkerBits = 30;
+let activeEffect;
+Symbol((process.env.NODE_ENV !== 'production') ? 'iterate' : '');
+Symbol((process.env.NODE_ENV !== 'production') ? 'Map key iterate' : '');
+class ReactiveEffect {
+    constructor(fn, scheduler = null, scope) {
+        this.fn = fn;
+        this.scheduler = scheduler;
+        this.active = true;
+        this.deps = [];
+        this.parent = undefined;
+        recordEffectScope(this, scope);
+    }
+    run() {
+        if (!this.active) {
+            return this.fn();
+        }
+        let parent = activeEffect;
+        let lastShouldTrack = shouldTrack;
+        while (parent) {
+            if (parent === this) {
+                return;
+            }
+            parent = parent.parent;
+        }
+        try {
+            this.parent = activeEffect;
+            activeEffect = this;
+            shouldTrack = true;
+            trackOpBit = 1 << ++effectTrackDepth;
+            if (effectTrackDepth <= maxMarkerBits) {
+                initDepMarkers(this);
+            }
+            else {
+                cleanupEffect(this);
+            }
+            return this.fn();
+        }
+        finally {
+            if (effectTrackDepth <= maxMarkerBits) {
+                finalizeDepMarkers(this);
+            }
+            trackOpBit = 1 << --effectTrackDepth;
+            activeEffect = this.parent;
+            shouldTrack = lastShouldTrack;
+            this.parent = undefined;
+        }
+    }
+    stop() {
+        if (this.active) {
+            cleanupEffect(this);
+            if (this.onStop) {
+                this.onStop();
+            }
+            this.active = false;
+        }
+    }
+}
+function cleanupEffect(effect) {
+    const { deps } = effect;
+    if (deps.length) {
+        for (let i = 0; i < deps.length; i++) {
+            deps[i].delete(effect);
+        }
+        deps.length = 0;
+    }
+}
+let shouldTrack = true;
+function trackEffects(dep, debuggerEventExtraInfo) {
+    let shouldTrack = false;
+    if (effectTrackDepth <= maxMarkerBits) {
+        if (!newTracked(dep)) {
+            dep.n |= trackOpBit; // set newly tracked
+            shouldTrack = !wasTracked(dep);
+        }
+    }
+    else {
+        // Full cleanup mode.
+        shouldTrack = !dep.has(activeEffect);
+    }
+    if (shouldTrack) {
+        dep.add(activeEffect);
+        activeEffect.deps.push(dep);
+        if ((process.env.NODE_ENV !== 'production') && activeEffect.onTrack) {
+            activeEffect.onTrack(Object.assign({
+                effect: activeEffect
+            }, debuggerEventExtraInfo));
+        }
+    }
+}
+function triggerEffects(dep, debuggerEventExtraInfo) {
+    // spread into array for stabilization
+    for (const effect of isArray(dep) ? dep : [...dep]) {
+        if (effect !== activeEffect || effect.allowRecurse) {
+            if ((process.env.NODE_ENV !== 'production') && effect.onTrigger) {
+                effect.onTrigger(extend({ effect }, debuggerEventExtraInfo));
+            }
+            if (effect.scheduler) {
+                effect.scheduler();
+            }
+            else {
+                effect.run();
+            }
+        }
+    }
+}
+new Set(Object.getOwnPropertyNames(Symbol)
+    .map(key => Symbol[key])
+    .filter(isSymbol));
+function toRaw(observed) {
+    const raw = observed && observed["__v_raw" /* RAW */];
+    return raw ? toRaw(raw) : observed;
+}
+
+function trackRefValue(ref) {
+    if (shouldTrack && activeEffect) {
+        ref = toRaw(ref);
+        if ((process.env.NODE_ENV !== 'production')) {
+            trackEffects(ref.dep || (ref.dep = createDep()), {
+                target: ref,
+                type: "get" /* GET */,
+                key: 'value'
+            });
+        }
+        else {
+            trackEffects(ref.dep || (ref.dep = createDep()));
+        }
+    }
+}
+function triggerRefValue(ref, newVal) {
+    ref = toRaw(ref);
+    if (ref.dep) {
+        if ((process.env.NODE_ENV !== 'production')) {
+            triggerEffects(ref.dep, {
+                target: ref,
+                type: "set" /* SET */,
+                key: 'value',
+                newValue: newVal
+            });
+        }
+        else {
+            triggerEffects(ref.dep);
+        }
+    }
+}
+
+class ComputedRefImpl {
+    constructor(getter, _setter, isReadonly, isSSR) {
+        this._setter = _setter;
+        this.dep = undefined;
+        this.__v_isRef = true;
+        this._dirty = true;
+        this.effect = new ReactiveEffect(getter, () => {
+            if (!this._dirty) {
+                this._dirty = true;
+                triggerRefValue(this);
+            }
+        });
+        this.effect.computed = this;
+        this.effect.active = this._cacheable = !isSSR;
+        this["__v_isReadonly" /* IS_READONLY */] = isReadonly;
+    }
+    get value() {
+        // the computed ref may get wrapped by other proxies e.g. readonly() #3376
+        const self = toRaw(this);
+        trackRefValue(self);
+        if (self._dirty || !self._cacheable) {
+            self._dirty = false;
+            self._value = self.effect.run();
+        }
+        return self._value;
+    }
+    set value(newValue) {
+        this._setter(newValue);
+    }
+}
+function computed(getterOrOptions, debugOptions, isSSR = false) {
+    let getter;
+    let setter;
+    const onlyGetter = isFunction(getterOrOptions);
+    if (onlyGetter) {
+        getter = getterOrOptions;
+        setter = (process.env.NODE_ENV !== 'production')
+            ? () => {
+                console.warn('Write operation failed: computed value is readonly');
+            }
+            : NOOP;
+    }
+    else {
+        getter = getterOrOptions.get;
+        setter = getterOrOptions.set;
+    }
+    const cRef = new ComputedRefImpl(getter, setter, onlyGetter || !setter, isSSR);
+    if ((process.env.NODE_ENV !== 'production') && debugOptions && !isSSR) {
+        cRef.effect.onTrack = debugOptions.onTrack;
+        cRef.effect.onTrigger = debugOptions.onTrigger;
+    }
+    return cRef;
+}
+Promise.resolve();
+
+const timelineToken = Symbol("timelineToken");
+const timelineItemKey = Symbol("IDUX_TIMELINE_ITEM_KEY");
 const timelineProps = {
   pending: IxPropTypes.oneOfType([String, Boolean]).def(false),
   pendingDot: IxPropTypes.string,
   reverse: IxPropTypes.bool.def(false),
-  position: IxPropTypes.oneOf(["left", "alternate", "right"]).def("right")
+  placement: IxPropTypes.oneOf(["start", "alternate", "end"]).def("end"),
+  both: IxPropTypes.bool.def(true)
 };
 const timelineItemProps = {
   color: IxPropTypes.string.def("primary"),
   dot: IxPropTypes.string,
-  position: IxPropTypes.oneOf(["left", "right"])
+  label: IxPropTypes.string,
+  placement: IxPropTypes.oneOf(["start", "end"])
 };
-var _export_sfc = (sfc, props) => {
-  const target = sfc.__vccOpts || sfc;
-  for (const [key, val] of props) {
-    target[key] = val;
-  }
-  return target;
-};
-const _sfc_main$1 = defineComponent({
+var TimelineItem = defineComponent({
   name: "IxTimelineItem",
   props: timelineItemProps,
-  setup(props, { slots }) {
-    const isPresetOrStatus = computed(() => isPresetColor(props.color) || isStatusColor(props.color));
-    const dotStyle = useStyle(props, isPresetOrStatus);
-    const dotClass = useClasses$1(props, slots, isPresetOrStatus);
-    return {
-      dotStyle,
-      dotClass
+  [timelineItemKey]: true,
+  setup(props, {
+    slots
+  }) {
+    const {
+      vnode
+    } = getCurrentInstance();
+    const {
+      props: parentProps,
+      itemIndexArray,
+      hasPendingNode,
+      mergedPrefixCls
+    } = inject(timelineToken);
+    const itemIndex = computed$1(() => itemIndexArray.value.indexOf(vnode.index));
+    const itemPlacement = computed$1(() => {
+      const {
+        placement: parentpPlacement
+      } = parentProps;
+      const {
+        placement
+      } = props;
+      let _placement;
+      if (parentpPlacement === "alternate") {
+        _placement = placement ? placement : itemIndex.value % 2 ? "start" : "end";
+      } else {
+        _placement = parentpPlacement;
+      }
+      return _placement;
+    });
+    const isPresetOrStatusColor = computed$1(() => isPresetColor(props.color) || isStatusColor(props.color));
+    const dotStyle = computed$1(() => {
+      const {
+        color
+      } = props;
+      if (isPresetOrStatusColor.value) {
+        return {};
+      }
+      return {
+        color,
+        "border-color": color
+      };
+    });
+    const classes = computed$1(() => {
+      const {
+        reverse
+      } = parentProps;
+      const prefixCls = `${mergedPrefixCls.value}-item`;
+      const placement = itemPlacement.value;
+      const allItemLength = itemIndexArray.value.length;
+      const index = itemIndex.value;
+      const isReversePending = hasPendingNode.value && reverse && index === 0;
+      const isPending = hasPendingNode.value && !reverse && index === allItemLength - 2;
+      return normalizeClass({
+        [`${prefixCls}`]: true,
+        [`${prefixCls}-${placement}`]: true,
+        [`${prefixCls}-pending`]: isReversePending || isPending
+      });
+    });
+    const dotClass = computed$1(() => {
+      const prefixCls = `${mergedPrefixCls.value}-item`;
+      const {
+        dot,
+        color
+      } = props;
+      return normalizeClass({
+        [`${prefixCls}-dot`]: true,
+        [`${prefixCls}-dot-custom`]: hasSlot(slots, "dot") || !!dot,
+        [`${prefixCls}-dot-${color}`]: isPresetOrStatusColor.value
+      });
+    });
+    return () => {
+      const {
+        label,
+        dot
+      } = props;
+      const prefixCls = `${mergedPrefixCls.value}-item`;
+      const dotNode = convertStringVNode(slots.dot, dot);
+      const labelNode = convertStringVNode(slots.label, label);
+      return createVNode("li", {
+        "class": classes.value
+      }, [createVNode("div", {
+        "class": `${prefixCls}-line`
+      }, null), createVNode("div", {
+        "class": dotClass.value,
+        "style": dotStyle.value
+      }, [dotNode]), createVNode("div", {
+        "class": `${prefixCls}-content`
+      }, [labelNode && createVNode("div", {
+        "class": `${prefixCls}-label`
+      }, [labelNode]), slots.default && createVNode("div", {
+        "class": `${prefixCls}-desc`
+      }, [slots.default()])])]);
     };
   }
 });
-const useClasses$1 = (props, slots, isPresetOrStatus) => {
-  return computed(() => {
-    const hasCustomDot = hasSlot(slots, "dot") || !!props.dot;
-    return {
-      "ix-timeline-item-dot": true,
-      "ix-timeline-item-dot-custom": hasCustomDot,
-      [`ix-timeline-item-dot-${props.color}`]: isPresetOrStatus.value
-    };
-  });
-};
-const useStyle = (props, isPresetOrStatus) => {
-  return computed(() => {
-    if (isPresetOrStatus.value) {
-      return {};
-    }
-    return {
-      color: props.color,
-      "border-color": props.color
-    };
-  });
-};
-const _hoisted_1 = { class: "ix-timeline-item" };
-const _hoisted_2 = /* @__PURE__ */ createElementVNode("div", { class: "ix-timeline-item-line" }, null, -1);
-const _hoisted_3 = { class: "ix-timeline-item-content" };
-function _sfc_render(_ctx, _cache, $props, $setup, $data, $options) {
-  return openBlock(), createElementBlock("li", _hoisted_1, [
-    _hoisted_2,
-    createElementVNode("div", {
-      class: normalizeClass(_ctx.dotClass),
-      style: normalizeStyle(_ctx.dotStyle)
-    }, [
-      renderSlot(_ctx.$slots, "dot", {}, () => [
-        createTextVNode(toDisplayString(_ctx.dot), 1)
-      ])
-    ], 6),
-    createElementVNode("div", _hoisted_3, [
-      renderSlot(_ctx.$slots, "default")
-    ])
-  ]);
-}
-var TimelineItem = /* @__PURE__ */ _export_sfc(_sfc_main$1, [["render", _sfc_render]]);
-const timelinePrefixCls = "ix-timeline";
-const itemPrefixCls = "ix-timeline-item";
-const _sfc_main = defineComponent({
+var Timeline = defineComponent({
   name: "IxTimeline",
   props: timelineProps,
-  render() {
-    var _a, _b, _c, _d, _e, _f;
-    const pendingSlots = (_b = (_a = this.$slots) == null ? void 0 : _a.pending) == null ? void 0 : _b.call(_a);
-    const pendingDotSlots = (_d = (_c = this.$slots) == null ? void 0 : _c.pendingDot) == null ? void 0 : _d.call(_c);
-    const defaultSlots = ((_f = (_e = this.$slots) == null ? void 0 : _e.default) == null ? void 0 : _f.call(_e)) || [];
-    const pendingNode = pendingSlots || this.$props.pending;
-    const pendingDotNode = pendingDotSlots || this.$props.pendingDot || h$1(IxIcon, { name: "loading" });
-    let penddingItem = null;
-    if (pendingNode) {
-      penddingItem = h$1(TimelineItem, { class: `${itemPrefixCls}-pending-dot` }, { default: () => pendingNode, dot: () => pendingDotNode });
-    }
-    const timelineItems = this.$props.reverse ? [penddingItem, ...defaultSlots.reverse()] : [...defaultSlots, penddingItem];
-    const nonNullItems = timelineItems.filter((item) => !!item);
-    const itemsLength = nonNullItems.length;
-    const items = [];
-    const itemPositionArr = [];
-    nonNullItems.forEach((item, index) => {
-      const position = getItemPosition(item, index, this.$props.position);
-      itemPositionArr.push(position);
-      items.push(cloneVNode(item, {
-        class: useItemClasses({
-          hasPendingNode: !!pendingNode,
-          position,
-          index,
-          itemsLength,
-          props: this.$props
-        })
-      }));
+  setup(props, {
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-timeline`);
+    const hasPendingNode = computed(() => props.pending !== false || hasSlot(slots, "pending"));
+    const itemNodes = useItems(slots, props, hasPendingNode, mergedPrefixCls);
+    const itemIndexArray = computed(() => itemNodes.value.map((node) => node.index));
+    const classes = computed(() => {
+      const {
+        placement,
+        reverse,
+        both
+      } = props;
+      const prefixCls = mergedPrefixCls.value;
+      return normalizeClass({
+        [`${prefixCls}`]: true,
+        [`${prefixCls}-${placement}`]: true,
+        [`${prefixCls}-reverse`]: reverse,
+        [`${prefixCls}-not-both`]: !both
+      });
     });
-    return h$1("ul", {
-      class: useClasses(itemPositionArr, this.$props)
-    }, items);
+    provide(timelineToken, {
+      props,
+      itemIndexArray,
+      hasPendingNode,
+      mergedPrefixCls
+    });
+    return () => {
+      return createVNode("ul", {
+        "class": classes.value
+      }, [itemNodes.value]);
+    };
   }
 });
-const getItemPosition = (node, index, position) => {
-  var _a;
-  const itemPosition = (_a = node.props) == null ? void 0 : _a.position;
-  if (itemPosition) {
-    return itemPosition;
-  }
-  if (position === "alternate") {
-    return index % 2 ? "left" : "right";
-  }
-  return position;
-};
-const getRealPosition = (itemPositionArr) => {
-  return itemPositionArr.reduce((result, nextPosition, index) => {
-    if (!index) {
-      result = nextPosition;
-    } else if (result !== nextPosition) {
-      result = "alternate";
+function convertItemNodes(itemsNodes) {
+  return flattenNode(itemsNodes, {
+    key: timelineItemKey
+  }).map((node, index) => {
+    node.index = index + 1;
+    return node;
+  });
+}
+function useItems(slots, props, hasPendingNode, mergedPrefixCls) {
+  return computed(() => {
+    var _a, _b;
+    const {
+      pending,
+      pendingDot,
+      reverse
+    } = props;
+    const defaultSlots = ((_a = slots == null ? void 0 : slots.default) == null ? void 0 : _a.call(slots)) || [];
+    const pendingDotNode = ((_b = slots == null ? void 0 : slots.pendingDot) == null ? void 0 : _b.call(slots)) || pendingDot || createVNode(IxIcon, {
+      "name": "loading"
+    }, null);
+    let penddingItem = null;
+    if (hasPendingNode.value) {
+      penddingItem = createVNode(TimelineItem, {
+        "class": `${mergedPrefixCls.value}-item-pending-dot`
+      }, {
+        default: () => [convertStringVNode(slots.pending, isBoolean(pending) ? "" : pending)],
+        dot: () => pendingDotNode
+      });
     }
-    return result;
-  }, "right");
-};
-const useClasses = (itemPositionArr, props) => {
-  const realPosition = getRealPosition(itemPositionArr);
-  const positionCls = `${timelinePrefixCls}-${realPosition}`;
-  let cls = `${timelinePrefixCls} ${positionCls}`;
-  if (props.reverse) {
-    cls += ` ${timelinePrefixCls}-reverse`;
-  }
-  return cls;
-};
-const useItemClasses = ({
-  hasPendingNode,
-  position,
-  index,
-  itemsLength,
-  props
-}) => {
-  let cls = `${itemPrefixCls}-${position}`;
-  if (hasPendingNode) {
-    const isReversePending = props.reverse && index === 0;
-    const isPending = !props.reverse && index === itemsLength - 2;
-    if (isReversePending || isPending) {
-      cls += ` ${itemPrefixCls}-pending`;
-    }
-  }
-  return cls;
-};
-const IxTimeline = _sfc_main;
+    const timelineItemNodes = reverse ? [penddingItem, ...defaultSlots.reverse()] : [...defaultSlots, penddingItem];
+    return convertItemNodes(timelineItemNodes.filter(Boolean));
+  });
+}
+const IxTimeline = Timeline;
 const IxTimelineItem = TimelineItem;
+
+const checkableListContext = Symbol("checkableListContext");
+const checkableListProps = {
+  dataSource: IxPropTypes.array(),
+  checkable: IxPropTypes.bool.def(true),
+  removable: IxPropTypes.bool.def(false),
+  checked: IxPropTypes.func(),
+  disabled: IxPropTypes.func(),
+  getRowKey: IxPropTypes.func(),
+  virtual: IxPropTypes.bool,
+  scroll: IxPropTypes.object(),
+  onCheckChange: IxPropTypes.emit(),
+  onRemove: IxPropTypes.emit(),
+  onScroll: IxPropTypes.emit(),
+  onScrolledChange: IxPropTypes.emit(),
+  onScrolledBottom: IxPropTypes.emit()
+};
+const checkableListItemProps = {
+  checked: IxPropTypes.bool.def(false),
+  checkable: IxPropTypes.bool.def(true),
+  removable: IxPropTypes.bool.def(false),
+  disabled: IxPropTypes.bool.def(false),
+  label: IxPropTypes.string,
+  value: IxPropTypes.oneOfType([String, Number, Symbol]).isRequired,
+  onCheckChange: IxPropTypes.emit(),
+  onRemove: IxPropTypes.emit()
+};
+var CheckableListItem = defineComponent({
+  props: checkableListItemProps,
+  setup(props, {
+    slots
+  }) {
+    const {
+      mergedPrefixCls
+    } = inject(checkableListContext);
+    const onCheckChange = (value) => {
+      callEmit(props.onCheckChange, !!value);
+    };
+    const onRemove = () => {
+      callEmit(props.onRemove);
+    };
+    const renderLabel = (prefixCls) => {
+      var _a, _b;
+      const {
+        checked,
+        value,
+        disabled,
+        checkable
+      } = props;
+      if (checkable) {
+        return createVNode(IxCheckbox, {
+          "class": `${prefixCls}-checkbox`,
+          "label": props.label,
+          "value": value,
+          "checked": checked,
+          "disabled": disabled,
+          "onChange": onCheckChange
+        }, slots);
+      }
+      return createVNode("label", {
+        "class": `${prefixCls}-label`
+      }, [(_b = (_a = slots.default) == null ? void 0 : _a.call(slots)) != null ? _b : props.label]);
+    };
+    const classes = computed$1(() => {
+      const prefixCls = `${mergedPrefixCls.value}-item`;
+      return normalizeClass({
+        [prefixCls]: true,
+        [`${prefixCls}-disabled`]: props.disabled
+      });
+    });
+    return () => {
+      const prefixCls = `${mergedPrefixCls.value}-item`;
+      return createVNode("li", {
+        "class": classes.value
+      }, [renderLabel(prefixCls), props.removable && !props.disabled && createVNode(IxIcon, {
+        "class": `${prefixCls}-close-icon`,
+        "name": "close",
+        "onClick": onRemove
+      }, null)]);
+    };
+  }
+});
+var CheckableList = defineComponent({
+  name: "IxCheckableList",
+  props: checkableListProps,
+  setup(props, {
+    slots,
+    expose
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-checkable-list`);
+    const virtualScrollRef = ref();
+    provide(checkableListContext, {
+      mergedPrefixCls
+    });
+    const checkableListApi = {
+      scrollTo: (...params) => {
+        var _a;
+        return (_a = virtualScrollRef.value) == null ? void 0 : _a.scrollTo(...params);
+      }
+    };
+    expose(checkableListApi);
+    const getRowKey = (item) => {
+      var _a, _b;
+      return (_b = (_a = props.getRowKey) == null ? void 0 : _a.call(props, item)) != null ? _b : item.key;
+    };
+    const handleScroll = (evt) => {
+      callEmit(props.onScroll, evt);
+    };
+    const handleScrolledBottom = () => {
+      callEmit(props.onScrolledBottom);
+    };
+    const handleScrolledChange = (startIndex, endIndex, visibleData) => {
+      callEmit(props.onScrolledChange, startIndex, endIndex, visibleData);
+    };
+    const renderListItem = (item) => {
+      var _a, _b, _c;
+      const key = getRowKey(item);
+      const onCheckChange = (checked) => {
+        callEmit(props.onCheckChange, item, checked);
+      };
+      const onRemove = () => {
+        callEmit(props.onRemove, item);
+      };
+      return createVNode(CheckableListItem, mergeProps({
+        "key": key,
+        "value": key,
+        "label": item.label,
+        "checked": !!((_a = props.checked) == null ? void 0 : _a.call(props, item)),
+        "disabled": !!((_b = props.disabled) == null ? void 0 : _b.call(props, item)),
+        "checkable": props.checkable,
+        "removable": props.removable,
+        "onCheckChange": onCheckChange,
+        "onRemove": onRemove
+      }, (_c = item.additional) != null ? _c : {}), {
+        default: slots.label && (() => {
+          var _a2;
+          return (_a2 = slots.label) == null ? void 0 : _a2.call(slots, item);
+        })
+      });
+    };
+    const renderBody = () => {
+      const {
+        dataSource,
+        virtual,
+        scroll
+      } = props;
+      const data = dataSource != null ? dataSource : [];
+      if (data.length <= 0) {
+        return;
+      }
+      if (virtual && scroll) {
+        const {
+          height,
+          fullHeight
+        } = scroll;
+        return createVNode(CdkVirtualScroll, {
+          "ref": virtualScrollRef,
+          "dataSource": data,
+          "fullHeight": fullHeight,
+          "height": height,
+          "itemHeight": 32,
+          "itemKey": getRowKey,
+          "itemRender": ({
+            item
+          }) => renderListItem(item),
+          "virtual": true,
+          "onScroll": handleScroll,
+          "onScrolledBottom": handleScrolledBottom,
+          "onScrolledChange": handleScrolledChange
+        }, null);
+      }
+      return createVNode("ul", {
+        "class": `${mergedPrefixCls.value}-inner`,
+        "onScroll": handleScroll
+      }, [data.map((item) => renderListItem(item))]);
+    };
+    const classes = computed$1(() => {
+      const prefixCls = mergedPrefixCls.value;
+      return normalizeClass({
+        [prefixCls]: true,
+        [`${prefixCls}-virtual`]: !!props.virtual
+      });
+    });
+    return () => {
+      return createVNode("div", {
+        "class": classes.value
+      }, [renderBody()]);
+    };
+  }
+});
+const \u0275CheckableList = CheckableList;
+
+const transferContext = Symbol("transferContext");
+const TRANSFER_SOURCE_TOKEN = Symbol("TRANSFER_SOURCE_TOKEN");
+const TRANSFER_TARGET_TOKEN = Symbol("TRANSFER_TARGET_TOKEN");
+const TRANSFER_OPERATIONS_TOKEN = Symbol("TRANSFER_OPERATIONS_TOKEN");
+const TRANSFER_DATA_STRATEGIES = Symbol("TRANSFER_DATA_STRATEGIES");
+function convertToSlotParams(obj) {
+  const params = {};
+  Object.keys(obj).forEach((key) => {
+    params[key] = unref(obj[key]);
+  });
+  return params;
+}
+var TransferOperations = defineComponent({
+  setup() {
+    const {
+      slots,
+      props: transferProps2,
+      mergedPrefixCls
+    } = inject(transferContext);
+    const transferOperationsContext = inject(TRANSFER_OPERATIONS_TOKEN);
+    const {
+      appendDisabled,
+      removeDisabled,
+      triggerAppend,
+      triggerRemove
+    } = transferOperationsContext;
+    const handleTransferRightClick = () => {
+      triggerAppend();
+    };
+    const handleTransferLeftClick = () => {
+      triggerRemove();
+    };
+    const renderBtn = (prefixCls, icon, disabled, onClick) => {
+      if (isString(icon)) {
+        return createVNode(IxButton, {
+          "class": `${prefixCls}-btn`,
+          "icon": icon,
+          "disabled": disabled,
+          "onClick": onClick
+        }, null);
+      }
+      return withDirectives(createVNode(IxButton, {
+        "class": `${prefixCls}-btn`,
+        "disabled": disabled,
+        "onClick": onClick
+      }, null), [[resolveDirective("slos"), {
+        icon: () => icon
+      }]]);
+    };
+    const renderOperations = (prefixCls) => {
+      if (slots.operations) {
+        return slots.operations(convertToSlotParams(transferOperationsContext));
+      }
+      if (transferProps2.mode === "transferBySelect") {
+        return;
+      }
+      return createVNode("div", {
+        "class": `${prefixCls}-inner`
+      }, [renderBtn(prefixCls, "right-double", appendDisabled.value, handleTransferRightClick), renderBtn(prefixCls, "left-double", removeDisabled.value, handleTransferLeftClick)]);
+    };
+    return () => {
+      const prefixCls = `${mergedPrefixCls.value}-operations`;
+      return createVNode("div", {
+        "class": prefixCls
+      }, [renderOperations(prefixCls)]);
+    };
+  }
+});
+var __defProp$4$1 = Object.defineProperty;
+var __defProps$2 = Object.defineProperties;
+var __getOwnPropDescs$2 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$4$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$4$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$4$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$4$1 = (obj, key, value) => key in obj ? __defProp$4$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$4$1 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$4$1.call(b, prop))
+      __defNormalProp$4$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$4$1)
+    for (var prop of __getOwnPropSymbols$4$1(b)) {
+      if (__propIsEnum$4$1.call(b, prop))
+        __defNormalProp$4$1(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$2 = (a, b) => __defProps$2(a, __getOwnPropDescs$2(b));
+function usePagination(props) {
+  const paginationConfig = useGlobalConfig$1("pagination");
+  return {
+    sourcePagination: createPagination(props, paginationConfig, true),
+    targetPagination: createPagination(props, paginationConfig, false)
+  };
+}
+function createPagination(props, paginationConfig, isSource) {
+  const pageIndex = ref();
+  const pageSize = ref();
+  const tempPagination = computed$1(() => {
+    const pagination = props.pagination;
+    if (!pagination) {
+      return null;
+    }
+    if (pagination === true) {
+      return {};
+    }
+    const idx = isSource ? 0 : 1;
+    const pageIndex2 = isArray$2(pagination.pageIndex) ? pagination.pageIndex : [pagination.pageIndex];
+    const pageSize2 = isArray$2(pagination.pageSize) ? pagination.pageSize : [pagination.pageSize];
+    const total = isArray$2(pagination.total) ? pagination.total : [pagination.total];
+    return {
+      pageIndex: pageIndex2 == null ? void 0 : pageIndex2[idx],
+      pageSize: pageSize2 == null ? void 0 : pageSize2[idx],
+      disabled: props.disabled || pagination.disabled,
+      total: total == null ? void 0 : total[idx],
+      onChange: (pageIndex3, pageSize3) => {
+        var _a;
+        return (_a = pagination.onChange) == null ? void 0 : _a.call(pagination, isSource, pageIndex3, pageSize3);
+      }
+    };
+  });
+  watchEffect(() => {
+    var _a, _b;
+    const pagination = tempPagination.value;
+    pageIndex.value = (_a = pagination == null ? void 0 : pagination.pageIndex) != null ? _a : 1;
+    pageSize.value = (_b = pagination == null ? void 0 : pagination.pageSize) != null ? _b : paginationConfig.pageSize;
+  });
+  const handlePageIndexChange = (index) => {
+    pageIndex.value = index;
+  };
+  return computed$1(() => {
+    const pagination = tempPagination.value;
+    if (pagination === null) {
+      return;
+    }
+    return __spreadProps$2(__spreadValues$4$1({
+      simple: true,
+      showTotal: false
+    }, pagination), {
+      pageIndex: pageIndex.value,
+      pageSize: pageSize.value,
+      "onUpdate:pageIndex": handlePageIndexChange
+    });
+  });
+}
+function useSearchable$1(props, config) {
+  return {
+    source: computed$1(() => getSearchable(props, config, true)),
+    target: computed$1(() => getSearchable(props, config, false))
+  };
+}
+function getSearchable(props, config, isSource) {
+  var _a;
+  const searchable = (_a = props.searchable) != null ? _a : config.searchable;
+  if (!searchable || isBoolean(searchable)) {
+    return !!searchable;
+  }
+  return isSource ? searchable.source : searchable.target;
+}
+var __defProp$3$1 = Object.defineProperty;
+var __getOwnPropSymbols$3$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$3$1 = (obj, key, value) => key in obj ? __defProp$3$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$3$1 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$3$1.call(b, prop))
+      __defNormalProp$3$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$3$1)
+    for (var prop of __getOwnPropSymbols$3$1(b)) {
+      if (__propIsEnum$3$1.call(b, prop))
+        __defNormalProp$3$1(a, prop, b[prop]);
+    }
+  return a;
+};
+function useTransferBindings(props, transferDataContext, transferOperationsContext, transferSelectStateContext, transferPaginationContext, showSelectAll, sourceSearchable, targetSearchable) {
+  const {
+    dataSource,
+    sourceData,
+    targetData,
+    targetKeySet,
+    dataKeyMap,
+    disabledKeys,
+    disabledSourceKeys,
+    disabledTargetKeys,
+    filteredDataSource,
+    filteredSourceData,
+    filteredTargetData,
+    paginatedDataSource,
+    paginatedSourceData,
+    paginatedTargetData,
+    sourceSearchValue,
+    setSourceSearchValue,
+    targetSearchValue,
+    setTargetSearchValue,
+    getRowKey
+  } = transferDataContext;
+  const {
+    sourceSelectedKeys,
+    targetSelectedKeys,
+    sourceSelectedKeySet,
+    targetSelectedKeySet,
+    sourceSelectAllStatus,
+    targetSelectAllStatus,
+    sourceSelectAllDisabled,
+    targetSelectAllDisabled,
+    handleSourceSelectChange,
+    handleTargetSelectChange,
+    handleSourceSelectAll,
+    handleTargetSelectAll
+  } = transferSelectStateContext;
+  const { triggerAppend, triggerRemove } = transferOperationsContext;
+  const commonBindings = {
+    dataSource,
+    dataKeyMap,
+    disabledDataSourceKeys: disabledKeys,
+    filteredDataSource,
+    paginatedDataSource,
+    targetKeySet,
+    showSelectAll,
+    triggerAppend,
+    triggerRemove,
+    getRowKey
+  };
+  return {
+    sourceBindings: __spreadValues$3$1({
+      data: sourceData,
+      filteredData: filteredSourceData,
+      paginatedData: paginatedSourceData,
+      pagination: transferPaginationContext.sourcePagination,
+      disabledKeys: disabledSourceKeys,
+      selectedKeys: sourceSelectedKeys,
+      selectedKeySet: sourceSelectedKeySet,
+      selectAllDisabled: sourceSelectAllDisabled,
+      selectAllStatus: sourceSelectAllStatus,
+      searchable: sourceSearchable,
+      selectAll: handleSourceSelectAll,
+      handleSelectChange: handleSourceSelectChange,
+      searchValue: sourceSearchValue,
+      handleSearchChange: (searchValue) => {
+        setSourceSearchValue(searchValue);
+        callEmit(props.onSearch, true, searchValue);
+      }
+    }, commonBindings),
+    targetBindings: __spreadValues$3$1({
+      data: targetData,
+      filteredData: filteredTargetData,
+      paginatedData: paginatedTargetData,
+      pagination: transferPaginationContext.targetPagination,
+      disabledKeys: disabledTargetKeys,
+      selectedKeys: targetSelectedKeys,
+      selectedKeySet: targetSelectedKeySet,
+      selectAllDisabled: targetSelectAllDisabled,
+      selectAllStatus: targetSelectAllStatus,
+      searchable: targetSearchable,
+      selectAll: handleTargetSelectAll,
+      handleSelectChange: handleTargetSelectChange,
+      searchValue: targetSearchValue,
+      handleSearchChange: (searchValue) => {
+        setTargetSearchValue(searchValue);
+        callEmit(props.onSearch, false, searchValue);
+      }
+    }, commonBindings)
+  };
+}
+function useGetRowKey(props, config) {
+  const getKey = computed$1(() => {
+    var _a;
+    const getKey2 = (_a = props.getKey) != null ? _a : config.getKey;
+    if (isString(getKey2)) {
+      return (record) => {
+        const key = record[getKey2];
+        if (process.env.NODE_ENV !== "production" && key === void 0) {
+          Logger.warn("components/transfer", "Each record in transfer should have a unique `key` prop.");
+        }
+        return key;
+      };
+    }
+    return getKey2;
+  });
+  return (record) => getKey.value(record);
+}
+function useTransferData(props, config, transferDataStrategies, transferPaginationContext) {
+  const getRowKey = useGetRowKey(props, config);
+  const {
+    genDataKeys,
+    genDataKeyMap,
+    genDisabledKeys,
+    separateDataSource,
+    dataFilter,
+    append: _append,
+    remove: _remove
+  } = transferDataStrategies;
+  const dataSource = computed$1(() => props.dataSource);
+  const dataKeyMap = computed$1(() => genDataKeyMap(dataSource.value, getRowKey));
+  const [targetKeys, setTargetKeys] = useControlledProp(props, "value", () => []);
+  const [sourceSearchValue, setSourceSearchValue] = useState$1("");
+  const [targetSearchValue, setTargetSearchValue] = useState$1("");
+  const targetKeySet = computed$1(() => new Set(targetKeys.value));
+  const handleChange = (keys) => {
+    callEmit(props.onChange, keys, targetKeys.value);
+    setTargetKeys(keys);
+  };
+  const separatedData = computed$1(() => separateDataSource(dataSource.value, dataKeyMap.value, targetKeySet.value, getRowKey));
+  const sourceData = computed$1(() => separatedData.value.sourceData);
+  const targetData = computed$1(() => separatedData.value.targetData);
+  const sourceDataKeys = computed$1(() => genDataKeys(sourceData.value, getRowKey));
+  const targetDataKeys = computed$1(() => genDataKeys(targetData.value, getRowKey));
+  const filteredDataSource = computed$1(() => dataFilter(dataSource.value, sourceSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(true, item, searchValue)));
+  const filteredSourceData = computed$1(() => dataFilter(sourceData.value, sourceSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(true, item, searchValue)));
+  const filteredTargetData = computed$1(() => dataFilter(targetData.value, targetSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(false, item, searchValue)));
+  const paginatedDataSource = computed$1(() => getPaginatedData(filteredDataSource.value, transferPaginationContext.sourcePagination.value));
+  const paginatedSourceData = computed$1(() => getPaginatedData(filteredSourceData.value, transferPaginationContext.sourcePagination.value));
+  const paginatedTargetData = computed$1(() => getPaginatedData(filteredTargetData.value, transferPaginationContext.targetPagination.value));
+  const append = (keys) => {
+    _append(keys, targetKeySet.value, getRowKey, handleChange);
+  };
+  const remove = (keys) => {
+    _remove(keys, targetKeySet.value, getRowKey, handleChange);
+  };
+  const clear = () => {
+    handleChange(Array.from(disabledTargetKeys.value));
+  };
+  const disabledKeys = computed$1(() => genDisabledKeys(dataSource.value, getRowKey));
+  const disabledTargetKeys = computed$1(() => {
+    const keys = genDisabledKeys(targetData.value, getRowKey);
+    targetKeySet.value.forEach((key) => {
+      if (disabledKeys.value.has(key)) {
+        keys.add(key);
+      }
+    });
+    return keys;
+  });
+  const disabledSourceKeys = computed$1(() => genDisabledKeys(sourceData.value, getRowKey));
+  return {
+    dataSource,
+    dataKeyMap,
+    sourceData,
+    targetData,
+    sourceDataKeys,
+    targetDataKeys,
+    filteredDataSource,
+    filteredSourceData,
+    filteredTargetData,
+    paginatedDataSource,
+    paginatedSourceData,
+    paginatedTargetData,
+    targetKeys,
+    targetKeySet,
+    append,
+    remove,
+    clear,
+    getRowKey,
+    disabledKeys,
+    disabledSourceKeys,
+    disabledTargetKeys,
+    sourceSearchValue,
+    setSourceSearchValue,
+    targetSearchValue,
+    setTargetSearchValue
+  };
+}
+function getPaginatedData(data, pagination) {
+  if (!pagination || !pagination.pageSize) {
+    return data;
+  }
+  const { total } = pagination;
+  if (total && data.length < total) {
+    return data;
+  }
+  const pageSize = pagination.pageSize;
+  const startIndex = (pagination.pageIndex - 1) * pageSize;
+  return data.slice(startIndex, startIndex + pageSize);
+}
+var __defProp$2$2 = Object.defineProperty;
+var __getOwnPropSymbols$2$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$2 = (obj, key, value) => key in obj ? __defProp$2$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$2 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$2$2.call(b, prop))
+      __defNormalProp$2$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$2)
+    for (var prop of __getOwnPropSymbols$2$2(b)) {
+      if (__propIsEnum$2$2.call(b, prop))
+        __defNormalProp$2$2(a, prop, b[prop]);
+    }
+  return a;
+};
+function createDefaultStrategies() {
+  const cachedDataKeyMap = /* @__PURE__ */ new Map();
+  onUnmounted(() => {
+    cachedDataKeyMap.clear();
+  });
+  return {
+    genDataKeys: (data, getRowKey) => {
+      return new Set(data.map((data2) => getRowKey(data2)));
+    },
+    genDataKeyMap: (dataSource, getRowKey) => {
+      const dataKeyMap = /* @__PURE__ */ new Map();
+      dataSource.forEach((item) => {
+        dataKeyMap.set(getRowKey(item), item);
+      });
+      return dataKeyMap;
+    },
+    genDisabledKeys: (data, getRowKey) => {
+      const keys = /* @__PURE__ */ new Set();
+      data.forEach((item) => {
+        if (item.disabled) {
+          keys.add(getRowKey(item));
+        }
+      });
+      return keys;
+    },
+    separateDataSource: (dataSource, dataKeyMap, selectedKeySet, getRowKey) => {
+      const sourceData = dataSource.filter((data) => !selectedKeySet.has(getRowKey(data)));
+      const targetData = [];
+      selectedKeySet.forEach((key) => {
+        var _a;
+        const data = (_a = dataKeyMap.get(key)) != null ? _a : cachedDataKeyMap.get(key);
+        if (data && !cachedDataKeyMap.has(key)) {
+          cachedDataKeyMap.set(key, data);
+        }
+        targetData.push(data != null ? data : { key });
+      });
+      for (const cachedKey of cachedDataKeyMap.keys()) {
+        if (!selectedKeySet.has(cachedKey)) {
+          cachedDataKeyMap.delete(cachedKey);
+        }
+      }
+      return {
+        sourceData,
+        targetData
+      };
+    },
+    dataFilter: (data, searchValue, searchFn) => {
+      if (!searchValue) {
+        return data;
+      }
+      return data.filter((item) => searchFn(item, searchValue));
+    },
+    append: (keys, selectedKeySet, _, handleChange) => {
+      const newKeys = new Set(selectedKeySet);
+      keys.forEach((key) => {
+        newKeys.add(key);
+      });
+      if (newKeys.size !== selectedKeySet.size) {
+        handleChange(Array.from(newKeys));
+      }
+    },
+    remove: (keys, selectedKeySet, _, handleChange) => {
+      const newKeys = new Set(selectedKeySet);
+      keys.forEach((key) => {
+        newKeys.delete(key);
+      });
+      if (newKeys.size !== selectedKeySet.size) {
+        handleChange(Array.from(newKeys));
+      }
+    }
+  };
+}
+function useTransferDataStrategies() {
+  const strategies = inject(TRANSFER_DATA_STRATEGIES, null);
+  const defaultStrategies = createDefaultStrategies();
+  return strategies ? __spreadValues$2$2(__spreadValues$2$2({}, defaultStrategies), strategies) : defaultStrategies;
+}
+function useTransferOperations(props, transferDataContext, transferSelectStateContext) {
+  const {
+    dataKeyMap,
+    sourceData,
+    targetData,
+    disabledSourceKeys,
+    disabledTargetKeys,
+    append,
+    remove,
+    clear,
+    getRowKey
+  } = transferDataContext;
+  const { sourceSelectedKeys, targetSelectedKeys } = transferSelectStateContext;
+  const appendDisabled = computed$1(() => props.disabled || sourceSelectedKeys.value.length <= 0);
+  const removeDisabled = computed$1(() => props.disabled || targetSelectedKeys.value.length <= 0);
+  const appendAllDisabled = computed$1(() => props.disabled || sourceData.value.every((item) => disabledSourceKeys.value.has(getRowKey(item))));
+  const clearDisabled = computed$1(() => props.disabled || targetData.value.every((item) => disabledTargetKeys.value.has(getRowKey(item))));
+  const triggerAppend = (keys) => {
+    if (!keys && appendDisabled.value || keys && props.disabled) {
+      return;
+    }
+    append(keys != null ? keys : Array.from(sourceSelectedKeys.value));
+  };
+  const triggerRemove = (keys) => {
+    if (!keys && removeDisabled.value || keys && props.disabled) {
+      return;
+    }
+    remove(keys != null ? keys : Array.from(targetSelectedKeys.value));
+  };
+  const triggerAppendAll = () => {
+    if (appendAllDisabled.value) {
+      return;
+    }
+    append(Array.from(dataKeyMap.value.keys()).filter((key) => !disabledSourceKeys.value.has(key)));
+  };
+  const triggerClear = () => {
+    if (clearDisabled.value) {
+      return;
+    }
+    clear();
+    callEmit(props.onClear);
+  };
+  return {
+    appendDisabled,
+    removeDisabled,
+    appendAllDisabled,
+    clearDisabled,
+    triggerAppend,
+    triggerRemove,
+    triggerAppendAll,
+    triggerClear
+  };
+}
+function useTransferSelectState(props, transferDataContext) {
+  const [sourceSelectedKeys, setSourceSelectedKeys] = useControlledProp(props, "sourceSelectedKeys", () => []);
+  const [targetSelectedKeys, setTargetSelectedKeys] = useControlledProp(props, "targetSelectedKeys", () => []);
+  const sourceSelectedKeySet = computed$1(() => new Set(sourceSelectedKeys.value));
+  const targetSelectedKeySet = computed$1(() => new Set(targetSelectedKeys.value));
+  const { dataKeyMap, sourceDataKeys, targetDataKeys, disabledKeys, disabledSourceKeys, disabledTargetKeys } = transferDataContext;
+  const sourceCheckableDataCount = computed$1(() => {
+    const allCount = props.mode === "transferBySelect" ? dataKeyMap.value.size : sourceDataKeys.value.size;
+    const disabledCount = props.mode === "transferBySelect" ? disabledKeys.value.size : disabledSourceKeys.value.size;
+    return allCount - disabledCount;
+  });
+  const targetCheckableDataCount = computed$1(() => targetDataKeys.value.size - disabledTargetKeys.value.size);
+  const sourceSelectAllStatus = computed$1(() => {
+    return {
+      checked: sourceCheckableDataCount.value === sourceSelectedKeys.value.length && sourceSelectedKeys.value.length > 0,
+      indeterminate: sourceCheckableDataCount.value > sourceSelectedKeys.value.length && sourceSelectedKeys.value.length > 0
+    };
+  });
+  const targetSelectAllStatus = computed$1(() => {
+    return {
+      checked: targetCheckableDataCount.value === targetSelectedKeys.value.length && targetSelectedKeys.value.length > 0,
+      indeterminate: targetCheckableDataCount.value > targetSelectedKeys.value.length && targetSelectedKeys.value.length > 0
+    };
+  });
+  watch([sourceCheckableDataCount, dataKeyMap, disabledKeys, targetDataKeys], (_, [, , , prevSelectedKeys]) => {
+    const tempKeys = new Set(sourceSelectedKeys.value);
+    sourceSelectedKeys.value.forEach((key) => {
+      if (!dataKeyMap.value.has(key) || disabledKeys.value.has(key)) {
+        tempKeys.delete(key);
+        return;
+      }
+      if (props.mode === "normal" && targetDataKeys.value.has(key)) {
+        tempKeys.delete(key);
+      }
+    });
+    if (props.mode === "transferBySelect") {
+      targetDataKeys.value.forEach((key) => {
+        if (dataKeyMap.value.has(key)) {
+          tempKeys.add(key);
+        }
+      });
+      prevSelectedKeys == null ? void 0 : prevSelectedKeys.forEach((key) => {
+        if (!targetDataKeys.value.has(key)) {
+          tempKeys.delete(key);
+        }
+      });
+    }
+    setSourceSelectedKeys(Array.from(tempKeys));
+  }, { immediate: true });
+  watch([targetCheckableDataCount, targetDataKeys, disabledTargetKeys], () => {
+    const tempKeys = new Set(targetSelectedKeys.value);
+    targetSelectedKeys.value.forEach((key) => {
+      if (!targetDataKeys.value.has(key) || disabledTargetKeys.value.has(key)) {
+        tempKeys.delete(key);
+      }
+    });
+    setTargetSelectedKeys(Array.from(tempKeys));
+  }, { immediate: true });
+  const handleSourceSelectChange = (keys) => {
+    if (props.disabled) {
+      return;
+    }
+    const currentSelectedKeys = new Set(keys);
+    if (props.mode === "transferBySelect") {
+      transferBySelectionChange(sourceSelectedKeySet.value, currentSelectedKeys, transferDataContext);
+    }
+    setSourceSelectedKeys((isArray$2(keys) ? keys : Array.from(keys)).filter((key) => !disabledKeys.value.has(key)));
+  };
+  const handleTargetSelectChange = (keys) => {
+    if (props.disabled) {
+      return;
+    }
+    setTargetSelectedKeys(isArray$2(keys) ? keys : Array.from(keys).filter((key) => !disabledKeys.value.has(key)));
+  };
+  const handleSelectAll = (selected = true, isSource = true) => {
+    if (props.disabled) {
+      return;
+    }
+    const dataKeys = isSource ? props.mode === "normal" ? sourceDataKeys.value : new Set(dataKeyMap.value.keys()) : targetDataKeys.value;
+    const _disabledKeys = isSource ? props.mode === "normal" ? disabledSourceKeys.value : disabledKeys.value : disabledTargetKeys.value;
+    const setSelectedKeys = isSource ? setSourceSelectedKeys : setTargetSelectedKeys;
+    let tempKeys;
+    if (!selected) {
+      tempKeys = /* @__PURE__ */ new Set();
+    } else {
+      tempKeys = new Set(dataKeys);
+      _disabledKeys.forEach((key) => {
+        tempKeys.delete(key);
+      });
+    }
+    if (props.mode === "transferBySelect" && isSource) {
+      transferBySelectionChange(sourceSelectedKeySet.value, tempKeys, transferDataContext);
+    }
+    setSelectedKeys(Array.from(tempKeys));
+    callEmit(props.onSelectAll, isSource, selected);
+  };
+  const sourceSelectAllDisabled = computed$1(() => props.disabled || sourceCheckableDataCount.value <= 0);
+  const targetSelectAllDisabled = computed$1(() => props.disabled || targetCheckableDataCount.value <= 0);
+  return {
+    sourceSelectedKeys,
+    targetSelectedKeys,
+    sourceSelectedKeySet,
+    targetSelectedKeySet,
+    handleSourceSelectChange,
+    handleTargetSelectChange,
+    sourceSelectAllStatus,
+    targetSelectAllStatus,
+    handleSourceSelectAll: (selected) => handleSelectAll(selected, true),
+    handleTargetSelectAll: (selected) => handleSelectAll(selected, false),
+    sourceSelectAllDisabled,
+    targetSelectAllDisabled,
+    setSourceSelectedKeys,
+    setTargetSelectedKeys
+  };
+}
+function transferBySelectionChange(originalCheckedKeys, currentCheckedKeys, transferDataContext) {
+  const { append, remove } = transferDataContext;
+  const appendedKeys = [];
+  const removedKeys = [];
+  for (const key of originalCheckedKeys.values()) {
+    if (!currentCheckedKeys.has(key)) {
+      removedKeys.push(key);
+    }
+  }
+  for (const key of currentCheckedKeys.values()) {
+    if (!originalCheckedKeys.has(key)) {
+      appendedKeys.push(key);
+    }
+  }
+  if (appendedKeys.length > 0) {
+    append(appendedKeys);
+  }
+  if (removedKeys.length > 0) {
+    remove(removedKeys);
+  }
+}
+const transferProps = {
+  dataSource: IxPropTypes.array().def(() => []),
+  value: IxPropTypes.array(),
+  sourceSelectedKeys: IxPropTypes.array(),
+  targetSelectedKeys: IxPropTypes.array(),
+  disabled: IxPropTypes.bool.def(false),
+  getKey: IxPropTypes.oneOfType([String, IxPropTypes.func()]),
+  virtual: IxPropTypes.bool.def(false),
+  scroll: IxPropTypes.object(),
+  searchable: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]),
+  searchFn: IxPropTypes.func(),
+  pagination: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]),
+  mode: IxPropTypes.oneOf(["normal", "transferBySelect"]).def("normal"),
+  showSelectAll: IxPropTypes.bool,
+  spin: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]),
+  clearable: IxPropTypes.bool,
+  clearIcon: IxPropTypes.string,
+  empty: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
+  "onUpdate:value": IxPropTypes.emit(),
+  "onUpdate:sourceSelectedKeys": IxPropTypes.emit(),
+  "onUpdate:targetSelectedKeys": IxPropTypes.emit(),
+  onChange: IxPropTypes.emit(),
+  onSearch: IxPropTypes.emit(),
+  onSelectAll: IxPropTypes.emit(),
+  onClear: IxPropTypes.emit(),
+  onScroll: IxPropTypes.emit(),
+  onScrolledChange: IxPropTypes.emit(),
+  onScrolledBottom: IxPropTypes.emit()
+};
+const transferListProps = {
+  isSource: IxPropTypes.bool.isRequired
+};
+const transferListBodyProps = transferListProps;
+const transferListHeaderProps = transferListProps;
+const transferListFooterProps = transferListProps;
+({
+  checked: IxPropTypes.bool.def(false),
+  checkable: IxPropTypes.bool.isRequired,
+  removable: IxPropTypes.bool.isRequired,
+  disabled: IxPropTypes.bool.def(false),
+  value: IxPropTypes.oneOfType([String, Number, Symbol]).isRequired,
+  onChange: IxPropTypes.emit(),
+  onRemove: IxPropTypes.emit()
+});
+var __defProp$1$3 = Object.defineProperty;
+var __defProps$1$1 = Object.defineProperties;
+var __getOwnPropDescs$1$1 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$3 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$3 = (obj, key, value) => key in obj ? __defProp$1$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$3 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1$3.call(b, prop))
+      __defNormalProp$1$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$3)
+    for (var prop of __getOwnPropSymbols$1$3(b)) {
+      if (__propIsEnum$1$3.call(b, prop))
+        __defNormalProp$1$3(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$1$1 = (a, b) => __defProps$1$1(a, __getOwnPropDescs$1$1(b));
+var TransferListBody = defineComponent({
+  props: transferListBodyProps,
+  setup(props) {
+    const {
+      props: transferProps2,
+      slots,
+      mergedPrefixCls,
+      sourceCheckableListRef,
+      targetCheckableListRef,
+      getRowKey
+    } = inject(transferContext);
+    const transferBindings = props.isSource ? inject(TRANSFER_SOURCE_TOKEN) : inject(TRANSFER_TARGET_TOKEN);
+    const {
+      paginatedDataSource,
+      paginatedData,
+      selectedKeySet,
+      disabledKeys,
+      handleSelectChange
+    } = transferBindings;
+    const {
+      triggerRemove
+    } = inject(TRANSFER_OPERATIONS_TOKEN);
+    const checkableListRef = props.isSource ? sourceCheckableListRef : targetCheckableListRef;
+    const handleScroll = (evt) => {
+      callEmit(transferProps2.onScroll, props.isSource, evt);
+    };
+    const handleScrolledBottom = () => {
+      callEmit(transferProps2.onScrolledBottom, props.isSource);
+    };
+    const handleScrolledChange = (startIndex, endIndex, visibleData) => {
+      callEmit(transferProps2.onScrolledChange, props.isSource, startIndex, endIndex, visibleData);
+    };
+    const checkListData = computed$1(() => props.isSource && transferProps2.mode === "transferBySelect" ? paginatedDataSource.value : paginatedData.value);
+    const defaultBodyRenderer = (prefixCls) => {
+      const data = props.isSource && transferProps2.mode === "transferBySelect" ? paginatedDataSource.value : paginatedData.value;
+      if (data.length <= 0) {
+        return createVNode("div", {
+          "class": `${prefixCls}-empty-wrapper`
+        }, [createVNode(\u0275Empty, {
+          "empty": transferProps2.empty
+        }, slots)]);
+      }
+      const onCheckChange = (item, checked) => {
+        const key = getRowKey(item);
+        const _checkedKeys = new Set(selectedKeySet.value);
+        checked ? _checkedKeys.add(key) : _checkedKeys.delete(key);
+        handleSelectChange(_checkedKeys);
+      };
+      const onRemove = (item) => {
+        const key = getRowKey(item);
+        triggerRemove([key]);
+      };
+      return createVNode(\u0275CheckableList, {
+        "ref": checkableListRef,
+        "dataSource": checkListData.value,
+        "getRowKey": getRowKey,
+        "checked": (item) => selectedKeySet.value.has(getRowKey(item)),
+        "disabled": (item) => transferProps2.disabled || disabledKeys.value.has(getRowKey(item)),
+        "checkable": props.isSource || transferProps2.mode === "normal",
+        "removable": !props.isSource && transferProps2.mode === "transferBySelect",
+        "virtual": transferProps2.virtual,
+        "scroll": transferProps2.scroll,
+        "onCheckChange": onCheckChange,
+        "onRemove": onRemove,
+        "onScroll": handleScroll,
+        "onScrolledChange": handleScrolledChange,
+        "onScrolledBottom": handleScrolledBottom
+      }, {
+        label: slots.label
+      });
+    };
+    const renderBody = (prefixCls) => {
+      if (slots.default) {
+        return slots.default(__spreadProps$1$1(__spreadValues$1$3({}, convertToSlotParams(transferBindings)), {
+          isSource: props.isSource
+        }));
+      }
+      return defaultBodyRenderer(prefixCls);
+    };
+    return () => {
+      const prefixCls = `${mergedPrefixCls.value}-list-body`;
+      return createVNode("div", {
+        "class": `${mergedPrefixCls.value}-list-body`
+      }, [renderBody(prefixCls)]);
+    };
+  }
+});
+var __defProp$6 = Object.defineProperty;
+var __defProps$3 = Object.defineProperties;
+var __getOwnPropDescs$3 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$7 = Object.getOwnPropertySymbols;
+var __hasOwnProp$7 = Object.prototype.hasOwnProperty;
+var __propIsEnum$7 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$6 = (obj, key, value) => key in obj ? __defProp$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$6 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$7.call(b, prop))
+      __defNormalProp$6(a, prop, b[prop]);
+  if (__getOwnPropSymbols$7)
+    for (var prop of __getOwnPropSymbols$7(b)) {
+      if (__propIsEnum$7.call(b, prop))
+        __defNormalProp$6(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$3 = (a, b) => __defProps$3(a, __getOwnPropDescs$3(b));
+var TransferListFooter = defineComponent({
+  props: transferListFooterProps,
+  setup(props) {
+    const {
+      slots,
+      props: transferProps2,
+      mergedPrefixCls
+    } = inject(transferContext);
+    const transferBindings = props.isSource ? inject(TRANSFER_SOURCE_TOKEN) : inject(TRANSFER_TARGET_TOKEN);
+    const {
+      pagination,
+      filteredData,
+      filteredDataSource
+    } = transferBindings;
+    const renderFooter = (prefixCls) => {
+      var _a, _b;
+      if (slots.footer) {
+        return slots.footer(__spreadProps$3(__spreadValues$6({}, convertToSlotParams(transferBindings)), {
+          isSource: props.isSource
+        }));
+      }
+      if (!pagination.value) {
+        return;
+      }
+      const total = (_b = (_a = pagination.value) == null ? void 0 : _a.total) != null ? _b : props.isSource && transferProps2.mode === "transferBySelect" ? filteredDataSource.value.length : filteredData.value.length;
+      return createVNode("div", {
+        "class": `${prefixCls}-inner`
+      }, [createVNode(IxPagination, mergeProps({
+        "class": `${prefixCls}-pagination`
+      }, pagination.value, {
+        "total": total
+      }), null)]);
+    };
+    return () => {
+      const prefixCls = `${mergedPrefixCls.value}-list-footer`;
+      const children = renderFooter(prefixCls);
+      if (!children || isArray$2(children) && children.length <= 0) {
+        return;
+      }
+      return createVNode("div", {
+        "class": prefixCls
+      }, [children]);
+    };
+  }
+});
+var TransferListHeader = defineComponent({
+  props: transferListHeaderProps,
+  setup(props) {
+    const {
+      props: transferProps2,
+      slots,
+      config,
+      locale,
+      mergedPrefixCls
+    } = inject(transferContext);
+    const transferBindings = props.isSource ? inject(TRANSFER_SOURCE_TOKEN) : inject(TRANSFER_TARGET_TOKEN);
+    const {
+      clearDisabled,
+      triggerClear
+    } = inject(TRANSFER_OPERATIONS_TOKEN);
+    const {
+      showSelectAll,
+      data,
+      selectAllDisabled,
+      selectAllStatus,
+      searchable,
+      searchValue,
+      handleSearchChange,
+      selectAll
+    } = transferBindings;
+    const [searchInputValue, setSearchInputValue] = useState$1("");
+    const inputRef = ref();
+    const syncValue = () => {
+      var _a;
+      const element = (_a = inputRef.value) == null ? void 0 : _a.getInputElement();
+      if (element && element.value !== searchValue.value) {
+        element.value = searchValue.value;
+      }
+    };
+    onMounted(() => {
+      syncValue();
+    });
+    watch(searchValue, () => {
+      syncValue();
+    });
+    const triggerSearch = () => {
+      handleSearchChange(searchInputValue.value);
+    };
+    const handleInput = (evt) => {
+      const value = evt.target.value;
+      setSearchInputValue(value);
+      if (!value) {
+        triggerSearch();
+      }
+    };
+    const handleKeyDown = withKeys(() => {
+      triggerSearch();
+    }, ["enter"]);
+    const handleCheckChange = (value) => {
+      selectAll(!!value);
+    };
+    const renderCheckAll = (prefixCls) => {
+      if (!showSelectAll.value || !props.isSource && transferProps2.mode === "transferBySelect") {
+        return;
+      }
+      return createVNode(IxCheckbox, {
+        "class": `${prefixCls}-check-all`,
+        "checked": selectAllStatus.value.checked,
+        "indeterminate": selectAllStatus.value.indeterminate,
+        "disabled": selectAllDisabled.value,
+        "onChange": handleCheckChange
+      }, null);
+    };
+    const renderLabel = (prefixCls) => {
+      let children;
+      if (slots.headerLabel) {
+        children = slots.headerLabel({
+          data: data.value,
+          isSource: props.isSource
+        });
+      } else {
+        children = `${props.isSource ? locale.toSelect : locale.selected} (${data.value.length})`;
+      }
+      return createVNode("span", {
+        "class": `${prefixCls}-label`
+      }, [children]);
+    };
+    const renderInput = (prefixCls) => {
+      if (!searchable.value) {
+        return;
+      }
+      const inputSlots = {
+        suffix: () => createVNode(IxIcon, {
+          "class": `${prefixCls}-search-icon`,
+          "name": "search",
+          "onClick": triggerSearch
+        }, null)
+      };
+      return createVNode(\u0275Input, {
+        "ref": inputRef,
+        "class": `${prefixCls}-search-input`,
+        "disabled": transferProps2.disabled,
+        "type": "text",
+        "size": "sm",
+        "placeholder": locale.searchPlaceholder[props.isSource ? 0 : 1],
+        "onInput": handleInput,
+        "onKeydown": handleKeyDown
+      }, inputSlots);
+    };
+    const renderClearIcon = (prefixCls) => {
+      var _a, _b;
+      if (props.isSource || !((_a = transferProps2.clearable) != null ? _a : config.clearable)) {
+        return;
+      }
+      const classes = normalizeClass({
+        [`${prefixCls}-clear-icon`]: true,
+        [`${prefixCls}-clear-icon-disabled`]: clearDisabled.value
+      });
+      return createVNode("span", {
+        "class": classes,
+        "onClick": triggerClear
+      }, [slots.clearIcon ? slots.clearIcon() : createVNode(IxIcon, {
+        "name": (_b = transferProps2.clearIcon) != null ? _b : config.clearIcon
+      }, null)]);
+    };
+    const renderSuffix = (prefixCls) => {
+      var _a;
+      const suffix = (_a = slots.headerSuffix) == null ? void 0 : _a.call(slots, {
+        isSource: props.isSource
+      });
+      return suffix && createVNode("span", {
+        "class": `${prefixCls}-suffix`
+      }, [suffix]);
+    };
+    const renderHeader = (prefixCls) => {
+      return createVNode("div", {
+        "class": `${prefixCls}-inner`
+      }, [renderCheckAll(prefixCls), renderLabel(prefixCls), renderInput(prefixCls), renderClearIcon(prefixCls), renderSuffix(prefixCls)]);
+    };
+    return () => {
+      const prefixCls = `${mergedPrefixCls.value}-list-header`;
+      const children = renderHeader(prefixCls);
+      if (!children || isArray$2(children) && children.length <= 0) {
+        return;
+      }
+      return createVNode("div", {
+        "class": prefixCls
+      }, [children]);
+    };
+  }
+});
+var TransferList = defineComponent({
+  props: transferListProps,
+  setup(props) {
+    const {
+      props: transferProps2,
+      mergedPrefixCls
+    } = inject(transferContext);
+    const classes = computed$1(() => {
+      const prefixCls = `${mergedPrefixCls.value}-list`;
+      return normalizeClass({
+        [prefixCls]: true,
+        [`${prefixCls}-${props.isSource ? "source" : "target"}`]: true,
+        [`${prefixCls}-virtual`]: transferProps2.virtual && transferProps2.scroll,
+        [`${prefixCls}-disabled`]: transferProps2.disabled
+      });
+    });
+    const style = computed$1(() => {
+      var _a;
+      const scrollWidth = (_a = transferProps2.scroll) == null ? void 0 : _a.width;
+      let width;
+      if (isObject(scrollWidth)) {
+        width = props.isSource ? scrollWidth.source : scrollWidth.target;
+      } else {
+        width = scrollWidth;
+      }
+      if (!width) {
+        return;
+      }
+      return normalizeStyle({
+        width: convertCssPixel(width)
+      });
+    });
+    const spinProps = computed$1(() => {
+      if (isNil(transferProps2.spin)) {
+        return;
+      }
+      if (isBoolean(transferProps2.spin)) {
+        return {
+          spinning: !!transferProps2.spin
+        };
+      }
+      return {
+        spinning: props.isSource ? transferProps2.spin.source : transferProps2.spin.target
+      };
+    });
+    return () => {
+      const children = [createVNode(TransferListHeader, {
+        "isSource": props.isSource
+      }, null), createVNode(TransferListBody, {
+        "isSource": props.isSource
+      }, null), createVNode(TransferListFooter, {
+        "isSource": props.isSource
+      }, null)];
+      return createVNode("div", {
+        "class": classes.value,
+        "style": style.value
+      }, [spinProps.value ? createVNode(IxSpin, spinProps.value, {
+        default: () => [children]
+      }) : children]);
+    };
+  }
+});
+var Transfer = defineComponent({
+  name: "IxTransfer",
+  props: transferProps,
+  setup(props, {
+    slots,
+    expose
+  }) {
+    const common = useGlobalConfig$1("common");
+    const config = useGlobalConfig$1("transfer");
+    const locale = useGlobalConfig$1("locale").transfer;
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-transfer`);
+    const showSelectAll = computed$1(() => {
+      var _a;
+      return (_a = props.showSelectAll) != null ? _a : config.showSelectAll;
+    });
+    const {
+      source: sourceSearchable,
+      target: targetSearchable
+    } = useSearchable$1(props, config);
+    const transferDataStrategies = useTransferDataStrategies();
+    const transferPaginationContext = usePagination(props);
+    const transferDataContext = useTransferData(props, config, transferDataStrategies, transferPaginationContext);
+    const transferSelectStateContext = useTransferSelectState(props, transferDataContext);
+    const transferOperationsContext = useTransferOperations(props, transferDataContext, transferSelectStateContext);
+    const {
+      sourceBindings,
+      targetBindings
+    } = useTransferBindings(props, transferDataContext, transferOperationsContext, transferSelectStateContext, transferPaginationContext, showSelectAll, sourceSearchable, targetSearchable);
+    const sourceCheckableListRef = ref();
+    const targetCheckableListRef = ref();
+    const transferApi = {
+      scrollTo: (options, isSource) => {
+        var _a, _b, _c, _d;
+        if (isNil(options) && isNil(isSource)) {
+          return (_a = sourceCheckableListRef.value) == null ? void 0 : _a.scrollTo();
+        }
+        if (isBoolean(options)) {
+          return (_b = (options ? sourceCheckableListRef : targetCheckableListRef).value) == null ? void 0 : _b.scrollTo();
+        }
+        if (isNil(isSource)) {
+          return (_c = sourceCheckableListRef.value) == null ? void 0 : _c.scrollTo(options);
+        }
+        return (_d = (isSource ? sourceCheckableListRef : targetCheckableListRef).value) == null ? void 0 : _d.scrollTo(options);
+      }
+    };
+    expose(transferApi);
+    provide(transferContext, {
+      props,
+      slots,
+      locale,
+      config,
+      mergedPrefixCls,
+      sourceCheckableListRef,
+      targetCheckableListRef,
+      showSelectAll,
+      getRowKey: transferDataContext.getRowKey
+    });
+    provide(TRANSFER_SOURCE_TOKEN, sourceBindings);
+    provide(TRANSFER_TARGET_TOKEN, targetBindings);
+    provide(TRANSFER_OPERATIONS_TOKEN, transferOperationsContext);
+    return () => {
+      const prefixCls = mergedPrefixCls.value;
+      return createVNode("div", {
+        "class": prefixCls
+      }, [createVNode(TransferList, {
+        "isSource": true
+      }, null), createVNode(TransferOperations, null, null), createVNode(TransferList, {
+        "isSource": false
+      }, null)]);
+    };
+  }
+});
+const IxTransfer = Transfer;
 
 function callChange(mergedNodeMap, newKeys, onChange) {
   if (onChange) {
@@ -37848,7 +39693,7 @@ function getParentKeys(nodeMap, currNode, disabledKeys) {
 }
 function useCheckable(props, mergedNodeMap) {
   const [checkedKeys, setCheckedKeys] = useControlledProp(props, "checkedKeys", () => []);
-  const checkDisabledKeys = computed(() => {
+  const checkDisabledKeys = computed$1(() => {
     const disabledKeys = [];
     if (props.checkable) {
       mergedNodeMap.value.forEach((node, key) => {
@@ -37859,14 +39704,14 @@ function useCheckable(props, mergedNodeMap) {
     }
     return disabledKeys;
   });
-  const allCheckedKeys = computed(() => {
+  const allCheckedKeys = computed$1(() => {
     if (props.cascade) {
       return findAllCheckedKeys(mergedNodeMap.value, checkedKeys.value, checkDisabledKeys.value);
     } else {
       return checkedKeys.value;
     }
   });
-  const indeterminateKeys = computed(() => {
+  const indeterminateKeys = computed$1(() => {
     const _checkedKeys = allCheckedKeys.value;
     if (_checkedKeys.length === 0 || !props.cascade) {
       return [];
@@ -37998,38 +39843,57 @@ function filterCheckedKeysWithDisabled(dataMap, tempKeys, disabledKeys) {
   }
   return res;
 }
+var __defProp$1$2 = Object.defineProperty;
+var __defProps$1 = Object.defineProperties;
+var __getOwnPropDescs$1 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$2 = (obj, key, value) => key in obj ? __defProp$1$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$2 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1$2.call(b, prop))
+      __defNormalProp$1$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$2)
+    for (var prop of __getOwnPropSymbols$1$2(b)) {
+      if (__propIsEnum$1$2.call(b, prop))
+        __defNormalProp$1$2(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$1 = (a, b) => __defProps$1(a, __getOwnPropDescs$1(b));
 function useMergeNodes$1(props, getNodeKey) {
-  const mergedNodes = computed(() => covertMergeNodes$1(props, getNodeKey, props.dataSource));
-  const mergedNodeMap = computed(() => {
+  const mergedNodes = computed$1(() => convertMergeNodes$1(props, getNodeKey, props.dataSource));
+  const mergedNodeMap = computed$1(() => {
     const map = /* @__PURE__ */ new Map();
-    covertMergedNodeMap$1(mergedNodes.value, map);
+    convertMergedNodeMap$1(mergedNodes.value, map);
     return map;
   });
   return { mergedNodes, mergedNodeMap };
 }
 function useFlattedNodes(mergedNodes, { expandedKeys }) {
-  return computed(() => {
+  return computed$1(() => {
     const _expandedKeysMap = new Map(expandedKeys.value.map((item, index) => [item, index]));
     if (_expandedKeysMap.size > 0) {
       const nodes = flatNode(mergedNodes.value, _expandedKeysMap);
       return nodes;
     }
-    return mergedNodes.value;
+    return mergedNodes.value.map((item) => __spreadProps$1(__spreadValues$1$2({}, item), { expanded: false, level: 0 }));
   });
 }
-function covertMergeNodes$1(props, getNodeKey, nodes, parentKey) {
+function convertMergeNodes$1(props, getNodeKey, nodes, parentKey) {
   const getKey = getNodeKey.value;
   const { childrenKey, labelKey, disabled, loadChildren } = props;
-  return nodes.map((node, index) => covertMergeNode$1(node, getKey, disabled, childrenKey, labelKey, !!loadChildren, index === 0, index === nodes.length - 1, -1, parentKey));
+  return nodes.map((node, index) => convertMergeNode$1(node, getKey, disabled, childrenKey, labelKey, !!loadChildren, index === 0, index === nodes.length - 1, -1, parentKey));
 }
-function covertMergeNode$1(rawNode, getKey, disabled, childrenKey, labelKey, hasLoad, isFirst, isLast, level, parentKey) {
+function convertMergeNode$1(rawNode, getKey, disabled, childrenKey, labelKey, hasLoad, isFirst, isLast, level, parentKey) {
   var _a;
   const key = getKey(rawNode);
-  const { check, drag, drop, select } = covertDisabled$1(rawNode, disabled);
+  const { check, drag, drop, select } = convertDisabled$1(rawNode, disabled);
   const subNodes = rawNode[childrenKey];
   const label = rawNode[labelKey];
   level++;
-  const children = subNodes == null ? void 0 : subNodes.map((subNode, index) => covertMergeNode$1(subNode, getKey, disabled, childrenKey, labelKey, hasLoad, index === 0, index === subNodes.length - 1, level, key));
+  const children = subNodes == null ? void 0 : subNodes.map((subNode, index) => convertMergeNode$1(subNode, getKey, disabled, childrenKey, labelKey, hasLoad, index === 0, index === subNodes.length - 1, level, key));
   return {
     children,
     label,
@@ -38047,7 +39911,7 @@ function covertMergeNode$1(rawNode, getKey, disabled, childrenKey, labelKey, has
     selectDisabled: select
   };
 }
-function covertDisabled$1(node, disabled) {
+function convertDisabled$1(node, disabled) {
   const nodeDisabled = node.disabled;
   if (isBoolean(nodeDisabled)) {
     return { check: nodeDisabled, drag: nodeDisabled, drop: nodeDisabled, select: nodeDisabled };
@@ -38070,12 +39934,12 @@ function covertDisabled$1(node, disabled) {
     return { check, drag, drop, select };
   }
 }
-function covertMergedNodeMap$1(mergedNodes, map) {
+function convertMergedNodeMap$1(mergedNodes, map) {
   mergedNodes.forEach((item) => {
     const { key, children } = item;
     map.set(key, item);
     if (children) {
-      covertMergedNodeMap$1(children, map);
+      convertMergedNodeMap$1(children, map);
     }
   });
 }
@@ -38230,11 +40094,11 @@ function useDragDrop(props, { expandedKeys }) {
     cleanDropState();
   };
   return {
-    dragKey: computed(() => {
+    dragKey: computed$1(() => {
       var _a;
       return (_a = dragNodeRef.value) == null ? void 0 : _a.key;
     }),
-    dropKey: computed(() => {
+    dropKey: computed$1(() => {
       var _a;
       return (_a = dropNodeRef.value) == null ? void 0 : _a.key;
     }),
@@ -38406,7 +40270,7 @@ var __async$4 = (__this, __arguments, generator) => {
   });
 };
 function useExpandable(props, config, getNodeKey, mergedNodeMap, searchedKeys, lastEffectiveSearchedKeys) {
-  const expandIcon = computed(() => {
+  const expandIcon = computed$1(() => {
     var _a;
     return (_a = props.expandIcon) != null ? _a : config.expandIcon;
   });
@@ -38444,8 +40308,8 @@ function useExpandable(props, config, getNodeKey, mergedNodeMap, searchedKeys, l
       const nodeMap = mergedNodeMap.value;
       const currNode = nodeMap.get(key);
       if (childrenNodes.length) {
-        const mergedChildren = covertMergeNodes$1(props, getNodeKey, childrenNodes, key);
-        covertMergedNodeMap$1(mergedChildren, nodeMap);
+        const mergedChildren = convertMergeNodes$1(props, getNodeKey, childrenNodes, key);
+        convertMergedNodeMap$1(mergedChildren, nodeMap);
         currNode.rawNode[childrenKey] = childrenNodes;
         currNode.children = mergedChildren;
         const newLoadedKeys = [...loadedKeys.value, key];
@@ -38473,7 +40337,7 @@ function useExpandable(props, config, getNodeKey, mergedNodeMap, searchedKeys, l
   return { expandIcon, expandedKeys, handleExpand, loadingKeys };
 }
 function useGetNodeKey$1(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     const nodeKey = (_a = props.nodeKey) != null ? _a : config.nodeKey;
     if (isString(nodeKey)) {
@@ -38491,7 +40355,7 @@ function useGetNodeKey$1(props, config) {
 const defaultSearchedKeys = [];
 function useSearchable(props, mergedNodeMap) {
   const lastEffectiveSearchedKeys = ref([]);
-  const searchedKeys = computed(() => {
+  const searchedKeys = computed$1(() => {
     const { searchValue, searchFn } = props;
     if (!searchValue && !searchFn) {
       return defaultSearchedKeys;
@@ -38521,14 +40385,14 @@ function checkNodeIsMatched(node, searchValue, searchFn) {
 }
 function useSelectable(props, mergedNodeMap) {
   const [selectedKeys, setSelectedKeys] = useControlledProp(props, "selectedKeys", () => []);
-  const isMultiple = computed(() => props.selectable === "multiple");
+  const isMultiple = computed$1(() => props.selectable === "multiple");
   const activeKey = ref();
   watchEffect(() => {
     const currKeys = selectedKeys.value;
     const keySize = currKeys.length;
     activeKey.value = keySize > 0 ? currKeys[keySize - 1] : void 0;
   });
-  const activeNode = computed(() => {
+  const activeNode = computed$1(() => {
     const currKey = activeKey.value;
     return currKey !== void 0 ? mergedNodeMap.value.get(currKey) : void 0;
   });
@@ -38661,10 +40525,10 @@ var Checkbox = defineComponent({
       indeterminateKeys,
       handleCheck
     } = inject(treeToken);
-    const isChecked = computed(() => {
+    const isChecked = computed$1(() => {
       return allCheckedKeys.value.includes(props.node.key);
     });
-    const isIndeterminate = computed(() => indeterminateKeys.value.includes(props.node.key));
+    const isIndeterminate = computed$1(() => indeterminateKeys.value.includes(props.node.key));
     const onChange = () => handleCheck(props.node);
     return () => createVNode(IxCheckbox, {
       "class": `${mergedPrefixCls.value}-node-checkbox`,
@@ -38685,7 +40549,7 @@ var Content$1 = defineComponent({
       handleSelect,
       searchedKeys
     } = inject(treeToken);
-    const searched = computed(() => searchedKeys.value.includes(props.nodeKey));
+    const searched = computed$1(() => searchedKeys.value.includes(props.nodeKey));
     const onClick = (evt) => {
       if (!props.disabled) {
         handleSelect(props.nodeKey);
@@ -38764,8 +40628,8 @@ var Expand = defineComponent({
       loadingKeys,
       handleExpand
     } = inject(treeToken);
-    const isLoading = computed(() => loadingKeys.value.includes(props.nodeKey));
-    const classes = computed(() => {
+    const isLoading = computed$1(() => loadingKeys.value.includes(props.nodeKey));
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-node-expand`;
       return normalizeClass({
         [prefixCls]: true,
@@ -38876,18 +40740,18 @@ var TreeNode = defineComponent({
       handleDrop
     } = inject(treeToken);
     const key = useKey();
-    const isActive = computed(() => activeKey.value === key);
-    const isLast = computed(() => treeProps2.showLine && props.isLast);
-    const hasTopLine = computed(() => treeProps2.showLine && !props.isLeaf && props.level !== 0 && props.isFirst);
-    const selected = computed(() => selectedKeys.value.includes(key));
-    const disabled = computed(() => props.selectDisabled || !treeProps2.selectable);
-    const dragging = computed(() => dragKey.value === key);
-    const dropping = computed(() => dropKey.value === key);
-    const dropParent = computed(() => dropParentKey.value === key);
-    const dropBefore = computed(() => dropping.value && dropType.value === "before");
-    const dropInside = computed(() => dropping.value && dropType.value === "inside");
-    const dropAfter = computed(() => dropping.value && dropType.value === "after");
-    const classes = computed(() => {
+    const isActive = computed$1(() => activeKey.value === key);
+    const isLast = computed$1(() => treeProps2.showLine && props.isLast);
+    const hasTopLine = computed$1(() => treeProps2.showLine && !props.isLeaf && props.level !== 0 && props.isFirst);
+    const selected = computed$1(() => selectedKeys.value.includes(key));
+    const disabled = computed$1(() => props.selectDisabled || !treeProps2.selectable);
+    const dragging = computed$1(() => dragKey.value === key);
+    const dropping = computed$1(() => dropKey.value === key);
+    const dropParent = computed$1(() => dropParentKey.value === key);
+    const dropBefore = computed$1(() => dropping.value && dropType.value === "before");
+    const dropInside = computed$1(() => dropping.value && dropType.value === "inside");
+    const dropAfter = computed$1(() => dropping.value && dropType.value === "after");
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-node`;
       return {
         [prefixCls]: true,
@@ -38995,17 +40859,17 @@ var TreeNode = defineComponent({
   }
 });
 var __defProp$5 = Object.defineProperty;
-var __getOwnPropSymbols$5 = Object.getOwnPropertySymbols;
-var __hasOwnProp$5 = Object.prototype.hasOwnProperty;
-var __propIsEnum$5 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$6 = Object.getOwnPropertySymbols;
+var __hasOwnProp$6 = Object.prototype.hasOwnProperty;
+var __propIsEnum$6 = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$5 = (obj, key, value) => key in obj ? __defProp$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$5 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$5.call(b, prop))
+    if (__hasOwnProp$6.call(b, prop))
       __defNormalProp$5(a, prop, b[prop]);
-  if (__getOwnPropSymbols$5)
-    for (var prop of __getOwnPropSymbols$5(b)) {
-      if (__propIsEnum$5.call(b, prop))
+  if (__getOwnPropSymbols$6)
+    for (var prop of __getOwnPropSymbols$6(b)) {
+      if (__propIsEnum$6.call(b, prop))
         __defNormalProp$5(a, prop, b[prop]);
     }
   return a;
@@ -39029,7 +40893,7 @@ var Tree = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-tree`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tree`);
     const config = useGlobalConfig$1("tree");
     const getNodeKey = useGetNodeKey$1(props, config);
     const {
@@ -39066,7 +40930,7 @@ var Tree = defineComponent({
       handleKeydown,
       handleKeyup
     } = useEvents(props, mergedNodeMap, flattedNodes, expandableContext, selectableContext);
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
         blocked = config.blocked,
@@ -39080,7 +40944,7 @@ var Tree = defineComponent({
         [`${prefixCls}-show-line`]: showLine
       };
     });
-    const accessibilityPath = computed(() => {
+    const accessibilityPath = computed$1(() => {
       var _a, _b;
       const _activeKey = activeKey.value;
       if (isNil(_activeKey)) {
@@ -39171,26 +41035,26 @@ var Tree = defineComponent({
 const IxTree = Tree;
 
 function useMergeNodes(props, getNodeKey, config) {
-  const mergedNodeMap = computed(() => {
+  const mergedNodeMap = computed$1(() => {
     const map = /* @__PURE__ */ new Map();
-    const nodes = covertMergeNodes(props, getNodeKey, props.dataSource, config);
-    covertMergedNodeMap(nodes, map);
+    const nodes = convertMergeNodes(props, getNodeKey, props.dataSource, config);
+    convertMergedNodeMap(nodes, map);
     return map;
   });
   return { mergedNodeMap };
 }
-function covertMergeNodes(props, getNodeKey, nodes, config, parentKey) {
+function convertMergeNodes(props, getNodeKey, nodes, config, parentKey) {
   const getKey = getNodeKey.value;
   const { childrenKey = config.childrenKey, labelKey = config.labelKey, treeDisabled, loadChildren } = props;
-  return nodes.map((option) => covertMergeNode(option, getKey, treeDisabled, childrenKey, labelKey, !!loadChildren, parentKey));
+  return nodes.map((option) => convertMergeNode(option, getKey, treeDisabled, childrenKey, labelKey, !!loadChildren, parentKey));
 }
-function covertMergeNode(rawNode, getKey, disabled, childrenKey, labelKey, hasLoad, parentKey) {
+function convertMergeNode(rawNode, getKey, disabled, childrenKey, labelKey, hasLoad, parentKey) {
   var _a;
   const key = getKey(rawNode);
-  const { check, drag, drop, select } = covertDisabled(rawNode, disabled);
+  const { check, drag, drop, select } = convertDisabled(rawNode, disabled);
   const subNodes = rawNode[childrenKey];
   const label = rawNode[labelKey];
-  const children = subNodes == null ? void 0 : subNodes.map((subNode) => covertMergeNode(subNode, getKey, disabled, childrenKey, labelKey, hasLoad, key));
+  const children = subNodes == null ? void 0 : subNodes.map((subNode) => convertMergeNode(subNode, getKey, disabled, childrenKey, labelKey, hasLoad, key));
   return {
     children,
     label,
@@ -39204,7 +41068,7 @@ function covertMergeNode(rawNode, getKey, disabled, childrenKey, labelKey, hasLo
     selectDisabled: select
   };
 }
-function covertDisabled(option, disabled) {
+function convertDisabled(option, disabled) {
   const optionDisabled = option.disabled;
   if (isBoolean(optionDisabled)) {
     return { check: optionDisabled, drag: optionDisabled, drop: optionDisabled, select: optionDisabled };
@@ -39228,17 +41092,17 @@ function covertDisabled(option, disabled) {
     return { check, drag, drop, select };
   }
 }
-function covertMergedNodeMap(MergedNodes, map) {
+function convertMergedNodeMap(MergedNodes, map) {
   MergedNodes.forEach((item) => {
     const { key, children } = item;
     map.set(key, item);
     if (children) {
-      covertMergedNodeMap(children, map);
+      convertMergedNodeMap(children, map);
     }
   });
 }
 function useGetNodeKey(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     const nodeKey = (_a = props.nodeKey) != null ? _a : config.nodeKey;
     if (isString(nodeKey)) {
@@ -39308,7 +41172,7 @@ function useInputState(props, inputRef, accessor, searchValue) {
 function useOverlayProps(props, triggerRef) {
   const overlayRef = ref();
   const overlayWidth = ref();
-  const overlayStyle = computed(() => ({ width: overlayWidth.value }));
+  const overlayStyle = computed$1(() => ({ width: overlayWidth.value }));
   const [overlayOpened, setOverlayOpened] = useControlledProp(props, "open", false);
   const updatePopper = () => {
     var _a, _b;
@@ -39332,15 +41196,15 @@ function useOverlayProps(props, triggerRef) {
   return { overlayRef, overlayStyle, overlayOpened, setOverlayOpened };
 }
 function useSelectedState(props, accessor, mergedNodeMap) {
-  const selectedValue = computed(() => convertArray(accessor.valueRef.value));
-  const selectedNodes = computed(() => {
+  const selectedValue = computed$1(() => convertArray(accessor.valueRef.value));
+  const selectedNodes = computed$1(() => {
     const nodesMap = mergedNodeMap.value;
     return selectedValue.value.map((value) => nodesMap.get(value)).filter(Boolean);
   });
   const setValue = (value, nodes) => {
     const currValue = props.multiple ? value : value[0];
     const node = props.multiple ? nodes : nodes == null ? void 0 : nodes[0];
-    const oldValue = toRaw(accessor.valueRef.value);
+    const oldValue = toRaw$1(accessor.valueRef.value);
     if (currValue !== oldValue) {
       accessor.setValue(currValue);
       callEmit(props.onChange, currValue, oldValue, node);
@@ -39455,8 +41319,8 @@ var Content = defineComponent({
       const nodeMap = mergedNodeMap.value;
       const currNode = nodeMap.get(key);
       if (childrenNodes.length && currNode) {
-        const mergedChildren = covertMergeNodes(props, getNodeKey, childrenNodes, config, key);
-        covertMergedNodeMap(mergedChildren, nodeMap);
+        const mergedChildren = convertMergeNodes(props, getNodeKey, childrenNodes, config, key);
+        convertMergedNodeMap(mergedChildren, nodeMap);
         currNode.rawNode.children = childrenNodes;
         currNode.children = mergedChildren;
         setLoadedKeys(loadedKeys2);
@@ -39475,8 +41339,8 @@ var Content = defineComponent({
       searchValue.value = "";
       evt.stopPropagation();
     };
-    const checkable = computed(() => props.multiple && props.checkable);
-    const cascade = computed(() => checkable.value && props.cascade);
+    const checkable = computed$1(() => props.multiple && props.checkable);
+    const cascade = computed$1(() => checkable.value && props.cascade);
     return () => {
       const {
         checkStrategy,
@@ -39669,10 +41533,10 @@ var Input = defineComponent({
         evt.stopPropagation();
       }
     };
-    const style = computed(() => ({
+    const style = computed$1(() => ({
       width: inputWidth.value
     }));
-    const innerStyle = computed(() => {
+    const innerStyle = computed$1(() => {
       const {
         searchable
       } = props;
@@ -39749,7 +41613,7 @@ var Selector = defineComponent({
       handleClear,
       searchValue
     } = inject(treeSelectToken);
-    const selectedItems = computed(() => {
+    const selectedItems = computed$1(() => {
       const {
         maxLabelCount
       } = treeSelectProps2;
@@ -39766,10 +41630,10 @@ var Selector = defineComponent({
       }
       return items;
     });
-    const showItems = computed(() => {
+    const showItems = computed$1(() => {
       return treeSelectProps2.multiple || selectedValue.value.length > 0 && !searchValue.value;
     });
-    const showPlaceholder = computed(() => {
+    const showPlaceholder = computed$1(() => {
       return selectedValue.value.length === 0 && (!searchValue.value || treeSelectProps2.searchable === "overlay");
     });
     return () => {
@@ -39854,13 +41718,13 @@ var Trigger = defineComponent({
       setOverlayOpened
     } = inject(treeSelectToken);
     const formContext = inject(FORM_TOKEN, null);
-    const clearable = computed(() => {
+    const clearable = computed$1(() => {
       return !isDisabled.value && !props.readonly && props.clearable && selectedValue.value.length > 0;
     });
-    const searchable = computed(() => {
+    const searchable = computed$1(() => {
       return !isDisabled.value && !props.readonly && props.searchable;
     });
-    const suffix = computed(() => {
+    const suffix = computed$1(() => {
       const {
         suffix: suffix2
       } = props;
@@ -39869,7 +41733,7 @@ var Trigger = defineComponent({
       }
       return props.searchable === true && isFocused.value ? "search" : config.suffix;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       var _a;
       const {
         multiple,
@@ -39933,17 +41797,17 @@ var Trigger = defineComponent({
   }
 });
 var __defProp$4 = Object.defineProperty;
-var __getOwnPropSymbols$4 = Object.getOwnPropertySymbols;
-var __hasOwnProp$4 = Object.prototype.hasOwnProperty;
-var __propIsEnum$4 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$5 = Object.getOwnPropertySymbols;
+var __hasOwnProp$5 = Object.prototype.hasOwnProperty;
+var __propIsEnum$5 = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$4 = (obj, key, value) => key in obj ? __defProp$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$4 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$4.call(b, prop))
+    if (__hasOwnProp$5.call(b, prop))
       __defNormalProp$4(a, prop, b[prop]);
-  if (__getOwnPropSymbols$4)
-    for (var prop of __getOwnPropSymbols$4(b)) {
-      if (__propIsEnum$4.call(b, prop))
+  if (__getOwnPropSymbols$5)
+    for (var prop of __getOwnPropSymbols$5(b)) {
+      if (__propIsEnum$5.call(b, prop))
         __defNormalProp$4(a, prop, b[prop]);
     }
   return a;
@@ -39959,7 +41823,7 @@ var TreeSelect = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-tree-select`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tree-select`);
     const config = useGlobalConfig$1("treeSelect");
     const getNodeKey = useGetNodeKey(props, config);
     const searchValue = ref("");
@@ -39971,7 +41835,7 @@ var TreeSelect = defineComponent({
       blur
     } = useFormElement();
     const accessor = useFormAccessor();
-    const isDisabled = computed(() => accessor.disabled.value);
+    const isDisabled = computed$1(() => accessor.disabled.value);
     const inputStateContext = useInputState(props, inputRef, accessor, searchValue);
     const {
       clearInput
@@ -40045,7 +41909,7 @@ var TreeSelect = defineComponent({
       opened ? focus() : blur();
       clearInput();
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const {
         overlayClassName
       } = props;
@@ -40055,7 +41919,7 @@ var TreeSelect = defineComponent({
         [overlayClassName || ""]: !!overlayClassName
       });
     });
-    const target = computed(() => {
+    const target = computed$1(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
     });
@@ -40117,25 +41981,25 @@ function isLegality(type) {
   return false;
 }
 
-var __defProp$2 = Object.defineProperty;
-var __getOwnPropSymbols$2 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2 = (a, b) => {
+var __defProp$2$1 = Object.defineProperty;
+var __getOwnPropSymbols$2$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$1 = (obj, key, value) => key in obj ? __defProp$2$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$1 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$2.call(b, prop))
-      __defNormalProp$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2)
-    for (var prop of __getOwnPropSymbols$2(b)) {
-      if (__propIsEnum$2.call(b, prop))
-        __defNormalProp$2(a, prop, b[prop]);
+    if (__hasOwnProp$2$1.call(b, prop))
+      __defNormalProp$2$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$1)
+    for (var prop of __getOwnPropSymbols$2$1(b)) {
+      if (__propIsEnum$2$1.call(b, prop))
+        __defNormalProp$2$1(a, prop, b[prop]);
     }
   return a;
 };
 function getFileInfo(file, options = {}) {
   const key = uniqueId();
-  return __spreadValues$2({
+  return __spreadValues$2$1({
     key,
     name: file.name,
     raw: file,
@@ -40196,11 +42060,11 @@ function getFilesCountAllow(filesSelected, curFilesCount, maxCount) {
 }
 function useCmpClasses() {
   const commonPrefix = useGlobalConfig$1("common");
-  return computed(() => `${commonPrefix.prefixCls}-upload`);
+  return computed$1(() => `${commonPrefix.prefixCls}-upload`);
 }
 function useListClasses(props, type) {
   const cpmClasses = useCmpClasses();
-  return computed(() => normalizeClass([
+  return computed$1(() => normalizeClass([
     `${cpmClasses.value}-list`,
     `${cpmClasses.value}-list-${type}`,
     { [`${cpmClasses.value}-list-disabled`]: props.disabled }
@@ -40208,14 +42072,14 @@ function useListClasses(props, type) {
 }
 function useIcon(props) {
   const uploadFilesConfig = useGlobalConfig$1("uploadFiles");
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     return (_a = props.icon) != null ? _a : uploadFilesConfig.icon;
   });
 }
 function useSelectorVisible(props, listType) {
-  const outerSelector = computed(() => props.dragable || (isProxy(listType) ? listType.value !== "imageCard" : listType !== "imageCard"));
-  const imageCardSelector = computed(() => !outerSelector.value);
+  const outerSelector = computed$1(() => props.dragable || (isProxy(listType) ? listType.value !== "imageCard" : listType !== "imageCard"));
+  const imageCardSelector = computed$1(() => !outerSelector.value);
   return [outerSelector, imageCardSelector];
 }
 function useThumb() {
@@ -40380,22 +42244,22 @@ function renderOprIcon(file, icons, cpmClasses, fileOperation, locale) {
   const previewNode = renderIcon(icons.value.preview, {
     class: `${cpmClasses.value}-icon-opr ${cpmClasses.value}-icon-preview`,
     onClick: () => fileOperation.preview(file),
-    title: locale.value.preview
+    title: locale.upload.preview
   });
   const retryNode = renderIcon(icons.value.retry, {
     class: `${cpmClasses.value}-icon-opr ${cpmClasses.value}-icon-retry`,
     onClick: () => fileOperation.retry(file),
-    title: locale.value.retry
+    title: locale.upload.retry
   });
   const downloadNode = renderIcon(icons.value.download, {
     class: `${cpmClasses.value}-icon-opr ${cpmClasses.value}-icon-download`,
     onClick: () => fileOperation.download(file),
-    title: locale.value.download
+    title: locale.upload.download
   });
   const removeNode = renderIcon(icons.value.remove, {
     class: `${cpmClasses.value}-icon-opr ${cpmClasses.value}-icon-remove`,
     onClick: () => fileOperation.remove(file),
-    title: locale.value.remove
+    title: locale.upload.remove
   });
   return {
     previewNode,
@@ -40422,7 +42286,7 @@ function showPreview(status) {
 function useDrag(props) {
   const dragOver = ref(false);
   const filesSelected = shallowRef([]);
-  const allowDrag = computed(() => !!props.dragable && !props.disabled);
+  const allowDrag = computed$1(() => !!props.dragable && !props.disabled);
   function onDrop(e) {
     var _a, _b;
     e.preventDefault();
@@ -40493,7 +42357,7 @@ var FileSelector = defineComponent({
     const multiple = useMultiple(uploadProps2, config);
     const dragable = useDragable(uploadProps2, config);
     const accept = useAccept(uploadProps2);
-    const maxCount = computed(() => {
+    const maxCount = computed$1(() => {
       var _a;
       return (_a = uploadProps2.maxCount) != null ? _a : 0;
     });
@@ -40508,7 +42372,7 @@ var FileSelector = defineComponent({
     const [filesSelected, updateFilesSelected] = useFilesSelected(dragFilesSelected, allowDrag);
     const filesReady = useFilesAllowed(files, filesSelected, accept, maxCount);
     const fileInputRef = ref(null);
-    const inputClasses = computed(() => `${cpmClasses.value}-input`);
+    const inputClasses = computed$1(() => `${cpmClasses.value}-input`);
     const selectorClasses = useSelectorClasses(uploadProps2, cpmClasses, dragable, dragOver);
     syncUploadHandle(uploadProps2, files, filesReady, onUpdateFiles, abort, startUpload);
     return () => {
@@ -40532,7 +42396,7 @@ var FileSelector = defineComponent({
   }
 });
 function useSelectorClasses(props, cpmClasses, dragable, dragOver) {
-  return computed(() => normalizeClass({
+  return computed$1(() => normalizeClass({
     [`${cpmClasses.value}-selector`]: true,
     [`${cpmClasses.value}-selector-drag`]: dragable.value,
     [`${cpmClasses.value}-selector-disabled`]: props.disabled,
@@ -40544,25 +42408,25 @@ function useDir(props, config) {
     directory: "directory",
     webkitdirectory: "webkitdirectory"
   };
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     return ((_a = props.directory) != null ? _a : config.directory) ? directoryCfg : {};
   });
 }
 function useAccept(props) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     return (_a = props.accept) == null ? void 0 : _a.split(",").map((type) => type.trim()).filter((type) => type);
   });
 }
 function useMultiple(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     return (_a = props.multiple) != null ? _a : config.multiple;
   });
 }
 function useDragable(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     return (_a = props.dragable) != null ? _a : config.dragable;
   });
@@ -40645,6 +42509,7 @@ var IxUploadImageCardList = defineComponent({
   setup(listProps) {
     const {
       props: uploadProps2,
+      locale,
       files,
       upload: upload2,
       abort,
@@ -40654,7 +42519,6 @@ var IxUploadImageCardList = defineComponent({
     const icons = useIcon(listProps);
     const cpmClasses = useCmpClasses();
     const listClasses = useListClasses(uploadProps2, "imageCard");
-    const locale = getLocale("upload");
     const [, imageCardVisible] = useSelectorVisible(uploadProps2, "imageCard");
     const showSelector = useShowSelector$1(uploadProps2, files, imageCardVisible);
     const {
@@ -40697,8 +42561,8 @@ function renderItem$2(uploadProps2, file, icons, cpmClasses, fileOperation, loca
 function renderUploadStatus(uploadProps2, file, locale, cpmClasses) {
   var _a;
   const statusTitle = {
-    error: locale.value.error,
-    uploading: locale.value.uploading
+    error: locale.upload.error,
+    uploading: locale.upload.uploading
   };
   const curTitle = file.status && statusTitle[file.status];
   return createVNode("div", {
@@ -40726,7 +42590,7 @@ function showUploadStatus(status) {
   return status && ["uploading", "error"].includes(status);
 }
 function useShowSelector$1(uploadProps2, files, imageCardVisible) {
-  return computed(() => {
+  return computed$1(() => {
     const countLimit = !uploadProps2.maxCount || files.value.length < uploadProps2.maxCount;
     return countLimit && imageCardVisible.value;
   });
@@ -40737,6 +42601,7 @@ var IxUploadImageList = defineComponent({
   setup(listProps) {
     const {
       props: uploadProps2,
+      locale,
       files,
       upload: upload2,
       abort,
@@ -40746,7 +42611,6 @@ var IxUploadImageList = defineComponent({
     const icons = useIcon(listProps);
     const cpmClasses = useCmpClasses();
     const listClasses = useListClasses(uploadProps2, "image");
-    const locale = getLocale("upload");
     const {
       getThumbNode,
       revokeAll
@@ -40805,6 +42669,7 @@ var IxUploadTextList = defineComponent({
   setup(listProps) {
     const {
       props: uploadProps2,
+      locale,
       files,
       upload: upload2,
       abort,
@@ -40814,7 +42679,6 @@ var IxUploadTextList = defineComponent({
     const icons = useIcon(listProps);
     const cpmClasses = useCmpClasses();
     const listClasses = useListClasses(uploadProps2, "text");
-    const locale = getLocale("upload");
     const fileOperation = useOperation(files, listProps, uploadProps2, {
       abort,
       upload: upload2,
@@ -40862,19 +42726,19 @@ function renderItem(uploadProps2, file, icons, cpmClasses, fileOperation, locale
     "hide-info": true
   }, (_a = uploadProps2.progress) != null ? _a : {}), null)]);
 }
-var __defProp$1 = Object.defineProperty;
+var __defProp$1$1 = Object.defineProperty;
 var __getOwnPropSymbols$1$1 = Object.getOwnPropertySymbols;
 var __hasOwnProp$1$1 = Object.prototype.hasOwnProperty;
 var __propIsEnum$1$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1 = (a, b) => {
+var __defNormalProp$1$1 = (obj, key, value) => key in obj ? __defProp$1$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$1 = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$1$1.call(b, prop))
-      __defNormalProp$1(a, prop, b[prop]);
+      __defNormalProp$1$1(a, prop, b[prop]);
   if (__getOwnPropSymbols$1$1)
     for (var prop of __getOwnPropSymbols$1$1(b)) {
       if (__propIsEnum$1$1.call(b, prop))
-        __defNormalProp$1(a, prop, b[prop]);
+        __defNormalProp$1$1(a, prop, b[prop]);
     }
   return a;
 };
@@ -40895,11 +42759,11 @@ var UploadFiles = defineComponent({
     } = inject(uploadToken);
     const [outerSelector] = useSelectorVisible(uploadProps2, listType);
     watchEffect(() => setSelectorVisible(outerSelector.value));
-    return () => h$1(cpmMap[listType.value], __spreadValues$1({}, props));
+    return () => h$1(cpmMap[listType.value], __spreadValues$1$1({}, props));
   }
 });
 function useListType(props, config) {
-  return computed(() => {
+  return computed$1(() => {
     var _a;
     return (_a = props.type) != null ? _a : config.type;
   });
@@ -40986,17 +42850,17 @@ function upload(option) {
   };
 }
 var __defProp$3 = Object.defineProperty;
-var __getOwnPropSymbols$3 = Object.getOwnPropertySymbols;
-var __hasOwnProp$3 = Object.prototype.hasOwnProperty;
-var __propIsEnum$3 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$4 = Object.getOwnPropertySymbols;
+var __hasOwnProp$4 = Object.prototype.hasOwnProperty;
+var __propIsEnum$4 = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$3 = (obj, key, value) => key in obj ? __defProp$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$3 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$3.call(b, prop))
+    if (__hasOwnProp$4.call(b, prop))
       __defNormalProp$3(a, prop, b[prop]);
-  if (__getOwnPropSymbols$3)
-    for (var prop of __getOwnPropSymbols$3(b)) {
-      if (__propIsEnum$3.call(b, prop))
+  if (__getOwnPropSymbols$4)
+    for (var prop of __getOwnPropSymbols$4(b)) {
+      if (__propIsEnum$4.call(b, prop))
         __defNormalProp$3(a, prop, b[prop]);
     }
   return a;
@@ -41153,14 +43017,14 @@ function getAction(props, file) {
     if (!props.action) {
       throwError("components/upload", "action not found.");
     }
-    const action = isFunction(props.action) ? yield props.action(file) : props.action;
+    const action = isFunction$1(props.action) ? yield props.action(file) : props.action;
     return action;
   });
 }
 function getRequestData(props, file) {
   return __async(this, null, function* () {
     var _a;
-    const requestData = isFunction(props.requestData) ? yield props.requestData(file) : (_a = props.requestData) != null ? _a : {};
+    const requestData = isFunction$1(props.requestData) ? yield props.requestData(file) : (_a = props.requestData) != null ? _a : {};
     return requestData;
   });
 }
@@ -41170,6 +43034,7 @@ var Upload = defineComponent({
   setup(props, {
     slots
   }) {
+    const locale = useGlobalConfig$1("locale");
     const cpmClasses = useCmpClasses();
     const [showSelector, setSelectorVisible] = useShowSelector();
     const [files, onUpdateFiles] = useControlledProp(props, "files", []);
@@ -41186,6 +43051,7 @@ var Upload = defineComponent({
     } = useImageViewer();
     provide(uploadToken, {
       props,
+      locale,
       files,
       fileUploading,
       onUpdateFiles,
@@ -41240,7 +43106,7 @@ function useImageViewer() {
 const IxUpload = Upload;
 const IxUploadFiles = UploadFiles;
 
-const version$1 = '1.0.0-alpha.6';
+const version$1 = '1.0.0-beta.2';
 
 const components$1 = [
     IxAffix,
@@ -41323,6 +43189,7 @@ const components$1 = [
     IxTextarea,
     IxTimePicker,
     IxTimeRangePicker,
+    IxTransfer,
     IxTimeline,
     IxTimelineItem,
     IxTooltip,
@@ -41420,7 +43287,7 @@ function useActiveKey(props) {
   return { activeKey, setActiveKey };
 }
 function useActiveHeaderKey(props, activePaths, headerMenus) {
-  return computed(() => {
+  return computed$1(() => {
     const { type } = props;
     const currActivePaths = activePaths.value;
     if (type === "both") {
@@ -41437,23 +43304,23 @@ function useActiveHeaderKey(props, activePaths, headerMenus) {
     return void 0;
   });
 }
-var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3 = Object.prototype.propertyIsEnumerable;
 var __objRest = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$1.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$3.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$1)
-    for (var prop of __getOwnPropSymbols$1(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$1.call(source, prop))
+  if (source != null && __getOwnPropSymbols$3)
+    for (var prop of __getOwnPropSymbols$3(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$3.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
 };
 function useHeaderMenus(props) {
-  return computed(() => {
+  return computed$1(() => {
     const { type, menus } = props;
     if (type === "header") {
       return menus;
@@ -41472,7 +43339,7 @@ function useHeaderMenus(props) {
   });
 }
 function useSiderMenus(props, activeHeaderKey) {
-  return computed(() => {
+  return computed$1(() => {
     const { type, menus } = props;
     if (["mixin", "sider"].includes(type)) {
       return menus;
@@ -41485,21 +43352,21 @@ function useSiderMenus(props, activeHeaderKey) {
   });
 }
 const proLayoutToken = Symbol("proLayout");
-var __defProp = Object.defineProperty;
+var __defProp$2 = Object.defineProperty;
 var __defProps = Object.defineProperties;
 var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
+var __getOwnPropSymbols$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
+    if (__hasOwnProp$2.call(b, prop))
+      __defNormalProp$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2)
+    for (var prop of __getOwnPropSymbols$2(b)) {
+      if (__propIsEnum$2.call(b, prop))
+        __defNormalProp$2(a, prop, b[prop]);
     }
   return a;
 };
@@ -41515,19 +43382,19 @@ var Header = defineComponent({
       headerMenus,
       activeHeaderKey
     } = inject(proLayoutToken);
-    const theme = computed(() => {
+    const theme = computed$1(() => {
       const {
         theme: theme2
       } = props;
       return isObject(theme2) ? theme2.header : theme2;
     });
-    const fixed = computed(() => {
+    const fixed = computed$1(() => {
       const {
         fixed: fixed2
       } = props;
       return isObject(fixed2) ? fixed2.header : fixed2;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-header`;
       return normalizeClass({
         [prefixCls]: true,
@@ -41535,7 +43402,7 @@ var Header = defineComponent({
         [`${prefixCls}-fixed`]: fixed.value
       });
     });
-    const menuSelectedKeys = computed(() => activeHeaderKey.value ? [activeHeaderKey.value] : []);
+    const menuSelectedKeys = computed$1(() => activeHeaderKey.value ? [activeHeaderKey.value] : []);
     const onMenuClick = (menuClickOption) => {
       var _a;
       if (props.type === "both") {
@@ -41543,7 +43410,7 @@ var Header = defineComponent({
         if (targetMenu && "children" in targetMenu && !!((_a = targetMenu.children) == null ? void 0 : _a.length)) {
           const activePaths = getDefaultPaths(targetMenu.children);
           setActiveKey(activePaths.pop().key);
-          callEmit(props["onMenuClick"], __spreadProps(__spreadValues({}, menuClickOption), {
+          callEmit(props["onMenuClick"], __spreadProps(__spreadValues$2({}, menuClickOption), {
             type: targetMenu.type
           }));
           return;
@@ -41579,6 +43446,22 @@ var Header = defineComponent({
     };
   }
 });
+var __defProp$1 = Object.defineProperty;
+var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1.call(b, prop))
+      __defNormalProp$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1)
+    for (var prop of __getOwnPropSymbols$1(b)) {
+      if (__propIsEnum$1.call(b, prop))
+        __defNormalProp$1(a, prop, b[prop]);
+    }
+  return a;
+};
 var Sider = defineComponent({
   name: "ProLayoutSider",
   setup() {
@@ -41591,25 +43474,27 @@ var Sider = defineComponent({
       activePaths,
       siderMenus,
       collapsed,
-      setCollapsed
+      siderHover,
+      setCollapsed,
+      handleCollapsedDelay
     } = inject(proLayoutToken);
     const {
       expandedKeys,
       setExpandedKeys
     } = useExpandedKeys(activePaths, siderMenus);
-    const theme = computed(() => {
+    const theme = computed$1(() => {
       const {
         theme: theme2
       } = props;
       return isObject(theme2) ? theme2.sider : theme2;
     });
-    const fixed = computed(() => {
+    const fixed = computed$1(() => {
       const {
         fixed: fixed2
       } = props;
       return isObject(fixed2) ? fixed2.sider : fixed2;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-sider`;
       return normalizeClass({
         [prefixCls]: true,
@@ -41618,13 +43503,21 @@ var Sider = defineComponent({
         [`${prefixCls}-fixed`]: fixed.value
       });
     });
-    const menuSelectedKeys = computed(() => [activeKey.value]);
+    const menuSelectedKeys = computed$1(() => [activeKey.value]);
     const onMenuClick = (menuClickOption) => {
       callEmit(props["onMenuClick"], menuClickOption);
     };
+    const siderEvent = {
+      onMouseenter() {
+        handleCollapsedDelay(false);
+      },
+      onMouseleave() {
+        handleCollapsedDelay(true);
+      }
+    };
     return () => {
       const prefixCls = `${mergedPrefixCls.value}-sider`;
-      const menuProps = {
+      const menuProps = __spreadValues$1({
         overlayClassName: `${prefixCls}-menu-overlay`,
         collapsed: collapsed.value,
         dataSource: siderMenus.value,
@@ -41635,12 +43528,15 @@ var Sider = defineComponent({
         mode: "inline",
         theme: theme.value,
         onClick: onMenuClick
-      };
-      const contentNode = slots.siderContent ? slots.siderContent(menuProps) : createVNode(IxMenu, mergeProps(menuProps, props.siderMenu), slots);
+      }, props.siderMenu);
+      const contentNode = slots.siderContent ? slots.siderContent(menuProps) : createVNode(IxMenu, menuProps, slots);
+      const siderProps = __spreadValues$1({
+        collapsed: collapsed.value,
+        "onUpdate:collapsed": setCollapsed
+      }, props.sider);
       return createVNode(IxLayoutSider, mergeProps({
-        "class": classes.value,
-        "onCollapse": setCollapsed
-      }, props.sider), {
+        "class": classes.value
+      }, siderProps, siderHover.value.enable ? siderEvent : void 0), {
         default: () => [slots.siderHeader && createVNode("div", {
           "class": `${mergedPrefixCls.value}-sider-header`
         }, [slots.siderHeader()]), createVNode("div", {
@@ -41683,23 +43579,71 @@ function getExpandedKeys(menus) {
   }).map((menu) => menu.key);
 }
 const proLayoutProps = {
-  activeKey: IxPropTypes.oneOfType([String, Number, Symbol]),
-  collapsed: IxPropTypes.bool,
-  fixed: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]).def(false),
-  menus: IxPropTypes.array().def(() => []),
-  sider: IxPropTypes.object(),
-  siderMenu: IxPropTypes.object(),
-  theme: IxPropTypes.oneOfType([
-    IxPropTypes.oneOf(["light", "dark"]),
-    IxPropTypes.object()
-  ]).def("light"),
-  type: IxPropTypes.oneOf(["header", "sider", "both", "mixin"]).def("mixin"),
-  "onUpdate:activeKey": IxPropTypes.emit(),
-  "onUpdate:collapsed": IxPropTypes.emit(),
-  onMenuClick: IxPropTypes.emit()
+  activeKey: {
+    type: [String, Number, Symbol],
+    default: void 0
+  },
+  collapsed: {
+    type: Boolean,
+    default: void 0
+  },
+  compress: {
+    type: Boolean,
+    default: true
+  },
+  fixed: {
+    type: [Boolean, Object],
+    default: false
+  },
+  menus: {
+    type: Array,
+    default: () => []
+  },
+  sider: {
+    type: Object,
+    default: void 0
+  },
+  siderHover: {
+    type: [Boolean, Object],
+    default: void 0
+  },
+  siderMenu: {
+    type: Object,
+    default: () => []
+  },
+  theme: {
+    type: [String, Object],
+    default: "light"
+  },
+  type: {
+    type: String,
+    default: "mixin"
+  },
+  "onUpdate:activeKey": [Function, Array],
+  "onUpdate:collapsed": [Function, Array],
+  onMenuClick: [Function, Array]
 };
 const proLayoutSiderTriggerProps = {
-  icon: IxPropTypes.arrayOf(IxPropTypes.oneOfType([String, IxPropTypes.vNode]))
+  icon: {
+    type: [String, Array],
+    default: void 0
+  }
+};
+var __defProp = Object.defineProperty;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
 };
 var ProLayout = defineComponent({
   name: "IxProLayout",
@@ -41708,16 +43652,20 @@ var ProLayout = defineComponent({
     slots
   }) {
     const common = useGlobalConfig("common");
-    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout`);
+    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout`);
     const {
       activeKey,
       setActiveKey
     } = useActiveKey(props);
-    const activePaths = computed(() => getTargetPaths(props.menus, activeKey.value));
+    const activePaths = computed$1(() => getTargetPaths(props.menus, activeKey.value));
     const headerMenus = useHeaderMenus(props);
     const activeHeaderKey = useActiveHeaderKey(props, activePaths, headerMenus);
     const siderMenus = useSiderMenus(props, activeHeaderKey);
     const [collapsed, setCollapsed] = useControlledProp(props, "collapsed", false);
+    const siderHover = useHoverTrigger(props);
+    const {
+      handleCollapsedDelay
+    } = useHandleCollapsedDelay(siderHover, setCollapsed);
     provide(proLayoutToken, {
       props,
       slots,
@@ -41729,21 +43677,25 @@ var ProLayout = defineComponent({
       activeHeaderKey,
       siderMenus,
       collapsed,
+      siderHover,
+      handleCollapsedDelay,
       setCollapsed
     });
-    const layoutClasses = computed(() => {
+    const layoutClasses = computed$1(() => {
       const {
         type,
-        fixed
+        fixed,
+        compress
       } = props;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
         [`${prefixCls}-is-${type}`]: true,
-        [`${prefixCls}-fixed`]: fixed
+        [`${prefixCls}-fixed`]: fixed,
+        [`${prefixCls}-float`]: !compress
       });
     });
-    const showSider = computed(() => {
+    const showSider = computed$1(() => {
       const {
         type
       } = props;
@@ -41770,6 +43722,41 @@ var ProLayout = defineComponent({
     };
   }
 });
+function useHoverTrigger(props) {
+  return computed$1(() => {
+    if (isUndefined(props.siderHover) || isBoolean(props.siderHover)) {
+      return {
+        enable: !!props.siderHover,
+        delay: 0
+      };
+    }
+    return __spreadValues({
+      enable: true
+    }, props.siderHover);
+  });
+}
+function useHandleCollapsedDelay(siderHover, setCollapsed) {
+  const timer = ref(null);
+  const handleCollapsedDelay = (collapsed) => {
+    if (siderHover.value.delay) {
+      timer.value && clearTimeout(timer.value);
+      if (!collapsed) {
+        timer.value = setTimeout(() => {
+          setCollapsed(collapsed);
+          timer.value = null;
+        }, siderHover.value.delay);
+      } else {
+        setCollapsed(collapsed);
+      }
+    } else {
+      setCollapsed(collapsed);
+    }
+  };
+  return {
+    timer,
+    handleCollapsedDelay
+  };
+}
 var ProLayoutSiderTrigger = defineComponent({
   name: "IxProLayoutSiderTrigger",
   props: proLayoutSiderTriggerProps,
@@ -41781,18 +43768,21 @@ var ProLayoutSiderTrigger = defineComponent({
       collapsed,
       setCollapsed
     } = inject(proLayoutToken);
-    const icon = computed(() => {
+    const icon = computed$1(() => {
       const [fold = "menu-fold", unfold = "menu-unfold"] = props.icon || [];
       return collapsed.value ? fold : unfold;
     });
-    const classes = computed(() => {
+    const classes = computed$1(() => {
       const prefixCls = `${mergedPrefixCls.value}-sider-trigger`;
       return {
         [prefixCls]: true,
         [`${prefixCls}-collapsed`]: collapsed.value
       };
     });
-    const handleClick = () => setCollapsed(!collapsed.value);
+    const handleClick = (evt) => {
+      evt.stopPropagation();
+      setCollapsed(!collapsed.value);
+    };
     return () => {
       let children;
       if (slots.default) {
@@ -41815,7 +43805,7 @@ var ProLayoutSiderTrigger = defineComponent({
 const IxProLayout = ProLayout;
 const IxProLayoutSiderTrigger = ProLayoutSiderTrigger;
 
-const version = '1.0.0-alpha.6';
+const version = '1.0.0-beta.2';
 
 const directives = {};
 const components = [IxProLayout, IxProLayoutSiderTrigger];
