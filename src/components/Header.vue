@@ -24,7 +24,7 @@
       </IxButton>
       <IxButton
         mode="link"
-        href="https://github.com/brenner8023/idux-playground"
+        href="https://github.com/IDuxFE/idux-playground"
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -40,7 +40,6 @@ import { downloadProject } from '@/utils'
 import type { ReplStore } from '@/repl-store'
 import QrcodeVue from 'qrcode.vue'
 
-
 const props = defineProps<{
   store: ReplStore
 }>()
@@ -55,7 +54,9 @@ const onShareClick = async () => {
   success('Current URL has been copied to clipboard.')
 }
 
-const versionText = computed(() => ` ( Vue@${props.store.versions.Vue}, Idux@${props.store.versions.Idux} )`)
+const versionText = computed(
+  () => ` ( Vue@${props.store.versions.Vue}, Idux@${props.store.versions.Idux} )`
+)
 
 const qrcodeVal = ref('')
 
