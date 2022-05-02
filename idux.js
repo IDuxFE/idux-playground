@@ -1,4 +1,4 @@
-import { computed as computed$1, shallowRef, ref, toRaw as toRaw$1, watch, unref, Fragment, Comment, Text, isVNode, effectScope, onScopeDispose, defineComponent, createVNode, Teleport, inject, onBeforeUnmount, onMounted, provide, watchEffect, reactive, normalizeClass, cloneVNode, getCurrentInstance, shallowReactive, Transition, mergeProps, withDirectives, vShow, customRef, nextTick, onUnmounted, toRef, normalizeStyle, resolveComponent, openBlock, createBlock, withCtx, renderSlot, createElementBlock, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, TransitionGroup, withKeys, onUpdated, toRefs, resolveDirective, h as h$1, isProxy } from 'vue';
+import { computed, shallowRef, ref, toRaw, watch, unref, Fragment, Comment as Comment$1, Text, isVNode, effectScope, onScopeDispose, defineComponent, createVNode, Teleport, inject, onBeforeUnmount, onMounted, provide, watchEffect, customRef, reactive, getCurrentInstance, shallowReactive, normalizeClass, cloneVNode, Transition, mergeProps, withDirectives, vShow, nextTick, onUnmounted, toRef, onUpdated, normalizeStyle, resolveComponent, openBlock, createBlock, withCtx, renderSlot, createElementBlock, createTextVNode, toDisplayString, createCommentVNode, createElementVNode, TransitionGroup, withKeys, toRefs, resolveDirective, h as h$1, isProxy } from 'vue';
 
 /** Detect free variable `global` from Node.js. */
 var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
@@ -153,7 +153,7 @@ var symbolTag$3 = '[object Symbol]';
  * _.isSymbol('abc');
  * // => false
  */
-function isSymbol$1(value) {
+function isSymbol(value) {
   return typeof value == 'symbol' ||
     (isObjectLike(value) && baseGetTag(value) == symbolTag$3);
 }
@@ -201,9 +201,9 @@ function arrayMap(array, iteratee) {
  * _.isArray(_.noop);
  * // => false
  */
-var isArray$1 = Array.isArray;
+var isArray = Array.isArray;
 
-var isArray$2 = isArray$1;
+var isArray$1 = isArray;
 
 /** Used as references for various `Number` constants. */
 var INFINITY$2 = 1 / 0;
@@ -225,11 +225,11 @@ function baseToString(value) {
   if (typeof value == 'string') {
     return value;
   }
-  if (isArray$2(value)) {
+  if (isArray$1(value)) {
     // Recursively convert values (susceptible to call stack limits).
     return arrayMap(value, baseToString) + '';
   }
-  if (isSymbol$1(value)) {
+  if (isSymbol(value)) {
     return symbolToString ? symbolToString.call(value) : '';
   }
   var result = (value + '');
@@ -342,7 +342,7 @@ function toNumber(value) {
   if (typeof value == 'number') {
     return value;
   }
-  if (isSymbol$1(value)) {
+  if (isSymbol(value)) {
     return NAN;
   }
   if (isObject(value)) {
@@ -474,7 +474,7 @@ var asyncTag = '[object AsyncFunction]',
  * _.isFunction(/abc/);
  * // => false
  */
-function isFunction$1(value) {
+function isFunction(value) {
   if (!isObject(value)) {
     return false;
   }
@@ -568,7 +568,7 @@ function baseIsNative(value) {
   if (!isObject(value) || isMasked(value)) {
     return false;
   }
-  var pattern = isFunction$1(value) ? reIsNative : reIsHostCtor;
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
   return pattern.test(toSource(value));
 }
 
@@ -1100,7 +1100,7 @@ var hasOwnProperty$c = objectProto$d.hasOwnProperty;
  * // => true
  */
 function lodash(value) {
-  if (isObjectLike(value) && !isArray$2(value) && !(value instanceof LazyWrapper)) {
+  if (isObjectLike(value) && !isArray$1(value) && !(value instanceof LazyWrapper)) {
     if (value instanceof LodashWrapper) {
       return value;
     }
@@ -2156,7 +2156,7 @@ function isLength(value) {
  * // => false
  */
 function isArrayLike(value) {
-  return value != null && isLength(value.length) && !isFunction$1(value);
+  return value != null && isLength(value.length) && !isFunction(value);
 }
 
 /**
@@ -2489,7 +2489,7 @@ var hasOwnProperty$9 = objectProto$9.hasOwnProperty;
  * @returns {Array} Returns the array of property names.
  */
 function arrayLikeKeys(value, inherited) {
-  var isArr = isArray$2(value),
+  var isArr = isArray$1(value),
       isArg = !isArr && isArguments$1(value),
       isBuff = !isArr && !isArg && isBuffer$1(value),
       isType = !isArr && !isArg && !isBuff && isTypedArray$1(value),
@@ -2679,12 +2679,12 @@ var reIsDeepProp = /\.|\[(?:[^[\]]*|(["'])(?:(?!\1)[^\\]|\\.)*?\1)\]/,
  * @returns {boolean} Returns `true` if `value` is a property name, else `false`.
  */
 function isKey(value, object) {
-  if (isArray$2(value)) {
+  if (isArray$1(value)) {
     return false;
   }
   var type = typeof value;
   if (type == 'number' || type == 'symbol' || type == 'boolean' ||
-      value == null || isSymbol$1(value)) {
+      value == null || isSymbol(value)) {
     return true;
   }
   return reIsPlainProp.test(value) || !reIsDeepProp.test(value) ||
@@ -3243,7 +3243,7 @@ function toString(value) {
  * @returns {Array} Returns the cast property path array.
  */
 function castPath(value, object) {
-  if (isArray$2(value)) {
+  if (isArray$1(value)) {
     return value;
   }
   return isKey(value, object) ? [value] : stringToPath$1(toString(value));
@@ -3260,7 +3260,7 @@ var INFINITY = 1 / 0;
  * @returns {string|symbol} Returns the key.
  */
 function toKey(value) {
-  if (typeof value == 'string' || isSymbol$1(value)) {
+  if (typeof value == 'string' || isSymbol(value)) {
     return value;
   }
   var result = (value + '');
@@ -4211,7 +4211,7 @@ function copySymbolsIn(source, object) {
  */
 function baseGetAllKeys(object, keysFunc, symbolsFunc) {
   var result = keysFunc(object);
-  return isArray$2(object) ? result : arrayPush(result, symbolsFunc(object));
+  return isArray$1(object) ? result : arrayPush(result, symbolsFunc(object));
 }
 
 /**
@@ -4643,7 +4643,7 @@ function baseClone(value, bitmask, customizer, key, object, stack) {
   if (!isObject(value)) {
     return value;
   }
-  var isArr = isArray$2(value);
+  var isArr = isArray$1(value);
   if (isArr) {
     result = initCloneArray(value);
     if (!isDeep) {
@@ -5150,8 +5150,8 @@ var hasOwnProperty$1 = objectProto.hasOwnProperty;
  * @returns {boolean} Returns `true` if the objects are equivalent, else `false`.
  */
 function baseIsEqualDeep(object, other, bitmask, customizer, equalFunc, stack) {
-  var objIsArr = isArray$2(object),
-      othIsArr = isArray$2(other),
+  var objIsArr = isArray$1(object),
+      othIsArr = isArray$1(other),
       objTag = objIsArr ? arrayTag : getTag$1(object),
       othTag = othIsArr ? arrayTag : getTag$1(other);
 
@@ -5384,7 +5384,7 @@ function hasPath(object, path, hasFunc) {
   }
   length = object == null ? 0 : object.length;
   return !!length && isLength(length) && isIndex(key, length) &&
-    (isArray$2(object) || isArguments$1(object));
+    (isArray$1(object) || isArguments$1(object));
 }
 
 /**
@@ -5510,7 +5510,7 @@ function baseIteratee(value) {
     return identity;
   }
   if (typeof value == 'object') {
-    return isArray$2(value)
+    return isArray$1(value)
       ? baseMatchesProperty(value[0], value[1])
       : baseMatches(value);
   }
@@ -5942,13 +5942,13 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
   var isCommon = newValue === undefined;
 
   if (isCommon) {
-    var isArr = isArray$2(srcValue),
+    var isArr = isArray$1(srcValue),
         isBuff = !isArr && isBuffer$1(srcValue),
         isTyped = !isArr && !isBuff && isTypedArray$1(srcValue);
 
     newValue = srcValue;
     if (isArr || isBuff || isTyped) {
-      if (isArray$2(objValue)) {
+      if (isArray$1(objValue)) {
         newValue = objValue;
       }
       else if (isArrayLikeObject(objValue)) {
@@ -5971,7 +5971,7 @@ function baseMergeDeep(object, source, key, srcIndex, mergeFunc, customizer, sta
       if (isArguments$1(objValue)) {
         newValue = toPlainObject(objValue);
       }
-      else if (!isObject(objValue) || isFunction$1(objValue)) {
+      else if (!isObject(objValue) || isFunction(objValue)) {
         newValue = initCloneObject(srcValue);
       }
     }
@@ -6043,7 +6043,7 @@ var stringTag = '[object String]';
  */
 function isString(value) {
   return typeof value == 'string' ||
-    (!isArray$2(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
+    (!isArray$1(value) && isObjectLike(value) && baseGetTag(value) == stringTag);
 }
 
 /** `Object#toString` result references. */
@@ -6425,11 +6425,6 @@ function e(e,t){for(var n=0;n<t.length;n++){var r=t[n];r.enumerable=r.enumerable
     ? Object.freeze({})
     : {};
 (process.env.NODE_ENV !== 'production') ? Object.freeze([]) : [];
-const NOOP = () => { };
-const extend = Object.assign;
-const isArray = Array.isArray;
-const isFunction = (val) => typeof val === 'function';
-const isSymbol = (val) => typeof val === 'symbol';
 const objectToString = Object.prototype.toString;
 const toTypeString = (value) => objectToString.call(value);
 const toRawType = (value) => {
@@ -7069,24 +7064,24 @@ function createSharedComposable(composable) {
   };
 }
 function useState$1(defaultOrFactory, shallow = true) {
-  const defaultValue = isFunction$1(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
+  const defaultValue = isFunction(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
   const state = shallow ? shallowRef(defaultValue) : ref(defaultValue);
   const setState = (value) => {
-    if (value !== toRaw$1(state.value)) {
+    if (value !== toRaw(state.value)) {
       state.value = value;
     }
   };
-  return [computed$1(() => state.value), setState];
+  return [computed(() => state.value), setState];
 }
 function useControlledProp(props, key, defaultOrFactory) {
   const tempProp = ref(props[key]);
   watch(() => props[key], (value) => tempProp.value = value);
-  const state = computed$1(() => {
+  const state = computed(() => {
     var _a, _b;
-    return (_b = (_a = props[key]) != null ? _a : tempProp.value) != null ? _b : isFunction$1(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
+    return (_b = (_a = props[key]) != null ? _a : tempProp.value) != null ? _b : isFunction(defaultOrFactory) ? defaultOrFactory() : defaultOrFactory;
   });
   const setState = (value) => {
-    if (value !== toRaw$1(state.value)) {
+    if (value !== toRaw(state.value)) {
       tempProp.value = value;
       callEmit(props[`onUpdate:${key}`], value);
     }
@@ -7100,7 +7095,7 @@ function isNumeric(val) {
   return !isNaN(parseFloat(val)) && isFinite(val);
 }
 function isPromise(val) {
-  return isObject(val) && isFunction$1(val.then) && isFunction$1(val.catch);
+  return isObject(val) && isFunction(val.then) && isFunction(val.catch);
 }
 const isHTMLElement$1 = (val) => toRawType(val).startsWith("HTML");
 function convertArray(value) {
@@ -7277,7 +7272,7 @@ function uniqueId(prefix = "ix") {
   return `${prefix}-${nodeId++}`;
 }
 const TEMPLATE = "template";
-const isComment = (node) => node.type === Comment;
+const isComment = (node) => node.type === Comment$1;
 const isFragment = (node) => node.type === Fragment;
 const isTemplate = (node) => node.type === TEMPLATE;
 const isText = (node) => node.type === Text;
@@ -7340,7 +7335,7 @@ on(document, "click", (event) => {
 function createHandler(el, binding) {
   const exclude = [el];
   let handler = NoopFunction;
-  if (isFunction$1(binding)) {
+  if (isFunction(binding)) {
     handler = binding;
   } else if (isObject(binding)) {
     exclude.push(...binding.exclude.filter(Boolean));
@@ -7362,7 +7357,7 @@ const clickOutside = {
 
 const targetHashmap = {};
 function convertTarget$1(target) {
-  const temp = isFunction$1(target) ? target() : target;
+  const temp = isFunction(target) ? target() : target;
   if (!isString(temp)) {
     return temp;
   }
@@ -7400,7 +7395,7 @@ var Portal = defineComponent({
         loaded.value = load;
       }
     });
-    const target = computed$1(() => loaded.value && convertTarget$1(props.target));
+    const target = computed(() => loaded.value && convertTarget$1(props.target));
     return () => {
       const _target = target.value;
       if (!_target) {
@@ -7578,18 +7573,18 @@ class BlockScrollStrategy {
   }
 }
 function useGetKey(props) {
-  return computed$1(() => {
-    const itemKey = props.itemKey;
-    if (isString(itemKey)) {
+  return computed(() => {
+    const getKey = props.getKey || props.itemKey;
+    if (isString(getKey)) {
       return (item) => {
-        const key = item[itemKey];
+        const key = item[getKey];
         if (process.env.NODE_ENV !== "production" && key === void 0) {
-          Logger.warn("cdk/scroll", "Each item in data should have a unique `key` prop.");
+          Logger.warn("cdk/scroll", "Each item in dataSource should have a unique `key` prop.");
         }
         return key;
       };
     }
-    return itemKey;
+    return getKey;
   });
 }
 function useHeights() {
@@ -7653,19 +7648,19 @@ const keepInRange = (maxScrollHeight, newScrollTop) => {
   return newTop;
 };
 function useScrollPlacement(props, holderRef, scrollTop, scrollHeight, changeScrollTop) {
-  const maxScrollHeight = computed$1(() => {
+  const maxScrollHeight = computed(() => {
     const height = scrollHeight.value;
     return height > 0 ? height - props.height : NaN;
   });
-  const scrolledTop = computed$1(() => scrollTop.value <= 0);
-  const scrolledBottom = computed$1(() => scrollTop.value >= maxScrollHeight.value);
+  const scrolledTop = computed(() => scrollTop.value <= 0);
+  const scrolledBottom = computed(() => scrollTop.value >= maxScrollHeight.value);
   watchEffect(() => {
     if (scrolledBottom.value) {
       callEmit(props.onScrolledBottom);
     }
   });
   const syncScrollTop = (newTop) => {
-    const value = isFunction$1(newTop) ? newTop(scrollTop.value) : newTop;
+    const value = isFunction(newTop) ? newTop(scrollTop.value) : newTop;
     const alignedTop = keepInRange(maxScrollHeight.value, value);
     const holderElement = holderRef.value;
     if (holderElement) {
@@ -7736,11 +7731,10 @@ function calcState(fillerRef, virtual, dataSource, itemHeight, height, getKey, s
   end = Math.min(end + 1, dataLength);
   return { scrollHeight, offset, start, end };
 }
-function useScrollTo(props, holderRef, getKey, heights, collectHeight, setScrollVisible, syncScrollTop) {
+function useScrollTo(props, holderRef, getKey, heights, collectHeight, syncScrollTop) {
   let refId;
   return (option) => {
     if (isNil(option)) {
-      setScrollVisible(true);
       return;
     }
     cancelRAF(refId);
@@ -7811,16 +7805,6 @@ function useScrollTo(props, holderRef, getKey, heights, collectHeight, setScroll
     }
   };
 }
-function useScrollVisible(props, scrollHeight) {
-  const [visible, setScrollVisible] = useState$1(false);
-  const scrollVisible = computed$1(() => {
-    if (props.height >= scrollHeight.value) {
-      return false;
-    }
-    return visible.value;
-  });
-  return { scrollVisible, setScrollVisible };
-}
 const virtualScrollToken = Symbol("virtualScrollToken");
 var Holder = defineComponent({
   setup(_, {
@@ -7836,11 +7820,10 @@ var Holder = defineComponent({
       scrollHeight,
       scrollOffset,
       scrollTop,
-      scrollMoving,
       syncScrollTop,
       originScroll
     } = inject(virtualScrollToken);
-    const style = computed$1(() => {
+    const style = computed(() => {
       const {
         height,
         fullHeight
@@ -7850,22 +7833,20 @@ var Holder = defineComponent({
       }
       return {
         [fullHeight ? "height" : "maxHeight"]: height + "px",
-        overflowY: useVirtual.value ? "hidden" : "auto",
-        overflowAnchor: "none",
-        pointerEvents: useVirtual.value && scrollMoving.value ? "none" : void 0
+        overflow: "auto",
+        overflowAnchor: "none"
       };
     });
-    const fillerStyle = computed$1(() => {
+    const fillerStyle = computed(() => {
       if (scrollOffset.value === void 0) {
         return void 0;
       }
       return {
         height: `${scrollHeight.value}px`,
-        position: "relative",
-        overflow: "hidden"
+        position: "relative"
       };
     });
-    const contentStyle = computed$1(() => {
+    const contentStyle = computed(() => {
       const offset = scrollOffset.value;
       if (offset === void 0) {
         return {
@@ -7895,7 +7876,7 @@ var Holder = defineComponent({
     const {
       handleWheel,
       handleTouchStart
-    } = useEvents$1$1(holderRef, syncScrollTop, originScroll);
+    } = useEvents$5(holderRef, syncScrollTop, originScroll);
     const {
       contentRef
     } = useContentResize(collectHeights);
@@ -7924,10 +7905,13 @@ var Holder = defineComponent({
   }
 });
 const SMOOTH_PTG = 14 / 15;
-function useEvents$1$1(holderRef, syncScrollTop, originScroll) {
+function useEvents$5(holderRef, syncScrollTop, originScroll) {
   let offset = 0;
   let rafId;
   function handleWheel(evt) {
+    if (evt.shiftKey) {
+      return;
+    }
     cancelRAF(rafId);
     const {
       deltaY
@@ -8010,193 +7994,25 @@ function useContentResize(collectHeights) {
     contentRef
   };
 }
-const Item$4 = (_, {
+const Item$3 = (_, {
   slots
 }) => {
   const [firstChild] = slots.default();
   return firstChild;
 };
-var ScrollBar = defineComponent({
-  setup() {
-    const {
-      props,
-      scrollTop,
-      scrollHeight,
-      syncScrollTop,
-      scrollMoving,
-      changeScrollMoving,
-      scrollVisible
-    } = inject(virtualScrollToken);
-    const thumbHight = useThumbHight(props);
-    const enableScrollRange = useEnableScrollRange(props, scrollHeight);
-    const enableHeightRange = useEnableHeightRange(props, thumbHight);
-    const thumbTop = useThumbTop(scrollTop, enableScrollRange, enableHeightRange);
-    const {
-      scrollBarRef,
-      handleScrollbarMouseDown,
-      handleScrollbarTouchStart,
-      thumbRef,
-      handleThumbMouseDown,
-      handleThumbMouseMove,
-      handleThumbMouseUp
-    } = useEvents$5(enableScrollRange, enableHeightRange, thumbTop, scrollMoving, changeScrollMoving, syncScrollTop);
-    const style = useStyle(scrollVisible);
-    const thumbClass = useThumbClass(scrollMoving);
-    const thumbStyle = useThumbStyle(thumbHight, thumbTop);
-    return () => createVNode("div", {
-      "ref": scrollBarRef,
-      "class": "cdk-virtual-scroll-bar",
-      "style": style.value,
-      "onMousedown": handleScrollbarMouseDown,
-      "onTouchstart": handleScrollbarTouchStart
-    }, [createVNode("div", {
-      "ref": thumbRef,
-      "class": thumbClass.value,
-      "style": thumbStyle.value,
-      "onMousedown": handleThumbMouseDown,
-      "onTouchstart": handleThumbMouseDown,
-      "onTouchmove": handleThumbMouseMove,
-      "onTouchend": handleThumbMouseUp
-    }, null)]);
-  }
-});
-const getPageY = (evt) => {
-  return "touches" in evt ? evt.touches[0].pageY : evt.pageY;
-};
-const minHight = 20;
-const useThumbHight = (props) => {
-  return computed$1(() => {
-    const {
-      height,
-      dataSource
-    } = props;
-    let baseHeight = height / dataSource.length * 10;
-    baseHeight = Math.max(baseHeight, minHight);
-    baseHeight = Math.min(baseHeight, height / 2);
-    return Math.floor(baseHeight);
-  });
-};
-const useEnableScrollRange = (props, scrollHeight) => {
-  return computed$1(() => scrollHeight.value - props.height);
-};
-const useEnableHeightRange = (props, thumbHight) => {
-  return computed$1(() => props.height - thumbHight.value || 0);
-};
-const useThumbTop = (scrollTop, enableScrollRange, enableHeightRange) => {
-  return computed$1(() => {
-    const _scrollTop = scrollTop.value;
-    if (_scrollTop === 0 || enableScrollRange.value === 0) {
-      return 0;
-    }
-    const ptg = _scrollTop / enableScrollRange.value;
-    return ptg * enableHeightRange.value;
-  });
-};
-const useEvents$5 = (enableScrollRange, enableHeightRange, thumbTop, scrollMoving, changeScrollMoving, syncScrollTop) => {
-  let pageY = 0;
-  let startTop = 0;
-  const scrollBarRef = ref();
-  const thumbRef = ref();
-  let rafId;
-  const handleScrollbarTouchStart = (evt) => {
-    evt.preventDefault();
-  };
-  const handleScrollbarMouseDown = (evt) => {
-    evt.stopPropagation();
-    evt.preventDefault();
-  };
-  const handleThumbMouseDown = (evt) => {
-    changeScrollMoving(true);
-    pageY = getPageY(evt);
-    startTop = thumbTop.value;
-    patchEvents();
-    evt.stopPropagation();
-    evt.preventDefault();
-  };
-  const handleThumbMouseMove = (evt) => {
-    cancelRAF(rafId);
-    if (scrollMoving.value) {
-      const offsetY = getPageY(evt) - pageY;
-      const newTop = startTop + offsetY;
-      const ptg = enableHeightRange.value ? newTop / enableHeightRange.value : 0;
-      const newScrollTop = Math.ceil(ptg * enableScrollRange.value);
-      rafId = rAF(() => syncScrollTop(newScrollTop));
-    }
-  };
-  const handleThumbMouseUp = () => {
-    changeScrollMoving(false);
-    removeEvents();
-  };
-  const patchEvents = () => {
-    on(window, "mousemove", handleThumbMouseMove);
-    on(window, "mouseup", handleThumbMouseUp);
-  };
-  const removeEvents = () => {
-    off(window, "mousemove", handleThumbMouseMove);
-    off(window, "mouseup", handleThumbMouseUp);
-    cancelRAF(rafId);
-  };
-  onBeforeUnmount(() => {
-    removeEvents();
-    cancelRAF(rafId);
-  });
-  return {
-    scrollBarRef,
-    handleScrollbarMouseDown,
-    handleScrollbarTouchStart,
-    thumbRef,
-    handleThumbMouseDown,
-    handleThumbMouseMove,
-    handleThumbMouseUp
-  };
-};
-const useStyle = (visible) => {
-  return computed$1(() => {
-    return {
-      width: "8px",
-      top: 0,
-      bottom: 0,
-      right: 0,
-      position: "absolute",
-      display: visible.value ? void 0 : "none"
-    };
-  });
-};
-const useThumbClass = (scrollMoving) => {
-  return computed$1(() => {
-    return {
-      "cdk-virtual-scroll-thumb": true,
-      "cdk-virtual-scroll-thumb-moving": scrollMoving.value
-    };
-  });
-};
-const useThumbStyle = (thumbHight, thumbTop) => {
-  return computed$1(() => {
-    return {
-      width: "100%",
-      height: thumbHight.value + "px",
-      top: thumbTop.value + "px",
-      left: 0,
-      position: "absolute",
-      background: "rgba(0, 0, 0, 0.5)",
-      borderRadius: "99px",
-      cursor: "pointer",
-      userSelect: "none"
-    };
-  });
-};
 const virtualListProps = {
-  contentRender: IxPropTypes.func(),
-  dataSource: IxPropTypes.array().def(() => []),
-  fullHeight: IxPropTypes.bool.def(false),
-  height: IxPropTypes.number.def(0),
-  itemHeight: IxPropTypes.number.def(0),
-  itemKey: IxPropTypes.oneOfType([String, IxPropTypes.func()]).isRequired,
-  itemRender: IxPropTypes.func(),
-  virtual: IxPropTypes.bool.def(true),
-  onScroll: IxPropTypes.emit(),
-  onScrolledChange: IxPropTypes.emit(),
-  onScrolledBottom: IxPropTypes.emit()
+  contentRender: { type: Function, default: void 0 },
+  dataSource: { type: Array, default: () => [] },
+  fullHeight: { type: Boolean, default: false },
+  getKey: { type: [String, Function], required: true },
+  height: { type: Number, default: 0 },
+  itemHeight: { type: Number, default: 0 },
+  itemKey: { type: [String, Function], default: void 0 },
+  itemRender: { type: Function, default: void 0 },
+  virtual: { type: Boolean, default: true },
+  onScroll: [Function, Array],
+  onScrolledChange: [Function, Array],
+  onScrolledBottom: [Function, Array]
 };
 var VirtualScroll = defineComponent({
   name: "CdkVirtualScroll",
@@ -8205,7 +8021,7 @@ var VirtualScroll = defineComponent({
     expose,
     slots
   }) {
-    const useVirtual = computed$1(() => props.virtual && props.height > 0 && props.itemHeight > 0);
+    const useVirtual = computed(() => props.virtual && props.height > 0 && props.itemHeight > 0);
     const getKey = useGetKey(props);
     const {
       heights,
@@ -8216,17 +8032,12 @@ var VirtualScroll = defineComponent({
     const holderRef = ref();
     const fillerRef = ref();
     const [scrollTop, changeScrollTop] = useState$1(0);
-    const [scrollMoving, changeScrollMoving] = useState$1(false);
     const {
       scrollHeight,
       scrollOffset,
       startIndex,
       endIndex
     } = useScrollState(props, fillerRef, useVirtual, getKey, scrollTop, heightsUpdateMark, heights);
-    const {
-      scrollVisible,
-      setScrollVisible
-    } = useScrollVisible(props, scrollHeight);
     const {
       scrolledTop,
       scrolledBottom,
@@ -8243,42 +8054,15 @@ var VirtualScroll = defineComponent({
       scrollTop,
       scrollHeight,
       scrollOffset,
-      scrollVisible,
-      setScrollVisible,
-      scrollMoving,
-      changeScrollMoving,
       syncScrollTop,
       originScroll
     });
-    const scrollTo = useScrollTo(props, holderRef, getKey, heights, collectHeights, setScrollVisible, syncScrollTop);
+    const scrollTo = useScrollTo(props, holderRef, getKey, heights, collectHeights, syncScrollTop);
     expose({
       scrollTo
     });
-    const mergedData = computed$1(() => props.dataSource.slice(startIndex.value, endIndex.value + 1));
+    const mergedData = computed(() => props.dataSource.slice(startIndex.value, endIndex.value + 1));
     watch(mergedData, (data) => callEmit(props.onScrolledChange, startIndex.value, endIndex.value, data));
-    let stopWatchScrollMoving;
-    const clearWatch = () => {
-      if (stopWatchScrollMoving) {
-        stopWatchScrollMoving();
-        stopWatchScrollMoving = void 0;
-      }
-    };
-    const handleMouseEnter = () => {
-      clearWatch();
-      if (!scrollMoving.value) {
-        setScrollVisible(true);
-      }
-    };
-    const handleMouseLeave = () => {
-      clearWatch();
-      if (!scrollMoving.value) {
-        setScrollVisible(false);
-      } else {
-        stopWatchScrollMoving = watch(scrollMoving, () => {
-          setScrollVisible(false);
-        });
-      }
-    };
     return () => {
       var _a;
       const getKeyFn = getKey.value;
@@ -8286,7 +8070,7 @@ var VirtualScroll = defineComponent({
       const itemRender = (_a = slots.item) != null ? _a : props.itemRender;
       const children = mergedData.value.map((item, index) => {
         const key = getKeyFn(item);
-        return createVNode(Item$4, {
+        return createVNode(Item$3, {
           "key": key,
           "ref": (instance) => setItem(key, instance)
         }, {
@@ -8300,36 +8084,3490 @@ var VirtualScroll = defineComponent({
         "class": "cdk-virtual-scroll",
         "style": {
           position: "relative"
-        },
-        "onMouseenter": handleMouseEnter,
-        "onMouseleave": handleMouseLeave
+        }
       }, [createVNode(Holder, null, {
         default: () => [children]
-      }), useVirtual.value && createVNode(ScrollBar, null, null)]);
+      })]);
     };
   }
 });
 const CdkVirtualScroll = VirtualScroll;
 
-const version$2 = '1.0.0-beta.2';
+const version$2 = '1.0.0-beta.7';
+
+let hasV8BreakIterator;
+try {
+  hasV8BreakIterator = typeof Intl !== "undefined" && Intl.v8BreakIterator;
+} catch (e) {
+  hasV8BreakIterator = false;
+}
+const testUserAgent = (regexp) => {
+  return regexp.test(navigator.userAgent);
+};
+const isBrowser = typeof document === "object" && !!document;
+const isEdge = isBrowser && testUserAgent(/(edge)/i);
+const isTrident = isBrowser && testUserAgent(/(msie|trident)/i);
+const isBlink = isBrowser && !!(window.chrome || hasV8BreakIterator) && typeof CSS !== "undefined" && !isEdge && !isTrident;
+const isWebKit = isBrowser && testUserAgent(/AppleWebKit/i) && !isBlink && !isEdge && !isTrident;
+const isFirefox = isBrowser && testUserAgent(/(firefox|minefield)/i);
+isBrowser && testUserAgent(/safari/i) && isWebKit;
+isBrowser && testUserAgent(/iPad|iPhone|iPod/) && !("MSStream" in window);
+isBrowser && testUserAgent(/android/i) && !isTrident;
+let flexGapSupported$1;
+function supportsFlexGap() {
+  if (!isBrowser) {
+    return false;
+  }
+  if (flexGapSupported$1 !== void 0) {
+    return flexGapSupported$1;
+  }
+  const flex = document.createElement("div");
+  flex.style.display = "flex";
+  flex.style.flexDirection = "column";
+  flex.style.rowGap = "1px";
+  flex.appendChild(document.createElement("div"));
+  flex.appendChild(document.createElement("div"));
+  document.body.appendChild(flex);
+  flexGapSupported$1 = flex.scrollHeight === 1;
+  document.body.removeChild(flex);
+  return flexGapSupported$1;
+}
+let supportsPassiveEvents;
+function supportsPassiveEventListeners() {
+  if (supportsPassiveEvents == null && typeof window !== "undefined") {
+    try {
+      window.addEventListener("test", null, Object.defineProperty({}, "passive", {
+        get: () => supportsPassiveEvents = true
+      }));
+    } finally {
+      supportsPassiveEvents = supportsPassiveEvents || false;
+    }
+  }
+  return supportsPassiveEvents;
+}
+function normalizePassiveListenerOptions(options) {
+  return supportsPassiveEventListeners() ? options : !!options.capture;
+}
+let shadowDomIsSupported;
+function _supportsShadowDom() {
+  if (shadowDomIsSupported == null) {
+    const head = typeof document !== "undefined" ? document.head : null;
+    shadowDomIsSupported = !!(head && (head.createShadowRoot || head.attachShadow));
+  }
+  return shadowDomIsSupported;
+}
+function _getShadowRoot(element) {
+  if (_supportsShadowDom()) {
+    const rootNode = element.getRootNode ? element.getRootNode() : null;
+    if (typeof ShadowRoot !== "undefined" && ShadowRoot && rootNode instanceof ShadowRoot) {
+      return rootNode;
+    }
+  }
+  return null;
+}
+function _getEventTarget(event) {
+  return event.composedPath ? event.composedPath()[0] : event.target;
+}
+
+function isFakeMousedownFromScreenReader(event) {
+  return event.offsetX === 0 && event.offsetY === 0;
+}
+function isFakeTouchstartFromScreenReader(event) {
+  const touch = event.touches && event.touches[0] || event.changedTouches && event.changedTouches[0];
+  return !!touch && touch.identifier === -1 && (touch.radiusX == null || touch.radiusX === 1) && (touch.radiusY == null || touch.radiusY === 1);
+}
+var __defProp$1$g = Object.defineProperty;
+var __getOwnPropSymbols$1$i = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$i = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$i = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$g = (obj, key, value) => key in obj ? __defProp$1$g(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$g = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1$i.call(b, prop))
+      __defNormalProp$1$g(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$i)
+    for (var prop of __getOwnPropSymbols$1$i(b)) {
+      if (__propIsEnum$1$i.call(b, prop))
+        __defNormalProp$1$g(a, prop, b[prop]);
+    }
+  return a;
+};
+const INPUT_MODALITY_DETECTOR_OPTIONS_TOKEN = Symbol("cdk-input-modality-detector-options");
+const INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS = {
+  ignoreCodes: ["AltLeft", "AltRight", "ControlLeft", "ControlRight", "OSLeft", "OSRight", "ShiftLeft", "ShiftRight"]
+};
+const TOUCH_BUFFER_MS = 650;
+const modalityEventListenerOptions = normalizePassiveListenerOptions({
+  passive: true,
+  capture: true
+});
+function useInputModalityDetector(options) {
+  const contextOptions = inject(INPUT_MODALITY_DETECTOR_OPTIONS_TOKEN, INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS);
+  const _options = __spreadValues$1$g(__spreadValues$1$g({}, contextOptions), options);
+  const _modality = ref(null);
+  const _modalityDetected = customRef((track, trigger) => {
+    let value = null;
+    return {
+      get() {
+        track();
+        return value;
+      },
+      set(newValue) {
+        value = newValue;
+        trigger();
+      }
+    };
+  });
+  const changeModality = (value) => {
+    _modality.value = value;
+    _modalityDetected.value = value;
+  };
+  const _target = ref(null);
+  let _lastTouchMs = 0;
+  const _onKeydown = (event) => {
+    var _a;
+    if ((_a = _options.ignoreCodes) == null ? void 0 : _a.some((code) => code === event.code)) {
+      return;
+    }
+    changeModality("keyboard");
+    _target.value = _getEventTarget(event);
+  };
+  const _onMousedown = (event) => {
+    if (Date.now() - _lastTouchMs < TOUCH_BUFFER_MS) {
+      return;
+    }
+    changeModality(isFakeMousedownFromScreenReader(event) ? "keyboard" : "mouse");
+    _target.value = _getEventTarget(event);
+  };
+  const _onTouchstart = (event) => {
+    if (isFakeTouchstartFromScreenReader(event)) {
+      changeModality("keyboard");
+      return;
+    }
+    _lastTouchMs = Date.now();
+    changeModality("touch");
+    _target.value = _getEventTarget(event);
+  };
+  if (isBrowser) {
+    document.addEventListener("keydown", _onKeydown, modalityEventListenerOptions);
+    document.addEventListener("mousedown", _onMousedown, modalityEventListenerOptions);
+    document.addEventListener("touchstart", _onTouchstart, modalityEventListenerOptions);
+  }
+  onScopeDispose(() => {
+    if (isBrowser) {
+      document.removeEventListener("keydown", _onKeydown, modalityEventListenerOptions);
+      document.removeEventListener("mousedown", _onMousedown, modalityEventListenerOptions);
+      document.removeEventListener("touchstart", _onTouchstart, modalityEventListenerOptions);
+    }
+  });
+  return {
+    modality: _modality,
+    modalityDetected: _modalityDetected,
+    target: _target
+  };
+}
+const useSharedInputModalityDetector = createSharedComposable(() => useInputModalityDetector());
+var __defProp$y = Object.defineProperty;
+var __getOwnPropSymbols$E = Object.getOwnPropertySymbols;
+var __hasOwnProp$E = Object.prototype.hasOwnProperty;
+var __propIsEnum$E = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$y = (obj, key, value) => key in obj ? __defProp$y(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$y = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$E.call(b, prop))
+      __defNormalProp$y(a, prop, b[prop]);
+  if (__getOwnPropSymbols$E)
+    for (var prop of __getOwnPropSymbols$E(b)) {
+      if (__propIsEnum$E.call(b, prop))
+        __defNormalProp$y(a, prop, b[prop]);
+    }
+  return a;
+};
+const FOCUS_MONITOR_OPTIONS_TOKEN = Symbol("cdk-focus-monitor-options");
+const FOCUS_MONITOR_DEFAULT_OPTIONS = {
+  detectionMode: "immediate"
+};
+const captureEventListenerOptions = normalizePassiveListenerOptions({
+  passive: true,
+  capture: true
+});
+function useFocusMonitor(options) {
+  var _a;
+  const contextOptions = inject(FOCUS_MONITOR_OPTIONS_TOKEN, FOCUS_MONITOR_DEFAULT_OPTIONS);
+  const _options = __spreadValues$y(__spreadValues$y({}, contextOptions), options);
+  const _detectionMode = _options.detectionMode;
+  const _inputModalityDetector = (_a = _options.inputModalityDetector) != null ? _a : useSharedInputModalityDetector();
+  let _origin = null;
+  let _lastFocusOrigin;
+  let _windowFocused = false;
+  let _windowFocusTimeoutId;
+  let _originTimeoutId;
+  let _originFromTouchInteraction = false;
+  const _elementInfo = /* @__PURE__ */ new Map();
+  let _monitoredElementCount = 0;
+  const _rootNodeFocusListenerCount = /* @__PURE__ */ new Map();
+  const _windowFocusListener = () => {
+    _windowFocused = true;
+    _windowFocusTimeoutId = setTimeout(() => _windowFocused = false);
+  };
+  let _stopInputModalityDetector = null;
+  const _rootNodeFocusAndBlurListener = (event) => {
+    const target = _getEventTarget(event);
+    const handler = event.type === "focus" ? _onFocus : _onBlur;
+    for (let element = target; element; element = element.parentElement) {
+      handler(event, element);
+    }
+  };
+  function monitor(element, checkChildren = false) {
+    const nativeElement = convertElement(element);
+    if (!isBrowser || !nativeElement || nativeElement.nodeType !== 1) {
+      return computed(() => ({ origin: null }));
+    }
+    const rootNode = _getShadowRoot(nativeElement) || _getDocument();
+    const cachedInfo = _elementInfo.get(nativeElement);
+    if (cachedInfo) {
+      if (checkChildren) {
+        cachedInfo.checkChildren = true;
+      }
+      return computed(() => cachedInfo.subject.value);
+    }
+    const info = {
+      checkChildren,
+      subject: shallowRef({ origin: null }),
+      rootNode
+    };
+    _elementInfo.set(nativeElement, info);
+    _registerGlobalListeners(info);
+    return computed(() => info.subject.value);
+  }
+  function stopMonitoring(element) {
+    const nativeElement = convertElement(element);
+    if (!nativeElement) {
+      return;
+    }
+    const elementInfo = _elementInfo.get(nativeElement);
+    if (elementInfo) {
+      _setClasses(nativeElement);
+      _elementInfo.delete(nativeElement);
+      _removeGlobalListeners(elementInfo);
+    }
+  }
+  function focusVia(element, origin, options2) {
+    const nativeElement = convertElement(element);
+    const focusedElement = _getDocument().activeElement;
+    if (nativeElement === focusedElement) {
+      _getClosestElementsInfo(nativeElement).forEach(([currentElement, info]) => _originChanged(currentElement, origin, info));
+    } else {
+      _setOrigin(origin);
+      if (nativeElement && typeof nativeElement.focus === "function") {
+        nativeElement.focus(options2);
+      }
+    }
+  }
+  function blurVia(element) {
+    const nativeElement = convertElement(element);
+    if (!nativeElement) {
+      return;
+    }
+    const focusedElement = _getDocument().activeElement;
+    if (nativeElement === focusedElement && typeof nativeElement.blur === "function") {
+      nativeElement.blur();
+    }
+  }
+  function _getDocument() {
+    return document;
+  }
+  function _getWindow() {
+    const doc = _getDocument();
+    return doc.defaultView || window;
+  }
+  function _toggleClass(element, className, shouldSet) {
+    if (shouldSet) {
+      element.classList.add(className);
+    } else {
+      element.classList.remove(className);
+    }
+  }
+  function _getFocusOrigin(focusEventTarget) {
+    if (_origin) {
+      if (_originFromTouchInteraction) {
+        return _shouldBeAttributedToTouch(focusEventTarget) ? "touch" : "program";
+      } else {
+        return _origin;
+      }
+    }
+    return _windowFocused && _lastFocusOrigin ? _lastFocusOrigin : "program";
+  }
+  function _shouldBeAttributedToTouch(focusEventTarget) {
+    return _detectionMode === "eventual" || !!(focusEventTarget == null ? void 0 : focusEventTarget.contains(_inputModalityDetector.target.value));
+  }
+  function _setClasses(element, origin) {
+    _toggleClass(element, "cdk-focused", !!origin);
+    _toggleClass(element, "cdk-touch-focused", origin === "touch");
+    _toggleClass(element, "cdk-keyboard-focused", origin === "keyboard");
+    _toggleClass(element, "cdk-mouse-focused", origin === "mouse");
+    _toggleClass(element, "cdk-program-focused", origin === "program");
+  }
+  function _setOrigin(origin, isFromInteraction = false) {
+    _origin = origin;
+    _originFromTouchInteraction = origin === "touch" && isFromInteraction;
+    if (_detectionMode === "immediate") {
+      clearTimeout(_originTimeoutId);
+      const ms = _originFromTouchInteraction ? TOUCH_BUFFER_MS : 1;
+      _originTimeoutId = setTimeout(() => _origin = null, ms);
+    }
+  }
+  function _onFocus(event, element) {
+    const elementInfo = _elementInfo.get(element);
+    const focusEventTarget = _getEventTarget(event);
+    if (!elementInfo || !elementInfo.checkChildren && element !== focusEventTarget) {
+      return;
+    }
+    _originChanged(element, _getFocusOrigin(focusEventTarget), elementInfo, event);
+  }
+  function _onBlur(event, element) {
+    const elementInfo = _elementInfo.get(element);
+    if (!elementInfo || elementInfo.checkChildren && event.relatedTarget instanceof Node && element.contains(event.relatedTarget)) {
+      return;
+    }
+    _setClasses(element);
+    _emitOrigin(elementInfo.subject, null, event);
+  }
+  function _emitOrigin(subject, origin, event) {
+    subject.value = { origin, event };
+  }
+  function _registerGlobalListeners(elementInfo) {
+    if (!isBrowser) {
+      return;
+    }
+    const rootNode = elementInfo.rootNode;
+    const rootNodeFocusListeners = _rootNodeFocusListenerCount.get(rootNode) || 0;
+    if (!rootNodeFocusListeners) {
+      rootNode.addEventListener("focus", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
+      rootNode.addEventListener("blur", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
+    }
+    _rootNodeFocusListenerCount.set(rootNode, rootNodeFocusListeners + 1);
+    if (++_monitoredElementCount === 1) {
+      const window2 = _getWindow();
+      window2.addEventListener("focus", _windowFocusListener);
+      _stopInputModalityDetector = watchEffect(() => {
+        _setOrigin(_inputModalityDetector.modalityDetected.value, true);
+      });
+    }
+  }
+  function _removeGlobalListeners(elementInfo) {
+    const rootNode = elementInfo.rootNode;
+    if (_rootNodeFocusListenerCount.has(rootNode)) {
+      const rootNodeFocusListeners = _rootNodeFocusListenerCount.get(rootNode);
+      if (rootNodeFocusListeners > 1) {
+        _rootNodeFocusListenerCount.set(rootNode, rootNodeFocusListeners - 1);
+      } else {
+        rootNode.removeEventListener("focus", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
+        rootNode.removeEventListener("blur", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
+        _rootNodeFocusListenerCount.delete(rootNode);
+      }
+    }
+    if (!--_monitoredElementCount) {
+      const window2 = _getWindow();
+      window2.removeEventListener("focus", _windowFocusListener);
+      if (_stopInputModalityDetector) {
+        _stopInputModalityDetector();
+        _stopInputModalityDetector = null;
+      }
+      clearTimeout(_windowFocusTimeoutId);
+      clearTimeout(_originTimeoutId);
+    }
+  }
+  function _originChanged(element, origin, elementInfo, event) {
+    _setClasses(element, origin);
+    _emitOrigin(elementInfo.subject, origin, event);
+    _lastFocusOrigin = origin;
+  }
+  function _getClosestElementsInfo(element) {
+    const results = [];
+    _elementInfo.forEach((info, currentElement) => {
+      if (currentElement === element || info.checkChildren && currentElement.contains(element)) {
+        results.push([currentElement, info]);
+      }
+    });
+    return results;
+  }
+  onScopeDispose(() => _elementInfo.forEach((_info, element) => stopMonitoring(element)));
+  return { monitor, stopMonitoring, focusVia, blurVia };
+}
+const useSharedFocusMonitor = createSharedComposable(() => useFocusMonitor());
+
+const mediaQueriesForWebkitCompatibility = /* @__PURE__ */ new Set();
+let mediaQueryStyleNode;
+function createEmptyStyleRule(query) {
+  if (mediaQueriesForWebkitCompatibility.has(query)) {
+    return;
+  }
+  try {
+    if (!mediaQueryStyleNode) {
+      mediaQueryStyleNode = document.createElement("style");
+      mediaQueryStyleNode.setAttribute("type", "text/css");
+      document.head.appendChild(mediaQueryStyleNode);
+    }
+    if (mediaQueryStyleNode.sheet) {
+      ;
+      mediaQueryStyleNode.sheet.insertRule(`@media ${query} {.fx-query-test{ }}`, 0);
+      mediaQueriesForWebkitCompatibility.add(query);
+    }
+  } catch (err) {
+    Logger.error("cdk/breakpoint", err);
+  }
+}
+function noopMatchMedia(query) {
+  return {
+    matches: query === "all" || query === "",
+    media: query,
+    addEventListener: () => {
+    },
+    removeEventListener: () => {
+    }
+  };
+}
+const _matchMedia = isBrowser && window.matchMedia ? window.matchMedia.bind(window) : noopMatchMedia;
+const matchMedia = (query) => {
+  if (isWebKit) {
+    createEmptyStyleRule(query);
+  }
+  return _matchMedia(query);
+};
+const _queries = /* @__PURE__ */ new Map();
+function useMediaQuery(value) {
+  const queries = splitQueries(value).map((query) => registerQuery(query));
+  onScopeDispose(() => {
+    queries.forEach((query) => {
+      query.destroy();
+      _queries.delete(query.media);
+    });
+  });
+  return computed(() => {
+    let matches = false;
+    const medias = {};
+    queries.forEach((query) => {
+      const currMatches = query.matches.value;
+      matches = matches || currMatches;
+      medias[query.media] = currMatches;
+    });
+    return { matches, medias };
+  });
+}
+function registerQuery(query) {
+  if (_queries.has(query)) {
+    return _queries.get(query);
+  }
+  const mql = matchMedia(query);
+  const matches = ref(mql.matches);
+  const handler = (evt) => {
+    matches.value = evt.matches;
+  };
+  mql.addEventListener("change", handler);
+  const destroy = () => mql.removeEventListener("change", handler);
+  const output = { matches, destroy, media: query };
+  _queries.set(query, output);
+  return output;
+}
+function splitQueries(queries) {
+  return convertArray(queries).map((query) => query.split(",")).reduce((a1, a2) => a1.concat(a2)).map((query) => query.trim());
+}
+const BREAKPOINTS_KEYS = ["xs", "sm", "md", "lg", "xl"];
+const BREAKPOINTS = {
+  xs: "(max-width: 599.99px)",
+  sm: "(min-width: 600px) and (max-width: 959.99px)",
+  md: "(min-width: 960px) and (max-width: 1279.99px)",
+  lg: "(min-width: 1280px) and (max-width: 1719.99px)",
+  xl: "(min-width: 1720px)"
+};
+const BREAKPOINTS_TOKEN = Symbol("cdk-breakpoints");
+function useBreakpoints(value) {
+  const medias = value != null ? value : inject(BREAKPOINTS_TOKEN, BREAKPOINTS);
+  const queryState = useMediaQuery(Object.values(medias));
+  const match = reactive({});
+  watchEffect(() => {
+    const state = queryState.value;
+    Object.entries(medias).forEach(([key, value2]) => {
+      match[key] = state.medias[value2];
+    });
+  });
+  return match;
+}
+const useSharedBreakpoints = createSharedComposable(() => useBreakpoints());
+
+const defaultName$1 = "\u6B64\u9879";
+const zhCNMessages = {
+  default: (_, control) => {
+    const name = control.name;
+    return `${name || ""}\u9A8C\u8BC1\u5931\u8D25`;
+  },
+  required: (_, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u5FC5\u586B`;
+  },
+  requiredTrue: (_, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u5FC5\u987B\u4E3A 'true'`;
+  },
+  email: (_, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u4E0D\u662F\u4E00\u4E2A\u6709\u6548\u7684\u90AE\u7BB1\u5730\u5740`;
+  },
+  min: (err, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u4E0D\u80FD\u5C0F\u4E8E ${err.min}`;
+  },
+  max: (err, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u4E0D\u80FD\u5927\u4E8E ${err.max}`;
+  },
+  minLength: (err, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u7684\u957F\u5EA6\u4E0D\u80FD\u5C0F\u4E8E ${err.minLength}, \u5F53\u524D\u957F\u5EA6\u4E3A ${err.actual}`;
+  },
+  maxLength: (err, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u7684\u957F\u5EA6\u4E0D\u80FD\u5927\u4E8E ${err.maxLength}, \u5F53\u524D\u957F\u5EA6\u4E3A ${err.actual}`;
+  },
+  pattern: (err, control) => {
+    const name = control.name || defaultName$1;
+    return `${name}\u4E0D\u80FD\u5339\u914D '${err.pattern}'`;
+  }
+};
+var __defProp$1$f = Object.defineProperty;
+var __defProps$p = Object.defineProperties;
+var __getOwnPropDescs$p = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$h = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$h = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$h = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$f = (obj, key, value) => key in obj ? __defProp$1$f(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$f = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1$h.call(b, prop))
+      __defNormalProp$1$f(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$h)
+    for (var prop of __getOwnPropSymbols$1$h(b)) {
+      if (__propIsEnum$1$h.call(b, prop))
+        __defNormalProp$1$f(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$p = (a, b) => __defProps$p(a, __getOwnPropDescs$p(b));
+const emailRegexp = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+const _Validators = class {
+  static setMessages(messages) {
+    _Validators.messages = __spreadValues$1$f(__spreadValues$1$f({}, _Validators.messages), messages);
+  }
+  static getError(key, control, errorContext = {}) {
+    let message = void 0;
+    const validMessage = _Validators.messages[key] || _Validators.messages.default || void 0;
+    if (isFunction(validMessage)) {
+      message = validMessage(errorContext, control);
+    } else {
+      message = validMessage;
+    }
+    return __spreadProps$p(__spreadValues$1$f({}, errorContext), { message });
+  }
+  static required(value, control) {
+    if (isEmpty(value)) {
+      return { required: _Validators.getError("required", control) };
+    }
+    return void 0;
+  }
+  static requiredTrue(value, control) {
+    if (value === true) {
+      return void 0;
+    }
+    return { requiredTrue: _Validators.getError("requiredTrue", control, { actual: value }) };
+  }
+  static email(value, control) {
+    if (isEmpty(value) || emailRegexp.test(value)) {
+      return void 0;
+    }
+    return { email: _Validators.getError("email", control, { actual: value }) };
+  }
+  static min(min) {
+    return (value, control) => {
+      if (isEmpty(value) || !isNumeric(value) || Number(value) >= min) {
+        return void 0;
+      }
+      return { min: _Validators.getError("min", control, { min, actual: value }) };
+    };
+  }
+  static max(max) {
+    return (value, control) => {
+      if (isEmpty(value) || !isNumeric(value) || Number(value) <= max) {
+        return void 0;
+      }
+      return { max: _Validators.getError("max", control, { max, actual: value }) };
+    };
+  }
+  static minLength(minLength) {
+    return (value, control) => {
+      if (isEmpty(value) || !hasLength(value) || value.length >= minLength) {
+        return void 0;
+      }
+      return { minLength: _Validators.getError("minLength", control, { minLength, actual: value.length }) };
+    };
+  }
+  static maxLength(maxLength) {
+    return (value, control) => {
+      if (isEmpty(value) || !hasLength(value) || value.length <= maxLength) {
+        return void 0;
+      }
+      return { maxLength: _Validators.getError("maxLength", control, { maxLength, actual: value.length }) };
+    };
+  }
+  static pattern(pattern) {
+    if (!pattern) {
+      return _Validators.nullValidator;
+    }
+    let regex;
+    let regexStr;
+    if (typeof pattern === "string") {
+      regexStr = "";
+      if (pattern.charAt(0) !== "^") {
+        regexStr += "^";
+      }
+      regexStr += pattern;
+      if (pattern.charAt(pattern.length - 1) !== "$") {
+        regexStr += "$";
+      }
+      regex = new RegExp(regexStr);
+    } else {
+      regexStr = pattern.toString();
+      regex = pattern;
+    }
+    return (value, control) => {
+      if (isEmpty(value) || regex.test(value)) {
+        return void 0;
+      }
+      return { pattern: _Validators.getError("pattern", control, { pattern: regexStr, actual: value }) };
+    };
+  }
+  static nullValidator(_, _control) {
+    return void 0;
+  }
+  static compose(validators) {
+    if (!validators) {
+      return void 0;
+    }
+    const presentValidators = validators.filter(isFunction);
+    if (presentValidators.length == 0) {
+      return void 0;
+    }
+    return (value, control) => mergeMessages(executeValidators(value, control, presentValidators));
+  }
+  static composeAsync(validators) {
+    if (!validators) {
+      return void 0;
+    }
+    const presentValidators = validators.filter(isFunction);
+    if (presentValidators.length == 0) {
+      return void 0;
+    }
+    return (value, control) => {
+      const ValidateErrors = executeValidators(value, control, presentValidators);
+      return Promise.all(ValidateErrors).then(mergeMessages);
+    };
+  }
+};
+let Validators = _Validators;
+Validators.messages = zhCNMessages;
+function isEmpty(val) {
+  return isNil(val) || val.length === 0 && (isString(val) || isArray$1(val));
+}
+function hasLength(val) {
+  return !isNil(val) && isNumber(val.length);
+}
+function executeValidators(value, control, validators) {
+  return validators.map((validator) => validator(value, control));
+}
+function mergeMessages(validateErrors) {
+  let res = {};
+  validateErrors.forEach((errors) => {
+    res = isNil(errors) ? res : __spreadValues$1$f(__spreadValues$1$f({}, res), errors);
+  });
+  return Object.keys(res).length === 0 ? void 0 : res;
+}
+var __defProp$x = Object.defineProperty;
+var __getOwnPropSymbols$D = Object.getOwnPropertySymbols;
+var __hasOwnProp$D = Object.prototype.hasOwnProperty;
+var __propIsEnum$D = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$x = (obj, key, value) => key in obj ? __defProp$x(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$x = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$D.call(b, prop))
+      __defNormalProp$x(a, prop, b[prop]);
+  if (__getOwnPropSymbols$D)
+    for (var prop of __getOwnPropSymbols$D(b)) {
+      if (__propIsEnum$D.call(b, prop))
+        __defNormalProp$x(a, prop, b[prop]);
+    }
+  return a;
+};
+var __async$a = (__this, __arguments, generator) => {
+  return new Promise((resolve, reject) => {
+    var fulfilled = (value) => {
+      try {
+        step(generator.next(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var rejected = (value) => {
+      try {
+        step(generator.throw(value));
+      } catch (e) {
+        reject(e);
+      }
+    };
+    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
+    step((generator = generator.apply(__this, __arguments)).next());
+  });
+};
+function isOptions(val) {
+  return isPlainObject(val);
+}
+function toValidator(validator) {
+  return isArray$1(validator) ? Validators.compose(validator) : validator;
+}
+function toAsyncValidator(asyncValidator) {
+  return isArray$1(asyncValidator) ? Validators.composeAsync(asyncValidator) : asyncValidator;
+}
+let controlId = 0;
+class AbstractControl {
+  constructor(controls, validatorOrOptions, asyncValidator, initValue) {
+    this.uid = controlId++;
+    this._blurred = ref(false);
+    this._dirty = ref(false);
+    this._controls = shallowRef(controls);
+    this._valueRef = shallowRef(initValue != null ? initValue : this._calculateInitValue());
+    this._forEachControls((control) => control.setParent(this));
+    this._convertOptions(validatorOrOptions, asyncValidator);
+    this._init();
+  }
+  get parent() {
+    return this._parent;
+  }
+  get root() {
+    let root = this;
+    while (root.parent) {
+      root = root.parent;
+    }
+    return root;
+  }
+  get trigger() {
+    var _a, _b, _c;
+    return (_c = (_b = this._trigger) != null ? _b : (_a = this._parent) == null ? void 0 : _a.trigger) != null ? _c : "change";
+  }
+  get trim() {
+    var _a, _b, _c;
+    return (_c = (_b = this._trim) != null ? _b : (_a = this._parent) == null ? void 0 : _a.trim) != null ? _c : false;
+  }
+  reset() {
+    if (this._controls.value) {
+      this._forEachControls((control) => control.reset());
+    } else {
+      this._valueRef.value = this._calculateInitValue();
+      this.markAsUnblurred();
+      this.markAsPristine();
+    }
+  }
+  validate() {
+    return __async$a(this, null, function* () {
+      if (this._controls.value) {
+        const validates = [];
+        this._forEachControls((control) => validates.push(control.validate()));
+        if (validates.length > 0) {
+          yield Promise.all(validates);
+        }
+      }
+      return this._validate();
+    });
+  }
+  disable() {
+    this._disabled.value = true;
+    this._errors.value = void 0;
+    if (this._controls.value) {
+      this._forEachControls((control) => control.disable());
+    }
+  }
+  enable() {
+    this._disabled.value = false;
+    this._validate();
+    if (this._controls.value) {
+      this._forEachControls((control) => control.enable());
+    }
+  }
+  markAsBlurred() {
+    if (this._controls.value) {
+      this._forEachControls((control) => control.markAsBlurred());
+    } else {
+      this._blurred.value = true;
+    }
+    if (this.trigger === "blur") {
+      this._validate();
+    }
+  }
+  markAsUnblurred() {
+    if (this._controls.value) {
+      this._forEachControls((control) => control.markAsUnblurred());
+    } else {
+      this._blurred.value = false;
+    }
+  }
+  markAsDirty() {
+    if (this._controls.value) {
+      this._forEachControls((control) => control.markAsDirty());
+    } else {
+      this._dirty.value = true;
+    }
+  }
+  markAsPristine() {
+    if (this._controls.value) {
+      this._forEachControls((control) => control.markAsPristine());
+    } else {
+      this._dirty.value = false;
+    }
+  }
+  setValidator(newValidator) {
+    this._validators = toValidator(newValidator);
+  }
+  setAsyncValidator(newAsyncValidator) {
+    this._asyncValidators = toAsyncValidator(newAsyncValidator);
+  }
+  get(path) {
+    if (isNil(path)) {
+      return void 0;
+    }
+    if (!isArray$1(path)) {
+      path = path.toString().split(".");
+    }
+    if (path.length === 0) {
+      return void 0;
+    }
+    let controlToFind = this;
+    path.forEach((name) => {
+      if (controlToFind instanceof FormGroup) {
+        const controls = controlToFind.controls.value;
+        controlToFind = controls.hasOwnProperty(name) ? controls[name] : void 0;
+      } else if (controlToFind instanceof FormArray) {
+        controlToFind = controlToFind.at(name);
+      } else {
+        controlToFind = void 0;
+      }
+    });
+    return controlToFind;
+  }
+  setErrors(errors) {
+    this._errors.value = errors;
+  }
+  getError(errorCode, path) {
+    var _a, _b;
+    const control = path ? this.get(path) : this;
+    return (_b = (_a = control == null ? void 0 : control._errors) == null ? void 0 : _a.value) == null ? void 0 : _b[errorCode];
+  }
+  hasError(errorCode, path) {
+    return !!this.getError(errorCode, path);
+  }
+  setParent(parent) {
+    this._parent = parent;
+  }
+  watchValue(cb, options) {
+    return watch(this.valueRef, cb, options);
+  }
+  watchStatus(cb, options) {
+    return watch(this.status, cb, options);
+  }
+  _validate() {
+    return __async$a(this, null, function* () {
+      let newErrors = void 0;
+      if (!this._disabled.value) {
+        let value = void 0;
+        if (this._validators) {
+          value = this.getValue();
+          newErrors = this._validators(value, this);
+        }
+        if (isNil(newErrors) && this._asyncValidators) {
+          value = this._validators ? value : this.getValue();
+          this._status.value = "validating";
+          newErrors = yield this._asyncValidators(value, this);
+        }
+      }
+      this.setErrors(newErrors);
+      return newErrors;
+    });
+  }
+  _convertOptions(validatorOrOptions, asyncValidator) {
+    var _a, _b;
+    let disabled = false;
+    if (isOptions(validatorOrOptions)) {
+      this.name = validatorOrOptions.name;
+      this._trigger = (_a = validatorOrOptions.trigger) != null ? _a : this._trigger;
+      this._trim = (_b = validatorOrOptions.trim) != null ? _b : this._trim;
+      this._validators = toValidator(validatorOrOptions.validators);
+      this._asyncValidators = toAsyncValidator(validatorOrOptions.asyncValidators);
+      if (validatorOrOptions.disabled) {
+        disabled = true;
+        const controls = this._controls.value;
+        if (controls) {
+          for (const key in controls) {
+            controls[key].disable();
+          }
+        }
+      }
+    } else {
+      this._validators = toValidator(validatorOrOptions);
+      this._asyncValidators = toAsyncValidator(asyncValidator);
+    }
+    this._disabled = ref(disabled);
+  }
+  _init() {
+    this.controls = computed(() => this._controls.value);
+    this.valueRef = computed(() => this._valueRef.value);
+    this._initErrorsAndStatus();
+    this.errors = computed(() => this._errors.value);
+    this.status = computed(() => {
+      const selfStatus = this._status.value;
+      if (selfStatus === "valid") {
+        return this._controlsStatus.value;
+      }
+      return selfStatus;
+    });
+    this.valid = computed(() => this.status.value === "valid");
+    this.invalid = computed(() => this.status.value === "invalid");
+    this.validating = computed(() => this.status.value === "validating");
+    this.disabled = computed(() => this._disabled.value);
+    this.blurred = computed(() => this._blurred.value);
+    this.unblurred = computed(() => !this._blurred.value);
+    this.dirty = computed(() => this._dirty.value);
+    this.pristine = computed(() => !this._dirty.value);
+  }
+  _initErrorsAndStatus() {
+    const disabled = this._disabled.value;
+    let value;
+    let errors;
+    let status = "valid";
+    let controlsStatus = "valid";
+    if (!disabled) {
+      if (this._validators) {
+        value = this.getValue();
+        errors = this._validators(value, this);
+      }
+      if (errors) {
+        status = "invalid";
+      }
+      const controls = this._controls.value;
+      if (controls) {
+        for (const key in controls) {
+          const controlStatus = controls[key].status.value;
+          if (controlStatus === "invalid") {
+            controlsStatus = "invalid";
+            break;
+          }
+        }
+      }
+    }
+    this._errors = shallowRef(errors);
+    this._status = ref(status);
+    this._controlsStatus = ref(controlsStatus);
+    if (!disabled && status === "valid" && controlsStatus === "valid" && this._asyncValidators) {
+      value = this._validators ? value : this.getValue();
+      this._status.value = "validating";
+      this._asyncValidators(value, this).then((asyncErrors) => {
+        this._errors.value = asyncErrors;
+        this._status.value = asyncErrors ? "invalid" : "valid";
+      });
+    }
+  }
+}
+class FormGroup extends AbstractControl {
+  constructor(controls, validatorOrOptions, asyncValidator) {
+    super(controls, validatorOrOptions, asyncValidator);
+    this._watchValid();
+    this._watchValue();
+    this._watchStatus();
+    this._watchBlurred();
+    this._watchDirty();
+  }
+  setValue(value, options = {}) {
+    Object.keys(value).forEach((key) => {
+      this._controls.value[key].setValue(value[key], options);
+    });
+  }
+  getValue() {
+    const value = {};
+    this._forEachControls((control, key) => {
+      value[key] = control.getValue();
+    });
+    return value;
+  }
+  _calculateInitValue() {
+    return this.getValue();
+  }
+  _forEachControls(cb) {
+    const controls = this._controls.value;
+    Object.keys(controls).forEach((key) => cb(controls[key], key));
+  }
+  addControl(name, control) {
+    const controls = __spreadValues$x({}, this._controls.value);
+    if (hasOwnProperty(controls, name)) {
+      return;
+    }
+    control.setParent(this);
+    controls[name] = control;
+    this._controls.value = controls;
+  }
+  removeControl(name) {
+    const controls = __spreadValues$x({}, this._controls.value);
+    delete controls[name];
+    this._controls.value = controls;
+  }
+  setControl(name, control) {
+    control.setParent(this);
+    const controls = __spreadValues$x({}, this._controls.value);
+    controls[name] = control;
+    this._controls.value = controls;
+  }
+  _watchValid() {
+    watch(this._valueRef, () => {
+      if (this.trigger === "change") {
+        this._validate();
+      }
+    });
+  }
+  _watchValue() {
+    watchEffect(() => {
+      this._valueRef.value = this.getValue();
+    });
+  }
+  _watchStatus() {
+    watchEffect(() => {
+      this._status.value = this._errors.value ? "invalid" : "valid";
+    });
+    watchEffect(() => {
+      let status = "valid";
+      const controls = this._controls.value;
+      for (const key in controls) {
+        const controlStatus = controls[key].status.value;
+        if (controlStatus === "invalid") {
+          status = "invalid";
+          break;
+        } else if (controlStatus === "validating") {
+          status = "validating";
+        }
+      }
+      this._controlsStatus.value = status;
+    });
+  }
+  _watchBlurred() {
+    watchEffect(() => {
+      let blurred = false;
+      const controls = this._controls.value;
+      for (const key in controls) {
+        if (controls[key].blurred.value) {
+          blurred = true;
+          break;
+        }
+      }
+      this._blurred.value = blurred;
+    });
+  }
+  _watchDirty() {
+    watchEffect(() => {
+      let dirty = false;
+      const controls = this._controls.value;
+      for (const key in controls) {
+        if (controls[key].dirty.value) {
+          dirty = true;
+          break;
+        }
+      }
+      this._dirty.value = dirty;
+    });
+  }
+}
+class FormArray extends AbstractControl {
+  constructor(controls, validatorOrOptions, asyncValidator) {
+    super(controls, validatorOrOptions, asyncValidator);
+    this.length = computed(() => this._controls.value.length);
+    this._watchValid();
+    this._watchValue();
+    this._watchStatus();
+    this._watchBlurred();
+    this._watchDirty();
+  }
+  setValue(value, options = {}) {
+    value.forEach((item, index) => {
+      if (this.at(index)) {
+        this.at(index).setValue(item, options);
+      }
+    });
+  }
+  getValue() {
+    return this._controls.value.map((control) => control.getValue());
+  }
+  _calculateInitValue() {
+    return this.getValue();
+  }
+  _forEachControls(cb) {
+    this._controls.value.forEach(cb);
+  }
+  at(index) {
+    return this._controls.value[index];
+  }
+  push(control) {
+    control.setParent(this);
+    this._controls.value = [...this._controls.value, control];
+  }
+  insert(index, control) {
+    control.setParent(this);
+    const controls = [...this._controls.value];
+    controls.splice(index, 0, control);
+    this._controls.value = controls;
+  }
+  removeAt(index) {
+    const controls = [...this._controls.value];
+    controls.splice(index, 1);
+    this._controls.value = controls;
+  }
+  setControl(index, control) {
+    control.setParent(this);
+    const controls = [...this._controls.value];
+    controls.splice(index, 1, control);
+    this._controls.value = controls;
+  }
+  _watchValid() {
+    watch(this._valueRef, () => {
+      if (this.trigger === "change") {
+        this._validate();
+      }
+    });
+  }
+  _watchValue() {
+    watchEffect(() => {
+      this._valueRef.value = this.getValue();
+    });
+  }
+  _watchStatus() {
+    watchEffect(() => {
+      this._status.value = this._errors.value ? "invalid" : "valid";
+    });
+    watchEffect(() => {
+      let status = "valid";
+      const controls = this._controls.value;
+      for (const control of controls) {
+        const controlStatus = control.status.value;
+        if (controlStatus === "invalid") {
+          status = "invalid";
+          break;
+        } else if (controlStatus === "validating") {
+          status = "validating";
+        }
+      }
+      this._controlsStatus.value = status;
+    });
+  }
+  _watchBlurred() {
+    watchEffect(() => {
+      let blurred = false;
+      const controls = this._controls.value;
+      for (const control of controls) {
+        if (control.blurred.value) {
+          blurred = true;
+          break;
+        }
+      }
+      this._blurred.value = blurred;
+    });
+  }
+  _watchDirty() {
+    watchEffect(() => {
+      let dirty = false;
+      const controls = this._controls.value;
+      for (const control of controls) {
+        if (control.dirty.value) {
+          dirty = true;
+          break;
+        }
+      }
+      this._dirty.value = dirty;
+    });
+  }
+}
+const isAbstractControl = (val) => {
+  return val instanceof AbstractControl;
+};
+const controlPropDef = [String, Number, Object];
+const FORMS_CONTROL_TOKEN = Symbol("cdk-forms-control");
+function useValueControl(options = {}) {
+  const { controlKey = "control" } = options;
+  const { props } = getCurrentInstance();
+  const parentControl = inject(FORMS_CONTROL_TOKEN, shallowRef());
+  const control = shallowRef();
+  let watchStop;
+  watch([() => props[controlKey], parentControl], ([controlOrPath, pControl]) => {
+    if (watchStop) {
+      watchStop();
+      watchStop = void 0;
+    }
+    if (isAbstractControl(controlOrPath)) {
+      control.value = controlOrPath;
+    } else if (!!pControl && !isNil(controlOrPath)) {
+      watchStop = watch(pControl.controls, () => {
+        const _control = pControl.get(controlOrPath);
+        if (process.env.NODE_ENV !== "production" && !_control) {
+          Logger.warn("cdk/forms", `not find control by [${controlOrPath}]`);
+        }
+        control.value = _control;
+      }, { immediate: true });
+    }
+  }, { immediate: true });
+  return control;
+}
+function useValueAccessor(options) {
+  const { control, valueKey = "value", disabledKey = "disabled" } = options;
+  const { props } = getCurrentInstance();
+  const accessor = shallowReactive({});
+  let watchStop;
+  watch(control, (currControl) => {
+    if (watchStop) {
+      watchStop();
+      watchStop = void 0;
+    }
+    if (currControl) {
+      accessor.valueRef = currControl.valueRef;
+      accessor.disabled = currControl.disabled;
+      accessor.setValue = (value) => currControl.setValue(value, { dirty: true });
+      accessor.markAsBlurred = () => currControl.markAsBlurred();
+    } else {
+      const tempRef = ref(props[valueKey]);
+      watchStop = watch(() => props[valueKey], (value) => tempRef.value = value);
+      accessor.valueRef = computed(() => {
+        var _a;
+        return (_a = props[valueKey]) != null ? _a : tempRef.value;
+      });
+      accessor.disabled = computed(() => props[disabledKey]);
+      accessor.setValue = (value) => {
+        if (value != toRaw(accessor.valueRef.value)) {
+          tempRef.value = value;
+          callEmit(props[`onUpdate:${valueKey}`], value);
+        }
+      };
+      accessor.markAsBlurred = NoopFunction;
+    }
+  }, { immediate: true });
+  return accessor;
+}
+
+var top = 'top';
+var bottom = 'bottom';
+var right = 'right';
+var left = 'left';
+var auto = 'auto';
+var basePlacements = [top, bottom, right, left];
+var start = 'start';
+var end = 'end';
+var clippingParents = 'clippingParents';
+var viewport = 'viewport';
+var popper = 'popper';
+var reference = 'reference';
+var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
+  return acc.concat([placement + "-" + start, placement + "-" + end]);
+}, []);
+var placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
+  return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
+}, []); // modifiers that need to read the DOM
+
+var beforeRead = 'beforeRead';
+var read = 'read';
+var afterRead = 'afterRead'; // pure-logic modifiers
+
+var beforeMain = 'beforeMain';
+var main = 'main';
+var afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
+
+var beforeWrite = 'beforeWrite';
+var write = 'write';
+var afterWrite = 'afterWrite';
+var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
+
+function getNodeName(element) {
+  return element ? (element.nodeName || '').toLowerCase() : null;
+}
+
+function getWindow(node) {
+  if (node == null) {
+    return window;
+  }
+
+  if (node.toString() !== '[object Window]') {
+    var ownerDocument = node.ownerDocument;
+    return ownerDocument ? ownerDocument.defaultView || window : window;
+  }
+
+  return node;
+}
+
+function isElement(node) {
+  var OwnElement = getWindow(node).Element;
+  return node instanceof OwnElement || node instanceof Element;
+}
+
+function isHTMLElement(node) {
+  var OwnElement = getWindow(node).HTMLElement;
+  return node instanceof OwnElement || node instanceof HTMLElement;
+}
+
+function isShadowRoot(node) {
+  // IE 11 has no ShadowRoot
+  if (typeof ShadowRoot === 'undefined') {
+    return false;
+  }
+
+  var OwnElement = getWindow(node).ShadowRoot;
+  return node instanceof OwnElement || node instanceof ShadowRoot;
+}
+
+// and applies them to the HTMLElements such as popper and arrow
+
+function applyStyles(_ref) {
+  var state = _ref.state;
+  Object.keys(state.elements).forEach(function (name) {
+    var style = state.styles[name] || {};
+    var attributes = state.attributes[name] || {};
+    var element = state.elements[name]; // arrow is optional + virtual elements
+
+    if (!isHTMLElement(element) || !getNodeName(element)) {
+      return;
+    } // Flow doesn't support to extend this property, but it's the most
+    // effective way to apply styles to an HTMLElement
+    // $FlowFixMe[cannot-write]
+
+
+    Object.assign(element.style, style);
+    Object.keys(attributes).forEach(function (name) {
+      var value = attributes[name];
+
+      if (value === false) {
+        element.removeAttribute(name);
+      } else {
+        element.setAttribute(name, value === true ? '' : value);
+      }
+    });
+  });
+}
+
+function effect$2(_ref2) {
+  var state = _ref2.state;
+  var initialStyles = {
+    popper: {
+      position: state.options.strategy,
+      left: '0',
+      top: '0',
+      margin: '0'
+    },
+    arrow: {
+      position: 'absolute'
+    },
+    reference: {}
+  };
+  Object.assign(state.elements.popper.style, initialStyles.popper);
+  state.styles = initialStyles;
+
+  if (state.elements.arrow) {
+    Object.assign(state.elements.arrow.style, initialStyles.arrow);
+  }
+
+  return function () {
+    Object.keys(state.elements).forEach(function (name) {
+      var element = state.elements[name];
+      var attributes = state.attributes[name] || {};
+      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
+
+      var style = styleProperties.reduce(function (style, property) {
+        style[property] = '';
+        return style;
+      }, {}); // arrow is optional + virtual elements
+
+      if (!isHTMLElement(element) || !getNodeName(element)) {
+        return;
+      }
+
+      Object.assign(element.style, style);
+      Object.keys(attributes).forEach(function (attribute) {
+        element.removeAttribute(attribute);
+      });
+    });
+  };
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var applyStyles$1 = {
+  name: 'applyStyles',
+  enabled: true,
+  phase: 'write',
+  fn: applyStyles,
+  effect: effect$2,
+  requires: ['computeStyles']
+};
+
+function getBasePlacement(placement) {
+  return placement.split('-')[0];
+}
+
+var max = Math.max;
+var min = Math.min;
+var round = Math.round;
+
+function getBoundingClientRect(element, includeScale) {
+  if (includeScale === void 0) {
+    includeScale = false;
+  }
+
+  var rect = element.getBoundingClientRect();
+  var scaleX = 1;
+  var scaleY = 1;
+
+  if (isHTMLElement(element) && includeScale) {
+    var offsetHeight = element.offsetHeight;
+    var offsetWidth = element.offsetWidth; // Do not attempt to divide by 0, otherwise we get `Infinity` as scale
+    // Fallback to 1 in case both values are `0`
+
+    if (offsetWidth > 0) {
+      scaleX = round(rect.width) / offsetWidth || 1;
+    }
+
+    if (offsetHeight > 0) {
+      scaleY = round(rect.height) / offsetHeight || 1;
+    }
+  }
+
+  return {
+    width: rect.width / scaleX,
+    height: rect.height / scaleY,
+    top: rect.top / scaleY,
+    right: rect.right / scaleX,
+    bottom: rect.bottom / scaleY,
+    left: rect.left / scaleX,
+    x: rect.left / scaleX,
+    y: rect.top / scaleY
+  };
+}
+
+// means it doesn't take into account transforms.
+
+function getLayoutRect(element) {
+  var clientRect = getBoundingClientRect(element); // Use the clientRect sizes if it's not been transformed.
+  // Fixes https://github.com/popperjs/popper-core/issues/1223
+
+  var width = element.offsetWidth;
+  var height = element.offsetHeight;
+
+  if (Math.abs(clientRect.width - width) <= 1) {
+    width = clientRect.width;
+  }
+
+  if (Math.abs(clientRect.height - height) <= 1) {
+    height = clientRect.height;
+  }
+
+  return {
+    x: element.offsetLeft,
+    y: element.offsetTop,
+    width: width,
+    height: height
+  };
+}
+
+function contains(parent, child) {
+  var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
+
+  if (parent.contains(child)) {
+    return true;
+  } // then fallback to custom implementation with Shadow DOM support
+  else if (rootNode && isShadowRoot(rootNode)) {
+      var next = child;
+
+      do {
+        if (next && parent.isSameNode(next)) {
+          return true;
+        } // $FlowFixMe[prop-missing]: need a better way to handle this...
+
+
+        next = next.parentNode || next.host;
+      } while (next);
+    } // Give up, the result is false
+
+
+  return false;
+}
+
+function getComputedStyle$1(element) {
+  return getWindow(element).getComputedStyle(element);
+}
+
+function isTableElement(element) {
+  return ['table', 'td', 'th'].indexOf(getNodeName(element)) >= 0;
+}
+
+function getDocumentElement(element) {
+  // $FlowFixMe[incompatible-return]: assume body is always available
+  return ((isElement(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
+  element.document) || window.document).documentElement;
+}
+
+function getParentNode(element) {
+  if (getNodeName(element) === 'html') {
+    return element;
+  }
+
+  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
+    // $FlowFixMe[incompatible-return]
+    // $FlowFixMe[prop-missing]
+    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
+    element.parentNode || ( // DOM Element detected
+    isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
+    // $FlowFixMe[incompatible-call]: HTMLElement is a Node
+    getDocumentElement(element) // fallback
+
+  );
+}
+
+function getTrueOffsetParent(element) {
+  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
+  getComputedStyle$1(element).position === 'fixed') {
+    return null;
+  }
+
+  return element.offsetParent;
+} // `.offsetParent` reports `null` for fixed elements, while absolute elements
+// return the containing block
+
+
+function getContainingBlock(element) {
+  var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
+  var isIE = navigator.userAgent.indexOf('Trident') !== -1;
+
+  if (isIE && isHTMLElement(element)) {
+    // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
+    var elementCss = getComputedStyle$1(element);
+
+    if (elementCss.position === 'fixed') {
+      return null;
+    }
+  }
+
+  var currentNode = getParentNode(element);
+
+  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
+    var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
+    // create a containing block.
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
+
+    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
+      return currentNode;
+    } else {
+      currentNode = currentNode.parentNode;
+    }
+  }
+
+  return null;
+} // Gets the closest ancestor positioned element. Handles some edge cases,
+// such as table ancestors and cross browser bugs.
+
+
+function getOffsetParent(element) {
+  var window = getWindow(element);
+  var offsetParent = getTrueOffsetParent(element);
+
+  while (offsetParent && isTableElement(offsetParent) && getComputedStyle$1(offsetParent).position === 'static') {
+    offsetParent = getTrueOffsetParent(offsetParent);
+  }
+
+  if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle$1(offsetParent).position === 'static')) {
+    return window;
+  }
+
+  return offsetParent || getContainingBlock(element) || window;
+}
+
+function getMainAxisFromPlacement(placement) {
+  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
+}
+
+function within(min$1, value, max$1) {
+  return max(min$1, min(value, max$1));
+}
+function withinMaxClamp(min, value, max) {
+  var v = within(min, value, max);
+  return v > max ? max : v;
+}
+
+function getFreshSideObject() {
+  return {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0
+  };
+}
+
+function mergePaddingObject(paddingObject) {
+  return Object.assign({}, getFreshSideObject(), paddingObject);
+}
+
+function expandToHashMap(value, keys) {
+  return keys.reduce(function (hashMap, key) {
+    hashMap[key] = value;
+    return hashMap;
+  }, {});
+}
+
+var toPaddingObject = function toPaddingObject(padding, state) {
+  padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {
+    placement: state.placement
+  })) : padding;
+  return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
+};
+
+function arrow(_ref) {
+  var _state$modifiersData$;
+
+  var state = _ref.state,
+      name = _ref.name,
+      options = _ref.options;
+  var arrowElement = state.elements.arrow;
+  var popperOffsets = state.modifiersData.popperOffsets;
+  var basePlacement = getBasePlacement(state.placement);
+  var axis = getMainAxisFromPlacement(basePlacement);
+  var isVertical = [left, right].indexOf(basePlacement) >= 0;
+  var len = isVertical ? 'height' : 'width';
+
+  if (!arrowElement || !popperOffsets) {
+    return;
+  }
+
+  var paddingObject = toPaddingObject(options.padding, state);
+  var arrowRect = getLayoutRect(arrowElement);
+  var minProp = axis === 'y' ? top : left;
+  var maxProp = axis === 'y' ? bottom : right;
+  var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
+  var startDiff = popperOffsets[axis] - state.rects.reference[axis];
+  var arrowOffsetParent = getOffsetParent(arrowElement);
+  var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
+  var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
+  // outside of the popper bounds
+
+  var min = paddingObject[minProp];
+  var max = clientSize - arrowRect[len] - paddingObject[maxProp];
+  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
+  var offset = within(min, center, max); // Prevents breaking syntax highlighting...
+
+  var axisProp = axis;
+  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
+}
+
+function effect$1(_ref2) {
+  var state = _ref2.state,
+      options = _ref2.options;
+  var _options$element = options.element,
+      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
+
+  if (arrowElement == null) {
+    return;
+  } // CSS selector
+
+
+  if (typeof arrowElement === 'string') {
+    arrowElement = state.elements.popper.querySelector(arrowElement);
+
+    if (!arrowElement) {
+      return;
+    }
+  }
+
+  if (process.env.NODE_ENV !== "production") {
+    if (!isHTMLElement(arrowElement)) {
+      console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', 'To use an SVG arrow, wrap it in an HTMLElement that will be used as', 'the arrow.'].join(' '));
+    }
+  }
+
+  if (!contains(state.elements.popper, arrowElement)) {
+    if (process.env.NODE_ENV !== "production") {
+      console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', 'element.'].join(' '));
+    }
+
+    return;
+  }
+
+  state.elements.arrow = arrowElement;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var arrow$1 = {
+  name: 'arrow',
+  enabled: true,
+  phase: 'main',
+  fn: arrow,
+  effect: effect$1,
+  requires: ['popperOffsets'],
+  requiresIfExists: ['preventOverflow']
+};
+
+function getVariation(placement) {
+  return placement.split('-')[1];
+}
+
+var unsetSides = {
+  top: 'auto',
+  right: 'auto',
+  bottom: 'auto',
+  left: 'auto'
+}; // Round the offsets to the nearest suitable subpixel based on the DPR.
+// Zooming can change the DPR, but it seems to report a value that will
+// cleanly divide the values into the appropriate subpixels.
+
+function roundOffsetsByDPR(_ref) {
+  var x = _ref.x,
+      y = _ref.y;
+  var win = window;
+  var dpr = win.devicePixelRatio || 1;
+  return {
+    x: round(x * dpr) / dpr || 0,
+    y: round(y * dpr) / dpr || 0
+  };
+}
+
+function mapToStyles(_ref2) {
+  var _Object$assign2;
+
+  var popper = _ref2.popper,
+      popperRect = _ref2.popperRect,
+      placement = _ref2.placement,
+      variation = _ref2.variation,
+      offsets = _ref2.offsets,
+      position = _ref2.position,
+      gpuAcceleration = _ref2.gpuAcceleration,
+      adaptive = _ref2.adaptive,
+      roundOffsets = _ref2.roundOffsets,
+      isFixed = _ref2.isFixed;
+  var _offsets$x = offsets.x,
+      x = _offsets$x === void 0 ? 0 : _offsets$x,
+      _offsets$y = offsets.y,
+      y = _offsets$y === void 0 ? 0 : _offsets$y;
+
+  var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({
+    x: x,
+    y: y
+  }) : {
+    x: x,
+    y: y
+  };
+
+  x = _ref3.x;
+  y = _ref3.y;
+  var hasX = offsets.hasOwnProperty('x');
+  var hasY = offsets.hasOwnProperty('y');
+  var sideX = left;
+  var sideY = top;
+  var win = window;
+
+  if (adaptive) {
+    var offsetParent = getOffsetParent(popper);
+    var heightProp = 'clientHeight';
+    var widthProp = 'clientWidth';
+
+    if (offsetParent === getWindow(popper)) {
+      offsetParent = getDocumentElement(popper);
+
+      if (getComputedStyle$1(offsetParent).position !== 'static' && position === 'absolute') {
+        heightProp = 'scrollHeight';
+        widthProp = 'scrollWidth';
+      }
+    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
+
+
+    offsetParent = offsetParent;
+
+    if (placement === top || (placement === left || placement === right) && variation === end) {
+      sideY = bottom;
+      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
+      offsetParent[heightProp];
+      y -= offsetY - popperRect.height;
+      y *= gpuAcceleration ? 1 : -1;
+    }
+
+    if (placement === left || (placement === top || placement === bottom) && variation === end) {
+      sideX = right;
+      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
+      offsetParent[widthProp];
+      x -= offsetX - popperRect.width;
+      x *= gpuAcceleration ? 1 : -1;
+    }
+  }
+
+  var commonStyles = Object.assign({
+    position: position
+  }, adaptive && unsetSides);
+
+  var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
+    x: x,
+    y: y
+  }) : {
+    x: x,
+    y: y
+  };
+
+  x = _ref4.x;
+  y = _ref4.y;
+
+  if (gpuAcceleration) {
+    var _Object$assign;
+
+    return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
+  }
+
+  return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
+}
+
+function computeStyles(_ref5) {
+  var state = _ref5.state,
+      options = _ref5.options;
+  var _options$gpuAccelerat = options.gpuAcceleration,
+      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
+      _options$adaptive = options.adaptive,
+      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
+      _options$roundOffsets = options.roundOffsets,
+      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
+
+  if (process.env.NODE_ENV !== "production") {
+    var transitionProperty = getComputedStyle$1(state.elements.popper).transitionProperty || '';
+
+    if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
+      return transitionProperty.indexOf(property) >= 0;
+    })) {
+      console.warn(['Popper: Detected CSS transitions on at least one of the following', 'CSS properties: "transform", "top", "right", "bottom", "left".', '\n\n', 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', 'for smooth transitions, or remove these properties from the CSS', 'transition declaration on the popper element if only transitioning', 'opacity or background-color for example.', '\n\n', 'We recommend using the popper element as a wrapper around an inner', 'element that can have any CSS property transitioned for animations.'].join(' '));
+    }
+  }
+
+  var commonStyles = {
+    placement: getBasePlacement(state.placement),
+    variation: getVariation(state.placement),
+    popper: state.elements.popper,
+    popperRect: state.rects.popper,
+    gpuAcceleration: gpuAcceleration,
+    isFixed: state.options.strategy === 'fixed'
+  };
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
+      offsets: state.modifiersData.popperOffsets,
+      position: state.options.strategy,
+      adaptive: adaptive,
+      roundOffsets: roundOffsets
+    })));
+  }
+
+  if (state.modifiersData.arrow != null) {
+    state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
+      offsets: state.modifiersData.arrow,
+      position: 'absolute',
+      adaptive: false,
+      roundOffsets: roundOffsets
+    })));
+  }
+
+  state.attributes.popper = Object.assign({}, state.attributes.popper, {
+    'data-popper-placement': state.placement
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var computeStyles$1 = {
+  name: 'computeStyles',
+  enabled: true,
+  phase: 'beforeWrite',
+  fn: computeStyles,
+  data: {}
+};
+
+var passive = {
+  passive: true
+};
+
+function effect(_ref) {
+  var state = _ref.state,
+      instance = _ref.instance,
+      options = _ref.options;
+  var _options$scroll = options.scroll,
+      scroll = _options$scroll === void 0 ? true : _options$scroll,
+      _options$resize = options.resize,
+      resize = _options$resize === void 0 ? true : _options$resize;
+  var window = getWindow(state.elements.popper);
+  var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
+
+  if (scroll) {
+    scrollParents.forEach(function (scrollParent) {
+      scrollParent.addEventListener('scroll', instance.update, passive);
+    });
+  }
+
+  if (resize) {
+    window.addEventListener('resize', instance.update, passive);
+  }
+
+  return function () {
+    if (scroll) {
+      scrollParents.forEach(function (scrollParent) {
+        scrollParent.removeEventListener('scroll', instance.update, passive);
+      });
+    }
+
+    if (resize) {
+      window.removeEventListener('resize', instance.update, passive);
+    }
+  };
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var eventListeners = {
+  name: 'eventListeners',
+  enabled: true,
+  phase: 'write',
+  fn: function fn() {},
+  effect: effect,
+  data: {}
+};
+
+var hash$1 = {
+  left: 'right',
+  right: 'left',
+  bottom: 'top',
+  top: 'bottom'
+};
+function getOppositePlacement(placement) {
+  return placement.replace(/left|right|bottom|top/g, function (matched) {
+    return hash$1[matched];
+  });
+}
+
+var hash = {
+  start: 'end',
+  end: 'start'
+};
+function getOppositeVariationPlacement(placement) {
+  return placement.replace(/start|end/g, function (matched) {
+    return hash[matched];
+  });
+}
+
+function getWindowScroll(node) {
+  var win = getWindow(node);
+  var scrollLeft = win.pageXOffset;
+  var scrollTop = win.pageYOffset;
+  return {
+    scrollLeft: scrollLeft,
+    scrollTop: scrollTop
+  };
+}
+
+function getWindowScrollBarX(element) {
+  // If <html> has a CSS width greater than the viewport, then this will be
+  // incorrect for RTL.
+  // Popper 1 is broken in this case and never had a bug report so let's assume
+  // it's not an issue. I don't think anyone ever specifies width on <html>
+  // anyway.
+  // Browsers where the left scrollbar doesn't cause an issue report `0` for
+  // this (e.g. Edge 2019, IE11, Safari)
+  return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
+}
+
+function getViewportRect(element) {
+  var win = getWindow(element);
+  var html = getDocumentElement(element);
+  var visualViewport = win.visualViewport;
+  var width = html.clientWidth;
+  var height = html.clientHeight;
+  var x = 0;
+  var y = 0; // NB: This isn't supported on iOS <= 12. If the keyboard is open, the popper
+  // can be obscured underneath it.
+  // Also, `html.clientHeight` adds the bottom bar height in Safari iOS, even
+  // if it isn't open, so if this isn't available, the popper will be detected
+  // to overflow the bottom of the screen too early.
+
+  if (visualViewport) {
+    width = visualViewport.width;
+    height = visualViewport.height; // Uses Layout Viewport (like Chrome; Safari does not currently)
+    // In Chrome, it returns a value very close to 0 (+/-) but contains rounding
+    // errors due to floating point numbers, so we need to check precision.
+    // Safari returns a number <= 0, usually < -1 when pinch-zoomed
+    // Feature detection fails in mobile emulation mode in Chrome.
+    // Math.abs(win.innerWidth / visualViewport.scale - visualViewport.width) <
+    // 0.001
+    // Fallback here: "Not Safari" userAgent
+
+    if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
+      x = visualViewport.offsetLeft;
+      y = visualViewport.offsetTop;
+    }
+  }
+
+  return {
+    width: width,
+    height: height,
+    x: x + getWindowScrollBarX(element),
+    y: y
+  };
+}
+
+// of the `<html>` and `<body>` rect bounds if horizontally scrollable
+
+function getDocumentRect(element) {
+  var _element$ownerDocumen;
+
+  var html = getDocumentElement(element);
+  var winScroll = getWindowScroll(element);
+  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
+  var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
+  var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
+  var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
+  var y = -winScroll.scrollTop;
+
+  if (getComputedStyle$1(body || html).direction === 'rtl') {
+    x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
+  }
+
+  return {
+    width: width,
+    height: height,
+    x: x,
+    y: y
+  };
+}
+
+function isScrollParent(element) {
+  // Firefox wants us to check `-x` and `-y` variations as well
+  var _getComputedStyle = getComputedStyle$1(element),
+      overflow = _getComputedStyle.overflow,
+      overflowX = _getComputedStyle.overflowX,
+      overflowY = _getComputedStyle.overflowY;
+
+  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
+}
+
+function getScrollParent(node) {
+  if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
+    // $FlowFixMe[incompatible-return]: assume body is always available
+    return node.ownerDocument.body;
+  }
+
+  if (isHTMLElement(node) && isScrollParent(node)) {
+    return node;
+  }
+
+  return getScrollParent(getParentNode(node));
+}
+
+/*
+given a DOM element, return the list of all scroll parents, up the list of ancesors
+until we get to the top window object. This list is what we attach scroll listeners
+to, because if any of these parent elements scroll, we'll need to re-calculate the
+reference element's position.
+*/
+
+function listScrollParents(element, list) {
+  var _element$ownerDocumen;
+
+  if (list === void 0) {
+    list = [];
+  }
+
+  var scrollParent = getScrollParent(element);
+  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
+  var win = getWindow(scrollParent);
+  var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
+  var updatedList = list.concat(target);
+  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
+  updatedList.concat(listScrollParents(getParentNode(target)));
+}
+
+function rectToClientRect(rect) {
+  return Object.assign({}, rect, {
+    left: rect.x,
+    top: rect.y,
+    right: rect.x + rect.width,
+    bottom: rect.y + rect.height
+  });
+}
+
+function getInnerBoundingClientRect(element) {
+  var rect = getBoundingClientRect(element);
+  rect.top = rect.top + element.clientTop;
+  rect.left = rect.left + element.clientLeft;
+  rect.bottom = rect.top + element.clientHeight;
+  rect.right = rect.left + element.clientWidth;
+  rect.width = element.clientWidth;
+  rect.height = element.clientHeight;
+  rect.x = rect.left;
+  rect.y = rect.top;
+  return rect;
+}
+
+function getClientRectFromMixedType(element, clippingParent) {
+  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
+} // A "clipping parent" is an overflowable container with the characteristic of
+// clipping (or hiding) overflowing elements with a position different from
+// `initial`
+
+
+function getClippingParents(element) {
+  var clippingParents = listScrollParents(getParentNode(element));
+  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
+  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
+
+  if (!isElement(clipperElement)) {
+    return [];
+  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
+
+
+  return clippingParents.filter(function (clippingParent) {
+    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
+  });
+} // Gets the maximum area that the element is visible in due to any number of
+// clipping parents
+
+
+function getClippingRect(element, boundary, rootBoundary) {
+  var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
+  var clippingParents = [].concat(mainClippingParents, [rootBoundary]);
+  var firstClippingParent = clippingParents[0];
+  var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {
+    var rect = getClientRectFromMixedType(element, clippingParent);
+    accRect.top = max(rect.top, accRect.top);
+    accRect.right = min(rect.right, accRect.right);
+    accRect.bottom = min(rect.bottom, accRect.bottom);
+    accRect.left = max(rect.left, accRect.left);
+    return accRect;
+  }, getClientRectFromMixedType(element, firstClippingParent));
+  clippingRect.width = clippingRect.right - clippingRect.left;
+  clippingRect.height = clippingRect.bottom - clippingRect.top;
+  clippingRect.x = clippingRect.left;
+  clippingRect.y = clippingRect.top;
+  return clippingRect;
+}
+
+function computeOffsets(_ref) {
+  var reference = _ref.reference,
+      element = _ref.element,
+      placement = _ref.placement;
+  var basePlacement = placement ? getBasePlacement(placement) : null;
+  var variation = placement ? getVariation(placement) : null;
+  var commonX = reference.x + reference.width / 2 - element.width / 2;
+  var commonY = reference.y + reference.height / 2 - element.height / 2;
+  var offsets;
+
+  switch (basePlacement) {
+    case top:
+      offsets = {
+        x: commonX,
+        y: reference.y - element.height
+      };
+      break;
+
+    case bottom:
+      offsets = {
+        x: commonX,
+        y: reference.y + reference.height
+      };
+      break;
+
+    case right:
+      offsets = {
+        x: reference.x + reference.width,
+        y: commonY
+      };
+      break;
+
+    case left:
+      offsets = {
+        x: reference.x - element.width,
+        y: commonY
+      };
+      break;
+
+    default:
+      offsets = {
+        x: reference.x,
+        y: reference.y
+      };
+  }
+
+  var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
+
+  if (mainAxis != null) {
+    var len = mainAxis === 'y' ? 'height' : 'width';
+
+    switch (variation) {
+      case start:
+        offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
+        break;
+
+      case end:
+        offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
+        break;
+    }
+  }
+
+  return offsets;
+}
+
+function detectOverflow(state, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  var _options = options,
+      _options$placement = _options.placement,
+      placement = _options$placement === void 0 ? state.placement : _options$placement,
+      _options$boundary = _options.boundary,
+      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
+      _options$rootBoundary = _options.rootBoundary,
+      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
+      _options$elementConte = _options.elementContext,
+      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
+      _options$altBoundary = _options.altBoundary,
+      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
+      _options$padding = _options.padding,
+      padding = _options$padding === void 0 ? 0 : _options$padding;
+  var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
+  var altContext = elementContext === popper ? reference : popper;
+  var popperRect = state.rects.popper;
+  var element = state.elements[altBoundary ? altContext : elementContext];
+  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
+  var referenceClientRect = getBoundingClientRect(state.elements.reference);
+  var popperOffsets = computeOffsets({
+    reference: referenceClientRect,
+    element: popperRect,
+    strategy: 'absolute',
+    placement: placement
+  });
+  var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
+  var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
+  // 0 or negative = within the clipping rect
+
+  var overflowOffsets = {
+    top: clippingClientRect.top - elementClientRect.top + paddingObject.top,
+    bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,
+    left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
+    right: elementClientRect.right - clippingClientRect.right + paddingObject.right
+  };
+  var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element
+
+  if (elementContext === popper && offsetData) {
+    var offset = offsetData[placement];
+    Object.keys(overflowOffsets).forEach(function (key) {
+      var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
+      var axis = [top, bottom].indexOf(key) >= 0 ? 'y' : 'x';
+      overflowOffsets[key] += offset[axis] * multiply;
+    });
+  }
+
+  return overflowOffsets;
+}
+
+function computeAutoPlacement(state, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  var _options = options,
+      placement = _options.placement,
+      boundary = _options.boundary,
+      rootBoundary = _options.rootBoundary,
+      padding = _options.padding,
+      flipVariations = _options.flipVariations,
+      _options$allowedAutoP = _options.allowedAutoPlacements,
+      allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
+  var variation = getVariation(placement);
+  var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
+    return getVariation(placement) === variation;
+  }) : basePlacements;
+  var allowedPlacements = placements$1.filter(function (placement) {
+    return allowedAutoPlacements.indexOf(placement) >= 0;
+  });
+
+  if (allowedPlacements.length === 0) {
+    allowedPlacements = placements$1;
+
+    if (process.env.NODE_ENV !== "production") {
+      console.error(['Popper: The `allowedAutoPlacements` option did not allow any', 'placements. Ensure the `placement` option matches the variation', 'of the allowed placements.', 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(' '));
+    }
+  } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
+
+
+  var overflows = allowedPlacements.reduce(function (acc, placement) {
+    acc[placement] = detectOverflow(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      padding: padding
+    })[getBasePlacement(placement)];
+    return acc;
+  }, {});
+  return Object.keys(overflows).sort(function (a, b) {
+    return overflows[a] - overflows[b];
+  });
+}
+
+function getExpandedFallbackPlacements(placement) {
+  if (getBasePlacement(placement) === auto) {
+    return [];
+  }
+
+  var oppositePlacement = getOppositePlacement(placement);
+  return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
+}
+
+function flip(_ref) {
+  var state = _ref.state,
+      options = _ref.options,
+      name = _ref.name;
+
+  if (state.modifiersData[name]._skip) {
+    return;
+  }
+
+  var _options$mainAxis = options.mainAxis,
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
+      specifiedFallbackPlacements = options.fallbackPlacements,
+      padding = options.padding,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      _options$flipVariatio = options.flipVariations,
+      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
+      allowedAutoPlacements = options.allowedAutoPlacements;
+  var preferredPlacement = state.options.placement;
+  var basePlacement = getBasePlacement(preferredPlacement);
+  var isBasePlacement = basePlacement === preferredPlacement;
+  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
+  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
+    return acc.concat(getBasePlacement(placement) === auto ? computeAutoPlacement(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      padding: padding,
+      flipVariations: flipVariations,
+      allowedAutoPlacements: allowedAutoPlacements
+    }) : placement);
+  }, []);
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var checksMap = new Map();
+  var makeFallbackChecks = true;
+  var firstFittingPlacement = placements[0];
+
+  for (var i = 0; i < placements.length; i++) {
+    var placement = placements[i];
+
+    var _basePlacement = getBasePlacement(placement);
+
+    var isStartVariation = getVariation(placement) === start;
+    var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
+    var len = isVertical ? 'width' : 'height';
+    var overflow = detectOverflow(state, {
+      placement: placement,
+      boundary: boundary,
+      rootBoundary: rootBoundary,
+      altBoundary: altBoundary,
+      padding: padding
+    });
+    var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
+
+    if (referenceRect[len] > popperRect[len]) {
+      mainVariationSide = getOppositePlacement(mainVariationSide);
+    }
+
+    var altVariationSide = getOppositePlacement(mainVariationSide);
+    var checks = [];
+
+    if (checkMainAxis) {
+      checks.push(overflow[_basePlacement] <= 0);
+    }
+
+    if (checkAltAxis) {
+      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
+    }
+
+    if (checks.every(function (check) {
+      return check;
+    })) {
+      firstFittingPlacement = placement;
+      makeFallbackChecks = false;
+      break;
+    }
+
+    checksMap.set(placement, checks);
+  }
+
+  if (makeFallbackChecks) {
+    // `2` may be desired in some cases – research later
+    var numberOfChecks = flipVariations ? 3 : 1;
+
+    var _loop = function _loop(_i) {
+      var fittingPlacement = placements.find(function (placement) {
+        var checks = checksMap.get(placement);
+
+        if (checks) {
+          return checks.slice(0, _i).every(function (check) {
+            return check;
+          });
+        }
+      });
+
+      if (fittingPlacement) {
+        firstFittingPlacement = fittingPlacement;
+        return "break";
+      }
+    };
+
+    for (var _i = numberOfChecks; _i > 0; _i--) {
+      var _ret = _loop(_i);
+
+      if (_ret === "break") break;
+    }
+  }
+
+  if (state.placement !== firstFittingPlacement) {
+    state.modifiersData[name]._skip = true;
+    state.placement = firstFittingPlacement;
+    state.reset = true;
+  }
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var flip$1 = {
+  name: 'flip',
+  enabled: true,
+  phase: 'main',
+  fn: flip,
+  requiresIfExists: ['offset'],
+  data: {
+    _skip: false
+  }
+};
+
+function getSideOffsets(overflow, rect, preventedOffsets) {
+  if (preventedOffsets === void 0) {
+    preventedOffsets = {
+      x: 0,
+      y: 0
+    };
+  }
+
+  return {
+    top: overflow.top - rect.height - preventedOffsets.y,
+    right: overflow.right - rect.width + preventedOffsets.x,
+    bottom: overflow.bottom - rect.height + preventedOffsets.y,
+    left: overflow.left - rect.width - preventedOffsets.x
+  };
+}
+
+function isAnySideFullyClipped(overflow) {
+  return [top, right, bottom, left].some(function (side) {
+    return overflow[side] >= 0;
+  });
+}
+
+function hide(_ref) {
+  var state = _ref.state,
+      name = _ref.name;
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var preventedOffsets = state.modifiersData.preventOverflow;
+  var referenceOverflow = detectOverflow(state, {
+    elementContext: 'reference'
+  });
+  var popperAltOverflow = detectOverflow(state, {
+    altBoundary: true
+  });
+  var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);
+  var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
+  var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
+  var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
+  state.modifiersData[name] = {
+    referenceClippingOffsets: referenceClippingOffsets,
+    popperEscapeOffsets: popperEscapeOffsets,
+    isReferenceHidden: isReferenceHidden,
+    hasPopperEscaped: hasPopperEscaped
+  };
+  state.attributes.popper = Object.assign({}, state.attributes.popper, {
+    'data-popper-reference-hidden': isReferenceHidden,
+    'data-popper-escaped': hasPopperEscaped
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var hide$1 = {
+  name: 'hide',
+  enabled: true,
+  phase: 'main',
+  requiresIfExists: ['preventOverflow'],
+  fn: hide
+};
+
+function distanceAndSkiddingToXY(placement, rects, offset) {
+  var basePlacement = getBasePlacement(placement);
+  var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
+
+  var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
+    placement: placement
+  })) : offset,
+      skidding = _ref[0],
+      distance = _ref[1];
+
+  skidding = skidding || 0;
+  distance = (distance || 0) * invertDistance;
+  return [left, right].indexOf(basePlacement) >= 0 ? {
+    x: distance,
+    y: skidding
+  } : {
+    x: skidding,
+    y: distance
+  };
+}
+
+function offset(_ref2) {
+  var state = _ref2.state,
+      options = _ref2.options,
+      name = _ref2.name;
+  var _options$offset = options.offset,
+      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
+  var data = placements.reduce(function (acc, placement) {
+    acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
+    return acc;
+  }, {});
+  var _data$state$placement = data[state.placement],
+      x = _data$state$placement.x,
+      y = _data$state$placement.y;
+
+  if (state.modifiersData.popperOffsets != null) {
+    state.modifiersData.popperOffsets.x += x;
+    state.modifiersData.popperOffsets.y += y;
+  }
+
+  state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var offset$1 = {
+  name: 'offset',
+  enabled: true,
+  phase: 'main',
+  requires: ['popperOffsets'],
+  fn: offset
+};
+
+function popperOffsets(_ref) {
+  var state = _ref.state,
+      name = _ref.name;
+  // Offsets are the actual position the popper needs to have to be
+  // properly positioned near its reference element
+  // This is the most basic placement, and will be adjusted by
+  // the modifiers in the next step
+  state.modifiersData[name] = computeOffsets({
+    reference: state.rects.reference,
+    element: state.rects.popper,
+    strategy: 'absolute',
+    placement: state.placement
+  });
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var popperOffsets$1 = {
+  name: 'popperOffsets',
+  enabled: true,
+  phase: 'read',
+  fn: popperOffsets,
+  data: {}
+};
+
+function getAltAxis(axis) {
+  return axis === 'x' ? 'y' : 'x';
+}
+
+function preventOverflow(_ref) {
+  var state = _ref.state,
+      options = _ref.options,
+      name = _ref.name;
+  var _options$mainAxis = options.mainAxis,
+      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
+      _options$altAxis = options.altAxis,
+      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
+      boundary = options.boundary,
+      rootBoundary = options.rootBoundary,
+      altBoundary = options.altBoundary,
+      padding = options.padding,
+      _options$tether = options.tether,
+      tether = _options$tether === void 0 ? true : _options$tether,
+      _options$tetherOffset = options.tetherOffset,
+      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
+  var overflow = detectOverflow(state, {
+    boundary: boundary,
+    rootBoundary: rootBoundary,
+    padding: padding,
+    altBoundary: altBoundary
+  });
+  var basePlacement = getBasePlacement(state.placement);
+  var variation = getVariation(state.placement);
+  var isBasePlacement = !variation;
+  var mainAxis = getMainAxisFromPlacement(basePlacement);
+  var altAxis = getAltAxis(mainAxis);
+  var popperOffsets = state.modifiersData.popperOffsets;
+  var referenceRect = state.rects.reference;
+  var popperRect = state.rects.popper;
+  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({}, state.rects, {
+    placement: state.placement
+  })) : tetherOffset;
+  var normalizedTetherOffsetValue = typeof tetherOffsetValue === 'number' ? {
+    mainAxis: tetherOffsetValue,
+    altAxis: tetherOffsetValue
+  } : Object.assign({
+    mainAxis: 0,
+    altAxis: 0
+  }, tetherOffsetValue);
+  var offsetModifierState = state.modifiersData.offset ? state.modifiersData.offset[state.placement] : null;
+  var data = {
+    x: 0,
+    y: 0
+  };
+
+  if (!popperOffsets) {
+    return;
+  }
+
+  if (checkMainAxis) {
+    var _offsetModifierState$;
+
+    var mainSide = mainAxis === 'y' ? top : left;
+    var altSide = mainAxis === 'y' ? bottom : right;
+    var len = mainAxis === 'y' ? 'height' : 'width';
+    var offset = popperOffsets[mainAxis];
+    var min$1 = offset + overflow[mainSide];
+    var max$1 = offset - overflow[altSide];
+    var additive = tether ? -popperRect[len] / 2 : 0;
+    var minLen = variation === start ? referenceRect[len] : popperRect[len];
+    var maxLen = variation === start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
+    // outside the reference bounds
+
+    var arrowElement = state.elements.arrow;
+    var arrowRect = tether && arrowElement ? getLayoutRect(arrowElement) : {
+      width: 0,
+      height: 0
+    };
+    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : getFreshSideObject();
+    var arrowPaddingMin = arrowPaddingObject[mainSide];
+    var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
+    // to include its full size in the calculation. If the reference is small
+    // and near the edge of a boundary, the popper can overflow even if the
+    // reference is not overflowing as well (e.g. virtual elements with no
+    // width or height)
+
+    var arrowLen = within(0, referenceRect[len], arrowRect[len]);
+    var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;
+    var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;
+    var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
+    var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
+    var offsetModifierValue = (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null ? _offsetModifierState$ : 0;
+    var tetherMin = offset + minOffset - offsetModifierValue - clientOffset;
+    var tetherMax = offset + maxOffset - offsetModifierValue;
+    var preventedOffset = within(tether ? min(min$1, tetherMin) : min$1, offset, tether ? max(max$1, tetherMax) : max$1);
+    popperOffsets[mainAxis] = preventedOffset;
+    data[mainAxis] = preventedOffset - offset;
+  }
+
+  if (checkAltAxis) {
+    var _offsetModifierState$2;
+
+    var _mainSide = mainAxis === 'x' ? top : left;
+
+    var _altSide = mainAxis === 'x' ? bottom : right;
+
+    var _offset = popperOffsets[altAxis];
+
+    var _len = altAxis === 'y' ? 'height' : 'width';
+
+    var _min = _offset + overflow[_mainSide];
+
+    var _max = _offset - overflow[_altSide];
+
+    var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
+
+    var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
+
+    var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
+
+    var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
+
+    var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
+
+    popperOffsets[altAxis] = _preventedOffset;
+    data[altAxis] = _preventedOffset - _offset;
+  }
+
+  state.modifiersData[name] = data;
+} // eslint-disable-next-line import/no-unused-modules
+
+
+var preventOverflow$1 = {
+  name: 'preventOverflow',
+  enabled: true,
+  phase: 'main',
+  fn: preventOverflow,
+  requiresIfExists: ['offset']
+};
+
+function getHTMLElementScroll(element) {
+  return {
+    scrollLeft: element.scrollLeft,
+    scrollTop: element.scrollTop
+  };
+}
+
+function getNodeScroll(node) {
+  if (node === getWindow(node) || !isHTMLElement(node)) {
+    return getWindowScroll(node);
+  } else {
+    return getHTMLElementScroll(node);
+  }
+}
+
+function isElementScaled(element) {
+  var rect = element.getBoundingClientRect();
+  var scaleX = round(rect.width) / element.offsetWidth || 1;
+  var scaleY = round(rect.height) / element.offsetHeight || 1;
+  return scaleX !== 1 || scaleY !== 1;
+} // Returns the composite rect of an element relative to its offsetParent.
+// Composite means it takes into account transforms as well as layout.
+
+
+function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
+  if (isFixed === void 0) {
+    isFixed = false;
+  }
+
+  var isOffsetParentAnElement = isHTMLElement(offsetParent);
+  var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
+  var documentElement = getDocumentElement(offsetParent);
+  var rect = getBoundingClientRect(elementOrVirtualElement, offsetParentIsScaled);
+  var scroll = {
+    scrollLeft: 0,
+    scrollTop: 0
+  };
+  var offsets = {
+    x: 0,
+    y: 0
+  };
+
+  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
+    if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
+    isScrollParent(documentElement)) {
+      scroll = getNodeScroll(offsetParent);
+    }
+
+    if (isHTMLElement(offsetParent)) {
+      offsets = getBoundingClientRect(offsetParent, true);
+      offsets.x += offsetParent.clientLeft;
+      offsets.y += offsetParent.clientTop;
+    } else if (documentElement) {
+      offsets.x = getWindowScrollBarX(documentElement);
+    }
+  }
+
+  return {
+    x: rect.left + scroll.scrollLeft - offsets.x,
+    y: rect.top + scroll.scrollTop - offsets.y,
+    width: rect.width,
+    height: rect.height
+  };
+}
+
+function order(modifiers) {
+  var map = new Map();
+  var visited = new Set();
+  var result = [];
+  modifiers.forEach(function (modifier) {
+    map.set(modifier.name, modifier);
+  }); // On visiting object, check for its dependencies and visit them recursively
+
+  function sort(modifier) {
+    visited.add(modifier.name);
+    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
+    requires.forEach(function (dep) {
+      if (!visited.has(dep)) {
+        var depModifier = map.get(dep);
+
+        if (depModifier) {
+          sort(depModifier);
+        }
+      }
+    });
+    result.push(modifier);
+  }
+
+  modifiers.forEach(function (modifier) {
+    if (!visited.has(modifier.name)) {
+      // check for visited object
+      sort(modifier);
+    }
+  });
+  return result;
+}
+
+function orderModifiers(modifiers) {
+  // order based on dependencies
+  var orderedModifiers = order(modifiers); // order based on phase
+
+  return modifierPhases.reduce(function (acc, phase) {
+    return acc.concat(orderedModifiers.filter(function (modifier) {
+      return modifier.phase === phase;
+    }));
+  }, []);
+}
+
+function debounce(fn) {
+  var pending;
+  return function () {
+    if (!pending) {
+      pending = new Promise(function (resolve) {
+        Promise.resolve().then(function () {
+          pending = undefined;
+          resolve(fn());
+        });
+      });
+    }
+
+    return pending;
+  };
+}
+
+function format$1(str) {
+  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    args[_key - 1] = arguments[_key];
+  }
+
+  return [].concat(args).reduce(function (p, c) {
+    return p.replace(/%s/, c);
+  }, str);
+}
+
+var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
+var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
+var VALID_PROPERTIES = ['name', 'enabled', 'phase', 'fn', 'effect', 'requires', 'options'];
+function validateModifiers(modifiers) {
+  modifiers.forEach(function (modifier) {
+    [].concat(Object.keys(modifier), VALID_PROPERTIES) // IE11-compatible replacement for `new Set(iterable)`
+    .filter(function (value, index, self) {
+      return self.indexOf(value) === index;
+    }).forEach(function (key) {
+      switch (key) {
+        case 'name':
+          if (typeof modifier.name !== 'string') {
+            console.error(format$1(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
+          }
+
+          break;
+
+        case 'enabled':
+          if (typeof modifier.enabled !== 'boolean') {
+            console.error(format$1(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
+          }
+
+          break;
+
+        case 'phase':
+          if (modifierPhases.indexOf(modifier.phase) < 0) {
+            console.error(format$1(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
+          }
+
+          break;
+
+        case 'fn':
+          if (typeof modifier.fn !== 'function') {
+            console.error(format$1(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
+          }
+
+          break;
+
+        case 'effect':
+          if (modifier.effect != null && typeof modifier.effect !== 'function') {
+            console.error(format$1(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
+          }
+
+          break;
+
+        case 'requires':
+          if (modifier.requires != null && !Array.isArray(modifier.requires)) {
+            console.error(format$1(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
+          }
+
+          break;
+
+        case 'requiresIfExists':
+          if (!Array.isArray(modifier.requiresIfExists)) {
+            console.error(format$1(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
+          }
+
+          break;
+
+        case 'options':
+        case 'data':
+          break;
+
+        default:
+          console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
+            return "\"" + s + "\"";
+          }).join(', ') + "; but \"" + key + "\" was provided.");
+      }
+
+      modifier.requires && modifier.requires.forEach(function (requirement) {
+        if (modifiers.find(function (mod) {
+          return mod.name === requirement;
+        }) == null) {
+          console.error(format$1(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
+        }
+      });
+    });
+  });
+}
+
+function uniqueBy(arr, fn) {
+  var identifiers = new Set();
+  return arr.filter(function (item) {
+    var identifier = fn(item);
+
+    if (!identifiers.has(identifier)) {
+      identifiers.add(identifier);
+      return true;
+    }
+  });
+}
+
+function mergeByName(modifiers) {
+  var merged = modifiers.reduce(function (merged, current) {
+    var existing = merged[current.name];
+    merged[current.name] = existing ? Object.assign({}, existing, current, {
+      options: Object.assign({}, existing.options, current.options),
+      data: Object.assign({}, existing.data, current.data)
+    }) : current;
+    return merged;
+  }, {}); // IE11 does not support Object.values
+
+  return Object.keys(merged).map(function (key) {
+    return merged[key];
+  });
+}
+
+var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
+var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
+var DEFAULT_OPTIONS = {
+  placement: 'bottom',
+  modifiers: [],
+  strategy: 'absolute'
+};
+
+function areValidElements() {
+  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+    args[_key] = arguments[_key];
+  }
+
+  return !args.some(function (element) {
+    return !(element && typeof element.getBoundingClientRect === 'function');
+  });
+}
+
+function popperGenerator(generatorOptions) {
+  if (generatorOptions === void 0) {
+    generatorOptions = {};
+  }
+
+  var _generatorOptions = generatorOptions,
+      _generatorOptions$def = _generatorOptions.defaultModifiers,
+      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
+      _generatorOptions$def2 = _generatorOptions.defaultOptions,
+      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
+  return function createPopper(reference, popper, options) {
+    if (options === void 0) {
+      options = defaultOptions;
+    }
+
+    var state = {
+      placement: 'bottom',
+      orderedModifiers: [],
+      options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
+      modifiersData: {},
+      elements: {
+        reference: reference,
+        popper: popper
+      },
+      attributes: {},
+      styles: {}
+    };
+    var effectCleanupFns = [];
+    var isDestroyed = false;
+    var instance = {
+      state: state,
+      setOptions: function setOptions(setOptionsAction) {
+        var options = typeof setOptionsAction === 'function' ? setOptionsAction(state.options) : setOptionsAction;
+        cleanupModifierEffects();
+        state.options = Object.assign({}, defaultOptions, state.options, options);
+        state.scrollParents = {
+          reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
+          popper: listScrollParents(popper)
+        }; // Orders the modifiers based on their dependencies and `phase`
+        // properties
+
+        var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
+
+        state.orderedModifiers = orderedModifiers.filter(function (m) {
+          return m.enabled;
+        }); // Validate the provided modifiers so that the consumer will get warned
+        // if one of the modifiers is invalid for any reason
+
+        if (process.env.NODE_ENV !== "production") {
+          var modifiers = uniqueBy([].concat(orderedModifiers, state.options.modifiers), function (_ref) {
+            var name = _ref.name;
+            return name;
+          });
+          validateModifiers(modifiers);
+
+          if (getBasePlacement(state.options.placement) === auto) {
+            var flipModifier = state.orderedModifiers.find(function (_ref2) {
+              var name = _ref2.name;
+              return name === 'flip';
+            });
+
+            if (!flipModifier) {
+              console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
+            }
+          }
+
+          var _getComputedStyle = getComputedStyle$1(popper),
+              marginTop = _getComputedStyle.marginTop,
+              marginRight = _getComputedStyle.marginRight,
+              marginBottom = _getComputedStyle.marginBottom,
+              marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
+          // cause bugs with positioning, so we'll warn the consumer
+
+
+          if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
+            return parseFloat(margin);
+          })) {
+            console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
+          }
+        }
+
+        runModifierEffects();
+        return instance.update();
+      },
+      // Sync update – it will always be executed, even if not necessary. This
+      // is useful for low frequency updates where sync behavior simplifies the
+      // logic.
+      // For high frequency updates (e.g. `resize` and `scroll` events), always
+      // prefer the async Popper#update method
+      forceUpdate: function forceUpdate() {
+        if (isDestroyed) {
+          return;
+        }
+
+        var _state$elements = state.elements,
+            reference = _state$elements.reference,
+            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
+        // anymore
+
+        if (!areValidElements(reference, popper)) {
+          if (process.env.NODE_ENV !== "production") {
+            console.error(INVALID_ELEMENT_ERROR);
+          }
+
+          return;
+        } // Store the reference and popper rects to be read by modifiers
+
+
+        state.rects = {
+          reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
+          popper: getLayoutRect(popper)
+        }; // Modifiers have the ability to reset the current update cycle. The
+        // most common use case for this is the `flip` modifier changing the
+        // placement, which then needs to re-run all the modifiers, because the
+        // logic was previously ran for the previous placement and is therefore
+        // stale/incorrect
+
+        state.reset = false;
+        state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
+        // is filled with the initial data specified by the modifier. This means
+        // it doesn't persist and is fresh on each update.
+        // To ensure persistent data, use `${name}#persistent`
+
+        state.orderedModifiers.forEach(function (modifier) {
+          return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
+        });
+        var __debug_loops__ = 0;
+
+        for (var index = 0; index < state.orderedModifiers.length; index++) {
+          if (process.env.NODE_ENV !== "production") {
+            __debug_loops__ += 1;
+
+            if (__debug_loops__ > 100) {
+              console.error(INFINITE_LOOP_ERROR);
+              break;
+            }
+          }
+
+          if (state.reset === true) {
+            state.reset = false;
+            index = -1;
+            continue;
+          }
+
+          var _state$orderedModifie = state.orderedModifiers[index],
+              fn = _state$orderedModifie.fn,
+              _state$orderedModifie2 = _state$orderedModifie.options,
+              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
+              name = _state$orderedModifie.name;
+
+          if (typeof fn === 'function') {
+            state = fn({
+              state: state,
+              options: _options,
+              name: name,
+              instance: instance
+            }) || state;
+          }
+        }
+      },
+      // Async and optimistically optimized update – it will not be executed if
+      // not necessary (debounced to run at most once-per-tick)
+      update: debounce(function () {
+        return new Promise(function (resolve) {
+          instance.forceUpdate();
+          resolve(state);
+        });
+      }),
+      destroy: function destroy() {
+        cleanupModifierEffects();
+        isDestroyed = true;
+      }
+    };
+
+    if (!areValidElements(reference, popper)) {
+      if (process.env.NODE_ENV !== "production") {
+        console.error(INVALID_ELEMENT_ERROR);
+      }
+
+      return instance;
+    }
+
+    instance.setOptions(options).then(function (state) {
+      if (!isDestroyed && options.onFirstUpdate) {
+        options.onFirstUpdate(state);
+      }
+    }); // Modifiers have the ability to execute arbitrary code before the first
+    // update cycle runs. They will be executed in the same order as the update
+    // cycle. This is useful when a modifier adds some persistent data that
+    // other modifiers need to use, but the modifier is run after the dependent
+    // one.
+
+    function runModifierEffects() {
+      state.orderedModifiers.forEach(function (_ref3) {
+        var name = _ref3.name,
+            _ref3$options = _ref3.options,
+            options = _ref3$options === void 0 ? {} : _ref3$options,
+            effect = _ref3.effect;
+
+        if (typeof effect === 'function') {
+          var cleanupFn = effect({
+            state: state,
+            name: name,
+            instance: instance,
+            options: options
+          });
+
+          var noopFn = function noopFn() {};
+
+          effectCleanupFns.push(cleanupFn || noopFn);
+        }
+      });
+    }
+
+    function cleanupModifierEffects() {
+      effectCleanupFns.forEach(function (fn) {
+        return fn();
+      });
+      effectCleanupFns = [];
+    }
+
+    return instance;
+  };
+}
+
+var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
+var createPopper = /*#__PURE__*/popperGenerator({
+  defaultModifiers: defaultModifiers
+}); // eslint-disable-next-line import/no-unused-modules
+
+function useElement() {
+  const element = ref(null);
+  return element;
+}
+const defaultDelay$2 = 0;
+function useState(options) {
+  const {
+    allowEnter = true,
+    autoAdjust = true,
+    delay = defaultDelay$2,
+    disabled = false,
+    offset = [0, 0],
+    placement = "top",
+    trigger = "hover",
+    visible = false,
+    strategy = "absolute",
+    modifiers = [],
+    onFirstUpdate = NoopFunction
+  } = options;
+  return reactive({
+    allowEnter,
+    autoAdjust,
+    delay,
+    disabled,
+    offset,
+    placement,
+    trigger,
+    visible,
+    strategy,
+    modifiers,
+    onFirstUpdate
+  });
+}
+function useBaseOptions(state) {
+  return computed(() => {
+    const { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust } = state;
+    return { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust };
+  });
+}
+function useVisibility(state) {
+  return computed(() => !state.disabled && state.visible);
+}
+function usePlacement(state) {
+  const _placement = ref(state.placement);
+  const updatePlacement = (value) => {
+    _placement.value = value;
+  };
+  watch(() => state.placement, updatePlacement);
+  const placement = computed(() => _placement.value);
+  return { placement, updatePlacement };
+}
+function useDelay(state) {
+  const convertDelay = (delay) => {
+    if (Array.isArray(delay)) {
+      const [show, hide] = delay;
+      return { show: show != null ? show : defaultDelay$2, hide: hide != null ? hide : defaultDelay$2 };
+    }
+    return { show: delay, hide: delay };
+  };
+  return computed(() => convertDelay(state.delay));
+}
+function useTimer() {
+  let timer = null;
+  const setTimer = (action, delay) => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+    timer = setTimeout(action, delay);
+  };
+  const clearTimer = () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+    }
+  };
+  return { setTimer, clearTimer };
+}
+function useTriggerEvents(baseOptions, eventOptions) {
+  const { visibility, show, hide } = eventOptions;
+  const onMouseenter = () => show();
+  const onMouseleave = () => hide();
+  const onFocus = () => show();
+  const onBlur = () => hide();
+  const onClick = () => {
+    const { trigger } = baseOptions;
+    if (trigger === "click") {
+      visibility.value ? hide() : show();
+    } else if (trigger === "contextmenu") {
+      visibility.value && hide();
+    }
+  };
+  const onContextmenu = (evt) => {
+    evt.preventDefault();
+    show();
+  };
+  const eventsMap = {
+    hover: { onMouseenter, onMouseleave },
+    focus: { onFocus, onBlur },
+    click: { onClick },
+    contextmenu: { onClick, onContextmenu },
+    manual: {}
+  };
+  return computed(() => eventsMap[baseOptions.trigger]);
+}
+function usePopperEvents(baseOptions, eventOptions) {
+  const { show, hide } = eventOptions;
+  const onMouseenter = () => show();
+  const onMouseleave = () => hide();
+  const eventsMap = {
+    click: NoopObject,
+    focus: NoopObject,
+    hover: { onMouseenter, onMouseleave },
+    contextmenu: NoopObject,
+    manual: NoopObject
+  };
+  return computed(() => baseOptions.allowEnter ? eventsMap[baseOptions.trigger] : NoopObject);
+}
+function convertOptions$1(baseOptions, extraOptions) {
+  const { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust } = baseOptions;
+  const { arrowElement, updatePlacement } = extraOptions;
+  return {
+    placement: kebabCase$1(placement),
+    strategy,
+    onFirstUpdate,
+    modifiers: [
+      { name: "offset", options: { offset } },
+      { name: "flip", enabled: autoAdjust, options: { padding: 4 } },
+      { name: "arrow", enabled: !!arrowElement, options: { element: arrowElement, padding: 4 } },
+      {
+        name: "IDUX_updatePlacement",
+        enabled: true,
+        phase: "beforeWrite",
+        requires: ["computeStyles"],
+        fn: ({ state }) => updatePlacement(camelCase$1(state.placement))
+      },
+      ...modifiers
+    ]
+  };
+}
+function usePopper(options = {}) {
+  let popperInstance = null;
+  const triggerRef = useElement();
+  const popperRef = useElement();
+  const arrowRef = useElement();
+  const state = useState(options);
+  const baseOptions = useBaseOptions(state);
+  const visibility = useVisibility(state);
+  const { placement, updatePlacement } = usePlacement(state);
+  const delay = useDelay(state);
+  const { setTimer, clearTimer } = useTimer();
+  const triggerEvents = useTriggerEvents(state, { visibility, show, hide });
+  const popperEvents = usePopperEvents(state, { show, hide });
+  function toggle(visible, delay2) {
+    clearTimer();
+    const action = () => {
+      state.visible = visible;
+    };
+    if (delay2 > 0) {
+      setTimer(action, delay2);
+    } else {
+      action();
+    }
+  }
+  function show(showDelay = delay.value.show) {
+    toggle(true, showDelay);
+  }
+  function hide(hideDelay = delay.value.hide) {
+    toggle(false, hideDelay);
+  }
+  function update(options2) {
+    if (options2) {
+      Object.entries(options2).forEach(([key, value]) => {
+        if (value !== void 0 && !isEqual(value, state[key])) {
+          state[key] = value;
+        }
+      });
+      return;
+    }
+    popperInstance == null ? void 0 : popperInstance.update();
+  }
+  function forceUpdate() {
+    popperInstance == null ? void 0 : popperInstance.forceUpdate();
+  }
+  function destroy() {
+    clearTimer();
+    if (!popperInstance) {
+      return;
+    }
+    popperInstance.destroy();
+    popperInstance = null;
+  }
+  let initWatchStop = null;
+  function initialize() {
+    if (initWatchStop) {
+      initWatchStop();
+    }
+    initWatchStop = watch([triggerRef, popperRef], ([trigger, popper]) => {
+      const triggerElement = convertElement(trigger);
+      const popperElement = convertElement(popper);
+      if (!triggerElement || !popperElement) {
+        return;
+      }
+      destroy();
+      const options2 = convertOptions$1(baseOptions.value, { arrowElement: convertElement(arrowRef), updatePlacement });
+      popperInstance = createPopper(triggerElement, popperElement, options2);
+    }, { immediate: true });
+  }
+  watch(visibility, (value) => {
+    if (value) {
+      clearTimer();
+      popperInstance == null ? void 0 : popperInstance.update();
+    }
+  });
+  watch([baseOptions, arrowRef], ([currBaseOptions, arrowElement]) => {
+    popperInstance == null ? void 0 : popperInstance.setOptions(convertOptions$1(currBaseOptions, { arrowElement: convertElement(arrowElement), updatePlacement }));
+  });
+  return {
+    visibility,
+    placement,
+    triggerRef,
+    triggerEvents,
+    popperRef,
+    popperEvents,
+    arrowRef,
+    initialize,
+    show,
+    hide,
+    update,
+    forceUpdate,
+    destroy
+  };
+}
 
 const components$2 = [CdkPortal, CdkVirtualScroll];
 const directives$2 = {
-    clickOutside,
+  clickOutside: clickOutside
 };
 const install$3 = (app) => {
-    components$2.forEach(component => {
-        var _a;
-        app.component((_a = component.name) !== null && _a !== void 0 ? _a : component.displayName, component);
-    });
-    Object.keys(directives$2).forEach(key => {
-        app.directive(key, directives$2[key]);
-    });
+  components$2.forEach((component) => {
+    var _a;
+    app.component((_a = component.name) != null ? _a : component.displayName, component);
+  });
+  Object.keys(directives$2).forEach((key) => {
+    app.directive(key, directives$2[key]);
+  });
 };
-var index$2 = {
-    install: install$3,
-    version: version$2,
-};
+const installer$2 = { install: install$3, version: version$2 };
 
 function toInteger(dirtyNumber) {
   if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
@@ -11313,7 +14551,7 @@ var unescapedLatinCharacterRegExp$1 = /[a-zA-Z]/;
  * //=> "3 o'clock"
  */
 
-function format$1(dirtyDate, dirtyFormatStr, dirtyOptions) {
+function format(dirtyDate, dirtyFormatStr, dirtyOptions) {
   requiredArgs(2, arguments);
   var formatStr = String(dirtyFormatStr);
   var options = dirtyOptions || {};
@@ -15071,14 +18309,19 @@ const zhCN = {
     yearPlaceholder: "\u8BF7\u9009\u62E9\u5E74\u4EFD",
     quarterPlaceholder: "\u8BF7\u9009\u62E9\u5B63\u5EA6",
     monthPlaceholder: "\u8BF7\u9009\u62E9\u6708\u4EFD",
-    weekPlaceholder: "\u8BF7\u9009\u62E9\u5468"
+    weekPlaceholder: "\u8BF7\u9009\u62E9\u5468",
+    datetimePlaceholder: "\u8BF7\u9009\u62E9\u65E5\u671F\u65F6\u95F4"
   },
   dateRangePicker: {
     datePlaceholder: ["\u5F00\u59CB\u65E5\u671F", "\u7ED3\u675F\u65E5\u671F"],
     weekPlaceholder: ["\u5F00\u59CB\u5468", "\u7ED3\u675F\u5468"],
     monthPlaceholder: ["\u5F00\u59CB\u6708\u4EFD", "\u7ED3\u675F\u6708\u4EFD"],
     quarterPlaceholder: ["\u5F00\u59CB\u5B63\u5EA6", "\u7ED3\u675F\u5B63\u5EA6"],
-    yearPlaceholder: ["\u5F00\u59CB\u5E74\u4EFD", "\u7ED3\u675F\u5E74\u4EFD"]
+    yearPlaceholder: ["\u5F00\u59CB\u5E74\u4EFD", "\u7ED3\u675F\u5E74\u4EFD"],
+    datetimePlaceholder: ["\u5F00\u59CB\u65F6\u95F4", "\u7ED3\u675F\u65F6\u95F4"],
+    separator: "\u81F3",
+    okText: "\u786E\u5B9A",
+    cancelText: "\u53D6\u6D88"
   },
   empty: {
     description: "\u6682\u65E0\u6570\u636E"
@@ -15093,7 +18336,7 @@ const zhCN = {
     okText: "\u786E\u5B9A"
   },
   pagination: {
-    itemsPerPage: "\u6761/\u9875",
+    itemsPerPage: "\u6BCF\u9875",
     jumpTo: "\u524D\u5F80",
     page: "\u9875",
     prev: "\u4E0A\u4E00\u9875",
@@ -15101,7 +18344,7 @@ const zhCN = {
     prev5: "\u5411\u524D 5 \u9875",
     next5: "\u5411\u540E 5 \u9875",
     totalPrefix: "\u5171",
-    totalSuffix: "\u6761"
+    totalSuffix: "\u9879"
   },
   select: {
     limitMessage: "\u8BE5\u9009\u62E9\u5668\u7684\u503C\u4E0D\u80FD\u8D85\u8FC7 ${0} \u9879"
@@ -15225,15 +18468,12 @@ const defaultConfig$1 = {
     ghost: false
   },
   datePicker: {
-    allowInput: true,
+    allowInput: false,
     borderless: false,
     clearable: false,
     clearIcon: "close-circle",
     size: "md",
     suffix: "calendar"
-  },
-  dateRangePicker: {
-    separator: "swap-right"
   },
   divider: {
     dashed: false,
@@ -15265,7 +18505,9 @@ const defaultConfig$1 = {
     colonless: false,
     labelAlign: "end",
     layout: "horizontal",
-    size: "md"
+    size: "md",
+    labelTooltipIcon: "question-circle",
+    controlTooltipIcon: "info-circle"
   },
   icon: {},
   input: {
@@ -15376,6 +18618,7 @@ const defaultConfig$1 = {
     childrenKey: "children",
     clearIcon: "close-circle",
     labelKey: "label",
+    overlayMatchWidth: true,
     size: "md",
     suffix: "down",
     valueKey: "value"
@@ -15402,6 +18645,7 @@ const defaultConfig$1 = {
     size: "md"
   },
   table: {
+    autoHeight: false,
     borderless: true,
     rowKey: "key",
     size: "md",
@@ -15427,6 +18671,10 @@ const defaultConfig$1 = {
     }
   },
   tag: {},
+  tagGroup: {
+    gap: 8,
+    wrap: true
+  },
   textarea: {
     autoRows: false,
     clearable: false,
@@ -15441,7 +18689,7 @@ const defaultConfig$1 = {
     clearIcon: "close-circle",
     size: "md",
     suffix: "clock-circle",
-    allowInput: true,
+    allowInput: false,
     format: "HH:mm:ss"
   },
   timeRangePicker: {
@@ -15450,7 +18698,7 @@ const defaultConfig$1 = {
     clearIcon: "close-circle",
     size: "md",
     suffix: "clock-circle",
-    allowInput: true,
+    allowInput: false,
     format: "HH:mm:ss"
   },
   transfer: {
@@ -15473,11 +18721,14 @@ const defaultConfig$1 = {
     showLine: false
   },
   treeSelect: {
-    size: "md",
-    suffix: "down",
+    borderless: false,
     childrenKey: "children",
+    clearIcon: "close-circle",
     labelKey: "label",
-    nodeKey: "key"
+    nodeKey: "key",
+    overlayMatchWidth: false,
+    size: "md",
+    suffix: "down"
   },
   upload: {
     multiple: false,
@@ -15641,7 +18892,7 @@ function createDefaultDateConfig() {
       }
     },
     isValid: (date) => isValid(date),
-    format: (date, format$1$1) => format$1(date, format$1$1, { locale: locale.date }),
+    format: (date, format$1) => format(date, format$1, { locale: locale.date }),
     parse: parse$1,
     convert: (date, format2) => {
       if (isNil(date)) {
@@ -15670,19 +18921,19 @@ const iconProps = {
   color: IxPropTypes.string,
   size: IxPropTypes.oneOfType([String, Number])
 };
-var __defProp$x = Object.defineProperty;
-var __getOwnPropSymbols$D = Object.getOwnPropertySymbols;
-var __hasOwnProp$D = Object.prototype.hasOwnProperty;
-var __propIsEnum$D = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$x = (obj, key, value) => key in obj ? __defProp$x(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$x = (a, b) => {
+var __defProp$w = Object.defineProperty;
+var __getOwnPropSymbols$C = Object.getOwnPropertySymbols;
+var __hasOwnProp$C = Object.prototype.hasOwnProperty;
+var __propIsEnum$C = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$w = (obj, key, value) => key in obj ? __defProp$w(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$w = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$D.call(b, prop))
-      __defNormalProp$x(a, prop, b[prop]);
-  if (__getOwnPropSymbols$D)
-    for (var prop of __getOwnPropSymbols$D(b)) {
-      if (__propIsEnum$D.call(b, prop))
-        __defNormalProp$x(a, prop, b[prop]);
+    if (__hasOwnProp$C.call(b, prop))
+      __defNormalProp$w(a, prop, b[prop]);
+  if (__getOwnPropSymbols$C)
+    for (var prop of __getOwnPropSymbols$C(b)) {
+      if (__propIsEnum$C.call(b, prop))
+        __defNormalProp$w(a, prop, b[prop]);
     }
   return a;
 };
@@ -15815,9 +19066,9 @@ function convertSVGNode(child) {
     Logger.warn("components/icon", "The children must is svg element");
     return;
   }
-  return cloneVNode(node, __spreadValues$x(__spreadValues$x({}, defaultSVGAttributes), node.props));
+  return cloneVNode(node, __spreadValues$w(__spreadValues$w({}, defaultSVGAttributes), node.props));
 }
-var __async$a = (__this, __arguments, generator) => {
+var __async$9 = (__this, __arguments, generator) => {
   return new Promise((resolve, reject) => {
     var fulfilled = (value) => {
       try {
@@ -15844,7 +19095,7 @@ var Icon = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-icon`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-icon`);
     const config = useGlobalConfig$1("icon");
     const root = ref();
     onMounted(() => appendChild(props, config, root.value));
@@ -15856,7 +19107,7 @@ var Icon = defineComponent({
       clearSVGElement(rootElement);
       appendChild(props, config, rootElement);
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         name,
         rotate
@@ -15868,7 +19119,7 @@ var Icon = defineComponent({
         [`${prefixCls}-spinning`]: rotate === true
       });
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const {
         rotate,
         color,
@@ -15905,7 +19156,7 @@ var Icon = defineComponent({
   }
 });
 function appendChild(props, config, rootElement) {
-  return __async$a(this, null, function* () {
+  return __async$9(this, null, function* () {
     const {
       name,
       iconfont
@@ -15935,7 +19186,7 @@ const CaretUpFilled = {
 };
 const CheckCircleFilled = {
   name: "check-circle-filled",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64c247.424 0 448 200.576 448 448S759.424 960 512 960 64 759.424 64 512 264.576 64 512 64zm258.133 287.68a12.8 12.8 0 0 0-18.133 0L453.824 649.835l-1.77 1.493a12.8 12.8 0 0 1-16.32-1.493l-162.987-163.03a12.8 12.8 0 0 0-18.134 0l-27.136 27.158a12.8 12.8 0 0 0 0 18.112l208.299 208.277a12.8 12.8 0 0 0 18.09 0l343.425-343.424a12.8 12.8 0 0 0 0-18.09z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M512 0c282.752 0 512 229.248 512 512s-229.248 512-512 512S0 794.752 0 512 229.248 0 512 0zm238.336 366.933a17.067 17.067 0 0 0-24.15 0L466.689 626.432l-138.71-138.795a17.067 17.067 0 0 0-24.149 0l-36.224 36.224a17.067 17.067 0 0 0 0 24.15l187.051 187.05a17.067 17.067 0 0 0 24.15 0L786.56 427.307a17.067 17.067 0 0 0 0-24.15z"/></svg>'
 };
 const CheckCircle = {
   name: "check-circle",
@@ -15943,7 +19194,7 @@ const CheckCircle = {
 };
 const Check = {
   name: "check",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M167.29 445.278 437.84 715.83a10.779 10.779 0 0 0 15.2 0l403.886-403.78a10.779 10.779 0 0 1 15.253 0l22.85 22.852a10.779 10.779 0 0 1 0 15.252L453.094 792.091a10.779 10.779 0 0 1-15.252 0L129.13 483.38a10.779 10.779 0 0 1 0-15.251l22.906-22.852a10.779 10.779 0 0 1 15.252 0z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M158.912 440.768a12.8 12.8 0 0 1 18.112 0l262.4 262.464 443.52-443.52a12.8 12.8 0 0 1 18.112 0l27.2 27.2a12.8 12.8 0 0 1 0 18.112L448.512 784.64a12.8 12.8 0 0 1-18.112 0L131.84 486.016a12.8 12.8 0 0 1 0-18.112l27.136-27.136z"/></svg>'
 };
 const Clear = {
   name: "clear",
@@ -15955,7 +19206,7 @@ const ClockCircle = {
 };
 const CloseCircleFilled = {
   name: "close-circle-filled",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64c247.424 0 448 200.576 448 448S759.424 960 512 960 64 759.424 64 512 264.576 64 512 64zm168.021 252.096a12.8 12.8 0 0 0-18.09 0L512.384 465.643 365.12 318.379a12.8 12.8 0 0 0-18.112 0l-27.136 27.157a12.8 12.8 0 0 0 0 18.09l147.264 147.265-149.419 149.418a12.8 12.8 0 0 0 0 18.091l27.158 27.157a12.8 12.8 0 0 0 18.09 0L512.384 556.14l149.419 149.418a12.8 12.8 0 0 0 18.09 0l27.158-27.136a12.8 12.8 0 0 0 0-18.112L557.632 510.891l149.547-149.547a12.8 12.8 0 0 0 0-18.09z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M512 0c282.752 0 512 229.248 512 512s-229.248 512-512 512S0 794.752 0 512 229.248 0 512 0zm192 288.128a14.635 14.635 0 0 0-20.65 0l-170.923 170.88-168.278-168.277a14.635 14.635 0 0 0-20.693 0l-31.061 31.018a14.635 14.635 0 0 0 0 20.694l168.32 168.277-170.752 170.752a14.635 14.635 0 0 0 0 20.693l31.018 31.062a14.635 14.635 0 0 0 20.694 0l170.752-170.795 170.752 170.795a14.635 14.635 0 0 0 20.693 0l31.061-31.019a14.635 14.635 0 0 0 0-20.693L564.181 510.72l170.88-170.88a14.635 14.635 0 0 0 0-20.693l-31.018-31.019z"/></svg>'
 };
 const CloseCircle = {
   name: "close-circle",
@@ -15975,7 +19226,7 @@ const DoubleRight = {
 };
 const Down = {
   name: "down",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M534.016 661.568a29.888 29.888 0 0 1-45.376 0L265.408 414.144a38.336 38.336 0 0 1 0-50.24 29.888 29.888 0 0 1 45.312 0l191.552 212.288a11.968 11.968 0 0 0 18.112 0l192.896-213.76a29.888 29.888 0 0 1 45.312 0 38.336 38.336 0 0 1 0 50.24l-224.64 248.96z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="m294.784 411.776 208.192 208.192a12.8 12.8 0 0 0 18.048 0l208.192-208.192a12.8 12.8 0 0 1 18.112 0l27.136 27.2a12.8 12.8 0 0 1 0 18.048l-253.44 253.44a12.8 12.8 0 0 1-18.048 0l-253.44-253.44a12.8 12.8 0 0 1 0-18.048l27.136-27.2a12.8 12.8 0 0 1 18.112 0z"/></svg>'
 };
 const Ellipsis = {
   name: "ellipsis",
@@ -15987,7 +19238,7 @@ const Empty$2 = {
 };
 const ExclamationCircleFilled = {
   name: "exclamation-circle-filled",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64c247.424 0 448 200.576 448 448S759.424 960 512 960 64 759.424 64 512 264.576 64 512 64zm.853 656.939a48 48 0 1 0 0 96 48 48 0 0 0 0-96zM531.2 256h-38.4a12.8 12.8 0 0 0-12.8 12.8v358.4a12.8 12.8 0 0 0 12.8 12.8h38.4a12.8 12.8 0 0 0 12.8-12.8V268.8a12.8 12.8 0 0 0-12.8-12.8z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M512 1024c282.752 0 512-229.248 512-512S794.752 0 512 0 0 229.248 0 512s229.248 512 512 512zm25.6-405.333h-51.2a17.067 17.067 0 0 1-17.067-17.067V251.733c0-9.386 7.68-17.066 17.067-17.066h51.2c9.387 0 17.067 7.68 17.067 17.066V601.6a17.067 17.067 0 0 1-17.067 17.067zm0 170.666h-51.2a17.067 17.067 0 0 1-17.067-17.066v-51.2c0-9.387 7.68-17.067 17.067-17.067h51.2c9.387 0 17.067 7.68 17.067 17.067v51.2a17.067 17.067 0 0 1-17.067 17.066z"/></svg>'
 };
 const ExclamationCircle = {
   name: "exclamation-circle",
@@ -15995,15 +19246,15 @@ const ExclamationCircle = {
 };
 const FilterFilled = {
   name: "filter-filled",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M46.976 118.997a14.208 14.208 0 0 1-4.31-10.197V14.336C42.667 6.443 49.28 0 57.345 0h909.312c8.107 0 14.677 6.443 14.677 14.336V108.8c0 3.84-1.536 7.51-4.309 10.197l-347.69 340.054v450.133a14.293 14.293 0 0 1-8.107 12.885l-205.312 100.395a14.933 14.933 0 0 1-14.336-.64 14.293 14.293 0 0 1-6.912-12.288V459.008L46.976 118.955z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M259.776 323.776a12.8 12.8 0 0 1-3.776-9.088V268.8c0-7.04 5.76-12.8 12.8-12.8h486.4c7.04 0 12.8 5.76 12.8 12.8v45.888a12.8 12.8 0 0 1-3.776 9.088L576 512v248.064a12.8 12.8 0 0 1-7.04 11.52l-102.4 51.2a12.8 12.8 0 0 1-18.56-11.52V512L259.776 323.776z"/></svg>'
 };
 const InfoCircleFilled = {
   name: "info-circle-filled",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm32 664c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V456c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v272zm-32-344a48.01 48.01 0 0 1 0-96 48.01 48.01 0 0 1 0 96z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M512 0c282.752 0 512 229.248 512 512s-229.248 512-512 512S0 794.752 0 512 229.248 0 512 0zm25.6 405.333h-51.2a17.067 17.067 0 0 0-17.067 17.067v349.867c0 9.386 7.68 17.066 17.067 17.066h51.2a17.067 17.067 0 0 0 17.067-17.066V422.4a17.067 17.067 0 0 0-17.067-17.067zm0-170.666h-51.2a17.067 17.067 0 0 0-17.067 17.066v51.2c0 9.387 7.68 17.067 17.067 17.067h51.2a17.067 17.067 0 0 0 17.067-17.067v-51.2a17.067 17.067 0 0 0-17.067-17.066z"/></svg>'
 };
 const InfoCircle = {
   name: "info-circle",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M512 64a448 448 0 1 1 0 896 448 448 0 0 1 0-896zm0 64a384 384 0 1 0 0 768 384 384 0 0 0 0-768zm-19.2 128h38.4q12.8 0 12.8 12.8v358.4q0 12.8-12.8 12.8h-38.4q-12.8 0-12.8-12.8V268.8q0-12.8 12.8-12.8Zm20.032 464.96q48 0 48 48t-48 48q-48 0-48-48t48-48Z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M512 896a384 384 0 1 0 0-768 384 384 0 0 0 0 768zm0-64a320 320 0 1 1 0-640 320 320 0 0 1 0 640zm0-256a32 32 0 0 0 32-32V352a32 32 0 1 0-64 0v192a32 32 0 0 0 32 32zm0 128a32 32 0 1 0 0-64 32 32 0 0 0 0 64z"/></svg>'
 };
 const LeftDouble = {
   name: "left-double",
@@ -16011,7 +19262,7 @@ const LeftDouble = {
 };
 const Left = {
   name: "left",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M362.432 534.016a29.888 29.888 0 0 1 0-45.376l247.424-223.232a38.336 38.336 0 0 1 50.24 0 29.888 29.888 0 0 1 0 45.312L447.808 502.272a11.968 11.968 0 0 0 0 18.112l213.76 192.896a29.888 29.888 0 0 1 0 45.312 38.336 38.336 0 0 1-50.24 0l-248.96-224.64z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M612.224 294.784 404.032 502.976a12.8 12.8 0 0 0 0 18.048l208.192 208.192a12.8 12.8 0 0 1 0 18.112l-27.2 27.136a12.8 12.8 0 0 1-18.048 0l-253.44-253.44a12.8 12.8 0 0 1 0-18.048l253.44-253.44a12.8 12.8 0 0 1 18.048 0l27.2 27.136a12.8 12.8 0 0 1 0 18.112z"/></svg>'
 };
 const Loading$1 = {
   name: "loading",
@@ -16019,11 +19270,11 @@ const Loading$1 = {
 };
 const MenuFold = {
   name: "menu-fold",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M896 140.8v38.4a12.8 12.8 0 0 1-12.8 12.8H140.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h742.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H140.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h742.4c7.04 0 12.8 5.76 12.8 12.8zM372.992 495.36 152.64 632.32a12.8 12.8 0 0 1-19.52-10.88V347.52a12.8 12.8 0 0 1 19.52-10.88L372.992 473.6a12.8 12.8 0 0 1 0 21.76z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M888.32 768c4.224 0 7.68 3.2 7.68 7.104v49.792c.064 3.84-3.328 7.04-7.68 7.104H135.68c-4.352-.064-7.744-3.264-7.68-7.104v-49.792c0-3.904 3.456-7.104 7.68-7.104h752.64zM736 392.576c0-7.168 7.872-11.136 13.248-6.72l143.68 119.488a8.832 8.832 0 0 1 0 13.44l-143.68 119.424c-5.376 4.48-13.248.384-13.248-6.784zM631.68 576c4.608 0 8.32 3.2 8.32 7.104v49.792c.064 3.84-3.584 7.04-8.32 7.104H136.32c-4.736-.064-8.384-3.264-8.32-7.104V583.04c0-3.84 3.712-7.104 8.32-7.104h495.36zm0-192c4.608 0 8.32 3.2 8.32 7.104v49.792c.064 3.84-3.584 7.04-8.32 7.104H136.32c-4.736-.064-8.384-3.264-8.32-7.104V391.04c0-3.84 3.712-7.104 8.32-7.104h495.36zm256.64-192c4.224 0 7.68 3.2 7.68 7.104v49.792c.064 3.84-3.328 7.04-7.68 7.104H135.68c-4.352-.064-7.744-3.264-7.68-7.104V199.04c0-3.84 3.456-7.04 7.68-7.04h752.64z"/></svg>'
 };
 const MenuUnfold = {
   name: "menu-unfold",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M896 140.8v38.4a12.8 12.8 0 0 1-12.8 12.8H140.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h742.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H524.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h358.4c7.04 0 12.8 5.76 12.8 12.8zm0 128v38.4a12.8 12.8 0 0 1-12.8 12.8H140.8a12.8 12.8 0 0 1-12.8-12.8v-38.4c0-7.04 5.76-12.8 12.8-12.8h742.4c7.04 0 12.8 5.76 12.8 12.8zM142.912 473.6l220.352-136.96a12.8 12.8 0 0 1 19.52 10.88v273.92a12.8 12.8 0 0 1-19.52 10.88L142.912 495.36a12.8 12.8 0 0 1 0-21.76z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M888.32 768c4.224 0 7.68 3.2 7.68 7.104v49.792c.064 3.84-3.328 7.04-7.68 7.104H135.68c-4.352-.064-7.744-3.264-7.68-7.104v-49.792c0-3.904 3.456-7.104 7.68-7.104h752.64zM896 392.576v238.848c0 7.168-7.872 11.264-13.248 6.784l-143.68-119.36a8.832 8.832 0 0 1 0-13.44l143.68-119.552c5.376-4.48 13.248-.448 13.248 6.72zM631.68 576c4.608 0 8.32 3.2 8.32 7.104v49.792c.064 3.84-3.584 7.04-8.32 7.104H136.32c-4.736-.064-8.384-3.264-8.32-7.104V583.04c0-3.84 3.712-7.104 8.32-7.104h495.36zm0-192c4.608 0 8.32 3.2 8.32 7.104v49.792c.064 3.84-3.584 7.04-8.32 7.104H136.32c-4.736-.064-8.384-3.264-8.32-7.104V391.04c0-3.84 3.712-7.104 8.32-7.104h495.36zm256.64-192c4.224 0 7.68 3.2 7.68 7.104v49.792c.064 3.84-3.328 7.04-7.68 7.104H135.68c-4.352-.064-7.744-3.264-7.68-7.104V199.04c0-3.84 3.456-7.04 7.68-7.04h752.64z"/></svg>'
 };
 const Menu$1 = {
   name: "menu",
@@ -16035,7 +19286,7 @@ const Minus = {
 };
 const Plus = {
   name: "plus",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M499.2 128c7.04 0 12.8 5.312 12.8 11.84V448h308.16c6.528 0 11.84 5.76 11.84 12.8v38.4c0 7.04-5.312 12.8-11.84 12.8H512v308.16c0 6.528-5.76 11.84-12.8 11.84h-38.4c-7.04 0-12.8-5.312-12.8-11.84V512H139.84c-6.528 0-11.84-5.76-11.84-12.8v-38.4c0-7.04 5.312-12.8 11.84-12.8l308.16-.064V139.84c0-6.528 5.76-11.84 12.8-11.84h38.4z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="M499.2 128c7.04 0 12.8 5.312 12.8 11.84V448h308.16c6.528 0 11.84 5.76 11.84 12.8v38.4c0 7.04-5.312 12.8-11.84 12.8H512v308.16c0 6.528-5.76 11.84-12.8 11.84h-38.4c-7.04 0-12.8-5.312-12.8-11.84V512H139.84c-6.528 0-11.84-5.76-11.84-12.8v-38.4c0-7.04 5.312-12.8 11.84-12.8l308.16-.064V139.84c0-6.528 5.76-11.84 12.8-11.84h38.4z"/></svg>'
 };
 const QuestionCircleFilled = {
   name: "question-circle-filled",
@@ -16051,7 +19302,7 @@ const RightDouble = {
 };
 const Right = {
   name: "right",
-  svg: '<svg viewBox="64 64 896 896" focusable="false"><path d="M661.568 534.016a29.888 29.888 0 0 0 0-45.376L414.144 265.408a38.336 38.336 0 0 0-50.24 0 29.888 29.888 0 0 0 0 45.312l212.288 191.552a11.968 11.968 0 0 1 0 18.112L362.432 713.28a29.888 29.888 0 0 0 0 45.312 38.336 38.336 0 0 0 50.24 0l248.96-224.64z"/></svg>'
+  svg: '<svg viewBox="0 0 1024 1024" focusable="false"><path d="m411.776 294.784 208.192 208.192a12.8 12.8 0 0 1 0 18.048L411.776 729.216a12.8 12.8 0 0 0 0 18.112l27.2 27.136a12.8 12.8 0 0 0 18.048 0l253.44-253.44a12.8 12.8 0 0 0 0-18.048l-253.44-253.44a12.8 12.8 0 0 0-18.048 0l-27.2 27.136a12.8 12.8 0 0 0 0 18.112z"/></svg>'
 };
 const RotateLeft = {
   name: "rotate-left",
@@ -16140,945 +19391,6 @@ const IDUX_ICON_DEPENDENCIES = [
 ];
 const IxIcon = Icon;
 
-const defaultName$1 = "\u6B64\u9879";
-const zhCNMessages = {
-  default: (_, control) => {
-    const name = control.name;
-    return `${name || ""}\u9A8C\u8BC1\u5931\u8D25`;
-  },
-  required: (_, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u5FC5\u586B`;
-  },
-  requiredTrue: (_, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u5FC5\u987B\u4E3A 'true'`;
-  },
-  email: (_, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u4E0D\u662F\u4E00\u4E2A\u6709\u6548\u7684\u90AE\u7BB1\u5730\u5740`;
-  },
-  min: (err, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u4E0D\u80FD\u5C0F\u4E8E ${err.min}`;
-  },
-  max: (err, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u4E0D\u80FD\u5927\u4E8E ${err.max}`;
-  },
-  minLength: (err, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u7684\u957F\u5EA6\u4E0D\u80FD\u5C0F\u4E8E ${err.minLength}, \u5F53\u524D\u957F\u5EA6\u4E3A ${err.actual}`;
-  },
-  maxLength: (err, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u7684\u957F\u5EA6\u4E0D\u80FD\u5927\u4E8E ${err.maxLength}, \u5F53\u524D\u957F\u5EA6\u4E3A ${err.actual}`;
-  },
-  pattern: (err, control) => {
-    const name = control.name || defaultName$1;
-    return `${name}\u4E0D\u80FD\u5339\u914D '${err.pattern}'`;
-  }
-};
-var __defProp$1$f = Object.defineProperty;
-var __defProps$m = Object.defineProperties;
-var __getOwnPropDescs$m = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$h = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$h = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$h = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$f = (obj, key, value) => key in obj ? __defProp$1$f(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$f = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$h.call(b, prop))
-      __defNormalProp$1$f(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$h)
-    for (var prop of __getOwnPropSymbols$1$h(b)) {
-      if (__propIsEnum$1$h.call(b, prop))
-        __defNormalProp$1$f(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps$m = (a, b) => __defProps$m(a, __getOwnPropDescs$m(b));
-const emailRegexp = /^(?=.{1,254}$)(?=.{1,64}@)[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-const _Validators = class {
-  static setMessages(messages) {
-    _Validators.messages = __spreadValues$1$f(__spreadValues$1$f({}, _Validators.messages), messages);
-  }
-  static getError(key, control, errorContext = {}) {
-    let message = void 0;
-    const validMessage = _Validators.messages[key] || _Validators.messages.default || void 0;
-    if (isFunction$1(validMessage)) {
-      message = validMessage(errorContext, control);
-    } else {
-      message = validMessage;
-    }
-    return __spreadProps$m(__spreadValues$1$f({}, errorContext), { message });
-  }
-  static required(value, control) {
-    if (isEmpty(value)) {
-      return { required: _Validators.getError("required", control) };
-    }
-    return void 0;
-  }
-  static requiredTrue(value, control) {
-    if (value === true) {
-      return void 0;
-    }
-    return { requiredTrue: _Validators.getError("requiredTrue", control, { actual: value }) };
-  }
-  static email(value, control) {
-    if (isEmpty(value) || emailRegexp.test(value)) {
-      return void 0;
-    }
-    return { email: _Validators.getError("email", control, { actual: value }) };
-  }
-  static min(min) {
-    return (value, control) => {
-      if (isEmpty(value) || !isNumeric(value) || Number(value) >= min) {
-        return void 0;
-      }
-      return { min: _Validators.getError("min", control, { min, actual: value }) };
-    };
-  }
-  static max(max) {
-    return (value, control) => {
-      if (isEmpty(value) || !isNumeric(value) || Number(value) <= max) {
-        return void 0;
-      }
-      return { max: _Validators.getError("max", control, { max, actual: value }) };
-    };
-  }
-  static minLength(minLength) {
-    return (value, control) => {
-      if (isEmpty(value) || !hasLength(value) || value.length >= minLength) {
-        return void 0;
-      }
-      return { minLength: _Validators.getError("minLength", control, { minLength, actual: value.length }) };
-    };
-  }
-  static maxLength(maxLength) {
-    return (value, control) => {
-      if (isEmpty(value) || !hasLength(value) || value.length <= maxLength) {
-        return void 0;
-      }
-      return { maxLength: _Validators.getError("maxLength", control, { maxLength, actual: value.length }) };
-    };
-  }
-  static pattern(pattern) {
-    if (!pattern) {
-      return _Validators.nullValidator;
-    }
-    let regex;
-    let regexStr;
-    if (typeof pattern === "string") {
-      regexStr = "";
-      if (pattern.charAt(0) !== "^") {
-        regexStr += "^";
-      }
-      regexStr += pattern;
-      if (pattern.charAt(pattern.length - 1) !== "$") {
-        regexStr += "$";
-      }
-      regex = new RegExp(regexStr);
-    } else {
-      regexStr = pattern.toString();
-      regex = pattern;
-    }
-    return (value, control) => {
-      if (isEmpty(value) || regex.test(value)) {
-        return void 0;
-      }
-      return { pattern: _Validators.getError("pattern", control, { pattern: regexStr, actual: value }) };
-    };
-  }
-  static nullValidator(_, _control) {
-    return void 0;
-  }
-  static compose(validators) {
-    if (!validators) {
-      return void 0;
-    }
-    const presentValidators = validators.filter(isFunction$1);
-    if (presentValidators.length == 0) {
-      return void 0;
-    }
-    return (value, control) => mergeMessages(executeValidators(value, control, presentValidators));
-  }
-  static composeAsync(validators) {
-    if (!validators) {
-      return void 0;
-    }
-    const presentValidators = validators.filter(isFunction$1);
-    if (presentValidators.length == 0) {
-      return void 0;
-    }
-    return (value, control) => {
-      const ValidateErrors = executeValidators(value, control, presentValidators);
-      return Promise.all(ValidateErrors).then(mergeMessages);
-    };
-  }
-};
-let Validators = _Validators;
-Validators.messages = zhCNMessages;
-function isEmpty(val) {
-  return isNil(val) || val.length === 0 && (isString(val) || isArray$2(val));
-}
-function hasLength(val) {
-  return !isNil(val) && isNumber(val.length);
-}
-function executeValidators(value, control, validators) {
-  return validators.map((validator) => validator(value, control));
-}
-function mergeMessages(validateErrors) {
-  let res = {};
-  validateErrors.forEach((errors) => {
-    res = isNil(errors) ? res : __spreadValues$1$f(__spreadValues$1$f({}, res), errors);
-  });
-  return Object.keys(res).length === 0 ? void 0 : res;
-}
-var __defProp$w = Object.defineProperty;
-var __getOwnPropSymbols$C = Object.getOwnPropertySymbols;
-var __hasOwnProp$C = Object.prototype.hasOwnProperty;
-var __propIsEnum$C = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$w = (obj, key, value) => key in obj ? __defProp$w(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$w = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$C.call(b, prop))
-      __defNormalProp$w(a, prop, b[prop]);
-  if (__getOwnPropSymbols$C)
-    for (var prop of __getOwnPropSymbols$C(b)) {
-      if (__propIsEnum$C.call(b, prop))
-        __defNormalProp$w(a, prop, b[prop]);
-    }
-  return a;
-};
-var __async$9 = (__this, __arguments, generator) => {
-  return new Promise((resolve, reject) => {
-    var fulfilled = (value) => {
-      try {
-        step(generator.next(value));
-      } catch (e) {
-        reject(e);
-      }
-    };
-    var rejected = (value) => {
-      try {
-        step(generator.throw(value));
-      } catch (e) {
-        reject(e);
-      }
-    };
-    var step = (x) => x.done ? resolve(x.value) : Promise.resolve(x.value).then(fulfilled, rejected);
-    step((generator = generator.apply(__this, __arguments)).next());
-  });
-};
-function isOptions(val) {
-  return isPlainObject(val);
-}
-function toValidator(validator) {
-  return isArray$2(validator) ? Validators.compose(validator) : validator;
-}
-function toAsyncValidator(asyncValidator) {
-  return isArray$2(asyncValidator) ? Validators.composeAsync(asyncValidator) : asyncValidator;
-}
-let controlId = 0;
-class AbstractControl {
-  constructor(controls, validatorOrOptions, asyncValidator, initValue) {
-    this.uid = controlId++;
-    this._blurred = ref(false);
-    this._dirty = ref(false);
-    this._controls = shallowRef(controls);
-    this._valueRef = shallowRef(initValue != null ? initValue : this._calculateInitValue());
-    this._forEachControls((control) => control.setParent(this));
-    this._convertOptions(validatorOrOptions, asyncValidator);
-    this._init();
-  }
-  get parent() {
-    return this._parent;
-  }
-  get root() {
-    let root = this;
-    while (root.parent) {
-      root = root.parent;
-    }
-    return root;
-  }
-  get trigger() {
-    var _a, _b, _c;
-    return (_c = (_b = this._trigger) != null ? _b : (_a = this._parent) == null ? void 0 : _a.trigger) != null ? _c : "change";
-  }
-  get trim() {
-    var _a, _b, _c;
-    return (_c = (_b = this._trim) != null ? _b : (_a = this._parent) == null ? void 0 : _a.trim) != null ? _c : false;
-  }
-  reset() {
-    if (this._controls.value) {
-      this._forEachControls((control) => control.reset());
-    } else {
-      this._valueRef.value = this._calculateInitValue();
-      this.markAsUnblurred();
-      this.markAsPristine();
-    }
-  }
-  validate() {
-    return __async$9(this, null, function* () {
-      if (this._controls.value) {
-        const validates = [];
-        this._forEachControls((control) => validates.push(control.validate()));
-        if (validates.length > 0) {
-          yield Promise.all(validates);
-        }
-      }
-      return this._validate();
-    });
-  }
-  disable() {
-    this._disabled.value = true;
-    this._errors.value = void 0;
-    if (this._controls.value) {
-      this._forEachControls((control) => control.disable());
-    }
-  }
-  enable() {
-    this._disabled.value = false;
-    this._validate();
-    if (this._controls.value) {
-      this._forEachControls((control) => control.enable());
-    }
-  }
-  markAsBlurred() {
-    if (this._controls.value) {
-      this._forEachControls((control) => control.markAsBlurred());
-    } else {
-      this._blurred.value = true;
-    }
-    if (this.trigger === "blur") {
-      this._validate();
-    }
-  }
-  markAsUnblurred() {
-    if (this._controls.value) {
-      this._forEachControls((control) => control.markAsUnblurred());
-    } else {
-      this._blurred.value = false;
-    }
-  }
-  markAsDirty() {
-    if (this._controls.value) {
-      this._forEachControls((control) => control.markAsDirty());
-    } else {
-      this._dirty.value = true;
-    }
-  }
-  markAsPristine() {
-    if (this._controls.value) {
-      this._forEachControls((control) => control.markAsPristine());
-    } else {
-      this._dirty.value = false;
-    }
-  }
-  setValidator(newValidator) {
-    this._validators = toValidator(newValidator);
-  }
-  setAsyncValidator(newAsyncValidator) {
-    this._asyncValidators = toAsyncValidator(newAsyncValidator);
-  }
-  get(path) {
-    if (isNil(path)) {
-      return void 0;
-    }
-    if (!isArray$2(path)) {
-      path = path.toString().split(".");
-    }
-    if (path.length === 0) {
-      return void 0;
-    }
-    let controlToFind = this;
-    path.forEach((name) => {
-      if (controlToFind instanceof FormGroup) {
-        const controls = controlToFind.controls.value;
-        controlToFind = controls.hasOwnProperty(name) ? controls[name] : void 0;
-      } else if (controlToFind instanceof FormArray) {
-        controlToFind = controlToFind.at(name);
-      } else {
-        controlToFind = void 0;
-      }
-    });
-    return controlToFind;
-  }
-  setErrors(errors) {
-    this._errors.value = errors;
-  }
-  getError(errorCode, path) {
-    var _a, _b;
-    const control = path ? this.get(path) : this;
-    return (_b = (_a = control == null ? void 0 : control._errors) == null ? void 0 : _a.value) == null ? void 0 : _b[errorCode];
-  }
-  hasError(errorCode, path) {
-    return !!this.getError(errorCode, path);
-  }
-  setParent(parent) {
-    this._parent = parent;
-  }
-  watchValue(cb, options) {
-    return watch(this.valueRef, cb, options);
-  }
-  watchStatus(cb, options) {
-    return watch(this.status, cb, options);
-  }
-  _validate() {
-    return __async$9(this, null, function* () {
-      let newErrors = void 0;
-      if (!this._disabled.value) {
-        let value = void 0;
-        if (this._validators) {
-          value = this.getValue();
-          newErrors = this._validators(value, this);
-        }
-        if (isNil(newErrors) && this._asyncValidators) {
-          value = this._validators ? value : this.getValue();
-          this._status.value = "validating";
-          newErrors = yield this._asyncValidators(value, this);
-        }
-      }
-      this.setErrors(newErrors);
-      return newErrors;
-    });
-  }
-  _convertOptions(validatorOrOptions, asyncValidator) {
-    var _a, _b;
-    let disabled = false;
-    if (isOptions(validatorOrOptions)) {
-      this.name = validatorOrOptions.name;
-      this._trigger = (_a = validatorOrOptions.trigger) != null ? _a : this._trigger;
-      this._trim = (_b = validatorOrOptions.trim) != null ? _b : this._trim;
-      this._validators = toValidator(validatorOrOptions.validators);
-      this._asyncValidators = toAsyncValidator(validatorOrOptions.asyncValidators);
-      if (validatorOrOptions.disabled) {
-        disabled = true;
-        const controls = this._controls.value;
-        if (controls) {
-          for (const key in controls) {
-            controls[key].disable();
-          }
-        }
-      }
-    } else {
-      this._validators = toValidator(validatorOrOptions);
-      this._asyncValidators = toAsyncValidator(asyncValidator);
-    }
-    this._disabled = ref(disabled);
-  }
-  _init() {
-    this.controls = computed$1(() => this._controls.value);
-    this.valueRef = computed$1(() => this._valueRef.value);
-    this._initErrorsAndStatus();
-    this.errors = computed$1(() => this._errors.value);
-    this.status = computed$1(() => {
-      const selfStatus = this._status.value;
-      if (selfStatus === "valid") {
-        return this._controlsStatus.value;
-      }
-      return selfStatus;
-    });
-    this.valid = computed$1(() => this.status.value === "valid");
-    this.invalid = computed$1(() => this.status.value === "invalid");
-    this.validating = computed$1(() => this.status.value === "validating");
-    this.disabled = computed$1(() => this._disabled.value);
-    this.blurred = computed$1(() => this._blurred.value);
-    this.unblurred = computed$1(() => !this._blurred.value);
-    this.dirty = computed$1(() => this._dirty.value);
-    this.pristine = computed$1(() => !this._dirty.value);
-  }
-  _initErrorsAndStatus() {
-    const disabled = this._disabled.value;
-    let value;
-    let errors;
-    let status = "valid";
-    let controlsStatus = "valid";
-    if (!disabled) {
-      if (this._validators) {
-        value = this.getValue();
-        errors = this._validators(value, this);
-      }
-      if (errors) {
-        status = "invalid";
-      }
-      const controls = this._controls.value;
-      if (controls) {
-        for (const key in controls) {
-          const controlStatus = controls[key].status.value;
-          if (controlStatus === "invalid") {
-            controlsStatus = "invalid";
-            break;
-          }
-        }
-      }
-    }
-    this._errors = shallowRef(errors);
-    this._status = ref(status);
-    this._controlsStatus = ref(controlsStatus);
-    if (!disabled && status === "valid" && controlsStatus === "valid" && this._asyncValidators) {
-      value = this._validators ? value : this.getValue();
-      this._status.value = "validating";
-      this._asyncValidators(value, this).then((asyncErrors) => {
-        this._errors.value = asyncErrors;
-        this._status.value = asyncErrors ? "invalid" : "valid";
-      });
-    }
-  }
-}
-class FormGroup extends AbstractControl {
-  constructor(controls, validatorOrOptions, asyncValidator) {
-    super(controls, validatorOrOptions, asyncValidator);
-    this._watchValid();
-    this._watchValue();
-    this._watchStatus();
-    this._watchBlurred();
-    this._watchDirty();
-  }
-  setValue(value, options = {}) {
-    Object.keys(value).forEach((key) => {
-      this._controls.value[key].setValue(value[key], options);
-    });
-  }
-  getValue() {
-    const value = {};
-    this._forEachControls((control, key) => {
-      value[key] = control.getValue();
-    });
-    return value;
-  }
-  _calculateInitValue() {
-    return this.getValue();
-  }
-  _forEachControls(cb) {
-    const controls = this._controls.value;
-    Object.keys(controls).forEach((key) => cb(controls[key], key));
-  }
-  addControl(name, control) {
-    const controls = __spreadValues$w({}, this._controls.value);
-    if (hasOwnProperty(controls, name)) {
-      return;
-    }
-    control.setParent(this);
-    controls[name] = control;
-    this._controls.value = controls;
-  }
-  removeControl(name) {
-    const controls = __spreadValues$w({}, this._controls.value);
-    delete controls[name];
-    this._controls.value = controls;
-  }
-  setControl(name, control) {
-    control.setParent(this);
-    const controls = __spreadValues$w({}, this._controls.value);
-    controls[name] = control;
-    this._controls.value = controls;
-  }
-  _watchValid() {
-    watch(this._valueRef, () => {
-      if (this.trigger === "change") {
-        this._validate();
-      }
-    });
-  }
-  _watchValue() {
-    watchEffect(() => {
-      this._valueRef.value = this.getValue();
-    });
-  }
-  _watchStatus() {
-    watchEffect(() => {
-      this._status.value = this._errors.value ? "invalid" : "valid";
-    });
-    watchEffect(() => {
-      let status = "valid";
-      const controls = this._controls.value;
-      for (const key in controls) {
-        const controlStatus = controls[key].status.value;
-        if (controlStatus === "invalid") {
-          status = "invalid";
-          break;
-        } else if (controlStatus === "validating") {
-          status = "validating";
-        }
-      }
-      this._controlsStatus.value = status;
-    });
-  }
-  _watchBlurred() {
-    watchEffect(() => {
-      let blurred = false;
-      const controls = this._controls.value;
-      for (const key in controls) {
-        if (controls[key].blurred.value) {
-          blurred = true;
-          break;
-        }
-      }
-      this._blurred.value = blurred;
-    });
-  }
-  _watchDirty() {
-    watchEffect(() => {
-      let dirty = false;
-      const controls = this._controls.value;
-      for (const key in controls) {
-        if (controls[key].dirty.value) {
-          dirty = true;
-          break;
-        }
-      }
-      this._dirty.value = dirty;
-    });
-  }
-}
-class FormArray extends AbstractControl {
-  constructor(controls, validatorOrOptions, asyncValidator) {
-    super(controls, validatorOrOptions, asyncValidator);
-    this.length = computed$1(() => this._controls.value.length);
-    this._watchValid();
-    this._watchValue();
-    this._watchStatus();
-    this._watchBlurred();
-    this._watchDirty();
-  }
-  setValue(value, options = {}) {
-    value.forEach((item, index) => {
-      if (this.at(index)) {
-        this.at(index).setValue(item, options);
-      }
-    });
-  }
-  getValue() {
-    return this._controls.value.map((control) => control.getValue());
-  }
-  _calculateInitValue() {
-    return this.getValue();
-  }
-  _forEachControls(cb) {
-    this._controls.value.forEach(cb);
-  }
-  at(index) {
-    return this._controls.value[index];
-  }
-  push(control) {
-    control.setParent(this);
-    this._controls.value = [...this._controls.value, control];
-  }
-  insert(index, control) {
-    control.setParent(this);
-    const controls = [...this._controls.value];
-    controls.splice(index, 0, control);
-    this._controls.value = controls;
-  }
-  removeAt(index) {
-    const controls = [...this._controls.value];
-    controls.splice(index, 1);
-    this._controls.value = controls;
-  }
-  setControl(index, control) {
-    control.setParent(this);
-    const controls = [...this._controls.value];
-    controls.splice(index, 1, control);
-    this._controls.value = controls;
-  }
-  _watchValid() {
-    watch(this._valueRef, () => {
-      if (this.trigger === "change") {
-        this._validate();
-      }
-    });
-  }
-  _watchValue() {
-    watchEffect(() => {
-      this._valueRef.value = this.getValue();
-    });
-  }
-  _watchStatus() {
-    watchEffect(() => {
-      this._status.value = this._errors.value ? "invalid" : "valid";
-    });
-    watchEffect(() => {
-      let status = "valid";
-      const controls = this._controls.value;
-      for (const control of controls) {
-        const controlStatus = control.status.value;
-        if (controlStatus === "invalid") {
-          status = "invalid";
-          break;
-        } else if (controlStatus === "validating") {
-          status = "validating";
-        }
-      }
-      this._controlsStatus.value = status;
-    });
-  }
-  _watchBlurred() {
-    watchEffect(() => {
-      let blurred = false;
-      const controls = this._controls.value;
-      for (const control of controls) {
-        if (control.blurred.value) {
-          blurred = true;
-          break;
-        }
-      }
-      this._blurred.value = blurred;
-    });
-  }
-  _watchDirty() {
-    watchEffect(() => {
-      let dirty = false;
-      const controls = this._controls.value;
-      for (const control of controls) {
-        if (control.dirty.value) {
-          dirty = true;
-          break;
-        }
-      }
-      this._dirty.value = dirty;
-    });
-  }
-}
-const isAbstractControl = (val) => {
-  return val instanceof AbstractControl;
-};
-const controlPropDef = [String, Number, Object];
-const FORMS_CONTROL_TOKEN = Symbol("cdk-forms-control");
-function useValueControl(options = {}) {
-  const { controlKey = "control" } = options;
-  const { props } = getCurrentInstance();
-  const parentControl = inject(FORMS_CONTROL_TOKEN, shallowRef());
-  const control = shallowRef();
-  let watchStop;
-  watch([() => props[controlKey], parentControl], ([controlOrPath, pControl]) => {
-    if (watchStop) {
-      watchStop();
-      watchStop = void 0;
-    }
-    if (isAbstractControl(controlOrPath)) {
-      control.value = controlOrPath;
-    } else if (!!pControl && !isNil(controlOrPath)) {
-      watchStop = watch(pControl.controls, () => {
-        const _control = pControl.get(controlOrPath);
-        if (process.env.NODE_ENV !== "production" && !_control) {
-          Logger.warn("cdk/forms", `not find control by [${controlOrPath}]`);
-        }
-        control.value = _control;
-      }, { immediate: true });
-    }
-  }, { immediate: true });
-  return control;
-}
-function useValueAccessor(options) {
-  const { control, valueKey = "value", disabledKey = "disabled" } = options;
-  const { props } = getCurrentInstance();
-  const accessor = shallowReactive({});
-  let watchStop;
-  watch(control, (currControl) => {
-    if (watchStop) {
-      watchStop();
-      watchStop = void 0;
-    }
-    if (currControl) {
-      accessor.valueRef = currControl.valueRef;
-      accessor.disabled = currControl.disabled;
-      accessor.setValue = (value) => currControl.setValue(value, { dirty: true });
-      accessor.markAsBlurred = () => currControl.markAsBlurred();
-    } else {
-      const tempRef = ref(props[valueKey]);
-      watchStop = watch(() => props[valueKey], (value) => tempRef.value = value);
-      accessor.valueRef = computed$1(() => {
-        var _a;
-        return (_a = props[valueKey]) != null ? _a : tempRef.value;
-      });
-      accessor.disabled = computed$1(() => props[disabledKey]);
-      accessor.setValue = (value) => {
-        if (value != toRaw$1(accessor.valueRef.value)) {
-          tempRef.value = value;
-          callEmit(props[`onUpdate:${valueKey}`], value);
-        }
-      };
-      accessor.markAsBlurred = NoopFunction;
-    }
-  }, { immediate: true });
-  return accessor;
-}
-
-let hasV8BreakIterator;
-try {
-  hasV8BreakIterator = typeof Intl !== "undefined" && Intl.v8BreakIterator;
-} catch (e) {
-  hasV8BreakIterator = false;
-}
-const testUserAgent = (regexp) => {
-  return regexp.test(navigator.userAgent);
-};
-const isBrowser = typeof document === "object" && !!document;
-const isEdge = isBrowser && testUserAgent(/(edge)/i);
-const isTrident = isBrowser && testUserAgent(/(msie|trident)/i);
-const isBlink = isBrowser && !!(window.chrome || hasV8BreakIterator) && typeof CSS !== "undefined" && !isEdge && !isTrident;
-const isWebKit = isBrowser && testUserAgent(/AppleWebKit/i) && !isBlink && !isEdge && !isTrident;
-const isFirefox = isBrowser && testUserAgent(/(firefox|minefield)/i);
-isBrowser && testUserAgent(/safari/i) && isWebKit;
-isBrowser && testUserAgent(/iPad|iPhone|iPod/) && !("MSStream" in window);
-isBrowser && testUserAgent(/android/i) && !isTrident;
-let flexGapSupported$1;
-function supportsFlexGap() {
-  if (!isBrowser) {
-    return false;
-  }
-  if (flexGapSupported$1 !== void 0) {
-    return flexGapSupported$1;
-  }
-  const flex = document.createElement("div");
-  flex.style.display = "flex";
-  flex.style.flexDirection = "column";
-  flex.style.rowGap = "1px";
-  flex.appendChild(document.createElement("div"));
-  flex.appendChild(document.createElement("div"));
-  document.body.appendChild(flex);
-  flexGapSupported$1 = flex.scrollHeight === 1;
-  document.body.removeChild(flex);
-  return flexGapSupported$1;
-}
-let supportsPassiveEvents;
-function supportsPassiveEventListeners() {
-  if (supportsPassiveEvents == null && typeof window !== "undefined") {
-    try {
-      window.addEventListener("test", null, Object.defineProperty({}, "passive", {
-        get: () => supportsPassiveEvents = true
-      }));
-    } finally {
-      supportsPassiveEvents = supportsPassiveEvents || false;
-    }
-  }
-  return supportsPassiveEvents;
-}
-function normalizePassiveListenerOptions(options) {
-  return supportsPassiveEventListeners() ? options : !!options.capture;
-}
-let shadowDomIsSupported;
-function _supportsShadowDom() {
-  if (shadowDomIsSupported == null) {
-    const head = typeof document !== "undefined" ? document.head : null;
-    shadowDomIsSupported = !!(head && (head.createShadowRoot || head.attachShadow));
-  }
-  return shadowDomIsSupported;
-}
-function _getShadowRoot(element) {
-  if (_supportsShadowDom()) {
-    const rootNode = element.getRootNode ? element.getRootNode() : null;
-    if (typeof ShadowRoot !== "undefined" && ShadowRoot && rootNode instanceof ShadowRoot) {
-      return rootNode;
-    }
-  }
-  return null;
-}
-function _getEventTarget(event) {
-  return event.composedPath ? event.composedPath()[0] : event.target;
-}
-
-const mediaQueriesForWebkitCompatibility = /* @__PURE__ */ new Set();
-let mediaQueryStyleNode;
-function createEmptyStyleRule(query) {
-  if (mediaQueriesForWebkitCompatibility.has(query)) {
-    return;
-  }
-  try {
-    if (!mediaQueryStyleNode) {
-      mediaQueryStyleNode = document.createElement("style");
-      mediaQueryStyleNode.setAttribute("type", "text/css");
-      document.head.appendChild(mediaQueryStyleNode);
-    }
-    if (mediaQueryStyleNode.sheet) {
-      ;
-      mediaQueryStyleNode.sheet.insertRule(`@media ${query} {.fx-query-test{ }}`, 0);
-      mediaQueriesForWebkitCompatibility.add(query);
-    }
-  } catch (err) {
-    Logger.error("cdk/breakpoint", err);
-  }
-}
-function noopMatchMedia(query) {
-  return {
-    matches: query === "all" || query === "",
-    media: query,
-    addEventListener: () => {
-    },
-    removeEventListener: () => {
-    }
-  };
-}
-const _matchMedia = isBrowser && window.matchMedia ? window.matchMedia.bind(window) : noopMatchMedia;
-const matchMedia = (query) => {
-  if (isWebKit) {
-    createEmptyStyleRule(query);
-  }
-  return _matchMedia(query);
-};
-const _queries = /* @__PURE__ */ new Map();
-function useMediaQuery(value) {
-  const queries = splitQueries(value).map((query) => registerQuery(query));
-  onScopeDispose(() => {
-    queries.forEach((query) => {
-      query.destroy();
-      _queries.delete(query.media);
-    });
-  });
-  return computed$1(() => {
-    let matches = false;
-    const medias = {};
-    queries.forEach((query) => {
-      const currMatches = query.matches.value;
-      matches = matches || currMatches;
-      medias[query.media] = currMatches;
-    });
-    return { matches, medias };
-  });
-}
-function registerQuery(query) {
-  if (_queries.has(query)) {
-    return _queries.get(query);
-  }
-  const mql = matchMedia(query);
-  const matches = ref(mql.matches);
-  const handler = (evt) => {
-    matches.value = evt.matches;
-  };
-  mql.addEventListener("change", handler);
-  const destroy = () => mql.removeEventListener("change", handler);
-  const output = { matches, destroy, media: query };
-  _queries.set(query, output);
-  return output;
-}
-function splitQueries(queries) {
-  return convertArray(queries).map((query) => query.split(",")).reduce((a1, a2) => a1.concat(a2)).map((query) => query.trim());
-}
-const BREAKPOINTS_KEYS = ["xs", "sm", "md", "lg", "xl"];
-const BREAKPOINTS = {
-  xs: "(max-width: 599.99px)",
-  sm: "(min-width: 600px) and (max-width: 959.99px)",
-  md: "(min-width: 960px) and (max-width: 1279.99px)",
-  lg: "(min-width: 1280px) and (max-width: 1719.99px)",
-  xl: "(min-width: 1720px)"
-};
-const BREAKPOINTS_TOKEN = Symbol("cdk-breakpoints");
-function useBreakpoints(value) {
-  const medias = value != null ? value : inject(BREAKPOINTS_TOKEN, BREAKPOINTS);
-  const queryState = useMediaQuery(Object.values(medias));
-  const match = reactive({});
-  watchEffect(() => {
-    const state = queryState.value;
-    Object.entries(medias).forEach(([key, value2]) => {
-      match[key] = state.medias[value2];
-    });
-  });
-  return match;
-}
-const useSharedBreakpoints = createSharedComposable(() => useBreakpoints());
-
 const rowToken = Symbol("rowToken");
 const rowProps = {
   align: IxPropTypes.oneOf(["start", "center", "end", "baseline", "stretch"]),
@@ -17113,12 +19425,12 @@ var Col = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-col`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-col`);
     const {
       mergedGutters
     } = inject(rowToken);
-    const classes = computed$1(() => generateAllCls(props, mergedPrefixCls.value));
-    const style = computed$1(() => {
+    const classes = computed(() => generateAllCls(props, mergedPrefixCls.value));
+    const style = computed(() => {
       const style2 = {};
       const [verticalGutter, horizontalGutter] = mergedGutters.value;
       if (verticalGutter > 0) {
@@ -17184,13 +19496,13 @@ var Row = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-row`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-row`);
     const config = useGlobalConfig$1("row");
     const mergedGutters = useGutters(props);
     provide(rowToken, {
       mergedGutters
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         align,
         justify,
@@ -17204,7 +19516,7 @@ var Row = defineComponent({
         [`${prefixCls}-nowrap`]: !wrap
       });
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const [verticalGutter, horizontalGutter] = mergedGutters.value;
       const style2 = {};
       if (verticalGutter > 0) {
@@ -17225,12 +19537,12 @@ var Row = defineComponent({
 });
 function useGutters(props) {
   const breakpoints = useSharedBreakpoints();
-  return computed$1(() => {
+  return computed(() => {
     const {
       gutter
     } = props;
     const results = [0, 0];
-    const gutters = isArray$2(gutter) ? gutter : [gutter, gutter];
+    const gutters = isArray$1(gutter) ? gutter : [gutter, gutter];
     gutters.forEach((item, index) => {
       if (isObject(item)) {
         BREAKPOINTS_KEYS.some((key) => {
@@ -17250,2198 +19562,6 @@ function useGutters(props) {
 }
 const IxRow = Row;
 const IxCol = Col;
-
-var top = 'top';
-var bottom = 'bottom';
-var right = 'right';
-var left = 'left';
-var auto = 'auto';
-var basePlacements = [top, bottom, right, left];
-var start = 'start';
-var end = 'end';
-var clippingParents = 'clippingParents';
-var viewport = 'viewport';
-var popper = 'popper';
-var reference = 'reference';
-var variationPlacements = /*#__PURE__*/basePlacements.reduce(function (acc, placement) {
-  return acc.concat([placement + "-" + start, placement + "-" + end]);
-}, []);
-var placements = /*#__PURE__*/[].concat(basePlacements, [auto]).reduce(function (acc, placement) {
-  return acc.concat([placement, placement + "-" + start, placement + "-" + end]);
-}, []); // modifiers that need to read the DOM
-
-var beforeRead = 'beforeRead';
-var read = 'read';
-var afterRead = 'afterRead'; // pure-logic modifiers
-
-var beforeMain = 'beforeMain';
-var main = 'main';
-var afterMain = 'afterMain'; // modifier with the purpose to write to the DOM (or write into a framework state)
-
-var beforeWrite = 'beforeWrite';
-var write = 'write';
-var afterWrite = 'afterWrite';
-var modifierPhases = [beforeRead, read, afterRead, beforeMain, main, afterMain, beforeWrite, write, afterWrite];
-
-function getNodeName(element) {
-  return element ? (element.nodeName || '').toLowerCase() : null;
-}
-
-function getWindow(node) {
-  if (node == null) {
-    return window;
-  }
-
-  if (node.toString() !== '[object Window]') {
-    var ownerDocument = node.ownerDocument;
-    return ownerDocument ? ownerDocument.defaultView || window : window;
-  }
-
-  return node;
-}
-
-function isElement(node) {
-  var OwnElement = getWindow(node).Element;
-  return node instanceof OwnElement || node instanceof Element;
-}
-
-function isHTMLElement(node) {
-  var OwnElement = getWindow(node).HTMLElement;
-  return node instanceof OwnElement || node instanceof HTMLElement;
-}
-
-function isShadowRoot(node) {
-  // IE 11 has no ShadowRoot
-  if (typeof ShadowRoot === 'undefined') {
-    return false;
-  }
-
-  var OwnElement = getWindow(node).ShadowRoot;
-  return node instanceof OwnElement || node instanceof ShadowRoot;
-}
-
-// and applies them to the HTMLElements such as popper and arrow
-
-function applyStyles(_ref) {
-  var state = _ref.state;
-  Object.keys(state.elements).forEach(function (name) {
-    var style = state.styles[name] || {};
-    var attributes = state.attributes[name] || {};
-    var element = state.elements[name]; // arrow is optional + virtual elements
-
-    if (!isHTMLElement(element) || !getNodeName(element)) {
-      return;
-    } // Flow doesn't support to extend this property, but it's the most
-    // effective way to apply styles to an HTMLElement
-    // $FlowFixMe[cannot-write]
-
-
-    Object.assign(element.style, style);
-    Object.keys(attributes).forEach(function (name) {
-      var value = attributes[name];
-
-      if (value === false) {
-        element.removeAttribute(name);
-      } else {
-        element.setAttribute(name, value === true ? '' : value);
-      }
-    });
-  });
-}
-
-function effect$2(_ref2) {
-  var state = _ref2.state;
-  var initialStyles = {
-    popper: {
-      position: state.options.strategy,
-      left: '0',
-      top: '0',
-      margin: '0'
-    },
-    arrow: {
-      position: 'absolute'
-    },
-    reference: {}
-  };
-  Object.assign(state.elements.popper.style, initialStyles.popper);
-  state.styles = initialStyles;
-
-  if (state.elements.arrow) {
-    Object.assign(state.elements.arrow.style, initialStyles.arrow);
-  }
-
-  return function () {
-    Object.keys(state.elements).forEach(function (name) {
-      var element = state.elements[name];
-      var attributes = state.attributes[name] || {};
-      var styleProperties = Object.keys(state.styles.hasOwnProperty(name) ? state.styles[name] : initialStyles[name]); // Set all values to an empty string to unset them
-
-      var style = styleProperties.reduce(function (style, property) {
-        style[property] = '';
-        return style;
-      }, {}); // arrow is optional + virtual elements
-
-      if (!isHTMLElement(element) || !getNodeName(element)) {
-        return;
-      }
-
-      Object.assign(element.style, style);
-      Object.keys(attributes).forEach(function (attribute) {
-        element.removeAttribute(attribute);
-      });
-    });
-  };
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var applyStyles$1 = {
-  name: 'applyStyles',
-  enabled: true,
-  phase: 'write',
-  fn: applyStyles,
-  effect: effect$2,
-  requires: ['computeStyles']
-};
-
-function getBasePlacement(placement) {
-  return placement.split('-')[0];
-}
-
-var max = Math.max;
-var min = Math.min;
-var round = Math.round;
-
-function getBoundingClientRect(element, includeScale) {
-  if (includeScale === void 0) {
-    includeScale = false;
-  }
-
-  var rect = element.getBoundingClientRect();
-  var scaleX = 1;
-  var scaleY = 1;
-
-  if (isHTMLElement(element) && includeScale) {
-    var offsetHeight = element.offsetHeight;
-    var offsetWidth = element.offsetWidth; // Do not attempt to divide by 0, otherwise we get `Infinity` as scale
-    // Fallback to 1 in case both values are `0`
-
-    if (offsetWidth > 0) {
-      scaleX = round(rect.width) / offsetWidth || 1;
-    }
-
-    if (offsetHeight > 0) {
-      scaleY = round(rect.height) / offsetHeight || 1;
-    }
-  }
-
-  return {
-    width: rect.width / scaleX,
-    height: rect.height / scaleY,
-    top: rect.top / scaleY,
-    right: rect.right / scaleX,
-    bottom: rect.bottom / scaleY,
-    left: rect.left / scaleX,
-    x: rect.left / scaleX,
-    y: rect.top / scaleY
-  };
-}
-
-// means it doesn't take into account transforms.
-
-function getLayoutRect(element) {
-  var clientRect = getBoundingClientRect(element); // Use the clientRect sizes if it's not been transformed.
-  // Fixes https://github.com/popperjs/popper-core/issues/1223
-
-  var width = element.offsetWidth;
-  var height = element.offsetHeight;
-
-  if (Math.abs(clientRect.width - width) <= 1) {
-    width = clientRect.width;
-  }
-
-  if (Math.abs(clientRect.height - height) <= 1) {
-    height = clientRect.height;
-  }
-
-  return {
-    x: element.offsetLeft,
-    y: element.offsetTop,
-    width: width,
-    height: height
-  };
-}
-
-function contains(parent, child) {
-  var rootNode = child.getRootNode && child.getRootNode(); // First, attempt with faster native method
-
-  if (parent.contains(child)) {
-    return true;
-  } // then fallback to custom implementation with Shadow DOM support
-  else if (rootNode && isShadowRoot(rootNode)) {
-      var next = child;
-
-      do {
-        if (next && parent.isSameNode(next)) {
-          return true;
-        } // $FlowFixMe[prop-missing]: need a better way to handle this...
-
-
-        next = next.parentNode || next.host;
-      } while (next);
-    } // Give up, the result is false
-
-
-  return false;
-}
-
-function getComputedStyle$1(element) {
-  return getWindow(element).getComputedStyle(element);
-}
-
-function isTableElement(element) {
-  return ['table', 'td', 'th'].indexOf(getNodeName(element)) >= 0;
-}
-
-function getDocumentElement(element) {
-  // $FlowFixMe[incompatible-return]: assume body is always available
-  return ((isElement(element) ? element.ownerDocument : // $FlowFixMe[prop-missing]
-  element.document) || window.document).documentElement;
-}
-
-function getParentNode(element) {
-  if (getNodeName(element) === 'html') {
-    return element;
-  }
-
-  return (// this is a quicker (but less type safe) way to save quite some bytes from the bundle
-    // $FlowFixMe[incompatible-return]
-    // $FlowFixMe[prop-missing]
-    element.assignedSlot || // step into the shadow DOM of the parent of a slotted node
-    element.parentNode || ( // DOM Element detected
-    isShadowRoot(element) ? element.host : null) || // ShadowRoot detected
-    // $FlowFixMe[incompatible-call]: HTMLElement is a Node
-    getDocumentElement(element) // fallback
-
-  );
-}
-
-function getTrueOffsetParent(element) {
-  if (!isHTMLElement(element) || // https://github.com/popperjs/popper-core/issues/837
-  getComputedStyle$1(element).position === 'fixed') {
-    return null;
-  }
-
-  return element.offsetParent;
-} // `.offsetParent` reports `null` for fixed elements, while absolute elements
-// return the containing block
-
-
-function getContainingBlock(element) {
-  var isFirefox = navigator.userAgent.toLowerCase().indexOf('firefox') !== -1;
-  var isIE = navigator.userAgent.indexOf('Trident') !== -1;
-
-  if (isIE && isHTMLElement(element)) {
-    // In IE 9, 10 and 11 fixed elements containing block is always established by the viewport
-    var elementCss = getComputedStyle$1(element);
-
-    if (elementCss.position === 'fixed') {
-      return null;
-    }
-  }
-
-  var currentNode = getParentNode(element);
-
-  while (isHTMLElement(currentNode) && ['html', 'body'].indexOf(getNodeName(currentNode)) < 0) {
-    var css = getComputedStyle$1(currentNode); // This is non-exhaustive but covers the most common CSS properties that
-    // create a containing block.
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/Containing_block#identifying_the_containing_block
-
-    if (css.transform !== 'none' || css.perspective !== 'none' || css.contain === 'paint' || ['transform', 'perspective'].indexOf(css.willChange) !== -1 || isFirefox && css.willChange === 'filter' || isFirefox && css.filter && css.filter !== 'none') {
-      return currentNode;
-    } else {
-      currentNode = currentNode.parentNode;
-    }
-  }
-
-  return null;
-} // Gets the closest ancestor positioned element. Handles some edge cases,
-// such as table ancestors and cross browser bugs.
-
-
-function getOffsetParent(element) {
-  var window = getWindow(element);
-  var offsetParent = getTrueOffsetParent(element);
-
-  while (offsetParent && isTableElement(offsetParent) && getComputedStyle$1(offsetParent).position === 'static') {
-    offsetParent = getTrueOffsetParent(offsetParent);
-  }
-
-  if (offsetParent && (getNodeName(offsetParent) === 'html' || getNodeName(offsetParent) === 'body' && getComputedStyle$1(offsetParent).position === 'static')) {
-    return window;
-  }
-
-  return offsetParent || getContainingBlock(element) || window;
-}
-
-function getMainAxisFromPlacement(placement) {
-  return ['top', 'bottom'].indexOf(placement) >= 0 ? 'x' : 'y';
-}
-
-function within(min$1, value, max$1) {
-  return max(min$1, min(value, max$1));
-}
-function withinMaxClamp(min, value, max) {
-  var v = within(min, value, max);
-  return v > max ? max : v;
-}
-
-function getFreshSideObject() {
-  return {
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0
-  };
-}
-
-function mergePaddingObject(paddingObject) {
-  return Object.assign({}, getFreshSideObject(), paddingObject);
-}
-
-function expandToHashMap(value, keys) {
-  return keys.reduce(function (hashMap, key) {
-    hashMap[key] = value;
-    return hashMap;
-  }, {});
-}
-
-var toPaddingObject = function toPaddingObject(padding, state) {
-  padding = typeof padding === 'function' ? padding(Object.assign({}, state.rects, {
-    placement: state.placement
-  })) : padding;
-  return mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
-};
-
-function arrow(_ref) {
-  var _state$modifiersData$;
-
-  var state = _ref.state,
-      name = _ref.name,
-      options = _ref.options;
-  var arrowElement = state.elements.arrow;
-  var popperOffsets = state.modifiersData.popperOffsets;
-  var basePlacement = getBasePlacement(state.placement);
-  var axis = getMainAxisFromPlacement(basePlacement);
-  var isVertical = [left, right].indexOf(basePlacement) >= 0;
-  var len = isVertical ? 'height' : 'width';
-
-  if (!arrowElement || !popperOffsets) {
-    return;
-  }
-
-  var paddingObject = toPaddingObject(options.padding, state);
-  var arrowRect = getLayoutRect(arrowElement);
-  var minProp = axis === 'y' ? top : left;
-  var maxProp = axis === 'y' ? bottom : right;
-  var endDiff = state.rects.reference[len] + state.rects.reference[axis] - popperOffsets[axis] - state.rects.popper[len];
-  var startDiff = popperOffsets[axis] - state.rects.reference[axis];
-  var arrowOffsetParent = getOffsetParent(arrowElement);
-  var clientSize = arrowOffsetParent ? axis === 'y' ? arrowOffsetParent.clientHeight || 0 : arrowOffsetParent.clientWidth || 0 : 0;
-  var centerToReference = endDiff / 2 - startDiff / 2; // Make sure the arrow doesn't overflow the popper if the center point is
-  // outside of the popper bounds
-
-  var min = paddingObject[minProp];
-  var max = clientSize - arrowRect[len] - paddingObject[maxProp];
-  var center = clientSize / 2 - arrowRect[len] / 2 + centerToReference;
-  var offset = within(min, center, max); // Prevents breaking syntax highlighting...
-
-  var axisProp = axis;
-  state.modifiersData[name] = (_state$modifiersData$ = {}, _state$modifiersData$[axisProp] = offset, _state$modifiersData$.centerOffset = offset - center, _state$modifiersData$);
-}
-
-function effect$1(_ref2) {
-  var state = _ref2.state,
-      options = _ref2.options;
-  var _options$element = options.element,
-      arrowElement = _options$element === void 0 ? '[data-popper-arrow]' : _options$element;
-
-  if (arrowElement == null) {
-    return;
-  } // CSS selector
-
-
-  if (typeof arrowElement === 'string') {
-    arrowElement = state.elements.popper.querySelector(arrowElement);
-
-    if (!arrowElement) {
-      return;
-    }
-  }
-
-  if (process.env.NODE_ENV !== "production") {
-    if (!isHTMLElement(arrowElement)) {
-      console.error(['Popper: "arrow" element must be an HTMLElement (not an SVGElement).', 'To use an SVG arrow, wrap it in an HTMLElement that will be used as', 'the arrow.'].join(' '));
-    }
-  }
-
-  if (!contains(state.elements.popper, arrowElement)) {
-    if (process.env.NODE_ENV !== "production") {
-      console.error(['Popper: "arrow" modifier\'s `element` must be a child of the popper', 'element.'].join(' '));
-    }
-
-    return;
-  }
-
-  state.elements.arrow = arrowElement;
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var arrow$1 = {
-  name: 'arrow',
-  enabled: true,
-  phase: 'main',
-  fn: arrow,
-  effect: effect$1,
-  requires: ['popperOffsets'],
-  requiresIfExists: ['preventOverflow']
-};
-
-function getVariation(placement) {
-  return placement.split('-')[1];
-}
-
-var unsetSides = {
-  top: 'auto',
-  right: 'auto',
-  bottom: 'auto',
-  left: 'auto'
-}; // Round the offsets to the nearest suitable subpixel based on the DPR.
-// Zooming can change the DPR, but it seems to report a value that will
-// cleanly divide the values into the appropriate subpixels.
-
-function roundOffsetsByDPR(_ref) {
-  var x = _ref.x,
-      y = _ref.y;
-  var win = window;
-  var dpr = win.devicePixelRatio || 1;
-  return {
-    x: round(x * dpr) / dpr || 0,
-    y: round(y * dpr) / dpr || 0
-  };
-}
-
-function mapToStyles(_ref2) {
-  var _Object$assign2;
-
-  var popper = _ref2.popper,
-      popperRect = _ref2.popperRect,
-      placement = _ref2.placement,
-      variation = _ref2.variation,
-      offsets = _ref2.offsets,
-      position = _ref2.position,
-      gpuAcceleration = _ref2.gpuAcceleration,
-      adaptive = _ref2.adaptive,
-      roundOffsets = _ref2.roundOffsets,
-      isFixed = _ref2.isFixed;
-  var _offsets$x = offsets.x,
-      x = _offsets$x === void 0 ? 0 : _offsets$x,
-      _offsets$y = offsets.y,
-      y = _offsets$y === void 0 ? 0 : _offsets$y;
-
-  var _ref3 = typeof roundOffsets === 'function' ? roundOffsets({
-    x: x,
-    y: y
-  }) : {
-    x: x,
-    y: y
-  };
-
-  x = _ref3.x;
-  y = _ref3.y;
-  var hasX = offsets.hasOwnProperty('x');
-  var hasY = offsets.hasOwnProperty('y');
-  var sideX = left;
-  var sideY = top;
-  var win = window;
-
-  if (adaptive) {
-    var offsetParent = getOffsetParent(popper);
-    var heightProp = 'clientHeight';
-    var widthProp = 'clientWidth';
-
-    if (offsetParent === getWindow(popper)) {
-      offsetParent = getDocumentElement(popper);
-
-      if (getComputedStyle$1(offsetParent).position !== 'static' && position === 'absolute') {
-        heightProp = 'scrollHeight';
-        widthProp = 'scrollWidth';
-      }
-    } // $FlowFixMe[incompatible-cast]: force type refinement, we compare offsetParent with window above, but Flow doesn't detect it
-
-
-    offsetParent = offsetParent;
-
-    if (placement === top || (placement === left || placement === right) && variation === end) {
-      sideY = bottom;
-      var offsetY = isFixed && win.visualViewport ? win.visualViewport.height : // $FlowFixMe[prop-missing]
-      offsetParent[heightProp];
-      y -= offsetY - popperRect.height;
-      y *= gpuAcceleration ? 1 : -1;
-    }
-
-    if (placement === left || (placement === top || placement === bottom) && variation === end) {
-      sideX = right;
-      var offsetX = isFixed && win.visualViewport ? win.visualViewport.width : // $FlowFixMe[prop-missing]
-      offsetParent[widthProp];
-      x -= offsetX - popperRect.width;
-      x *= gpuAcceleration ? 1 : -1;
-    }
-  }
-
-  var commonStyles = Object.assign({
-    position: position
-  }, adaptive && unsetSides);
-
-  var _ref4 = roundOffsets === true ? roundOffsetsByDPR({
-    x: x,
-    y: y
-  }) : {
-    x: x,
-    y: y
-  };
-
-  x = _ref4.x;
-  y = _ref4.y;
-
-  if (gpuAcceleration) {
-    var _Object$assign;
-
-    return Object.assign({}, commonStyles, (_Object$assign = {}, _Object$assign[sideY] = hasY ? '0' : '', _Object$assign[sideX] = hasX ? '0' : '', _Object$assign.transform = (win.devicePixelRatio || 1) <= 1 ? "translate(" + x + "px, " + y + "px)" : "translate3d(" + x + "px, " + y + "px, 0)", _Object$assign));
-  }
-
-  return Object.assign({}, commonStyles, (_Object$assign2 = {}, _Object$assign2[sideY] = hasY ? y + "px" : '', _Object$assign2[sideX] = hasX ? x + "px" : '', _Object$assign2.transform = '', _Object$assign2));
-}
-
-function computeStyles(_ref5) {
-  var state = _ref5.state,
-      options = _ref5.options;
-  var _options$gpuAccelerat = options.gpuAcceleration,
-      gpuAcceleration = _options$gpuAccelerat === void 0 ? true : _options$gpuAccelerat,
-      _options$adaptive = options.adaptive,
-      adaptive = _options$adaptive === void 0 ? true : _options$adaptive,
-      _options$roundOffsets = options.roundOffsets,
-      roundOffsets = _options$roundOffsets === void 0 ? true : _options$roundOffsets;
-
-  if (process.env.NODE_ENV !== "production") {
-    var transitionProperty = getComputedStyle$1(state.elements.popper).transitionProperty || '';
-
-    if (adaptive && ['transform', 'top', 'right', 'bottom', 'left'].some(function (property) {
-      return transitionProperty.indexOf(property) >= 0;
-    })) {
-      console.warn(['Popper: Detected CSS transitions on at least one of the following', 'CSS properties: "transform", "top", "right", "bottom", "left".', '\n\n', 'Disable the "computeStyles" modifier\'s `adaptive` option to allow', 'for smooth transitions, or remove these properties from the CSS', 'transition declaration on the popper element if only transitioning', 'opacity or background-color for example.', '\n\n', 'We recommend using the popper element as a wrapper around an inner', 'element that can have any CSS property transitioned for animations.'].join(' '));
-    }
-  }
-
-  var commonStyles = {
-    placement: getBasePlacement(state.placement),
-    variation: getVariation(state.placement),
-    popper: state.elements.popper,
-    popperRect: state.rects.popper,
-    gpuAcceleration: gpuAcceleration,
-    isFixed: state.options.strategy === 'fixed'
-  };
-
-  if (state.modifiersData.popperOffsets != null) {
-    state.styles.popper = Object.assign({}, state.styles.popper, mapToStyles(Object.assign({}, commonStyles, {
-      offsets: state.modifiersData.popperOffsets,
-      position: state.options.strategy,
-      adaptive: adaptive,
-      roundOffsets: roundOffsets
-    })));
-  }
-
-  if (state.modifiersData.arrow != null) {
-    state.styles.arrow = Object.assign({}, state.styles.arrow, mapToStyles(Object.assign({}, commonStyles, {
-      offsets: state.modifiersData.arrow,
-      position: 'absolute',
-      adaptive: false,
-      roundOffsets: roundOffsets
-    })));
-  }
-
-  state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    'data-popper-placement': state.placement
-  });
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var computeStyles$1 = {
-  name: 'computeStyles',
-  enabled: true,
-  phase: 'beforeWrite',
-  fn: computeStyles,
-  data: {}
-};
-
-var passive = {
-  passive: true
-};
-
-function effect(_ref) {
-  var state = _ref.state,
-      instance = _ref.instance,
-      options = _ref.options;
-  var _options$scroll = options.scroll,
-      scroll = _options$scroll === void 0 ? true : _options$scroll,
-      _options$resize = options.resize,
-      resize = _options$resize === void 0 ? true : _options$resize;
-  var window = getWindow(state.elements.popper);
-  var scrollParents = [].concat(state.scrollParents.reference, state.scrollParents.popper);
-
-  if (scroll) {
-    scrollParents.forEach(function (scrollParent) {
-      scrollParent.addEventListener('scroll', instance.update, passive);
-    });
-  }
-
-  if (resize) {
-    window.addEventListener('resize', instance.update, passive);
-  }
-
-  return function () {
-    if (scroll) {
-      scrollParents.forEach(function (scrollParent) {
-        scrollParent.removeEventListener('scroll', instance.update, passive);
-      });
-    }
-
-    if (resize) {
-      window.removeEventListener('resize', instance.update, passive);
-    }
-  };
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var eventListeners = {
-  name: 'eventListeners',
-  enabled: true,
-  phase: 'write',
-  fn: function fn() {},
-  effect: effect,
-  data: {}
-};
-
-var hash$1 = {
-  left: 'right',
-  right: 'left',
-  bottom: 'top',
-  top: 'bottom'
-};
-function getOppositePlacement(placement) {
-  return placement.replace(/left|right|bottom|top/g, function (matched) {
-    return hash$1[matched];
-  });
-}
-
-var hash = {
-  start: 'end',
-  end: 'start'
-};
-function getOppositeVariationPlacement(placement) {
-  return placement.replace(/start|end/g, function (matched) {
-    return hash[matched];
-  });
-}
-
-function getWindowScroll(node) {
-  var win = getWindow(node);
-  var scrollLeft = win.pageXOffset;
-  var scrollTop = win.pageYOffset;
-  return {
-    scrollLeft: scrollLeft,
-    scrollTop: scrollTop
-  };
-}
-
-function getWindowScrollBarX(element) {
-  // If <html> has a CSS width greater than the viewport, then this will be
-  // incorrect for RTL.
-  // Popper 1 is broken in this case and never had a bug report so let's assume
-  // it's not an issue. I don't think anyone ever specifies width on <html>
-  // anyway.
-  // Browsers where the left scrollbar doesn't cause an issue report `0` for
-  // this (e.g. Edge 2019, IE11, Safari)
-  return getBoundingClientRect(getDocumentElement(element)).left + getWindowScroll(element).scrollLeft;
-}
-
-function getViewportRect(element) {
-  var win = getWindow(element);
-  var html = getDocumentElement(element);
-  var visualViewport = win.visualViewport;
-  var width = html.clientWidth;
-  var height = html.clientHeight;
-  var x = 0;
-  var y = 0; // NB: This isn't supported on iOS <= 12. If the keyboard is open, the popper
-  // can be obscured underneath it.
-  // Also, `html.clientHeight` adds the bottom bar height in Safari iOS, even
-  // if it isn't open, so if this isn't available, the popper will be detected
-  // to overflow the bottom of the screen too early.
-
-  if (visualViewport) {
-    width = visualViewport.width;
-    height = visualViewport.height; // Uses Layout Viewport (like Chrome; Safari does not currently)
-    // In Chrome, it returns a value very close to 0 (+/-) but contains rounding
-    // errors due to floating point numbers, so we need to check precision.
-    // Safari returns a number <= 0, usually < -1 when pinch-zoomed
-    // Feature detection fails in mobile emulation mode in Chrome.
-    // Math.abs(win.innerWidth / visualViewport.scale - visualViewport.width) <
-    // 0.001
-    // Fallback here: "Not Safari" userAgent
-
-    if (!/^((?!chrome|android).)*safari/i.test(navigator.userAgent)) {
-      x = visualViewport.offsetLeft;
-      y = visualViewport.offsetTop;
-    }
-  }
-
-  return {
-    width: width,
-    height: height,
-    x: x + getWindowScrollBarX(element),
-    y: y
-  };
-}
-
-// of the `<html>` and `<body>` rect bounds if horizontally scrollable
-
-function getDocumentRect(element) {
-  var _element$ownerDocumen;
-
-  var html = getDocumentElement(element);
-  var winScroll = getWindowScroll(element);
-  var body = (_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body;
-  var width = max(html.scrollWidth, html.clientWidth, body ? body.scrollWidth : 0, body ? body.clientWidth : 0);
-  var height = max(html.scrollHeight, html.clientHeight, body ? body.scrollHeight : 0, body ? body.clientHeight : 0);
-  var x = -winScroll.scrollLeft + getWindowScrollBarX(element);
-  var y = -winScroll.scrollTop;
-
-  if (getComputedStyle$1(body || html).direction === 'rtl') {
-    x += max(html.clientWidth, body ? body.clientWidth : 0) - width;
-  }
-
-  return {
-    width: width,
-    height: height,
-    x: x,
-    y: y
-  };
-}
-
-function isScrollParent(element) {
-  // Firefox wants us to check `-x` and `-y` variations as well
-  var _getComputedStyle = getComputedStyle$1(element),
-      overflow = _getComputedStyle.overflow,
-      overflowX = _getComputedStyle.overflowX,
-      overflowY = _getComputedStyle.overflowY;
-
-  return /auto|scroll|overlay|hidden/.test(overflow + overflowY + overflowX);
-}
-
-function getScrollParent(node) {
-  if (['html', 'body', '#document'].indexOf(getNodeName(node)) >= 0) {
-    // $FlowFixMe[incompatible-return]: assume body is always available
-    return node.ownerDocument.body;
-  }
-
-  if (isHTMLElement(node) && isScrollParent(node)) {
-    return node;
-  }
-
-  return getScrollParent(getParentNode(node));
-}
-
-/*
-given a DOM element, return the list of all scroll parents, up the list of ancesors
-until we get to the top window object. This list is what we attach scroll listeners
-to, because if any of these parent elements scroll, we'll need to re-calculate the
-reference element's position.
-*/
-
-function listScrollParents(element, list) {
-  var _element$ownerDocumen;
-
-  if (list === void 0) {
-    list = [];
-  }
-
-  var scrollParent = getScrollParent(element);
-  var isBody = scrollParent === ((_element$ownerDocumen = element.ownerDocument) == null ? void 0 : _element$ownerDocumen.body);
-  var win = getWindow(scrollParent);
-  var target = isBody ? [win].concat(win.visualViewport || [], isScrollParent(scrollParent) ? scrollParent : []) : scrollParent;
-  var updatedList = list.concat(target);
-  return isBody ? updatedList : // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
-  updatedList.concat(listScrollParents(getParentNode(target)));
-}
-
-function rectToClientRect(rect) {
-  return Object.assign({}, rect, {
-    left: rect.x,
-    top: rect.y,
-    right: rect.x + rect.width,
-    bottom: rect.y + rect.height
-  });
-}
-
-function getInnerBoundingClientRect(element) {
-  var rect = getBoundingClientRect(element);
-  rect.top = rect.top + element.clientTop;
-  rect.left = rect.left + element.clientLeft;
-  rect.bottom = rect.top + element.clientHeight;
-  rect.right = rect.left + element.clientWidth;
-  rect.width = element.clientWidth;
-  rect.height = element.clientHeight;
-  rect.x = rect.left;
-  rect.y = rect.top;
-  return rect;
-}
-
-function getClientRectFromMixedType(element, clippingParent) {
-  return clippingParent === viewport ? rectToClientRect(getViewportRect(element)) : isElement(clippingParent) ? getInnerBoundingClientRect(clippingParent) : rectToClientRect(getDocumentRect(getDocumentElement(element)));
-} // A "clipping parent" is an overflowable container with the characteristic of
-// clipping (or hiding) overflowing elements with a position different from
-// `initial`
-
-
-function getClippingParents(element) {
-  var clippingParents = listScrollParents(getParentNode(element));
-  var canEscapeClipping = ['absolute', 'fixed'].indexOf(getComputedStyle$1(element).position) >= 0;
-  var clipperElement = canEscapeClipping && isHTMLElement(element) ? getOffsetParent(element) : element;
-
-  if (!isElement(clipperElement)) {
-    return [];
-  } // $FlowFixMe[incompatible-return]: https://github.com/facebook/flow/issues/1414
-
-
-  return clippingParents.filter(function (clippingParent) {
-    return isElement(clippingParent) && contains(clippingParent, clipperElement) && getNodeName(clippingParent) !== 'body';
-  });
-} // Gets the maximum area that the element is visible in due to any number of
-// clipping parents
-
-
-function getClippingRect(element, boundary, rootBoundary) {
-  var mainClippingParents = boundary === 'clippingParents' ? getClippingParents(element) : [].concat(boundary);
-  var clippingParents = [].concat(mainClippingParents, [rootBoundary]);
-  var firstClippingParent = clippingParents[0];
-  var clippingRect = clippingParents.reduce(function (accRect, clippingParent) {
-    var rect = getClientRectFromMixedType(element, clippingParent);
-    accRect.top = max(rect.top, accRect.top);
-    accRect.right = min(rect.right, accRect.right);
-    accRect.bottom = min(rect.bottom, accRect.bottom);
-    accRect.left = max(rect.left, accRect.left);
-    return accRect;
-  }, getClientRectFromMixedType(element, firstClippingParent));
-  clippingRect.width = clippingRect.right - clippingRect.left;
-  clippingRect.height = clippingRect.bottom - clippingRect.top;
-  clippingRect.x = clippingRect.left;
-  clippingRect.y = clippingRect.top;
-  return clippingRect;
-}
-
-function computeOffsets(_ref) {
-  var reference = _ref.reference,
-      element = _ref.element,
-      placement = _ref.placement;
-  var basePlacement = placement ? getBasePlacement(placement) : null;
-  var variation = placement ? getVariation(placement) : null;
-  var commonX = reference.x + reference.width / 2 - element.width / 2;
-  var commonY = reference.y + reference.height / 2 - element.height / 2;
-  var offsets;
-
-  switch (basePlacement) {
-    case top:
-      offsets = {
-        x: commonX,
-        y: reference.y - element.height
-      };
-      break;
-
-    case bottom:
-      offsets = {
-        x: commonX,
-        y: reference.y + reference.height
-      };
-      break;
-
-    case right:
-      offsets = {
-        x: reference.x + reference.width,
-        y: commonY
-      };
-      break;
-
-    case left:
-      offsets = {
-        x: reference.x - element.width,
-        y: commonY
-      };
-      break;
-
-    default:
-      offsets = {
-        x: reference.x,
-        y: reference.y
-      };
-  }
-
-  var mainAxis = basePlacement ? getMainAxisFromPlacement(basePlacement) : null;
-
-  if (mainAxis != null) {
-    var len = mainAxis === 'y' ? 'height' : 'width';
-
-    switch (variation) {
-      case start:
-        offsets[mainAxis] = offsets[mainAxis] - (reference[len] / 2 - element[len] / 2);
-        break;
-
-      case end:
-        offsets[mainAxis] = offsets[mainAxis] + (reference[len] / 2 - element[len] / 2);
-        break;
-    }
-  }
-
-  return offsets;
-}
-
-function detectOverflow(state, options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var _options = options,
-      _options$placement = _options.placement,
-      placement = _options$placement === void 0 ? state.placement : _options$placement,
-      _options$boundary = _options.boundary,
-      boundary = _options$boundary === void 0 ? clippingParents : _options$boundary,
-      _options$rootBoundary = _options.rootBoundary,
-      rootBoundary = _options$rootBoundary === void 0 ? viewport : _options$rootBoundary,
-      _options$elementConte = _options.elementContext,
-      elementContext = _options$elementConte === void 0 ? popper : _options$elementConte,
-      _options$altBoundary = _options.altBoundary,
-      altBoundary = _options$altBoundary === void 0 ? false : _options$altBoundary,
-      _options$padding = _options.padding,
-      padding = _options$padding === void 0 ? 0 : _options$padding;
-  var paddingObject = mergePaddingObject(typeof padding !== 'number' ? padding : expandToHashMap(padding, basePlacements));
-  var altContext = elementContext === popper ? reference : popper;
-  var popperRect = state.rects.popper;
-  var element = state.elements[altBoundary ? altContext : elementContext];
-  var clippingClientRect = getClippingRect(isElement(element) ? element : element.contextElement || getDocumentElement(state.elements.popper), boundary, rootBoundary);
-  var referenceClientRect = getBoundingClientRect(state.elements.reference);
-  var popperOffsets = computeOffsets({
-    reference: referenceClientRect,
-    element: popperRect,
-    strategy: 'absolute',
-    placement: placement
-  });
-  var popperClientRect = rectToClientRect(Object.assign({}, popperRect, popperOffsets));
-  var elementClientRect = elementContext === popper ? popperClientRect : referenceClientRect; // positive = overflowing the clipping rect
-  // 0 or negative = within the clipping rect
-
-  var overflowOffsets = {
-    top: clippingClientRect.top - elementClientRect.top + paddingObject.top,
-    bottom: elementClientRect.bottom - clippingClientRect.bottom + paddingObject.bottom,
-    left: clippingClientRect.left - elementClientRect.left + paddingObject.left,
-    right: elementClientRect.right - clippingClientRect.right + paddingObject.right
-  };
-  var offsetData = state.modifiersData.offset; // Offsets can be applied only to the popper element
-
-  if (elementContext === popper && offsetData) {
-    var offset = offsetData[placement];
-    Object.keys(overflowOffsets).forEach(function (key) {
-      var multiply = [right, bottom].indexOf(key) >= 0 ? 1 : -1;
-      var axis = [top, bottom].indexOf(key) >= 0 ? 'y' : 'x';
-      overflowOffsets[key] += offset[axis] * multiply;
-    });
-  }
-
-  return overflowOffsets;
-}
-
-function computeAutoPlacement(state, options) {
-  if (options === void 0) {
-    options = {};
-  }
-
-  var _options = options,
-      placement = _options.placement,
-      boundary = _options.boundary,
-      rootBoundary = _options.rootBoundary,
-      padding = _options.padding,
-      flipVariations = _options.flipVariations,
-      _options$allowedAutoP = _options.allowedAutoPlacements,
-      allowedAutoPlacements = _options$allowedAutoP === void 0 ? placements : _options$allowedAutoP;
-  var variation = getVariation(placement);
-  var placements$1 = variation ? flipVariations ? variationPlacements : variationPlacements.filter(function (placement) {
-    return getVariation(placement) === variation;
-  }) : basePlacements;
-  var allowedPlacements = placements$1.filter(function (placement) {
-    return allowedAutoPlacements.indexOf(placement) >= 0;
-  });
-
-  if (allowedPlacements.length === 0) {
-    allowedPlacements = placements$1;
-
-    if (process.env.NODE_ENV !== "production") {
-      console.error(['Popper: The `allowedAutoPlacements` option did not allow any', 'placements. Ensure the `placement` option matches the variation', 'of the allowed placements.', 'For example, "auto" cannot be used to allow "bottom-start".', 'Use "auto-start" instead.'].join(' '));
-    }
-  } // $FlowFixMe[incompatible-type]: Flow seems to have problems with two array unions...
-
-
-  var overflows = allowedPlacements.reduce(function (acc, placement) {
-    acc[placement] = detectOverflow(state, {
-      placement: placement,
-      boundary: boundary,
-      rootBoundary: rootBoundary,
-      padding: padding
-    })[getBasePlacement(placement)];
-    return acc;
-  }, {});
-  return Object.keys(overflows).sort(function (a, b) {
-    return overflows[a] - overflows[b];
-  });
-}
-
-function getExpandedFallbackPlacements(placement) {
-  if (getBasePlacement(placement) === auto) {
-    return [];
-  }
-
-  var oppositePlacement = getOppositePlacement(placement);
-  return [getOppositeVariationPlacement(placement), oppositePlacement, getOppositeVariationPlacement(oppositePlacement)];
-}
-
-function flip(_ref) {
-  var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
-
-  if (state.modifiersData[name]._skip) {
-    return;
-  }
-
-  var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? true : _options$altAxis,
-      specifiedFallbackPlacements = options.fallbackPlacements,
-      padding = options.padding,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      _options$flipVariatio = options.flipVariations,
-      flipVariations = _options$flipVariatio === void 0 ? true : _options$flipVariatio,
-      allowedAutoPlacements = options.allowedAutoPlacements;
-  var preferredPlacement = state.options.placement;
-  var basePlacement = getBasePlacement(preferredPlacement);
-  var isBasePlacement = basePlacement === preferredPlacement;
-  var fallbackPlacements = specifiedFallbackPlacements || (isBasePlacement || !flipVariations ? [getOppositePlacement(preferredPlacement)] : getExpandedFallbackPlacements(preferredPlacement));
-  var placements = [preferredPlacement].concat(fallbackPlacements).reduce(function (acc, placement) {
-    return acc.concat(getBasePlacement(placement) === auto ? computeAutoPlacement(state, {
-      placement: placement,
-      boundary: boundary,
-      rootBoundary: rootBoundary,
-      padding: padding,
-      flipVariations: flipVariations,
-      allowedAutoPlacements: allowedAutoPlacements
-    }) : placement);
-  }, []);
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var checksMap = new Map();
-  var makeFallbackChecks = true;
-  var firstFittingPlacement = placements[0];
-
-  for (var i = 0; i < placements.length; i++) {
-    var placement = placements[i];
-
-    var _basePlacement = getBasePlacement(placement);
-
-    var isStartVariation = getVariation(placement) === start;
-    var isVertical = [top, bottom].indexOf(_basePlacement) >= 0;
-    var len = isVertical ? 'width' : 'height';
-    var overflow = detectOverflow(state, {
-      placement: placement,
-      boundary: boundary,
-      rootBoundary: rootBoundary,
-      altBoundary: altBoundary,
-      padding: padding
-    });
-    var mainVariationSide = isVertical ? isStartVariation ? right : left : isStartVariation ? bottom : top;
-
-    if (referenceRect[len] > popperRect[len]) {
-      mainVariationSide = getOppositePlacement(mainVariationSide);
-    }
-
-    var altVariationSide = getOppositePlacement(mainVariationSide);
-    var checks = [];
-
-    if (checkMainAxis) {
-      checks.push(overflow[_basePlacement] <= 0);
-    }
-
-    if (checkAltAxis) {
-      checks.push(overflow[mainVariationSide] <= 0, overflow[altVariationSide] <= 0);
-    }
-
-    if (checks.every(function (check) {
-      return check;
-    })) {
-      firstFittingPlacement = placement;
-      makeFallbackChecks = false;
-      break;
-    }
-
-    checksMap.set(placement, checks);
-  }
-
-  if (makeFallbackChecks) {
-    // `2` may be desired in some cases – research later
-    var numberOfChecks = flipVariations ? 3 : 1;
-
-    var _loop = function _loop(_i) {
-      var fittingPlacement = placements.find(function (placement) {
-        var checks = checksMap.get(placement);
-
-        if (checks) {
-          return checks.slice(0, _i).every(function (check) {
-            return check;
-          });
-        }
-      });
-
-      if (fittingPlacement) {
-        firstFittingPlacement = fittingPlacement;
-        return "break";
-      }
-    };
-
-    for (var _i = numberOfChecks; _i > 0; _i--) {
-      var _ret = _loop(_i);
-
-      if (_ret === "break") break;
-    }
-  }
-
-  if (state.placement !== firstFittingPlacement) {
-    state.modifiersData[name]._skip = true;
-    state.placement = firstFittingPlacement;
-    state.reset = true;
-  }
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var flip$1 = {
-  name: 'flip',
-  enabled: true,
-  phase: 'main',
-  fn: flip,
-  requiresIfExists: ['offset'],
-  data: {
-    _skip: false
-  }
-};
-
-function getSideOffsets(overflow, rect, preventedOffsets) {
-  if (preventedOffsets === void 0) {
-    preventedOffsets = {
-      x: 0,
-      y: 0
-    };
-  }
-
-  return {
-    top: overflow.top - rect.height - preventedOffsets.y,
-    right: overflow.right - rect.width + preventedOffsets.x,
-    bottom: overflow.bottom - rect.height + preventedOffsets.y,
-    left: overflow.left - rect.width - preventedOffsets.x
-  };
-}
-
-function isAnySideFullyClipped(overflow) {
-  return [top, right, bottom, left].some(function (side) {
-    return overflow[side] >= 0;
-  });
-}
-
-function hide(_ref) {
-  var state = _ref.state,
-      name = _ref.name;
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var preventedOffsets = state.modifiersData.preventOverflow;
-  var referenceOverflow = detectOverflow(state, {
-    elementContext: 'reference'
-  });
-  var popperAltOverflow = detectOverflow(state, {
-    altBoundary: true
-  });
-  var referenceClippingOffsets = getSideOffsets(referenceOverflow, referenceRect);
-  var popperEscapeOffsets = getSideOffsets(popperAltOverflow, popperRect, preventedOffsets);
-  var isReferenceHidden = isAnySideFullyClipped(referenceClippingOffsets);
-  var hasPopperEscaped = isAnySideFullyClipped(popperEscapeOffsets);
-  state.modifiersData[name] = {
-    referenceClippingOffsets: referenceClippingOffsets,
-    popperEscapeOffsets: popperEscapeOffsets,
-    isReferenceHidden: isReferenceHidden,
-    hasPopperEscaped: hasPopperEscaped
-  };
-  state.attributes.popper = Object.assign({}, state.attributes.popper, {
-    'data-popper-reference-hidden': isReferenceHidden,
-    'data-popper-escaped': hasPopperEscaped
-  });
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var hide$1 = {
-  name: 'hide',
-  enabled: true,
-  phase: 'main',
-  requiresIfExists: ['preventOverflow'],
-  fn: hide
-};
-
-function distanceAndSkiddingToXY(placement, rects, offset) {
-  var basePlacement = getBasePlacement(placement);
-  var invertDistance = [left, top].indexOf(basePlacement) >= 0 ? -1 : 1;
-
-  var _ref = typeof offset === 'function' ? offset(Object.assign({}, rects, {
-    placement: placement
-  })) : offset,
-      skidding = _ref[0],
-      distance = _ref[1];
-
-  skidding = skidding || 0;
-  distance = (distance || 0) * invertDistance;
-  return [left, right].indexOf(basePlacement) >= 0 ? {
-    x: distance,
-    y: skidding
-  } : {
-    x: skidding,
-    y: distance
-  };
-}
-
-function offset(_ref2) {
-  var state = _ref2.state,
-      options = _ref2.options,
-      name = _ref2.name;
-  var _options$offset = options.offset,
-      offset = _options$offset === void 0 ? [0, 0] : _options$offset;
-  var data = placements.reduce(function (acc, placement) {
-    acc[placement] = distanceAndSkiddingToXY(placement, state.rects, offset);
-    return acc;
-  }, {});
-  var _data$state$placement = data[state.placement],
-      x = _data$state$placement.x,
-      y = _data$state$placement.y;
-
-  if (state.modifiersData.popperOffsets != null) {
-    state.modifiersData.popperOffsets.x += x;
-    state.modifiersData.popperOffsets.y += y;
-  }
-
-  state.modifiersData[name] = data;
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var offset$1 = {
-  name: 'offset',
-  enabled: true,
-  phase: 'main',
-  requires: ['popperOffsets'],
-  fn: offset
-};
-
-function popperOffsets(_ref) {
-  var state = _ref.state,
-      name = _ref.name;
-  // Offsets are the actual position the popper needs to have to be
-  // properly positioned near its reference element
-  // This is the most basic placement, and will be adjusted by
-  // the modifiers in the next step
-  state.modifiersData[name] = computeOffsets({
-    reference: state.rects.reference,
-    element: state.rects.popper,
-    strategy: 'absolute',
-    placement: state.placement
-  });
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var popperOffsets$1 = {
-  name: 'popperOffsets',
-  enabled: true,
-  phase: 'read',
-  fn: popperOffsets,
-  data: {}
-};
-
-function getAltAxis(axis) {
-  return axis === 'x' ? 'y' : 'x';
-}
-
-function preventOverflow(_ref) {
-  var state = _ref.state,
-      options = _ref.options,
-      name = _ref.name;
-  var _options$mainAxis = options.mainAxis,
-      checkMainAxis = _options$mainAxis === void 0 ? true : _options$mainAxis,
-      _options$altAxis = options.altAxis,
-      checkAltAxis = _options$altAxis === void 0 ? false : _options$altAxis,
-      boundary = options.boundary,
-      rootBoundary = options.rootBoundary,
-      altBoundary = options.altBoundary,
-      padding = options.padding,
-      _options$tether = options.tether,
-      tether = _options$tether === void 0 ? true : _options$tether,
-      _options$tetherOffset = options.tetherOffset,
-      tetherOffset = _options$tetherOffset === void 0 ? 0 : _options$tetherOffset;
-  var overflow = detectOverflow(state, {
-    boundary: boundary,
-    rootBoundary: rootBoundary,
-    padding: padding,
-    altBoundary: altBoundary
-  });
-  var basePlacement = getBasePlacement(state.placement);
-  var variation = getVariation(state.placement);
-  var isBasePlacement = !variation;
-  var mainAxis = getMainAxisFromPlacement(basePlacement);
-  var altAxis = getAltAxis(mainAxis);
-  var popperOffsets = state.modifiersData.popperOffsets;
-  var referenceRect = state.rects.reference;
-  var popperRect = state.rects.popper;
-  var tetherOffsetValue = typeof tetherOffset === 'function' ? tetherOffset(Object.assign({}, state.rects, {
-    placement: state.placement
-  })) : tetherOffset;
-  var normalizedTetherOffsetValue = typeof tetherOffsetValue === 'number' ? {
-    mainAxis: tetherOffsetValue,
-    altAxis: tetherOffsetValue
-  } : Object.assign({
-    mainAxis: 0,
-    altAxis: 0
-  }, tetherOffsetValue);
-  var offsetModifierState = state.modifiersData.offset ? state.modifiersData.offset[state.placement] : null;
-  var data = {
-    x: 0,
-    y: 0
-  };
-
-  if (!popperOffsets) {
-    return;
-  }
-
-  if (checkMainAxis) {
-    var _offsetModifierState$;
-
-    var mainSide = mainAxis === 'y' ? top : left;
-    var altSide = mainAxis === 'y' ? bottom : right;
-    var len = mainAxis === 'y' ? 'height' : 'width';
-    var offset = popperOffsets[mainAxis];
-    var min$1 = offset + overflow[mainSide];
-    var max$1 = offset - overflow[altSide];
-    var additive = tether ? -popperRect[len] / 2 : 0;
-    var minLen = variation === start ? referenceRect[len] : popperRect[len];
-    var maxLen = variation === start ? -popperRect[len] : -referenceRect[len]; // We need to include the arrow in the calculation so the arrow doesn't go
-    // outside the reference bounds
-
-    var arrowElement = state.elements.arrow;
-    var arrowRect = tether && arrowElement ? getLayoutRect(arrowElement) : {
-      width: 0,
-      height: 0
-    };
-    var arrowPaddingObject = state.modifiersData['arrow#persistent'] ? state.modifiersData['arrow#persistent'].padding : getFreshSideObject();
-    var arrowPaddingMin = arrowPaddingObject[mainSide];
-    var arrowPaddingMax = arrowPaddingObject[altSide]; // If the reference length is smaller than the arrow length, we don't want
-    // to include its full size in the calculation. If the reference is small
-    // and near the edge of a boundary, the popper can overflow even if the
-    // reference is not overflowing as well (e.g. virtual elements with no
-    // width or height)
-
-    var arrowLen = within(0, referenceRect[len], arrowRect[len]);
-    var minOffset = isBasePlacement ? referenceRect[len] / 2 - additive - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis : minLen - arrowLen - arrowPaddingMin - normalizedTetherOffsetValue.mainAxis;
-    var maxOffset = isBasePlacement ? -referenceRect[len] / 2 + additive + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis : maxLen + arrowLen + arrowPaddingMax + normalizedTetherOffsetValue.mainAxis;
-    var arrowOffsetParent = state.elements.arrow && getOffsetParent(state.elements.arrow);
-    var clientOffset = arrowOffsetParent ? mainAxis === 'y' ? arrowOffsetParent.clientTop || 0 : arrowOffsetParent.clientLeft || 0 : 0;
-    var offsetModifierValue = (_offsetModifierState$ = offsetModifierState == null ? void 0 : offsetModifierState[mainAxis]) != null ? _offsetModifierState$ : 0;
-    var tetherMin = offset + minOffset - offsetModifierValue - clientOffset;
-    var tetherMax = offset + maxOffset - offsetModifierValue;
-    var preventedOffset = within(tether ? min(min$1, tetherMin) : min$1, offset, tether ? max(max$1, tetherMax) : max$1);
-    popperOffsets[mainAxis] = preventedOffset;
-    data[mainAxis] = preventedOffset - offset;
-  }
-
-  if (checkAltAxis) {
-    var _offsetModifierState$2;
-
-    var _mainSide = mainAxis === 'x' ? top : left;
-
-    var _altSide = mainAxis === 'x' ? bottom : right;
-
-    var _offset = popperOffsets[altAxis];
-
-    var _len = altAxis === 'y' ? 'height' : 'width';
-
-    var _min = _offset + overflow[_mainSide];
-
-    var _max = _offset - overflow[_altSide];
-
-    var isOriginSide = [top, left].indexOf(basePlacement) !== -1;
-
-    var _offsetModifierValue = (_offsetModifierState$2 = offsetModifierState == null ? void 0 : offsetModifierState[altAxis]) != null ? _offsetModifierState$2 : 0;
-
-    var _tetherMin = isOriginSide ? _min : _offset - referenceRect[_len] - popperRect[_len] - _offsetModifierValue + normalizedTetherOffsetValue.altAxis;
-
-    var _tetherMax = isOriginSide ? _offset + referenceRect[_len] + popperRect[_len] - _offsetModifierValue - normalizedTetherOffsetValue.altAxis : _max;
-
-    var _preventedOffset = tether && isOriginSide ? withinMaxClamp(_tetherMin, _offset, _tetherMax) : within(tether ? _tetherMin : _min, _offset, tether ? _tetherMax : _max);
-
-    popperOffsets[altAxis] = _preventedOffset;
-    data[altAxis] = _preventedOffset - _offset;
-  }
-
-  state.modifiersData[name] = data;
-} // eslint-disable-next-line import/no-unused-modules
-
-
-var preventOverflow$1 = {
-  name: 'preventOverflow',
-  enabled: true,
-  phase: 'main',
-  fn: preventOverflow,
-  requiresIfExists: ['offset']
-};
-
-function getHTMLElementScroll(element) {
-  return {
-    scrollLeft: element.scrollLeft,
-    scrollTop: element.scrollTop
-  };
-}
-
-function getNodeScroll(node) {
-  if (node === getWindow(node) || !isHTMLElement(node)) {
-    return getWindowScroll(node);
-  } else {
-    return getHTMLElementScroll(node);
-  }
-}
-
-function isElementScaled(element) {
-  var rect = element.getBoundingClientRect();
-  var scaleX = round(rect.width) / element.offsetWidth || 1;
-  var scaleY = round(rect.height) / element.offsetHeight || 1;
-  return scaleX !== 1 || scaleY !== 1;
-} // Returns the composite rect of an element relative to its offsetParent.
-// Composite means it takes into account transforms as well as layout.
-
-
-function getCompositeRect(elementOrVirtualElement, offsetParent, isFixed) {
-  if (isFixed === void 0) {
-    isFixed = false;
-  }
-
-  var isOffsetParentAnElement = isHTMLElement(offsetParent);
-  var offsetParentIsScaled = isHTMLElement(offsetParent) && isElementScaled(offsetParent);
-  var documentElement = getDocumentElement(offsetParent);
-  var rect = getBoundingClientRect(elementOrVirtualElement, offsetParentIsScaled);
-  var scroll = {
-    scrollLeft: 0,
-    scrollTop: 0
-  };
-  var offsets = {
-    x: 0,
-    y: 0
-  };
-
-  if (isOffsetParentAnElement || !isOffsetParentAnElement && !isFixed) {
-    if (getNodeName(offsetParent) !== 'body' || // https://github.com/popperjs/popper-core/issues/1078
-    isScrollParent(documentElement)) {
-      scroll = getNodeScroll(offsetParent);
-    }
-
-    if (isHTMLElement(offsetParent)) {
-      offsets = getBoundingClientRect(offsetParent, true);
-      offsets.x += offsetParent.clientLeft;
-      offsets.y += offsetParent.clientTop;
-    } else if (documentElement) {
-      offsets.x = getWindowScrollBarX(documentElement);
-    }
-  }
-
-  return {
-    x: rect.left + scroll.scrollLeft - offsets.x,
-    y: rect.top + scroll.scrollTop - offsets.y,
-    width: rect.width,
-    height: rect.height
-  };
-}
-
-function order(modifiers) {
-  var map = new Map();
-  var visited = new Set();
-  var result = [];
-  modifiers.forEach(function (modifier) {
-    map.set(modifier.name, modifier);
-  }); // On visiting object, check for its dependencies and visit them recursively
-
-  function sort(modifier) {
-    visited.add(modifier.name);
-    var requires = [].concat(modifier.requires || [], modifier.requiresIfExists || []);
-    requires.forEach(function (dep) {
-      if (!visited.has(dep)) {
-        var depModifier = map.get(dep);
-
-        if (depModifier) {
-          sort(depModifier);
-        }
-      }
-    });
-    result.push(modifier);
-  }
-
-  modifiers.forEach(function (modifier) {
-    if (!visited.has(modifier.name)) {
-      // check for visited object
-      sort(modifier);
-    }
-  });
-  return result;
-}
-
-function orderModifiers(modifiers) {
-  // order based on dependencies
-  var orderedModifiers = order(modifiers); // order based on phase
-
-  return modifierPhases.reduce(function (acc, phase) {
-    return acc.concat(orderedModifiers.filter(function (modifier) {
-      return modifier.phase === phase;
-    }));
-  }, []);
-}
-
-function debounce(fn) {
-  var pending;
-  return function () {
-    if (!pending) {
-      pending = new Promise(function (resolve) {
-        Promise.resolve().then(function () {
-          pending = undefined;
-          resolve(fn());
-        });
-      });
-    }
-
-    return pending;
-  };
-}
-
-function format(str) {
-  for (var _len = arguments.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    args[_key - 1] = arguments[_key];
-  }
-
-  return [].concat(args).reduce(function (p, c) {
-    return p.replace(/%s/, c);
-  }, str);
-}
-
-var INVALID_MODIFIER_ERROR = 'Popper: modifier "%s" provided an invalid %s property, expected %s but got %s';
-var MISSING_DEPENDENCY_ERROR = 'Popper: modifier "%s" requires "%s", but "%s" modifier is not available';
-var VALID_PROPERTIES = ['name', 'enabled', 'phase', 'fn', 'effect', 'requires', 'options'];
-function validateModifiers(modifiers) {
-  modifiers.forEach(function (modifier) {
-    [].concat(Object.keys(modifier), VALID_PROPERTIES) // IE11-compatible replacement for `new Set(iterable)`
-    .filter(function (value, index, self) {
-      return self.indexOf(value) === index;
-    }).forEach(function (key) {
-      switch (key) {
-        case 'name':
-          if (typeof modifier.name !== 'string') {
-            console.error(format(INVALID_MODIFIER_ERROR, String(modifier.name), '"name"', '"string"', "\"" + String(modifier.name) + "\""));
-          }
-
-          break;
-
-        case 'enabled':
-          if (typeof modifier.enabled !== 'boolean') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"enabled"', '"boolean"', "\"" + String(modifier.enabled) + "\""));
-          }
-
-          break;
-
-        case 'phase':
-          if (modifierPhases.indexOf(modifier.phase) < 0) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"phase"', "either " + modifierPhases.join(', '), "\"" + String(modifier.phase) + "\""));
-          }
-
-          break;
-
-        case 'fn':
-          if (typeof modifier.fn !== 'function') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"fn"', '"function"', "\"" + String(modifier.fn) + "\""));
-          }
-
-          break;
-
-        case 'effect':
-          if (modifier.effect != null && typeof modifier.effect !== 'function') {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"effect"', '"function"', "\"" + String(modifier.fn) + "\""));
-          }
-
-          break;
-
-        case 'requires':
-          if (modifier.requires != null && !Array.isArray(modifier.requires)) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requires"', '"array"', "\"" + String(modifier.requires) + "\""));
-          }
-
-          break;
-
-        case 'requiresIfExists':
-          if (!Array.isArray(modifier.requiresIfExists)) {
-            console.error(format(INVALID_MODIFIER_ERROR, modifier.name, '"requiresIfExists"', '"array"', "\"" + String(modifier.requiresIfExists) + "\""));
-          }
-
-          break;
-
-        case 'options':
-        case 'data':
-          break;
-
-        default:
-          console.error("PopperJS: an invalid property has been provided to the \"" + modifier.name + "\" modifier, valid properties are " + VALID_PROPERTIES.map(function (s) {
-            return "\"" + s + "\"";
-          }).join(', ') + "; but \"" + key + "\" was provided.");
-      }
-
-      modifier.requires && modifier.requires.forEach(function (requirement) {
-        if (modifiers.find(function (mod) {
-          return mod.name === requirement;
-        }) == null) {
-          console.error(format(MISSING_DEPENDENCY_ERROR, String(modifier.name), requirement, requirement));
-        }
-      });
-    });
-  });
-}
-
-function uniqueBy(arr, fn) {
-  var identifiers = new Set();
-  return arr.filter(function (item) {
-    var identifier = fn(item);
-
-    if (!identifiers.has(identifier)) {
-      identifiers.add(identifier);
-      return true;
-    }
-  });
-}
-
-function mergeByName(modifiers) {
-  var merged = modifiers.reduce(function (merged, current) {
-    var existing = merged[current.name];
-    merged[current.name] = existing ? Object.assign({}, existing, current, {
-      options: Object.assign({}, existing.options, current.options),
-      data: Object.assign({}, existing.data, current.data)
-    }) : current;
-    return merged;
-  }, {}); // IE11 does not support Object.values
-
-  return Object.keys(merged).map(function (key) {
-    return merged[key];
-  });
-}
-
-var INVALID_ELEMENT_ERROR = 'Popper: Invalid reference or popper argument provided. They must be either a DOM element or virtual element.';
-var INFINITE_LOOP_ERROR = 'Popper: An infinite loop in the modifiers cycle has been detected! The cycle has been interrupted to prevent a browser crash.';
-var DEFAULT_OPTIONS = {
-  placement: 'bottom',
-  modifiers: [],
-  strategy: 'absolute'
-};
-
-function areValidElements() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return !args.some(function (element) {
-    return !(element && typeof element.getBoundingClientRect === 'function');
-  });
-}
-
-function popperGenerator(generatorOptions) {
-  if (generatorOptions === void 0) {
-    generatorOptions = {};
-  }
-
-  var _generatorOptions = generatorOptions,
-      _generatorOptions$def = _generatorOptions.defaultModifiers,
-      defaultModifiers = _generatorOptions$def === void 0 ? [] : _generatorOptions$def,
-      _generatorOptions$def2 = _generatorOptions.defaultOptions,
-      defaultOptions = _generatorOptions$def2 === void 0 ? DEFAULT_OPTIONS : _generatorOptions$def2;
-  return function createPopper(reference, popper, options) {
-    if (options === void 0) {
-      options = defaultOptions;
-    }
-
-    var state = {
-      placement: 'bottom',
-      orderedModifiers: [],
-      options: Object.assign({}, DEFAULT_OPTIONS, defaultOptions),
-      modifiersData: {},
-      elements: {
-        reference: reference,
-        popper: popper
-      },
-      attributes: {},
-      styles: {}
-    };
-    var effectCleanupFns = [];
-    var isDestroyed = false;
-    var instance = {
-      state: state,
-      setOptions: function setOptions(setOptionsAction) {
-        var options = typeof setOptionsAction === 'function' ? setOptionsAction(state.options) : setOptionsAction;
-        cleanupModifierEffects();
-        state.options = Object.assign({}, defaultOptions, state.options, options);
-        state.scrollParents = {
-          reference: isElement(reference) ? listScrollParents(reference) : reference.contextElement ? listScrollParents(reference.contextElement) : [],
-          popper: listScrollParents(popper)
-        }; // Orders the modifiers based on their dependencies and `phase`
-        // properties
-
-        var orderedModifiers = orderModifiers(mergeByName([].concat(defaultModifiers, state.options.modifiers))); // Strip out disabled modifiers
-
-        state.orderedModifiers = orderedModifiers.filter(function (m) {
-          return m.enabled;
-        }); // Validate the provided modifiers so that the consumer will get warned
-        // if one of the modifiers is invalid for any reason
-
-        if (process.env.NODE_ENV !== "production") {
-          var modifiers = uniqueBy([].concat(orderedModifiers, state.options.modifiers), function (_ref) {
-            var name = _ref.name;
-            return name;
-          });
-          validateModifiers(modifiers);
-
-          if (getBasePlacement(state.options.placement) === auto) {
-            var flipModifier = state.orderedModifiers.find(function (_ref2) {
-              var name = _ref2.name;
-              return name === 'flip';
-            });
-
-            if (!flipModifier) {
-              console.error(['Popper: "auto" placements require the "flip" modifier be', 'present and enabled to work.'].join(' '));
-            }
-          }
-
-          var _getComputedStyle = getComputedStyle$1(popper),
-              marginTop = _getComputedStyle.marginTop,
-              marginRight = _getComputedStyle.marginRight,
-              marginBottom = _getComputedStyle.marginBottom,
-              marginLeft = _getComputedStyle.marginLeft; // We no longer take into account `margins` on the popper, and it can
-          // cause bugs with positioning, so we'll warn the consumer
-
-
-          if ([marginTop, marginRight, marginBottom, marginLeft].some(function (margin) {
-            return parseFloat(margin);
-          })) {
-            console.warn(['Popper: CSS "margin" styles cannot be used to apply padding', 'between the popper and its reference element or boundary.', 'To replicate margin, use the `offset` modifier, as well as', 'the `padding` option in the `preventOverflow` and `flip`', 'modifiers.'].join(' '));
-          }
-        }
-
-        runModifierEffects();
-        return instance.update();
-      },
-      // Sync update – it will always be executed, even if not necessary. This
-      // is useful for low frequency updates where sync behavior simplifies the
-      // logic.
-      // For high frequency updates (e.g. `resize` and `scroll` events), always
-      // prefer the async Popper#update method
-      forceUpdate: function forceUpdate() {
-        if (isDestroyed) {
-          return;
-        }
-
-        var _state$elements = state.elements,
-            reference = _state$elements.reference,
-            popper = _state$elements.popper; // Don't proceed if `reference` or `popper` are not valid elements
-        // anymore
-
-        if (!areValidElements(reference, popper)) {
-          if (process.env.NODE_ENV !== "production") {
-            console.error(INVALID_ELEMENT_ERROR);
-          }
-
-          return;
-        } // Store the reference and popper rects to be read by modifiers
-
-
-        state.rects = {
-          reference: getCompositeRect(reference, getOffsetParent(popper), state.options.strategy === 'fixed'),
-          popper: getLayoutRect(popper)
-        }; // Modifiers have the ability to reset the current update cycle. The
-        // most common use case for this is the `flip` modifier changing the
-        // placement, which then needs to re-run all the modifiers, because the
-        // logic was previously ran for the previous placement and is therefore
-        // stale/incorrect
-
-        state.reset = false;
-        state.placement = state.options.placement; // On each update cycle, the `modifiersData` property for each modifier
-        // is filled with the initial data specified by the modifier. This means
-        // it doesn't persist and is fresh on each update.
-        // To ensure persistent data, use `${name}#persistent`
-
-        state.orderedModifiers.forEach(function (modifier) {
-          return state.modifiersData[modifier.name] = Object.assign({}, modifier.data);
-        });
-        var __debug_loops__ = 0;
-
-        for (var index = 0; index < state.orderedModifiers.length; index++) {
-          if (process.env.NODE_ENV !== "production") {
-            __debug_loops__ += 1;
-
-            if (__debug_loops__ > 100) {
-              console.error(INFINITE_LOOP_ERROR);
-              break;
-            }
-          }
-
-          if (state.reset === true) {
-            state.reset = false;
-            index = -1;
-            continue;
-          }
-
-          var _state$orderedModifie = state.orderedModifiers[index],
-              fn = _state$orderedModifie.fn,
-              _state$orderedModifie2 = _state$orderedModifie.options,
-              _options = _state$orderedModifie2 === void 0 ? {} : _state$orderedModifie2,
-              name = _state$orderedModifie.name;
-
-          if (typeof fn === 'function') {
-            state = fn({
-              state: state,
-              options: _options,
-              name: name,
-              instance: instance
-            }) || state;
-          }
-        }
-      },
-      // Async and optimistically optimized update – it will not be executed if
-      // not necessary (debounced to run at most once-per-tick)
-      update: debounce(function () {
-        return new Promise(function (resolve) {
-          instance.forceUpdate();
-          resolve(state);
-        });
-      }),
-      destroy: function destroy() {
-        cleanupModifierEffects();
-        isDestroyed = true;
-      }
-    };
-
-    if (!areValidElements(reference, popper)) {
-      if (process.env.NODE_ENV !== "production") {
-        console.error(INVALID_ELEMENT_ERROR);
-      }
-
-      return instance;
-    }
-
-    instance.setOptions(options).then(function (state) {
-      if (!isDestroyed && options.onFirstUpdate) {
-        options.onFirstUpdate(state);
-      }
-    }); // Modifiers have the ability to execute arbitrary code before the first
-    // update cycle runs. They will be executed in the same order as the update
-    // cycle. This is useful when a modifier adds some persistent data that
-    // other modifiers need to use, but the modifier is run after the dependent
-    // one.
-
-    function runModifierEffects() {
-      state.orderedModifiers.forEach(function (_ref3) {
-        var name = _ref3.name,
-            _ref3$options = _ref3.options,
-            options = _ref3$options === void 0 ? {} : _ref3$options,
-            effect = _ref3.effect;
-
-        if (typeof effect === 'function') {
-          var cleanupFn = effect({
-            state: state,
-            name: name,
-            instance: instance,
-            options: options
-          });
-
-          var noopFn = function noopFn() {};
-
-          effectCleanupFns.push(cleanupFn || noopFn);
-        }
-      });
-    }
-
-    function cleanupModifierEffects() {
-      effectCleanupFns.forEach(function (fn) {
-        return fn();
-      });
-      effectCleanupFns = [];
-    }
-
-    return instance;
-  };
-}
-
-var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyStyles$1, offset$1, flip$1, preventOverflow$1, arrow$1, hide$1];
-var createPopper = /*#__PURE__*/popperGenerator({
-  defaultModifiers: defaultModifiers
-}); // eslint-disable-next-line import/no-unused-modules
-
-function useElement() {
-  const element = ref(null);
-  return element;
-}
-const defaultDelay$2 = 0;
-function useState(options) {
-  const {
-    allowEnter = true,
-    autoAdjust = true,
-    delay = defaultDelay$2,
-    disabled = false,
-    offset = [0, 0],
-    placement = "top",
-    trigger = "hover",
-    visible = false,
-    strategy = "absolute",
-    modifiers = [],
-    onFirstUpdate = NoopFunction
-  } = options;
-  return reactive({
-    allowEnter,
-    autoAdjust,
-    delay,
-    disabled,
-    offset,
-    placement,
-    trigger,
-    visible,
-    strategy,
-    modifiers,
-    onFirstUpdate
-  });
-}
-function useBaseOptions(state) {
-  return computed$1(() => {
-    const { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust } = state;
-    return { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust };
-  });
-}
-function useVisibility(state) {
-  return computed$1(() => !state.disabled && state.visible);
-}
-function usePlacement(state) {
-  const _placement = ref(state.placement);
-  const updatePlacement = (value) => {
-    _placement.value = value;
-  };
-  watch(() => state.placement, updatePlacement);
-  const placement = computed$1(() => _placement.value);
-  return { placement, updatePlacement };
-}
-function useDelay(state) {
-  const convertDelay = (delay) => {
-    if (Array.isArray(delay)) {
-      const [show, hide] = delay;
-      return { show: show != null ? show : defaultDelay$2, hide: hide != null ? hide : defaultDelay$2 };
-    }
-    return { show: delay, hide: delay };
-  };
-  return computed$1(() => convertDelay(state.delay));
-}
-function useTimer() {
-  let timer = null;
-  const setTimer = (action, delay) => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-    timer = setTimeout(action, delay);
-  };
-  const clearTimer = () => {
-    if (timer) {
-      clearTimeout(timer);
-      timer = null;
-    }
-  };
-  return { setTimer, clearTimer };
-}
-function useTriggerEvents(baseOptions, eventOptions) {
-  const { visibility, show, hide } = eventOptions;
-  const onMouseenter = () => show();
-  const onMouseleave = () => hide();
-  const onFocus = () => show();
-  const onBlur = () => hide();
-  const onClick = () => {
-    const { trigger } = baseOptions;
-    if (trigger === "click") {
-      visibility.value ? hide() : show();
-    } else if (trigger === "contextmenu") {
-      visibility.value && hide();
-    }
-  };
-  const onContextmenu = (evt) => {
-    evt.preventDefault();
-    show();
-  };
-  const eventsMap = {
-    hover: { onMouseenter, onMouseleave },
-    focus: { onFocus, onBlur },
-    click: { onClick },
-    contextmenu: { onClick, onContextmenu },
-    manual: {}
-  };
-  return computed$1(() => eventsMap[baseOptions.trigger]);
-}
-function usePopperEvents(baseOptions, eventOptions) {
-  const { show, hide } = eventOptions;
-  const onMouseenter = () => show();
-  const onMouseleave = () => hide();
-  const eventsMap = {
-    click: NoopObject,
-    focus: NoopObject,
-    hover: { onMouseenter, onMouseleave },
-    contextmenu: NoopObject,
-    manual: NoopObject
-  };
-  return computed$1(() => baseOptions.allowEnter ? eventsMap[baseOptions.trigger] : NoopObject);
-}
-function convertOptions$1(baseOptions, extraOptions) {
-  const { placement, strategy, onFirstUpdate, modifiers, offset, autoAdjust } = baseOptions;
-  const { arrowElement, updatePlacement } = extraOptions;
-  return {
-    placement: kebabCase$1(placement),
-    strategy,
-    onFirstUpdate,
-    modifiers: [
-      { name: "offset", options: { offset } },
-      { name: "flip", enabled: autoAdjust, options: { padding: 4 } },
-      { name: "arrow", enabled: !!arrowElement, options: { element: arrowElement, padding: 4 } },
-      {
-        name: "IDUX_updatePlacement",
-        enabled: true,
-        phase: "beforeWrite",
-        requires: ["computeStyles"],
-        fn: ({ state }) => updatePlacement(camelCase$1(state.placement))
-      },
-      ...modifiers
-    ]
-  };
-}
-function usePopper(options = {}) {
-  let popperInstance = null;
-  const triggerRef = useElement();
-  const popperRef = useElement();
-  const arrowRef = useElement();
-  const state = useState(options);
-  const baseOptions = useBaseOptions(state);
-  const visibility = useVisibility(state);
-  const { placement, updatePlacement } = usePlacement(state);
-  const delay = useDelay(state);
-  const { setTimer, clearTimer } = useTimer();
-  const triggerEvents = useTriggerEvents(state, { visibility, show, hide });
-  const popperEvents = usePopperEvents(state, { show, hide });
-  function toggle(visible, delay2) {
-    clearTimer();
-    const action = () => {
-      state.visible = visible;
-    };
-    if (delay2 > 0) {
-      setTimer(action, delay2);
-    } else {
-      action();
-    }
-  }
-  function show(showDelay = delay.value.show) {
-    toggle(true, showDelay);
-  }
-  function hide(hideDelay = delay.value.hide) {
-    toggle(false, hideDelay);
-  }
-  function update(options2) {
-    if (options2) {
-      Object.entries(options2).forEach(([key, value]) => {
-        if (value !== void 0 && !isEqual(value, state[key])) {
-          state[key] = value;
-        }
-      });
-      return;
-    }
-    popperInstance == null ? void 0 : popperInstance.update();
-  }
-  function forceUpdate() {
-    popperInstance == null ? void 0 : popperInstance.forceUpdate();
-  }
-  function destroy() {
-    clearTimer();
-    if (!popperInstance) {
-      return;
-    }
-    popperInstance.destroy();
-    popperInstance = null;
-  }
-  let initWatchStop = null;
-  function initialize() {
-    if (initWatchStop) {
-      initWatchStop();
-    }
-    initWatchStop = watch([triggerRef, popperRef], ([trigger, popper]) => {
-      const triggerElement = convertElement(trigger);
-      const popperElement = convertElement(popper);
-      if (!triggerElement || !popperElement) {
-        return;
-      }
-      destroy();
-      const options2 = convertOptions$1(baseOptions.value, { arrowElement: convertElement(arrowRef), updatePlacement });
-      popperInstance = createPopper(triggerElement, popperElement, options2);
-    }, { immediate: true });
-  }
-  watch(visibility, (value) => {
-    if (value) {
-      clearTimer();
-      popperInstance == null ? void 0 : popperInstance.update();
-    }
-  });
-  watch([baseOptions, arrowRef], ([currBaseOptions, arrowElement]) => {
-    popperInstance == null ? void 0 : popperInstance.setOptions(convertOptions$1(currBaseOptions, { arrowElement: convertElement(arrowElement), updatePlacement }));
-  });
-  return {
-    visibility,
-    placement,
-    triggerRef,
-    triggerEvents,
-    popperRef,
-    popperEvents,
-    arrowRef,
-    initialize,
-    show,
-    hide,
-    update,
-    forceUpdate,
-    destroy
-  };
-}
 
 const overlayPlacementDef = IxPropTypes.oneOf([
   "topStart",
@@ -19476,13 +19596,15 @@ const overlayProps = {
   target: IxPropTypes.oneOfType([String, HTMLElement, IxPropTypes.func()]).isRequired,
   transitionName: IxPropTypes.string,
   trigger: overlayTriggerDef,
+  triggerId: { type: null, default: void 0 },
+  zIndex: IxPropTypes.number,
   "onUpdate:visible": IxPropTypes.emit(),
   "onUpdate:placement": IxPropTypes.emit(),
   onAfterLeave: IxPropTypes.emit()
 };
 var __defProp$v = Object.defineProperty;
-var __defProps$l = Object.defineProperties;
-var __getOwnPropDescs$l = Object.getOwnPropertyDescriptors;
+var __defProps$o = Object.defineProperties;
+var __getOwnPropDescs$o = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$B = Object.getOwnPropertySymbols;
 var __hasOwnProp$B = Object.prototype.hasOwnProperty;
 var __propIsEnum$B = Object.prototype.propertyIsEnumerable;
@@ -19498,8 +19620,9 @@ var __spreadValues$v = (a, b) => {
     }
   return a;
 };
-var __spreadProps$l = (a, b) => __defProps$l(a, __getOwnPropDescs$l(b));
+var __spreadProps$o = (a, b) => __defProps$o(a, __getOwnPropDescs$o(b));
 var Overlay$1 = defineComponent({
+  name: "\u0275Overlay",
   inheritAttrs: false,
   props: overlayProps,
   setup(props, {
@@ -19508,7 +19631,7 @@ var Overlay$1 = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-overlay`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-overlay`);
     const popperOptions = usePopperOptions(props);
     const {
       arrowRef,
@@ -19524,7 +19647,7 @@ var Overlay$1 = defineComponent({
       show,
       hide,
       destroy
-    } = usePopper(__spreadProps$l(__spreadValues$v({}, popperOptions.value), {
+    } = usePopper(__spreadProps$o(__spreadValues$v({}, popperOptions.value), {
       visible: props.visible
     }));
     onMounted(() => initialize());
@@ -19565,7 +19688,7 @@ var Overlay$1 = defineComponent({
       const trigger = renderTrigger$1(props, triggerNode, __spreadValues$v({
         ref: triggerRef
       }, triggerEvents.value), handleClickOutside);
-      const content = renderContent$2(props, mergedPrefixCls, visibility, contentNode, arrowRef, popperRef, popperEvents, attrs);
+      const content = renderContent$3(props, mergedPrefixCls, visibility, contentNode, arrowRef, popperRef, popperEvents, attrs);
       return createVNode(Fragment, null, [trigger, createVNode(CdkPortal, {
         "target": props.target,
         "load": visibility.value
@@ -19582,7 +19705,7 @@ var Overlay$1 = defineComponent({
   }
 });
 function usePopperOptions(props) {
-  return computed$1(() => {
+  return computed(() => {
     const {
       allowEnter,
       autoAdjust,
@@ -19603,14 +19726,22 @@ function usePopperOptions(props) {
     };
   });
 }
-function renderContent$2(props, mergedPrefixCls, visibility, contentNode, arrowRef, popperRef, popperEvents, attrs) {
+function renderContent$3(props, mergedPrefixCls, visibility, contentNode, arrowRef, popperRef, popperEvents, attrs) {
   if (props.destroyOnHide && !visibility.value) {
     return null;
   }
   const prefixCls = mergedPrefixCls.value;
+  const {
+    triggerId,
+    zIndex
+  } = props;
+  const overlayId = triggerId != null ? `overlay-${triggerId}` : void 0;
+  const style = zIndex != null ? `z-index: ${zIndex}` : void 0;
   const overlay = createVNode("div", mergeProps({
     "ref": popperRef,
-    "class": prefixCls
+    "id": overlayId,
+    "class": prefixCls,
+    "style": style
   }, popperEvents.value, attrs), [contentNode, props.showArrow && createVNode("div", {
     "ref": arrowRef,
     "class": `${prefixCls}-arrow`
@@ -19635,6 +19766,7 @@ const tooltipProps = {
   target: portalTargetDef,
   title: IxPropTypes.string,
   trigger: overlayTriggerDef,
+  zIndex: IxPropTypes.number,
   "onUpdate:visible": IxPropTypes.emit()
 };
 const defaultOffset$4 = [0, 12];
@@ -19645,7 +19777,7 @@ function useTooltipOverlay(props, config, mergedPrefixCls) {
     return (_a = overlayRef.value) == null ? void 0 : _a.updatePopper();
   };
   const [visible, setVisible] = useControlledProp(props, "visible", false);
-  const overlayProps = computed$1(() => {
+  const overlayProps = computed(() => {
     var _a, _b, _c, _d, _e, _f, _g;
     const trigger = (_a = props.trigger) != null ? _a : config.trigger;
     return {
@@ -19659,7 +19791,8 @@ function useTooltipOverlay(props, config, mergedPrefixCls) {
       showArrow: true,
       placement: (_e = props.placement) != null ? _e : config.placement,
       target: (_g = (_f = props.target) != null ? _f : config.target) != null ? _g : `${mergedPrefixCls.value}-container`,
-      trigger
+      trigger,
+      zIndex: props.zIndex
     };
   });
   return { overlayRef, updatePopper, visible, setVisible, overlayProps };
@@ -19672,7 +19805,7 @@ var Tooltip = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tooltip`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-tooltip`);
     const config = useGlobalConfig$1("tooltip");
     const {
       overlayRef,
@@ -19690,12 +19823,12 @@ var Tooltip = defineComponent({
         "transitionName": `${common.prefixCls}-fade-fast`
       }, overlayProps.value), {
         default: slots.default,
-        content: () => renderContent$1(props, slots, prefixCls)
+        content: () => renderContent$2(props, slots, prefixCls)
       });
     };
   }
 });
-const renderContent$1 = (props, slots, prefixCls) => {
+const renderContent$2 = (props, slots, prefixCls) => {
   var _a, _b;
   if (!(slots.title || props.title)) {
     return null;
@@ -19723,9 +19856,11 @@ const formProps = {
   control: controlPropDef,
   colonless: IxPropTypes.bool,
   controlCol: colProp,
+  controlTooltipIcon: IxPropTypes.string,
   hasFeedback: IxPropTypes.bool,
   labelAlign: IxPropTypes.oneOf(["start", "end"]),
   labelCol: colProp,
+  labelTooltipIcon: IxPropTypes.string,
   layout: IxPropTypes.oneOf(["horizontal", "vertical", "inline"]),
   size: IxPropTypes.oneOf(["lg", "md", "sm"]),
   statusIcon: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]).def(false)
@@ -19734,6 +19869,8 @@ const formItemProps = {
   colonless: IxPropTypes.bool,
   control: controlPropDef,
   controlCol: colProp,
+  controlTooltip: IxPropTypes.string,
+  controlTooltipIcon: IxPropTypes.string,
   hasFeedback: IxPropTypes.bool,
   extra: IxPropTypes.string,
   extraMessage: IxPropTypes.string,
@@ -19742,6 +19879,7 @@ const formItemProps = {
   labelCol: colProp,
   labelFor: IxPropTypes.string,
   labelTooltip: IxPropTypes.string,
+  labelTooltipIcon: IxPropTypes.string,
   required: IxPropTypes.bool.def(false),
   message: IxPropTypes.oneOfType([
     String,
@@ -19763,13 +19901,13 @@ var Form = defineComponent({
     const control = useValueControl();
     provide(FORMS_CONTROL_TOKEN, control);
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-form`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-form`);
     const config = useGlobalConfig$1("form");
-    const layout = computed$1(() => {
+    const layout = computed(() => {
       var _a;
       return (_a = props.layout) != null ? _a : config.layout;
     });
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a;
       return (_a = props.size) != null ? _a : config.size;
     });
@@ -19780,7 +19918,7 @@ var Form = defineComponent({
     provide(FORM_TOKEN, {
       size
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -19822,13 +19960,13 @@ var __objRest$h = (source, exclude) => {
   return target;
 };
 function useFormItem(props, formProps2) {
-  const control = useControl();
+  const control = useControl$1();
   const status = useStatus$2(props, control);
   const statusIcon = useStatusIcon(props, formProps2, status);
   const message = useMessage(props, control, status);
   return { status, statusIcon, message };
 }
-function useControl() {
+function useControl$1() {
   const firstChildControl = shallowRef();
   let firstChildKey;
   let firstChildWatchStop;
@@ -19859,7 +19997,7 @@ function useControl() {
   return control;
 }
 function useStatus$2(props, control) {
-  return computed$1(() => {
+  return computed(() => {
     if (props.status) {
       return props.status;
     }
@@ -19880,7 +20018,7 @@ const defaultIconMap$1 = {
   valid: "check-circle-filled"
 };
 function useStatusIcon(props, formProps2, status) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b, _c;
     const currStatus = status.value;
     if (!currStatus) {
@@ -19899,11 +20037,11 @@ function useStatusIcon(props, formProps2, status) {
 }
 function useMessage(props, control, status) {
   const locale = useGlobalConfig$1("locale");
-  const messages = computed$1(() => {
+  const messages = computed(() => {
     const message = props.message;
-    return isString(message) || isFunction$1(message) ? { invalid: message } : message || {};
+    return isString(message) || isFunction(message) ? { invalid: message } : message || {};
   });
-  return computed$1(() => {
+  return computed(() => {
     const currStatus = status.value;
     if (!currStatus) {
       return void 0;
@@ -19927,7 +20065,7 @@ function getMessage(control, locale) {
       if (isString(message)) {
         return message;
       }
-      if (isFunction$1(message)) {
+      if (isFunction(message)) {
         return message(rest, currControl);
       }
       const currMessage = message[locale.type];
@@ -19946,33 +20084,41 @@ var FormItem = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-form-item`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-form-item`);
     const {
       props: formProps2,
       config
     } = inject(formToken, null) || {};
-    const colonless = computed$1(() => {
+    const colonless = computed(() => {
       var _a, _b;
       return (_b = (_a = props.colonless) != null ? _a : formProps2 == null ? void 0 : formProps2.colonless) != null ? _b : config == null ? void 0 : config.colonless;
     });
-    const labelAlign = computed$1(() => {
+    const labelAlign = computed(() => {
       var _a, _b;
       return (_b = (_a = props.labelAlign) != null ? _a : formProps2 == null ? void 0 : formProps2.labelAlign) != null ? _b : config == null ? void 0 : config.labelAlign;
     });
-    const labelColConfig = computed$1(() => {
+    const labelColConfig = computed(() => {
       var _a;
       return normalizeColConfig((_a = props.labelCol) != null ? _a : formProps2 == null ? void 0 : formProps2.labelCol);
     });
-    const controlColConfig = computed$1(() => {
+    const labelTooltipIcon = computed(() => {
+      var _a, _b;
+      return (_b = (_a = props.labelTooltipIcon) != null ? _a : formProps2 == null ? void 0 : formProps2.labelTooltipIcon) != null ? _b : config == null ? void 0 : config.labelTooltipIcon;
+    });
+    const controlColConfig = computed(() => {
       var _a;
       return normalizeColConfig((_a = props.controlCol) != null ? _a : formProps2 == null ? void 0 : formProps2.controlCol);
+    });
+    const controlTooltipIcon = computed(() => {
+      var _a, _b;
+      return (_b = (_a = props.controlTooltipIcon) != null ? _a : formProps2 == null ? void 0 : formProps2.controlTooltipIcon) != null ? _b : config == null ? void 0 : config.controlTooltipIcon;
     });
     const {
       status,
       statusIcon,
       message
     } = useFormItem(props, formProps2);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       const currStatus = status.value;
       return normalizeClass({
@@ -19982,7 +20128,7 @@ var FormItem = defineComponent({
         [`${prefixCls}-${currStatus}`]: !!currStatus
       });
     });
-    const labelClasses = computed$1(() => {
+    const labelClasses = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-label`]: true,
@@ -19996,7 +20142,7 @@ var FormItem = defineComponent({
       return createVNode(IxRow, {
         "class": classes.value
       }, {
-        default: () => [renderLabel$1(props, slots, labelClasses, labelColConfig, prefixCls), renderControl(props, slots, controlColConfig, statusIcon, message, prefixCls)]
+        default: () => [renderLabel$1(props, slots, labelClasses, labelColConfig, labelTooltipIcon, prefixCls), renderControl(props, slots, controlColConfig, controlTooltipIcon, statusIcon, message, prefixCls)]
       });
     };
   }
@@ -20006,7 +20152,7 @@ function normalizeColConfig(col) {
     span: col
   } : col;
 }
-function renderLabel$1(props, slots, classes, labelColConfig, prefixCls) {
+function renderLabel$1(props, slots, classes, labelColConfig, labelTooltipIcon, prefixCls) {
   const {
     label,
     labelFor,
@@ -20019,7 +20165,7 @@ function renderLabel$1(props, slots, classes, labelColConfig, prefixCls) {
   if (!(label || labelSlot)) {
     return void 0;
   }
-  const tooltipNode = renderTooltip(labelTooltipSlot, labelTooltip);
+  const tooltipNode = renderTooltip(labelTooltipSlot, labelTooltip, labelTooltipIcon.value);
   return createVNode(IxCol, mergeProps({
     "class": classes.value
   }, labelColConfig.value), {
@@ -20030,12 +20176,14 @@ function renderLabel$1(props, slots, classes, labelColConfig, prefixCls) {
     }, [tooltipNode])])]
   });
 }
-function renderControl(props, slots, controlColConfig, statusIcon, message, prefixCls) {
+function renderControl(props, slots, controlColConfig, controlTooltipIcon, statusIcon, message, prefixCls) {
   const {
+    controlTooltip,
     extra,
     extraMessage
   } = props;
   const {
+    controlTooltip: controlTooltipSlot,
     extra: extraSlot,
     extraMessage: extraMessageSlot
   } = slots;
@@ -20054,6 +20202,7 @@ function renderControl(props, slots, controlColConfig, statusIcon, message, pref
   const extraWrapper = extraNode && createVNode("div", {
     "class": `${prefixCls}-extra-message`
   }, [extraNode]);
+  const tooltipNode = renderTooltip(controlTooltipSlot, controlTooltip, controlTooltipIcon.value);
   return createVNode(IxCol, mergeProps({
     "class": `${prefixCls}-control`
   }, controlColConfig.value), {
@@ -20061,10 +20210,12 @@ function renderControl(props, slots, controlColConfig, statusIcon, message, pref
       "class": `${prefixCls}-control-input`
     }, [createVNode("div", {
       "class": `${prefixCls}-control-input-content`
-    }, [slots.default && slots.default()]), statusNode]), messageNode, extraWrapper]
+    }, [slots.default && slots.default()]), statusNode, tooltipNode && createVNode("span", {
+      "class": `${prefixCls}-control-tooltip`
+    }, [tooltipNode])]), messageNode, extraWrapper]
   });
 }
-function renderTooltip(slot, tooltip) {
+function renderTooltip(slot, tooltip, iconName) {
   if (slot) {
     return slot();
   }
@@ -20072,7 +20223,7 @@ function renderTooltip(slot, tooltip) {
     "title": tooltip
   }, {
     default: () => [createVNode(IxIcon, {
-      "name": "question-circle"
+      "name": iconName
     }, null)]
   });
 }
@@ -20093,334 +20244,6 @@ var FormWrapper = defineComponent({
 const IxForm = Form;
 const IxFormItem = FormItem;
 const IxFormWrapper = FormWrapper;
-
-function isFakeMousedownFromScreenReader(event) {
-  return event.offsetX === 0 && event.offsetY === 0;
-}
-function isFakeTouchstartFromScreenReader(event) {
-  const touch = event.touches && event.touches[0] || event.changedTouches && event.changedTouches[0];
-  return !!touch && touch.identifier === -1 && (touch.radiusX == null || touch.radiusX === 1) && (touch.radiusY == null || touch.radiusY === 1);
-}
-var __defProp$1$e = Object.defineProperty;
-var __getOwnPropSymbols$1$g = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$g = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$g = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$e = (obj, key, value) => key in obj ? __defProp$1$e(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$e = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$g.call(b, prop))
-      __defNormalProp$1$e(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$g)
-    for (var prop of __getOwnPropSymbols$1$g(b)) {
-      if (__propIsEnum$1$g.call(b, prop))
-        __defNormalProp$1$e(a, prop, b[prop]);
-    }
-  return a;
-};
-const INPUT_MODALITY_DETECTOR_OPTIONS_TOKEN = Symbol("cdk-input-modality-detector-options");
-const INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS = {
-  ignoreCodes: ["AltLeft", "AltRight", "ControlLeft", "ControlRight", "OSLeft", "OSRight", "ShiftLeft", "ShiftRight"]
-};
-const TOUCH_BUFFER_MS = 650;
-const modalityEventListenerOptions = normalizePassiveListenerOptions({
-  passive: true,
-  capture: true
-});
-function useInputModalityDetector(options) {
-  const contextOptions = inject(INPUT_MODALITY_DETECTOR_OPTIONS_TOKEN, INPUT_MODALITY_DETECTOR_DEFAULT_OPTIONS);
-  const _options = __spreadValues$1$e(__spreadValues$1$e({}, contextOptions), options);
-  const _modality = ref(null);
-  const _modalityDetected = customRef((track, trigger) => {
-    let value = null;
-    return {
-      get() {
-        track();
-        return value;
-      },
-      set(newValue) {
-        value = newValue;
-        trigger();
-      }
-    };
-  });
-  const changeModality = (value) => {
-    _modality.value = value;
-    _modalityDetected.value = value;
-  };
-  const _target = ref(null);
-  let _lastTouchMs = 0;
-  const _onKeydown = (event) => {
-    var _a;
-    if ((_a = _options.ignoreCodes) == null ? void 0 : _a.some((code) => code === event.code)) {
-      return;
-    }
-    changeModality("keyboard");
-    _target.value = _getEventTarget(event);
-  };
-  const _onMousedown = (event) => {
-    if (Date.now() - _lastTouchMs < TOUCH_BUFFER_MS) {
-      return;
-    }
-    changeModality(isFakeMousedownFromScreenReader(event) ? "keyboard" : "mouse");
-    _target.value = _getEventTarget(event);
-  };
-  const _onTouchstart = (event) => {
-    if (isFakeTouchstartFromScreenReader(event)) {
-      changeModality("keyboard");
-      return;
-    }
-    _lastTouchMs = Date.now();
-    changeModality("touch");
-    _target.value = _getEventTarget(event);
-  };
-  if (isBrowser) {
-    document.addEventListener("keydown", _onKeydown, modalityEventListenerOptions);
-    document.addEventListener("mousedown", _onMousedown, modalityEventListenerOptions);
-    document.addEventListener("touchstart", _onTouchstart, modalityEventListenerOptions);
-  }
-  onScopeDispose(() => {
-    if (isBrowser) {
-      document.removeEventListener("keydown", _onKeydown, modalityEventListenerOptions);
-      document.removeEventListener("mousedown", _onMousedown, modalityEventListenerOptions);
-      document.removeEventListener("touchstart", _onTouchstart, modalityEventListenerOptions);
-    }
-  });
-  return {
-    modality: _modality,
-    modalityDetected: _modalityDetected,
-    target: _target
-  };
-}
-const useSharedInputModalityDetector = createSharedComposable(() => useInputModalityDetector());
-var __defProp$t = Object.defineProperty;
-var __getOwnPropSymbols$z = Object.getOwnPropertySymbols;
-var __hasOwnProp$z = Object.prototype.hasOwnProperty;
-var __propIsEnum$z = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$t = (obj, key, value) => key in obj ? __defProp$t(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$t = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$z.call(b, prop))
-      __defNormalProp$t(a, prop, b[prop]);
-  if (__getOwnPropSymbols$z)
-    for (var prop of __getOwnPropSymbols$z(b)) {
-      if (__propIsEnum$z.call(b, prop))
-        __defNormalProp$t(a, prop, b[prop]);
-    }
-  return a;
-};
-const FOCUS_MONITOR_OPTIONS_TOKEN = Symbol("cdk-focus-monitor-options");
-const FOCUS_MONITOR_DEFAULT_OPTIONS = {
-  detectionMode: "immediate"
-};
-const captureEventListenerOptions = normalizePassiveListenerOptions({
-  passive: true,
-  capture: true
-});
-function useFocusMonitor(options) {
-  var _a;
-  const contextOptions = inject(FOCUS_MONITOR_OPTIONS_TOKEN, FOCUS_MONITOR_DEFAULT_OPTIONS);
-  const _options = __spreadValues$t(__spreadValues$t({}, contextOptions), options);
-  const _detectionMode = _options.detectionMode;
-  const _inputModalityDetector = (_a = _options.inputModalityDetector) != null ? _a : useSharedInputModalityDetector();
-  let _origin = null;
-  let _lastFocusOrigin;
-  let _windowFocused = false;
-  let _windowFocusTimeoutId;
-  let _originTimeoutId;
-  let _originFromTouchInteraction = false;
-  const _elementInfo = /* @__PURE__ */ new Map();
-  let _monitoredElementCount = 0;
-  const _rootNodeFocusListenerCount = /* @__PURE__ */ new Map();
-  const _windowFocusListener = () => {
-    _windowFocused = true;
-    _windowFocusTimeoutId = setTimeout(() => _windowFocused = false);
-  };
-  let _stopInputModalityDetector = null;
-  const _rootNodeFocusAndBlurListener = (event) => {
-    const target = _getEventTarget(event);
-    const handler = event.type === "focus" ? _onFocus : _onBlur;
-    for (let element = target; element; element = element.parentElement) {
-      handler(event, element);
-    }
-  };
-  function monitor(element, checkChildren = false) {
-    const nativeElement = convertElement(element);
-    if (!isBrowser || !nativeElement || nativeElement.nodeType !== 1) {
-      return computed$1(() => ({ origin: null }));
-    }
-    const rootNode = _getShadowRoot(nativeElement) || _getDocument();
-    const cachedInfo = _elementInfo.get(nativeElement);
-    if (cachedInfo) {
-      if (checkChildren) {
-        cachedInfo.checkChildren = true;
-      }
-      return computed$1(() => cachedInfo.subject.value);
-    }
-    const info = {
-      checkChildren,
-      subject: shallowRef({ origin: null }),
-      rootNode
-    };
-    _elementInfo.set(nativeElement, info);
-    _registerGlobalListeners(info);
-    return computed$1(() => info.subject.value);
-  }
-  function stopMonitoring(element) {
-    const nativeElement = convertElement(element);
-    if (!nativeElement) {
-      return;
-    }
-    const elementInfo = _elementInfo.get(nativeElement);
-    if (elementInfo) {
-      _setClasses(nativeElement);
-      _elementInfo.delete(nativeElement);
-      _removeGlobalListeners(elementInfo);
-    }
-  }
-  function focusVia(element, origin, options2) {
-    const nativeElement = convertElement(element);
-    const focusedElement = _getDocument().activeElement;
-    if (nativeElement === focusedElement) {
-      _getClosestElementsInfo(nativeElement).forEach(([currentElement, info]) => _originChanged(currentElement, origin, info));
-    } else {
-      _setOrigin(origin);
-      if (nativeElement && typeof nativeElement.focus === "function") {
-        nativeElement.focus(options2);
-      }
-    }
-  }
-  function blurVia(element) {
-    const nativeElement = convertElement(element);
-    if (!nativeElement) {
-      return;
-    }
-    const focusedElement = _getDocument().activeElement;
-    if (nativeElement === focusedElement && typeof nativeElement.blur === "function") {
-      nativeElement.blur();
-    }
-  }
-  function _getDocument() {
-    return document;
-  }
-  function _getWindow() {
-    const doc = _getDocument();
-    return doc.defaultView || window;
-  }
-  function _toggleClass(element, className, shouldSet) {
-    if (shouldSet) {
-      element.classList.add(className);
-    } else {
-      element.classList.remove(className);
-    }
-  }
-  function _getFocusOrigin(focusEventTarget) {
-    if (_origin) {
-      if (_originFromTouchInteraction) {
-        return _shouldBeAttributedToTouch(focusEventTarget) ? "touch" : "program";
-      } else {
-        return _origin;
-      }
-    }
-    return _windowFocused && _lastFocusOrigin ? _lastFocusOrigin : "program";
-  }
-  function _shouldBeAttributedToTouch(focusEventTarget) {
-    return _detectionMode === "eventual" || !!(focusEventTarget == null ? void 0 : focusEventTarget.contains(_inputModalityDetector.target.value));
-  }
-  function _setClasses(element, origin) {
-    _toggleClass(element, "cdk-focused", !!origin);
-    _toggleClass(element, "cdk-touch-focused", origin === "touch");
-    _toggleClass(element, "cdk-keyboard-focused", origin === "keyboard");
-    _toggleClass(element, "cdk-mouse-focused", origin === "mouse");
-    _toggleClass(element, "cdk-program-focused", origin === "program");
-  }
-  function _setOrigin(origin, isFromInteraction = false) {
-    _origin = origin;
-    _originFromTouchInteraction = origin === "touch" && isFromInteraction;
-    if (_detectionMode === "immediate") {
-      clearTimeout(_originTimeoutId);
-      const ms = _originFromTouchInteraction ? TOUCH_BUFFER_MS : 1;
-      _originTimeoutId = setTimeout(() => _origin = null, ms);
-    }
-  }
-  function _onFocus(event, element) {
-    const elementInfo = _elementInfo.get(element);
-    const focusEventTarget = _getEventTarget(event);
-    if (!elementInfo || !elementInfo.checkChildren && element !== focusEventTarget) {
-      return;
-    }
-    _originChanged(element, _getFocusOrigin(focusEventTarget), elementInfo, event);
-  }
-  function _onBlur(event, element) {
-    const elementInfo = _elementInfo.get(element);
-    if (!elementInfo || elementInfo.checkChildren && event.relatedTarget instanceof Node && element.contains(event.relatedTarget)) {
-      return;
-    }
-    _setClasses(element);
-    _emitOrigin(elementInfo.subject, null, event);
-  }
-  function _emitOrigin(subject, origin, event) {
-    subject.value = { origin, event };
-  }
-  function _registerGlobalListeners(elementInfo) {
-    if (!isBrowser) {
-      return;
-    }
-    const rootNode = elementInfo.rootNode;
-    const rootNodeFocusListeners = _rootNodeFocusListenerCount.get(rootNode) || 0;
-    if (!rootNodeFocusListeners) {
-      rootNode.addEventListener("focus", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
-      rootNode.addEventListener("blur", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
-    }
-    _rootNodeFocusListenerCount.set(rootNode, rootNodeFocusListeners + 1);
-    if (++_monitoredElementCount === 1) {
-      const window2 = _getWindow();
-      window2.addEventListener("focus", _windowFocusListener);
-      _stopInputModalityDetector = watchEffect(() => {
-        _setOrigin(_inputModalityDetector.modalityDetected.value, true);
-      });
-    }
-  }
-  function _removeGlobalListeners(elementInfo) {
-    const rootNode = elementInfo.rootNode;
-    if (_rootNodeFocusListenerCount.has(rootNode)) {
-      const rootNodeFocusListeners = _rootNodeFocusListenerCount.get(rootNode);
-      if (rootNodeFocusListeners > 1) {
-        _rootNodeFocusListenerCount.set(rootNode, rootNodeFocusListeners - 1);
-      } else {
-        rootNode.removeEventListener("focus", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
-        rootNode.removeEventListener("blur", _rootNodeFocusAndBlurListener, captureEventListenerOptions);
-        _rootNodeFocusListenerCount.delete(rootNode);
-      }
-    }
-    if (!--_monitoredElementCount) {
-      const window2 = _getWindow();
-      window2.removeEventListener("focus", _windowFocusListener);
-      if (_stopInputModalityDetector) {
-        _stopInputModalityDetector();
-        _stopInputModalityDetector = null;
-      }
-      clearTimeout(_windowFocusTimeoutId);
-      clearTimeout(_originTimeoutId);
-    }
-  }
-  function _originChanged(element, origin, elementInfo, event) {
-    _setClasses(element, origin);
-    _emitOrigin(elementInfo.subject, origin, event);
-    _lastFocusOrigin = origin;
-  }
-  function _getClosestElementsInfo(element) {
-    const results = [];
-    _elementInfo.forEach((info, currentElement) => {
-      if (currentElement === element || info.checkChildren && currentElement.contains(element)) {
-        results.push([currentElement, info]);
-      }
-    });
-    return results;
-  }
-  onScopeDispose(() => _elementInfo.forEach((_info, element) => stopMonitoring(element)));
-  return { monitor, stopMonitoring, focusVia, blurVia };
-}
-const useSharedFocusMonitor = createSharedComposable(() => useFocusMonitor());
 
 const presetColors = [
   "red",
@@ -20446,7 +20269,7 @@ function isStatusColor(color) {
   return statusColors.includes(color);
 }
 function convertTarget(target) {
-  const temp = isFunction$1(target) ? target() : target;
+  const temp = isFunction(target) ? target() : target;
   if (isString(temp)) {
     const targetDom = document.querySelector(temp);
     if (targetDom) {
@@ -20512,8 +20335,12 @@ function useFormFocusMonitor(options) {
   const elementRef = ref();
   let watchStopHandle;
   watch(elementRef, (currElement, prevElement) => {
-    watchStopHandle == null ? void 0 : watchStopHandle();
-    focusMonitor.stopMonitoring(prevElement);
+    if (watchStopHandle) {
+      watchStopHandle();
+    }
+    if (prevElement) {
+      focusMonitor.stopMonitoring(prevElement);
+    }
     watchStopHandle = watch(focusMonitor.monitor(currElement, options.checkChildren), (evt) => {
       const { origin, event } = evt;
       if (event) {
@@ -20522,7 +20349,9 @@ function useFormFocusMonitor(options) {
     });
   });
   onBeforeUnmount(() => {
-    watchStopHandle == null ? void 0 : watchStopHandle();
+    if (watchStopHandle) {
+      watchStopHandle();
+    }
     focusMonitor.stopMonitoring(elementRef.value);
   });
   const focus = (options2) => focusMonitor.focusVia(elementRef.value, "program", options2);
@@ -20608,25 +20437,25 @@ function calcPosition(affixRect, offsetOption, target) {
   }
   return style;
 }
-var __defProp$s = Object.defineProperty;
-var __defProps$k = Object.defineProperties;
-var __getOwnPropDescs$k = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$y = Object.getOwnPropertySymbols;
-var __hasOwnProp$y = Object.prototype.hasOwnProperty;
-var __propIsEnum$y = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$s = (obj, key, value) => key in obj ? __defProp$s(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$s = (a, b) => {
+var __defProp$t = Object.defineProperty;
+var __defProps$n = Object.defineProperties;
+var __getOwnPropDescs$n = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$z = Object.getOwnPropertySymbols;
+var __hasOwnProp$z = Object.prototype.hasOwnProperty;
+var __propIsEnum$z = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$t = (obj, key, value) => key in obj ? __defProp$t(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$t = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$y.call(b, prop))
-      __defNormalProp$s(a, prop, b[prop]);
-  if (__getOwnPropSymbols$y)
-    for (var prop of __getOwnPropSymbols$y(b)) {
-      if (__propIsEnum$y.call(b, prop))
-        __defNormalProp$s(a, prop, b[prop]);
+    if (__hasOwnProp$z.call(b, prop))
+      __defNormalProp$t(a, prop, b[prop]);
+  if (__getOwnPropSymbols$z)
+    for (var prop of __getOwnPropSymbols$z(b)) {
+      if (__propIsEnum$z.call(b, prop))
+        __defNormalProp$t(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$k = (a, b) => __defProps$k(a, __getOwnPropDescs$k(b));
+var __spreadProps$n = (a, b) => __defProps$n(a, __getOwnPropDescs$n(b));
 var Affix = defineComponent({
   name: "IxAffix",
   props: affixProps,
@@ -20634,13 +20463,13 @@ var Affix = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-affix`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-affix`);
     const contentStyle = ref({});
     const affixStyle = ref({});
     const targetRef = ref(null);
     const affixRef = ref(null);
     const contentRef = ref(null);
-    const offset = computed$1(() => normalizeOffset(props.offset));
+    const offset = computed(() => normalizeOffset(props.offset));
     const isStickyRef = ref(false);
     watch(isStickyRef, (value) => {
       var _a;
@@ -20666,7 +20495,7 @@ var Affix = defineComponent({
           width,
           height
         } = getTargetSize(contentRef.value);
-        contentStyle.value = __spreadProps$k(__spreadValues$s({}, contentStyle.value), {
+        contentStyle.value = __spreadProps$n(__spreadValues$t({}, contentStyle.value), {
           width: `${width}px`,
           height: `${height}px`
         });
@@ -20742,7 +20571,7 @@ var __async$8 = (__this, __arguments, generator) => {
   });
 };
 function useCloseable(props, config) {
-  const closeable = computed$1(() => {
+  const closeable = computed(() => {
     var _a;
     return (_a = props.closable) != null ? _a : config.closable;
   });
@@ -20759,11 +20588,11 @@ function useCloseable(props, config) {
 }
 function usePagination$2(props, titleChildren) {
   const [pageIndex, setPageIndex] = useControlledPageIndex(props);
-  const pageTotal = computed$1(() => titleChildren.value.length);
-  const pageText = computed$1(() => `${pageIndex.value}/${pageTotal.value}`);
-  const isPagination = computed$1(() => props.pagination && pageTotal.value > 1);
-  const leftDisabled = computed$1(() => pageIndex.value <= 1);
-  const rightDisabled = computed$1(() => pageIndex.value >= pageTotal.value);
+  const pageTotal = computed(() => titleChildren.value.length);
+  const pageText = computed(() => `${pageIndex.value}/${pageTotal.value}`);
+  const isPagination = computed(() => props.pagination && pageTotal.value > 1);
+  const leftDisabled = computed(() => pageIndex.value <= 1);
+  const rightDisabled = computed(() => pageIndex.value >= pageTotal.value);
   const offsetPageIndex = (offset) => {
     if (offset === -1 && leftDisabled.value) {
       return;
@@ -20790,7 +20619,7 @@ function useControlledPageIndex(props) {
       tempProp.value = pagination.pageIndex;
     }
   });
-  const state = computed$1(() => {
+  const state = computed(() => {
     const { pagination } = props;
     if (isObject(pagination) && !isNil(pagination.pageIndex)) {
       return pagination.pageIndex;
@@ -20826,16 +20655,16 @@ var Alert = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-alert`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-alert`);
     const config = useGlobalConfig$1("alert");
-    const mergedIcon = computed$1(() => {
+    const mergedIcon = computed(() => {
       if (props.icon !== void 0) {
         return props.icon;
       }
       const iconConfig = config.icon;
       return isObject(iconConfig) ? iconConfig[props.type] : iconConfig;
     });
-    const titleChildren = computed$1(() => {
+    const titleChildren = computed(() => {
       if (slots.default) {
         return flattenNode(slots.default());
       }
@@ -20854,7 +20683,7 @@ var Alert = defineComponent({
       visible,
       handleClose
     } = useCloseable(props, config);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -20862,14 +20691,14 @@ var Alert = defineComponent({
         [`${prefixCls}-with-description`]: slots.description || props.description
       });
     });
-    const paginationLeftIconClass = computed$1(() => {
+    const paginationLeftIconClass = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-pagination-icon`]: true,
         [`${prefixCls}-pagination-disabled`]: leftDisabled.value
       });
     });
-    const paginationRightIconClass = computed$1(() => {
+    const paginationRightIconClass = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-pagination-icon`]: true,
@@ -20946,13 +20775,13 @@ var Anchor = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-anchor`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-anchor`);
     const config = useGlobalConfig$1("anchor");
-    const hideLinkBall = computed$1(() => {
+    const hideLinkBall = computed(() => {
       var _a;
       return (_a = props.hideLinkBall) != null ? _a : config.hideLinkBall;
     });
-    const wrapperStyle = computed$1(() => {
+    const wrapperStyle = computed(() => {
       const {
         offsetTop
       } = props;
@@ -21040,7 +20869,7 @@ const useLinks = (props, config) => {
 const useInkBall = (activeLink, mergedPrefixCls) => {
   const anchorRef = ref();
   const inkBallElRef = ref();
-  const inkBallClasses = computed$1(() => {
+  const inkBallClasses = computed(() => {
     const prefixCls = mergedPrefixCls.value;
     return {
       [`${prefixCls}-ink-ball`]: true,
@@ -21061,6 +20890,8 @@ const useInkBall = (activeLink, mergedPrefixCls) => {
         clientHeight
       } = activeLinkElement;
       inkBallTop.value = `${offsetTop + clientHeight / 2 - inkBallHeight / 2}px`;
+    }, {
+      flush: "post"
     });
   });
   return {
@@ -21081,30 +20912,35 @@ const getTargetTop = (link, container) => {
   return null;
 };
 const getCurrentAnchor = (links, container, offsetTop, bounds) => {
-  const maxSection = links.reduce((curr, link) => {
+  if (!links.length) {
+    return "";
+  }
+  const maxSection = links.map((link) => {
     const top = getTargetTop(link, container);
+    return {
+      link,
+      top
+    };
+  }).reduce((curr, item) => {
+    const {
+      top
+    } = item;
     if (top !== null && top < offsetTop + bounds && curr.top < top) {
-      return {
-        link,
-        top
-      };
+      return item;
     }
     return curr;
-  }, {
-    link: "",
-    top: Number.MIN_SAFE_INTEGER
   });
   return maxSection.link;
 };
 const useScroll$1 = (props, config, links, setActiveLink) => {
-  const bounds = computed$1(() => {
+  const bounds = computed(() => {
     var _a;
     return (_a = props.bounds) != null ? _a : config.bounds;
   });
   const container = ref();
   const eventType = "scroll";
   let animating = false;
-  const targetOffset = computed$1(() => {
+  const targetOffset = computed(() => {
     var _a, _b;
     return (_b = (_a = props.targetOffset) != null ? _a : props.offsetTop) != null ? _b : 0;
   });
@@ -21155,7 +20991,7 @@ var AnchorLink = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-anchor-link`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-anchor-link`);
     const {
       registerLink,
       unregisterLink,
@@ -21168,8 +21004,8 @@ var AnchorLink = defineComponent({
     });
     onMounted(() => registerLink(props.href));
     onBeforeUnmount(() => unregisterLink(props.href));
-    const isActive = computed$1(() => activeLink.value === props.href);
-    const classes = computed$1(() => {
+    const isActive = computed(() => activeLink.value === props.href);
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [`${prefixCls}-title`]: true,
@@ -21222,7 +21058,7 @@ var Avatar = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-avatar`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-avatar`);
     const config = useGlobalConfig$1("avatar");
     const showText = ref(false);
     watchEffect(() => {
@@ -21232,7 +21068,7 @@ var Avatar = defineComponent({
     watchEffect(() => {
       showIcon.value = !props.src && !showText.value;
     });
-    const icon$$ = computed$1(() => {
+    const icon$$ = computed(() => {
       var _a;
       return (_a = props.icon) != null ? _a : config.icon;
     });
@@ -21283,7 +21119,7 @@ var Avatar = defineComponent({
   }
 });
 const useClasses$6 = (props, config, size, showText, showIcon, mergedPrefixCls) => {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const shape = (_a = props.shape) != null ? _a : config.shape;
     const sizeValue = size.value;
@@ -21298,7 +21134,7 @@ const useClasses$6 = (props, config, size, showText, showIcon, mergedPrefixCls) 
 };
 const useSizeStyle = (size) => {
   const breakpoints = useSharedBreakpoints();
-  return computed$1(() => {
+  return computed(() => {
     let currSize;
     const sizeValue = size.value;
     if (isNumber(sizeValue)) {
@@ -21333,17 +21169,17 @@ const renderIcon$6 = (iconSlot, icon) => {
 const useSize$1 = (props, config) => {
   const avatarRef = ref();
   const textRef = ref();
-  const size = computed$1(() => {
+  const size = computed(() => {
     var _a;
     return (_a = props.size) != null ? _a : config.size;
   });
-  const gap = computed$1(() => {
+  const gap = computed(() => {
     var _a;
     return (_a = props.gap) != null ? _a : config.gap;
   });
   const avatarStyle = useSizeStyle(size);
   const textScale = ref(1);
-  const textStyle = computed$1(() => ({
+  const textStyle = computed(() => ({
     transform: `scale(${textScale.value}) translateX(-50%)`,
     lineHeight: avatarStyle.value.lineHeight
   }));
@@ -21397,12 +21233,12 @@ var BackTop = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-back-top`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-back-top`);
     const config = useGlobalConfig$1("backTop");
     const eventType = "scroll";
     const visible = ref(false);
     const container = ref(null);
-    const duration = computed$1(() => {
+    const duration = computed(() => {
       var _a;
       return (_a = props.duration) != null ? _a : config.duration;
     });
@@ -21441,7 +21277,7 @@ var BackTop = defineComponent({
           "class": mergedPrefixCls.value,
           "onClick": handleClick
         }, [slots.default ? slots.default() : createVNode(IxIcon, {
-          "name": "vertical-align-top"
+          "name": "arrow-up"
         }, null)]), [[vShow, visible.value]])]
       });
     };
@@ -21463,22 +21299,22 @@ var Badge = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-badge`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-badge`);
     const badgeConfig = useGlobalConfig$1("badge");
-    const showZero = computed$1(() => {
+    const showZero = computed(() => {
       var _a;
       return (_a = props.showZero) != null ? _a : badgeConfig.showZero;
     });
-    const dot = computed$1(() => {
+    const dot = computed(() => {
       var _a;
       return (_a = props.dot) != null ? _a : badgeConfig.dot;
     });
-    const overflowCount = computed$1(() => {
+    const overflowCount = computed(() => {
       var _a;
       return (_a = props.overflowCount) != null ? _a : badgeConfig.overflowCount;
     });
-    const hasDefaultSlot = computed$1(() => hasSlot(slots));
-    const hasCountSlot = computed$1(() => hasSlot(slots, "count"));
+    const hasDefaultSlot = computed(() => hasSlot(slots));
+    const hasCountSlot = computed(() => hasSlot(slots, "count"));
     const classes = useClasses$5(props, hasDefaultSlot, hasCountSlot, showZero, dot, mergedPrefixCls);
     const styles = useStyles(props, hasCountSlot, dot);
     const countValue = useCountValue(props, hasCountSlot, showZero, dot, overflowCount);
@@ -21495,7 +21331,7 @@ var Badge = defineComponent({
   }
 });
 const useCountValue = (props, hasCountSlot, showZero, dot, overflowCount) => {
-  return computed$1(() => {
+  return computed(() => {
     if (!hasCountSlot.value && !dot.value) {
       if (!showZero.value && +props.count === 0) {
         return false;
@@ -21509,7 +21345,7 @@ const useCountValue = (props, hasCountSlot, showZero, dot, overflowCount) => {
   });
 };
 const useStyles = (props, hasCountSlot, dot) => {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const color = (_a = props.color) != null ? _a : "";
     if (hasCountSlot.value) {
@@ -21528,7 +21364,7 @@ const useStyles = (props, hasCountSlot, dot) => {
   });
 };
 const useClasses$5 = (props, hasDefaultSlot, hasCountSlot, showZero, dot, mergedPrefixCls) => {
-  return computed$1(() => {
+  return computed(() => {
     const prefixCls = mergedPrefixCls.value;
     return {
       [prefixCls]: true,
@@ -21556,7 +21392,7 @@ var Breadcrumb = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-breadcrumb`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-breadcrumb`);
     provide(breadcrumbToken, {
       mergedPrefixCls,
       separatorRef: toRef(props, "separator")
@@ -21628,19 +21464,19 @@ var Button = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-button`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-button`);
     const config = useGlobalConfig$1("button");
     const groupProps = inject(buttonToken, {});
     const formContext = inject(FORM_TOKEN, null);
-    const mode = computed$1(() => {
+    const mode = computed(() => {
       var _a, _b;
       return (_b = (_a = props.mode) != null ? _a : groupProps.mode) != null ? _b : "default";
     });
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a, _b, _c;
       return (_c = (_b = (_a = props.size) != null ? _a : groupProps.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : config.size;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         block,
         danger,
@@ -21706,7 +21542,7 @@ var ButtonGroup = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-button-group`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-button-group`);
     provide(buttonToken, props);
     return () => createVNode("div", {
       "class": mergedPrefixCls.value
@@ -21742,8 +21578,8 @@ var Header$2 = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-header`);
-    const classes = computed$1(() => {
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-header`);
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -21752,7 +21588,7 @@ var Header$2 = defineComponent({
         [`${prefixCls}-${props.size}`]: true
       });
     });
-    const avatarSize = computed$1(() => avatarSizeTransformMap[props.size]);
+    const avatarSize = computed(() => avatarSizeTransformMap[props.size]);
     const onPrefixClick = (evt) => !props.disabled && callEmit(props.onPrefixClick, evt);
     const onSuffixClick = (evt) => !props.disabled && callEmit(props.onSuffixClick, evt);
     return () => {
@@ -21769,7 +21605,7 @@ var Header$2 = defineComponent({
       }, [prefixIconNode && createVNode("span", {
         "class": `${prefixCls}-prefix`,
         "onClick": onPrefixClick
-      }, [prefixIconNode]), renderAvatar(slots.avatar, props.avatar, avatarSize), titleNode && createVNode("span", {
+      }, [prefixIconNode]), renderAvatar$1(slots.avatar, props.avatar, avatarSize), titleNode && createVNode("span", {
         "class": `${prefixCls}-title`
       }, [titleNode]), subTitleNode && createVNode("span", {
         "class": `${prefixCls}-sub-title`
@@ -21782,7 +21618,7 @@ var Header$2 = defineComponent({
     };
   }
 });
-const renderAvatar = (slot, avatar, size) => {
+const renderAvatar$1 = (slot, avatar, size) => {
   if (slot) {
     return slot();
   }
@@ -21798,19 +21634,19 @@ const renderAvatar = (slot, avatar, size) => {
 };
 const IxHeader = Header$2;
 
-var __defProp$r = Object.defineProperty;
-var __getOwnPropSymbols$x = Object.getOwnPropertySymbols;
-var __hasOwnProp$x = Object.prototype.hasOwnProperty;
-var __propIsEnum$x = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$r = (obj, key, value) => key in obj ? __defProp$r(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$r = (a, b) => {
+var __defProp$s = Object.defineProperty;
+var __getOwnPropSymbols$y = Object.getOwnPropertySymbols;
+var __hasOwnProp$y = Object.prototype.hasOwnProperty;
+var __propIsEnum$y = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$s = (obj, key, value) => key in obj ? __defProp$s(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$s = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$x.call(b, prop))
-      __defNormalProp$r(a, prop, b[prop]);
-  if (__getOwnPropSymbols$x)
-    for (var prop of __getOwnPropSymbols$x(b)) {
-      if (__propIsEnum$x.call(b, prop))
-        __defNormalProp$r(a, prop, b[prop]);
+    if (__hasOwnProp$y.call(b, prop))
+      __defNormalProp$s(a, prop, b[prop]);
+  if (__getOwnPropSymbols$y)
+    for (var prop of __getOwnPropSymbols$y(b)) {
+      if (__propIsEnum$y.call(b, prop))
+        __defNormalProp$s(a, prop, b[prop]);
     }
   return a;
 };
@@ -21841,7 +21677,7 @@ function convertProps(props) {
   const headerProps = isString(header) ? {
     size: defaultSize,
     title: header
-  } : __spreadValues$r({
+  } : __spreadValues$s({
     size: defaultSize
   }, header);
   if (closable) {
@@ -21854,6 +21690,7 @@ function convertProps(props) {
   }
   return headerProps;
 }
+Header$1.displayName = "\u0275Header";
 const \u0275Header = Header$1;
 
 const cardToken = Symbol("cardToken");
@@ -21862,6 +21699,7 @@ const cardProps = {
   cover: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
   header: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
   hoverable: IxPropTypes.bool,
+  shadow: IxPropTypes.bool.def(true),
   loading: IxPropTypes.bool.def(false),
   size: IxPropTypes.oneOf(["sm", "md", "lg"]),
   footer: IxPropTypes.array()
@@ -21869,17 +21707,17 @@ const cardProps = {
 const cardGridProps = {
   hoverable: IxPropTypes.bool
 };
-var __getOwnPropSymbols$w = Object.getOwnPropertySymbols;
-var __hasOwnProp$w = Object.prototype.hasOwnProperty;
-var __propIsEnum$w = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$x = Object.getOwnPropertySymbols;
+var __hasOwnProp$x = Object.prototype.hasOwnProperty;
+var __propIsEnum$x = Object.prototype.propertyIsEnumerable;
 var __objRest$g = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$w.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$x.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$w)
-    for (var prop of __getOwnPropSymbols$w(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$w.call(source, prop))
+  if (source != null && __getOwnPropSymbols$x)
+    for (var prop of __getOwnPropSymbols$x(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$x.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -21891,27 +21729,28 @@ var Card = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-card`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-card`);
     const config = useGlobalConfig$1("card");
-    const hoverable = computed$1(() => {
+    const hoverable = computed(() => {
       var _a;
       return (_a = props.hoverable) != null ? _a : config.hoverable;
     });
     provide(cardToken, {
       hoverable
     });
-    const children = computed$1(() => {
+    const children = computed(() => {
       var _a;
       return ((_a = slots.default) == null ? void 0 : _a.call(slots)) || [];
     });
-    const hasGrid = computed$1(() => {
+    const hasGrid = computed(() => {
       return children.value.some((node) => node.type && node.type.name === "IxCardGrid");
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         borderless = config.borderless,
         loading,
-        size = config.size
+        size = config.size,
+        shadow
       } = props;
       const hasGridValue = hasGrid.value;
       const prefixCls = mergedPrefixCls.value;
@@ -21920,6 +21759,7 @@ var Card = defineComponent({
         [`${prefixCls}-borderless`]: borderless,
         [`${prefixCls}-hoverable`]: !hasGridValue && hoverable.value,
         [`${prefixCls}-loading`]: loading,
+        [`${prefixCls}-has-shadow`]: shadow,
         [`${prefixCls}-has-grid`]: hasGridValue,
         [`${prefixCls}-${size}`]: true
       });
@@ -22019,11 +21859,11 @@ var CardGrid = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-card-grid`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-card-grid`);
     const {
       hoverable
     } = inject(cardToken);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
@@ -22126,19 +21966,19 @@ const carouselProps = {
   trigger: IxPropTypes.oneOf(dotTrigger),
   onChange: IxPropTypes.emit()
 };
-var __defProp$q = Object.defineProperty;
-var __getOwnPropSymbols$v = Object.getOwnPropertySymbols;
-var __hasOwnProp$v = Object.prototype.hasOwnProperty;
-var __propIsEnum$v = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$q = (obj, key, value) => key in obj ? __defProp$q(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$q = (a, b) => {
+var __defProp$r = Object.defineProperty;
+var __getOwnPropSymbols$w = Object.getOwnPropertySymbols;
+var __hasOwnProp$w = Object.prototype.hasOwnProperty;
+var __propIsEnum$w = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$r = (obj, key, value) => key in obj ? __defProp$r(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$r = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$v.call(b, prop))
-      __defNormalProp$q(a, prop, b[prop]);
-  if (__getOwnPropSymbols$v)
-    for (var prop of __getOwnPropSymbols$v(b)) {
-      if (__propIsEnum$v.call(b, prop))
-        __defNormalProp$q(a, prop, b[prop]);
+    if (__hasOwnProp$w.call(b, prop))
+      __defNormalProp$r(a, prop, b[prop]);
+  if (__getOwnPropSymbols$w)
+    for (var prop of __getOwnPropSymbols$w(b)) {
+      if (__propIsEnum$w.call(b, prop))
+        __defNormalProp$r(a, prop, b[prop]);
     }
   return a;
 };
@@ -22151,32 +21991,32 @@ var Carousel = defineComponent({
   }) {
     const carouselRef = ref(null);
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-carousel`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-carousel`);
     const config = useGlobalConfig$1("carousel");
-    const autoplayTime = computed$1(() => {
+    const autoplayTime = computed(() => {
       var _a;
       return (_a = props.autoplayTime) != null ? _a : config.autoplayTime;
     });
-    const dotPlacement2 = computed$1(() => {
+    const dotPlacement2 = computed(() => {
       var _a;
       return (_a = props.dotPlacement) != null ? _a : config.dotPlacement;
     });
-    const showArrow = computed$1(() => {
+    const showArrow = computed(() => {
       var _a;
       return (_a = props.showArrow) != null ? _a : config.showArrow;
     });
-    const trigger = computed$1(() => {
+    const trigger = computed(() => {
       var _a;
       return (_a = props.trigger) != null ? _a : config.trigger;
     });
-    const children = computed$1(() => {
+    const children = computed(() => {
       var _a;
       return flattenNode((_a = slots.default) == null ? void 0 : _a.call(slots));
     });
-    const length = computed$1(() => children.value.length);
-    const vertical = computed$1(() => dotPlacement2.value === "start" || dotPlacement2.value === "end");
-    const itemClass = computed$1(() => `${mergedPrefixCls.value}-slide-item`);
-    const size = computed$1(() => {
+    const length = computed(() => children.value.length);
+    const vertical = computed(() => dotPlacement2.value === "start" || dotPlacement2.value === "end");
+    const itemClass = computed(() => `${mergedPrefixCls.value}-slide-item`);
+    const size = computed(() => {
       var _a, _b, _c;
       const carousel = carouselRef.value;
       return {
@@ -22184,25 +22024,25 @@ var Carousel = defineComponent({
         height: (_c = (_b = carousel == null ? void 0 : carousel.querySelector(`.${itemClass.value}`)) == null ? void 0 : _b.offsetHeight) != null ? _c : 0
       };
     });
-    const total = computed$1(() => length.value + 2);
-    const slidesStyle = computed$1(() => {
+    const total = computed(() => length.value + 2);
+    const slidesStyle = computed(() => {
       const index = activeIndex.value % total.value;
       const offset = vertical.value ? {
         top: `-${size.value.height * index}px`
       } : {
         left: `-${size.value.width * index}px`
       };
-      return __spreadValues$q({
+      return __spreadValues$r({
         width: `${total.value * size.value.width}px`
       }, offset);
     });
-    const slideItemStyle = computed$1(() => {
+    const slideItemStyle = computed(() => {
       return {
         width: `${size.value.width}px`,
         height: "100%"
       };
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -22210,13 +22050,13 @@ var Carousel = defineComponent({
         [`${prefixCls}-horizontal`]: !vertical.value
       });
     });
-    const slidesClass = computed$1(() => {
+    const slidesClass = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-slides`]: true
       });
     });
-    const dotClass = computed$1(() => {
+    const dotClass = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-dot`]: true,
@@ -22339,17 +22179,17 @@ const checkboxGroupProps = {
   "onUpdate:value": IxPropTypes.emit(),
   onChange: IxPropTypes.emit()
 };
-var __getOwnPropSymbols$u = Object.getOwnPropertySymbols;
-var __hasOwnProp$u = Object.prototype.hasOwnProperty;
-var __propIsEnum$u = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$v = Object.getOwnPropertySymbols;
+var __hasOwnProp$v = Object.prototype.hasOwnProperty;
+var __propIsEnum$v = Object.prototype.propertyIsEnumerable;
 var __objRest$f = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$u.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$v.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$u)
-    for (var prop of __getOwnPropSymbols$u(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$u.call(source, prop))
+  if (source != null && __getOwnPropSymbols$v)
+    for (var prop of __getOwnPropSymbols$v(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$v.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -22364,7 +22204,7 @@ var Checkbox$1 = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-checkbox`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-checkbox`);
     const config = useGlobalConfig$1("checkbox");
     const {
       elementRef,
@@ -22377,15 +22217,15 @@ var Checkbox$1 = defineComponent({
     });
     const formContext = inject(FORM_TOKEN, null);
     const checkboxGroup = inject(checkboxGroupToken, null);
-    const mergedName = computed$1(() => {
+    const mergedName = computed(() => {
       var _a;
       return (_a = attrs.name) != null ? _a : checkboxGroup == null ? void 0 : checkboxGroup.props.name;
     });
-    const isButtoned = computed$1(() => {
+    const isButtoned = computed(() => {
       var _a, _b;
       return (_b = (_a = props.buttoned) != null ? _a : checkboxGroup == null ? void 0 : checkboxGroup.props.buttoned) != null ? _b : false;
     });
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a, _b, _c;
       return (_c = (_b = (_a = props.size) != null ? _a : checkboxGroup == null ? void 0 : checkboxGroup.props.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : config.size;
     });
@@ -22397,7 +22237,7 @@ var Checkbox$1 = defineComponent({
       handleBlur,
       handleFocus
     } = useCheckbox(props, checkboxGroup);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         indeterminate
       } = props;
@@ -22482,14 +22322,11 @@ const useCheckbox = (props, checkboxGroup) => {
       props: groupProps,
       accessor
     } = checkboxGroup;
-    isChecked = computed$1(() => {
+    isChecked = computed(() => {
       var _a, _b;
       return ((_a = accessor.valueRef.value) != null ? _a : []).includes((_b = props.value) != null ? _b : props.trueValue);
     });
-    isDisabled = computed$1(() => {
-      var _a;
-      return (_a = accessor.disabled.value) != null ? _a : !!props.disabled;
-    });
+    isDisabled = computed(() => accessor.disabled.value || !!props.disabled);
     handleBlur = (evt) => {
       isFocused.value = false;
       callEmit(props.onBlur, evt);
@@ -22519,8 +22356,8 @@ const useCheckbox = (props, checkboxGroup) => {
     };
   } else {
     const accessor = useFormAccessor("checked");
-    isChecked = computed$1(() => accessor.valueRef.value === props.trueValue);
-    isDisabled = computed$1(() => accessor.disabled.value);
+    isChecked = computed(() => accessor.valueRef.value === props.trueValue);
+    isDisabled = computed(() => accessor.disabled.value);
     handleBlur = (evt) => {
       isFocused.value = false;
       callEmit(props.onBlur, evt);
@@ -22554,13 +22391,13 @@ var CheckboxGroup = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-checkbox-group`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-checkbox-group`);
     const accessor = useFormAccessor();
     provide(checkboxGroupToken, {
       props,
       accessor
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         gap
       } = props;
@@ -22570,7 +22407,7 @@ var CheckboxGroup = defineComponent({
         [`${prefixCls}-with-gap`]: gap != null
       });
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const {
         gap
       } = props;
@@ -22605,12 +22442,13 @@ const collapseTransitionProps = {
   onAfterLeave: IxPropTypes.emit()
 };
 var CollapseTransition = defineComponent({
+  name: "\u0275CollapseTransition",
   props: collapseTransitionProps,
   setup(props, {
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-collapse-transition`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-collapse-transition`);
     const onBeforeEnter = (el) => {
       const mode = props.mode;
       el.style[mode] = `0px`;
@@ -22684,21 +22522,21 @@ var Collapse = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-collapse`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-collapse`);
     const config = useGlobalConfig$1("collapse");
-    const accordion = computed$1(() => {
+    const accordion = computed(() => {
       var _a;
       return (_a = props.accordion) != null ? _a : config.accordion;
     });
-    const borderless = computed$1(() => {
+    const borderless = computed(() => {
       var _a;
       return (_a = props.borderless) != null ? _a : config.borderless;
     });
-    const expandIcon = computed$1(() => {
+    const expandIcon = computed(() => {
       var _a;
       return (_a = props.expandIcon) != null ? _a : config.expandIcon;
     });
-    const ghost = computed$1(() => {
+    const ghost = computed(() => {
       var _a;
       return (_a = props.ghost) != null ? _a : config.ghost;
     });
@@ -22720,7 +22558,7 @@ var Collapse = defineComponent({
       expandIcon,
       handleExpand
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -22743,7 +22581,7 @@ var CollapsePanel = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-collapse-panel`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-collapse-panel`);
     const {
       slots: collapseSlots,
       expandedKeys,
@@ -22751,8 +22589,8 @@ var CollapsePanel = defineComponent({
       handleExpand
     } = inject(collapseToken);
     const key = useKey();
-    const isExpanded = computed$1(() => expandedKeys.value.includes(key));
-    const classes = computed$1(() => {
+    const isExpanded = computed(() => expandedKeys.value.includes(key));
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}`]: true,
@@ -22828,20 +22666,90 @@ function renderHeader(props, slots, collapseSlots, key, expanded, expandIcon, ha
 const IxCollapse = Collapse;
 const IxCollapsePanel = CollapsePanel;
 
-const monthTypes = ["date", "week"];
-function useActiveDate(props, dateConfig, activeType) {
-  var _a;
-  const tempDate = shallowRef((_a = props.value) != null ? _a : dateConfig.now());
-  const setActiveDate = (date) => {
-    const type = monthTypes.includes(activeType.value) ? "month" : "year";
-    if (!dateConfig.isSame(date, tempDate.value, type)) {
-      tempDate.value = date;
-    }
-  };
-  watch(() => props.value, (value) => value && setActiveDate(value));
-  watch(() => props.visible, (visible) => visible && props.value && setActiveDate(props.value));
-  const startActiveDate = computed$1(() => {
-    const currDate = tempDate.value;
+const commentProps = {
+  author: {
+    type: String,
+    default: void 0
+  },
+  avatar: {
+    type: [String, Object],
+    default: void 0
+  },
+  content: {
+    type: String,
+    default: void 0
+  },
+  datetime: {
+    type: String,
+    default: void 0
+  }
+};
+var Comment = defineComponent({
+  name: "IxComment",
+  props: commentProps,
+  setup(props, {
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-comment`);
+    return () => {
+      const prefixCls = mergedPrefixCls.value;
+      return createVNode("div", {
+        "class": prefixCls
+      }, [createVNode("div", {
+        "class": `${prefixCls}-inner`
+      }, [renderAvatar(props, slots, prefixCls), renderContent$1(props, slots, prefixCls)]), slots.default && createVNode("div", {
+        "class": `${prefixCls}-nested`
+      }, [slots.default()])]);
+    };
+  }
+});
+function renderAvatar(props, slots, prefixCls) {
+  let avatarNode;
+  if (slots.avatar) {
+    avatarNode = slots.avatar();
+  } else if (props.avatar) {
+    const {
+      avatar
+    } = props;
+    const avatarProps = isString(avatar) ? {
+      src: avatar
+    } : avatar;
+    avatarNode = createVNode(IxAvatar, avatarProps, null);
+  }
+  return avatarNode && createVNode("div", {
+    "class": `${prefixCls}-avatar`
+  }, [avatarNode]);
+}
+function renderContent$1(props, slots, prefixCls) {
+  const contentPrefixCls = `${prefixCls}-content`;
+  const contentNode = convertStringVNode(slots, props, "content");
+  const authorNode = convertStringVNode(slots, props, "author");
+  const datetimeNode = convertStringVNode(slots, props, "datetime");
+  return createVNode("div", {
+    "class": contentPrefixCls
+  }, [(authorNode || datetimeNode) && createVNode("div", {
+    "class": `${contentPrefixCls}-author`
+  }, [authorNode && createVNode("span", {
+    "class": `${contentPrefixCls}-author-name`
+  }, [authorNode]), datetimeNode && createVNode("span", {
+    "class": `${contentPrefixCls}-author-time`
+  }, [datetimeNode])]), contentNode && createVNode("div", {
+    "class": `${contentPrefixCls}-detail`
+  }, [contentNode]), slots.actions && createVNode("ul", {
+    "class": `${contentPrefixCls}-actions`
+  }, [slots.actions().map((action, index) => {
+    return createVNode("li", {
+      "key": `action-${index}`
+    }, [action]);
+  })])]);
+}
+const IxComment = Comment;
+
+function useActiveDate$1(props, dateConfig, activeType) {
+  const [activeDate, setActiveDate] = useControlledProp(props, "activeDate", () => dateConfig.now());
+  const startActiveDate = computed(() => {
+    const currDate = activeDate.value;
     const currType = activeType.value;
     const { startOf, set, get } = dateConfig;
     switch (currType) {
@@ -22860,7 +22768,7 @@ function useActiveDate(props, dateConfig, activeType) {
     }
   });
   return {
-    activeDate: computed$1(() => tempDate.value),
+    activeDate,
     setActiveDate,
     startActiveDate
   };
@@ -22875,7 +22783,7 @@ function useActiveType(props) {
   };
 }
 function useMaxIndex(activeType, dateConfig, activeDate) {
-  const maxRowIndex = computed$1(() => {
+  const maxRowIndex = computed(() => {
     const currType = activeType.value;
     const { weekStartsOn, get, startOf, endOf } = dateConfig;
     switch (currType) {
@@ -22904,7 +22812,7 @@ function useMaxIndex(activeType, dateConfig, activeDate) {
         return 0;
     }
   });
-  const maxCellIndex = computed$1(() => {
+  const maxCellIndex = computed(() => {
     const currType = activeType.value;
     switch (currType) {
       case "date":
@@ -22927,20 +22835,41 @@ function useMaxIndex(activeType, dateConfig, activeDate) {
 }
 const datePanelToken = Symbol("datePanelToken");
 const datePanelProps = {
-  disabledDate: IxPropTypes.func(),
-  type: IxPropTypes.oneOf(["date", "week", "month", "quarter", "year"]).def("date"),
-  value: IxPropTypes.object(),
-  visible: IxPropTypes.bool,
-  onCellClick: IxPropTypes.emit(),
-  onCellMouseenter: IxPropTypes.emit()
+  cellTooltip: Function,
+  disabledDate: Function,
+  type: {
+    type: String,
+    default: "date"
+  },
+  value: [Date, Array],
+  activeDate: Date,
+  visible: {
+    type: Boolean,
+    default: void 0
+  },
+  isSelecting: {
+    type: Boolean,
+    default: void 0
+  },
+  onCellClick: [Function, Array],
+  onCellMouseenter: [Function, Array],
+  "onUpdate:activeDate": [Function, Array]
 };
 const panelRowProps = {
-  rowIndex: IxPropTypes.number.isRequired
+  rowIndex: {
+    type: Number,
+    required: true
+  }
 };
 const panelCellProps = {
-  rowIndex: IxPropTypes.number.isRequired,
-  cellIndex: IxPropTypes.number.isRequired,
-  isWeek: IxPropTypes.bool
+  rowIndex: {
+    type: Number,
+    required: true
+  },
+  cellIndex: {
+    type: Number,
+    required: true
+  }
 };
 const dayTypes = ["date", "week"];
 const labelFormat = {
@@ -22966,22 +22895,29 @@ var PanelCell$1 = defineComponent({
       maxRowIndex,
       maxCellIndex
     } = inject(datePanelToken);
-    const offsetIndex = computed$1(() => props.rowIndex * maxCellIndex.value + props.cellIndex);
-    const cellDate = computed$1(() => {
+    const offsetIndex = computed(() => props.rowIndex * maxCellIndex.value + props.cellIndex);
+    const cellDate = computed(() => {
       const currType = activeType.value;
       const offsetUnit = dayTypes.includes(currType) ? "day" : currType;
       return dateConfig.add(startActiveDate.value, offsetIndex.value, offsetUnit);
     });
-    const isDisabled = computed$1(() => {
+    const startDate = computed(() => getDateValue(dateConfig, panelProps.value, activeType.value, true));
+    const endDate = computed(() => getDateValue(dateConfig, panelProps.value, activeType.value, false));
+    const isDisabled = computed(() => {
       var _a;
       return (_a = panelProps.disabledDate) == null ? void 0 : _a.call(panelProps, cellDate.value);
     });
-    const isSelected = computed$1(() => {
-      const currValue = panelProps.value;
-      return currValue && dateConfig.isSame(currValue, cellDate.value, activeType.value);
+    const cellTooltip = computed(() => {
+      var _a;
+      return (_a = panelProps.cellTooltip) == null ? void 0 : _a.call(panelProps, {
+        value: cellDate.value,
+        disabled: !!isDisabled.value
+      });
     });
-    const isToday = computed$1(() => dayTypes.includes(activeType.value) && dateConfig.isSame(cellDate.value, dateConfig.now(), "day"));
-    const outView = computed$1(() => {
+    const isStart = computed(() => startDate.value && dateConfig.isSame(startDate.value, cellDate.value, "date"));
+    const isEnd = computed(() => endDate.value && dateConfig.isSame(endDate.value, cellDate.value, "date"));
+    const isToday = computed(() => dayTypes.includes(activeType.value) && dateConfig.isSame(cellDate.value, dateConfig.now(), "day"));
+    const outView = computed(() => {
       const currType = activeType.value;
       if (dayTypes.includes(activeType.value)) {
         return !dateConfig.isSame(cellDate.value, activeDate.value, "month");
@@ -22992,21 +22928,32 @@ var PanelCell$1 = defineComponent({
       }
       return false;
     });
-    const classes = computed$1(() => {
-      const prefixCls = `${mergedPrefixCls.value}-cell`;
-      if (props.isWeek) {
-        return normalizeClass({
-          [prefixCls]: true,
-          [`${prefixCls}-selected`]: isSelected.value,
-          [`${prefixCls}-week-number`]: true
-        });
+    const isSelected = computed(() => {
+      if (outView.value) {
+        return false;
       }
+      const compareType = dayTypes.includes(activeType.value) ? "date" : activeType.value;
+      if (panelProps.isSelecting) {
+        return startDate.value && dateConfig.isSame(startDate.value, cellDate.value, compareType);
+      }
+      return startDate.value && dateConfig.isSame(startDate.value, cellDate.value, compareType) || endDate.value && dateConfig.isSame(endDate.value, cellDate.value, compareType);
+    });
+    const isInRange = computed(() => {
+      const compareType = dayTypes.includes(activeType.value) ? "date" : activeType.value;
+      const cellDateValue = dateConfig.startOf(cellDate.value, compareType).valueOf();
+      return !!startDate.value && !!endDate.value && cellDateValue >= dateConfig.startOf(startDate.value, compareType).valueOf() && cellDateValue <= dateConfig.startOf(endDate.value, compareType).valueOf();
+    });
+    const classes = computed(() => {
+      const prefixCls = `${mergedPrefixCls.value}-cell`;
       return normalizeClass({
         [prefixCls]: true,
         [`${prefixCls}-disabled`]: isDisabled.value,
         [`${prefixCls}-selected`]: isSelected.value,
+        [`${prefixCls}-in-range`]: isInRange.value,
         [`${prefixCls}-today`]: isToday.value,
-        [`${prefixCls}-out-view`]: outView.value
+        [`${prefixCls}-out-view`]: outView.value,
+        [`${prefixCls}-start`]: isStart.value,
+        [`${prefixCls}-end`]: isEnd.value
       });
     });
     const handleClick = (evt) => {
@@ -23028,26 +22975,34 @@ var PanelCell$1 = defineComponent({
       const {
         format
       } = dateConfig;
-      if (props.isWeek) {
-        return createVNode("td", {
-          "class": classes.value,
-          "role": "gridcell"
-        }, [format(currDate, "ww")]);
-      }
       const cellNode = (_b = (_a = slots.cell) == null ? void 0 : _a.call(slots, {
         date: currDate
       })) != null ? _b : createVNode("div", {
         "class": `${mergedPrefixCls.value}-cell-inner`
-      }, [format(currDate, labelFormat[activeType.value])]);
+      }, [createVNode("div", {
+        "class": `${mergedPrefixCls.value}-cell-trigger`
+      }, [format(currDate, labelFormat[activeType.value])])]);
       return createVNode("td", {
         "class": classes.value,
         "role": "gridcell",
         "onClick": isDisabled.value ? void 0 : handleClick,
         "onMouseenter": isDisabled.value ? void 0 : handleMouseenter
-      }, [cellNode]);
+      }, [cellTooltip.value ? createVNode(IxTooltip, {
+        "title": cellTooltip.value
+      }, {
+        default: () => [cellNode]
+      }) : cellNode]);
     };
   }
 });
+function getDateValue(dateConfig, value, type, isStart) {
+  var _a;
+  const valueArr = convertArray(value);
+  if (type === "week") {
+    return isStart ? dateConfig.startOf(valueArr[0], "week") : dateConfig.endOf((_a = valueArr[1]) != null ? _a : valueArr[0], "week");
+  }
+  return valueArr[isStart ? 0 : 1];
+}
 var PanelRow = defineComponent({
   props: panelRowProps,
   setup(props) {
@@ -23056,18 +23011,12 @@ var PanelRow = defineComponent({
       activeType,
       maxCellIndex
     } = inject(datePanelToken);
-    const cells = computed$1(() => {
+    const cells = computed(() => {
       const {
         rowIndex
       } = props;
       const currType = activeType.value;
-      const isWeek = currType === "week";
-      const cells2 = isWeek ? [{
-        key: `${currType}-${-1}`,
-        rowIndex,
-        cellIndex: 0,
-        isWeek
-      }] : [];
+      const cells2 = [];
       const maxIndex = maxCellIndex.value;
       for (let cellIndex = 0; cellIndex < maxIndex; cellIndex++) {
         cells2.push({
@@ -23128,13 +23077,10 @@ var PanelBody = defineComponent({
   }
 });
 function useTheadCells(dateConfig, activeType, maxCellIndex) {
-  return computed$1(() => {
+  return computed(() => {
     const currType = activeType.value;
-    const isWeek = currType === "week";
-    const cols = isWeek ? [{
-      key: -1
-    }] : [];
-    if (currType === "date" || isWeek) {
+    const cols = [];
+    if (currType === "date" || currType === "week") {
       const maxIndex = maxCellIndex.value;
       const labels = dateConfig.getLocalizedLabels("day", maxIndex, "narrow");
       const weekStarts = dateConfig.weekStartsOn();
@@ -23148,17 +23094,17 @@ function useTheadCells(dateConfig, activeType, maxCellIndex) {
     return cols;
   });
 }
-var __getOwnPropSymbols$t = Object.getOwnPropertySymbols;
-var __hasOwnProp$t = Object.prototype.hasOwnProperty;
-var __propIsEnum$t = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$u = Object.getOwnPropertySymbols;
+var __hasOwnProp$u = Object.prototype.hasOwnProperty;
+var __propIsEnum$u = Object.prototype.propertyIsEnumerable;
 var __objRest$e = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$t.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$u.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$t)
-    for (var prop of __getOwnPropSymbols$t(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$t.call(source, prop))
+  if (source != null && __getOwnPropSymbols$u)
+    for (var prop of __getOwnPropSymbols$u(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$u.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -23259,7 +23205,7 @@ function useContents(activeType, activeDate, locale, dateConfig, setActiveType) 
     evt.stopPropagation();
     setActiveType(type);
   };
-  return computed$1(() => {
+  return computed(() => {
     const currType = activeType.value;
     const currDate = activeDate.value;
     const {
@@ -23308,13 +23254,14 @@ function useContents(activeType, activeDate, locale, dateConfig, setActiveType) 
   });
 }
 var DatePanel = defineComponent({
+  name: "\u0275DatePanel",
   props: datePanelProps,
   setup(props, {
     slots
   }) {
     const common = useGlobalConfig$1("common");
     const locale = useGlobalConfig$1("locale");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-date-panel`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-date-panel`);
     const dateConfig = useDateConfig();
     const {
       activeType,
@@ -23324,7 +23271,7 @@ var DatePanel = defineComponent({
       activeDate,
       setActiveDate,
       startActiveDate
-    } = useActiveDate(props, dateConfig, activeType);
+    } = useActiveDate$1(props, dateConfig, activeType);
     const {
       maxRowIndex,
       maxCellIndex
@@ -23347,219 +23294,678 @@ var DatePanel = defineComponent({
       const prefixCls = mergedPrefixCls.value;
       return createVNode("div", {
         "class": `${prefixCls} ${prefixCls}-${activeType.value}`
-      }, [createVNode(PanelHeader, null, null), createVNode(PanelBody, null, null), slots.footer && createVNode("div", {
-        "class": `${prefixCls}-footer`
-      }, [slots.footer()])]);
+      }, [createVNode(PanelHeader, null, null), createVNode(PanelBody, null, null)]);
     };
   }
 });
 const \u0275DatePanel = DatePanel;
 
-const defaultFormat = {
-  date: "yyyy-MM-dd",
-  week: "RRRR-II",
-  month: "yyyy-MM",
-  quarter: "yyyy-'Q'Q",
-  year: "yyyy"
+const footerTypeDef = [Boolean, Array, Object];
+const footerProps = {
+  cancel: Function,
+  cancelButton: Object,
+  cancelLoading: Boolean,
+  cancelText: String,
+  cancelVisible: {
+    type: Boolean,
+    default: true
+  },
+  footer: footerTypeDef,
+  ok: Function,
+  okButton: Object,
+  okLoading: Boolean,
+  okText: String
 };
-function useFormat(props, config) {
-  return computed$1(() => {
-    let format = props.format;
-    if (format) {
-      return format;
+var __defProp$q = Object.defineProperty;
+var __getOwnPropSymbols$t = Object.getOwnPropertySymbols;
+var __hasOwnProp$t = Object.prototype.hasOwnProperty;
+var __propIsEnum$t = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$q = (obj, key, value) => key in obj ? __defProp$q(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$q = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$t.call(b, prop))
+      __defNormalProp$q(a, prop, b[prop]);
+  if (__getOwnPropSymbols$t)
+    for (var prop of __getOwnPropSymbols$t(b)) {
+      if (__propIsEnum$t.call(b, prop))
+        __defNormalProp$q(a, prop, b[prop]);
     }
-    const formatConfig = config.format;
-    const type = props.type;
-    if (formatConfig) {
-      format = formatConfig[type];
+  return a;
+};
+var __objRest$d = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp$t.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols$t)
+    for (var prop of __getOwnPropSymbols$t(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$t.call(source, prop))
+        target[prop] = source[prop];
     }
-    return format != null ? format : defaultFormat[type];
-  });
-}
-function useInputState$2(props, dateConfig, accessor, formatRef) {
-  const initValue = accessor.valueRef.value;
-  const formatText = formatRef.value;
-  const initText = initValue ? dateConfig.format(dateConfig.convert(accessor.valueRef.value, formatText), formatText) : "";
-  const [inputValue, setInputValue] = useState$1(initText);
-  const [isFocused, setFocused] = useState$1(false);
-  watch(accessor.valueRef, (value) => {
-    if (!value) {
-      setInputValue("");
-      return;
-    }
-    const formatText2 = formatRef.value;
-    const newValue = dateConfig.format(dateConfig.convert(value, formatText2), formatText2);
-    if (newValue !== inputValue.value) {
-      setInputValue(newValue);
-    }
-  });
-  const handleInput = (evt) => {
-    callEmit(props.onInput, evt);
-    const { value } = evt.target;
-    if (!value) {
-      return;
-    }
-    const formatText2 = formatRef.value;
-    const { parse, isValid, format } = dateConfig;
-    const currDate = parse(value, formatText2);
-    if (!isValid(currDate) || format(currDate, formatText2) != value) {
-      return;
-    }
-    const oldDate = toRaw$1(accessor.valueRef.value);
-    accessor.setValue(currDate);
-    callEmit(props.onChange, currDate, oldDate);
-  };
-  const handleFocus = (evt) => {
-    callEmit(props.onFocus, evt);
-    setFocused(true);
-  };
-  const handleBlur = (evt) => {
-    callEmit(props.onBlur, evt);
-    accessor.markAsBlurred();
-    setFocused(false);
-  };
-  const handleClear = (evt) => {
-    callEmit(props.onClear, evt);
-    evt.stopPropagation();
-    accessor.setValue(void 0);
-  };
-  return {
-    inputValue,
-    isFocused,
-    handleInput,
-    handleFocus,
-    handleBlur,
-    handleClear
-  };
-}
-function useOverlayState(props) {
-  const [overlayOpened, setOverlayOpened] = useControlledProp(props, "open", false);
-  onMounted(() => {
-    if (props.autofocus) {
-      setOverlayOpened(true);
-    }
-  });
-  return { overlayOpened, setOverlayOpened };
-}
-function usePanelState(props, dateConfig, accessor, formatRef) {
-  var _a;
-  const initValue = (_a = accessor.valueRef.value) != null ? _a : props.defaultOpenValue;
-  const initDate = initValue ? dateConfig.convert(accessor.valueRef.value, formatRef.value) : void 0;
-  const [panelDate, setPanelDate] = useState$1(initDate);
-  watch(accessor.valueRef, (value) => {
-    const { convert, isSame } = dateConfig;
-    const mergedValue = value != null ? value : props.defaultOpenValue;
-    if (!mergedValue) {
-      setPanelDate(void 0);
-    }
-    const currValue = convert(mergedValue, formatRef.value);
-    if (!panelDate.value || !isSame(panelDate.value, currValue, props.type)) {
-      setPanelDate(currValue);
-    }
-  });
-  return {
-    panelDate,
-    setPanelDate
-  };
-}
-const datePickerToken = Symbol("datePickerToken");
-var Content$3 = defineComponent({
-  setup() {
-    const {
-      props,
-      slots,
-      overlayOpened,
-      panelDate,
-      handlePanelCellClick
-    } = inject(datePickerToken);
-    return () => {
+  return target;
+};
+var Footer = defineComponent({
+  name: "\u0275Footer",
+  props: footerProps,
+  setup(props, {
+    slots
+  }) {
+    const cancelButtonProps = computed(() => {
       const {
-        overlayRender
+        cancel,
+        cancelButton,
+        cancelVisible,
+        cancelLoading,
+        cancelText
       } = props;
-      const children = createVNode(\u0275DatePanel, {
-        "disabledDate": props.disabledDate,
-        "type": props.type,
-        "value": panelDate.value,
-        "visible": overlayOpened.value,
-        "onCellClick": handlePanelCellClick
-      }, slots);
-      return overlayRender ? overlayRender([children]) : createVNode("div", null, [children]);
+      if (!cancelVisible || !cancel && !cancelText && !cancelButton) {
+        return void 0;
+      }
+      return __spreadValues$q({
+        key: "__IDUX_FOOTER_BUTTON_CANCEL",
+        text: cancelText,
+        onClick: cancel,
+        loading: cancelLoading
+      }, cancelButton);
+    });
+    const okButtonProps = computed(() => {
+      const {
+        ok,
+        okButton,
+        okLoading,
+        okText
+      } = props;
+      if (!ok && !okText && !okButton) {
+        return void 0;
+      }
+      return __spreadValues$q({
+        key: "__IDUX_FOOTER_BUTTON_OK",
+        text: okText,
+        onClick: ok,
+        loading: okLoading,
+        mode: cancelButtonProps.value ? "primary" : "default"
+      }, okButton);
+    });
+    return () => {
+      const footerProp = props.footer;
+      const footerSlot = slots.footer;
+      if (!footerProp && !footerSlot) {
+        return void 0;
+      }
+      let children;
+      if (footerSlot) {
+        children = footerSlot(props);
+      } else if (isVNode(footerProp)) {
+        children = footerProp;
+      } else {
+        let buttonProps = footerProp;
+        if (!Array.isArray(buttonProps)) {
+          const cancelButton = cancelButtonProps.value;
+          const okButton = okButtonProps.value;
+          buttonProps = [];
+          okButton && buttonProps.push(okButton);
+          cancelButton && buttonProps.push(cancelButton);
+        }
+        children = buttonProps.map((item) => {
+          const _a = item, {
+            text
+          } = _a, rest = __objRest$d(_a, [
+            "text"
+          ]);
+          return createVNode(IxButton, rest, {
+            default: () => [text]
+          });
+        });
+      }
+      return createVNode("div", null, [children]);
     };
   }
 });
-var Trigger$3 = defineComponent({
-  setup() {
-    const {
-      props,
-      slots,
-      locale,
-      config,
-      mergedPrefixCls,
-      accessor,
-      format,
-      focusMonitor,
-      inputRef,
-      inputValue,
-      isFocused,
-      handleFocus,
-      handleBlur,
-      handleInput,
-      handleClear,
-      overlayOpened,
-      setOverlayOpened
-    } = inject(datePickerToken);
-    const formContext = inject(FORM_TOKEN, null);
-    const placeholder = computed$1(() => {
-      var _a;
-      return (_a = props.placeholder) != null ? _a : locale.datePicker[`${props.type}Placeholder`];
+const \u0275Footer = Footer;
+
+const inputProps$1 = {
+  addonAfter: IxPropTypes.string,
+  addonBefore: IxPropTypes.string,
+  borderless: IxPropTypes.bool,
+  clearable: IxPropTypes.bool,
+  clearIcon: IxPropTypes.string,
+  clearVisible: IxPropTypes.bool,
+  disabled: IxPropTypes.bool,
+  focused: IxPropTypes.bool,
+  prefix: IxPropTypes.string,
+  size: IxPropTypes.oneOf(["sm", "md", "lg"]),
+  suffix: IxPropTypes.string,
+  onClear: IxPropTypes.func()
+};
+var __getOwnPropSymbols$s = Object.getOwnPropertySymbols;
+var __hasOwnProp$s = Object.prototype.hasOwnProperty;
+var __propIsEnum$s = Object.prototype.propertyIsEnumerable;
+var __objRest$c = (source, exclude) => {
+  var target = {};
+  for (var prop in source)
+    if (__hasOwnProp$s.call(source, prop) && exclude.indexOf(prop) < 0)
+      target[prop] = source[prop];
+  if (source != null && __getOwnPropSymbols$s)
+    for (var prop of __getOwnPropSymbols$s(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$s.call(source, prop))
+        target[prop] = source[prop];
+    }
+  return target;
+};
+var Input$2 = defineComponent({
+  name: "\u0275Input",
+  inheritAttrs: false,
+  props: inputProps$1,
+  setup(props, {
+    attrs,
+    slots,
+    expose
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-input`);
+    const inputRef = ref();
+    const getInputElement = () => inputRef.value;
+    expose({
+      getInputElement
     });
-    const inputSize = computed$1(() => Math.max(10, format.value.length) + 2);
-    const allowInput = computed$1(() => {
-      var _a;
-      return (_a = props.allowInput) != null ? _a : config.allowInput;
-    });
-    const clearable = computed$1(() => !accessor.disabled.value && props.clearable && inputValue.value.length > 0);
-    const suffix = computed$1(() => {
-      var _a;
-      return (_a = props.suffix) != null ? _a : config.suffix;
-    });
-    const classes = computed$1(() => {
-      var _a;
+    const classes = computed(() => {
       const {
-        borderless = config.borderless,
-        size = (_a = formContext == null ? void 0 : formContext.size.value) != null ? _a : config.size
+        borderless,
+        clearable,
+        disabled,
+        focused,
+        size,
+        addonAfter,
+        addonBefore,
+        prefix,
+        suffix
       } = props;
-      const disabled = accessor.disabled.value;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
+        [`${prefixCls}-${size}`]: true,
         [`${prefixCls}-borderless`]: borderless,
-        [`${prefixCls}-clearable`]: clearable.value,
+        [`${prefixCls}-clearable`]: clearable,
         [`${prefixCls}-disabled`]: disabled,
-        [`${prefixCls}-focused`]: isFocused.value,
-        [`${prefixCls}-opened`]: overlayOpened.value,
-        [`${prefixCls}-with-suffix`]: slots.suffix || suffix.value,
-        [`${prefixCls}-${size}`]: true
+        [`${prefixCls}-focused`]: focused,
+        [`${prefixCls}-with-addon-after`]: addonAfter || slots.addonAfter,
+        [`${prefixCls}-with-addon-before`]: addonBefore || slots.addonBefore,
+        [`${prefixCls}-with-prefix`]: prefix || slots.prefix,
+        [`${prefixCls}-with-suffix`]: suffix || slots.suffix
       });
     });
-    const handleClick = () => {
-      const currOpened = overlayOpened.value;
-      if (currOpened || accessor.disabled.value) {
-        return;
+    return () => {
+      const {
+        clearable,
+        clearIcon,
+        clearVisible,
+        disabled,
+        addonAfter,
+        addonBefore,
+        prefix,
+        suffix,
+        onClear
+      } = props;
+      const prefixCls = mergedPrefixCls.value;
+      const addonBeforeNode = renderAddon(slots.addonBefore, addonBefore, `${prefixCls}-addon`, "__before-addon");
+      const addonAfterNode = renderAddon(slots.addonAfter, addonAfter, `${prefixCls}-addon`, "__before-after");
+      const prefixNode = renderIcon$5(slots.prefix, prefix, `${prefixCls}-prefix`, "__prefix");
+      const suffixNode = renderIcon$5(slots.suffix, suffix, `${prefixCls}-suffix`, "__suffix");
+      const clearNode = clearable && createVNode("span", {
+        "key": "__clear",
+        "class": `${prefixCls}-clear${clearVisible ? " visible" : ""}`,
+        "onClick": onClear
+      }, [slots.clearIcon ? slots.clearIcon() : createVNode(IxIcon, {
+        "name": clearIcon
+      }, null)]);
+      if (!(addonBeforeNode || addonAfterNode || prefixNode || suffixNode || clearNode)) {
+        return createVNode("input", mergeProps({
+          "ref": inputRef,
+          "class": classes.value,
+          "disabled": disabled
+        }, attrs), null);
       }
-      setOverlayOpened(!currOpened);
+      const _a = attrs, {
+        class: className,
+        style
+      } = _a, rest = __objRest$c(_a, [
+        "class",
+        "style"
+      ]);
+      const classNames = normalizeClass([classes.value, className]);
+      const inputNode = createVNode("input", mergeProps({
+        "ref": inputRef,
+        "class": `${prefixCls}-inner`,
+        "disabled": disabled
+      }, rest), null);
+      if (!(addonBeforeNode || addonAfterNode)) {
+        return createVNode("span", {
+          "class": classNames,
+          "style": style
+        }, [prefixNode, inputNode, suffixNode, clearNode]);
+      }
+      if (!(prefixNode || suffixNode || clearNode)) {
+        return createVNode("span", {
+          "class": classNames,
+          "style": style
+        }, [addonBeforeNode, inputNode, addonAfterNode]);
+      }
+      return createVNode("span", {
+        "class": classNames,
+        "style": style
+      }, [addonBeforeNode, createVNode("span", {
+        "key": "__wrapper",
+        "class": `${prefixCls}-wrapper`
+      }, [prefixNode, inputNode, suffixNode, clearNode]), addonAfterNode]);
     };
-    const handleKeyDown = (evt) => {
-      switch (evt.code) {
-        case "Enter":
-          evt.preventDefault();
-          break;
-        case "Escape":
-          evt.preventDefault();
-          setOverlayOpened(false);
-          break;
+  }
+});
+function renderAddon(slot, prop, cls, key) {
+  if (!(slot || prop)) {
+    return void 0;
+  }
+  return createVNode("span", {
+    "key": key,
+    "class": cls
+  }, [slot ? slot() : prop]);
+}
+function renderIcon$5(slot, prop, cls, key) {
+  if (!(slot || prop)) {
+    return void 0;
+  }
+  return createVNode("span", {
+    "key": key,
+    "class": cls
+  }, [slot ? slot() : createVNode(IxIcon, {
+    "name": prop
+  }, null)]);
+}
+const \u0275Input = Input$2;
+
+const timePanelContext = Symbol("timePanelContext");
+var __defProp$p = Object.defineProperty;
+var __defProps$m = Object.defineProperties;
+var __getOwnPropDescs$m = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$r = Object.getOwnPropertySymbols;
+var __hasOwnProp$r = Object.prototype.hasOwnProperty;
+var __propIsEnum$r = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$p = (obj, key, value) => key in obj ? __defProp$p(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$p = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$r.call(b, prop))
+      __defNormalProp$p(a, prop, b[prop]);
+  if (__getOwnPropSymbols$r)
+    for (var prop of __getOwnPropSymbols$r(b)) {
+      if (__propIsEnum$r.call(b, prop))
+        __defNormalProp$p(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$m = (a, b) => __defProps$m(a, __getOwnPropDescs$m(b));
+const baseTimePanelProps = {
+  disabledHours: IxPropTypes.func().def(() => []),
+  disabledMinutes: IxPropTypes.func().def(() => []),
+  disabledSeconds: IxPropTypes.func().def(() => []),
+  hideDisabledOptions: IxPropTypes.bool.def(false),
+  hourStep: IxPropTypes.number.def(1),
+  minuteStep: IxPropTypes.number.def(1),
+  secondStep: IxPropTypes.number.def(1)
+};
+const timePanelProps = __spreadProps$m(__spreadValues$p({}, baseTimePanelProps), {
+  value: IxPropTypes.object(),
+  defaultOpenValue: IxPropTypes.object(),
+  visible: IxPropTypes.bool,
+  hourEnabled: IxPropTypes.bool.def(true),
+  minuteEnabled: IxPropTypes.bool.def(true),
+  secondEnabled: IxPropTypes.bool.def(true),
+  use12Hours: IxPropTypes.bool.def(false),
+  "onUpdate:value": IxPropTypes.emit(),
+  onChange: IxPropTypes.emit()
+});
+const timePanelColumnProps = {
+  selectedValue: IxPropTypes.oneOfType([IxPropTypes.number, IxPropTypes.string]).isRequired,
+  options: IxPropTypes.arrayOf(IxPropTypes.object()).isRequired,
+  visible: IxPropTypes.bool,
+  onChange: IxPropTypes.emit()
+};
+const timePanelCellProps = {
+  disabled: IxPropTypes.bool.def(false),
+  selected: IxPropTypes.bool.def(false),
+  value: IxPropTypes.oneOfType([Number, String]).isRequired,
+  onChange: IxPropTypes.emit()
+};
+var PanelCell = defineComponent({
+  props: timePanelCellProps,
+  setup(props) {
+    const {
+      mergedPrefixCls
+    } = inject(timePanelContext);
+    const classes = computed(() => {
+      const prefixCls = `${mergedPrefixCls.value}-cell`;
+      return {
+        [prefixCls]: true,
+        [`${prefixCls}-disabled`]: props.disabled,
+        [`${prefixCls}-selected`]: props.selected
+      };
+    });
+    const onClick = () => {
+      if (!props.disabled && !props.selected) {
+        callEmit(props.onChange, props.value);
       }
     };
+    const displayValue = computed(() => displayFormat(props.value));
+    return () => createVNode("li", {
+      "class": classes.value,
+      "onClick": onClick
+    }, [displayValue.value]);
+  }
+});
+function displayFormat(val) {
+  return isNumeric(val) ? val.toString().padStart(2, "0") : val;
+}
+function usePanelScroll(props, listRef, mergedPrefixCls) {
+  let scrollHandlerLocked = false;
+  let isScrolling = false;
+  let scrollTargetIndex;
+  function getCellHeight() {
+    var _a, _b, _c;
+    return (_c = (_b = (_a = listRef.value) == null ? void 0 : _a.querySelector(`li.${mergedPrefixCls.value}-cell`)) == null ? void 0 : _b.offsetHeight) != null ? _c : 0;
+  }
+  function adjustPanel(selectedIndex, duration = 200) {
+    const target = listRef.value;
+    if (!target || isScrolling || scrollHandlerLocked) {
+      return;
+    }
+    const top = Math.max(selectedIndex * getCellHeight(), 0);
+    if (top === getScroll(target).scrollTop) {
+      return;
+    }
+    scrollHandlerLocked = true;
+    scrollToTop({
+      top,
+      target,
+      duration,
+      callback: () => {
+        setTimeout(() => {
+          scrollHandlerLocked = false;
+        }, 100);
+      }
+    });
+  }
+  function scrollToSelected(duration) {
+    const selectedIndex = props.options.findIndex((item) => item.value === props.selectedValue);
+    adjustPanel(selectedIndex, duration);
+  }
+  function handleScrollAdjust() {
+    isNil(scrollTargetIndex) || scrollTargetIndex < 0 ? scrollToSelected() : adjustPanel(scrollTargetIndex);
+  }
+  function handleScroll() {
+    const target = listRef.value;
+    if (!target || scrollHandlerLocked) {
+      return;
+    }
+    isScrolling = true;
+    scrollTargetIndex = Math.min(Math.round(getScroll(target).scrollTop / getCellHeight()), props.options.length - 1);
+    const targetItem = props.options[scrollTargetIndex];
+    if (!targetItem.disabled) {
+      callEmit(props.onChange, targetItem.value);
+    }
+    nextTick(() => {
+      isScrolling = false;
+    });
+  }
+  watchEffect(() => {
+    if (props.visible) {
+      nextTick(() => scrollToSelected(0));
+    }
+  });
+  watch(() => props.selectedValue, (value) => {
+    const newScrollTargetIndex = props.options.findIndex((item) => item.value === value);
+    if (scrollTargetIndex !== newScrollTargetIndex) {
+      scrollTargetIndex = newScrollTargetIndex;
+      !isScrolling && nextTick(scrollToSelected);
+    }
+  });
+  return {
+    adjustPanel,
+    scrollToSelected,
+    handleScrollAdjust,
+    handleScroll
+  };
+}
+var PanelColumn = defineComponent({
+  props: timePanelColumnProps,
+  setup(props) {
+    const {
+      mergedPrefixCls
+    } = inject(timePanelContext);
+    const listRef = ref(null);
+    const {
+      scrollToSelected,
+      handleScroll,
+      handleScrollAdjust
+    } = usePanelScroll(props, listRef, mergedPrefixCls);
+    function onChange(value) {
+      callEmit(props.onChange, value);
+      nextTick(scrollToSelected);
+    }
+    return () => createVNode("ul", {
+      "ref": listRef,
+      "class": `${mergedPrefixCls.value}-column`,
+      "onScroll": handleScroll,
+      "onMousemove": handleScrollAdjust,
+      "onMouseenter": handleScrollAdjust
+    }, [props.options.map((item, index) => {
+      const {
+        disabled,
+        value
+      } = item;
+      return createVNode(PanelCell, {
+        "key": index,
+        "disabled": disabled,
+        "selected": props.selectedValue === value,
+        "value": value,
+        "onChange": onChange
+      }, null);
+    })]);
+  }
+});
+function normalizeAmPm(hour, is12Hours = false) {
+  if (!is12Hours) {
+    return "";
+  }
+  return hour >= 12 ? "pm" : "am";
+}
+function calculateViewHour(hour, is12Hours) {
+  if (is12Hours) {
+    hour > 12 && (hour -= 12);
+    hour === 0 && (hour = 12);
+  }
+  return hour;
+}
+function getHourValue(hour, ampm) {
+  if (ampm) {
+    ampm = ampm.toLowerCase();
+    if (ampm === "am") {
+      hour >= 12 && (hour -= 12);
+    }
+    if (ampm === "pm") {
+      hour < 12 && (hour += 12);
+    }
+  }
+  return hour;
+}
+function calculateValue(dateConfig, dateNow, type, is12Hours, value) {
+  const { get, set } = dateConfig;
+  const selectNumber = Number(value);
+  const newDate = new Date(dateNow);
+  switch (type) {
+    case "hour":
+      return set(newDate, getHourValue(selectNumber, normalizeAmPm(get(dateNow, "hour"), is12Hours)), "hour");
+    case "minute":
+      return set(newDate, selectNumber, "minute");
+    case "second":
+      return set(newDate, selectNumber, "second");
+    case "AM/PM":
+      return set(newDate, getHourValue(get(newDate, "hour"), value.toString()), "hour");
+  }
+}
+function useOptions(props, dateConfig) {
+  const { get } = dateConfig;
+  const defaultOpenValue = computed(() => {
+    var _a;
+    return (_a = props.defaultOpenValue) != null ? _a : dateConfig.startOf(dateConfig.now(), "date");
+  });
+  const selectedValue = computed(() => {
+    var _a;
+    return (_a = props.value) != null ? _a : defaultOpenValue.value;
+  });
+  const viewHours = computed(() => calculateViewHour(get(selectedValue.value, "hour"), props.use12Hours));
+  const ampm = computed(() => normalizeAmPm(get(selectedValue.value, "hour"), props.use12Hours));
+  function getOptions(type) {
+    const getHourOptions = () => {
+      const options = generateNumericOptions(props.use12Hours ? 12 : 24, props.hourStep, props.disabledHours(ampm.value), props.hideDisabledOptions);
+      if (props.use12Hours) {
+        const zeroOpt = options.find((opt) => opt.value === 0);
+        zeroOpt && (zeroOpt.value = 12);
+      }
+      return options;
+    };
+    switch (type) {
+      case "AM/PM":
+        return generateAmPmOptions("", props.hideDisabledOptions);
+      case "second":
+        return generateNumericOptions(60, props.secondStep, props.disabledSeconds(viewHours.value, get(selectedValue.value, "minute"), ampm.value), props.hideDisabledOptions);
+      case "minute":
+        return generateNumericOptions(60, props.minuteStep, props.disabledMinutes(viewHours.value, ampm.value), props.hideDisabledOptions);
+      case "hour":
+        return getHourOptions();
+      default:
+        return [];
+    }
+  }
+  const getHourValue2 = () => {
+    const value = ampm.value === "pm" ? get(selectedValue.value, "hour") % 12 : get(selectedValue.value, "hour");
+    if (ampm.value) {
+      return value === 0 ? 12 : value;
+    }
+    return value;
+  };
+  function getSelectedValue(type) {
+    switch (type) {
+      case "AM/PM":
+        return ampm.value;
+      case "hour":
+      default:
+        return getHourValue2();
+      case "minute":
+        return get(selectedValue.value, "minute");
+      case "second":
+        return get(selectedValue.value, "second");
+    }
+  }
+  function getOnChange(type) {
+    const onChange = (type2, value) => {
+      const newValue = calculateValue(dateConfig, selectedValue.value, type2, props.use12Hours, value);
+      callEmit(props["onUpdate:value"], newValue);
+      callEmit(props.onChange, newValue);
+    };
+    return (value) => onChange(type, value);
+  }
+  const getProps = (type) => {
+    return computed(() => ({
+      selectedValue: getSelectedValue(type),
+      options: getOptions(type),
+      onChange: getOnChange(type)
+    }));
+  };
+  return {
+    hourOptionsProps: getProps("hour"),
+    minuteOptionsProps: getProps("minute"),
+    secondOptionsProps: getProps("second"),
+    amPmOptionsProps: getProps("AM/PM")
+  };
+}
+function generateNumericOptions(total, step, disabledOption, hideDisabledOptions) {
+  const options = [];
+  for (let index = 0; index < total; index += step) {
+    const isDisabled = disabledOption.includes(index);
+    if (!isDisabled || !hideDisabledOptions) {
+      options.push({
+        value: index,
+        disabled: isDisabled
+      });
+    }
+  }
+  return options;
+}
+function generateAmPmOptions(disabledOption, hideDisabledOptions) {
+  disabledOption = disabledOption.toLowerCase();
+  return ["am", "pm"].map((item) => ({
+    disabled: disabledOption === item,
+    value: item
+  })).filter((item) => !hideDisabledOptions || !item.disabled);
+}
+var TimePanel = defineComponent({
+  name: "\u0275TimePanel",
+  props: timePanelProps,
+  setup(props) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-panel`);
+    const dateConfig = useDateConfig();
+    const {
+      hourOptionsProps,
+      minuteOptionsProps,
+      secondOptionsProps,
+      amPmOptionsProps
+    } = useOptions(props, dateConfig);
+    provide(timePanelContext, {
+      mergedPrefixCls
+    });
+    const columns = computed(() => {
+      const result = [];
+      props.hourEnabled && result.push(hourOptionsProps.value);
+      props.minuteEnabled && result.push(minuteOptionsProps.value);
+      props.secondEnabled && result.push(secondOptionsProps.value);
+      props.use12Hours && result.push(amPmOptionsProps.value);
+      return result;
+    });
+    return () => createVNode("div", {
+      "class": `${mergedPrefixCls.value}`
+    }, [columns.value.map((item, index) => createVNode(PanelColumn, mergeProps({
+      "key": index
+    }, item, {
+      "visible": props.visible
+    }), null))]);
+  }
+});
+const \u0275TimePanel = TimePanel;
+
+const triggerProps = {
+  borderless: Boolean,
+  clearable: Boolean,
+  clearIcon: String,
+  className: String,
+  disabled: Boolean,
+  focused: Boolean,
+  readonly: Boolean,
+  size: String,
+  suffix: String,
+  onClick: [Array, Function],
+  onClear: [Array, Function],
+  onFocus: [Array, Function],
+  onBlur: [Array, Function],
+  onKeyDown: [Array, Function]
+};
+var Trigger$2 = defineComponent({
+  props: triggerProps,
+  setup(props, {
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-trigger`);
+    const isDisabled = computed(() => props.disabled);
+    const focusMonitor = useSharedFocusMonitor();
     const triggerRef = ref();
     onMounted(() => {
       watch(focusMonitor.monitor(triggerRef.value, true), (evt) => {
@@ -23569,141 +23975,782 @@ var Trigger$3 = defineComponent({
         } = evt;
         if (event) {
           if (origin) {
-            handleFocus(event);
+            callEmit(props.onFocus, event);
           } else {
-            handleBlur(event);
+            callEmit(props.onBlur, event);
           }
         }
       });
     });
     onBeforeUnmount(() => focusMonitor.stopMonitoring(triggerRef.value));
-    return () => {
-      const {
-        readonly
-      } = props;
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
+      return normalizeClass({
+        [`${props.className}`]: !!props.className,
+        [prefixCls]: true,
+        [`${prefixCls}-disabled`]: isDisabled.value,
+        [`${prefixCls}-borderless`]: props.borderless,
+        [`${prefixCls}-readonly`]: props.readonly,
+        [`${prefixCls}-focused`]: props.focused,
+        [`${prefixCls}-${props.size}`]: props.size
+      });
+    });
+    const handleClick = (evt) => {
+      if (isDisabled.value) {
+        return;
+      }
+      callEmit(props.onClick, evt);
+    };
+    const handleKeyDown = (evt) => {
+      if (isDisabled.value) {
+        return;
+      }
+      callEmit(props.onKeyDown, evt);
+    };
+    const handleClear = (evt) => {
+      if (isDisabled.value) {
+        return;
+      }
+      evt.stopPropagation();
+      callEmit(props.onClear, evt);
+    };
+    const renderSuffix = () => {
+      var _a, _b;
+      if (!(slots.suffix || props.suffix)) {
+        return null;
+      }
+      return createVNode("div", {
+        "class": `${mergedPrefixCls.value}-suffix`
+      }, [(_b = (_a = slots.suffix) == null ? void 0 : _a.call(slots)) != null ? _b : props.suffix && createVNode(IxIcon, {
+        "name": props.suffix
+      }, null)]);
+    };
+    const renderClearIcon = () => {
+      if (!props.clearable || isDisabled.value || !props.clearIcon && !slots.clearIcon) {
+        return null;
+      }
+      return createVNode("span", {
+        "class": `${mergedPrefixCls.value}-clear-icon`,
+        "onClick": handleClear
+      }, [slots.clearIcon ? slots.clearIcon() : props.clearIcon && createVNode(IxIcon, {
+        "name": props.clearIcon
+      }, null)]);
+    };
+    return () => {
+      var _a;
       return createVNode("div", {
         "ref": triggerRef,
         "class": classes.value,
         "onClick": handleClick,
         "onKeydown": handleKeyDown
-      }, [createVNode("div", {
-        "class": `${prefixCls}-input`
-      }, [createVNode("input", {
-        "ref": inputRef,
-        "class": `${prefixCls}-input-inner`,
-        "autocomplete": "off",
-        "disabled": accessor.disabled.value,
-        "placeholder": placeholder.value,
-        "readonly": readonly || allowInput.value !== true,
-        "size": inputSize.value,
-        "value": inputValue.value,
-        "onInput": handleInput
-      }, null), createVNode("span", {
-        "class": `${prefixCls}-suffix`
-      }, [createVNode(IxIcon, {
-        "name": suffix.value
-      }, null)]), clearable.value && createVNode("span", {
-        "class": `${prefixCls}-clear`,
-        "onClick": handleClear
-      }, [createVNode(IxIcon, {
-        "name": "close-circle"
-      }, null)])])]);
+      }, [(_a = slots.default) == null ? void 0 : _a.call(slots), renderSuffix(), renderClearIcon()]);
     };
   }
 });
-var __defProp$1$d = Object.defineProperty;
-var __defProps$1$6 = Object.defineProperties;
-var __getOwnPropDescs$1$6 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$f = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$f = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$f = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$d = (obj, key, value) => key in obj ? __defProp$1$d(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$d = (a, b) => {
+const \u0275Trigger = Trigger$2;
+
+function convertToDate$1(dateConfig, value, format) {
+  if (!value) {
+    return void 0;
+  }
+  return dateConfig.convert(value, format);
+}
+function applyDateTime(dateConfig, sourceDate, targetDate, types) {
+  const typesArray = convertArray(types);
+  return typesArray.reduce((date, type) => dateConfig.set(date, dateConfig.get(sourceDate, type), type), targetDate);
+}
+function sortRangeValue(values) {
+  return values.sort((v1, v2) => {
+    if (!v1) {
+      return 1;
+    }
+    if (!v2) {
+      return 0;
+    }
+    return v1.valueOf() - v2.valueOf();
+  });
+}
+function useControl(dateConfig, formatContext, inputEnableStatus, valueRef, handleChange) {
+  const { formatRef, dateFormatRef, timeFormatRef } = formatContext;
+  const [inputValue, setInputValue] = useState$1("");
+  const [dateInputValue, setDateInputValue] = useState$1("");
+  const [timeInputVaue, setTimeInputValue] = useState$1("");
+  const [panelValue, setPanelValue] = useState$1(void 0);
+  const [visiblePanel, setVisiblePanel] = useState$1("datePanel");
+  function initInputValue(currValue, force = false) {
+    if (!currValue) {
+      setInputValue("");
+      return;
+    }
+    const { parse, format } = dateConfig;
+    if (force || parse(inputValue.value, formatRef.value).valueOf() !== currValue.valueOf()) {
+      setInputValue(format(currValue, formatRef.value));
+    }
+  }
+  function initDateInputValue(currValue, force = false) {
+    if (!currValue) {
+      setDateInputValue("");
+      return;
+    }
+    const { isSame, parse, format } = dateConfig;
+    const parsedValue = parse(dateInputValue.value, dateFormatRef.value);
+    if (force || !isSame(parsedValue, currValue, "year") || !isSame(parsedValue, currValue, "month") || !isSame(parsedValue, currValue, "date")) {
+      setDateInputValue(format(currValue, dateFormatRef.value));
+    }
+  }
+  function initTimeInputValue(currValue, force = false) {
+    if (!currValue) {
+      setTimeInputValue("");
+      return;
+    }
+    const { parse, format, isSame } = dateConfig;
+    const parsedValue = parse(timeInputVaue.value, timeFormatRef.value);
+    if (force || !isSame(parsedValue, currValue, "hour") || !isSame(parsedValue, currValue, "minute") || !isSame(parsedValue, currValue, "second")) {
+      setTimeInputValue(format(currValue, timeFormatRef.value));
+    }
+  }
+  function init(force = false) {
+    const currDateValue = convertToDate$1(dateConfig, valueRef.value, formatRef.value);
+    initInputValue(currDateValue, force);
+    inputEnableStatus.value.enableOverlayDateInput && initDateInputValue(currDateValue, force);
+    inputEnableStatus.value.enableOverlayTimeInput && initTimeInputValue(currDateValue, force);
+    setPanelValue(currDateValue);
+  }
+  watch(valueRef, () => init(), { immediate: true });
+  watch(inputEnableStatus, () => init());
+  function parseInput(value, format) {
+    return value ? dateConfig.parse(value, format) : void 0;
+  }
+  function checkInputValid(date) {
+    return !date || dateConfig.isValid(date);
+  }
+  function handleInput(evt) {
+    const value = evt.target.value;
+    setInputValue(value);
+    const currDate = parseInput(value, formatRef.value);
+    if (checkInputValid(currDate)) {
+      handleChange(currDate);
+    }
+  }
+  function handleDateInput(evt) {
+    const value = evt.target.value;
+    setDateInputValue(value);
+    let currDate = parseInput(value, dateFormatRef.value);
+    if (!checkInputValid(currDate)) {
+      return;
+    }
+    const accessorValue = convertToDate$1(dateConfig, valueRef.value, formatRef.value);
+    if (currDate && accessorValue) {
+      currDate = applyDateTime(dateConfig, accessorValue, currDate, ["hour", "minute", "second"]);
+    }
+    handleChange(currDate);
+    setVisiblePanel("datePanel");
+  }
+  function handleTimeInput(evt) {
+    const value = evt.target.value;
+    setTimeInputValue(value);
+    let currDate = parseInput(value, timeFormatRef.value);
+    if (!checkInputValid(currDate)) {
+      return;
+    }
+    const accessorValue = convertToDate$1(dateConfig, valueRef.value, formatRef.value);
+    if (currDate && accessorValue) {
+      currDate = applyDateTime(dateConfig, accessorValue, currDate, ["year", "month", "date"]);
+    }
+    handleChange(currDate);
+    setVisiblePanel("timePanel");
+  }
+  function handleDateInputClear() {
+    setDateInputValue("");
+  }
+  function handleTimeInputClear() {
+    setTimeInputValue("");
+  }
+  function handleDatePanelChange(value) {
+    handleChange(panelValue.value ? applyDateTime(dateConfig, panelValue.value, value, ["hour", "minute", "second"]) : value);
+  }
+  function handleTimePanelChange(value) {
+    handleChange(panelValue.value ? applyDateTime(dateConfig, panelValue.value, value, ["year", "month", "date"]) : value);
+  }
+  function handleDateInputFocus() {
+    setVisiblePanel("datePanel");
+  }
+  function handleTimeInputFocus() {
+    setVisiblePanel("timePanel");
+  }
+  return {
+    inputValue,
+    dateInputValue,
+    timeInputVaue,
+    panelValue,
+    visiblePanel,
+    setVisiblePanel,
+    init,
+    handleInput,
+    handleDateInput,
+    handleTimeInput,
+    handleDateInputClear,
+    handleTimeInputClear,
+    handleDatePanelChange,
+    handleTimePanelChange,
+    handleDateInputFocus,
+    handleTimeInputFocus
+  };
+}
+const defaultFormat = {
+  date: "yyyy-MM-dd",
+  week: "RRRR-II",
+  month: "yyyy-MM",
+  quarter: "yyyy-'Q'Q",
+  year: "yyyy",
+  datetime: "yyyy-MM-dd HH:mm:ss"
+};
+function useFormat(props, config) {
+  const timePickerConfig = useGlobalConfig$1("timePicker");
+  const formatRef = computed(() => {
+    var _a, _b, _c;
+    const type = props.type;
+    return (_c = (_b = props.format) != null ? _b : (_a = config.format) == null ? void 0 : _a[type]) != null ? _c : defaultFormat[type];
+  });
+  const dateFormatRef = computed(() => {
+    var _a;
+    if (props.type !== "datetime") {
+      return formatRef.value;
+    }
+    return (_a = props.dateFormat) != null ? _a : defaultFormat.date;
+  });
+  const timeFormatRef = computed(() => {
+    var _a;
+    return (_a = props.timeFormat) != null ? _a : timePickerConfig.format;
+  });
+  return {
+    formatRef,
+    dateFormatRef,
+    timeFormatRef
+  };
+}
+function useInputEnableStatus$1(props, config) {
+  return computed(() => {
+    var _a;
+    const allowInput = (_a = props.allowInput) != null ? _a : config.allowInput;
+    return {
+      allowInput,
+      enableInput: allowInput === true,
+      enableOverlayDateInput: allowInput === "overlay" || props.type === "datetime",
+      enableOverlayTimeInput: props.type === "datetime"
+    };
+  });
+}
+function useKeyboardEvents(setOverlayOpened) {
+  return (evt) => {
+    if (evt.code === "Escape" || evt.code === "Enter") {
+      setOverlayOpened(false);
+    }
+  };
+}
+function useRangeKeyboardEvents(rangeControl, showFooter, setOverlayOpened, handleChange) {
+  const { isSelecting, bufferUpdated, buffer } = rangeControl;
+  return (evt) => {
+    switch (evt.code) {
+      case "Escape":
+        setOverlayOpened(false);
+        break;
+      case "Enter":
+        if (!isSelecting.value && bufferUpdated.value && showFooter.value) {
+          handleChange(buffer.value);
+        }
+        setOverlayOpened(false);
+        break;
+    }
+  };
+}
+function useOverlayState$1(props, control) {
+  const [overlayOpened, setOverlayOpened] = useControlledProp(props, "open", false);
+  const changeOpenedState = (open) => {
+    setOverlayOpened(open);
+    if (!open) {
+      control.init();
+    }
+  };
+  onMounted(() => {
+    if (props.autofocus) {
+      setOverlayOpened(true);
+    }
+  });
+  return { overlayOpened, setOverlayOpened: changeOpenedState };
+}
+function usePickerState(props, dateConfig, formatRef) {
+  const accessor = useFormAccessor();
+  const [isFocused, setFocused] = useState$1(false);
+  function handleChange(value) {
+    const newValue = isArray$1(value) ? sortRangeValue(value) : value;
+    let oldValue = toRaw(accessor.valueRef.value);
+    oldValue = isArray$1(oldValue) ? oldValue.map((v) => convertToDate$1(dateConfig, v, formatRef.value)) : convertToDate$1(dateConfig, oldValue, formatRef.value);
+    callEmit(props.onChange, newValue, oldValue);
+    accessor.setValue(value);
+  }
+  function handleClear(evt) {
+    let oldValue = toRaw(accessor.valueRef.value);
+    oldValue = isArray$1(oldValue) ? oldValue.map((v) => convertToDate$1(dateConfig, v, formatRef.value)) : convertToDate$1(dateConfig, oldValue, formatRef.value);
+    callEmit(props.onClear, evt);
+    callEmit(props.onChange, void 0, oldValue);
+    accessor.setValue(void 0);
+  }
+  function handleFocus(evt) {
+    callEmit(props.onFocus, evt);
+    setFocused(true);
+  }
+  function handleBlur(evt) {
+    callEmit(props.onBlur, evt);
+    accessor.markAsBlurred();
+    setFocused(false);
+  }
+  return {
+    accessor,
+    isFocused,
+    handleChange,
+    handleClear,
+    handleFocus,
+    handleBlur
+  };
+}
+function useActiveDate(dateConfig, props, valueRef, formatRef) {
+  var _a;
+  const defaultOpenValue = computed(() => {
+    var _a2;
+    return convertToDate$1(dateConfig, (_a2 = props.defaultOpenValue) != null ? _a2 : dateConfig.now(), formatRef.value);
+  });
+  const [activeDate, setActiveDate] = useState$1((_a = valueRef.value) != null ? _a : defaultOpenValue.value);
+  watch(valueRef, (value) => setActiveDate(value != null ? value : defaultOpenValue.value));
+  return {
+    activeDate,
+    setActiveDate
+  };
+}
+const viewTypeMap = {
+  date: "month",
+  datetime: "month",
+  week: "month",
+  month: "year",
+  quarter: "year",
+  year: "year"
+};
+function useRangeActiveDate(dateConfig, props, valuesRef, isSelecting, formatRef) {
+  var _a, _b, _c;
+  const { set, get } = dateConfig;
+  const now = dateConfig.now();
+  const fromPanelValue = computed(() => {
+    var _a2;
+    return (_a2 = valuesRef.value) == null ? void 0 : _a2[0];
+  });
+  const toPanelValue = computed(() => {
+    var _a2;
+    return (_a2 = valuesRef.value) == null ? void 0 : _a2[1];
+  });
+  const calcValidActiveDate = (from, to, type) => {
+    const viewType = viewTypeMap[props.type];
+    const viewSpan = props.type === "year" ? 12 : 1;
+    const getViewDate = (value) => set(value, get(value, viewType) + (type === "from" ? -viewSpan : viewSpan), viewType);
+    if (!from) {
+      return type === "from" ? now : getViewDate(now);
+    }
+    if (!to) {
+      return type === "from" ? from : getViewDate(from);
+    }
+    const fromViewValue = get(from, viewType);
+    const toViewValue = get(to, viewType);
+    const valid = props.type === "year" ? fromViewValue < toViewValue - viewSpan : (() => {
+      const fromViewYearValue = get(from, "year");
+      const toViewYearValue = get(to, "year");
+      return fromViewValue < toViewValue || fromViewYearValue < toViewYearValue;
+    })();
+    if (type === "from") {
+      return valid ? from : getViewDate(to);
+    }
+    return valid ? to : getViewDate(from);
+  };
+  const defaultOpenValue = computed(() => {
+    var _a2;
+    const convertedValues = sortRangeValue([
+      ...convertArray(props.defaultOpenValue).map((v) => convertToDate$1(dateConfig, v, formatRef.value))
+    ]);
+    return [(_a2 = convertedValues[0]) != null ? _a2 : now, convertedValues[1]];
+  });
+  const [fromActiveDate, setFromActiveDate] = useState$1((_a = fromPanelValue.value) != null ? _a : defaultOpenValue.value[0]);
+  const [toActiveDate, setToActiveDate] = useState$1(calcValidActiveDate((_b = fromPanelValue.value) != null ? _b : defaultOpenValue.value[0], (_c = toPanelValue.value) != null ? _c : defaultOpenValue.value[1], "to"));
+  watch(valuesRef, (value) => {
+    var _a2, _b2;
+    if (isSelecting.value) {
+      return;
+    }
+    const from = (_a2 = value == null ? void 0 : value[0]) != null ? _a2 : defaultOpenValue.value[0];
+    const to = calcValidActiveDate(from, (_b2 = value == null ? void 0 : value[1]) != null ? _b2 : defaultOpenValue.value[1], "to");
+    setFromActiveDate(from);
+    setToActiveDate(to);
+  });
+  const handleFromActiveDateUpdate = (value) => {
+    setFromActiveDate(value);
+    setToActiveDate(calcValidActiveDate(value, toPanelValue.value, "to"));
+  };
+  const handleToActiveDateUpdate = (value) => {
+    setToActiveDate(value);
+    setFromActiveDate(calcValidActiveDate(fromPanelValue.value, value, "from"));
+  };
+  return {
+    fromActiveDate,
+    toActiveDate,
+    setFromActiveDate: handleFromActiveDateUpdate,
+    setToActiveDate: handleToActiveDateUpdate
+  };
+}
+const datePickerToken = Symbol("datePickerToken");
+const dateRangePickerToken = Symbol("dateRangePickerToken");
+var Content$3 = defineComponent({
+  setup() {
+    const context = inject(datePickerToken);
+    const {
+      props,
+      config,
+      dateConfig,
+      mergedPrefixCls,
+      formatRef,
+      dateFormatRef,
+      timeFormatRef,
+      slots,
+      overlayOpened,
+      inputEnableStatus,
+      inputRef,
+      controlContext: {
+        dateInputValue,
+        timeInputVaue,
+        visiblePanel,
+        panelValue,
+        handleDateInput,
+        handleTimeInput,
+        handleDateInputClear,
+        handleTimeInputClear,
+        handleDateInputFocus,
+        handleTimeInputFocus,
+        handleDatePanelChange,
+        handleTimePanelChange
+      },
+      setOverlayOpened,
+      handleKeyDown,
+      handleClear
+    } = context;
+    const {
+      activeDate,
+      setActiveDate
+    } = useActiveDate(dateConfig, props, panelValue, formatRef);
+    const inputInstance = ref();
+    const setInputRef = () => {
+      var _a;
+      if (inputEnableStatus.value.allowInput === "overlay") {
+        inputRef.value = (_a = inputInstance.value) == null ? void 0 : _a.getInputElement();
+      }
+    };
+    onMounted(setInputRef);
+    onUpdated(setInputRef);
+    const handleDatePanelCellClick = (value) => {
+      handleDatePanelChange(value);
+      if (!inputEnableStatus.value.enableOverlayTimeInput) {
+        setOverlayOpened(false);
+      }
+    };
+    const handleMouseDown = (e) => {
+      if (!(e.target instanceof HTMLInputElement)) {
+        e.preventDefault();
+      }
+    };
+    const renderInputs = (prefixCls) => {
+      var _a, _b, _c, _d;
+      if (!inputEnableStatus.value.enableOverlayDateInput) {
+        return;
+      }
+      return createVNode("div", {
+        "class": `${prefixCls}-inputs`,
+        "onMousedown": handleMouseDown
+      }, [createVNode(\u0275Input, {
+        "ref": inputInstance,
+        "class": `${prefixCls}-date-input`,
+        "value": dateInputValue.value,
+        "size": "sm",
+        "clearable": (_a = props.clearable) != null ? _a : config.clearable,
+        "clearIcon": (_b = props.clearIcon) != null ? _b : config.clearIcon,
+        "clearVisible": !!dateInputValue.value,
+        "placeholder": dateFormatRef.value,
+        "onInput": handleDateInput,
+        "onFocus": handleDateInputFocus,
+        "onKeydown": handleKeyDown,
+        "onClear": inputEnableStatus.value.enableOverlayTimeInput ? handleDateInputClear : handleClear
+      }, slots), inputEnableStatus.value.enableOverlayTimeInput && createVNode(\u0275Input, {
+        "class": `${prefixCls}-time-input`,
+        "value": timeInputVaue.value,
+        "size": "sm",
+        "clearable": (_c = props.clearable) != null ? _c : config.clearable,
+        "clearIcon": (_d = props.clearIcon) != null ? _d : config.clearIcon,
+        "clearVisible": !!timeInputVaue.value,
+        "placeholder": timeFormatRef.value,
+        "onInput": handleTimeInput,
+        "onFocus": handleTimeInputFocus,
+        "onKeydown": handleKeyDown,
+        "onClear": handleTimeInputClear
+      }, slots)]);
+    };
+    return () => {
+      var _a;
+      const prefixCls = `${mergedPrefixCls.value}-overlay`;
+      const boardPrefixCls = `${mergedPrefixCls.value}-board`;
+      const datePanelType = props.type === "datetime" ? "date" : props.type;
+      const datePanelProps = {
+        cellTooltip: props.cellTooltip,
+        disabledDate: props.disabledDate,
+        type: datePanelType,
+        value: panelValue.value,
+        visible: overlayOpened.value,
+        activeDate: activeDate.value,
+        onCellClick: handleDatePanelCellClick,
+        "onUpdate:activeDate": setActiveDate
+      };
+      const children = [createVNode("div", {
+        "class": `${prefixCls}-content ${boardPrefixCls}`,
+        "tabindex": -1,
+        "onMousedown": handleMouseDown
+      }, [renderInputs(boardPrefixCls), createVNode("div", {
+        "class": `${boardPrefixCls}-panel`,
+        "tabindex": -1
+      }, [withDirectives(createVNode(\u0275DatePanel, datePanelProps, slots), [[vShow, visiblePanel.value === "datePanel"]]), inputEnableStatus.value.enableOverlayTimeInput && withDirectives(createVNode(\u0275TimePanel, mergeProps((_a = props.timePanelOptions) != null ? _a : {}, {
+        "value": panelValue.value,
+        "visible": visiblePanel.value === "timePanel",
+        "onChange": handleTimePanelChange
+      }), null), [[vShow, visiblePanel.value === "timePanel"]])])]), createVNode(\u0275Footer, {
+        "class": `${prefixCls}-footer`,
+        "footer": props.footer
+      }, slots)];
+      return props.overlayRender ? props.overlayRender(children) : createVNode("div", {
+        "class": prefixCls,
+        "onMousedown": handleMouseDown
+      }, [children]);
+    };
+  }
+});
+function useTriggerProps(context, formContext) {
+  const {
+    props,
+    config,
+    accessor,
+    isFocused,
+    handleFocus,
+    handleBlur,
+    handleClear,
+    handleKeyDown,
+    overlayOpened,
+    setOverlayOpened,
+    inputEnableStatus
+  } = context;
+  const handleClick = () => {
+    const currOpened = overlayOpened.value;
+    if (currOpened || accessor.disabled.value) {
+      return;
+    }
+    setOverlayOpened(!currOpened);
+  };
+  return computed(() => {
+    var _a, _b, _c, _d;
+    return {
+      borderless: props.borderless,
+      clearable: !accessor.disabled.value && props.clearable && !!accessor.valueRef.value,
+      clearIcon: (_a = props.clearIcon) != null ? _a : config.clearIcon,
+      disabled: accessor.disabled.value,
+      focused: isFocused.value || overlayOpened.value,
+      readonly: props.readonly || inputEnableStatus.value.enableInput === false,
+      size: (_c = (_b = props.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : config.size,
+      suffix: (_d = props.suffix) != null ? _d : config.suffix,
+      onClick: handleClick,
+      onClear: handleClear,
+      onFocus: handleFocus,
+      onBlur: handleBlur,
+      onKeyDown: handleKeyDown
+    };
+  });
+}
+var __defProp$4$3 = Object.defineProperty;
+var __getOwnPropSymbols$4$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$4$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$4$3 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$4$3 = (obj, key, value) => key in obj ? __defProp$4$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$4$3 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$f.call(b, prop))
-      __defNormalProp$1$d(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$f)
-    for (var prop of __getOwnPropSymbols$1$f(b)) {
-      if (__propIsEnum$1$f.call(b, prop))
-        __defNormalProp$1$d(a, prop, b[prop]);
+    if (__hasOwnProp$4$3.call(b, prop))
+      __defNormalProp$4$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$4$3)
+    for (var prop of __getOwnPropSymbols$4$3(b)) {
+      if (__propIsEnum$4$3.call(b, prop))
+        __defNormalProp$4$3(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$1$6 = (a, b) => __defProps$1$6(a, __getOwnPropDescs$1$6(b));
+var Trigger$1 = defineComponent({
+  setup() {
+    const context = inject(datePickerToken);
+    const {
+      props,
+      slots,
+      locale,
+      controlContext: {
+        inputValue,
+        handleInput: _handleInput
+      },
+      mergedPrefixCls,
+      formatRef,
+      inputEnableStatus,
+      inputRef
+    } = context;
+    const formContext = inject(FORM_TOKEN, null);
+    const placeholder = computed(() => {
+      var _a;
+      return (_a = props.placeholder) != null ? _a : locale.datePicker[`${props.type}Placeholder`];
+    });
+    const inputSize = computed(() => Math.max(10, formatRef.value.length) + 2);
+    const triggerProps = useTriggerProps(context, formContext);
+    const handleInput = (evt) => {
+      _handleInput(evt);
+      callEmit(props.onInput, evt);
+    };
+    return () => {
+      const {
+        readonly,
+        disabled
+      } = triggerProps.value;
+      const prefixCls = mergedPrefixCls.value;
+      return createVNode(\u0275Trigger, mergeProps({
+        "className": prefixCls
+      }, triggerProps.value), __spreadValues$4$3({
+        default: () => [createVNode("div", {
+          "class": `${prefixCls}-input`
+        }, [createVNode("input", {
+          "ref": inputEnableStatus.value.allowInput === true ? inputRef : void 0,
+          "class": `${prefixCls}-input-inner`,
+          "autocomplete": "off",
+          "disabled": disabled,
+          "placeholder": placeholder.value,
+          "readonly": readonly,
+          "size": inputSize.value,
+          "value": inputValue.value,
+          "onInput": handleInput
+        }, null)])]
+      }, slots));
+    };
+  }
+});
+var __defProp$3$3 = Object.defineProperty;
+var __defProps$l = Object.defineProperties;
+var __getOwnPropDescs$l = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$3$4 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3$4 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3$4 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$3$3 = (obj, key, value) => key in obj ? __defProp$3$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$3$3 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$3$4.call(b, prop))
+      __defNormalProp$3$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$3$4)
+    for (var prop of __getOwnPropSymbols$3$4(b)) {
+      if (__propIsEnum$3$4.call(b, prop))
+        __defNormalProp$3$3(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$l = (a, b) => __defProps$l(a, __getOwnPropDescs$l(b));
 const datePickerCommonProps = {
   control: controlPropDef,
-  open: IxPropTypes.bool,
-  allowInput: IxPropTypes.oneOfType([Boolean, IxPropTypes.oneOf(["overlay"])]),
-  autofocus: IxPropTypes.bool.def(false),
-  borderless: IxPropTypes.bool,
-  clearable: IxPropTypes.bool,
-  clearIcon: IxPropTypes.string,
-  disabled: IxPropTypes.bool.def(false),
-  disabledDate: IxPropTypes.func(),
-  format: IxPropTypes.string,
-  overlayClassName: IxPropTypes.string,
-  overlayContainer: IxPropTypes.oneOfType([String, HTMLElement, IxPropTypes.func()]),
-  overlayRender: IxPropTypes.func(),
-  readonly: IxPropTypes.bool.def(false),
-  size: IxPropTypes.oneOf(["sm", "md", "lg"]),
-  suffix: IxPropTypes.string,
+  cellTooltip: Function,
+  open: {
+    type: Boolean,
+    default: void 0
+  },
+  allowInput: {
+    type: [Boolean, String],
+    default: void 0
+  },
+  autofocus: {
+    type: Boolean,
+    default: false
+  },
+  borderless: {
+    type: Boolean,
+    default: void 0
+  },
+  clearable: {
+    type: Boolean,
+    default: void 0
+  },
+  clearIcon: String,
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  disabledDate: Function,
+  format: String,
+  dateFormat: String,
+  timeFormat: String,
+  overlayClassName: String,
+  overlayContainer: [String, HTMLElement, Function],
+  overlayRender: Function,
+  readonly: {
+    type: Boolean,
+    default: false
+  },
+  size: String,
+  suffix: String,
+  type: {
+    type: String,
+    default: "date"
+  },
   target: portalTargetDef,
-  type: IxPropTypes.oneOf(["date", "week", "month", "quarter", "year"]).def("date"),
-  "onUpdate:open": IxPropTypes.emit(),
-  onClear: IxPropTypes.emit(),
-  onFocus: IxPropTypes.emit(),
-  onBlur: IxPropTypes.emit()
+  "onUpdate:open": [Function, Array],
+  onClear: [Function, Array],
+  onFocus: [Function, Array],
+  onBlur: [Function, Array]
 };
-const datePickerProps = __spreadProps$1$6(__spreadValues$1$d({}, datePickerCommonProps), {
-  value: IxPropTypes.oneOfType([Number, String, Date]),
-  defaultOpenValue: IxPropTypes.oneOfType([Number, String, Date]),
-  placeholder: IxPropTypes.string,
-  timePicker: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]),
-  "onUpdate:value": IxPropTypes.emit(),
-  onChange: IxPropTypes.emit(),
-  onInput: IxPropTypes.emit()
+const datePickerProps = __spreadProps$l(__spreadValues$3$3({}, datePickerCommonProps), {
+  value: [String, Date, Number],
+  defaultOpenValue: [String, Date, Number],
+  footer: { type: footerTypeDef, default: false },
+  placeholder: String,
+  timePanelOptions: Object,
+  "onUpdate:value": [Function, Array],
+  onChange: [Function, Array],
+  onInput: [Function, Array]
 });
-__spreadProps$1$6(__spreadValues$1$d({}, datePickerCommonProps), {
-  value: IxPropTypes.array(),
-  defaultOpenValue: IxPropTypes.array(),
-  placeholder: IxPropTypes.arrayOf(String),
-  separator: IxPropTypes.oneOfType([String, IxPropTypes.vNode]),
-  timePicker: IxPropTypes.oneOfType([
-    Boolean,
-    IxPropTypes.object(),
-    IxPropTypes.array()
-  ]),
-  "onUpdate:value": IxPropTypes.emit()
+const dateRangePickerProps = __spreadProps$l(__spreadValues$3$3({}, datePickerCommonProps), {
+  value: Array,
+  defaultOpenValue: Array,
+  footer: { type: footerTypeDef, default: true },
+  placeholder: Array,
+  separator: [String, Object],
+  timePanelOptions: [Object, Array],
+  "onUpdate:value": [Function, Array],
+  onChange: [Function, Array],
+  onInput: [Function, Array]
 });
-({
-  rowIndex: IxPropTypes.number.isRequired
-});
-({
-  rowIndex: IxPropTypes.number.isRequired,
-  cellIndex: IxPropTypes.number.isRequired,
-  isWeek: IxPropTypes.bool
-});
-var __defProp$p = Object.defineProperty;
-var __defProps$j = Object.defineProperties;
-var __getOwnPropDescs$j = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$s = Object.getOwnPropertySymbols;
-var __hasOwnProp$s = Object.prototype.hasOwnProperty;
-var __propIsEnum$s = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$p = (obj, key, value) => key in obj ? __defProp$p(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$p = (a, b) => {
+var __defProp$2$7 = Object.defineProperty;
+var __getOwnPropSymbols$2$9 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$9 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$9 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$7 = (obj, key, value) => key in obj ? __defProp$2$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$7 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$s.call(b, prop))
-      __defNormalProp$p(a, prop, b[prop]);
-  if (__getOwnPropSymbols$s)
-    for (var prop of __getOwnPropSymbols$s(b)) {
-      if (__propIsEnum$s.call(b, prop))
-        __defNormalProp$p(a, prop, b[prop]);
+    if (__hasOwnProp$2$9.call(b, prop))
+      __defNormalProp$2$7(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$9)
+    for (var prop of __getOwnPropSymbols$2$9(b)) {
+      if (__propIsEnum$2$9.call(b, prop))
+        __defNormalProp$2$7(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$j = (a, b) => __defProps$j(a, __getOwnPropDescs$j(b));
-const defaultOffset$3 = [0, 8];
+const defaultOffset$1$1 = [0, 8];
 var DatePicker = defineComponent({
   name: "IxDatePicker",
   inheritAttrs: false,
@@ -23715,10 +24762,9 @@ var DatePicker = defineComponent({
   }) {
     const common = useGlobalConfig$1("common");
     const locale = useGlobalConfig$1("locale");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-date-picker`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-date-picker`);
     const config = useGlobalConfig$1("datePicker");
     const dateConfig = useDateConfig();
-    const focusMonitor = useSharedFocusMonitor();
     const {
       elementRef: inputRef,
       focus,
@@ -23728,74 +24774,472 @@ var DatePicker = defineComponent({
       focus,
       blur
     });
+    const inputEnableStatus = useInputEnableStatus$1(props, config);
+    const formatContext = useFormat(props, config);
+    const pickerStateContext = usePickerState(props, dateConfig, formatContext.formatRef);
+    const {
+      accessor,
+      handleChange
+    } = pickerStateContext;
+    const controlContext = useControl(dateConfig, formatContext, inputEnableStatus, accessor.valueRef, handleChange);
     const {
       overlayOpened,
       setOverlayOpened
-    } = useOverlayState(props);
-    const accessor = useFormAccessor();
-    const format = useFormat(props, config);
-    const inputStateContext = useInputState$2(props, dateConfig, accessor, format);
-    const {
-      inputValue
-    } = inputStateContext;
-    const {
-      panelDate,
-      setPanelDate
-    } = usePanelState(props, dateConfig, accessor, format);
-    const handlePanelCellClick = (date) => {
-      const oldDate = toRaw$1(accessor.valueRef.value);
-      if (!oldDate || !dateConfig.isSame(date, dateConfig.convert(oldDate, format.value), props.type)) {
-        setOverlayOpened(false);
-        accessor.setValue(date);
-        callEmit(props.onChange, date, oldDate);
-      }
-    };
-    provide(datePickerToken, __spreadProps$j(__spreadValues$p({
+    } = useOverlayState$1(props, controlContext);
+    const handleKeyDown = useKeyboardEvents(setOverlayOpened);
+    provide(datePickerToken, __spreadValues$2$7(__spreadValues$2$7({
       props,
       slots,
       locale,
       config,
       mergedPrefixCls,
       dateConfig,
-      focusMonitor,
       inputRef,
+      inputEnableStatus,
       overlayOpened,
       setOverlayOpened,
-      accessor,
-      format
-    }, inputStateContext), {
-      panelDate,
-      setPanelDate,
-      handlePanelCellClick
-    }));
+      handleKeyDown,
+      controlContext
+    }, formatContext), pickerStateContext));
     watch(overlayOpened, (opened) => {
-      if (!opened && inputValue.value)
-        ;
-      opened ? focus() : blur();
-    });
-    const classes = computed$1(() => {
-      const {
-        overlayClassName
-      } = props;
-      const prefixCls = mergedPrefixCls.value;
-      return normalizeClass({
-        [`${prefixCls}-overlay`]: true,
-        [overlayClassName || ""]: !!overlayClassName
+      if (!opened) {
+        controlContext.init(true);
+      }
+      nextTick(() => {
+        opened ? focus() : blur();
       });
     });
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
     });
-    return () => {
-      const renderTrigger = () => createVNode(Trigger$3, attrs, null);
-      const renderContent = () => createVNode(Content$3, null, null);
-      const overlayProps = {
-        "onUpdate:visible": setOverlayOpened
+    const renderTrigger = () => createVNode(Trigger$1, attrs, null);
+    const renderContent = () => createVNode(Content$3, null, null);
+    const overlayProps = {
+      triggerId: attrs.id,
+      "onUpdate:visible": setOverlayOpened
+    };
+    return () => createVNode(\u0275Overlay, mergeProps(overlayProps, {
+      "visible": overlayOpened.value,
+      "class": normalizeClass(props.overlayClassName),
+      "clickOutside": true,
+      "disabled": accessor.disabled.value || props.readonly,
+      "offset": defaultOffset$1$1,
+      "placement": "bottomStart",
+      "target": target.value,
+      "trigger": "manual"
+    }), {
+      default: renderTrigger,
+      content: renderContent
+    });
+  }
+});
+function useRangeControl(dateConfig, formatContext, inputEnableStatus, valueRef) {
+  const { formatRef } = formatContext;
+  const [buffer, setBuffer] = useState$1(convertArray(valueRef.value).map((v) => convertToDate$1(dateConfig, v, formatRef.value)));
+  const [bufferUpdated, setBufferUpdated] = useState$1(false);
+  const handleBufferUpdate = (values) => {
+    setBuffer(getRangeValue(dateConfig, values, formatRef.value));
+    setBufferUpdated(true);
+  };
+  const [selectingDate, setSelectingDate] = useState$1(buffer.value);
+  const [isSelecting, setIsSelecting] = useState$1(false);
+  const [visiblePanel, setVisiblePanel] = useState$1("datePanel");
+  const handleVisiblePanelUpdate = (value) => {
+    visiblePanel.value !== value && setVisiblePanel(value);
+    fromControl.visiblePanel.value !== value && fromControl.setVisiblePanel(value);
+    toControl.visiblePanel.value !== value && toControl.setVisiblePanel(value);
+  };
+  const rangeValueRef = computed(() => convertArray(buffer.value));
+  const fromDateRef = computed(() => rangeValueRef.value[0]);
+  const toDateRef = computed(() => rangeValueRef.value[1]);
+  const panelValue = computed(() => {
+    if (isSelecting.value) {
+      return sortRangeValue([...convertArray(selectingDate.value)]);
+    }
+    return sortRangeValue([...convertArray(buffer.value)]);
+  });
+  watch(valueRef, handleBufferUpdate);
+  const fromControl = useControl(dateConfig, formatContext, inputEnableStatus, fromDateRef, (value) => {
+    var _a;
+    handleBufferUpdate([value, (_a = buffer.value) == null ? void 0 : _a[1]]);
+  });
+  const toControl = useControl(dateConfig, formatContext, inputEnableStatus, toDateRef, (value) => {
+    var _a;
+    handleBufferUpdate([(_a = buffer.value) == null ? void 0 : _a[0], value]);
+  });
+  watch(fromControl.visiblePanel, handleVisiblePanelUpdate);
+  watch(toControl.visiblePanel, handleVisiblePanelUpdate);
+  const init = (force = false) => {
+    handleBufferUpdate(valueRef.value);
+    handleVisiblePanelUpdate("datePanel");
+    setBufferUpdated(false);
+    fromControl.init(force);
+    toControl.init(force);
+  };
+  const handleDatePanelCellClick = (value) => {
+    var _a;
+    if (!isSelecting.value) {
+      setIsSelecting(true);
+      setSelectingDate([value, void 0]);
+    } else {
+      setIsSelecting(false);
+      handleBufferUpdate([(_a = selectingDate.value) == null ? void 0 : _a[0], value]);
+    }
+  };
+  const handleDatePanelCellMouseenter = (value) => {
+    var _a;
+    if (!isSelecting.value) {
+      return;
+    }
+    setSelectingDate([(_a = selectingDate.value) == null ? void 0 : _a[0], value]);
+  };
+  return {
+    buffer,
+    panelValue,
+    isSelecting,
+    bufferUpdated,
+    visiblePanel,
+    setVisiblePanel: handleVisiblePanelUpdate,
+    fromControl,
+    toControl,
+    init,
+    handleDatePanelCellClick,
+    handleDatePanelCellMouseenter
+  };
+}
+function getRangeValue(dateConfig, values, format) {
+  return convertArray(values).map((v) => convertToDate$1(dateConfig, v, format));
+}
+var RangeContent = defineComponent({
+  setup() {
+    const context = inject(dateRangePickerToken);
+    const {
+      props,
+      config,
+      dateConfig,
+      locale,
+      slots,
+      overlayOpened,
+      formatRef,
+      dateFormatRef,
+      timeFormatRef,
+      rangeControlContext: {
+        buffer,
+        panelValue,
+        visiblePanel,
+        isSelecting,
+        fromControl,
+        toControl,
+        handleDatePanelCellClick,
+        handleDatePanelCellMouseenter
+      },
+      mergedPrefixCls,
+      inputEnableStatus,
+      inputRef,
+      handleChange,
+      handleKeyDown,
+      renderSeparator,
+      setOverlayOpened
+    } = context;
+    const timePanelProps = computed(() => convertArray(context.props.timePanelOptions));
+    const {
+      fromActiveDate,
+      toActiveDate,
+      setFromActiveDate,
+      setToActiveDate
+    } = useRangeActiveDate(dateConfig, props, panelValue, isSelecting, formatRef);
+    const inputInstance = ref();
+    onMounted(() => {
+      var _a;
+      inputRef.value = (_a = inputInstance.value) == null ? void 0 : _a.getInputElement();
+    });
+    onUpdated(() => {
+      var _a;
+      inputRef.value = (_a = inputInstance.value) == null ? void 0 : _a.getInputElement();
+    });
+    const handleConfirm = () => {
+      handleChange(buffer.value);
+      setOverlayOpened(false);
+    };
+    const handleMouseDown = (e) => {
+      if (!(e.target instanceof HTMLInputElement)) {
+        e.preventDefault();
+      }
+    };
+    const renderBoard = (prefixCls, isFrom) => {
+      var _a, _b, _c, _d, _e, _f;
+      const {
+        enableOverlayDateInput,
+        enableOverlayTimeInput
+      } = inputEnableStatus.value;
+      const {
+        dateInputValue,
+        timeInputVaue,
+        handleDateInput,
+        handleTimeInput,
+        handleDateInputClear,
+        handleTimeInputClear,
+        handleDateInputFocus,
+        handleTimeInputFocus,
+        handleTimePanelChange
+      } = isFrom ? fromControl : toControl;
+      const inputs = enableOverlayDateInput && createVNode("div", {
+        "class": `${prefixCls}-inputs`
+      }, [createVNode(\u0275Input, {
+        "ref": inputInstance,
+        "class": `${prefixCls}-date-input`,
+        "value": dateInputValue.value,
+        "size": "sm",
+        "clearable": (_a = props.clearable) != null ? _a : config.clearable,
+        "clearIcon": (_b = props.clearIcon) != null ? _b : config.clearIcon,
+        "placeholder": dateFormatRef.value,
+        "onInput": handleDateInput,
+        "onFocus": handleDateInputFocus,
+        "onKeydown": handleKeyDown,
+        "onClear": handleDateInputClear
+      }, slots), enableOverlayTimeInput && createVNode(\u0275Input, {
+        "class": `${prefixCls}-time-input`,
+        "value": timeInputVaue.value,
+        "size": "sm",
+        "clearable": (_c = props.clearable) != null ? _c : config.clearable,
+        "clearIcon": (_d = props.clearIcon) != null ? _d : config.clearIcon,
+        "placeholder": timeFormatRef.value,
+        "onInput": handleTimeInput,
+        "onFocus": handleTimeInputFocus,
+        "onKeydown": handleKeyDown,
+        "onClear": handleTimeInputClear
+      }, slots)]);
+      const datePanelProps = {
+        cellTooltip: props.cellTooltip,
+        disabledDate: props.disabledDate,
+        type: props.type === "datetime" ? "date" : props.type,
+        value: panelValue.value,
+        visible: overlayOpened.value,
+        activeDate: isFrom ? fromActiveDate.value : toActiveDate.value,
+        onCellClick: handleDatePanelCellClick,
+        onCellMouseenter: handleDatePanelCellMouseenter,
+        "onUpdate:activeDate": isFrom ? setFromActiveDate : setToActiveDate
       };
+      return createVNode("div", {
+        "class": prefixCls
+      }, [inputs, createVNode("div", {
+        "class": `${prefixCls}-panel`
+      }, [withDirectives(createVNode(\u0275DatePanel, datePanelProps, slots), [[vShow, visiblePanel.value !== "timePanel"]]), inputEnableStatus.value.enableOverlayTimeInput && withDirectives(createVNode(\u0275TimePanel, mergeProps((_e = timePanelProps.value[isFrom ? 0 : 1]) != null ? _e : {}, {
+        "value": (_f = panelValue.value) == null ? void 0 : _f[isFrom ? 0 : 1],
+        "visible": visiblePanel.value === "timePanel",
+        "onChange": handleTimePanelChange
+      }), null), [[vShow, visiblePanel.value === "timePanel"]])])]);
+    };
+    return () => {
+      const prefixCls = `${mergedPrefixCls.value}-overlay`;
+      const boardPrefixCls = `${mergedPrefixCls.value}-board`;
+      const children = [createVNode("div", {
+        "class": `${prefixCls}-content`,
+        "tabindex": -1,
+        "onMousedown": handleMouseDown
+      }, [renderBoard(boardPrefixCls, true), createVNode("div", {
+        "class": `${prefixCls}-gap`
+      }, [inputEnableStatus.value.enableOverlayDateInput && renderSeparator()]), renderBoard(boardPrefixCls, false)]), createVNode(\u0275Footer, {
+        "class": `${prefixCls}-footer`,
+        "footer": props.footer,
+        "okText": locale.dateRangePicker.okText,
+        "okButton": {
+          size: "xs",
+          mode: "primary"
+        },
+        "cancelVisible": false,
+        "ok": handleConfirm
+      }, slots)];
+      return props.overlayRender ? props.overlayRender(children) : createVNode("div", {
+        "class": prefixCls,
+        "onMousedown": handleMouseDown
+      }, [children]);
+    };
+  }
+});
+var __defProp$1$e = Object.defineProperty;
+var __getOwnPropSymbols$1$g = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$g = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$g = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$e = (obj, key, value) => key in obj ? __defProp$1$e(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$e = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1$g.call(b, prop))
+      __defNormalProp$1$e(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$g)
+    for (var prop of __getOwnPropSymbols$1$g(b)) {
+      if (__propIsEnum$1$g.call(b, prop))
+        __defNormalProp$1$e(a, prop, b[prop]);
+    }
+  return a;
+};
+var RangeTrigger$1 = defineComponent({
+  setup() {
+    const context = inject(dateRangePickerToken);
+    const {
+      props,
+      slots,
+      locale,
+      rangeControlContext: {
+        fromControl,
+        toControl
+      },
+      mergedPrefixCls,
+      formatRef,
+      inputRef,
+      inputEnableStatus,
+      renderSeparator
+    } = context;
+    const formContext = inject(FORM_TOKEN, null);
+    const placeholders = computed(() => {
+      var _a, _b, _c, _d;
+      return [(_b = (_a = props.placeholder) == null ? void 0 : _a[0]) != null ? _b : locale.dateRangePicker[`${props.type}Placeholder`][0], (_d = (_c = props.placeholder) == null ? void 0 : _c[1]) != null ? _d : locale.dateRangePicker[`${props.type}Placeholder`][1]];
+    });
+    const inputSize = computed(() => Math.max(10, formatRef.value.length) + 2);
+    const triggerProps = useTriggerProps(context, formContext);
+    const handleFromInput = (evt) => {
+      fromControl.handleInput(evt);
+      callEmit(props.onInput, true, evt);
+    };
+    const handleToInput = (evt) => {
+      toControl.handleInput(evt);
+      callEmit(props.onInput, false, evt);
+    };
+    const renderSide = (isFrom) => {
+      const prefixCls = mergedPrefixCls.value;
+      const {
+        inputValue
+      } = isFrom ? fromControl : toControl;
+      const placeholder = placeholders.value[isFrom ? 0 : 1];
+      const handleInput = isFrom ? handleFromInput : handleToInput;
+      const {
+        disabled,
+        readonly
+      } = triggerProps.value;
+      return createVNode("input", {
+        "ref": isFrom && inputEnableStatus.value.allowInput === true ? inputRef : void 0,
+        "class": `${prefixCls}-input-inner`,
+        "autocomplete": "off",
+        "disabled": disabled,
+        "placeholder": placeholder,
+        "readonly": readonly,
+        "size": inputSize.value,
+        "value": inputValue.value,
+        "onInput": handleInput
+      }, null);
+    };
+    return () => {
+      const prefixCls = mergedPrefixCls.value;
+      return createVNode(\u0275Trigger, mergeProps({
+        "className": prefixCls
+      }, triggerProps.value), __spreadValues$1$e({
+        default: () => [createVNode("div", {
+          "class": `${prefixCls}-input`
+        }, [renderSide(true), createVNode("span", {
+          "class": `${prefixCls}-input-separator`
+        }, [renderSeparator()]), renderSide(false)])]
+      }, slots));
+    };
+  }
+});
+var __defProp$o = Object.defineProperty;
+var __getOwnPropSymbols$q = Object.getOwnPropertySymbols;
+var __hasOwnProp$q = Object.prototype.hasOwnProperty;
+var __propIsEnum$q = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$o = (obj, key, value) => key in obj ? __defProp$o(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$o = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$q.call(b, prop))
+      __defNormalProp$o(a, prop, b[prop]);
+  if (__getOwnPropSymbols$q)
+    for (var prop of __getOwnPropSymbols$q(b)) {
+      if (__propIsEnum$q.call(b, prop))
+        __defNormalProp$o(a, prop, b[prop]);
+    }
+  return a;
+};
+const defaultOffset$3 = [0, 8];
+var DateRangePicker = defineComponent({
+  name: "IxDateRangePicker",
+  inheritAttrs: false,
+  props: dateRangePickerProps,
+  setup(props, {
+    attrs,
+    expose,
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const locale = useGlobalConfig$1("locale");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-date-range-picker`);
+    const config = useGlobalConfig$1("datePicker");
+    const dateConfig = useDateConfig();
+    const {
+      elementRef: inputRef,
+      focus,
+      blur
+    } = useFormElement();
+    expose({
+      focus,
+      blur
+    });
+    const showFooter = computed(() => !!props.footer || !!slots.footer);
+    const inputEnableStatus = useInputEnableStatus$1(props, config);
+    const formatContext = useFormat(props, config);
+    const pickerStateContext = usePickerState(props, dateConfig, formatContext.formatRef);
+    const {
+      accessor,
+      handleChange
+    } = pickerStateContext;
+    const rangeControlContext = useRangeControl(dateConfig, formatContext, inputEnableStatus, accessor.valueRef);
+    const {
+      overlayOpened,
+      setOverlayOpened
+    } = useOverlayState$1(props, rangeControlContext);
+    const handleKeyDown = useRangeKeyboardEvents(rangeControlContext, showFooter, setOverlayOpened, handleChange);
+    const renderSeparator = () => {
+      var _a, _b, _c;
+      return (_c = (_b = (_a = slots.separator) == null ? void 0 : _a.call(slots)) != null ? _b : props.separator) != null ? _c : locale.dateRangePicker.separator;
+    };
+    provide(dateRangePickerToken, __spreadValues$o(__spreadValues$o({
+      props,
+      slots,
+      locale,
+      config,
+      mergedPrefixCls,
+      dateConfig,
+      inputRef,
+      inputEnableStatus,
+      overlayOpened,
+      setOverlayOpened,
+      rangeControlContext,
+      renderSeparator,
+      handleKeyDown
+    }, formatContext), pickerStateContext));
+    watch(overlayOpened, (opened) => {
+      if (!opened) {
+        rangeControlContext.init(true);
+      }
+      opened ? focus() : blur();
+    });
+    watch(rangeControlContext.buffer, (value) => {
+      if (!showFooter.value) {
+        handleChange(value);
+      }
+    });
+    const target = computed(() => {
+      var _a, _b;
+      return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
+    });
+    const renderTrigger = () => createVNode(RangeTrigger$1, attrs, null);
+    const renderContent = () => createVNode(RangeContent, null, null);
+    const overlayProps = {
+      "onUpdate:visible": setOverlayOpened
+    };
+    return () => {
       return createVNode(\u0275Overlay, mergeProps(overlayProps, {
         "visible": overlayOpened.value,
-        "class": classes.value,
+        "class": normalizeClass(props.overlayClassName),
         "clickOutside": true,
         "disabled": accessor.disabled.value || props.readonly,
         "offset": defaultOffset$3,
@@ -23810,6 +25254,7 @@ var DatePicker = defineComponent({
   }
 });
 const IxDatePicker = DatePicker;
+const IxDateRangePicker = DateRangePicker;
 
 const dividerProps = {
   dashed: IxPropTypes.bool,
@@ -23828,9 +25273,9 @@ var Divider = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-divider`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-divider`);
     const config = useGlobalConfig$1("divider");
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         dashed = config.dashed,
         label,
@@ -23876,10 +25321,11 @@ const maskProps = {
   zIndex: IxPropTypes.number
 };
 var Mask = defineComponent({
+  name: "\u0275Mask",
   props: maskProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-mask`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-mask`);
     return () => {
       const {
         mask,
@@ -23906,140 +25352,22 @@ var Mask = defineComponent({
 });
 const \u0275Mask = Mask;
 
-const footerProps = {
-  cancel: IxPropTypes.func(),
-  cancelButton: IxPropTypes.object(),
-  cancelLoading: IxPropTypes.bool,
-  cancelText: IxPropTypes.string,
-  cancelVisible: IxPropTypes.bool.def(true),
-  footer: IxPropTypes.oneOfType([Boolean, IxPropTypes.array(), IxPropTypes.vNode]),
-  ok: IxPropTypes.func(),
-  okButton: IxPropTypes.object(),
-  okLoading: IxPropTypes.bool,
-  okText: IxPropTypes.string
-};
-var __defProp$o = Object.defineProperty;
-var __getOwnPropSymbols$r = Object.getOwnPropertySymbols;
-var __hasOwnProp$r = Object.prototype.hasOwnProperty;
-var __propIsEnum$r = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$o = (obj, key, value) => key in obj ? __defProp$o(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$o = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$r.call(b, prop))
-      __defNormalProp$o(a, prop, b[prop]);
-  if (__getOwnPropSymbols$r)
-    for (var prop of __getOwnPropSymbols$r(b)) {
-      if (__propIsEnum$r.call(b, prop))
-        __defNormalProp$o(a, prop, b[prop]);
-    }
-  return a;
-};
-var __objRest$d = (source, exclude) => {
-  var target = {};
-  for (var prop in source)
-    if (__hasOwnProp$r.call(source, prop) && exclude.indexOf(prop) < 0)
-      target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$r)
-    for (var prop of __getOwnPropSymbols$r(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$r.call(source, prop))
-        target[prop] = source[prop];
-    }
-  return target;
-};
-var Footer = defineComponent({
-  props: footerProps,
-  setup(props, {
-    slots
-  }) {
-    const cancelButtonProps = computed$1(() => {
-      const {
-        cancel,
-        cancelButton,
-        cancelVisible,
-        cancelLoading,
-        cancelText
-      } = props;
-      if (!cancelVisible || !cancel && !cancelText && !cancelButton) {
-        return void 0;
-      }
-      return __spreadValues$o({
-        key: "__IDUX_FOOTER_BUTTON_CANCEL",
-        text: cancelText,
-        onClick: cancel,
-        loading: cancelLoading
-      }, cancelButton);
-    });
-    const okButtonProps = computed$1(() => {
-      const {
-        ok,
-        okButton,
-        okLoading,
-        okText
-      } = props;
-      if (!ok && !okText && !okButton) {
-        return void 0;
-      }
-      return __spreadValues$o({
-        key: "__IDUX_FOOTER_BUTTON_OK",
-        text: okText,
-        onClick: ok,
-        loading: okLoading,
-        mode: cancelButtonProps.value ? "primary" : "default"
-      }, okButton);
-    });
-    return () => {
-      const footerProp = props.footer;
-      const footerSlot = slots.footer;
-      if (!footerProp && !footerSlot) {
-        return void 0;
-      }
-      let children;
-      if (footerSlot) {
-        children = footerSlot(props);
-      } else if (isVNode(footerProp)) {
-        children = footerProp;
-      } else {
-        let buttonProps = footerProp;
-        if (!Array.isArray(buttonProps)) {
-          const cancelButton = cancelButtonProps.value;
-          const okButton = okButtonProps.value;
-          buttonProps = [];
-          okButton && buttonProps.push(okButton);
-          cancelButton && buttonProps.push(cancelButton);
-        }
-        children = buttonProps.map((item) => {
-          const _a = item, {
-            text
-          } = _a, rest = __objRest$d(_a, [
-            "text"
-          ]);
-          return createVNode(IxButton, rest, {
-            default: () => [text]
-          });
-        });
-      }
-      return createVNode("div", null, [children]);
-    };
-  }
-});
-const \u0275Footer = Footer;
-
 const drawerToken = Symbol("drawerToken");
 const drawerProviderToken = Symbol("drawerProviderToken");
 const DRAWER_TOKEN = Symbol("DRAWER_TOKEN");
-var __defProp$1$c = Object.defineProperty;
-var __getOwnPropSymbols$1$e = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$e = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$e = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$c = (obj, key, value) => key in obj ? __defProp$1$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$c = (a, b) => {
+var __defProp$1$d = Object.defineProperty;
+var __getOwnPropSymbols$1$f = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$f = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$f = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$d = (obj, key, value) => key in obj ? __defProp$1$d(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$d = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$e.call(b, prop))
-      __defNormalProp$1$c(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$e)
-    for (var prop of __getOwnPropSymbols$1$e(b)) {
-      if (__propIsEnum$1$e.call(b, prop))
-        __defNormalProp$1$c(a, prop, b[prop]);
+    if (__hasOwnProp$1$f.call(b, prop))
+      __defNormalProp$1$d(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$f)
+    for (var prop of __getOwnPropSymbols$1$f(b)) {
+      if (__propIsEnum$1$f.call(b, prop))
+        __defNormalProp$1$d(a, prop, b[prop]);
     }
   return a;
 };
@@ -24078,9 +25406,9 @@ var DrawerWrapper = defineComponent({
       maskClosable,
       zIndex
     } = useConfig$1(props, config);
-    const transitionName = computed$1(() => `${common.prefixCls}-${drawerTransitionMap[props.placement]}`);
-    const isHorizontal = computed$1(() => horizontalPlacement.includes(props.placement));
-    const placementStyle = computed$1(() => {
+    const transitionName = computed(() => `${common.prefixCls}-${drawerTransitionMap[props.placement]}`);
+    const isHorizontal = computed(() => horizontalPlacement.includes(props.placement));
+    const placementStyle = computed(() => {
       const {
         width,
         height,
@@ -24102,12 +25430,12 @@ var DrawerWrapper = defineComponent({
           [placement]: 0
         };
       }
-      return __spreadValues$1$c({
+      return __spreadValues$1$d({
         width: convertCssPixel(width || (horizontal ? config.width : "100%")),
         height: convertCssPixel(height || (horizontal ? "100%" : config.height))
       }, offsetObj);
     });
-    const transformStyle = computed$1(() => {
+    const transformStyle = computed(() => {
       const {
         placement
       } = props;
@@ -24121,7 +25449,7 @@ var DrawerWrapper = defineComponent({
       }
       return transform;
     });
-    const wrapperClasses = computed$1(() => {
+    const wrapperClasses = computed(() => {
       const {
         wrapperClassName = ""
       } = props;
@@ -24136,14 +25464,14 @@ var DrawerWrapper = defineComponent({
         [wrapperClassName]: !!wrapperClassName
       });
     });
-    const wrapperStyle = computed$1(() => {
+    const wrapperStyle = computed(() => {
       const placement = mask.value ? void 0 : placementStyle.value;
-      return __spreadValues$1$c({
+      return __spreadValues$1$d({
         zIndex: zIndex.value,
         transform: transformStyle.value
       }, placement);
     });
-    const contentStyle = computed$1(() => {
+    const contentStyle = computed(() => {
       return mask.value ? placementStyle.value : void 0;
     });
     const wrapperRef = ref();
@@ -24165,6 +25493,10 @@ var DrawerWrapper = defineComponent({
     });
     return () => {
       const prefixCls = mergedPrefixCls.value;
+      const headerProps = isString(props.header) ? {
+        title: props.header,
+        size: "md"
+      } : props.header;
       return createVNode(Transition, {
         "name": transitionName.value,
         "appear": true,
@@ -24200,7 +25532,7 @@ var DrawerWrapper = defineComponent({
             }, [createVNode(\u0275Header, {
               "closable": closable.value,
               "closeIcon": closeIcon.value,
-              "header": props.header,
+              "header": headerProps,
               "onClose": close
             }, slots), createVNode("div", {
               "class": `${prefixCls}-body`
@@ -24220,27 +25552,27 @@ var DrawerWrapper = defineComponent({
   }
 });
 function useConfig$1(props, config) {
-  const closable = computed$1(() => {
+  const closable = computed(() => {
     var _a;
     return (_a = props.closable) != null ? _a : config.closable;
   });
-  const closeIcon = computed$1(() => {
+  const closeIcon = computed(() => {
     var _a;
     return (_a = props.closeIcon) != null ? _a : config.closeIcon;
   });
-  const closeOnEsc = computed$1(() => {
+  const closeOnEsc = computed(() => {
     var _a;
     return (_a = props.closeOnEsc) != null ? _a : config.closeOnEsc;
   });
-  const mask = computed$1(() => {
+  const mask = computed(() => {
     var _a;
     return (_a = props.mask) != null ? _a : config.mask;
   });
-  const maskClosable = computed$1(() => {
+  const maskClosable = computed(() => {
     var _a;
     return (_a = props.maskClosable) != null ? _a : config.maskClosable;
   });
-  const zIndex = computed$1(() => {
+  const zIndex = computed(() => {
     var _a;
     return (_a = props.zIndex) != null ? _a : config.zIndex;
   });
@@ -24343,7 +25675,7 @@ function useEvents$4(props, wrapperRef, animatedVisible) {
     animatedVisible.value = true;
   };
   const onAfterLeave = () => {
-    if (lastOutSideActiveElement && isFunction$1(lastOutSideActiveElement.focus)) {
+    if (lastOutSideActiveElement && isFunction(lastOutSideActiveElement.focus)) {
       const wrapperElement = wrapperRef.value;
       const activeElement = document.activeElement;
       if (!activeElement || activeElement === document.body || activeElement === wrapperElement || wrapperElement.contains(activeElement)) {
@@ -24413,13 +25745,13 @@ var Drawer = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-drawer`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-drawer`);
     const config = useGlobalConfig$1("drawer");
-    const mask = computed$1(() => {
+    const mask = computed(() => {
       var _a;
       return (_a = props.mask) != null ? _a : config.mask;
     });
-    const zIndex = computed$1(() => {
+    const zIndex = computed(() => {
       var _a;
       return (_a = props.zIndex) != null ? _a : config.zIndex;
     });
@@ -24460,7 +25792,7 @@ var Drawer = defineComponent({
     provide(DRAWER_TOKEN, apis);
     expose(apis);
     useScrollStrategy$1(props, mask, mergedVisible);
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -24485,7 +25817,7 @@ var Drawer = defineComponent({
 function useVisible$2(props) {
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   const animatedVisible = ref();
-  const mergedVisible = computed$1(() => {
+  const mergedVisible = computed(() => {
     const currVisible = visible.value;
     const currAnimatedVisible = animatedVisible.value;
     if (currAnimatedVisible === void 0 || currVisible) {
@@ -24575,29 +25907,29 @@ function useLevel(visible) {
   };
 }
 var __defProp$n = Object.defineProperty;
-var __getOwnPropSymbols$q = Object.getOwnPropertySymbols;
-var __hasOwnProp$q = Object.prototype.hasOwnProperty;
-var __propIsEnum$q = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$p = Object.getOwnPropertySymbols;
+var __hasOwnProp$p = Object.prototype.hasOwnProperty;
+var __propIsEnum$p = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$n = (obj, key, value) => key in obj ? __defProp$n(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$n = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$q.call(b, prop))
+    if (__hasOwnProp$p.call(b, prop))
       __defNormalProp$n(a, prop, b[prop]);
-  if (__getOwnPropSymbols$q)
-    for (var prop of __getOwnPropSymbols$q(b)) {
-      if (__propIsEnum$q.call(b, prop))
+  if (__getOwnPropSymbols$p)
+    for (var prop of __getOwnPropSymbols$p(b)) {
+      if (__propIsEnum$p.call(b, prop))
         __defNormalProp$n(a, prop, b[prop]);
     }
   return a;
 };
-var __objRest$c = (source, exclude) => {
+var __objRest$b = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$q.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$p.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$q)
-    for (var prop of __getOwnPropSymbols$q(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$q.call(source, prop))
+  if (source != null && __getOwnPropSymbols$p)
+    for (var prop of __getOwnPropSymbols$p(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$p.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -24634,7 +25966,7 @@ var DrawerProvider = defineComponent({
           onDestroy,
           content,
           contentProps
-        } = _a2, rest = __objRest$c(_a2, [
+        } = _a2, rest = __objRest$b(_a2, [
           "key",
           "visible",
           "destroyOnHide",
@@ -24766,7 +26098,7 @@ var Dropdown = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-dropdown`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-dropdown`);
     const config = useGlobalConfig$1("dropdown");
     const [visibility, setVisibility] = useControlledProp(props, "visible", false);
     const configProps = useConfigProps(props, config, mergedPrefixCls, setVisibility);
@@ -24789,7 +26121,7 @@ var Dropdown = defineComponent({
   }
 });
 function useConfigProps(props, config, mergedPrefixCls, setVisibility) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     const trigger = (_a = props.trigger) != null ? _a : config.trigger;
     return {
@@ -24820,9 +26152,9 @@ var Empty$1 = defineComponent({
   }) {
     const common = useGlobalConfig$1("common");
     const locale = useGlobalConfig$1("locale");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-empty`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-empty`);
     const config = useGlobalConfig$1("empty");
-    const description = computed$1(() => {
+    const description = computed(() => {
       var _a;
       return (_a = props.description) != null ? _a : locale.empty.description;
     });
@@ -24876,7 +26208,7 @@ function useOprList(goHandle, rotateHandle, scaleHandle, setVisible, scaleDisabl
   const zoomOut = () => scaleHandle("out");
   const zoomIn = () => scaleHandle("in");
   const close = () => setVisible(false);
-  return computed$1(() => [
+  return computed(() => [
     {
       key: "goPrevious",
       icon: "left",
@@ -24903,7 +26235,7 @@ function useImgStyleOpr(zoom) {
     in: 1,
     out: -1
   };
-  const initScale = computed$1(() => {
+  const initScale = computed(() => {
     const [zoomOut, zoomIn] = zoom.value;
     if (zoomOut > defaultScale) {
       return zoomOut;
@@ -24914,14 +26246,14 @@ function useImgStyleOpr(zoom) {
     return defaultScale;
   });
   watchEffect(() => scale.value = initScale.value);
-  const scaleDisabled = computed$1(() => {
+  const scaleDisabled = computed(() => {
     const [zoomOut, zoomIn] = zoom.value;
     return {
       in: scale.value >= zoomIn,
       out: scale.value <= zoomOut
     };
   });
-  const transformStyle = computed$1(() => ({ transform: `scale(${scale.value}) rotate(${rotate.value}deg)` }));
+  const transformStyle = computed(() => ({ transform: `scale(${scale.value}) rotate(${rotate.value}deg)` }));
   const rotateHandle = debounce$1((direction = "left", rotateStep = defaultRotateStep) => {
     rotate.value = rotate.value + rotateStep * rotateFactor[direction];
   }, debounceTime);
@@ -24945,11 +26277,11 @@ function useImgStyleOpr(zoom) {
 }
 function useImgSwitch(props, loop) {
   const [activeIndex, setIndex] = useControlledProp(props, "activeIndex", 0);
-  const switchDisabled = computed$1(() => ({
+  const switchDisabled = computed(() => ({
     previous: !loop.value && activeIndex.value === 0,
     next: !loop.value && activeIndex.value === props.images.length - 1
   }));
-  const switchVisible = computed$1(() => props.images.length > 1);
+  const switchVisible = computed(() => props.images.length > 1);
   const goHandle = debounce$1((direction = "next") => {
     if (direction === "next") {
       if (switchDisabled.value.next || switchDisabled.value.previous) {
@@ -24975,7 +26307,7 @@ const OprIcon = (props) => {
     opr
   } = props;
   const key = useKey();
-  const classes = computed$1(() => normalizeClass({
+  const classes = computed(() => normalizeClass({
     [`${prefixCls}-opr-item`]: true,
     [`${prefixCls}-opr-item-disabled`]: disabled
   }));
@@ -24986,21 +26318,21 @@ const OprIcon = (props) => {
     "key": key
   }, null);
 };
-var __defProp$2$5 = Object.defineProperty;
+var __defProp$2$6 = Object.defineProperty;
 var __defProps$1$5 = Object.defineProperties;
 var __getOwnPropDescs$1$5 = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$2$8 = Object.getOwnPropertySymbols;
 var __hasOwnProp$2$8 = Object.prototype.hasOwnProperty;
 var __propIsEnum$2$8 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2$5 = (obj, key, value) => key in obj ? __defProp$2$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2$5 = (a, b) => {
+var __defNormalProp$2$6 = (obj, key, value) => key in obj ? __defProp$2$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$6 = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$2$8.call(b, prop))
-      __defNormalProp$2$5(a, prop, b[prop]);
+      __defNormalProp$2$6(a, prop, b[prop]);
   if (__getOwnPropSymbols$2$8)
     for (var prop of __getOwnPropSymbols$2$8(b)) {
       if (__propIsEnum$2$8.call(b, prop))
-        __defNormalProp$2$5(a, prop, b[prop]);
+        __defNormalProp$2$6(a, prop, b[prop]);
     }
   return a;
 };
@@ -25023,29 +26355,29 @@ const imageViewerProps = {
 const imageProps = {
   src: IxPropTypes.string.isRequired,
   preview: IxPropTypes.bool,
-  imageViewer: IxPropTypes.shape(__spreadProps$1$5(__spreadValues$2$5({}, imageViewerProps), { images: IxPropTypes.array() })),
+  imageViewer: IxPropTypes.shape(__spreadProps$1$5(__spreadValues$2$6({}, imageViewerProps), { images: IxPropTypes.array() })),
   onLoad: IxPropTypes.emit(),
   onError: IxPropTypes.emit()
 };
-var __defProp$1$b = Object.defineProperty;
-var __defProps$i = Object.defineProperties;
-var __getOwnPropDescs$i = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$d = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$d = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$d = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$b = (obj, key, value) => key in obj ? __defProp$1$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$b = (a, b) => {
+var __defProp$1$c = Object.defineProperty;
+var __defProps$k = Object.defineProperties;
+var __getOwnPropDescs$k = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$e = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$e = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$e = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$c = (obj, key, value) => key in obj ? __defProp$1$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$c = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$d.call(b, prop))
-      __defNormalProp$1$b(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$d)
-    for (var prop of __getOwnPropSymbols$1$d(b)) {
-      if (__propIsEnum$1$d.call(b, prop))
-        __defNormalProp$1$b(a, prop, b[prop]);
+    if (__hasOwnProp$1$e.call(b, prop))
+      __defNormalProp$1$c(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$e)
+    for (var prop of __getOwnPropSymbols$1$e(b)) {
+      if (__propIsEnum$1$e.call(b, prop))
+        __defNormalProp$1$c(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$i = (a, b) => __defProps$i(a, __getOwnPropDescs$i(b));
+var __spreadProps$k = (a, b) => __defProps$k(a, __getOwnPropDescs$k(b));
 const mousewheelEventName = isFirefox ? "DOMMouseScroll" : "mousewheel";
 var ImageViewer = defineComponent({
   name: "IxImageViewer",
@@ -25053,21 +26385,21 @@ var ImageViewer = defineComponent({
   setup(props) {
     const common = useGlobalConfig$1("common");
     const config = useGlobalConfig$1("imageViewer");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-image-viewer`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-image-viewer`);
     const [visible, setVisible] = useControlledProp(props, "visible", false);
-    const zoom = computed$1(() => {
+    const zoom = computed(() => {
       var _a;
       return (_a = props.zoom) != null ? _a : config.zoom;
     });
-    const loop = computed$1(() => {
+    const loop = computed(() => {
       var _a;
       return (_a = props.loop) != null ? _a : config.loop;
     });
-    const maskClosable = computed$1(() => {
+    const maskClosable = computed(() => {
       var _a;
       return (_a = props.maskClosable) != null ? _a : config.maskClosable;
     });
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -25120,7 +26452,7 @@ var ImageViewer = defineComponent({
           }, [createVNode("div", {
             "class": `${prefixCls}-opr`
           }, [oprList.value.filter((item) => item.visible).map((item) => {
-            const oprIconProps = __spreadProps$i(__spreadValues$1$b({}, item), {
+            const oprIconProps = __spreadProps$k(__spreadValues$1$c({}, item), {
               prefixCls
             });
             return createVNode(OprIcon, oprIconProps, null);
@@ -25174,29 +26506,29 @@ function getImageEvent(visible, setVisible, scaleHandle, goHandle) {
   };
 }
 var __defProp$m = Object.defineProperty;
-var __getOwnPropSymbols$p = Object.getOwnPropertySymbols;
-var __hasOwnProp$p = Object.prototype.hasOwnProperty;
-var __propIsEnum$p = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$o = Object.getOwnPropertySymbols;
+var __hasOwnProp$o = Object.prototype.hasOwnProperty;
+var __propIsEnum$o = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$m = (obj, key, value) => key in obj ? __defProp$m(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$m = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$p.call(b, prop))
+    if (__hasOwnProp$o.call(b, prop))
       __defNormalProp$m(a, prop, b[prop]);
-  if (__getOwnPropSymbols$p)
-    for (var prop of __getOwnPropSymbols$p(b)) {
-      if (__propIsEnum$p.call(b, prop))
+  if (__getOwnPropSymbols$o)
+    for (var prop of __getOwnPropSymbols$o(b)) {
+      if (__propIsEnum$o.call(b, prop))
         __defNormalProp$m(a, prop, b[prop]);
     }
   return a;
 };
-var __objRest$b = (source, exclude) => {
+var __objRest$a = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$p.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$o.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$p)
-    for (var prop of __getOwnPropSymbols$p(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$p.call(source, prop))
+  if (source != null && __getOwnPropSymbols$o)
+    for (var prop of __getOwnPropSymbols$o(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$o.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -25212,12 +26544,12 @@ var Image = defineComponent({
     const _a = attrs, {
       class: className,
       style
-    } = _a, rest = __objRest$b(_a, [
+    } = _a, rest = __objRest$a(_a, [
       "class",
       "style"
     ]);
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-image`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-image`);
     const config = useGlobalConfig$1("image");
     const preview = usePreview(props, config);
     const {
@@ -25284,11 +26616,11 @@ function useViewerVisible() {
   return [viewerVisible, setVisible];
 }
 function useClasses$4(mergedPrefixCls, className, status, preview) {
-  const outerClasses = computed$1(() => normalizeClass([mergedPrefixCls.value, className, `${mergedPrefixCls.value}-${status.value}`, {
+  const outerClasses = computed(() => normalizeClass([mergedPrefixCls.value, className, `${mergedPrefixCls.value}-${status.value}`, {
     [`${mergedPrefixCls.value}-preview`]: preview.value
   }]));
-  const overLayerClasses = computed$1(() => normalizeClass(`${mergedPrefixCls.value}-layer`));
-  const imageClasses = computed$1(() => normalizeClass([`${mergedPrefixCls.value}-inner`, {
+  const overLayerClasses = computed(() => normalizeClass(`${mergedPrefixCls.value}-layer`));
+  const imageClasses = computed(() => normalizeClass([`${mergedPrefixCls.value}-inner`, {
     [`${mergedPrefixCls.value}-inner-hidden`]: status.value !== "loaded"
   }]));
   return {
@@ -25298,7 +26630,7 @@ function useClasses$4(mergedPrefixCls, className, status, preview) {
   };
 }
 function usePreview(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     return (_a = props.preview) != null ? _a : config.preview;
   });
@@ -25327,163 +26659,9 @@ function useStatus$1(props) {
 const IxImage = Image;
 const IxImageViewer = ImageViewer;
 
-const inputProps$1 = {
-  addonAfter: IxPropTypes.string,
-  addonBefore: IxPropTypes.string,
-  borderless: IxPropTypes.bool,
-  clearable: IxPropTypes.bool,
-  clearIcon: IxPropTypes.string,
-  clearVisible: IxPropTypes.bool,
-  disabled: IxPropTypes.bool,
-  focused: IxPropTypes.bool,
-  prefix: IxPropTypes.string,
-  size: IxPropTypes.oneOf(["sm", "md", "lg"]),
-  suffix: IxPropTypes.string,
-  onClear: IxPropTypes.func()
-};
-var __getOwnPropSymbols$o = Object.getOwnPropertySymbols;
-var __hasOwnProp$o = Object.prototype.hasOwnProperty;
-var __propIsEnum$o = Object.prototype.propertyIsEnumerable;
-var __objRest$a = (source, exclude) => {
-  var target = {};
-  for (var prop in source)
-    if (__hasOwnProp$o.call(source, prop) && exclude.indexOf(prop) < 0)
-      target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$o)
-    for (var prop of __getOwnPropSymbols$o(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$o.call(source, prop))
-        target[prop] = source[prop];
-    }
-  return target;
-};
-var Input$3 = defineComponent({
-  inheritAttrs: false,
-  props: inputProps$1,
-  setup(props, {
-    attrs,
-    slots,
-    expose
-  }) {
-    const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-input`);
-    const inputRef = ref();
-    const getInputElement = () => inputRef.value;
-    expose({
-      getInputElement
-    });
-    const classes = computed$1(() => {
-      const {
-        borderless,
-        clearable,
-        disabled,
-        focused,
-        size,
-        addonAfter,
-        addonBefore,
-        prefix,
-        suffix
-      } = props;
-      const prefixCls = mergedPrefixCls.value;
-      return normalizeClass({
-        [prefixCls]: true,
-        [`${prefixCls}-${size}`]: true,
-        [`${prefixCls}-borderless`]: borderless,
-        [`${prefixCls}-clearable`]: clearable,
-        [`${prefixCls}-disabled`]: disabled,
-        [`${prefixCls}-focused`]: focused,
-        [`${prefixCls}-with-addon-after`]: addonAfter || slots.addonAfter,
-        [`${prefixCls}-with-addon-before`]: addonBefore || slots.addonBefore,
-        [`${prefixCls}-with-prefix`]: prefix || slots.prefix,
-        [`${prefixCls}-with-suffix`]: suffix || slots.suffix
-      });
-    });
-    return () => {
-      const {
-        clearable,
-        clearIcon,
-        clearVisible,
-        disabled,
-        addonAfter,
-        addonBefore,
-        prefix,
-        suffix,
-        onClear
-      } = props;
-      const prefixCls = mergedPrefixCls.value;
-      const addonBeforeNode = renderAddon(slots.addonBefore, addonBefore, `${prefixCls}-addon`);
-      const addonAfterNode = renderAddon(slots.addonAfter, addonAfter, `${prefixCls}-addon`);
-      const prefixNode = renderIcon$5(slots.prefix, prefix, `${prefixCls}-prefix`);
-      const suffixNode = renderIcon$5(slots.suffix, suffix, `${prefixCls}-suffix`);
-      const clearNode = clearable && createVNode("span", {
-        "class": `${prefixCls}-clear${clearVisible ? " visible" : ""}`,
-        "onClick": onClear
-      }, [slots.clearIcon ? slots.clearIcon() : createVNode(IxIcon, {
-        "name": clearIcon
-      }, null)]);
-      if (!(addonBeforeNode || addonAfterNode || prefixNode || suffixNode || clearNode)) {
-        return createVNode("input", mergeProps({
-          "ref": inputRef,
-          "class": classes.value,
-          "disabled": disabled
-        }, attrs), null);
-      }
-      const _a = attrs, {
-        class: className,
-        style
-      } = _a, rest = __objRest$a(_a, [
-        "class",
-        "style"
-      ]);
-      const classNames = normalizeClass([classes.value, className]);
-      const inputNode = createVNode("input", mergeProps({
-        "ref": inputRef,
-        "class": `${prefixCls}-inner`,
-        "disabled": disabled
-      }, rest), null);
-      if (!(addonBeforeNode || addonAfterNode)) {
-        return createVNode("span", {
-          "class": classNames,
-          "style": style
-        }, [prefixNode, inputNode, suffixNode, clearNode]);
-      }
-      if (!(prefixNode || suffixNode || clearNode)) {
-        return createVNode("span", {
-          "class": classNames,
-          "style": style
-        }, [addonBeforeNode, inputNode, addonAfterNode]);
-      }
-      return createVNode("span", {
-        "class": classNames,
-        "style": style
-      }, [addonBeforeNode, createVNode("span", {
-        "class": `${prefixCls}-wrapper`
-      }, [prefixNode, inputNode, suffixNode, clearNode]), addonAfterNode]);
-    };
-  }
-});
-function renderAddon(slot, prop, cls) {
-  if (!(slot || prop)) {
-    return void 0;
-  }
-  return createVNode("span", {
-    "class": cls
-  }, [slot ? slot() : prop]);
-}
-function renderIcon$5(slot, prop, cls) {
-  if (!(slot || prop)) {
-    return void 0;
-  }
-  return createVNode("span", {
-    "class": cls
-  }, [slot ? slot() : createVNode(IxIcon, {
-    "name": prop
-  }, null)]);
-}
-const \u0275Input = Input$3;
-
 var __defProp$l = Object.defineProperty;
-var __defProps$h = Object.defineProperties;
-var __getOwnPropDescs$h = Object.getOwnPropertyDescriptors;
+var __defProps$j = Object.defineProperties;
+var __getOwnPropDescs$j = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$n = Object.getOwnPropertySymbols;
 var __hasOwnProp$n = Object.prototype.hasOwnProperty;
 var __propIsEnum$n = Object.prototype.propertyIsEnumerable;
@@ -25499,7 +26677,7 @@ var __spreadValues$l = (a, b) => {
     }
   return a;
 };
-var __spreadProps$h = (a, b) => __defProps$h(a, __getOwnPropDescs$h(b));
+var __spreadProps$j = (a, b) => __defProps$j(a, __getOwnPropDescs$j(b));
 const commonProps = {
   value: IxPropTypes.string,
   control: controlPropDef,
@@ -25517,7 +26695,7 @@ const commonProps = {
   onFocus: IxPropTypes.emit(),
   onBlur: IxPropTypes.emit()
 };
-const inputProps = __spreadProps$h(__spreadValues$l({}, commonProps), {
+const inputProps = __spreadProps$j(__spreadValues$l({}, commonProps), {
   addonAfter: IxPropTypes.string,
   addonBefore: IxPropTypes.string,
   borderless: IxPropTypes.bool,
@@ -25526,15 +26704,15 @@ const inputProps = __spreadProps$h(__spreadValues$l({}, commonProps), {
 });
 function useInput(props, config) {
   const accessor = useFormAccessor();
-  const clearable = computed$1(() => {
+  const clearable = computed(() => {
     var _a;
     return (_a = props.clearable) != null ? _a : config.clearable;
   });
-  const clearIcon = computed$1(() => {
+  const clearIcon = computed(() => {
     var _a;
     return (_a = props.clearIcon) != null ? _a : config.clearIcon;
   });
-  const clearVisible = computed$1(() => !accessor.disabled.value && !props.readonly && !!accessor.valueRef.value);
+  const clearVisible = computed(() => !accessor.disabled.value && !props.readonly && !!accessor.valueRef.value);
   const isFocused = ref(false);
   const handleFocus = (evt) => {
     isFocused.value = true;
@@ -25565,7 +26743,7 @@ function useInput(props, config) {
       return;
     }
     const { value } = evt.target;
-    const oldValue = toRaw$1(accessor.valueRef.value);
+    const oldValue = toRaw(accessor.valueRef.value);
     if (value !== oldValue) {
       accessor.setValue(value);
       callEmit(props.onChange, value, oldValue);
@@ -25605,7 +26783,7 @@ function useInput(props, config) {
     syncValue
   };
 }
-var Input$2 = defineComponent({
+var Input$1 = defineComponent({
   name: "IxInput",
   props: inputProps,
   setup(props, {
@@ -25614,7 +26792,7 @@ var Input$2 = defineComponent({
   }) {
     const config = useGlobalConfig$1("input");
     const formContext = inject(FORM_TOKEN, null);
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a, _b;
       return (_b = (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value) != null ? _b : config.size;
     });
@@ -25672,7 +26850,7 @@ var Input$2 = defineComponent({
     };
   }
 });
-const IxInput = Input$2;
+const IxInput = Input$1;
 
 const inputNumberProps = {
   value: IxPropTypes.oneOfType([IxPropTypes.number]),
@@ -25695,16 +26873,16 @@ function useInputNumber(props, config) {
   const accessor = useFormAccessor();
   const displayValue = ref("");
   const isIllegal = ref(true);
-  const nowValue = computed$1(() => {
+  const nowValue = computed(() => {
     var _a;
     return (_a = accessor.valueRef.value) != null ? _a : void 0;
   });
-  const isKeyboard = computed$1(() => {
+  const isKeyboard = computed(() => {
     var _a;
     return (_a = props.keyboard) != null ? _a : config.keyboard;
   });
-  const isDisabled = computed$1(() => accessor == null ? void 0 : accessor.disabled.value);
-  const precision = computed$1(() => {
+  const isDisabled = computed(() => accessor == null ? void 0 : accessor.disabled.value);
+  const precision = computed(() => {
     const stepPrecision = getPrecision(props.step);
     if (props.precision !== void 0) {
       if (process.env.NODE_ENV !== "production" && stepPrecision > props.precision) {
@@ -25714,8 +26892,8 @@ function useInputNumber(props, config) {
     }
     return Math.max(getPrecision(accessor.valueRef.value), stepPrecision);
   });
-  const disabledDec = computed$1(() => getIncValueFormAccessor(-props.step) < props.min);
-  const disabledInc = computed$1(() => getIncValueFormAccessor(props.step) > props.max);
+  const disabledDec = computed(() => getIncValueFormAccessor(-props.step) < props.min);
+  const disabledInc = computed(() => getIncValueFormAccessor(props.step) > props.max);
   function getIncValueFormAccessor(step) {
     const { value } = accessor.valueRef;
     let newVal = step;
@@ -25753,7 +26931,7 @@ function useInputNumber(props, config) {
     }
   }
   function updateModelValue(newVal) {
-    const oldVal = toRaw$1(accessor.valueRef.value);
+    const oldVal = toRaw(accessor.valueRef.value);
     if (newVal !== oldVal) {
       accessor.setValue(newVal);
       callEmit(props.onChange, newVal, oldVal);
@@ -25881,12 +27059,12 @@ var InputNumber = defineComponent({
       blur
     });
     const formContext = inject(FORM_TOKEN, null);
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-input-number`);
-    const size = computed$1(() => {
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-input-number`);
+    const size = computed(() => {
       var _a, _b;
       return (_b = (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value) != null ? _b : config.size;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -25951,7 +27129,7 @@ var Layout = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout`);
     return () => {
       var _a;
       return createVNode("section", {
@@ -25967,7 +27145,7 @@ var LayoutContent = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-content`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-content`);
     return () => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
@@ -25984,7 +27162,7 @@ var LayoutFooter = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-footer`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-footer`);
     return () => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
@@ -26001,7 +27179,7 @@ var LayoutHeader = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-header`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-header`);
     return () => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
@@ -26018,9 +27196,9 @@ var LayoutSider = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout-sider`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout-sider`);
     const collapsed = useCollapsed(props);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -26037,13 +27215,13 @@ var LayoutSider = defineComponent({
 });
 const useCollapsed = (props) => {
   const [collapsed, setCollapsed] = useControlledProp(props, "collapsed", false);
-  const breakpointIndex = computed$1(() => {
+  const breakpointIndex = computed(() => {
     const {
       breakpoint
     } = props;
     return breakpoint ? BREAKPOINTS_KEYS.indexOf(breakpoint) : -1;
   });
-  const useBreakpoint = computed$1(() => breakpointIndex.value > -1);
+  const useBreakpoint = computed(() => breakpointIndex.value > -1);
   let stopBreakpoints;
   watch(useBreakpoint, (breakpoint) => {
     stopBreakpoints == null ? void 0 : stopBreakpoints();
@@ -26071,11 +27249,11 @@ const loadingProps = {
   duration: IxPropTypes.number.def(2)
 };
 var Loading = defineComponent({
-  name: "IxLoading",
+  name: "\u0275Loading",
   props: loadingProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-loading`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-loading`);
     return () => {
       const prefixCls = mergedPrefixCls.value;
       const {
@@ -26185,19 +27363,19 @@ var Spin = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-spin`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-spin`);
     const spinConfig = useGlobalConfig$1("spin");
     const {
       size,
       strokeWidth,
       radius
     } = useSize(props, spinConfig);
-    const hasDefaultSlot = computed$1(() => hasSlot(slots));
-    const mregedIcon = computed$1(() => {
+    const hasDefaultSlot = computed(() => hasSlot(slots));
+    const mregedIcon = computed(() => {
       var _a;
       return (_a = props.icon) != null ? _a : spinConfig.icon;
     });
-    const mergedTip = computed$1(() => {
+    const mergedTip = computed(() => {
       var _a;
       return (_a = props.tip) != null ? _a : spinConfig.tip;
     });
@@ -26261,15 +27439,15 @@ var Spin = defineComponent({
   }
 });
 const useSize = (props, config) => {
-  const size = computed$1(() => {
+  const size = computed(() => {
     var _a;
     return (_a = props.size) != null ? _a : config.size;
   });
-  const strokeWidth = computed$1(() => {
+  const strokeWidth = computed(() => {
     var _a, _b, _c;
     return (_c = (_b = props.strokeWidth) != null ? _b : (_a = config.strokeWidth) == null ? void 0 : _a[size.value]) != null ? _c : defaultStrokeWidth$1[size.value];
   });
-  const radius = computed$1(() => {
+  const radius = computed(() => {
     var _a, _b, _c;
     return (_c = (_b = props.radius) != null ? _b : (_a = config.radius) == null ? void 0 : _a[size.value]) != null ? _c : defaultRadius[size.value];
   });
@@ -26281,12 +27459,12 @@ const useSize = (props, config) => {
 };
 const useClasses$3 = (props, config, size, hasDefaultSlot, mergedPrefixCls) => {
   const prefixCls = mergedPrefixCls.value;
-  const spinnerClassName = computed$1(() => {
+  const spinnerClassName = computed(() => {
     var _a;
     const tipAlign = (_a = props.tipAlign) != null ? _a : config.tipAlign;
     return normalizeClass([`${prefixCls}-spinner`, `${prefixCls}-spinner-tip-${tipAlign}`, `${prefixCls}-spinner-${size.value}`]);
   });
-  const containerClassName = computed$1(() => {
+  const containerClassName = computed(() => {
     if (!hasDefaultSlot.value) {
       return [];
     }
@@ -26361,12 +27539,12 @@ const _sfc_main$2 = defineComponent({
   props: listProps,
   emits: ["loadMore"],
   setup(props, { slots, emit }) {
-    provide(listToken, computed$1(() => props.grid));
-    const isUseGrid = computed$1(() => !!props.grid);
-    const isShowEmpty = computed$1(() => !slots.default);
-    const isShowLoadMore = computed$1(() => slots.loadMore || props.loadMore);
-    const isShowHeader = computed$1(() => slots.header || props.header);
-    const isShowFooter = computed$1(() => slots.footer || props.footer);
+    provide(listToken, computed(() => props.grid));
+    const isUseGrid = computed(() => !!props.grid);
+    const isShowEmpty = computed(() => !slots.default);
+    const isShowLoadMore = computed(() => slots.loadMore || props.loadMore);
+    const isShowHeader = computed(() => slots.header || props.header);
+    const isShowFooter = computed(() => slots.footer || props.footer);
     const listConfig = useGlobalConfig$1("list");
     const classes = useClasses$2(props, listConfig);
     const loadMoreLoading = ref(false);
@@ -26390,7 +27568,7 @@ const _sfc_main$2 = defineComponent({
   }
 });
 const useClasses$2 = (props, listConfig) => {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b;
     const borderless = (_a = props.borderless) != null ? _a : listConfig.borderless;
     const size = (_b = props.size) != null ? _b : listConfig.size;
@@ -26600,7 +27778,7 @@ var __objRest$9 = (source, exclude) => {
   return target;
 };
 function useDataSource$1(props, slots) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const { dataSource } = props;
     if (dataSource) {
@@ -26732,7 +27910,7 @@ const MenuDivider = () => {
 };
 MenuDivider.displayName = "MenuDivider";
 const usePaddingLeft = (menuProps2, mode, indent, level, grouped) => {
-  return computed$1(() => {
+  return computed(() => {
     if (mode.value !== "inline" || menuProps2.collapsed) {
       return void 0;
     }
@@ -26765,21 +27943,21 @@ const menuItemGroupProps = {
 const menuSubProps = {
   data: IxPropTypes.object().isRequired
 };
-var __defProp$1$a = Object.defineProperty;
+var __defProp$1$b = Object.defineProperty;
 var __defProps$1$4 = Object.defineProperties;
 var __getOwnPropDescs$1$4 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$c = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$c = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$c = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$a = (obj, key, value) => key in obj ? __defProp$1$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$a = (a, b) => {
+var __getOwnPropSymbols$1$d = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$d = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$d = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$b = (obj, key, value) => key in obj ? __defProp$1$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$b = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$c.call(b, prop))
-      __defNormalProp$1$a(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$c)
-    for (var prop of __getOwnPropSymbols$1$c(b)) {
-      if (__propIsEnum$1$c.call(b, prop))
-        __defNormalProp$1$a(a, prop, b[prop]);
+    if (__hasOwnProp$1$d.call(b, prop))
+      __defNormalProp$1$b(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$d)
+    for (var prop of __getOwnPropSymbols$1$d(b)) {
+      if (__propIsEnum$1$d.call(b, prop))
+        __defNormalProp$1$b(a, prop, b[prop]);
     }
   return a;
 };
@@ -26800,8 +27978,8 @@ var MenuItem = defineComponent({
     } = inject(menuToken);
     const menuSubContext = inject(menuSubToken, null);
     const menuItemGroupContext = inject(menuItemGroupToken, false);
-    const isSelected = computed$1(() => selectedKeys.value.includes(key));
-    const classes = computed$1(() => {
+    const isSelected = computed(() => selectedKeys.value.includes(key));
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-item`;
       return normalizeClass({
         [prefixCls]: true,
@@ -26810,9 +27988,9 @@ var MenuItem = defineComponent({
       });
     });
     const level = menuSubContext ? menuSubContext.level + 1 : 1;
-    const mode = computed$1(() => menuProps2.mode);
+    const mode = computed(() => menuProps2.mode);
     const paddingLeft = usePaddingLeft(menuProps2, mode, indent, level, menuItemGroupContext);
-    const style = computed$1(() => {
+    const style = computed(() => {
       return {
         paddingLeft: paddingLeft.value
       };
@@ -26840,7 +28018,7 @@ var MenuItem = defineComponent({
       const iconSlot = isString(iconRender) ? menuSlots[iconRender] : iconRender;
       const labelRender = (_b = customLabel != null ? customLabel : slots.label) != null ? _b : "itemLabel";
       const labelSlot = isString(labelRender) ? menuSlots[labelRender] : labelRender;
-      const slotProps = iconSlot || labelSlot ? __spreadProps$1$4(__spreadValues$1$a({}, props.data), {
+      const slotProps = iconSlot || labelSlot ? __spreadProps$1$4(__spreadValues$1$b({}, props.data), {
         selected: isSelected.value
       }) : void 0;
       const iconNode = coverIcon(iconSlot, slotProps, icon);
@@ -26870,9 +28048,9 @@ var MenuItemGroup = defineComponent({
     const menuSubContext = inject(menuSubToken, null);
     const menuItemGroupContext = inject(menuItemGroupToken, null);
     const level = menuSubContext ? menuSubContext.level + 1 : 1;
-    const mode = computed$1(() => menuProps2.mode);
+    const mode = computed(() => menuProps2.mode);
     const paddingLeft = usePaddingLeft(menuProps2, mode, indent, level, !!menuItemGroupContext);
-    const labelStyle = computed$1(() => ({
+    const labelStyle = computed(() => ({
       paddingLeft: paddingLeft.value
     }));
     const onClick = (evt) => {
@@ -26922,7 +28100,7 @@ var InlineContent = defineComponent({
       props,
       isExpanded
     } = inject(menuSubToken);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-inline`]: true
@@ -26940,8 +28118,8 @@ var InlineContent = defineComponent({
   }
 });
 var __defProp$k = Object.defineProperty;
-var __defProps$g = Object.defineProperties;
-var __getOwnPropDescs$g = Object.getOwnPropertyDescriptors;
+var __defProps$i = Object.defineProperties;
+var __getOwnPropDescs$i = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$m = Object.getOwnPropertySymbols;
 var __hasOwnProp$m = Object.prototype.hasOwnProperty;
 var __propIsEnum$m = Object.prototype.propertyIsEnumerable;
@@ -26957,7 +28135,7 @@ var __spreadValues$k = (a, b) => {
     }
   return a;
 };
-var __spreadProps$g = (a, b) => __defProps$g(a, __getOwnPropDescs$g(b));
+var __spreadProps$i = (a, b) => __defProps$i(a, __getOwnPropDescs$i(b));
 var Label = defineComponent({
   name: "MenuSubLabel",
   setup() {
@@ -26977,17 +28155,17 @@ var Label = defineComponent({
       mode,
       paddingLeft
     } = inject(menuSubToken);
-    const suffix = computed$1(() => {
+    const suffix = computed(() => {
       var _a;
       return (_a = props.data.suffix) != null ? _a : config.suffix;
     });
-    const rotate = computed$1(() => {
+    const rotate = computed(() => {
       if (mode.value === "inline") {
         return isExpanded.value ? -90 : 90;
       }
       return 0;
     });
-    const events = computed$1(() => {
+    const events = computed(() => {
       if (props.data.disabled) {
         return void 0;
       }
@@ -27006,7 +28184,7 @@ var Label = defineComponent({
         };
       }
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       return {
         paddingLeft: paddingLeft.value
       };
@@ -27030,7 +28208,7 @@ var Label = defineComponent({
       const labelSlot = isString(labelRender) ? menuSlots[labelRender] : labelRender;
       const suffixRender = (_c = customSuffix != null ? customSuffix : slots.suffix) != null ? _c : "subSuffix";
       const suffixSlot = isString(suffixRender) ? menuSlots[suffixRender] : suffixRender;
-      const slotProps = iconSlot || labelSlot || suffixSlot ? __spreadProps$g(__spreadValues$k({}, props.data), {
+      const slotProps = iconSlot || labelSlot || suffixSlot ? __spreadProps$i(__spreadValues$k({}, props.data), {
         expanded: isExpanded.value,
         selected: isSelected.value
       }) : void 0;
@@ -27059,7 +28237,7 @@ var OverlayContent = defineComponent({
       handleMouseEvent
     } = inject(menuSubToken);
     const dropdownContext = inject(dropdownToken, null);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -27068,7 +28246,7 @@ var OverlayContent = defineComponent({
         [`${prefixCls}-${theme.value}`]: true
       });
     });
-    const events = computed$1(() => {
+    const events = computed(() => {
       if (props.data.disabled) {
         return void 0;
       }
@@ -27088,7 +28266,7 @@ var MenuSub = defineComponent({
   props: menuSubProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedTransitionName = computed$1(() => `${common.prefixCls}-fade`);
+    const mergedTransitionName = computed(() => `${common.prefixCls}-fade`);
     const {
       props: menuProps2,
       config,
@@ -27101,14 +28279,14 @@ var MenuSub = defineComponent({
     const menuSubContext = inject(menuSubToken, null);
     const menuItemGroupContext = inject(menuItemGroupToken, false);
     const key = useKey();
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = menuProps2.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
     });
     const mode = useMode(menuProps2, menuSubContext);
     const level = menuSubContext ? menuSubContext.level + 1 : 1;
     const paddingLeft = usePaddingLeft(menuProps2, mode, indent, level, menuItemGroupContext);
-    const isSelected = computed$1(() => getState(props.data.children, selectedKeys.value));
+    const isSelected = computed(() => getState(props.data.children, selectedKeys.value));
     const {
       isExpanded,
       changeExpanded,
@@ -27131,8 +28309,8 @@ var MenuSub = defineComponent({
       handleMouseEvent,
       handleItemClick
     });
-    const placement = computed$1(() => mode.value === "vertical" ? "rightStart" : "bottomStart");
-    const classes = computed$1(() => {
+    const placement = computed(() => mode.value === "vertical" ? "rightStart" : "bottomStart");
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-sub`;
       return normalizeClass({
         [prefixCls]: true,
@@ -27142,7 +28320,7 @@ var MenuSub = defineComponent({
         [`${prefixCls}-${mode.value}`]: true
       });
     });
-    const overlayClasses = computed$1(() => {
+    const overlayClasses = computed(() => {
       const {
         overlayClassName
       } = menuProps2;
@@ -27151,7 +28329,7 @@ var MenuSub = defineComponent({
         [overlayClassName || ""]: !!overlayClassName
       });
     });
-    const offset = computed$1(() => {
+    const offset = computed(() => {
       var _a;
       return (_a = props.data.offset) != null ? _a : config.offset;
     });
@@ -27199,14 +28377,14 @@ function useMode(menuProps2, menuSubContext) {
 }
 function useExpanded(props, key, expandedKeys, handleExpand, mode) {
   const isHover = ref(false);
-  const isExpanded = computed$1(() => {
+  const isExpanded = computed(() => {
     if (mode.value === "inline") {
       return expandedKeys.value.includes(key);
     }
     return isHover.value && expandedKeys.value.includes(key) || childExpanded.value;
   });
   const changeExpanded = (expanded) => handleExpand(key, expanded);
-  const childExpanded = computed$1(() => getState(props.data.children, expandedKeys.value));
+  const childExpanded = computed(() => getState(props.data.children, expandedKeys.value));
   const handleMouseEvent = debounce$1((value) => isHover.value = value, 100);
   watch([mode, childExpanded, isHover], ([currMode, currChildExpanded, currIsHover]) => {
     if (currMode !== "inline") {
@@ -27277,14 +28455,14 @@ var Menu = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-menu`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-menu`);
     const config = useGlobalConfig$1("menu");
-    const indent = computed$1(() => {
+    const indent = computed(() => {
       var _a;
       return (_a = props.indent) != null ? _a : config.indent;
     });
-    const mode = computed$1(() => props.mode);
-    const theme = computed$1(() => {
+    const mode = computed(() => props.mode);
+    const theme = computed(() => {
       var _a;
       return (_a = props.theme) != null ? _a : config.theme;
     });
@@ -27317,7 +28495,7 @@ var Menu = defineComponent({
       handleSelected,
       handleClick
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -27362,13 +28540,13 @@ var Message = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-message`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-message`);
     const config = useGlobalConfig$1("message");
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return [prefixCls, `${prefixCls}-${props.type}`];
     });
-    const mergedIcon = computed$1(() => {
+    const mergedIcon = computed(() => {
       const {
         icon,
         type
@@ -27402,15 +28580,15 @@ var Message = defineComponent({
   }
 });
 const useEvents$3 = (props, config) => {
-  const duration = computed$1(() => {
+  const duration = computed(() => {
     var _a;
     return (_a = props.duration) != null ? _a : config.duration;
   });
-  const destroyOnHover = computed$1(() => {
+  const destroyOnHover = computed(() => {
     var _a;
     return (_a = props.destroyOnHover) != null ? _a : config.destroyOnHover;
   });
-  const autoClose = computed$1(() => duration.value > 0);
+  const autoClose = computed(() => duration.value > 0);
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   let timer = null;
   const startTimer = () => {
@@ -27454,8 +28632,8 @@ const useEvents$3 = (props, config) => {
 };
 const messageProviderToken = Symbol("messageProviderToken");
 var __defProp$j = Object.defineProperty;
-var __defProps$f = Object.defineProperties;
-var __getOwnPropDescs$f = Object.getOwnPropertyDescriptors;
+var __defProps$h = Object.defineProperties;
+var __getOwnPropDescs$h = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$l = Object.getOwnPropertySymbols;
 var __hasOwnProp$l = Object.prototype.hasOwnProperty;
 var __propIsEnum$l = Object.prototype.propertyIsEnumerable;
@@ -27471,7 +28649,7 @@ var __spreadValues$j = (a, b) => {
     }
   return a;
 };
-var __spreadProps$f = (a, b) => __defProps$f(a, __getOwnPropDescs$f(b));
+var __spreadProps$h = (a, b) => __defProps$h(a, __getOwnPropDescs$h(b));
 var __objRest$8 = (source, exclude) => {
   var target = {};
   for (var prop in source)
@@ -27494,15 +28672,15 @@ var MessageProvider = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-message`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-message`);
     const config = useGlobalConfig$1("message");
-    const style = computed$1(() => {
+    const style = computed(() => {
       var _a;
       return {
         top: convertCssPixel((_a = props.top) != null ? _a : config.top)
       };
     });
-    const maxCount = computed$1(() => {
+    const maxCount = computed(() => {
       var _a;
       return (_a = props.maxCount) != null ? _a : config.maxCount;
     });
@@ -27532,7 +28710,7 @@ var MessageProvider = defineComponent({
     };
     provide(messageProviderToken, apis);
     expose(apis);
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -27593,7 +28771,7 @@ const useMessage$1 = (maxCount) => {
       messages.value = messages.value.slice(-maxCount.value + 1);
     }
     const key = (_a = item.key) != null ? _a : uniqueId("ix-message");
-    messages.value.push(__spreadProps$f(__spreadValues$j({}, item), {
+    messages.value.push(__spreadProps$h(__spreadValues$j({}, item), {
       key
     }));
     return key;
@@ -27633,7 +28811,7 @@ const useMessage$1 = (maxCount) => {
   };
   const messageTypes = ["info", "success", "warning", "error", "loading"];
   const [info, success, warning, error, loading] = messageTypes.map((type) => {
-    return (content, options) => open(__spreadProps$f(__spreadValues$j({}, options), {
+    return (content, options) => open(__spreadProps$h(__spreadValues$j({}, options), {
       content,
       type
     }));
@@ -27674,8 +28852,8 @@ var ModalBody = defineComponent({
       config,
       mergedPrefixCls
     } = inject(modalToken);
-    const isDefault = computed$1(() => props.type === "default");
-    const iconName = computed$1(() => {
+    const isDefault = computed(() => props.type === "default");
+    const iconName = computed(() => {
       var _a, _b;
       const {
         icon,
@@ -27684,12 +28862,13 @@ var ModalBody = defineComponent({
       return (_b = icon != null ? icon : (_a = config.icon) == null ? void 0 : _a[type]) != null ? _b : defaultIconTypes[type];
     });
     return () => {
-      var _a, _b;
+      var _a;
       const prefixCls = `${mergedPrefixCls.value}-body`;
+      const defaultNode = (_a = slots.default) == null ? void 0 : _a.call(slots);
       if (isDefault.value) {
         return createVNode("div", {
           "class": prefixCls
-        }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]);
+        }, [defaultNode]);
       }
       const classes = `${prefixCls} ${prefixCls}-${props.type}`;
       const iconNode = renderIcon$4(prefixCls, slots.icon, iconName.value);
@@ -27697,8 +28876,8 @@ var ModalBody = defineComponent({
       return createVNode("div", {
         "class": classes
       }, [iconNode, createVNode("div", {
-        "class": `${prefixCls}-content`
-      }, [titleNode, (_b = slots.default) == null ? void 0 : _b.call(slots)])]);
+        "class": [`${prefixCls}-content`, defaultNode ? "" : `${prefixCls}-content-only-title`]
+      }, [titleNode, defaultNode])]);
     };
   }
 });
@@ -27727,19 +28906,19 @@ const renderTitle = (prefixCls, titleSlot, title) => {
     "class": `${prefixCls}-title`
   }, [children]);
 };
-var __defProp$1$9 = Object.defineProperty;
-var __getOwnPropSymbols$1$b = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$b = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$b = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$9 = (obj, key, value) => key in obj ? __defProp$1$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$9 = (a, b) => {
+var __defProp$1$a = Object.defineProperty;
+var __getOwnPropSymbols$1$c = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$c = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$c = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$a = (obj, key, value) => key in obj ? __defProp$1$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$a = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$b.call(b, prop))
-      __defNormalProp$1$9(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$b)
-    for (var prop of __getOwnPropSymbols$1$b(b)) {
-      if (__propIsEnum$1$b.call(b, prop))
-        __defNormalProp$1$9(a, prop, b[prop]);
+    if (__hasOwnProp$1$c.call(b, prop))
+      __defNormalProp$1$a(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$c)
+    for (var prop of __getOwnPropSymbols$1$c(b)) {
+      if (__propIsEnum$1$c.call(b, prop))
+        __defNormalProp$1$a(a, prop, b[prop]);
     }
   return a;
 };
@@ -27776,25 +28955,25 @@ var ModalWrapper = defineComponent({
       maskClosable,
       zIndex
     } = useConfig(props, config);
-    const cancelVisible = computed$1(() => props.type === "default" || props.type === "confirm");
-    const cancelText = computed$1(() => {
+    const cancelVisible = computed(() => props.type === "default" || props.type === "confirm");
+    const cancelText = computed(() => {
       var _a;
       return (_a = props.cancelText) != null ? _a : locale.modal.cancelText;
     });
-    const okText = computed$1(() => {
+    const okText = computed(() => {
       if (props.okText) {
         return props.okText;
       }
       return cancelVisible.value ? locale.modal.okText : locale.modal.justOkText;
     });
-    const placementStyle = computed$1(() => {
+    const placementStyle = computed(() => {
       const top = centered.value ? 0 : convertCssPixel(props.offset);
       return {
         top,
         width: width.value
       };
     });
-    const wrapperClasses = computed$1(() => {
+    const wrapperClasses = computed(() => {
       const {
         wrapperClassName = ""
       } = props;
@@ -27806,14 +28985,14 @@ var ModalWrapper = defineComponent({
         [wrapperClassName]: !!wrapperClassName
       };
     });
-    const wrapperStyle = computed$1(() => {
+    const wrapperStyle = computed(() => {
       return {
         zIndex: zIndex.value
       };
     });
     const modalTransformOrigin = ref();
-    const contentStyle = computed$1(() => {
-      return __spreadValues$1$9({
+    const contentStyle = computed(() => {
+      return __spreadValues$1$a({
         transformOrigin: modalTransformOrigin.value
       }, placementStyle.value);
     });
@@ -27834,7 +29013,18 @@ var ModalWrapper = defineComponent({
     } = useEvents$2(props, wrapperRef, modalRef, animatedVisible, modalTransformOrigin);
     onMounted(() => watchVisibleChange(props, wrapperRef, sentinelStartRef, mask));
     return () => {
+      var _a, _b;
       const prefixCls = mergedPrefixCls.value;
+      const headerProps = isString(props.header) ? {
+        title: props.header,
+        size: "md"
+      } : props.header;
+      const okButtonProps = ((_a = props.okButton) == null ? void 0 : _a.size) ? props.okButton : __spreadValues$1$a({
+        size: "md"
+      }, props.okButton);
+      const cancelButtonProps = ((_b = props.cancelButton) == null ? void 0 : _b.size) ? props.cancelButton : __spreadValues$1$a({
+        size: "md"
+      }, props.cancelButton);
       return withDirectives(createVNode("div", {
         "ref": wrapperRef,
         "class": wrapperClasses.value,
@@ -27866,18 +29056,18 @@ var ModalWrapper = defineComponent({
         }, [createVNode(\u0275Header, {
           "closable": closable.value,
           "closeIcon": closeIcon.value,
-          "header": props.header,
+          "header": headerProps,
           "onClose": close
         }, slots), createVNode(ModalBody, null, null), createVNode(\u0275Footer, {
           "class": `${prefixCls}-footer`,
           "cancel": cancel,
-          "cancelButton": props.cancelButton,
+          "cancelButton": cancelButtonProps,
           "cancelLoading": cancelLoading.value,
           "cancelText": cancelText.value,
           "cancelVisible": cancelVisible.value,
           "footer": props.footer,
           "ok": ok,
-          "okButton": props.okButton,
+          "okButton": okButtonProps,
           "okLoading": okLoading.value,
           "okText": okText.value
         }, slots)]), createVNode("div", {
@@ -27891,35 +29081,35 @@ var ModalWrapper = defineComponent({
   }
 });
 function useConfig(props, config) {
-  const centered = computed$1(() => {
+  const centered = computed(() => {
     var _a;
     return (_a = props.centered) != null ? _a : config.centered;
   });
-  const closable = computed$1(() => {
+  const closable = computed(() => {
     var _a;
     return (_a = props.closable) != null ? _a : config.closable;
   });
-  const closeIcon = computed$1(() => {
+  const closeIcon = computed(() => {
     var _a;
     return (_a = props.closeIcon) != null ? _a : config.closeIcon;
   });
-  const closeOnEsc = computed$1(() => {
+  const closeOnEsc = computed(() => {
     var _a;
     return (_a = props.closeOnEsc) != null ? _a : config.closeOnEsc;
   });
-  const mask = computed$1(() => {
+  const mask = computed(() => {
     var _a;
     return (_a = props.mask) != null ? _a : config.mask;
   });
-  const maskClosable = computed$1(() => {
+  const maskClosable = computed(() => {
     var _a;
     return (_a = props.maskClosable) != null ? _a : config.maskClosable;
   });
-  const width = computed$1(() => {
+  const width = computed(() => {
     var _a;
     return convertCssPixel((_a = props.width) != null ? _a : config.width);
   });
-  const zIndex = computed$1(() => {
+  const zIndex = computed(() => {
     var _a;
     return (_a = props.zIndex) != null ? _a : config.zIndex;
   });
@@ -28032,7 +29222,7 @@ function useEvents$2(props, wrapperRef, modalRef, animatedVisible, modalTransfor
     animatedVisible.value = true;
   };
   const onAfterLeave = () => {
-    if (lastOutSideActiveElement && isFunction$1(lastOutSideActiveElement.focus)) {
+    if (lastOutSideActiveElement && isFunction(lastOutSideActiveElement.focus)) {
       const wrapperElement = wrapperRef.value;
       const activeElement = document.activeElement;
       if (!activeElement || activeElement === document.body || activeElement === wrapperElement || wrapperElement.contains(activeElement)) {
@@ -28111,14 +29301,14 @@ var Modal = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-modal`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-modal`);
     const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("modal");
-    const mask = computed$1(() => {
+    const mask = computed(() => {
       var _a;
       return (_a = props.mask) != null ? _a : config.mask;
     });
-    const zIndex = computed$1(() => {
+    const zIndex = computed(() => {
       var _a;
       return (_a = props.zIndex) != null ? _a : config.zIndex;
     });
@@ -28158,7 +29348,7 @@ var Modal = defineComponent({
     provide(MODAL_TOKEN, apis);
     expose(apis);
     useScrollStrategy(props, mask, mergedVisible);
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -28183,7 +29373,7 @@ var Modal = defineComponent({
 function useVisible$1(props) {
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   const animatedVisible = ref();
-  const mergedVisible = computed$1(() => {
+  const mergedVisible = computed(() => {
     const currVisible = visible.value;
     const currAnimatedVisible = animatedVisible.value;
     if (currAnimatedVisible === void 0 || currVisible) {
@@ -28263,8 +29453,8 @@ function useTrigger$1(props, setVisible) {
   };
 }
 var __defProp$i = Object.defineProperty;
-var __defProps$e = Object.defineProperties;
-var __getOwnPropDescs$e = Object.getOwnPropertyDescriptors;
+var __defProps$g = Object.defineProperties;
+var __getOwnPropDescs$g = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$k = Object.getOwnPropertySymbols;
 var __hasOwnProp$k = Object.prototype.hasOwnProperty;
 var __propIsEnum$k = Object.prototype.propertyIsEnumerable;
@@ -28280,7 +29470,7 @@ var __spreadValues$i = (a, b) => {
     }
   return a;
 };
-var __spreadProps$e = (a, b) => __defProps$e(a, __getOwnPropDescs$e(b));
+var __spreadProps$g = (a, b) => __defProps$g(a, __getOwnPropDescs$g(b));
 var __objRest$7 = (source, exclude) => {
   var target = {};
   for (var prop in source)
@@ -28439,7 +29629,7 @@ function useModal$1() {
   };
   const modalTypes = ["confirm", "info", "success", "warning", "error"];
   const [confirm, info, success, warning, error] = modalTypes.map((type) => {
-    return (options) => open(__spreadProps$e(__spreadValues$i({}, options), {
+    return (options) => open(__spreadProps$g(__spreadValues$i({}, options), {
       type
     }));
   });
@@ -28484,13 +29674,13 @@ var Space = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-space`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-space`);
     const config = useGlobalConfig$1("space");
-    const wrap = computed$1(() => {
+    const wrap = computed(() => {
       var _a;
       return (_a = props.wrap) != null ? _a : config.wrap;
     });
-    const vertical = computed$1(() => {
+    const vertical = computed(() => {
       const {
         direction,
         vertical: vertical2
@@ -28501,14 +29691,14 @@ var Space = defineComponent({
       }
       return vertical2;
     });
-    const mergedGaps = computed$1(() => {
+    const mergedGaps = computed(() => {
       const {
         size = config.size
       } = props;
       const sizes = Array.isArray(size) ? size : [size, size];
       return sizes.map((size2) => defaultSizeMap[size2] || convertCssPixel(size2));
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         align,
         justify,
@@ -28524,7 +29714,7 @@ var Space = defineComponent({
         [`${prefixCls}-nowrap`]: !wrap.value
       });
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const [rowGap, columnGap] = mergedGaps.value;
       if (flexGapSupported) {
         return `gap: ${rowGap} ${columnGap}`;
@@ -28616,30 +29806,30 @@ const notificationProviderProps = {
   maxCount: IxPropTypes.number,
   target: portalTargetDef
 };
-var __defProp$1$8 = Object.defineProperty;
-var __getOwnPropSymbols$1$a = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$a = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$a = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$8 = (obj, key, value) => key in obj ? __defProp$1$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$8 = (a, b) => {
+var __defProp$1$9 = Object.defineProperty;
+var __getOwnPropSymbols$1$b = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$b = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$b = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$9 = (obj, key, value) => key in obj ? __defProp$1$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$9 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$a.call(b, prop))
-      __defNormalProp$1$8(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$a)
-    for (var prop of __getOwnPropSymbols$1$a(b)) {
-      if (__propIsEnum$1$a.call(b, prop))
-        __defNormalProp$1$8(a, prop, b[prop]);
+    if (__hasOwnProp$1$b.call(b, prop))
+      __defNormalProp$1$9(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$b)
+    for (var prop of __getOwnPropSymbols$1$b(b)) {
+      if (__propIsEnum$1$b.call(b, prop))
+        __defNormalProp$1$9(a, prop, b[prop]);
     }
   return a;
 };
 var __objRest$6 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$1$a.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$1$b.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$1$a)
-    for (var prop of __getOwnPropSymbols$1$a(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$a.call(source, prop))
+  if (source != null && __getOwnPropSymbols$1$b)
+    for (var prop of __getOwnPropSymbols$1$b(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$b.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -28658,7 +29848,7 @@ var Notification = defineComponent({
     slots
   }) {
     const commonCfg = useGlobalConfig$1("common");
-    const comPrefix = computed$1(() => `${commonCfg.prefixCls}-notification`);
+    const comPrefix = computed(() => `${commonCfg.prefixCls}-notification`);
     const config = useGlobalConfig$1("notification");
     const wrapCls = useClasses$1(props, comPrefix);
     const icon = useIcon$2(props, config);
@@ -28672,6 +29862,15 @@ var Notification = defineComponent({
     return () => {
       const iconNode = icon.value && getIconNode$1(icon.value);
       const closeIconNode = getIconNode$1(closeIcon.value);
+      const contentNode = getNode(props, slots, "content");
+      const footerNode = getNode(props, slots, "footer", {
+        visible: visible.value,
+        close
+      });
+      let mainCls = `${comPrefix.value}-main`;
+      if (contentNode) {
+        mainCls += ` ${comPrefix.value}-main-with-content`;
+      }
       return withDirectives(createVNode("div", null, [createVNode("div", {
         "class": wrapCls.value,
         "onMouseenter": onMouseEnter,
@@ -28682,48 +29881,47 @@ var Notification = defineComponent({
         "class": `${comPrefix.value}-close-icon`,
         "onClick": close
       }, [closeIconNode]), createVNode("div", {
-        "class": `${comPrefix.value}-main`
+        "class": mainCls
       }, [createVNode("div", {
         "class": `${comPrefix.value}-title`
-      }, [getNode(props, slots, "title")]), createVNode("div", {
+      }, [getNode(props, slots, "title")]), contentNode && createVNode("div", {
         "class": `${comPrefix.value}-content`
-      }, [getNode(props, slots, "content")])]), createVNode("div", {
+      }, [contentNode])]), createVNode("div", {
         "class": `${comPrefix.value}-footer`
-      }, [getNode(props, slots, "footer", {
-        visible: visible.value,
-        close
-      })])])]), [[vShow, visible.value]]);
+      }, [footerNode && createVNode("div", {
+        "class": `${comPrefix.value}-footer`
+      }, [footerNode])])])]), [[vShow, visible.value]]);
     };
   }
 });
 function useClasses$1(props, comPrefix) {
-  return computed$1(() => [comPrefix.value, {
+  return computed(() => [comPrefix.value, {
     [`${comPrefix.value}-${props.type}`]: props.type
   }]);
 }
 function useIcon$2(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
-    const iconMap = __spreadValues$1$8(__spreadValues$1$8({}, defaultIcon), config.icon);
+    const iconMap = __spreadValues$1$9(__spreadValues$1$9({}, defaultIcon), config.icon);
     return (_a = props.icon) != null ? _a : props.type && iconMap[props.type];
   });
 }
 function useCloseIcon(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b;
     return (_b = (_a = props.closeIcon) != null ? _a : config.closeIcon) != null ? _b : defaultCloseIcon;
   });
 }
 function useVisible(props, config) {
-  const duration = computed$1(() => {
+  const duration = computed(() => {
     var _a;
     return (_a = props.duration) != null ? _a : config.duration;
   });
-  const destroyOnHover = computed$1(() => {
+  const destroyOnHover = computed(() => {
     var _a;
     return (_a = props.destroyOnHover) != null ? _a : config.destroyOnHover;
   });
-  const autoClose = computed$1(() => duration.value > 0);
+  const autoClose = computed(() => duration.value > 0);
   const [visible, setVisible] = useControlledProp(props, "visible", false);
   let timer = null;
   const startTimer = () => {
@@ -28789,7 +29987,7 @@ function getFooterNode(footer) {
   if (!footer) {
     return "";
   }
-  if (!isArray$2(footer)) {
+  if (!isArray$1(footer)) {
     return footer;
   }
   const footerButtons = footer.map((item) => {
@@ -28808,8 +30006,8 @@ function getFooterNode(footer) {
 }
 const notificationProviderToken = Symbol("notificationProviderToken");
 var __defProp$h = Object.defineProperty;
-var __defProps$d = Object.defineProperties;
-var __getOwnPropDescs$d = Object.getOwnPropertyDescriptors;
+var __defProps$f = Object.defineProperties;
+var __getOwnPropDescs$f = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$j = Object.getOwnPropertySymbols;
 var __hasOwnProp$j = Object.prototype.hasOwnProperty;
 var __propIsEnum$j = Object.prototype.propertyIsEnumerable;
@@ -28825,7 +30023,7 @@ var __spreadValues$h = (a, b) => {
     }
   return a;
 };
-var __spreadProps$d = (a, b) => __defProps$d(a, __getOwnPropDescs$d(b));
+var __spreadProps$f = (a, b) => __defProps$f(a, __getOwnPropDescs$f(b));
 const groupPositions = {
   topStart: ["top", "left"],
   topEnd: ["top", "right"],
@@ -28841,9 +30039,9 @@ var NotificationProvider = defineComponent({
     expose
   }) {
     const commonCfg = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${commonCfg.prefixCls}-notification`);
+    const mergedPrefixCls = computed(() => `${commonCfg.prefixCls}-notification`);
     const config = useGlobalConfig$1("notification");
-    const maxCount = computed$1(() => {
+    const maxCount = computed(() => {
       var _a;
       return (_a = props.maxCount) != null ? _a : config.maxCount;
     });
@@ -28872,7 +30070,7 @@ var NotificationProvider = defineComponent({
     const placementNotifications = usePlacementNotifications(props, config, notifications);
     provide(notificationProviderToken, apis);
     expose(apis);
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-container`;
     });
@@ -28917,7 +30115,7 @@ var NotificationProvider = defineComponent({
   }
 });
 function usePlacementNotifications(props, config, notifications) {
-  return computed$1(() => {
+  return computed(() => {
     const initValue = getPlacementInitValue(() => []);
     const {
       destroyOnHover,
@@ -28957,7 +30155,7 @@ function useNotification$1(maxCount) {
       notifications.value = notifications.value.slice(-maxCount.value + 1);
     }
     const key = (_a = item.key) != null ? _a : uniqueId("ix-notification");
-    notifications.value.push(__spreadProps$d(__spreadValues$h({}, item), {
+    notifications.value.push(__spreadProps$f(__spreadValues$h({}, item), {
       key
     }));
     return key;
@@ -28995,7 +30193,7 @@ function useNotification$1(maxCount) {
     }
     return ref2;
   };
-  const [info, success, warning, error] = notificationType.map((type) => (options) => open(__spreadProps$d(__spreadValues$h({}, options), {
+  const [info, success, warning, error] = notificationType.map((type) => (options) => open(__spreadProps$f(__spreadValues$h({}, options), {
     type
   })));
   return {
@@ -29018,7 +30216,7 @@ function getGroupPosition(props, config, placement) {
   return getPosition(realOffset, realPlacement);
 }
 function getPosition(offset, placement) {
-  const offsets = isArray$2(offset) ? offset : [offset, offset];
+  const offsets = isArray$1(offset) ? offset : [offset, offset];
   const [verticalOffset, horizontalOffset] = offsets.map(convertCssPixel);
   const [verticalPosition, horizontalPosition] = groupPositions[placement];
   return {
@@ -29042,29 +30240,13 @@ function getRealObj(obj) {
 function getPlacementInitValue(initValueFn) {
   return notificationPlacement.reduce((acc, item) => {
     const cloneValue = initValueFn();
-    return __spreadProps$d(__spreadValues$h({}, acc), {
+    return __spreadProps$f(__spreadValues$h({}, acc), {
       [item]: cloneValue
     });
   }, {});
 }
 const IxNotification = Notification;
 const IxNotificationProvider = NotificationProvider;
-
-const Empty = (props, {
-  slots
-}) => {
-  if (slots.empty) {
-    return slots.empty(props);
-  }
-  const {
-    empty
-  } = props;
-  const emptyProps = isString(empty) ? {
-    description: empty
-  } : empty;
-  return createVNode(IxEmpty, emptyProps, null);
-};
-const \u0275Empty = Empty;
 
 const overflowItemProps = {
   prefixCls: IxPropTypes.string.isRequired,
@@ -29079,7 +30261,7 @@ const overflowProps = {
   prefixCls: IxPropTypes.string.isRequired,
   dataSource: IxPropTypes.array().def(() => [])
 };
-var Item$3 = defineComponent({
+var Item$2 = defineComponent({
   name: "IxOverflowItem",
   props: overflowItemProps,
   setup(props, {
@@ -29107,13 +30289,13 @@ const restNodeKey = "__IDUX_OVERFLOW_REST";
 const suffixNodeKey = "__IDUX_OVERFLOW_SUFFIX";
 const responsive = "responsive";
 var Overflow = defineComponent({
-  name: "IxOverflow",
+  name: "\u0275Overflow",
   props: overflowProps,
   setup(props, {
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-overflow`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-overflow`);
     const containerElRef = ref();
     const {
       containerWidth,
@@ -29126,17 +30308,17 @@ var Overflow = defineComponent({
     const restWidth = ref(0);
     const suffixWidth = ref(0);
     const displayCount = ref(props.dataSource.length);
-    const isResposive = computed$1(() => props.maxLabel === responsive);
+    const isResponsive = computed(() => props.maxLabel === responsive);
     const restReady = ref(false);
-    const showRest = computed$1(() => isResposive.value || isNumber(props.maxLabel) && props.dataSource.length > props.maxLabel);
-    const mergedData = computed$1(() => {
-      if (!isResposive.value) {
+    const showRest = computed(() => isResponsive.value || isNumber(props.maxLabel) && props.dataSource.length > props.maxLabel);
+    const mergedData = computed(() => {
+      if (!isResponsive.value) {
         return props.dataSource.slice(0, props.maxLabel);
       }
       return props.dataSource;
     });
-    const restData = computed$1(() => props.dataSource.slice(displayCount.value));
-    const displayRest = computed$1(() => restReady.value && !!restData.value.length);
+    const restData = computed(() => props.dataSource.slice(displayCount.value));
+    const displayRest = computed(() => restReady.value && !!restData.value.length);
     watch([itemsWidthMap, containerWidth, restWidth, suffixWidth, mergedData], () => {
       var _a;
       const len = props.dataSource.length;
@@ -29147,7 +30329,7 @@ var Overflow = defineComponent({
         displayCount.value = 0;
         return;
       }
-      if (!isResposive.value) {
+      if (!isResponsive.value) {
         displayCount.value = Math.min(props.maxLabel, len);
         restReady.value = true;
         return;
@@ -29192,7 +30374,7 @@ var Overflow = defineComponent({
         throwError("components/_private/overflow", "item slot must be provided");
       }
       const nodeContent = (_b = (_a = slots.item) == null ? void 0 : _a.call(slots, item)) != null ? _b : "";
-      return createVNode(Item$3, mergeProps(itemSharedProps, {
+      return createVNode(Item$2, mergeProps(itemSharedProps, {
         "itemKey": props.getKey(item),
         "display": index < displayCount.value,
         "onSizeChange": (itemEl, key) => setItemWidth(key, itemEl)
@@ -29203,7 +30385,7 @@ var Overflow = defineComponent({
     const internalRenderRest = (rest) => {
       var _a, _b;
       const nodeContent = (_b = (_a = slots.rest) == null ? void 0 : _a.call(slots, rest)) != null ? _b : `+ ${rest.length} ...`;
-      return createVNode(Item$3, mergeProps(itemSharedProps, {
+      return createVNode(Item$2, mergeProps(itemSharedProps, {
         "class": `${mergedPrefixCls.value}-rest`,
         "itemKey": restNodeKey,
         "display": displayRest.value,
@@ -29218,7 +30400,7 @@ var Overflow = defineComponent({
     const internalRenderSuffix = () => {
       var _a, _b;
       const nodeContent = (_b = (_a = slots.suffix) == null ? void 0 : _a.call(slots)) != null ? _b : null;
-      return nodeContent ? createVNode(Item$3, mergeProps(itemSharedProps, {
+      return nodeContent ? createVNode(Item$2, mergeProps(itemSharedProps, {
         "class": `${mergedPrefixCls.value}-suffix`,
         "itemKey": suffixNodeKey,
         "onSizeChange": (itemEl) => {
@@ -29265,27 +30447,462 @@ const useItemSize = () => {
 };
 const \u0275Overflow = Overflow;
 
+function useInputState(props) {
+  const mirrorRef = ref();
+  const inputValue = ref("");
+  const isComposing = ref(false);
+  const isFocused = ref(false);
+  const handleFocus = (evt) => {
+    isFocused.value = true;
+    callEmit(props.onFocus, evt);
+  };
+  const handleBlur = (evt) => {
+    isFocused.value = false;
+    callEmit(props.onBlur, evt);
+  };
+  const { elementRef: inputRef, focus, blur } = useFormFocusMonitor({ handleBlur, handleFocus });
+  const syncMirrorWidth = (evt) => {
+    if (props.multiple) {
+      const mirrorElement = mirrorRef.value;
+      if (!mirrorElement) {
+        return;
+      }
+      const inputText = evt ? evt.target.value : inputRef.value.value;
+      mirrorElement.textContent = inputText;
+      inputRef.value.style.width = `${mirrorElement.offsetWidth}px`;
+    }
+  };
+  const handleCompositionStart = (evt) => {
+    isComposing.value = true;
+    callEmit(props.onCompositionStart, evt);
+  };
+  const handleCompositionEnd = (evt) => {
+    callEmit(props.onCompositionEnd, evt);
+    if (isComposing.value) {
+      isComposing.value = false;
+      handleInput(evt, false);
+    }
+  };
+  const handleInput = (evt, emitInput = true) => {
+    emitInput && callEmit(props.onInput, evt);
+    if (isComposing.value) {
+      syncMirrorWidth(evt);
+      return;
+    }
+    if (props.allowInput || props.searchable) {
+      const { value } = evt.target;
+      if (value !== inputValue.value) {
+        inputValue.value = value;
+        callEmit(props.onInputValueChange, value);
+      }
+      callEmit(props.onSearch, value);
+      syncMirrorWidth();
+    }
+  };
+  const clearInput = () => {
+    const inputElement = inputRef.value;
+    if (inputElement) {
+      inputElement.value = "";
+    }
+    inputValue.value = "";
+    callEmit(props.onInputValueChange, "");
+    syncMirrorWidth();
+  };
+  onMounted(() => syncMirrorWidth());
+  return {
+    inputRef,
+    focus,
+    blur,
+    mirrorRef,
+    inputValue,
+    isComposing,
+    isFocused,
+    handleCompositionStart,
+    handleCompositionEnd,
+    handleInput,
+    clearInput
+  };
+}
+const selectorToken = Symbol("selectorToken");
+var Input = defineComponent({
+  setup() {
+    const {
+      props,
+      mergedPrefixCls,
+      mergedSearchable,
+      mirrorRef,
+      inputRef,
+      inputValue,
+      handleCompositionStart,
+      handleCompositionEnd,
+      handleInput
+    } = inject(selectorToken);
+    const innerStyle = computed(() => {
+      return {
+        opacity: props.allowInput || mergedSearchable.value ? void 0 : 0
+      };
+    });
+    return () => {
+      const {
+        autocomplete,
+        autofocus,
+        disabled,
+        multiple,
+        readonly
+      } = props;
+      const prefixCls = `${mergedPrefixCls.value}-input`;
+      return createVNode("div", {
+        "class": prefixCls
+      }, [createVNode("input", {
+        "ref": inputRef,
+        "class": `${prefixCls}-inner`,
+        "style": innerStyle.value,
+        "autocomplete": autocomplete,
+        "autofocus": autofocus,
+        "disabled": disabled,
+        "readonly": readonly,
+        "value": inputValue.value,
+        "onCompositionstart": handleCompositionStart,
+        "onCompositionend": handleCompositionEnd,
+        "onInput": handleInput
+      }, null), multiple && createVNode("span", {
+        "ref": mirrorRef,
+        "class": `${prefixCls}-mirror`,
+        "aria-hidden": true
+      }, null)]);
+    };
+  }
+});
+const Item$1 = (props, {
+  slots
+}) => {
+  const {
+    disabled,
+    prefixCls,
+    removable,
+    value,
+    onRemove
+  } = props;
+  const classes = prefixCls + (disabled ? ` ${prefixCls}-disabled` : "");
+  const handleClick = (evt) => {
+    evt.stopPropagation();
+    callEmit(onRemove, value);
+  };
+  return createVNode("div", {
+    "class": classes
+  }, [createVNode("span", {
+    "class": `${prefixCls}-label`
+  }, [slots.default()]), removable && createVNode("span", {
+    "class": `${prefixCls}-remove`,
+    "onClick": handleClick
+  }, [createVNode(IxIcon, {
+    "name": "close"
+  }, null)])]);
+};
+const selectorProps = {
+  allowInput: { type: Boolean, required: true },
+  autocomplete: { type: String, required: true },
+  autofocus: { type: Boolean, required: true },
+  borderless: { type: Boolean, default: void 0 },
+  className: { type: String, required: true },
+  clearable: { type: Boolean, required: true },
+  clearIcon: { type: String, default: void 0 },
+  config: {
+    type: Object,
+    required: true
+  },
+  dataSource: { type: Array, required: true },
+  defaultLabelSlotName: { type: String, default: void 0 },
+  disabled: { type: Boolean, required: true },
+  maxLabel: { type: [Number, String], required: true },
+  multiple: { type: Boolean, required: true },
+  opened: { type: Boolean, required: true },
+  placeholder: { type: String, default: void 0 },
+  readonly: { type: Boolean, required: true },
+  searchable: { type: [Boolean, String], required: true },
+  size: { type: String, default: void 0 },
+  suffix: { type: String, default: void 0 },
+  value: { type: Array, required: true },
+  onBlur: [Function, Array],
+  onFocus: [Function, Array],
+  onClear: [Function, Array],
+  onCompositionStart: [Function, Array],
+  onCompositionEnd: [Function, Array],
+  onInput: [Function, Array],
+  onInputValueChange: [Function, Array],
+  onItemRemove: [Function, Array],
+  onOpenedChange: [Function, Array],
+  onResize: [Function, Array],
+  onSearch: [Function, Array]
+};
+const hiddenBoxStyle = {
+  width: 0,
+  height: 0,
+  display: "flex",
+  overflow: "hidden",
+  opacity: 0
+};
+var Selector = defineComponent({
+  name: "\u0275Selector",
+  props: selectorProps,
+  setup(props, {
+    expose,
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-selector`);
+    const formContext = inject(FORM_TOKEN, null);
+    const {
+      mirrorRef,
+      inputRef,
+      inputValue,
+      isComposing,
+      isFocused,
+      blur,
+      focus,
+      handleCompositionStart,
+      handleCompositionEnd,
+      handleInput,
+      clearInput
+    } = useInputState(props);
+    const getBoundingClientRect = () => {
+      var _a;
+      return (_a = elementRef.value) == null ? void 0 : _a.getBoundingClientRect();
+    };
+    expose({
+      focus,
+      blur,
+      clearInput,
+      getBoundingClientRect
+    });
+    const mergedClearable = computed(() => {
+      return !props.disabled && !props.readonly && props.clearable && props.value.length > 0;
+    });
+    const mergedClearIcon = computed(() => {
+      var _a;
+      return (_a = props.clearIcon) != null ? _a : props.config.clearIcon;
+    });
+    const mergedSearchable = computed(() => {
+      return !props.disabled && !props.readonly && props.searchable === true;
+    });
+    const mergedSuffix = computed(() => {
+      var _a;
+      return (_a = props.suffix) != null ? _a : mergedSearchable.value && isFocused.value ? "search" : props.config.suffix;
+    });
+    const showPlaceholder = computed(() => {
+      return props.value.length === 0 && !isComposing.value && !inputValue.value;
+    });
+    const classes = computed(() => {
+      var _a;
+      const config = props.config;
+      const {
+        allowInput,
+        className,
+        borderless = config.borderless,
+        multiple,
+        size = (_a = formContext == null ? void 0 : formContext.size.value) != null ? _a : config.size
+      } = props;
+      const prefixCls = mergedPrefixCls.value;
+      return normalizeClass({
+        [className]: true,
+        [prefixCls]: true,
+        [`${prefixCls}-borderless`]: borderless,
+        [`${prefixCls}-clearable`]: mergedClearable.value,
+        [`${prefixCls}-disabled`]: props.disabled,
+        [`${prefixCls}-focused`]: isFocused.value,
+        [`${prefixCls}-multiple`]: multiple,
+        [`${prefixCls}-opened`]: props.opened,
+        [`${prefixCls}-readonly`]: props.readonly,
+        [`${prefixCls}-single`]: !multiple,
+        [`${prefixCls}-searchable`]: mergedSearchable.value,
+        [`${prefixCls}-allow-input`]: allowInput || mergedSearchable.value,
+        [`${prefixCls}-${size}`]: true
+      });
+    });
+    const handleClick = () => {
+      const {
+        disabled,
+        opened,
+        readonly
+      } = props;
+      if (disabled || readonly || opened && mergedSearchable.value) {
+        return;
+      }
+      callEmit(props.onOpenedChange, !opened);
+    };
+    const handleClear = (evt) => {
+      const {
+        disabled,
+        readonly
+      } = props;
+      if (disabled || readonly) {
+        return;
+      }
+      evt.stopPropagation();
+      callEmit(props.onClear, evt);
+    };
+    provide(selectorToken, {
+      props,
+      mergedPrefixCls,
+      mergedSearchable,
+      mirrorRef,
+      inputRef,
+      inputValue,
+      isComposing,
+      handleCompositionStart,
+      handleCompositionEnd,
+      handleInput
+    });
+    const elementRef = ref();
+    const handleResize = () => callEmit(props.onResize, elementRef.value.getBoundingClientRect());
+    onMounted(() => onResize(elementRef.value, handleResize));
+    onBeforeUnmount(() => offResize(elementRef.value, handleResize));
+    return () => {
+      const {
+        multiple,
+        disabled,
+        readonly,
+        opened,
+        value,
+        dataSource,
+        maxLabel
+      } = props;
+      const prefixCls = mergedPrefixCls.value;
+      const itemPrefixCls = `${prefixCls}-item`;
+      const renderItem = (item) => {
+        const {
+          key,
+          label,
+          value: value2,
+          rawData
+        } = item;
+        const _disabled = disabled || item.disabled;
+        const removable = multiple && !_disabled && !readonly;
+        const itemProps = {
+          key,
+          disabled: _disabled,
+          prefixCls: itemPrefixCls,
+          removable,
+          value: value2,
+          label,
+          onRemove: props.onItemRemove
+        };
+        const slotOrName = slots.selectedLabel || slots.label || rawData.customLabel || props.defaultLabelSlotName;
+        const selectedLabelRender = isString(slotOrName) ? slots[slotOrName] : slotOrName;
+        const labelNode = selectedLabelRender ? selectedLabelRender(rawData) : label;
+        return createVNode(Item$1, itemProps, {
+          default: () => [labelNode]
+        });
+      };
+      const children = [];
+      if (multiple) {
+        const renderRest = (rest) => {
+          const key = "__IDUX_SELECT_MAX_ITEM";
+          const itemProps = {
+            key,
+            prefixCls: itemPrefixCls,
+            removable: false
+          };
+          const overflowedLabelSlot = slots.overflowedLabel || slots.maxLabel;
+          const labelNode = overflowedLabelSlot ? overflowedLabelSlot(rest) : `+ ${rest.length} ...`;
+          return createVNode(Item$1, itemProps, {
+            default: () => [labelNode]
+          });
+        };
+        const overflowSlot = {
+          item: renderItem,
+          rest: renderRest,
+          suffix: () => createVNode(Input, null, null)
+        };
+        children.push(createVNode(\u0275Overflow, {
+          "prefixCls": prefixCls,
+          "dataSource": dataSource,
+          "getKey": (item) => item.key,
+          "maxLabel": maxLabel
+        }, overflowSlot));
+      } else {
+        if (value.length > 0 && !isComposing.value && !inputValue.value) {
+          dataSource.forEach((item) => children.push(renderItem(item)));
+        }
+        children.push(createVNode(Input, null, null));
+      }
+      if (showPlaceholder.value) {
+        const placeholderNode = slots.placeholder ? slots.placeholder() : props.placeholder;
+        children.push(createVNode("div", {
+          "key": "__placeholder",
+          "class": `${prefixCls}-placeholder`
+        }, [placeholderNode]));
+      }
+      const suffixProps = {
+        name: mergedSuffix.value,
+        rotate: !mergedSearchable.value && opened ? 180 : 0
+      };
+      const suffixNode = slots.suffix ? slots.suffix(suffixProps) : createVNode(IxIcon, suffixProps, null);
+      suffixNode && children.push(createVNode("div", {
+        "key": "__suffix",
+        "class": `${prefixCls}-suffix`
+      }, [suffixNode]));
+      if (mergedClearable.value) {
+        children.push(createVNode("div", {
+          "key": "__clear",
+          "class": `${prefixCls}-clear`,
+          "onClick": handleClear
+        }, [slots.clearIcon ? slots.clearIcon() : createVNode(IxIcon, {
+          "name": mergedClearIcon.value
+        }, null)]));
+      }
+      return createVNode("div", {
+        "ref": elementRef,
+        "class": classes.value,
+        "onClick": handleClick
+      }, [isFocused.value && !opened && createVNode("span", {
+        "style": hiddenBoxStyle,
+        "aria-live": "polite"
+      }, [value.join(", ")]), createVNode("div", {
+        "class": `${prefixCls}-content`
+      }, [children])]);
+    };
+  }
+});
+const \u0275Selector = Selector;
+
+const Empty = (props, {
+  slots
+}) => {
+  if (slots.empty) {
+    return slots.empty(props);
+  }
+  const {
+    empty
+  } = props;
+  const emptyProps = isString(empty) ? {
+    description: empty
+  } : empty;
+  return createVNode(IxEmpty, emptyProps, null);
+};
+Empty.displayName = "\u0275Empty";
+const \u0275Empty = Empty;
+
 function useActiveState(props, flattedOptions, selectedValue, inputValue, scrollTo) {
   const activeIndex = ref(0);
   onMounted(() => {
+    var _a;
+    const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
+    const options = flattedOptions.value;
+    const currValue = selectedValue.value;
+    const currIndex = options.findIndex((option) => currValue.some((value) => compareFn(option.value, value)));
+    activeIndex.value = getEnabledActiveIndex(options, currIndex === -1 ? 0 : currIndex, 1);
     watchEffect(() => {
-      var _a;
-      const allowInput = props.allowInput;
-      const options = flattedOptions.value;
-      let currIndex;
-      if (allowInput && inputValue.value) {
-        const searchValue = inputValue.value;
-        currIndex = options.findIndex((option) => option.value === searchValue);
-      } else {
-        const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
-        const currValue = selectedValue.value;
-        currIndex = options.findIndex((option) => currValue.some((value) => compareFn(option.value, value)));
+      if (!props.allowInput || !inputValue.value) {
+        return;
       }
-      currIndex = currIndex === -1 ? 0 : currIndex;
-      activeIndex.value = getEnabledActiveIndex(options, currIndex, 1);
+      const options2 = flattedOptions.value;
+      const searchValue = inputValue.value;
+      const currIndex2 = options2.findIndex((option) => option.value === searchValue);
+      activeIndex.value = getEnabledActiveIndex(options2, currIndex2 === -1 ? 0 : currIndex2, 1);
     });
   });
-  const activeOption = computed$1(() => flattedOptions.value[activeIndex.value]);
+  const activeOption = computed(() => flattedOptions.value[activeIndex.value]);
   const changeActive = (currIndex, offset) => {
     const enabledIndex = getEnabledActiveIndex(flattedOptions.value, currIndex, offset);
     if (enabledIndex !== activeIndex.value) {
@@ -29316,111 +30933,38 @@ function getEnabledActiveIndex(options, currIndex, offset) {
   }
   return -1;
 }
-function useInputState$1(props, inputRef, accessor) {
-  const mirrorRef = ref();
-  const inputValue = ref("");
-  const inputWidth = ref("");
-  const isComposing = ref(false);
-  const isFocused = ref(false);
-  const syncMirrorWidth = () => {
-    if (props.multiple) {
-      const inputElement = inputRef.value;
-      const mirrorElement = mirrorRef.value;
-      if (inputElement && mirrorElement) {
-        mirrorElement.innerText = ` ${inputElement.value}`;
-        inputWidth.value = `${mirrorElement.scrollWidth}px`;
-      }
-    }
-  };
-  const handleCompositionStart = (evt) => {
-    isComposing.value = true;
-    callEmit(props.onCompositionStart, evt);
-  };
-  const handleCompositionEnd = (evt) => {
-    callEmit(props.onCompositionEnd, evt);
-    if (isComposing.value) {
-      isComposing.value = false;
-      handleInput(evt, false);
-    }
-  };
-  const handleInput = (evt, emitInput = true) => {
-    emitInput && callEmit(props.onInput, evt);
-    if (isComposing.value) {
-      return;
-    }
-    if (props.allowInput || props.searchable) {
-      const { value } = evt.target;
-      if (value !== inputValue.value) {
-        inputValue.value = value;
-      }
-      callEmit(props.onSearch, value);
-      syncMirrorWidth();
-    }
-  };
-  const handleFocus = (evt) => {
-    isFocused.value = true;
-    callEmit(props.onFocus, evt);
-  };
-  const handleBlur = (evt) => {
-    isFocused.value = false;
-    callEmit(props.onBlur, evt);
-    accessor.markAsBlurred();
-  };
-  const clearInput = () => {
-    const inputElement = inputRef.value;
-    if (inputElement) {
-      inputElement.value = "";
-    }
-    inputValue.value = "";
-    syncMirrorWidth();
-  };
-  onMounted(() => syncMirrorWidth());
-  return {
-    mirrorRef,
-    inputValue,
-    inputWidth,
-    isComposing,
-    isFocused,
-    handleCompositionStart,
-    handleCompositionEnd,
-    handleInput,
-    handleFocus,
-    handleBlur,
-    clearInput
-  };
-}
-const optionKey = "__IDUX_SELECT_OPTION";
+const optionKey = Symbol("IxSelectOption");
 const SelectOption = () => {
 };
 SelectOption.displayName = "IxSelectOption";
 SelectOption[optionKey] = true;
-const optionGroupKey = "__IDUX_SELECT_OPTION_GROUP";
+const optionGroupKey = Symbol("IxSelectOptionGroup");
 const SelectOptionGroup = () => {
 };
 SelectOptionGroup.displayName = "IxSelectOptionGroup";
 SelectOptionGroup[optionGroupKey] = true;
 const keyPrefix = "__IDUX_SELECT_GENERATE_OPTION_KEY_";
 function generateOption(value) {
-  const rawOption = { label: value, value };
-  return { key: keyPrefix + value, label: value, value, rawOption };
+  const rawData = { label: value, value };
+  return { key: keyPrefix + value, label: value, value, rawData };
 }
-var __getOwnPropSymbols$2$6 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$6 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$6 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$1$a = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$a = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$a = Object.prototype.propertyIsEnumerable;
 var __objRest$1$1 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$2$6.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$1$a.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$2$6)
-    for (var prop of __getOwnPropSymbols$2$6(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$6.call(source, prop))
+  if (source != null && __getOwnPropSymbols$1$a)
+    for (var prop of __getOwnPropSymbols$1$a(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$a.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
 };
 function useMergedOptions(props, slots, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b;
     const dataSource = (_a = props.options) != null ? _a : props.dataSource;
     if (dataSource) {
@@ -29435,14 +30979,14 @@ function useMergedOptions(props, slots, config) {
 }
 function useFlattedOptions(props, mergedOptions, inputValue) {
   const searchFilter = useSearchFilter(props);
-  return computed$1(() => {
+  return computed(() => {
     const options = mergedOptions.value;
     const searchValue = inputValue.value;
     if (!searchValue) {
       return options;
     }
     const filter = searchFilter.value;
-    const filteredOptions = !filter ? options : options.filter((option) => filter(option.rawOption, searchValue));
+    const filteredOptions = !filter ? options : options.filter((option) => filter(option.rawData, searchValue));
     const { allowInput } = props;
     if (allowInput) {
       const matchedOption = filteredOptions.find((option) => option.label === searchValue);
@@ -29462,22 +31006,23 @@ function mergeOptions(props, config, originalOptions) {
     const children = item[childrenKey];
     if (children && children.length > 0) {
       const groupKey = key != null ? key : index;
-      mergedOptions.push({ key: groupKey, label, type: "group", rawOption: item });
+      mergedOptions.push({ key: groupKey, label, type: "group", rawData: item });
       mergedOptions.push(...children.map((option, index2) => {
         var _a;
+        const value = option[valueKey];
         return {
-          key: (_a = option.key) != null ? _a : `${isSymbol$1(groupKey) ? String(groupKey) : groupKey}-${index2}`,
+          key: (_a = option.key) != null ? _a : `${isSymbol(groupKey) ? String(groupKey) : groupKey}-${value != null ? value : index2}`,
           label: option[labelKey],
-          value: option[valueKey],
+          value,
           disabled: option.disabled,
           type: "grouped",
           parentKey: groupKey,
-          rawOption: option
+          rawData: option
         };
       }));
     } else {
       const value = item[valueKey];
-      mergedOptions.push({ key: key != null ? key : index, disabled: item.disabled, label, value, rawOption: item });
+      mergedOptions.push({ key: key != null ? key : index, disabled: item.disabled, label, value, rawData: item });
     }
   });
   return mergedOptions;
@@ -29495,13 +31040,13 @@ function convertOptions(nodes, parentKey, grouped) {
       const _c = props, { key, disabled, label, value } = _c, additional = __objRest$1$1(_c, ["key", "disabled", "label", "value"]);
       const { label: customLabel, default: customLabel2 } = slots;
       const _disabled = disabled || disabled === "";
-      const rawOption = { key, disabled: _disabled, label, value, additional, customLabel: customLabel != null ? customLabel : customLabel2 };
+      const rawData = { key, disabled: _disabled, label, value, additional, customLabel: customLabel != null ? customLabel : customLabel2 };
       const option = {
-        key: key != null ? key : `${isSymbol$1(parentKey) ? String(parentKey) : parentKey}-${index}`,
+        key: key != null ? key : `${isSymbol(parentKey) ? String(parentKey) : parentKey}-${value != null ? value : index}`,
         label,
         value,
         disabled: _disabled,
-        rawOption,
+        rawData,
         parentKey,
         type: grouped ? "grouped" : void 0
       };
@@ -29510,8 +31055,8 @@ function convertOptions(nodes, parentKey, grouped) {
       const _d = props, { key, label, children } = _d, additional = __objRest$1$1(_d, ["key", "label", "children"]);
       const { label: customLabel, default: defaultSlot } = slots;
       const _children = children != null ? children : convertOptions(defaultSlot == null ? void 0 : defaultSlot(), key, true);
-      const rawOption = { key, label, children: _children, additional, customLabel };
-      mergedOptions.push({ key: key != null ? key : index, label, type: "group", rawOption });
+      const rawData = { key, label, children: _children, additional, customLabel };
+      mergedOptions.push({ key: key != null ? key : index, label, type: "group", rawData });
       mergedOptions.push(..._children);
     }
   });
@@ -29525,10 +31070,10 @@ const getDefaultSearchFn = (props) => {
   };
 };
 function useSearchFilter(props) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const searchFn = (_a = props.searchFilter) != null ? _a : props.searchFn;
-    if (isFunction$1(searchFn)) {
+    if (isFunction(searchFn)) {
       if (process.env.NODE_ENV !== "production" && props.searchFilter) {
         Logger.warn("components/select", "`searchFilter` was deprecated, please use `searchFn` instead");
       }
@@ -29537,35 +31082,38 @@ function useSearchFilter(props) {
     return searchFn ? getDefaultSearchFn(props) : false;
   });
 }
-function useOverlayProps$1(props, triggerRef) {
+function useOverlayState(props, config, triggerRef) {
   const overlayRef = ref();
-  const overlayWidth = ref();
-  const overlayStyle = computed$1(() => ({ width: overlayWidth.value }));
+  const [overlayWidth, setOverlayWidth] = useState$1("");
+  const overlayStyle = computed(() => {
+    const { overlayMatchWidth = config.overlayMatchWidth } = props;
+    return { [overlayMatchWidth ? "width" : "minWidth"]: overlayWidth.value };
+  });
   const [overlayOpened, setOverlayOpened] = useControlledProp(props, "open", false);
-  const updatePopper = () => {
-    var _a, _b;
-    overlayWidth.value = convertCssPixel((_a = triggerRef.value) == null ? void 0 : _a.getBoundingClientRect().width);
-    (_b = overlayRef.value) == null ? void 0 : _b.updatePopper();
+  const updateOverlay = (rect) => {
+    var _a;
+    const { width } = rect;
+    if (width > 0) {
+      setOverlayWidth(convertCssPixel(width));
+      overlayOpened.value && ((_a = overlayRef.value) == null ? void 0 : _a.updatePopper());
+    }
   };
   onMounted(() => {
     if (props.autofocus) {
       setOverlayOpened(true);
     }
     watchEffect(() => {
-      if (overlayOpened.value) {
-        updatePopper();
+      const overlayInstance = overlayRef.value;
+      if (overlayInstance && overlayOpened.value) {
+        updateOverlay(triggerRef.value.getBoundingClientRect());
       }
     });
-    onResize(triggerRef.value, updatePopper);
   });
-  onBeforeUnmount(() => {
-    offResize(triggerRef.value, updatePopper);
-  });
-  return { overlayRef, overlayStyle, overlayOpened, setOverlayOpened };
+  return { overlayRef, overlayStyle, updateOverlay, overlayOpened, setOverlayOpened };
 }
 function useSelectedState$1(props, accessor, mergedOptions, locale) {
-  const selectedValue = computed$1(() => convertArray(accessor.valueRef.value));
-  const selectedOptions = computed$1(() => {
+  const selectedValue = computed(() => convertArray(accessor.valueRef.value));
+  const selectedOptions = computed(() => {
     var _a;
     const compareFn = (_a = props.compareWith) != null ? _a : props.compareFn;
     const options = mergedOptions.value;
@@ -29574,8 +31122,8 @@ function useSelectedState$1(props, accessor, mergedOptions, locale) {
       return (_a2 = options.find((option) => compareFn(option.value, value))) != null ? _a2 : generateOption(value);
     });
   });
-  const selectedLimit = computed$1(() => selectedValue.value.length >= props.multipleLimit);
-  const selectedLimitTitle = computed$1(() => {
+  const selectedLimit = computed(() => selectedValue.value.length >= props.multipleLimit);
+  const selectedLimitTitle = computed(() => {
     if (!selectedLimit.value) {
       return "";
     }
@@ -29583,7 +31131,7 @@ function useSelectedState$1(props, accessor, mergedOptions, locale) {
   });
   const setValue = (value) => {
     const currValue = props.multiple ? value : value[0];
-    const oldValue = toRaw$1(accessor.valueRef.value);
+    const oldValue = toRaw(accessor.valueRef.value);
     if (currValue !== oldValue) {
       accessor.setValue(currValue);
       callEmit(props.onChange, currValue, oldValue);
@@ -29614,7 +31162,6 @@ function useSelectedState$1(props, accessor, mergedOptions, locale) {
     setValue(selectedValue.value.filter((item) => !compareFn(value, item)));
   };
   const handleClear = (evt) => {
-    evt.stopPropagation();
     setValue([]);
     callEmit(props.onClear, evt);
   };
@@ -29629,11 +31176,11 @@ function useSelectedState$1(props, accessor, mergedOptions, locale) {
   };
 }
 const selectToken = Symbol("selectToken");
-function renderOptionLabel(slots, rawOption, label) {
-  var _a, _b;
-  const labelRender = (_a = rawOption.customLabel) != null ? _a : "optionLabel";
+function renderOptionLabel(slots, rawData, label) {
+  var _a;
+  const labelRender = (_a = rawData.customLabel) != null ? _a : "optionLabel";
   const labelSlot = isString(labelRender) ? slots[labelRender] : labelRender;
-  return (_b = labelSlot == null ? void 0 : labelSlot(rawOption)) != null ? _b : label;
+  return labelSlot ? labelSlot(rawData) : label;
 }
 const defaultStyle = {
   height: 0,
@@ -29667,7 +31214,7 @@ const renderOption = (slots, option, selectedValue, compareWith) => {
   const {
     key,
     label,
-    rawOption,
+    rawData,
     value
   } = option;
   const selected = compareWith(selectedValue, value);
@@ -29676,73 +31223,66 @@ const renderOption = (slots, option, selectedValue, compareWith) => {
     "role": "option",
     "aria-label": label,
     "aria-selected": selected
-  }, [renderOptionLabel(slots, rawOption, label)]);
+  }, [renderOptionLabel(slots, rawData, label)]);
 };
 const defaultCompareFn = (o1, o2) => o1 === o2;
 const selectProps = {
   control: controlPropDef,
-  value: IxPropTypes.any,
-  open: IxPropTypes.bool,
-  allowInput: IxPropTypes.bool.def(false),
-  autofocus: IxPropTypes.bool.def(false),
-  borderless: IxPropTypes.bool,
-  childrenKey: IxPropTypes.string,
-  clearable: IxPropTypes.bool.def(false),
-  clearIcon: IxPropTypes.string,
-  compareWith: IxPropTypes.func(),
-  compareFn: IxPropTypes.func().def(defaultCompareFn),
-  dataSource: IxPropTypes.array(),
-  disabled: IxPropTypes.bool.def(false),
-  empty: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
-  maxLabelCount: IxPropTypes.oneOfType([IxPropTypes.number, IxPropTypes.oneOf(["responsive"])]),
-  maxLabel: IxPropTypes.oneOfType([IxPropTypes.number, IxPropTypes.oneOf(["responsive"])]).def(Number.MAX_SAFE_INTEGER),
-  multiple: IxPropTypes.bool.def(false),
-  multipleLimit: IxPropTypes.number.def(Number.MAX_SAFE_INTEGER),
-  labelKey: IxPropTypes.string,
-  options: IxPropTypes.array(),
-  overlayClassName: IxPropTypes.string,
-  overlayRender: IxPropTypes.func(),
-  placeholder: IxPropTypes.string,
-  readonly: IxPropTypes.bool.def(false),
-  searchable: IxPropTypes.oneOfType([Boolean, IxPropTypes.oneOf(["overlay"])]).def(false),
-  searchFilter: IxPropTypes.oneOfType([Boolean, IxPropTypes.func()]),
-  searchFn: IxPropTypes.oneOfType([Boolean, IxPropTypes.func()]).def(true),
-  size: IxPropTypes.oneOf(["sm", "md", "lg"]),
-  suffix: IxPropTypes.string,
+  value: { type: null, default: void 0 },
+  open: { type: Boolean, default: void 0 },
+  allowInput: { type: Boolean, default: false },
+  autocomplete: { type: String, default: "off" },
+  autofocus: { type: Boolean, default: false },
+  borderless: { type: Boolean, default: void 0 },
+  childrenKey: { type: String, default: void 0 },
+  clearable: { type: Boolean, default: false },
+  clearIcon: { type: String, default: void 0 },
+  compareWith: { type: Function, default: void 0 },
+  compareFn: { type: Function, default: defaultCompareFn },
+  dataSource: { type: Array, default: void 0 },
+  disabled: { type: Boolean, default: false },
+  empty: { type: [String, Object], default: void 0 },
+  labelKey: { type: String, default: void 0 },
+  maxLabelCount: { type: [Number, String], default: void 0 },
+  maxLabel: { type: [Number, String], default: Number.MAX_SAFE_INTEGER },
+  multiple: { type: Boolean, default: false },
+  multipleLimit: { type: Number, default: Number.MAX_SAFE_INTEGER },
+  options: { type: Array, default: void 0 },
+  overlayClassName: { type: String, default: void 0 },
+  overlayMatchWidth: { type: Boolean, default: void 0 },
+  overlayRender: { type: Function, default: void 0 },
+  placeholder: { type: String, default: void 0 },
+  readonly: { type: Boolean, default: false },
+  searchable: { type: [Boolean, String], default: false },
+  searchFilter: { type: [Boolean, Function], default: void 0 },
+  searchFn: { type: [Boolean, Function], default: true },
+  size: { type: String, default: void 0 },
+  suffix: { type: String, default: void 0 },
   target: portalTargetDef,
-  valueKey: IxPropTypes.string,
-  virtual: IxPropTypes.bool.def(false),
-  "onUpdate:value": IxPropTypes.emit(),
-  "onUpdate:open": IxPropTypes.emit(),
-  onChange: IxPropTypes.emit(),
-  onClear: IxPropTypes.emit(),
-  onCompositionStart: IxPropTypes.emit(),
-  onCompositionEnd: IxPropTypes.emit(),
-  onBlur: IxPropTypes.emit(),
-  onFocus: IxPropTypes.emit(),
-  onInput: IxPropTypes.emit(),
-  onSearch: IxPropTypes.emit(),
-  onScroll: IxPropTypes.emit(),
-  onScrolledChange: IxPropTypes.emit(),
-  onScrolledBottom: IxPropTypes.emit(),
-  overlayHeight: IxPropTypes.number.def(256),
-  overlayItemHeight: IxPropTypes.number.def(32)
-};
-const selectorProps = {
-  clearable: IxPropTypes.bool,
-  suffix: IxPropTypes.string
+  valueKey: { type: String, default: void 0 },
+  virtual: { type: Boolean, default: false },
+  "onUpdate:value": [Function, Array],
+  "onUpdate:open": [Function, Array],
+  onChange: [Function, Array],
+  onClear: [Function, Array],
+  onSearch: [Function, Array],
+  onScroll: [Function, Array],
+  onScrolledChange: [Function, Array],
+  onScrolledBottom: [Function, Array],
+  overlayHeight: { type: Number, default: 256 },
+  overlayItemHeight: { type: Number, default: 32 }
 };
 const optionProps = {
-  disabled: IxPropTypes.bool,
-  index: IxPropTypes.number.isRequired,
-  label: IxPropTypes.string,
-  type: IxPropTypes.oneOf(["grouped", "group"]),
-  rawOption: IxPropTypes.object().isRequired,
-  value: IxPropTypes.oneOfType([String, Number, Object])
+  disabled: Boolean,
+  index: { type: Number, required: true },
+  label: String,
+  type: String,
+  rawData: { type: Object, required: true },
+  value: null
 };
 const optionGroupProps = {
-  label: IxPropTypes.string,
-  rawOption: IxPropTypes.object().isRequired
+  label: String,
+  rawData: { type: Object, required: true }
 };
 var Option = defineComponent({
   props: optionProps,
@@ -29758,7 +31298,7 @@ var Option = defineComponent({
       activeOption,
       changeActive
     } = inject(selectToken);
-    const isActive = computed$1(() => {
+    const isActive = computed(() => {
       var _a, _b;
       const {
         value
@@ -29767,7 +31307,7 @@ var Option = defineComponent({
       const activeValue = (_b = activeOption.value) == null ? void 0 : _b.value;
       return compareFn(activeValue, value);
     });
-    const isSelected = computed$1(() => {
+    const isSelected = computed(() => {
       var _a;
       const {
         value
@@ -29775,7 +31315,7 @@ var Option = defineComponent({
       const compareFn = (_a = selectProps2.compareWith) != null ? _a : selectProps2.compareFn;
       return selectedValue.value.some((item) => compareFn(item, value));
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         disabled,
         type
@@ -29795,7 +31335,7 @@ var Option = defineComponent({
       const {
         disabled,
         label,
-        rawOption
+        rawData
       } = props;
       const {
         multiple
@@ -29809,12 +31349,12 @@ var Option = defineComponent({
         "onClick": disabled ? void 0 : handleClick,
         "aria-label": label,
         "aria-selected": selected
-      }, rawOption.additional), [multiple && createVNode(IxCheckbox, {
+      }, rawData.additional), [multiple && createVNode(IxCheckbox, {
         "checked": selected,
         "disabled": disabled || !selected && selectedLimit.value
       }, null), createVNode("span", {
         "class": `${prefixCls}-label`
-      }, [renderOptionLabel(slots, rawOption, label)])]);
+      }, [renderOptionLabel(slots, rawData, label)])]);
     };
   }
 });
@@ -29829,32 +31369,32 @@ var OptionGroup = defineComponent({
       var _a;
       const {
         label,
-        rawOption
+        rawData
       } = props;
       const prefixCls = `${mergedPrefixCls.value}-option-group`;
-      const labelRender = (_a = rawOption.customLabel) != null ? _a : "optionGroupLabel";
+      const labelRender = (_a = rawData.customLabel) != null ? _a : "optionGroupLabel";
       const labelSlot = isString(labelRender) ? slots[labelRender] : labelRender;
       return createVNode("div", mergeProps({
         "class": prefixCls
-      }, rawOption.additional, {
+      }, rawData.additional, {
         "aria-label": label
       }), [createVNode("span", {
         "class": `${prefixCls}-label`
-      }, [labelSlot ? labelSlot(rawOption) : label])]);
+      }, [labelSlot ? labelSlot(rawData) : label])]);
     };
   }
 });
-var __getOwnPropSymbols$1$9 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$9 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$9 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$i = Object.getOwnPropertySymbols;
+var __hasOwnProp$i = Object.prototype.hasOwnProperty;
+var __propIsEnum$i = Object.prototype.propertyIsEnumerable;
 var __objRest$5 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$1$9.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$i.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$1$9)
-    for (var prop of __getOwnPropSymbols$1$9(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$1$9.call(source, prop))
+  if (source != null && __getOwnPropSymbols$i)
+    for (var prop of __getOwnPropSymbols$i(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$i.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -29864,21 +31404,27 @@ var Content$2 = defineComponent({
     const {
       props,
       slots,
+      config,
       mergedPrefixCls,
       flattedOptions,
       virtualScrollRef,
       scrollToActivated,
       inputValue,
-      handleInput,
-      handleClear
+      setInputValue
     } = inject(selectToken);
     onMounted(() => scrollToActivated());
+    const mergedClearIcon = computed(() => {
+      var _a;
+      return (_a = props.clearIcon) != null ? _a : config.clearIcon;
+    });
+    const handleInput = (evt) => setInputValue(evt.target.value);
+    const handleClear = () => setInputValue("");
     const handleScrolledChange = (startIndex, endIndex, visibleOptions) => {
       const {
         onScrolledChange
       } = props;
       if (onScrolledChange) {
-        callEmit(onScrolledChange, startIndex, endIndex, visibleOptions.map((item) => item.rawOption));
+        callEmit(onScrolledChange, startIndex, endIndex, visibleOptions.map((item) => item.rawData));
       }
     };
     return () => {
@@ -29892,6 +31438,21 @@ var Content$2 = defineComponent({
       } = props;
       const options = flattedOptions.value;
       const children = [createVNode(ListBox, null, null)];
+      if (props.searchable === "overlay") {
+        const value = inputValue.value;
+        children.push(createVNode("div", {
+          "class": `${mergedPrefixCls.value}-overlay-search-wrapper`
+        }, [createVNode(\u0275Input, {
+          "clearable": true,
+          "clearIcon": mergedClearIcon.value,
+          "clearVisible": !!value,
+          "size": "sm",
+          "suffix": "search",
+          "value": value,
+          "onClear": handleClear,
+          "onInput": handleInput
+        }, null)]));
+      }
       if (options.length > 0) {
         const itemRender = ({
           item,
@@ -29909,9 +31470,9 @@ var Content$2 = defineComponent({
         children.push(createVNode(CdkVirtualScroll, {
           "ref": virtualScrollRef,
           "dataSource": options,
+          "getKey": "key",
           "height": overlayHeight,
           "itemHeight": overlayItemHeight,
-          "itemKey": "key",
           "itemRender": itemRender,
           "virtual": virtual,
           "onScroll": onScroll,
@@ -29923,294 +31484,128 @@ var Content$2 = defineComponent({
           "empty": props.empty
         }, slots));
       }
-      if (props.searchable === "overlay") {
-        children.unshift(createVNode("div", {
-          "class": `${mergedPrefixCls.value}-overlay-search-wrapper`
-        }, [createVNode(\u0275Input, {
-          "clearable": true,
-          "size": "sm",
-          "suffix": "search",
-          "value": inputValue.value,
-          "onInput": handleInput,
-          "onClear": handleClear
-        }, null)]));
-      }
       return overlayRender ? overlayRender(children) : createVNode("div", null, [children]);
     };
   }
 });
-var Input$1 = defineComponent({
-  setup() {
-    const {
-      props,
-      mergedPrefixCls,
-      isDisabled,
-      inputRef,
-      inputValue,
-      inputWidth,
-      mirrorRef,
-      handleCompositionStart,
-      handleCompositionEnd,
-      handleInput
-    } = inject(selectToken);
-    const style = computed$1(() => ({
-      width: inputWidth.value
-    }));
-    const innerStyle = computed$1(() => {
-      const {
-        allowInput,
-        searchable
-      } = props;
-      const isOpacity = allowInput || searchable === true;
-      return {
-        opacity: isOpacity ? void 0 : 0
-      };
-    });
-    return () => {
-      const {
-        autofocus,
-        multiple,
-        readonly
-      } = props;
-      const prefixCls = `${mergedPrefixCls.value}-selector-input`;
-      return createVNode("div", {
-        "class": prefixCls,
-        "style": style.value
-      }, [createVNode("input", {
-        "ref": inputRef,
-        "class": `${prefixCls}-inner`,
-        "style": innerStyle.value,
-        "autocomplete": "off",
-        "autofocus": autofocus,
-        "disabled": isDisabled.value,
-        "readonly": readonly,
-        "value": inputValue.value,
-        "onCompositionstart": handleCompositionStart,
-        "onCompositionend": handleCompositionEnd,
-        "onInput": handleInput
-      }, null), multiple && createVNode("span", {
-        "ref": mirrorRef,
-        "class": `${prefixCls}-mirror`,
-        "aria-hidden": true
-      }, null)]);
-    };
-  }
-});
-const Item$2 = (props, {
-  slots
-}) => {
-  const {
-    disabled,
-    prefixCls,
-    removable,
-    value,
-    handleItemRemove
-  } = props;
-  const classes = prefixCls + (disabled ? ` ${prefixCls}-disabled` : "");
-  const handleClick = (evt) => {
-    evt.stopPropagation();
-    handleItemRemove == null ? void 0 : handleItemRemove(value);
-  };
-  return createVNode("div", {
-    "class": classes
-  }, [createVNode("span", {
-    "class": `${prefixCls}-label`
-  }, [slots.default()]), removable && createVNode("span", {
-    "class": `${prefixCls}-remove`,
-    "onClick": handleClick
-  }, [createVNode(IxIcon, {
-    "name": "close"
-  }, null)])]);
-};
-var Selector$1 = defineComponent({
-  props: selectorProps,
-  setup(props) {
-    const {
-      props: selectProps2,
-      slots,
-      config,
-      mergedPrefixCls,
-      isDisabled,
-      selectedValue,
-      selectedOptions,
-      handleItemRemove,
-      handleClear,
-      inputValue,
-      isComposing
-    } = inject(selectToken);
-    const showPlaceholder = computed$1(() => {
-      return selectedValue.value.length === 0 && !isComposing.value && (!inputValue.value || selectProps2.searchable === "overlay");
-    });
-    const clearIcon = computed$1(() => {
+const defaultOffset$2 = [0, 8];
+var Select = defineComponent({
+  name: "IxSelect",
+  inheritAttrs: false,
+  props: selectProps,
+  setup(props, {
+    attrs,
+    expose,
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-select`);
+    const config = useGlobalConfig$1("select");
+    const locale = useGlobalConfig$1("locale");
+    const triggerRef = ref();
+    const [inputValue, setInputValue] = useState$1("");
+    const focus = () => {
       var _a;
-      return (_a = selectProps2.clearIcon) != null ? _a : config.clearIcon;
-    });
-    return () => {
-      var _a, _b, _c, _d, _e;
-      const {
-        clearable,
-        suffix
-      } = props;
-      const {
-        multiple,
-        readonly
-      } = selectProps2;
-      const disabled = isDisabled.value;
-      const prefixCls = `${mergedPrefixCls.value}-selector`;
-      const itemPrefixCls = `${prefixCls}-item`;
-      if (process.env.NODE_ENV !== "production" && selectProps2.maxLabelCount) {
-        Logger.warn("components/select", "`maxLabelCount` was deprecated, please use `maxLabel` instead");
-      }
-      if (process.env.NODE_ENV !== "production" && slots.maxLabel) {
-        Logger.warn("components/select", "slot `maxLabel` was deprecated, please use slot `overflowedLabel` instead");
-      }
-      if (process.env.NODE_ENV !== "production" && slots.label) {
-        Logger.warn("components/select", "slots `label` was deprecated, please use slots `selectedLabel` instead");
-      }
-      const renderItem = (item) => {
-        var _a2;
-        const {
-          key,
-          label,
-          value,
-          rawOption
-        } = item;
-        const _disabled = disabled || item.disabled;
-        const removable = multiple && !_disabled && !readonly;
-        const itemProps = {
-          key,
-          disabled: _disabled,
-          prefixCls: itemPrefixCls,
-          removable,
-          value,
-          handleItemRemove,
-          title: label
-        };
-        const selectedLabelSlot = (_a2 = slots.label) != null ? _a2 : slots.selectedLabel;
-        const labelNode = selectedLabelSlot ? selectedLabelSlot(rawOption) : renderOptionLabel(slots, rawOption, label);
-        return createVNode(Item$2, itemProps, {
-          default: () => [labelNode]
-        });
-      };
-      const renderRest = (rest) => {
-        var _a2, _b2;
-        const key = "IDUX_SELECT_MAX_ITEM";
-        const itemProps = {
-          key,
-          prefixCls: itemPrefixCls,
-          removable: false,
-          value: null
-        };
-        const overflowedLabelSlot = (_a2 = slots.overflowedLabel) != null ? _a2 : slots.maxLabel;
-        const labelNode = (_b2 = overflowedLabelSlot == null ? void 0 : overflowedLabelSlot(rest)) != null ? _b2 : `+ ${rest.length} ...`;
-        return createVNode(Item$2, itemProps, {
-          default: () => [labelNode]
-        });
-      };
-      const overflowSlot = {
-        item: renderItem,
-        rest: renderRest,
-        suffix: () => createVNode(Input$1, null, null)
-      };
-      return createVNode("div", {
-        "class": prefixCls
-      }, [createVNode(\u0275Overflow, {
-        "prefixCls": prefixCls,
-        "dataSource": selectedOptions.value,
-        "maxLabel": (_a = selectProps2.maxLabelCount) != null ? _a : selectProps2.maxLabel,
-        "getKey": (item) => item.key
-      }, overflowSlot), showPlaceholder.value && createVNode("div", {
-        "class": `${prefixCls}-placeholder`
-      }, [createTextVNode(" "), (_c = (_b = slots.placeholder) == null ? void 0 : _b.call(slots)) != null ? _c : selectProps2.placeholder]), (slots.suffix || suffix) && createVNode("div", {
-        "class": `${prefixCls}-suffix`
-      }, [(_e = (_d = slots.suffix) == null ? void 0 : _d.call(slots)) != null ? _e : createVNode(IxIcon, {
-        "name": suffix
-      }, null)]), clearable && createVNode("div", {
-        "class": `${prefixCls}-clear`,
-        "onClick": handleClear
-      }, [slots.clearIcon ? slots.clearIcon() : createVNode(IxIcon, {
-        "name": clearIcon.value
-      }, null)])]);
+      return (_a = triggerRef.value) == null ? void 0 : _a.focus();
     };
-  }
-});
-const hiddenBoxStyle$1 = {
-  width: 0,
-  height: 0,
-  display: "flex",
-  overflow: "hidden",
-  opacity: 0
-};
-var Trigger$2 = defineComponent({
-  setup() {
+    const blur = () => {
+      var _a;
+      return (_a = triggerRef.value) == null ? void 0 : _a.blur();
+    };
+    const clearInput = () => {
+      var _a;
+      props.searchable === "overlay" ? setInputValue("") : (_a = triggerRef.value) == null ? void 0 : _a.clearInput();
+    };
+    const virtualScrollRef = ref();
+    const scrollTo = (options) => {
+      var _a;
+      return (_a = virtualScrollRef.value) == null ? void 0 : _a.scrollTo(options);
+    };
+    expose({
+      focus,
+      blur,
+      scrollTo
+    });
     const {
-      props,
-      slots,
-      config,
-      mergedPrefixCls,
-      focusMonitor,
-      triggerRef,
-      isDisabled,
-      selectedValue,
-      isFocused,
-      handleFocus,
-      handleBlur,
+      overlayRef,
+      overlayStyle,
+      updateOverlay,
       overlayOpened,
-      setOverlayOpened,
+      setOverlayOpened
+    } = useOverlayState(props, config, triggerRef);
+    const accessor = useFormAccessor();
+    const mergedOptions = useMergedOptions(props, slots, config);
+    const flattedOptions = useFlattedOptions(props, mergedOptions, inputValue);
+    const {
+      selectedValue,
+      selectedLimit,
+      selectedLimitTitle,
+      changeSelected,
+      selectedOptions,
+      handleClear,
+      handleItemRemove
+    } = useSelectedState$1(props, accessor, mergedOptions, locale);
+    const {
       activeIndex,
       activeOption,
       changeActive,
-      changeSelected
-    } = inject(selectToken);
-    const formContext = inject(FORM_TOKEN, null);
-    const clearable = computed$1(() => {
-      return !isDisabled.value && !props.readonly && props.clearable && selectedValue.value.length > 0;
-    });
-    const searchable = computed$1(() => {
-      return !isDisabled.value && !props.readonly && props.searchable;
-    });
-    const suffix = computed$1(() => {
-      const {
-        suffix: suffix2
-      } = props;
-      if (suffix2) {
-        return suffix2;
+      scrollToActivated
+    } = useActiveState(props, flattedOptions, selectedValue, inputValue, scrollTo);
+    const handleOptionClick = (value) => {
+      changeSelected(value);
+      if (props.multiple) {
+        focus();
+        clearInput();
+      } else {
+        setOverlayOpened(false);
       }
-      return props.searchable === true && isFocused.value ? "search" : config.suffix;
+    };
+    const handleBlur = () => accessor.markAsBlurred();
+    provide(selectToken, {
+      props,
+      slots,
+      config,
+      mergedPrefixCls,
+      virtualScrollRef,
+      accessor,
+      inputValue,
+      setInputValue,
+      overlayOpened,
+      setOverlayOpened,
+      mergedOptions,
+      flattedOptions,
+      handleOptionClick,
+      selectedValue,
+      selectedLimit,
+      selectedLimitTitle,
+      activeIndex,
+      activeOption,
+      changeActive,
+      scrollToActivated
     });
-    const classes = computed$1(() => {
-      var _a;
+    watch(overlayOpened, (opened) => {
+      if (!opened && props.allowInput && inputValue.value) {
+        changeSelected(inputValue.value);
+      }
+      opened ? focus() : blur();
+      clearInput();
+    });
+    const overlayClasses = computed(() => {
       const {
-        borderless = config.borderless,
-        readonly,
-        multiple,
-        size = (_a = formContext == null ? void 0 : formContext.size.value) != null ? _a : config.size
+        overlayClassName,
+        multiple
       } = props;
-      const disabled = isDisabled.value;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
-        [prefixCls]: true,
-        [`${prefixCls}-borderless`]: borderless,
-        [`${prefixCls}-clearable`]: clearable.value,
-        [`${prefixCls}-readonly`]: readonly,
-        [`${prefixCls}-disabled`]: disabled,
-        [`${prefixCls}-focused`]: isFocused.value,
-        [`${prefixCls}-opened`]: overlayOpened.value,
-        [`${prefixCls}-multiple`]: multiple,
-        [`${prefixCls}-single`]: !multiple,
-        [`${prefixCls}-searchable`]: searchable.value,
-        [`${prefixCls}-with-suffix`]: slots.suffix || suffix.value,
-        [`${prefixCls}-${size}`]: true
+        [`${prefixCls}-overlay`]: true,
+        [`${prefixCls}-overlay-multiple`]: multiple,
+        [overlayClassName || ""]: !!overlayClassName
       });
     });
-    const handleClick = () => {
-      const currOpened = overlayOpened.value;
-      const notAllowedClick = isDisabled.value || props.readonly;
-      if (notAllowedClick || currOpened && searchable.value) {
-        return;
-      }
-      setOverlayOpened(!currOpened);
-    };
+    const target = computed(() => {
+      var _a, _b;
+      return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
+    });
     const handleKeyDown = (evt) => {
       var _a;
       switch (evt.code) {
@@ -30225,6 +31620,7 @@ var Trigger$2 = defineComponent({
         case "Enter":
           evt.preventDefault();
           changeSelected((_a = activeOption.value) == null ? void 0 : _a.value);
+          props.multiple ? clearInput() : setOverlayOpened(false);
           break;
         case "Escape":
           evt.preventDefault();
@@ -30232,175 +31628,61 @@ var Trigger$2 = defineComponent({
           break;
       }
     };
-    onMounted(() => {
-      watch(focusMonitor.monitor(triggerRef.value, true), (evt) => {
-        const {
-          origin,
-          event
-        } = evt;
-        if (event) {
-          if (origin) {
-            handleFocus(event);
-          } else {
-            handleBlur(event);
-          }
-        }
-      });
-    });
-    onBeforeUnmount(() => focusMonitor.stopMonitoring(triggerRef.value));
-    return () => {
-      return createVNode("div", {
-        "ref": triggerRef,
-        "class": classes.value,
-        "onClick": handleClick,
-        "onKeydown": handleKeyDown
-      }, [isFocused.value && !overlayOpened.value && createVNode("span", {
-        "style": hiddenBoxStyle$1,
-        "aria-live": "polite"
-      }, [selectedValue.value.join(", ")]), createVNode(Selector$1, {
-        "clearable": clearable.value,
-        "suffix": suffix.value
-      }, null)]);
-    };
-  }
-});
-var __defProp$g = Object.defineProperty;
-var __getOwnPropSymbols$i = Object.getOwnPropertySymbols;
-var __hasOwnProp$i = Object.prototype.hasOwnProperty;
-var __propIsEnum$i = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$g = (obj, key, value) => key in obj ? __defProp$g(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$g = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$i.call(b, prop))
-      __defNormalProp$g(a, prop, b[prop]);
-  if (__getOwnPropSymbols$i)
-    for (var prop of __getOwnPropSymbols$i(b)) {
-      if (__propIsEnum$i.call(b, prop))
-        __defNormalProp$g(a, prop, b[prop]);
-    }
-  return a;
-};
-const defaultOffset$2 = [0, 8];
-var Select = defineComponent({
-  name: "IxSelect",
-  inheritAttrs: false,
-  props: selectProps,
-  setup(props, {
-    attrs,
-    expose,
-    slots
-  }) {
-    const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-select`);
-    const config = useGlobalConfig$1("select");
-    const locale = useGlobalConfig$1("locale");
-    const focusMonitor = useSharedFocusMonitor();
-    const {
-      elementRef: inputRef,
-      focus,
-      blur
-    } = useFormElement();
-    const virtualScrollRef = ref();
-    const scrollTo = (options) => {
+    const renderTrigger = () => {
       var _a;
-      (_a = virtualScrollRef.value) == null ? void 0 : _a.scrollTo(options);
+      return createVNode(\u0275Selector, mergeProps({
+        "ref": triggerRef,
+        "className": mergedPrefixCls.value,
+        "allowInput": props.allowInput,
+        "autocomplete": props.autocomplete,
+        "autofocus": props.autofocus,
+        "borderless": props.borderless,
+        "clearable": props.clearable,
+        "clearIcon": props.clearIcon,
+        "config": config,
+        "dataSource": selectedOptions.value,
+        "disabled": accessor.disabled.value,
+        "maxLabel": (_a = props.maxLabelCount) != null ? _a : props.maxLabel,
+        "multiple": props.multiple,
+        "opened": overlayOpened.value,
+        "placeholder": props.placeholder,
+        "readonly": props.readonly,
+        "searchable": props.searchable,
+        "size": props.size,
+        "suffix": props.suffix,
+        "value": selectedValue.value,
+        "onBlur": handleBlur,
+        "onClear": handleClear,
+        "onInputValueChange": setInputValue,
+        "onItemRemove": handleItemRemove,
+        "onKeydown": handleKeyDown,
+        "onOpenedChange": setOverlayOpened,
+        "onResize": updateOverlay,
+        "onSearch": props.onSearch
+      }, attrs), slots);
     };
-    expose({
-      focus,
-      blur,
-      scrollTo
-    });
-    const triggerRef = ref();
-    const {
-      overlayRef,
-      overlayStyle,
-      overlayOpened,
-      setOverlayOpened
-    } = useOverlayProps$1(props, triggerRef);
-    const accessor = useFormAccessor();
-    const isDisabled = computed$1(() => accessor.disabled.value);
-    const mergedOptions = useMergedOptions(props, slots, config);
-    const inputStateContext = useInputState$1(props, inputRef, accessor);
-    const {
-      inputValue,
-      clearInput
-    } = inputStateContext;
-    const flattedOptions = useFlattedOptions(props, mergedOptions, inputValue);
-    const selectedStateContext = useSelectedState$1(props, accessor, mergedOptions, locale);
-    const {
-      selectedValue,
-      changeSelected
-    } = selectedStateContext;
-    const activeStateContext = useActiveState(props, flattedOptions, selectedValue, inputValue, scrollTo);
-    const handleOptionClick = (value) => {
-      changeSelected(value);
-      if (props.multiple) {
-        focus();
-        clearInput();
-      } else {
-        setOverlayOpened(false);
-      }
-    };
-    provide(selectToken, __spreadValues$g(__spreadValues$g(__spreadValues$g({
-      props,
-      slots,
-      config,
-      mergedPrefixCls,
-      focusMonitor,
-      triggerRef,
-      inputRef,
-      virtualScrollRef,
-      overlayOpened,
-      setOverlayOpened,
-      accessor,
-      isDisabled,
-      mergedOptions,
-      flattedOptions,
-      handleOptionClick
-    }, selectedStateContext), inputStateContext), activeStateContext));
-    watch(overlayOpened, (opened) => {
-      if (!opened && props.allowInput && inputValue.value) {
-        changeSelected(inputValue.value);
-      }
-      opened ? focus() : blur();
-      clearInput();
-    });
-    const classes = computed$1(() => {
-      const {
-        overlayClassName
-      } = props;
-      const prefixCls = mergedPrefixCls.value;
-      return normalizeClass({
-        [`${prefixCls}-overlay`]: true,
-        [overlayClassName || ""]: !!overlayClassName
-      });
-    });
-    const target = computed$1(() => {
-      var _a, _b;
-      return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
-    });
+    const renderContent = () => createVNode(Content$2, null, null);
     return () => {
-      const renderTrigger = () => createVNode(Trigger$2, attrs, null);
-      const renderContent = () => createVNode(Content$2, null, null);
       const overlayProps = {
+        class: overlayClasses.value,
+        style: overlayStyle.value,
+        clickOutside: true,
+        disabled: accessor.disabled.value || props.readonly,
+        offset: defaultOffset$2,
+        placement: "bottomStart",
+        target: target.value,
+        trigger: "manual",
+        triggerId: attrs.id,
+        visible: overlayOpened.value,
         "onUpdate:visible": setOverlayOpened
+      };
+      const overlaySlots = {
+        default: renderTrigger,
+        content: renderContent
       };
       return createVNode(\u0275Overlay, mergeProps({
         "ref": overlayRef
-      }, overlayProps, {
-        "visible": overlayOpened.value,
-        "class": classes.value,
-        "style": overlayStyle.value,
-        "clickOutside": true,
-        "disabled": isDisabled.value || props.readonly,
-        "offset": defaultOffset$2,
-        "placement": "bottom",
-        "target": target.value,
-        "trigger": "manual"
-      }), {
-        default: renderTrigger,
-        content: renderContent
-      });
+      }, overlayProps), overlaySlots);
     };
   }
 });
@@ -30409,17 +31691,17 @@ const IxSelectOption = SelectOption;
 const IxSelectOptionGroup = SelectOptionGroup;
 
 function useItems$1(activeIndex, lastIndex) {
-  return computed$1(() => {
-    const currActiveIndex = activeIndex.value;
-    const currLastIndex = lastIndex.value;
+  return computed(() => {
+    const _activeIndex = activeIndex.value;
+    const _lastIndex = lastIndex.value;
     let items;
-    if (currLastIndex <= 9) {
-      items = generatePage(1, currLastIndex);
+    if (_lastIndex <= 9) {
+      items = generatePage(1, _lastIndex);
     } else {
-      items = generateRangeItem(currActiveIndex, currLastIndex);
+      items = generateRangeItem(_activeIndex, _lastIndex);
     }
-    const prevItem = { type: "prev", disabled: currActiveIndex === 1 };
-    const nextItem = { type: "next", disabled: currActiveIndex === currLastIndex };
+    const prevItem = { type: "prev", disabled: _activeIndex === 1 };
+    const nextItem = { type: "next", disabled: _activeIndex === _lastIndex };
     return [prevItem, ...items, nextItem];
   });
 }
@@ -30460,7 +31742,7 @@ function usePages(props, config) {
   var _a;
   const [activeIndex, setActiveIndex] = useControlledProp(props, "pageIndex", 1);
   const [activeSize, setActiveSize] = useControlledProp(props, "pageSize", (_a = props.pageSize) != null ? _a : config.pageSize);
-  const lastIndex = computed$1(() => Math.ceil(props.total / activeSize.value));
+  const lastIndex = computed(() => Math.max(Math.ceil(props.total / activeSize.value), 1));
   const changePageIndex = (index) => {
     const validIndex = validatePageIndex(index, lastIndex.value);
     if (validIndex !== activeIndex.value) {
@@ -30523,7 +31805,11 @@ const indexDiffMap = {
   prev5: -5,
   next5: 5
 };
-var Item$1 = defineComponent({
+const buttonSizeTransformMap = {
+  md: "sm",
+  sm: "xs"
+};
+var Item = defineComponent({
   props: paginationItemProps,
   setup(props) {
     const {
@@ -30535,20 +31821,24 @@ var Item$1 = defineComponent({
       activeIndex,
       changePageIndex
     } = inject(paginationToken);
-    const isActive = computed$1(() => activeIndex.value === props.index);
-    const isDisabled = computed$1(() => props.disabled || paginationProps2.disabled);
-    const showTitle = computed$1(() => {
+    const isActive = computed(() => activeIndex.value === props.index);
+    const isDisabled = computed(() => props.disabled || paginationProps2.disabled);
+    const showTitle = computed(() => {
       var _a;
       return (_a = paginationProps2.showTitle) != null ? _a : config.showTitle;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-item`;
+      const {
+        type
+      } = props;
       return {
         [prefixCls]: true,
-        [`${prefixCls}-active`]: isActive.value
+        [`${prefixCls}-active`]: isActive.value,
+        [`${prefixCls}-button`]: type === "next" || type === "prev"
       };
     });
-    const title = computed$1(() => {
+    const title = computed(() => {
       if (!showTitle.value) {
         return void 0;
       }
@@ -30578,6 +31868,7 @@ var Item$1 = defineComponent({
       changePageIndex(newIndex);
     };
     return () => {
+      var _a;
       const prefixCls = `${mergedPrefixCls.value}-item`;
       const {
         index,
@@ -30589,7 +31880,7 @@ var Item$1 = defineComponent({
       const icon = iconMap[type];
       const commonButtonProps = {
         mode: "text",
-        size: "sm",
+        size: buttonSizeTransformMap[(_a = paginationProps2.size) != null ? _a : config.size],
         shape: "circle"
       };
       if (props.type === "prev5" || type === "next5") {
@@ -30670,31 +31961,34 @@ var Sizes = defineComponent({
       activeSize,
       changePageSize
     } = inject(paginationToken);
-    const sizeOptions = computed$1(() => {
+    const sizeOptions = computed(() => {
       const {
         pageSizes = config.pageSizes
       } = props;
-      const {
-        itemsPerPage
-      } = locale.pagination;
       return pageSizes.map((size2) => {
         return {
           value: size2,
-          label: `${size2} ${itemsPerPage}`
+          label: size2
         };
       });
     });
     return () => {
       const prefixCls = `${mergedPrefixCls.value}-sizes`;
+      const {
+        itemsPerPage,
+        totalSuffix
+      } = locale.pagination;
       return createVNode("li", {
         "class": prefixCls
+      }, [itemsPerPage, createVNode("div", {
+        "class": `${prefixCls}-select-wrapper`
       }, [createVNode(IxSelect, {
         "disabled": props.disabled,
         "options": sizeOptions.value,
         "size": size.value,
         "value": activeSize.value,
         "onChange": changePageSize
-      }, null)]);
+      }, null)]), totalSuffix]);
     };
   }
 });
@@ -30708,7 +32002,7 @@ var Total = defineComponent({
       activeSize,
       mergedPrefixCls
     } = inject(paginationToken);
-    const range = computed$1(() => {
+    const range = computed(() => {
       const currIndex = activeIndex.value;
       const currSize = activeSize.value;
       const firstIndex = (currIndex - 1) * currSize + 1;
@@ -30743,26 +32037,26 @@ var Pagination = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-pagination`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-pagination`);
     const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("pagination");
-    const showTotal = computed$1(() => {
+    const showTotal = computed(() => {
       var _a;
       return (_a = props.showTotal) != null ? _a : config.showTotal;
     });
-    const simple = computed$1(() => {
+    const simple = computed(() => {
       var _a;
       return (_a = props.simple) != null ? _a : config.simple;
     });
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a;
       return (_a = props.size) != null ? _a : config.size;
     });
-    const showQuickJumper = computed$1(() => {
+    const showQuickJumper = computed(() => {
       var _a;
       return (_a = props.showQuickJumper) != null ? _a : config.showQuickJumper;
     });
-    const showSizeChanger = computed$1(() => {
+    const showSizeChanger = computed(() => {
       var _a;
       return (_a = props.showSizeChanger) != null ? _a : config.showSizeChanger;
     });
@@ -30789,7 +32083,7 @@ var Pagination = defineComponent({
       changePageSize,
       jumpToIndex
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -30802,8 +32096,10 @@ var Pagination = defineComponent({
       const prefixCls = mergedPrefixCls.value;
       const children = showTotal.value ? [createVNode(Total, null, null)] : [];
       if (simple.value) {
-        children.push(createVNode(Item$1, {
-          "disabled": activeIndex.value === 1,
+        const _activeIndex = activeIndex.value;
+        const _lastIndex = lastIndex.value;
+        children.push(createVNode(Item, {
+          "disabled": _activeIndex === 1,
           "type": "prev"
         }, null));
         children.push(createVNode("li", {
@@ -30811,17 +32107,17 @@ var Pagination = defineComponent({
         }, [createVNode(\u0275Input, {
           "disabled": props.disabled,
           "size": size.value,
-          "value": activeIndex.value.toString(),
+          "value": _activeIndex.toString(),
           "onKeydown": jumpToIndex
         }, null), createVNode("span", {
           "class": `${prefixCls}-item-slash`
-        }, [createTextVNode("/")]), createVNode("span", null, [lastIndex.value])]));
-        children.push(createVNode(Item$1, {
-          "disabled": activeIndex.value === lastIndex.value,
+        }, [createTextVNode("/")]), createVNode("span", null, [_lastIndex])]));
+        children.push(createVNode(Item, {
+          "disabled": _activeIndex === _lastIndex,
           "type": "next"
         }, null));
       } else {
-        items.value.forEach((item) => children.push(createVNode(Item$1, mergeProps({
+        items.value.forEach((item) => children.push(createVNode(Item, mergeProps({
           "key": item.type + "-" + item.index
         }, item), null)));
         showSizeChanger.value && children.push(createVNode(Sizes, null, null));
@@ -30836,19 +32132,19 @@ var Pagination = defineComponent({
 const IxPagination = Pagination;
 
 const popconfirmToken = Symbol("popconfirmToken");
-var __defProp$1$7 = Object.defineProperty;
-var __getOwnPropSymbols$1$8 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$8 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$8 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$7 = (obj, key, value) => key in obj ? __defProp$1$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$7 = (a, b) => {
+var __defProp$1$8 = Object.defineProperty;
+var __getOwnPropSymbols$1$9 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$9 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$9 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$8 = (obj, key, value) => key in obj ? __defProp$1$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$8 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$8.call(b, prop))
-      __defNormalProp$1$7(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$8)
-    for (var prop of __getOwnPropSymbols$1$8(b)) {
-      if (__propIsEnum$1$8.call(b, prop))
-        __defNormalProp$1$7(a, prop, b[prop]);
+    if (__hasOwnProp$1$9.call(b, prop))
+      __defNormalProp$1$8(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$9)
+    for (var prop of __getOwnPropSymbols$1$9(b)) {
+      if (__propIsEnum$1$9.call(b, prop))
+        __defNormalProp$1$8(a, prop, b[prop]);
     }
   return a;
 };
@@ -30864,22 +32160,22 @@ var PopconfirmContent = defineComponent({
       cancel,
       ok
     } = inject(popconfirmToken);
-    const cancelText = computed$1(() => {
+    const cancelText = computed(() => {
       var _a;
       return (_a = props.cancelText) != null ? _a : locale.popconfirm.cancelText;
     });
-    const okText = computed$1(() => {
+    const okText = computed(() => {
       var _a;
       return (_a = props.okText) != null ? _a : locale.popconfirm.okText;
     });
-    const cancelButton = computed$1(() => {
-      return __spreadValues$1$7({
-        size: "sm"
+    const cancelButton = computed(() => {
+      return __spreadValues$1$8({
+        size: "xs"
       }, props.cancelButton);
     });
-    const okButton = computed$1(() => {
-      return __spreadValues$1$7({
-        size: "sm"
+    const okButton = computed(() => {
+      return __spreadValues$1$8({
+        size: "xs"
       }, props.okButton);
     });
     return () => {
@@ -30905,26 +32201,26 @@ var PopconfirmContent = defineComponent({
     };
   }
 });
-var __defProp$f = Object.defineProperty;
-var __defProps$c = Object.defineProperties;
-var __getOwnPropDescs$c = Object.getOwnPropertyDescriptors;
+var __defProp$g = Object.defineProperty;
+var __defProps$e = Object.defineProperties;
+var __getOwnPropDescs$e = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$h = Object.getOwnPropertySymbols;
 var __hasOwnProp$h = Object.prototype.hasOwnProperty;
 var __propIsEnum$h = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$f = (obj, key, value) => key in obj ? __defProp$f(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$f = (a, b) => {
+var __defNormalProp$g = (obj, key, value) => key in obj ? __defProp$g(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$g = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$h.call(b, prop))
-      __defNormalProp$f(a, prop, b[prop]);
+      __defNormalProp$g(a, prop, b[prop]);
   if (__getOwnPropSymbols$h)
     for (var prop of __getOwnPropSymbols$h(b)) {
       if (__propIsEnum$h.call(b, prop))
-        __defNormalProp$f(a, prop, b[prop]);
+        __defNormalProp$g(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$c = (a, b) => __defProps$c(a, __getOwnPropDescs$c(b));
-const popconfirmProps = __spreadProps$c(__spreadValues$f({}, tooltipProps), {
+var __spreadProps$e = (a, b) => __defProps$e(a, __getOwnPropDescs$e(b));
+const popconfirmProps = __spreadProps$e(__spreadValues$g({}, tooltipProps), {
   cancelButton: IxPropTypes.object(),
   cancelText: IxPropTypes.string,
   okButton: IxPropTypes.object(),
@@ -30963,7 +32259,7 @@ var Popconfirm = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-popconfirm`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-popconfirm`);
     const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("popconfirm");
     const {
@@ -31044,26 +32340,26 @@ function useTrigger(props, setVisible) {
 }
 const IxPopconfirm = Popconfirm;
 
-var __defProp$e = Object.defineProperty;
-var __defProps$b = Object.defineProperties;
-var __getOwnPropDescs$b = Object.getOwnPropertyDescriptors;
+var __defProp$f = Object.defineProperty;
+var __defProps$d = Object.defineProperties;
+var __getOwnPropDescs$d = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$g = Object.getOwnPropertySymbols;
 var __hasOwnProp$g = Object.prototype.hasOwnProperty;
 var __propIsEnum$g = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$e = (obj, key, value) => key in obj ? __defProp$e(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$e = (a, b) => {
+var __defNormalProp$f = (obj, key, value) => key in obj ? __defProp$f(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$f = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$g.call(b, prop))
-      __defNormalProp$e(a, prop, b[prop]);
+      __defNormalProp$f(a, prop, b[prop]);
   if (__getOwnPropSymbols$g)
     for (var prop of __getOwnPropSymbols$g(b)) {
       if (__propIsEnum$g.call(b, prop))
-        __defNormalProp$e(a, prop, b[prop]);
+        __defNormalProp$f(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$b = (a, b) => __defProps$b(a, __getOwnPropDescs$b(b));
-const popoverProps = __spreadProps$b(__spreadValues$e({}, tooltipProps), {
+var __spreadProps$d = (a, b) => __defProps$d(a, __getOwnPropDescs$d(b));
+const popoverProps = __spreadProps$d(__spreadValues$f({}, tooltipProps), {
   closable: IxPropTypes.bool.def(false),
   closeIcon: IxPropTypes.oneOfType([String, IxPropTypes.vNode]),
   header: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
@@ -31077,7 +32373,7 @@ var Popover = defineComponent({
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-popover`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-popover`);
     const config = useGlobalConfig$1("popover");
     const {
       overlayRef,
@@ -31089,7 +32385,7 @@ var Popover = defineComponent({
     expose({
       updatePopper
     });
-    const closeIcon = computed$1(() => {
+    const closeIcon = computed(() => {
       var _a;
       return (_a = props.closeIcon) != null ? _a : config.closeIcon;
     });
@@ -31113,6 +32409,7 @@ const renderContent = (props, slots, closeIcon, setVisibility, prefixCls) => {
   if (!(slots.header || props.header || slots.content || props.content)) {
     return null;
   }
+  let cls = `${prefixCls}-wrapper`;
   const children = [];
   if (slots.header || props.header) {
     children.push(createVNode(\u0275Header, {
@@ -31123,6 +32420,7 @@ const renderContent = (props, slots, closeIcon, setVisibility, prefixCls) => {
     }, {
       header: slots.header
     }));
+    cls += ` ${prefixCls}-with-header`;
   }
   if (slots.content || props.content) {
     children.push(createVNode("div", {
@@ -31130,7 +32428,7 @@ const renderContent = (props, slots, closeIcon, setVisibility, prefixCls) => {
     }, [(_c = (_b = slots.content) == null ? void 0 : _b.call(slots)) != null ? _c : props.content]));
   }
   return createVNode("div", {
-    "class": `${prefixCls}-wrapper`
+    "class": cls
   }, [children]);
 };
 const IxPopover = Popover;
@@ -31140,7 +32438,7 @@ const defaultIcons = {
   exception: "close"
 };
 function useIcons(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     return {
       success: (_d = (_c = (_a = props.icons) == null ? void 0 : _a.success) != null ? _c : (_b = config.icon) == null ? void 0 : _b.success) != null ? _d : defaultIcons.success,
@@ -31148,17 +32446,17 @@ function useIcons(props, config) {
     };
   });
 }
-var __getOwnPropSymbols$2$5 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$5 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$5 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$2$6 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$6 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$6 = Object.prototype.propertyIsEnumerable;
 var __objRest$4 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$2$5.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$2$6.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$2$5)
-    for (var prop of __getOwnPropSymbols$2$5(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$5.call(source, prop))
+  if (source != null && __getOwnPropSymbols$2$6)
+    for (var prop of __getOwnPropSymbols$2$6(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$2$6.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -31208,10 +32506,10 @@ const handleCircleGradient = (strokeColor) => {
 const useInfo = (props, config, progressStatus2, percent, success) => {
   var _a;
   const formatFn = (_a = props.format) != null ? _a : config.format;
-  const formattedText = computed$1(() => formatFn(percent.value, success.value.percent));
-  const showSuccessIcon = computed$1(() => progressStatus2.value === "success" || progressStatus2.value === "normal" && percent.value === fullPercent);
-  const showExceptionIcon = computed$1(() => progressStatus2.value === "exception");
-  const showFormat = computed$1(() => isFunction$1(props.format) || !(showSuccessIcon.value || showExceptionIcon.value));
+  const formattedText = computed(() => formatFn(percent.value, success.value.percent));
+  const showSuccessIcon = computed(() => progressStatus2.value === "success" || progressStatus2.value === "normal" && percent.value === fullPercent);
+  const showExceptionIcon = computed(() => progressStatus2.value === "exception");
+  const showFormat = computed(() => isFunction(props.format) || !(showSuccessIcon.value || showExceptionIcon.value));
   return {
     formattedText,
     showFormat,
@@ -31275,29 +32573,29 @@ function renderIcon$3(icon, cls) {
   }
   return icon;
 }
-var __defProp$1$6 = Object.defineProperty;
+var __defProp$1$7 = Object.defineProperty;
 var __defProps$1$3 = Object.defineProperties;
 var __getOwnPropDescs$1$3 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$7 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$7 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$7 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$6 = (obj, key, value) => key in obj ? __defProp$1$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$6 = (a, b) => {
+var __getOwnPropSymbols$1$8 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$8 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$8 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$7 = (obj, key, value) => key in obj ? __defProp$1$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$7 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$7.call(b, prop))
-      __defNormalProp$1$6(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$7)
-    for (var prop of __getOwnPropSymbols$1$7(b)) {
-      if (__propIsEnum$1$7.call(b, prop))
-        __defNormalProp$1$6(a, prop, b[prop]);
+    if (__hasOwnProp$1$8.call(b, prop))
+      __defNormalProp$1$7(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$8)
+    for (var prop of __getOwnPropSymbols$1$8(b)) {
+      if (__propIsEnum$1$8.call(b, prop))
+        __defNormalProp$1$7(a, prop, b[prop]);
     }
   return a;
 };
 var __spreadProps$1$3 = (a, b) => __defProps$1$3(a, __getOwnPropDescs$1$3(b));
 function useProps(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b, _c;
-    return __spreadProps$1$3(__spreadValues$1$6({}, props), {
+    return __spreadProps$1$3(__spreadValues$1$7({}, props), {
       size: (_a = props.size) != null ? _a : config.size,
       strokeWidth: (_b = props.strokeWidth) != null ? _b : config.strokeWidth,
       strokeLinecap: (_c = props.strokeLinecap) != null ? _c : config.strokeLinecap
@@ -31315,15 +32613,15 @@ var Circle = defineComponent({
       percent,
       formattedSuccess
     } = inject(progressContext);
-    const circleMergedPrefixCls = computed$1(() => `${mergedPrefixCls.value}-circle`);
+    const circleMergedPrefixCls = computed(() => `${mergedPrefixCls.value}-circle`);
     const computedProps = useProps(props, config);
-    const strokeWidth = computed$1(() => {
+    const strokeWidth = computed(() => {
       var _a;
       return convertNumber((_a = computedProps.value.strokeWidth) != null ? _a : config.defaultCircleStrokeWidth, defaultStrokeWidth);
     });
-    const isGradient = computed$1(() => isObject(computedProps.value.strokeColor));
+    const isGradient = computed(() => isObject(computedProps.value.strokeColor));
     const linearGradientId = ref(`ix-progress-gradient-${uniqueId()}`);
-    const calcSharedProperties = computed$1(() => {
+    const calcSharedProperties = computed(() => {
       var _a, _b;
       const isCircle = computedProps.value.type === "circle";
       const radius = 50 - strokeWidth.value / 2;
@@ -31337,33 +32635,33 @@ var Circle = defineComponent({
         gapDegree: convertNumber((_b = computedProps.value.gapDegree) != null ? _b : isCircle ? 0 : 75)
       };
     });
-    const circleGradient = computed$1(() => {
+    const circleGradient = computed(() => {
       return isGradient.value ? handleCircleGradient(computedProps.value.strokeColor) : [];
     });
     const pathString = usePathString(calcSharedProperties);
     const trailPathStyle = useTrailPathStyle(calcSharedProperties);
     const strokePath = useCirclePath(calcSharedProperties, computedProps.value, percent, formattedSuccess);
-    const trailPathAttr = computed$1(() => ({
+    const trailPathAttr = computed(() => ({
       stroke: "#f5f5f5",
       "fill-opacity": "0",
       "stroke-linecap": computedProps.value.strokeLinecap,
       "stroke-width": strokeWidth.value,
       d: pathString.value
     }));
-    const strokePathAttr = computed$1(() => ({
+    const strokePathAttr = computed(() => ({
       "fill-opacity": "0",
       "stroke-linecap": computedProps.value.strokeLinecap,
       "stroke-width": computedProps.value.percent ? strokeWidth.value : 0,
       d: pathString.value
     }));
-    const circleClasses = computed$1(() => {
+    const circleClasses = computed(() => {
       const prefixCls = circleMergedPrefixCls.value;
       return {
         [prefixCls]: true,
         [`${prefixCls}-gradient`]: isGradient.value
       };
     });
-    const circleStyle = computed$1(() => ({
+    const circleStyle = computed(() => ({
       width: computedProps.value.width && `${computedProps.value.width}px`,
       height: computedProps.value.width && `${computedProps.value.width}px`,
       fontSize: computedProps.value.width && `${convertNumber(computedProps.value.width) * 0.15 + 6}px`
@@ -31400,7 +32698,7 @@ var Circle = defineComponent({
   }
 });
 function usePathString(calcSharedProperties) {
-  return computed$1(() => {
+  return computed(() => {
     const {
       radius,
       gapPosition
@@ -31433,7 +32731,7 @@ function usePathString(calcSharedProperties) {
   });
 }
 function useTrailPathStyle(calcSharedProperties) {
-  return computed$1(() => {
+  return computed(() => {
     const {
       len,
       gapDegree
@@ -31446,7 +32744,7 @@ function useTrailPathStyle(calcSharedProperties) {
   });
 }
 function useCirclePath(calcSharedProperties, props, percent, success) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const successPercent = success.value.percent;
     const {
@@ -31483,8 +32781,8 @@ var Line = defineComponent({
       formattedSuccess
     } = inject(progressContext);
     const computedProps = useProps(props, config);
-    const lineMergedPrefixCls = computed$1(() => `${mergedPrefixCls.value}-line`);
-    const lineClasses = computed$1(() => {
+    const lineMergedPrefixCls = computed(() => `${mergedPrefixCls.value}-line`);
+    const lineClasses = computed(() => {
       const prefixCls = lineMergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -31492,7 +32790,7 @@ var Line = defineComponent({
         [`${prefixCls}-round`]: computedProps.value.strokeLinecap === "round"
       };
     });
-    const successStyle = computed$1(() => {
+    const successStyle = computed(() => {
       var _a, _b;
       return {
         height: computedProps.value.strokeWidth && `${computedProps.value.strokeWidth}px`,
@@ -31500,7 +32798,7 @@ var Line = defineComponent({
         background: (_b = formattedSuccess.value.strokeColor) != null ? _b : ""
       };
     });
-    const bgStyle = computed$1(() => {
+    const bgStyle = computed(() => {
       var _a;
       return {
         height: computedProps.value.strokeWidth && `${computedProps.value.strokeWidth}px`,
@@ -31546,7 +32844,7 @@ const progressProps = {
   icons: IxPropTypes.object()
 };
 function useStatus(props, percent, success) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     if (!progressStatus.includes(props.status) && (percent.value >= fullPercent || success.value.percent >= fullPercent)) {
       return "success";
@@ -31554,25 +32852,25 @@ function useStatus(props, percent, success) {
     return (_a = props.status) != null ? _a : "normal";
   });
 }
-var __defProp$d = Object.defineProperty;
-var __defProps$a = Object.defineProperties;
-var __getOwnPropDescs$a = Object.getOwnPropertyDescriptors;
+var __defProp$e = Object.defineProperty;
+var __defProps$c = Object.defineProperties;
+var __getOwnPropDescs$c = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$f = Object.getOwnPropertySymbols;
 var __hasOwnProp$f = Object.prototype.hasOwnProperty;
 var __propIsEnum$f = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$d = (obj, key, value) => key in obj ? __defProp$d(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$d = (a, b) => {
+var __defNormalProp$e = (obj, key, value) => key in obj ? __defProp$e(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$e = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$f.call(b, prop))
-      __defNormalProp$d(a, prop, b[prop]);
+      __defNormalProp$e(a, prop, b[prop]);
   if (__getOwnPropSymbols$f)
     for (var prop of __getOwnPropSymbols$f(b)) {
       if (__propIsEnum$f.call(b, prop))
-        __defNormalProp$d(a, prop, b[prop]);
+        __defNormalProp$e(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$a = (a, b) => __defProps$a(a, __getOwnPropDescs$a(b));
+var __spreadProps$c = (a, b) => __defProps$c(a, __getOwnPropDescs$c(b));
 var Progress = defineComponent({
   name: "IxProgress",
   props: progressProps,
@@ -31581,16 +32879,16 @@ var Progress = defineComponent({
   }) {
     const config = useGlobalConfig$1("progress");
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-progress`);
-    const percent = computed$1(() => convertPercent(props.percent));
-    const formattedSuccess = computed$1(() => {
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-progress`);
+    const percent = computed(() => convertPercent(props.percent));
+    const formattedSuccess = computed(() => {
       var _a;
-      return __spreadProps$a(__spreadValues$d({}, props.success), {
+      return __spreadProps$c(__spreadValues$e({}, props.success), {
         percent: convertPercent((_a = props.success) == null ? void 0 : _a.percent)
       });
     });
     const status = useStatus(props, percent, formattedSuccess);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -31671,7 +32969,7 @@ var Radio = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-radio`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-radio`);
     const config = useGlobalConfig$1("radio");
     const {
       elementRef,
@@ -31684,19 +32982,19 @@ var Radio = defineComponent({
     });
     const formContext = inject(FORM_TOKEN, null);
     const radioGroup = inject(radioGroupToken, null);
-    const mergedName = computed$1(() => {
+    const mergedName = computed(() => {
       var _a;
       return (_a = attrs.name) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.name;
     });
-    const isButtoned = computed$1(() => {
+    const isButtoned = computed(() => {
       var _a;
       return (_a = props.buttoned) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.buttoned;
     });
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a, _b, _c;
       return (_c = (_b = (_a = props.size) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.size) != null ? _b : formContext == null ? void 0 : formContext.size.value) != null ? _c : config.size;
     });
-    const mode = computed$1(() => {
+    const mode = computed(() => {
       var _a, _b;
       return (_b = (_a = props.mode) != null ? _a : radioGroup == null ? void 0 : radioGroup.props.mode) != null ? _b : "default";
     });
@@ -31708,7 +33006,7 @@ var Radio = defineComponent({
       handleBlur,
       handleFocus
     } = useRadio(props, radioGroup, elementRef);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const buttoned = isButtoned.value;
       const prefixCls = mergedPrefixCls.value;
       const classes2 = {
@@ -31789,11 +33087,8 @@ const useRadio = (props, radioGroup, elementRef) => {
       accessor,
       props: groupProps
     } = radioGroup;
-    isChecked = computed$1(() => accessor.valueRef.value === props.value);
-    isDisabled = computed$1(() => {
-      var _a;
-      return (_a = props.disabled) != null ? _a : accessor.disabled.value;
-    });
+    isChecked = computed(() => accessor.valueRef.value === props.value);
+    isDisabled = computed(() => accessor.disabled.value || !!props.disabled);
     handleBlur = (evt) => {
       isFocused.value = false;
       callEmit(props.onBlur, evt);
@@ -31812,8 +33107,8 @@ const useRadio = (props, radioGroup, elementRef) => {
     };
   } else {
     const accessor = useFormAccessor("checked");
-    isChecked = computed$1(() => !!accessor.valueRef.value);
-    isDisabled = computed$1(() => accessor.disabled.value);
+    isChecked = computed(() => !!accessor.valueRef.value);
+    isDisabled = computed(() => accessor.disabled.value);
     handleBlur = (evt) => {
       isFocused.value = false;
       callEmit(props.onBlur, evt);
@@ -31849,8 +33144,8 @@ var RadioGroup = defineComponent({
       accessor
     });
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-radio-group`);
-    const classes = computed$1(() => {
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-radio-group`);
+    const classes = computed(() => {
       const {
         gap
       } = props;
@@ -31860,7 +33155,7 @@ var RadioGroup = defineComponent({
         [`${prefixCls}-with-gap`]: !isNil(gap)
       });
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const {
         gap
       } = props;
@@ -31926,7 +33221,7 @@ var RateItem = defineComponent({
       }
     };
     const handleMouseMove = (evt) => props.onMouseMove(evt, liRef.value, props.index);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         focused,
         index,
@@ -31989,7 +33284,7 @@ var Rate = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-rate`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-rate`);
     const config = useGlobalConfig$1("rate");
     const formContext = inject(FORM_TOKEN, null);
     const {
@@ -32002,23 +33297,23 @@ var Rate = defineComponent({
       blur
     });
     const accessor = useFormAccessor();
-    const countRef = computed$1(() => {
+    const countRef = computed(() => {
       var _a;
       return convertNumber((_a = props.count) != null ? _a : config.count);
     });
-    const iconRef = computed$1(() => {
+    const iconRef = computed(() => {
       var _a;
       return (_a = props.icon) != null ? _a : config.icon;
     });
-    const allowHalfRef = computed$1(() => {
+    const allowHalfRef = computed(() => {
       var _a;
       return (_a = props.allowHalf) != null ? _a : config.allowHalf;
     });
-    const clearableRef = computed$1(() => {
+    const clearableRef = computed(() => {
       var _a;
       return (_a = props.clearable) != null ? _a : config.clearable;
     });
-    const isDisabled = computed$1(() => accessor.disabled.value);
+    const isDisabled = computed(() => accessor.disabled.value);
     const isFocused = ref(false);
     const hoverValue = ref();
     const changeValue = (value) => {
@@ -32080,11 +33375,11 @@ var Rate = defineComponent({
     const handleMouseLeave = () => {
       hoverValue.value = void 0;
     };
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a, _b;
       return (_b = (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value) != null ? _b : config.size;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -32166,7 +33461,7 @@ var Result = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-result`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-result`);
     const resultConfig = useGlobalConfig$1("result");
     const className = useClassName(props, mergedPrefixCls, resultConfig);
     const currentIcon = useIcon$1(props, resultConfig);
@@ -32198,7 +33493,7 @@ function renderIcon$2(prefixCls, iconSlot, icon) {
   return renderSlottedNode(`${prefixCls}-icon`, iconSlot, content);
 }
 function useClassName(props, mergedPrefixCls, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const prefixCls = mergedPrefixCls.value;
     const status = (_a = props.status) != null ? _a : config.status;
@@ -32209,7 +33504,7 @@ function useClassName(props, mergedPrefixCls, config) {
   });
 }
 function useIcon$1(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b, _c, _d;
     const status = (_a = props.status) != null ? _a : config.status;
     return (_d = (_c = props.icon) != null ? _c : (_b = config.icon) == null ? void 0 : _b[status]) != null ? _d : defaultIconMap[status];
@@ -32234,9 +33529,9 @@ var Skeleton = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-skeleton`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-skeleton`);
     const config = useGlobalConfig$1("skeleton");
-    const loaderClass = computed$1(() => {
+    const loaderClass = computed(() => {
       var _a;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
@@ -32245,7 +33540,7 @@ var Skeleton = defineComponent({
         [`${prefixCls}-animated`]: (_a = props.animated) != null ? _a : config.animated
       });
     });
-    const loaderStyle = computed$1(() => {
+    const loaderStyle = computed(() => {
       const {
         width,
         height,
@@ -32334,7 +33629,7 @@ var IxSliderMarks = defineComponent({
       reverse,
       vertical
     } = inject(sliderToken);
-    const mergedPrefixCls = computed$1(() => `${prefixCls.value}-mark`);
+    const mergedPrefixCls = computed(() => `${prefixCls.value}-mark`);
     return () => {
       return createVNode("div", {
         "class": mergedPrefixCls.value
@@ -32353,7 +33648,7 @@ function renderMarks(props, values, marks, max, min, prefixCls, range, reverse, 
     let markLabel = void 0;
     if (isString(markValue) || isVNode(markValue)) {
       markLabel = markValue;
-    } else if (isFunction$1(markValue)) {
+    } else if (isFunction(markValue)) {
       markLabel = markValue();
     } else if (isObj) {
       markLabel = markValue.label;
@@ -32460,7 +33755,7 @@ var IxSliderThumb = defineComponent({
     const isHovering = ref(false);
     const tooltipRef = ref(null);
     const thumbRef = ref(null);
-    const mergedPrefixCls = computed$1(() => `${prefixCls.value}-thumb`);
+    const mergedPrefixCls = computed(() => `${prefixCls.value}-thumb`);
     const showTooltip = () => tooltipVisible.value !== false && (mergedTooltipVisible.value = true);
     const hideTooltip = () => tooltipVisible.value !== true && (mergedTooltipVisible.value = false);
     onUpdated(() => {
@@ -32511,7 +33806,7 @@ var IxSliderThumb = defineComponent({
           "onFocus": disabled.value ? NoopFunction : handleFocus,
           "onBlur": disabled.value ? NoopFunction : handleBlur
         }), null)],
-        title: () => isFunction$1(tooltipFormatter.value) ? tooltipFormatter.value(props.value) : createVNode("span", null, [props.value])
+        title: () => isFunction(tooltipFormatter.value) ? tooltipFormatter.value(props.value) : createVNode("span", null, [props.value])
       });
     };
   }
@@ -32524,19 +33819,19 @@ function useSlider(props) {
   const activeIndex = ref(-1);
   const railRef = ref(null);
   const isDragging = ref(false);
-  const isDisabled = computed$1(() => accessor == null ? void 0 : accessor.disabled.value);
-  const precision = computed$1(() => {
+  const isDisabled = computed(() => accessor == null ? void 0 : accessor.disabled.value);
+  const precision = computed(() => {
     const precisions = [props.min, props.max, props.step].map((num) => {
       const decimal = `${num}`.split(".")[1];
       return decimal ? decimal.length : 0;
     });
     return Math.max(...precisions);
   });
-  const stepPrecision = computed$1(() => {
+  const stepPrecision = computed(() => {
     const decimal = `${props.step}`.split(".")[1];
     return decimal ? decimal.length : 0;
   });
-  const direction = computed$1(() => {
+  const direction = computed(() => {
     if (props.vertical) {
       return props.reverse ? sliderStartDirection.ttb : sliderStartDirection.btt;
     }
@@ -32625,7 +33920,7 @@ function useSlider(props) {
   }
   function handleMouseUpOnDocument() {
     stopDragging();
-    callEmit(props.onChange, toRaw$1(valuesRef.value));
+    callEmit(props.onChange, toRaw(valuesRef.value));
   }
   function handleMouseUp() {
     var _a, _b;
@@ -32677,7 +33972,7 @@ function useSlider(props) {
     if (props.reverse) {
       percentage = 1 - percentage;
     }
-    return calcValueByStep(percentage * (props.max - props.min));
+    return calcValueByStep(percentage * (props.max - props.min) + props.min);
   }
   function calcValueByStep(value) {
     var _a, _b;
@@ -32765,25 +34060,25 @@ function useSlider(props) {
     handleMarkClick
   };
 }
-var __defProp$c = Object.defineProperty;
-var __defProps$9 = Object.defineProperties;
-var __getOwnPropDescs$9 = Object.getOwnPropertyDescriptors;
+var __defProp$d = Object.defineProperty;
+var __defProps$b = Object.defineProperties;
+var __getOwnPropDescs$b = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$d = Object.getOwnPropertySymbols;
 var __hasOwnProp$d = Object.prototype.hasOwnProperty;
 var __propIsEnum$d = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$c = (obj, key, value) => key in obj ? __defProp$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$c = (a, b) => {
+var __defNormalProp$d = (obj, key, value) => key in obj ? __defProp$d(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$d = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$d.call(b, prop))
-      __defNormalProp$c(a, prop, b[prop]);
+      __defNormalProp$d(a, prop, b[prop]);
   if (__getOwnPropSymbols$d)
     for (var prop of __getOwnPropSymbols$d(b)) {
       if (__propIsEnum$d.call(b, prop))
-        __defNormalProp$c(a, prop, b[prop]);
+        __defNormalProp$d(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$9 = (a, b) => __defProps$9(a, __getOwnPropDescs$9(b));
+var __spreadProps$b = (a, b) => __defProps$b(a, __getOwnPropDescs$b(b));
 var Slider = defineComponent({
   name: "IxSlider",
   props: sliderProps,
@@ -32808,15 +34103,15 @@ var Slider = defineComponent({
     const {
       trackStyle
     } = useTrack(props, valuesRef, direction);
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-slider`);
-    const thumbs = computed$1(() => valuesRef.value.slice(0, props.range ? 2 : 1));
-    const thumbTransformOfStyle = computed$1(() => {
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-slider`);
+    const thumbs = computed(() => valuesRef.value.slice(0, props.range ? 2 : 1));
+    const thumbTransformOfStyle = computed(() => {
       if (props.vertical) {
         return props.reverse ? `translateY(-50%)` : `translateY(50%)`;
       }
       return props.reverse ? `translateX(50%)` : `translateX(-50%)`;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [prefixCls]: true,
@@ -32825,7 +34120,7 @@ var Slider = defineComponent({
         [`${prefixCls}-with-marks`]: !isUndefined(props.marks)
       };
     });
-    provide(sliderToken, __spreadProps$9(__spreadValues$c({}, toRefs(props)), {
+    provide(sliderToken, __spreadProps$b(__spreadValues$d({}, toRefs(props)), {
       direction,
       dragging: isDragging,
       values: valuesRef,
@@ -32876,9 +34171,9 @@ var Slider = defineComponent({
   }
 });
 function useTrack(props, values, direction) {
-  const maxValue = computed$1(() => Math.max(...values.value));
-  const minValue = computed$1(() => Math.min(...values.value));
-  const trackStyle = computed$1(() => {
+  const maxValue = computed(() => Math.max(...values.value));
+  const minValue = computed(() => Math.min(...values.value));
+  const trackStyle = computed(() => {
     return {
       [direction.value]: props.range ? `${(minValue.value - props.min) / (props.max - props.min) * 100}%` : "0%",
       [props.vertical ? "height" : "width"]: props.range ? `${(maxValue.value - minValue.value) / (props.max - props.min) * 100}%` : `${(+values.value[0] - props.min) / (props.max - props.min) * 100}%`
@@ -32905,7 +34200,7 @@ var Statistic = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-statistic`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-statistic`);
     const statisticConfig = useGlobalConfig$1("statistic");
     const formatedValue = useFomat(props, statisticConfig);
     return () => {
@@ -32940,7 +34235,7 @@ var Statistic = defineComponent({
   }
 });
 const useFomat = (props, config) => {
-  return computed$1(() => {
+  return computed(() => {
     const precision = props.precision || config.precision;
     const formatter = props.formatter || config.formatter;
     return formatter(props.value, precision);
@@ -32967,25 +34262,25 @@ const stepperItemProps = {
   title: IxPropTypes.string,
   status: IxPropTypes.oneOf(["process", "finish", "wait", "error"])
 };
-var __defProp$b = Object.defineProperty;
-var __defProps$8 = Object.defineProperties;
-var __getOwnPropDescs$8 = Object.getOwnPropertyDescriptors;
+var __defProp$c = Object.defineProperty;
+var __defProps$a = Object.defineProperties;
+var __getOwnPropDescs$a = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$c = Object.getOwnPropertySymbols;
 var __hasOwnProp$c = Object.prototype.hasOwnProperty;
 var __propIsEnum$c = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$b = (obj, key, value) => key in obj ? __defProp$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$b = (a, b) => {
+var __defNormalProp$c = (obj, key, value) => key in obj ? __defProp$c(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$c = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$c.call(b, prop))
-      __defNormalProp$b(a, prop, b[prop]);
+      __defNormalProp$c(a, prop, b[prop]);
   if (__getOwnPropSymbols$c)
     for (var prop of __getOwnPropSymbols$c(b)) {
       if (__propIsEnum$c.call(b, prop))
-        __defNormalProp$b(a, prop, b[prop]);
+        __defNormalProp$c(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$8 = (a, b) => __defProps$8(a, __getOwnPropDescs$8(b));
+var __spreadProps$a = (a, b) => __defProps$a(a, __getOwnPropDescs$a(b));
 var Stepper = defineComponent({
   name: "IxStepper",
   props: stepperProps,
@@ -32993,13 +34288,13 @@ var Stepper = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-stepper`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-stepper`);
     const config = useGlobalConfig$1("stepper");
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a;
       return (_a = props.size) != null ? _a : config.size;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
         labelPlacement = config.labelPlacement,
@@ -33016,7 +34311,7 @@ var Stepper = defineComponent({
     });
     const [activeKey, setActiveKey] = useControlledProp(props, "activeKey");
     provide(stepperToken, {
-      props: reactive(__spreadProps$8(__spreadValues$b({}, toRefs(props)), {
+      props: reactive(__spreadProps$a(__spreadValues$c({}, toRefs(props)), {
         size
       })),
       slots,
@@ -33048,14 +34343,14 @@ var StepperItem = defineComponent({
   }) {
     const key = useKey();
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-stepper-item`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-stepper-item`);
     const {
       props: parentProps,
       activeKey,
       setActiveKey
     } = inject(stepperToken);
-    const isActive = computed$1(() => activeKey.value === key);
-    const status = computed$1(() => {
+    const isActive = computed(() => activeKey.value === key);
+    const status = computed(() => {
       if (props.status) {
         return props.status;
       }
@@ -33063,12 +34358,12 @@ var StepperItem = defineComponent({
         return parentProps.status;
       }
       const currActiveKey = activeKey.value;
-      if (!currActiveKey || isSymbol$1(currActiveKey) || isSymbol$1(key)) {
+      if (!currActiveKey || isSymbol(currActiveKey) || isSymbol(key)) {
         return "wait";
       }
       return currActiveKey > key ? "finish" : "wait";
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
         disabled,
@@ -33174,7 +34469,7 @@ var Switch = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-switch`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-switch`);
     const {
       elementRef,
       focus,
@@ -33186,8 +34481,8 @@ var Switch = defineComponent({
       blur
     });
     const accessor = useFormAccessor("checked");
-    const isChecked = computed$1(() => accessor.valueRef.value);
-    const isDisabled = computed$1(() => {
+    const isChecked = computed(() => accessor.valueRef.value);
+    const isDisabled = computed(() => {
       var _a;
       return (_a = props.disabled) != null ? _a : accessor.disabled.value;
     });
@@ -33205,11 +34500,11 @@ var Switch = defineComponent({
       callEmit(props.onBlur, evt);
       accessor.markAsBlurred();
     };
-    const size = computed$1(() => {
+    const size = computed(() => {
       var _a;
       return (_a = props.size) != null ? _a : formContext == null ? void 0 : formContext.size.value;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         loading
       } = props;
@@ -33287,7 +34582,7 @@ var __objRest$2 = (source, exclude) => {
 };
 function useColumns(props, slots, config, scrollBarSizeOnFixedHolder) {
   const breakpoints = useSharedBreakpoints();
-  const mergedColumns = computed$1(() => {
+  const mergedColumns = computed(() => {
     var _a;
     const { columns } = props;
     if (columns && columns.length > 0) {
@@ -33298,11 +34593,11 @@ function useColumns(props, slots, config, scrollBarSizeOnFixedHolder) {
   });
   const { flattedColumns, scrollBarColumn, flattedColumnsWithScrollBar } = useFlattedColumns(mergedColumns, scrollBarSizeOnFixedHolder);
   const fixedColumnKeys = useFixedColumnKeys(flattedColumnsWithScrollBar);
-  const hasEllipsis = computed$1(() => props.ellipsis || flattedColumns.value.some((column) => column.ellipsis));
-  const hasFixed = computed$1(() => flattedColumns.value.some((column) => column.fixed));
+  const hasEllipsis = computed(() => props.ellipsis || flattedColumns.value.some((column) => column.ellipsis));
+  const hasFixed = computed(() => flattedColumns.value.some((column) => column.fixed));
   const { columnWidths, columnWidthsWithScrollBar, changeColumnWidth } = useColumnWidths(flattedColumns, scrollBarColumn);
   const { columnOffsets, columnOffsetsWithScrollBar } = useColumnOffsets(columnWidths, columnWidthsWithScrollBar);
-  const mergedRows = computed$1(() => mergeRows(mergedColumns.value, scrollBarColumn.value));
+  const mergedRows = computed(() => mergeRows(mergedColumns.value, scrollBarColumn.value));
   return {
     flattedColumns,
     scrollBarColumn,
@@ -33378,8 +34673,8 @@ function convertColumn(column, breakpoints, baseConfig, expandableConfig, index)
   }
 }
 function useFlattedColumns(mergedColumns, scrollBarSizeOnFixedHolder) {
-  const flattedColumns = computed$1(() => flatColumns(mergedColumns.value));
-  const scrollBarColumn = computed$1(() => {
+  const flattedColumns = computed(() => flatColumns(mergedColumns.value));
+  const scrollBarColumn = computed(() => {
     const scrollBarSize = scrollBarSizeOnFixedHolder.value;
     if (scrollBarSize === 0) {
       return void 0;
@@ -33393,7 +34688,7 @@ function useFlattedColumns(mergedColumns, scrollBarSizeOnFixedHolder) {
       width: scrollBarSize
     };
   });
-  const flattedColumnsWithScrollBar = computed$1(() => {
+  const flattedColumnsWithScrollBar = computed(() => {
     const columns = flattedColumns.value;
     if (columns.length === 0) {
       return columns;
@@ -33420,7 +34715,7 @@ function flatColumns(columns) {
   return result;
 }
 function useFixedColumnKeys(flattedColumnsWithScrollBar) {
-  return computed$1(() => {
+  return computed(() => {
     let lastStartKey;
     let firstEndKey;
     flattedColumnsWithScrollBar.value.forEach((column) => {
@@ -33448,11 +34743,11 @@ function useColumnWidths(flattedColumns, scrollBarColumn) {
     }
     widthString.value = columns.map((column) => widthMap[column.key]).join("-");
   });
-  const columnWidths = computed$1(() => {
+  const columnWidths = computed(() => {
     const _widthString = widthString.value;
     return _widthString ? _widthString.split("-").map(Number) : [];
   });
-  const columnWidthsWithScrollBar = computed$1(() => {
+  const columnWidthsWithScrollBar = computed(() => {
     const widths = columnWidths.value;
     if (widths.length === 0) {
       return widths;
@@ -33470,8 +34765,8 @@ function useColumnWidths(flattedColumns, scrollBarColumn) {
   return { columnWidths, columnWidthsWithScrollBar, changeColumnWidth };
 }
 function useColumnOffsets(columnWidths, columnWidthsWithScrollBar) {
-  const columnOffsets = computed$1(() => calculateOffsets(columnWidths.value));
-  const columnOffsetsWithScrollBar = computed$1(() => calculateOffsets(columnWidthsWithScrollBar.value));
+  const columnOffsets = computed(() => calculateOffsets(columnWidths.value));
+  const columnOffsetsWithScrollBar = computed(() => calculateOffsets(columnWidthsWithScrollBar.value));
   return { columnOffsets, columnOffsetsWithScrollBar };
 }
 function calculateOffsets(widths) {
@@ -33549,19 +34844,19 @@ var __spreadValues$4$2 = (a, b) => {
 };
 var __spreadProps$4$1 = (a, b) => __defProps$4$1(a, __getOwnPropDescs$4$1(b));
 function useDataSource(props, getRowKey, activeSortable, activeFilters, expandedRowKeys, mergedPagination) {
-  const mergedData = computed$1(() => {
+  const mergedData = computed(() => {
     const { dataSource, childrenKey } = props;
     const getKey = getRowKey.value;
     return dataSource.map((record) => convertMergeData(record, getKey, childrenKey));
   });
-  const mergedMap = computed$1(() => {
+  const mergedMap = computed(() => {
     const map = /* @__PURE__ */ new Map();
     convertDataMap(mergedData.value, map);
     return map;
   });
-  const filteredData = computed$1(() => filterData(mergedData.value, activeFilters.value, expandedRowKeys.value));
-  const sortedData = computed$1(() => sortData(filteredData.value, activeSortable, expandedRowKeys.value));
-  const paginatedData = computed$1(() => {
+  const filteredData = computed(() => filterData(mergedData.value, activeFilters.value, expandedRowKeys.value));
+  const sortedData = computed(() => sortData(filteredData.value, activeSortable, expandedRowKeys.value));
+  const paginatedData = computed(() => {
     const pagination = mergedPagination.value;
     const data = sortedData.value;
     if (pagination === null || !pagination.pageSize) {
@@ -33576,12 +34871,12 @@ function useDataSource(props, getRowKey, activeSortable, activeFilters, expanded
       return data.slice(startIndex, startIndex + pageSize);
     }
   });
-  const paginatedMap = computed$1(() => {
+  const paginatedMap = computed(() => {
     const map = /* @__PURE__ */ new Map();
     convertDataMap(paginatedData.value, map);
     return map;
   });
-  const flattedData = computed$1(() => {
+  const flattedData = computed(() => {
     const expandedKeys = expandedRowKeys.value;
     if (expandedKeys.length > 0) {
       return flatData(paginatedData.value, expandedKeys, 0);
@@ -33653,7 +34948,7 @@ function flatData(mergedData, expandedRowKeys, level) {
   }, []);
 }
 function useExpandable$1(props, flattedColumns) {
-  const expandable = computed$1(() => flattedColumns.value.find((column) => "type" in column && column.type === "expandable"));
+  const expandable = computed(() => flattedColumns.value.find((column) => "type" in column && column.type === "expandable"));
   const [expandedRowKeys, setExpandedRowKeys] = useControlledProp(props, "expandedRowKeys", () => []);
   const handleExpandChange = (key, record) => {
     const { onChange, onExpand } = expandable.value || {};
@@ -33687,7 +34982,7 @@ function useFilterable(flattedColumns) {
   const setFilterBy = (key, filterBy) => {
     filterByMap[key] = filterBy;
   };
-  const filterableColumns = computed$1(() => flattedColumns.value.filter((column) => !!column.filterable));
+  const filterableColumns = computed(() => flattedColumns.value.filter((column) => !!column.filterable));
   watch(filterableColumns, (columns) => {
     columns.forEach((column) => {
       var _a;
@@ -33696,7 +34991,7 @@ function useFilterable(flattedColumns) {
       }
     });
   }, { immediate: true });
-  const activeFilters = computed$1(() => filterableColumns.value.map((column) => {
+  const activeFilters = computed(() => filterableColumns.value.map((column) => {
     const filterable = column.filterable;
     const filter = filterable.filter;
     const filterBy = filterable.filterBy || filterByMap[column.key];
@@ -33709,7 +35004,7 @@ function useFilterable(flattedColumns) {
   };
 }
 function useGetRowKey$1(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const rowKey = (_a = props.rowKey) != null ? _a : config.rowKey;
     if (isString(rowKey)) {
@@ -33727,17 +35022,17 @@ function useGetRowKey$1(props, config) {
 var __defProp$3$2 = Object.defineProperty;
 var __defProps$3$1 = Object.defineProperties;
 var __getOwnPropDescs$3$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$3$2 = Object.getOwnPropertySymbols;
-var __hasOwnProp$3$2 = Object.prototype.hasOwnProperty;
-var __propIsEnum$3$2 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$3$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3$3 = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$3$2 = (obj, key, value) => key in obj ? __defProp$3$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$3$2 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$3$2.call(b, prop))
+    if (__hasOwnProp$3$3.call(b, prop))
       __defNormalProp$3$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols$3$2)
-    for (var prop of __getOwnPropSymbols$3$2(b)) {
-      if (__propIsEnum$3$2.call(b, prop))
+  if (__getOwnPropSymbols$3$3)
+    for (var prop of __getOwnPropSymbols$3$3(b)) {
+      if (__propIsEnum$3$3.call(b, prop))
         __defNormalProp$3$2(a, prop, b[prop]);
     }
   return a;
@@ -33747,7 +35042,7 @@ function usePagination$1(props, config) {
   const paginationConfig = useGlobalConfig$1("pagination");
   const pageIndex = ref();
   const pageSize = ref();
-  const tempPagination = computed$1(() => {
+  const tempPagination = computed(() => {
     const { pagination } = props;
     if (pagination === false) {
       return null;
@@ -33770,7 +35065,7 @@ function usePagination$1(props, config) {
     pageSize.value = size;
     callEmit((_a = tempPagination.value) == null ? void 0 : _a["onUpdate:pageSize"], size);
   };
-  const mergedPagination = computed$1(() => {
+  const mergedPagination = computed(() => {
     const pagination = tempPagination.value;
     if (pagination === null) {
       return null;
@@ -33784,21 +35079,21 @@ function usePagination$1(props, config) {
   });
   return { mergedPagination };
 }
-function useScroll(props, { isSticky, stickyScrollLeft }) {
+function useScroll(props, autoHeight, { isSticky, stickyScrollLeft }) {
   var _a, _b;
   const { scrollHeadRef, scrollBodyRef, scrollFootRef, handleScroll, pingedStart, pingedEnd } = useScrollRef(stickyScrollLeft);
   process.env.NODE_ENV !== "production" && ((_a = props.scroll) == null ? void 0 : _a.x) && Logger.warn("components/table", "`scroll.x` was deprecated, please use `scroll.width` instead");
   process.env.NODE_ENV !== "production" && ((_b = props.scroll) == null ? void 0 : _b.y) && Logger.warn("components/table", "`scroll.y` was deprecated, please use `scroll.height` instead");
-  const scrollWidth = computed$1(() => {
+  const scrollWidth = computed(() => {
     var _a2, _b2;
     return convertCssPixel(((_a2 = props.scroll) == null ? void 0 : _a2.width) || ((_b2 = props.scroll) == null ? void 0 : _b2.x));
   });
-  const scrollHeight = computed$1(() => {
+  const scrollHeight = computed(() => {
     var _a2, _b2;
-    return convertCssPixel(((_a2 = props.scroll) == null ? void 0 : _a2.height) || ((_b2 = props.scroll) == null ? void 0 : _b2.y));
+    return convertCssPixel(((_a2 = props.scroll) == null ? void 0 : _a2.height) || ((_b2 = props.scroll) == null ? void 0 : _b2.y)) || (autoHeight.value ? "auto" : "");
   });
-  const scrollBarSize = computed$1(() => props.virtual ? 0 : getScrollBarSize(convertElement(scrollBodyRef)));
-  const scrollBarSizeOnFixedHolder = computed$1(() => isSticky.value ? 0 : scrollHeight.value ? scrollBarSize.value : 0);
+  const scrollBarSize = computed(() => getScrollBarSize(convertElement(scrollBodyRef)));
+  const scrollBarSizeOnFixedHolder = computed(() => isSticky.value ? 0 : scrollHeight.value ? scrollBarSize.value : 0);
   const scrollTo = (options) => {
     var _a2;
     if (props.virtual) {
@@ -33885,9 +35180,9 @@ function useScrollRef(stickyScrollLeft) {
   };
 }
 function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMap }) {
-  const selectable = computed$1(() => flattedColumns.value.find((column) => "type" in column && column.type === "selectable"));
+  const selectable = computed(() => flattedColumns.value.find((column) => "type" in column && column.type === "selectable"));
   const [selectedRowKeys, setSelectedRowKeys] = useControlledProp(props, "selectedRowKeys", () => []);
-  const currentPageRowKeys = computed$1(() => {
+  const currentPageRowKeys = computed(() => {
     const { disabled } = selectable.value || {};
     const enabledRowKeys = [];
     const disabledRowKeys = [];
@@ -33900,7 +35195,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     });
     return { enabledRowKeys, disabledRowKeys };
   });
-  const indeterminateRowKeys = computed$1(() => {
+  const indeterminateRowKeys = computed(() => {
     const indeterminateKeySet = /* @__PURE__ */ new Set();
     const selectedKeys = selectedRowKeys.value;
     const { disabledRowKeys } = currentPageRowKeys.value;
@@ -33921,7 +35216,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     });
     return [...indeterminateKeySet];
   });
-  const countCurrentPageSelected = computed$1(() => {
+  const countCurrentPageSelected = computed(() => {
     const selectedKeys = selectedRowKeys.value;
     const { disabledRowKeys } = currentPageRowKeys.value;
     let total = 0;
@@ -33932,7 +35227,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     }, 0);
     return total;
   });
-  const currentPageAllSelected = computed$1(() => {
+  const currentPageAllSelected = computed(() => {
     const dataCount = paginatedMap.value.size;
     const disabledCount = currentPageRowKeys.value.disabledRowKeys.length;
     if (dataCount === 0 || dataCount === disabledCount) {
@@ -33940,7 +35235,7 @@ function useSelectable$1(props, locale, flattedColumns, { mergedMap, paginatedMa
     }
     return dataCount === disabledCount + countCurrentPageSelected.value;
   });
-  const currentPageSomeSelected = computed$1(() => !currentPageAllSelected.value && countCurrentPageSelected.value > 0);
+  const currentPageSomeSelected = computed(() => !currentPageAllSelected.value && countCurrentPageSelected.value > 0);
   const emitChange = (tempRowKeys) => {
     setSelectedRowKeys(tempRowKeys);
     const dataMap = mergedMap.value;
@@ -34048,7 +35343,7 @@ const invertMenuItemKey = Symbol("IDUX_TABLE_KEY_selectable-invert");
 const noneMenuItemKey = Symbol("IDUX_TABLE_KEY_selectable-none");
 const pageInvertMenuItemKey = Symbol("IDUX_TABLE_KEY_selectable-pageInvert");
 function useMergedMenus(selectable, locale) {
-  return computed$1(() => {
+  return computed(() => {
     const { menus } = selectable.value || {};
     if (!menus || menus.length === 0) {
       return [];
@@ -34129,7 +35424,7 @@ function useMenuClickHandle(selectable, mergedMap, paginatedMap, selectedRowKeys
   ]);
   return (options) => {
     const key = options.key;
-    if (isSymbol$1(key) && menuClickHandles.has(key)) {
+    if (isSymbol(key) && menuClickHandles.has(key)) {
       const handle = menuClickHandles.get(key);
       handle();
       return;
@@ -34150,7 +35445,7 @@ function useMenuClickHandle(selectable, mergedMap, paginatedMap, selectedRowKeys
 }
 function useSortable(flattedColumns) {
   var _a, _b;
-  const activeSortColumn = computed$1(() => flattedColumns.value.find((column) => {
+  const activeSortColumn = computed(() => flattedColumns.value.find((column) => {
     var _a2;
     return (_a2 = column.sortable) == null ? void 0 : _a2.orderBy;
   }));
@@ -34196,8 +35491,8 @@ function getCurrOrderBy(orders, currOrderBy) {
   return orders[orders.indexOf(currOrderBy) + 1];
 }
 function useSticky(props) {
-  const isSticky = computed$1(() => !!props.sticky);
-  const mergedSticky = computed$1(() => {
+  const isSticky = computed(() => !!props.sticky);
+  const mergedSticky = computed(() => {
     const { sticky } = props;
     const {
       offsetHead = 0,
@@ -34216,7 +35511,7 @@ function useSticky(props) {
   return { isSticky, mergedSticky, stickyScrollLeft };
 }
 function useTableLayout(props, { hasEllipsis, hasFixed }, { scrollWidth, scrollHeight }, isSticky) {
-  return computed$1(() => {
+  return computed(() => {
     if (props.tableLayout) {
       return props.tableLayout;
     }
@@ -34231,31 +35526,31 @@ function useTableLayout(props, { hasEllipsis, hasFixed }, { scrollWidth, scrollH
 }
 function useTags(props) {
   return {
-    tableTag: computed$1(() => {
+    tableTag: computed(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.table) != null ? _b : "table";
     }),
-    headTag: computed$1(() => {
+    headTag: computed(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.head) != null ? _b : "thead";
     }),
-    headRowTag: computed$1(() => {
+    headRowTag: computed(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.headRow) != null ? _b : "tr";
     }),
-    headColTag: computed$1(() => {
+    headColTag: computed(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.headCol) != null ? _b : "th";
     }),
-    bodyTag: computed$1(() => {
+    bodyTag: computed(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.body) != null ? _b : "tbody";
     }),
-    bodyRowTag: computed$1(() => {
+    bodyRowTag: computed(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.bodyRow) != null ? _b : "tr";
     }),
-    bodyColTag: computed$1(() => {
+    bodyColTag: computed(() => {
       var _a, _b;
       return (_b = (_a = props.tags) == null ? void 0 : _a.bodyCol) != null ? _b : "td";
     })
@@ -34265,7 +35560,7 @@ const TABLE_TOKEN = Symbol("TABLE_TOKEN");
 const tableBodyToken = Symbol("tableBodyToken");
 var ColGroup = defineComponent({
   props: {
-    ixFixedHolder: Boolean
+    isFixedHolder: Boolean
   },
   setup(props) {
     const {
@@ -34276,13 +35571,13 @@ var ColGroup = defineComponent({
       mergedSelectableMenus,
       mergedPrefixCls
     } = inject(TABLE_TOKEN);
-    const isRender = computed$1(() => flattedColumns.value.some((column) => !!column.width || "type" in column));
+    const isRender = computed(() => flattedColumns.value.some((column) => !!column.width || "type" in column));
     return () => {
       const {
-        ixFixedHolder
+        isFixedHolder
       } = props;
       let children;
-      if (ixFixedHolder) {
+      if (isFixedHolder) {
         const widths = columnWidthsWithScrollBar.value;
         children = flattedColumnsWithScrollBar.value.map((column, colIndex) => renderCol(mergedPrefixCls, mergedSelectableMenus, column, widths[colIndex]));
       } else if (isRender.value) {
@@ -34325,16 +35620,16 @@ var FixedHolder = defineComponent({
       columnWidths
     } = inject(TABLE_TOKEN);
     useScrollEvents(scrollHeadRef, handleScroll);
-    const isMaxContent = computed$1(() => scrollWidth.value === "max-content");
-    const hasData = computed$1(() => flattedData.value.length > 0);
-    const classes = computed$1(() => {
+    const isMaxContent = computed(() => scrollWidth.value === "max-content");
+    const hasData = computed(() => flattedData.value.length > 0);
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [`${prefixCls}-fixed-holder`]: true,
         [`${prefixCls}-sticky-holder`]: isSticky.value
       };
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const sticky = isSticky.value;
       const {
         offsetHead,
@@ -34346,7 +35641,7 @@ var FixedHolder = defineComponent({
         bottom: sticky ? offsetFoot : void 0
       };
     });
-    const tableStyle = computed$1(() => {
+    const tableStyle = computed(() => {
       const visibility = hasData.value && !columnWidths.value.length ? "hidden" : void 0;
       return {
         tableLayout: "fixed",
@@ -34354,17 +35649,15 @@ var FixedHolder = defineComponent({
       };
     });
     return () => {
-      var _a;
-      const children = hasData.value && !isMaxContent.value ? createVNode(ColGroup, {
-        "ixFixedHolder": true
-      }, null) : null;
       return createVNode("div", {
         "class": classes.value,
         "style": style.value,
         "ref": scrollHeadRef
       }, [createVNode("table", {
         "style": tableStyle.value
-      }, [children, (_a = slots.default) == null ? void 0 : _a.call(slots)])]);
+      }, [(hasData.value || !isMaxContent.value) && createVNode(ColGroup, {
+        "isFixedHolder": true
+      }, null), slots.default && slots.default()])]);
     };
   }
 });
@@ -34397,7 +35690,7 @@ var StickyScroll = defineComponent({
     const delta = ref(0);
     const bodyClientWidth = ref(0);
     const bodyScrollWidth = ref(0);
-    const scrollBarWidth = computed$1(() => {
+    const scrollBarWidth = computed(() => {
       const clientWidth = bodyClientWidth.value;
       const scrollWidth = bodyScrollWidth.value;
       return scrollWidth && clientWidth * (clientWidth / scrollWidth);
@@ -34418,21 +35711,21 @@ var StickyScroll = defineComponent({
         bodyScrollWidth.value = scrollWidth;
       }
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       return {
         height: getScrollBarSize(),
         width: bodyClientWidth.value,
         bottom: mergedSticky.value.offsetScroll
       };
     });
-    const scrollBarClasses = computed$1(() => {
+    const scrollBarClasses = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return {
         [`${prefixCls}-sticky-scroll-bar`]: true,
         [`${prefixCls}-sticky-scroll-bar-active`]: isActive.value
       };
     });
-    const scrollBarStyle = computed$1(() => {
+    const scrollBarStyle = computed(() => {
       return {
         width: `${scrollBarWidth.value}px`,
         transform: `translate3d(${stickyScrollLeft.value}px, 0, 0)`
@@ -34517,26 +35810,46 @@ var StickyScroll = defineComponent({
   }
 });
 var BodyRowSingle = defineComponent({
-  setup(_, {
+  props: {
+    isEmpty: Boolean
+  },
+  setup(props, {
     slots
   }) {
     const {
-      flattedColumns,
       bodyRowTag,
-      bodyColTag
+      bodyColTag,
+      mergedPrefixCls,
+      flattedColumns,
+      hasFixed,
+      scrollWidth,
+      scrollBarColumn
     } = inject(TABLE_TOKEN);
-    const columnCount = computed$1(() => flattedColumns.value.length);
+    const {
+      mainTableWidth
+    } = inject(tableBodyToken);
+    const columnCount = computed(() => flattedColumns.value.length);
     return () => {
       const BodyRowTag = bodyRowTag.value;
       const BodyColTag = bodyColTag.value;
+      let children = slots.default();
+      if (props.isEmpty ? scrollWidth.value : hasFixed.value) {
+        const scrollBar = scrollBarColumn.value;
+        children = createVNode("div", {
+          "class": `${mergedPrefixCls.value}-fixed-row`,
+          "style": {
+            width: convertCssPixel(mainTableWidth.value - (scrollBar ? scrollBar.width : 0)),
+            position: "sticky",
+            left: 0,
+            overflow: "hidden"
+          }
+        }, [children]);
+      }
       return createVNode(BodyRowTag, null, {
         default: () => [createVNode(BodyColTag, {
           "colSpan": columnCount.value
         }, {
-          default: () => {
-            var _a;
-            return [(_a = slots.default) == null ? void 0 : _a.call(slots)];
-          }
+          default: () => [children]
         })]
       });
     };
@@ -34545,6 +35858,7 @@ var BodyRowSingle = defineComponent({
 const tableProps = {
   expandedRowKeys: IxPropTypes.array(),
   selectedRowKeys: IxPropTypes.array(),
+  autoHeight: IxPropTypes.bool,
   borderless: IxPropTypes.bool,
   childrenKey: IxPropTypes.string.def("children"),
   columns: IxPropTypes.array().def(() => []),
@@ -34691,25 +36005,25 @@ function getColTitle(ellipsis, children, title) {
   }
   return _title;
 }
-var __defProp$2$4 = Object.defineProperty;
-var __defProps$2$1 = Object.defineProperties;
-var __getOwnPropDescs$2$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$2$4 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$4 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$4 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2$4 = (obj, key, value) => key in obj ? __defProp$2$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2$4 = (a, b) => {
+var __defProp$2$5 = Object.defineProperty;
+var __defProps$2$2 = Object.defineProperties;
+var __getOwnPropDescs$2$2 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$2$5 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$5 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$5 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$5 = (obj, key, value) => key in obj ? __defProp$2$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$5 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$2$4.call(b, prop))
-      __defNormalProp$2$4(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2$4)
-    for (var prop of __getOwnPropSymbols$2$4(b)) {
-      if (__propIsEnum$2$4.call(b, prop))
-        __defNormalProp$2$4(a, prop, b[prop]);
+    if (__hasOwnProp$2$5.call(b, prop))
+      __defNormalProp$2$5(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$5)
+    for (var prop of __getOwnPropSymbols$2$5(b)) {
+      if (__propIsEnum$2$5.call(b, prop))
+        __defNormalProp$2$5(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$2$1 = (a, b) => __defProps$2$1(a, __getOwnPropDescs$2$1(b));
+var __spreadProps$2$2 = (a, b) => __defProps$2$2(a, __getOwnPropDescs$2$2(b));
 var BodyCell = defineComponent({
   props: tableBodyCellProps,
   setup(props) {
@@ -34726,7 +36040,7 @@ var BodyCell = defineComponent({
       bodyColTag
     } = inject(TABLE_TOKEN);
     const dataValue = useDataValue(props);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         key,
         fixed,
@@ -34744,7 +36058,7 @@ var BodyCell = defineComponent({
           lastStartKey,
           firstEndKey
         } = fixedColumnKeys.value;
-        classes2 = __spreadProps$2$1(__spreadValues$2$4({}, classes2), {
+        classes2 = __spreadProps$2$2(__spreadValues$2$5({}, classes2), {
           [`${prefixCls}-fix-start`]: fixed === "start",
           [`${prefixCls}-fix-start-last`]: lastStartKey === key,
           [`${prefixCls}-fix-end`]: fixed === "end",
@@ -34754,7 +36068,7 @@ var BodyCell = defineComponent({
       }
       return normalizeClass(classes2);
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const {
         fixed
       } = props.column;
@@ -34805,7 +36119,7 @@ var BodyCell = defineComponent({
   }
 });
 function useDataValue(props) {
-  return computed$1(() => {
+  return computed(() => {
     const {
       column,
       record
@@ -34839,7 +36153,7 @@ function renderChildren$2(props, slots, value) {
     Logger.warn("components/table", "`customRender` was deprecated, please use `customCell` instead");
   }
   const cellRender = customRender != null ? customRender : customCell;
-  if (isFunction$1(cellRender)) {
+  if (isFunction(cellRender)) {
     return cellRender({
       value,
       record,
@@ -34873,7 +36187,7 @@ function renderExpandableChildren(props, slots, expandable, prefixCls) {
   let iconNode;
   if (disabled) {
     iconNode = null;
-  } else if (isFunction$1(customIcon)) {
+  } else if (isFunction(customIcon)) {
     iconNode = customIcon({
       expanded: !!expanded,
       record
@@ -34948,8 +36262,8 @@ var BodyRow = defineComponent({
       handleSelect,
       clickEvents
     } = useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange, selectable, handleSelectChange, currentPageRowKeys);
-    const isSelected = computed$1(() => selectedRowKeys.value.includes(props.rowKey));
-    const isIndeterminate = computed$1(() => indeterminateRowKeys.value.includes(props.rowKey));
+    const isSelected = computed(() => selectedRowKeys.value.includes(props.rowKey));
+    const isIndeterminate = computed(() => indeterminateRowKeys.value.includes(props.rowKey));
     const classes = useClasses(props, tableProps2, isSelected, mergedPrefixCls);
     return () => {
       const children = renderChildren$1(props, flattedColumns, expandDisabled.value, handleExpend, isSelected, isIndeterminate, selectDisabled, handleSelect);
@@ -34963,8 +36277,8 @@ var BodyRow = defineComponent({
   }
 });
 function useClasses(props, tableProps2, isSelected, mergedPrefixCls) {
-  const rowClassName = computed$1(() => tableProps2.rowClassName ? tableProps2.rowClassName(props.record, props.rowIndex) : void 0);
-  return computed$1(() => {
+  const rowClassName = computed(() => tableProps2.rowClassName ? tableProps2.rowClassName(props.record, props.rowIndex) : void 0);
+  return computed(() => {
     const prefixCls = `${mergedPrefixCls.value}-row`;
     const {
       level,
@@ -34980,8 +36294,8 @@ function useClasses(props, tableProps2, isSelected, mergedPrefixCls) {
   });
 }
 function useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange, selectable, handleSelectChange, currentPageRowKeys) {
-  const expandDisabled = computed$1(() => checkExpandDisabled(props.rowData));
-  const expendTrigger = computed$1(() => {
+  const expandDisabled = computed(() => checkExpandDisabled(props.rowData));
+  const expendTrigger = computed(() => {
     var _a;
     return (_a = expandable.value) == null ? void 0 : _a.trigger;
   });
@@ -34992,8 +36306,8 @@ function useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange,
     } = props;
     handleExpandChange(rowKey, record);
   };
-  const selectDisabled = computed$1(() => currentPageRowKeys.value.disabledRowKeys.includes(props.rowKey));
-  const selectTrigger = computed$1(() => {
+  const selectDisabled = computed(() => currentPageRowKeys.value.disabledRowKeys.includes(props.rowKey));
+  const selectTrigger = computed(() => {
     var _a;
     return (_a = selectable.value) == null ? void 0 : _a.trigger;
   });
@@ -35020,7 +36334,7 @@ function useEvents$1(props, expandable, checkExpandDisabled, handleExpandChange,
       handleSelect();
     }
   };
-  const clickEvents = computed$1(() => {
+  const clickEvents = computed(() => {
     const onClick = expendTrigger.value === "click" || selectTrigger.value === "click" ? handleClick : void 0;
     const onDblclick = expendTrigger.value === "dblclick" || selectTrigger.value === "dblclick" ? handleDblclick : void 0;
     return {
@@ -35080,7 +36394,6 @@ function renderChildren$1(props, flattedColumns, expandDisabled, handleExpend, i
   return children;
 }
 function renderBodyRow(item, rowIndex, slots, expandable) {
-  const nodes = [];
   const {
     expanded,
     level,
@@ -35096,12 +36409,9 @@ function renderBodyRow(item, rowIndex, slots, expandable) {
     rowIndex,
     rowKey
   };
-  nodes.push(createVNode(BodyRow, rowProps, null));
-  if (expanded) {
-    const expandedContext = renderExpandedContext(rowProps, slots, expandable);
-    expandedContext && nodes.push(expandedContext);
-  }
-  return nodes;
+  const rowNode = createVNode(BodyRow, rowProps, null);
+  const expandedNode = expanded && renderExpandedContext(rowProps, slots, expandable);
+  return expandedNode ? [rowNode, expandedNode] : rowNode;
 }
 function renderExpandedContext(props, slots, expandable) {
   const {
@@ -35112,7 +36422,7 @@ function renderExpandedContext(props, slots, expandable) {
     rowIndex
   } = props;
   let expandedContext;
-  if (isFunction$1(customExpand)) {
+  if (isFunction(customExpand)) {
     expandedContext = customExpand({
       record,
       rowIndex
@@ -35141,7 +36451,7 @@ var Body = defineComponent({
       isSticky,
       bodyTag
     } = inject(TABLE_TOKEN);
-    const showMeasure = computed$1(() => scrollWidth.value || scrollHeight.value || isSticky.value);
+    const showMeasure = computed(() => scrollWidth.value || scrollHeight.value || isSticky.value);
     return () => {
       const children = [];
       if (tableSlots.alert) {
@@ -35155,11 +36465,13 @@ var Body = defineComponent({
           children.push(...slots.default());
         } else {
           data.forEach((item, rowIndex) => {
-            children.push(...renderBodyRow(item, rowIndex, tableSlots, expandable.value));
+            children.push(...convertArray(renderBodyRow(item, rowIndex, tableSlots, expandable.value)));
           });
         }
       } else {
-        children.push(createVNode(BodyRowSingle, null, {
+        children.push(createVNode(BodyRowSingle, {
+          "isEmpty": true
+        }, {
           default: () => [createVNode(\u0275Empty, {
             "empty": props.empty
           }, tableSlots)]
@@ -35181,11 +36493,11 @@ var FilterableTrigger = defineComponent({
       locale,
       mergedPrefixCls
     } = inject(TABLE_TOKEN);
-    const multiple = computed$1(() => {
+    const multiple = computed(() => {
       var _a;
       return (_a = props.filterable.multiple) != null ? _a : config.columnBase.filterable.multiple;
     });
-    const footer = computed$1(() => {
+    const footer = computed(() => {
       var _a;
       return (_a = props.filterable.footer) != null ? _a : config.columnBase.filterable.footer;
     });
@@ -35224,7 +36536,7 @@ var FilterableTrigger = defineComponent({
         customMenu,
         menus
       } = props.filterable;
-      if (isFunction$1(customMenu)) {
+      if (isFunction(customMenu)) {
         children.push(customMenu());
       } else if (isString(customMenu) && slots[customMenu]) {
         children.push(slots[customMenu]());
@@ -35236,7 +36548,7 @@ var FilterableTrigger = defineComponent({
       }
       return children;
     };
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-filterable-trigger`;
       return normalizeClass({
         [prefixCls]: true,
@@ -35247,7 +36559,7 @@ var FilterableTrigger = defineComponent({
       const {
         customTrigger
       } = props.filterable;
-      if (isFunction$1(customTrigger)) {
+      if (isFunction(customTrigger)) {
         return customTrigger();
       }
       if (isString(customTrigger) && slots[customTrigger]) {
@@ -35321,7 +36633,7 @@ var SelectableTrigger = defineComponent({
       mergedSelectableMenus,
       handleSelectableMenuClick
     } = inject(TABLE_TOKEN);
-    const disabled = computed$1(() => {
+    const disabled = computed(() => {
       const dataCount = paginatedMap.value.size;
       return dataCount === 0 || dataCount === currentPageRowKeys.value.disabledRowKeys.length;
     });
@@ -35419,21 +36731,21 @@ function renderSortTrigger(mergedPrefixCls, orders, activeOrderBy) {
     "class": `${prefixCls}-sortable-trigger`
   }, [upNode, downNode]);
 }
-var __defProp$1$5 = Object.defineProperty;
+var __defProp$1$6 = Object.defineProperty;
 var __defProps$1$2 = Object.defineProperties;
 var __getOwnPropDescs$1$2 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$6 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$6 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$6 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$5 = (obj, key, value) => key in obj ? __defProp$1$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$5 = (a, b) => {
+var __getOwnPropSymbols$1$7 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$7 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$7 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$6 = (obj, key, value) => key in obj ? __defProp$1$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$6 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$6.call(b, prop))
-      __defNormalProp$1$5(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$6)
-    for (var prop of __getOwnPropSymbols$1$6(b)) {
-      if (__propIsEnum$1$6.call(b, prop))
-        __defNormalProp$1$5(a, prop, b[prop]);
+    if (__hasOwnProp$1$7.call(b, prop))
+      __defNormalProp$1$6(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$7)
+    for (var prop of __getOwnPropSymbols$1$7(b)) {
+      if (__propIsEnum$1$7.call(b, prop))
+        __defNormalProp$1$6(a, prop, b[prop]);
     }
   return a;
 };
@@ -35454,7 +36766,7 @@ var HeadCell = defineComponent({
       filterByMap,
       setFilterBy
     } = inject(TABLE_TOKEN);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         type,
         align,
@@ -35479,7 +36791,7 @@ var HeadCell = defineComponent({
           lastStartKey,
           firstEndKey
         } = fixedColumnKeys.value;
-        classes2 = __spreadProps$1$2(__spreadValues$1$5({}, classes2), {
+        classes2 = __spreadProps$1$2(__spreadValues$1$6({}, classes2), {
           [`${prefixCls}-fix-start`]: fixed === "start",
           [`${prefixCls}-fix-start-last`]: lastStartKey === key,
           [`${prefixCls}-fix-end`]: fixed === "end",
@@ -35489,7 +36801,7 @@ var HeadCell = defineComponent({
       }
       return normalizeClass(classes2);
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       const {
         fixed,
         colStart,
@@ -35511,8 +36823,8 @@ var HeadCell = defineComponent({
         right: fixed === "end" ? fixedOffset : void 0
       };
     });
-    const activeSortOrderBy = computed$1(() => activeSortable.key === props.column.key && !!activeSortable.orderBy ? activeSortable.orderBy : void 0);
-    const activeFilterBy = computed$1(() => filterByMap[props.column.key]);
+    const activeSortOrderBy = computed(() => activeSortable.key === props.column.key && !!activeSortable.orderBy ? activeSortable.orderBy : void 0);
+    const activeFilterBy = computed(() => filterByMap[props.column.key]);
     const onUpdateFilterBy = (filterBy) => {
       const {
         key,
@@ -35584,7 +36896,7 @@ var HeadCell = defineComponent({
 });
 function renderChildren(title, customTitle, slots) {
   let children = title;
-  if (isFunction$1(customTitle)) {
+  if (isFunction(customTitle)) {
     children = customTitle({
       title
     });
@@ -35718,7 +37030,7 @@ var MainTable = defineComponent({
       });
     });
     onBeforeUnmount(() => offResize(mainTableRef.value, handleWrapperResize));
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-container`]: true,
@@ -35730,7 +37042,7 @@ var MainTable = defineComponent({
         [`${prefixCls}-scroll-vertical`]: scrollHeight.value
       });
     });
-    const contentStyle = computed$1(() => {
+    const contentStyle = computed(() => {
       var _a;
       const width = scrollWidth.value;
       const height = scrollHeight.value;
@@ -35743,7 +37055,7 @@ var MainTable = defineComponent({
         [fullHeight ? "height" : "maxHeight"]: height
       };
     });
-    const tableStyle = computed$1(() => {
+    const tableStyle = computed(() => {
       return {
         tableLayout: tableLayout.value,
         width: scrollWidth.value,
@@ -35791,9 +37103,9 @@ var MainTable = defineComponent({
             "style": contentStyle.value,
             "dataSource": flattedData.value,
             "fullHeight": fullHeight,
+            "getKey": "rowKey",
             "height": height || y,
-            "itemHeight": 44,
-            "itemKey": "rowKey",
+            "itemHeight": 47,
             "itemRender": itemRender,
             "contentRender": contentRender,
             "virtual": true,
@@ -35860,25 +37172,25 @@ function renderPagination(mergedPagination, filteredData, prefixCls) {
   }
   return [top, bottom];
 }
-var __defProp$a = Object.defineProperty;
-var __defProps$7 = Object.defineProperties;
-var __getOwnPropDescs$7 = Object.getOwnPropertyDescriptors;
+var __defProp$b = Object.defineProperty;
+var __defProps$9 = Object.defineProperties;
+var __getOwnPropDescs$9 = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$b = Object.getOwnPropertySymbols;
 var __hasOwnProp$b = Object.prototype.hasOwnProperty;
 var __propIsEnum$b = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$a = (obj, key, value) => key in obj ? __defProp$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$a = (a, b) => {
+var __defNormalProp$b = (obj, key, value) => key in obj ? __defProp$b(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$b = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$b.call(b, prop))
-      __defNormalProp$a(a, prop, b[prop]);
+      __defNormalProp$b(a, prop, b[prop]);
   if (__getOwnPropSymbols$b)
     for (var prop of __getOwnPropSymbols$b(b)) {
       if (__propIsEnum$b.call(b, prop))
-        __defNormalProp$a(a, prop, b[prop]);
+        __defNormalProp$b(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$7 = (a, b) => __defProps$7(a, __getOwnPropDescs$7(b));
+var __spreadProps$9 = (a, b) => __defProps$9(a, __getOwnPropDescs$9(b));
 var Table = defineComponent({
   name: "IxTable",
   props: tableProps,
@@ -35887,13 +37199,17 @@ var Table = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-table`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-table`);
     const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("table");
+    const autoHeight = computed(() => {
+      var _a;
+      return (_a = props.autoHeight) != null ? _a : config.autoHeight;
+    });
     const tags = useTags(props);
     const getRowKey = useGetRowKey$1(props, config);
     const stickyContext = useSticky(props);
-    const scrollContext = useScroll(props, stickyContext);
+    const scrollContext = useScroll(props, autoHeight, stickyContext);
     const columnsContext = useColumns(props, slots, config, scrollContext.scrollBarSizeOnFixedHolder);
     const sortableContext = useSortable(columnsContext.flattedColumns);
     const filterableContext = useFilterable(columnsContext.flattedColumns);
@@ -35904,7 +37220,7 @@ var Table = defineComponent({
     } = usePagination$1(props, config);
     const dataContext = useDataSource(props, getRowKey, sortableContext.activeSortable, filterableContext.activeFilters, expandableContext.expandedRowKeys, mergedPagination);
     const selectableContext = useSelectable$1(props, locale, columnsContext.flattedColumns, dataContext);
-    const context = __spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadProps$7(__spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadValues$a(__spreadProps$7(__spreadValues$a({
+    const context = __spreadValues$b(__spreadValues$b(__spreadValues$b(__spreadProps$9(__spreadValues$b(__spreadValues$b(__spreadValues$b(__spreadValues$b(__spreadValues$b(__spreadProps$9(__spreadValues$b({
       props,
       mergedPrefixCls,
       slots,
@@ -35920,7 +37236,7 @@ var Table = defineComponent({
     expose({
       scrollTo: scrollContext.scrollTo
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
         borderless = config.borderless,
@@ -35928,6 +37244,7 @@ var Table = defineComponent({
       } = props;
       return normalizeClass({
         [prefixCls]: true,
+        [`${prefixCls}-auto-height`]: autoHeight.value,
         [`${prefixCls}-borderless`]: borderless,
         [`${prefixCls}-${size}`]: true
       });
@@ -35960,30 +37277,31 @@ const IxTableColumn = TableColumn;
 
 const tabsToken = Symbol("tabsToken");
 const tabsProps = {
-  selectedKey: IxPropTypes.oneOfType([String, Number]),
-  type: IxPropTypes.oneOf(["card", "line", "segment"]).def("card"),
-  forceRender: IxPropTypes.bool.def(false),
-  placement: IxPropTypes.oneOf(["top", "bottom", "start", "end"]).def("top"),
-  mode: IxPropTypes.oneOf(["default", "primary"]).def("default"),
-  "onUpdate:selectedKey": IxPropTypes.emit(),
-  onTabClick: IxPropTypes.emit(),
-  onPreClick: IxPropTypes.emit(),
-  onNextClick: IxPropTypes.emit()
+  selectedKey: { type: [Number, String, Symbol], default: void 0 },
+  type: { type: String, default: "card" },
+  forceRender: { type: Boolean, default: false },
+  placement: { type: String, default: "top" },
+  mode: { type: String, default: "default" },
+  "onUpdate:selectedKey": [Function, Array],
+  onTabClick: [Function, Array],
+  onPreClick: [Function, Array],
+  onNextClick: [Function, Array]
 };
 const tabProps = {
-  title: IxPropTypes.string,
-  forceRender: IxPropTypes.bool,
-  disabled: IxPropTypes.bool.def(false)
+  title: { type: String, default: void 0 },
+  forceRender: { type: Boolean, default: void 0 },
+  disabled: { type: Boolean, default: false }
 };
 const tabNavProps = {
-  title: IxPropTypes.string,
-  disabled: IxPropTypes.bool
+  defaultSelectedKey: { type: [Number, String, Symbol], default: void 0 },
+  title: { type: String, default: void 0 },
+  disabled: { type: Boolean, default: void 0 }
 };
 var Tab = defineComponent({
   __IDUX_TAB: true,
   name: "IxTab",
   props: tabProps,
-  setup(props, {
+  setup(_, {
     slots
   }) {
     const {
@@ -36011,9 +37329,12 @@ var TabNav = defineComponent({
       handleTabClick
     } = inject(tabsToken);
     const selfElRef = ref(null);
-    const isSelected = computed$1(() => selectedKey.value === key);
-    const prefixCls = computed$1(() => `${mergedPrefixCls.value}-nav`);
-    const classes = computed$1(() => {
+    const isSelected = computed(() => {
+      var _a;
+      return ((_a = selectedKey.value) != null ? _a : props.defaultSelectedKey) === key;
+    });
+    const prefixCls = computed(() => `${mergedPrefixCls.value}-nav`);
+    const classes = computed(() => {
       return normalizeClass({
         [`${prefixCls.value}-tab`]: true,
         [`${prefixCls.value}-tab-selected`]: isSelected.value,
@@ -36044,7 +37365,7 @@ var TabNav = defineComponent({
   }
 });
 function useSelectedElOffset(isHorizontal, selectedElRef) {
-  const selectedElOffset = computed$1(() => {
+  const selectedElOffset = computed(() => {
     var _a, _b, _c, _d;
     if (isHorizontal.value) {
       return (_b = (_a = selectedElRef.value) == null ? void 0 : _a.offsetLeft) != null ? _b : 0;
@@ -36063,10 +37384,10 @@ function useNavRelatedElSize(isHorizontal, navWrapperElRef, navElRef, navPreElRe
   const navHeight = ref(0);
   const navPreNextWidth = ref(0);
   const navPreNextHeight = ref(0);
-  const navSize = computed$1(() => isHorizontal.value ? navWidth.value : navHeight.value);
-  const navWrapperSize = computed$1(() => isHorizontal.value ? navWrapperWidth.value : navWrapperHeight.value);
-  const navPreNextSize = computed$1(() => isHorizontal.value ? navPreNextWidth.value : navPreNextHeight.value);
-  const selectedElSize = computed$1(() => {
+  const navSize = computed(() => isHorizontal.value ? navWidth.value : navHeight.value);
+  const navWrapperSize = computed(() => isHorizontal.value ? navWrapperWidth.value : navWrapperHeight.value);
+  const navPreNextSize = computed(() => isHorizontal.value ? navPreNextWidth.value : navPreNextHeight.value);
+  const selectedElSize = computed(() => {
     var _a, _b, _c, _d;
     if (isHorizontal.value) {
       return (_b = (_a = selectedElRef.value) == null ? void 0 : _a.offsetWidth) != null ? _b : 0;
@@ -36092,7 +37413,7 @@ function useNavRelatedElSize(isHorizontal, navWrapperElRef, navElRef, navPreElRe
   };
 }
 function useVisibleSize(navWrapperSize, selectedElOffset, navOffset) {
-  return computed$1(() => {
+  return computed(() => {
     return navWrapperSize.value - (selectedElOffset.value - navOffset.value);
   });
 }
@@ -36103,17 +37424,17 @@ var Tabs = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tabs`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-tabs`);
     const navWrapperElRef = ref(null);
     const navElRef = ref(null);
     const navBarElRef = ref(null);
     const navPreElRef = ref(null);
     const selectedElRef = ref(null);
     const [selectedKey, setSelectedKey] = useControlledProp(props, "selectedKey");
-    const isLineType = computed$1(() => props.type === "line");
-    const isSegmentType = computed$1(() => props.type === "segment");
+    const isLineType = computed(() => props.type === "line");
+    const isSegmentType = computed(() => props.type === "segment");
     const horizontalPlacement = ["top", "bottom"];
-    const isHorizontal = computed$1(() => horizontalPlacement.includes(props.placement));
+    const isHorizontal = computed(() => horizontalPlacement.includes(props.placement));
     const {
       navSize,
       navWrapperSize,
@@ -36126,7 +37447,7 @@ var Tabs = defineComponent({
       selectedElOffset
     } = useSelectedElOffset(isHorizontal, selectedElRef);
     const visibleSize = useVisibleSize(navWrapperSize, selectedElOffset, navOffset);
-    const hasScroll = computed$1(() => navSize.value > navWrapperSize.value);
+    const hasScroll = computed(() => navSize.value > navWrapperSize.value);
     const updateNavOffset = () => {
       if (visibleSize.value < selectedElSize.value) {
         navOffset.value += selectedElSize.value - visibleSize.value;
@@ -36136,7 +37457,7 @@ var Tabs = defineComponent({
     };
     const preReached = ref(false);
     const nextReached = ref(false);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         type,
         placement,
@@ -36246,7 +37567,15 @@ var Tabs = defineComponent({
     });
     return () => {
       var _a;
-      const tabVNodes = flattenTabVNodes((_a = slots.default) == null ? void 0 : _a.call(slots));
+      let defaultSelectedKey = 1;
+      const tabVNodes = flattenTabVNodes((_a = slots.default) == null ? void 0 : _a.call(slots)).map((item, index) => {
+        if (isNil(item.key)) {
+          item.key = index + 1;
+        } else if (index === 0) {
+          defaultSelectedKey = item.key;
+        }
+        return item;
+      });
       return createVNode("div", {
         "class": classes.value
       }, [createVNode("div", {
@@ -36263,7 +37592,10 @@ var Tabs = defineComponent({
       }, [
         tabVNodes.map((vnode) => {
           var _a2;
-          return createVNode(TabNav, vnode.props, {
+          return createVNode(TabNav, mergeProps(vnode.props, {
+            "key": vnode.key,
+            "defaultSelectedKey": defaultSelectedKey
+          }), {
             title: (_a2 = vnode.children) == null ? void 0 : _a2.title
           });
         })
@@ -36278,12 +37610,12 @@ var Tabs = defineComponent({
         "ref": navBarElRef
       }, null)]), createVNode("div", {
         "class": `${mergedPrefixCls.value}-pane-wrapper`
-      }, [filterTabVNodes(props, tabVNodes, selectedKey)])]);
+      }, [filterTabVNodes(props, tabVNodes, selectedKey, defaultSelectedKey)])]);
     };
   }
 });
 function useNavPreNextClasses(props, mergedPrefixCls, type, disabled) {
-  return computed$1(() => {
+  return computed(() => {
     const {
       placement
     } = props;
@@ -36300,20 +37632,20 @@ function flattenTabVNodes(tabVNodes) {
     key: "__IDUX_TAB"
   });
 }
-function filterTabVNodes(props, tabVNodes, selectedKey) {
+function filterTabVNodes(props, tabVNodes, selectedKey, defaultSelectedKey) {
   const renderTabVNodes = [];
   tabVNodes.forEach((vNode) => {
+    var _a;
     const {
       key
     } = vNode;
     const {
-      forceRender
+      forceRender,
+      disabled
     } = vNode.props;
+    const _disabled = !isNil(disabled);
     const useVShow = forceRender != null ? forceRender : props.forceRender;
-    const show = selectedKey.value === key;
-    if (vNode.key !== void 0) {
-      vNode.key = key;
-    }
+    const show = ((_a = selectedKey.value) != null ? _a : defaultSelectedKey) === key && !_disabled;
     if (useVShow) {
       renderTabVNodes.push(withDirectives(vNode, [[vShow, show]]));
     } else if (show) {
@@ -36331,6 +37663,19 @@ const tagProps = {
   number: IxPropTypes.number,
   shape: IxPropTypes.oneOf(["round", "rect"])
 };
+const tagGroupProps = {
+  activeKeys: IxPropTypes.array().def(() => []),
+  clickable: IxPropTypes.bool.def(false),
+  closable: IxPropTypes.bool.def(false),
+  closeIcon: IxPropTypes.string.def("close"),
+  dataSource: IxPropTypes.array(),
+  gap: IxPropTypes.oneOfType([Number, String]),
+  wrap: IxPropTypes.bool,
+  shape: IxPropTypes.oneOf(["rect", "round"]),
+  "onUpdate:activeKeys": IxPropTypes.emit(),
+  onClick: IxPropTypes.emit(),
+  onClose: IxPropTypes.emit()
+};
 var Tag = defineComponent({
   name: "IxTag",
   props: tagProps,
@@ -36338,16 +37683,16 @@ var Tag = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tag`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-tag`);
     const config = useGlobalConfig$1("tag");
-    const isPresetOrStatusColor = computed$1(() => {
+    const isPresetOrStatusColor = computed(() => {
       const color = props.color;
       if (!color) {
         return false;
       }
       return isPresetColor(color) || isStatusColor(color);
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         shape = config.shape,
         color,
@@ -36364,11 +37709,11 @@ var Tag = defineComponent({
         [`${prefixCls}-has-color`]: !isPreset && color
       });
     });
-    const style = computed$1(() => ({
+    const style = computed(() => ({
       backgroundColor: isPresetOrStatusColor.value ? void 0 : props.color
     }));
     return () => {
-      var _a;
+      var _a, _b;
       const prefixCls = mergedPrefixCls.value;
       const {
         icon,
@@ -36382,7 +37727,7 @@ var Tag = defineComponent({
         "style": style.value
       }, [renderNumericPrefix(prefixCls, number, style.value), icoNode, createVNode("span", {
         "class": `${prefixCls}-content`
-      }, [(_a = slots.default) == null ? void 0 : _a.call(slots)])]);
+      }, [(_a = slots.default) == null ? void 0 : _a.call(slots)]), (_b = slots.suffix) == null ? void 0 : _b.call(slots)]);
     };
   }
 });
@@ -36395,28 +37740,120 @@ function renderNumericPrefix(prefixCls, number, style) {
     "style": style
   }, [number]);
 }
+var __defProp$a = Object.defineProperty;
+var __getOwnPropSymbols$a = Object.getOwnPropertySymbols;
+var __hasOwnProp$a = Object.prototype.hasOwnProperty;
+var __propIsEnum$a = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$a = (obj, key, value) => key in obj ? __defProp$a(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$a = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$a.call(b, prop))
+      __defNormalProp$a(a, prop, b[prop]);
+  if (__getOwnPropSymbols$a)
+    for (var prop of __getOwnPropSymbols$a(b)) {
+      if (__propIsEnum$a.call(b, prop))
+        __defNormalProp$a(a, prop, b[prop]);
+    }
+  return a;
+};
+var TagGroup = defineComponent({
+  name: "IxTagGroup",
+  props: tagGroupProps,
+  setup(props, {
+    slots
+  }) {
+    const common = useGlobalConfig$1("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-tag-group`);
+    const config = useGlobalConfig$1("tagGroup");
+    const gap = computed(() => {
+      var _a;
+      return (_a = props.gap) != null ? _a : config.gap;
+    });
+    const wrap = computed(() => {
+      var _a;
+      return (_a = props.wrap) != null ? _a : config.wrap;
+    });
+    const containerCls = computed(() => {
+      const prefixCls = mergedPrefixCls.value;
+      return {
+        [prefixCls]: true,
+        [`${prefixCls}-clickable`]: props.clickable,
+        [`${prefixCls}-nowrap`]: !wrap.value
+      };
+    });
+    const containerStyle = computed(() => {
+      const columnGap = convertCssPixel(gap.value);
+      return {
+        gap: `8px ${columnGap}`
+      };
+    });
+    const onTagClick = (key, evt) => {
+      if (props.clickable) {
+        callEmit(props.onClick, key, evt);
+        const activeKeys = props.activeKeys;
+        const targetIndex = activeKeys.findIndex((currentKey) => currentKey === key);
+        targetIndex === -1 ? activeKeys.push(key) : activeKeys.splice(targetIndex, 1);
+        callEmit(props["onUpdate:activeKeys"], activeKeys);
+      }
+    };
+    const onCloseIconClick = (key, evt) => {
+      callEmit(props.onClose, key, evt);
+    };
+    return () => {
+      var _a, _b, _c;
+      const prefixCls = mergedPrefixCls.value;
+      const closeIconNode = (_b = (_a = slots.closeIcon) == null ? void 0 : _a.call(slots)) != null ? _b : createVNode(IxIcon, {
+        "name": props.closeIcon
+      }, null);
+      return createVNode("div", {
+        "class": containerCls.value,
+        "style": containerStyle.value
+      }, [(_c = props.dataSource) == null ? void 0 : _c.map((tagData, index) => {
+        var _a2;
+        const key = (_a2 = tagData.key) != null ? _a2 : index;
+        const suffixSlot = {
+          suffix: () => createVNode("span", {
+            "class": `${prefixCls}-close-icon`,
+            "onClick": (evt) => onCloseIconClick(key, evt)
+          }, [closeIconNode])
+        };
+        return createVNode(IxTag, {
+          "key": key,
+          "shape": props.shape,
+          "color": tagData.color,
+          "number": tagData.number,
+          "icon": tagData.icon,
+          "onClick": (evt) => onTagClick(key, evt)
+        }, __spreadValues$a({
+          default: () => tagData.label
+        }, props.closable && suffixSlot));
+      })]);
+    };
+  }
+});
 const IxTag = Tag;
+const IxTagGroup = TagGroup;
 
 var __defProp$9 = Object.defineProperty;
-var __defProps$6 = Object.defineProperties;
-var __getOwnPropDescs$6 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$5 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$5 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$5 = Object.prototype.propertyIsEnumerable;
+var __defProps$8 = Object.defineProperties;
+var __getOwnPropDescs$8 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$6 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$6 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$6 = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$9 = (obj, key, value) => key in obj ? __defProp$9(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$9 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$5.call(b, prop))
+    if (__hasOwnProp$1$6.call(b, prop))
       __defNormalProp$9(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$5)
-    for (var prop of __getOwnPropSymbols$1$5(b)) {
-      if (__propIsEnum$1$5.call(b, prop))
+  if (__getOwnPropSymbols$1$6)
+    for (var prop of __getOwnPropSymbols$1$6(b)) {
+      if (__propIsEnum$1$6.call(b, prop))
         __defNormalProp$9(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$6 = (a, b) => __defProps$6(a, __getOwnPropDescs$6(b));
-const textareaProps = __spreadProps$6(__spreadValues$9({}, commonProps), {
+var __spreadProps$8 = (a, b) => __defProps$8(a, __getOwnPropDescs$8(b));
+const textareaProps = __spreadProps$8(__spreadValues$9({}, commonProps), {
   autoRows: IxPropTypes.oneOfType([Boolean, IxPropTypes.shape({ minRows: Number, maxRows: Number })]),
   computeCount: IxPropTypes.func(),
   maxCount: IxPropTypes.oneOfType([Number, String]),
@@ -36529,17 +37966,17 @@ function useAutoRows(textareaRef, autoRows, accessor) {
     isDestroyed = true;
   });
 }
-var __getOwnPropSymbols$a = Object.getOwnPropertySymbols;
-var __hasOwnProp$a = Object.prototype.hasOwnProperty;
-var __propIsEnum$a = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$9 = Object.getOwnPropertySymbols;
+var __hasOwnProp$9 = Object.prototype.hasOwnProperty;
+var __propIsEnum$9 = Object.prototype.propertyIsEnumerable;
 var __objRest$1 = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$a.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$9.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$a)
-    for (var prop of __getOwnPropSymbols$a(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$a.call(source, prop))
+  if (source != null && __getOwnPropSymbols$9)
+    for (var prop of __getOwnPropSymbols$9(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$9.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
@@ -36554,7 +37991,7 @@ var Textarea = defineComponent({
     attrs
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-textarea`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-textarea`);
     const config = useGlobalConfig$1("textarea");
     const {
       elementRef,
@@ -36580,7 +38017,7 @@ var Textarea = defineComponent({
     onMounted(() => {
       syncValue();
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const {
         showCount = config.showCount,
         size = config.size
@@ -36596,11 +38033,11 @@ var Textarea = defineComponent({
       return normalizeClass([classes2, attrs.class]);
     });
     const dataCount = useDataCount(props, config, accessor);
-    const autoRows = computed$1(() => {
+    const autoRows = computed(() => {
       var _a;
       return (_a = props.autoRows) != null ? _a : config.autoRows;
     });
-    const resize = computed$1(() => {
+    const resize = computed(() => {
       var _a;
       const resize2 = (_a = props.resize) != null ? _a : config.resize;
       if (autoRows.value) {
@@ -36609,7 +38046,7 @@ var Textarea = defineComponent({
         return resize2;
       }
     });
-    const textareaStyle = computed$1(() => ({
+    const textareaStyle = computed(() => ({
       resize: resize.value
     }));
     useAutoRows(elementRef, autoRows, accessor);
@@ -36642,7 +38079,7 @@ var Textarea = defineComponent({
   }
 });
 function useDataCount(props, config, accessor) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b, _c, _d;
     const showCount = (_a = props.showCount) != null ? _a : config.showCount;
     const computeCount = (_b = props.computeCount) != null ? _b : config.computeCount;
@@ -36677,350 +38114,8 @@ function renderSuffix(isClearable, clearIconSlot, clearIcon, clearVisible, onCle
 }
 const IxTextarea = Textarea;
 
-const timePanelContext = Symbol("timePanelContext");
-var __defProp$8 = Object.defineProperty;
-var __defProps$5 = Object.defineProperties;
-var __getOwnPropDescs$5 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$9 = Object.getOwnPropertySymbols;
-var __hasOwnProp$9 = Object.prototype.hasOwnProperty;
-var __propIsEnum$9 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$8 = (obj, key, value) => key in obj ? __defProp$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$8 = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$9.call(b, prop))
-      __defNormalProp$8(a, prop, b[prop]);
-  if (__getOwnPropSymbols$9)
-    for (var prop of __getOwnPropSymbols$9(b)) {
-      if (__propIsEnum$9.call(b, prop))
-        __defNormalProp$8(a, prop, b[prop]);
-    }
-  return a;
-};
-var __spreadProps$5 = (a, b) => __defProps$5(a, __getOwnPropDescs$5(b));
-const baseTimePanelProps = {
-  disabledHours: IxPropTypes.func().def(() => []),
-  disabledMinutes: IxPropTypes.func().def(() => []),
-  disabledSeconds: IxPropTypes.func().def(() => []),
-  hideDisabledOptions: IxPropTypes.bool.def(false),
-  hourStep: IxPropTypes.number.def(1),
-  minuteStep: IxPropTypes.number.def(1),
-  secondStep: IxPropTypes.number.def(1)
-};
-const timePanelProps = __spreadProps$5(__spreadValues$8({}, baseTimePanelProps), {
-  value: IxPropTypes.object(),
-  defaultOpenValue: IxPropTypes.object(),
-  visible: IxPropTypes.bool,
-  hourEnabled: IxPropTypes.bool.def(true),
-  minuteEnabled: IxPropTypes.bool.def(true),
-  secondEnabled: IxPropTypes.bool.def(true),
-  use12Hours: IxPropTypes.bool.def(false),
-  "onUpdate:value": IxPropTypes.emit(),
-  onChange: IxPropTypes.emit()
-});
-const timePanelColumnProps = {
-  selectedValue: IxPropTypes.oneOfType([IxPropTypes.number, IxPropTypes.string]).isRequired,
-  options: IxPropTypes.arrayOf(IxPropTypes.object()).isRequired,
-  visible: IxPropTypes.bool,
-  onChange: IxPropTypes.emit()
-};
-const timePanelCellProps = {
-  disabled: IxPropTypes.bool.def(false),
-  selected: IxPropTypes.bool.def(false),
-  value: IxPropTypes.oneOfType([Number, String]).isRequired,
-  onChange: IxPropTypes.emit()
-};
-var PanelCell = defineComponent({
-  props: timePanelCellProps,
-  setup(props) {
-    const {
-      mergedPrefixCls
-    } = inject(timePanelContext);
-    const classes = computed$1(() => {
-      const prefixCls = `${mergedPrefixCls.value}-cell`;
-      return {
-        [prefixCls]: true,
-        [`${prefixCls}-disabled`]: props.disabled,
-        [`${prefixCls}-selected`]: props.selected
-      };
-    });
-    const onClick = () => {
-      if (!props.disabled && !props.selected) {
-        callEmit(props.onChange, props.value);
-      }
-    };
-    const displayValue = computed$1(() => displayFormat(props.value));
-    return () => createVNode("li", {
-      "class": classes.value,
-      "onClick": onClick
-    }, [displayValue.value]);
-  }
-});
-function displayFormat(val) {
-  return isNumeric(val) ? val.toString().padStart(2, "0") : val;
-}
-function usePanelScroll(props, listRef, mergedPrefixCls) {
-  let scrollHandlerLocked = false;
-  let isScrolling = false;
-  let scrollTargetIndex;
-  function getCellHeight() {
-    var _a, _b, _c;
-    return (_c = (_b = (_a = listRef.value) == null ? void 0 : _a.querySelector(`li.${mergedPrefixCls.value}-cell`)) == null ? void 0 : _b.offsetHeight) != null ? _c : 0;
-  }
-  function adjustPanel(selectedIndex, duration = 200) {
-    const target = listRef.value;
-    if (!target || isScrolling || scrollHandlerLocked) {
-      return;
-    }
-    const top = Math.max(selectedIndex * getCellHeight(), 0);
-    if (top === getScroll(target).scrollTop) {
-      return;
-    }
-    scrollHandlerLocked = true;
-    scrollToTop({ top, target, duration, callback: () => scrollHandlerLocked = false });
-  }
-  function scrollToSelected(duration) {
-    const selectedIndex = props.options.findIndex((item) => item.value === props.selectedValue);
-    adjustPanel(selectedIndex, duration);
-  }
-  function handleScrollAdjust() {
-    isNil(scrollTargetIndex) || scrollTargetIndex < 0 ? scrollToSelected() : adjustPanel(scrollTargetIndex);
-  }
-  function handleScroll() {
-    const target = listRef.value;
-    if (!target || scrollHandlerLocked) {
-      return;
-    }
-    isScrolling = true;
-    scrollTargetIndex = Math.min(Math.round(getScroll(target).scrollTop / getCellHeight()), props.options.length - 1);
-    const targetItem = props.options[scrollTargetIndex];
-    if (!targetItem.disabled) {
-      callEmit(props.onChange, targetItem.value);
-    }
-    nextTick(() => {
-      isScrolling = false;
-    });
-  }
-  watchEffect(() => {
-    if (props.visible) {
-      nextTick(() => scrollToSelected(0));
-    }
-  });
-  watch(() => props.selectedValue, (value) => {
-    const newScrollTargetIndex = props.options.findIndex((item) => item.value === value);
-    if (scrollTargetIndex !== newScrollTargetIndex) {
-      scrollTargetIndex = newScrollTargetIndex;
-      !isScrolling && nextTick(scrollToSelected);
-    }
-  });
-  return {
-    adjustPanel,
-    scrollToSelected,
-    handleScrollAdjust,
-    handleScroll
-  };
-}
-var PanelColumn = defineComponent({
-  props: timePanelColumnProps,
-  setup(props) {
-    const {
-      mergedPrefixCls
-    } = inject(timePanelContext);
-    const listRef = ref(null);
-    const {
-      scrollToSelected,
-      handleScroll,
-      handleScrollAdjust
-    } = usePanelScroll(props, listRef, mergedPrefixCls);
-    function onChange(value) {
-      callEmit(props.onChange, value);
-      nextTick(scrollToSelected);
-    }
-    return () => createVNode("ul", {
-      "ref": listRef,
-      "class": `${mergedPrefixCls.value}-column`,
-      "onScroll": handleScroll,
-      "onMousemove": handleScrollAdjust,
-      "onMouseenter": handleScrollAdjust
-    }, [props.options.map((item, index) => {
-      const {
-        disabled,
-        value
-      } = item;
-      return createVNode(PanelCell, {
-        "key": index,
-        "disabled": disabled,
-        "selected": props.selectedValue === value,
-        "value": value,
-        "onChange": onChange
-      }, null);
-    })]);
-  }
-});
-function normalizeAmPm(hour, is12Hours = false) {
-  if (!is12Hours) {
-    return "";
-  }
-  return hour >= 12 ? "pm" : "am";
-}
-function calculateViewHour(hour, is12Hours) {
-  if (is12Hours) {
-    hour > 12 && (hour -= 12);
-    hour === 0 && (hour = 12);
-  }
-  return hour;
-}
-function getHourValue(hour, ampm) {
-  if (ampm) {
-    ampm = ampm.toLowerCase();
-    if (ampm === "am") {
-      hour >= 12 && (hour -= 12);
-    }
-    if (ampm === "pm") {
-      hour < 12 && (hour += 12);
-    }
-  }
-  return hour;
-}
-function calculateValue(dateConfig, dateNow, type, is12Hours, value) {
-  const { get, set } = dateConfig;
-  const selectNumber = Number(value);
-  const newDate = new Date(dateNow);
-  switch (type) {
-    case "hour":
-      return set(newDate, getHourValue(selectNumber, normalizeAmPm(get(dateNow, "hour"), is12Hours)), "hour");
-    case "minute":
-      return set(newDate, selectNumber, "minute");
-    case "second":
-      return set(newDate, selectNumber, "second");
-    case "AM/PM":
-      return set(newDate, getHourValue(get(newDate, "hour"), value.toString()), "hour");
-  }
-}
-function useOptions(props, dateConfig) {
-  const { get } = dateConfig;
-  const defaultOpenValue = computed$1(() => {
-    var _a;
-    return (_a = props.defaultOpenValue) != null ? _a : dateConfig.startOf(dateConfig.now(), "date");
-  });
-  const selectedValue = computed$1(() => {
-    var _a;
-    return (_a = props.value) != null ? _a : defaultOpenValue.value;
-  });
-  const viewHours = computed$1(() => calculateViewHour(get(selectedValue.value, "hour"), props.use12Hours));
-  const ampm = computed$1(() => normalizeAmPm(get(selectedValue.value, "hour"), props.use12Hours));
-  function getOptions(type) {
-    const getHourOptions = () => {
-      const options = generateNumericOptions(props.use12Hours ? 12 : 24, props.hourStep, props.disabledHours(ampm.value), props.hideDisabledOptions);
-      if (props.use12Hours) {
-        const zeroOpt = options.find((opt) => opt.value === 0);
-        zeroOpt && (zeroOpt.value = 12);
-      }
-      return options;
-    };
-    switch (type) {
-      case "AM/PM":
-        return generateAmPmOptions("", props.hideDisabledOptions);
-      case "second":
-        return generateNumericOptions(60, props.secondStep, props.disabledSeconds(viewHours.value, get(selectedValue.value, "minute"), ampm.value), props.hideDisabledOptions);
-      case "minute":
-        return generateNumericOptions(60, props.minuteStep, props.disabledMinutes(viewHours.value, ampm.value), props.hideDisabledOptions);
-      case "hour":
-        return getHourOptions();
-      default:
-        return [];
-    }
-  }
-  function getSelectedValue(type) {
-    switch (type) {
-      case "AM/PM":
-        return ampm.value;
-      case "hour":
-      default:
-        return get(selectedValue.value, "hour");
-      case "minute":
-        return get(selectedValue.value, "minute");
-      case "second":
-        return get(selectedValue.value, "second");
-    }
-  }
-  function getOnChange(type) {
-    const onChange = (type2, value) => {
-      const newValue = calculateValue(dateConfig, selectedValue.value, type2, props.use12Hours, value);
-      callEmit(props["onUpdate:value"], newValue);
-      callEmit(props.onChange, newValue);
-    };
-    return (value) => onChange(type, value);
-  }
-  const getProps = (type) => {
-    return computed$1(() => ({
-      selectedValue: getSelectedValue(type),
-      options: getOptions(type),
-      onChange: getOnChange(type)
-    }));
-  };
-  return {
-    hourOptionsProps: getProps("hour"),
-    minuteOptionsProps: getProps("minute"),
-    secondOptionsProps: getProps("second"),
-    amPmOptionsProps: getProps("AM/PM")
-  };
-}
-function generateNumericOptions(total, step, disabledOption, hideDisabledOptions) {
-  const options = [];
-  for (let index = 0; index < total; index += step) {
-    const isDisabled = disabledOption.includes(index);
-    if (!isDisabled || !hideDisabledOptions) {
-      options.push({
-        value: index,
-        disabled: isDisabled
-      });
-    }
-  }
-  return options;
-}
-function generateAmPmOptions(disabledOption, hideDisabledOptions) {
-  disabledOption = disabledOption.toLowerCase();
-  return ["am", "pm"].map((item) => ({
-    disabled: disabledOption === item,
-    value: item
-  })).filter((item) => !hideDisabledOptions || !item.disabled);
-}
-var TimePanel = defineComponent({
-  props: timePanelProps,
-  setup(props) {
-    const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-panel`);
-    const dateConfig = useDateConfig();
-    const {
-      hourOptionsProps,
-      minuteOptionsProps,
-      secondOptionsProps,
-      amPmOptionsProps
-    } = useOptions(props, dateConfig);
-    provide(timePanelContext, {
-      mergedPrefixCls
-    });
-    const columns = computed$1(() => {
-      const result = [];
-      props.hourEnabled && result.push(hourOptionsProps.value);
-      props.minuteEnabled && result.push(minuteOptionsProps.value);
-      props.secondEnabled && result.push(secondOptionsProps.value);
-      props.use12Hours && result.push(amPmOptionsProps.value);
-      return result;
-    });
-    return () => createVNode("div", {
-      "class": `${mergedPrefixCls.value}`
-    }, [columns.value.map((item, index) => createVNode(PanelColumn, mergeProps({
-      "key": index
-    }, item, {
-      "visible": props.visible
-    }), null))]);
-  }
-});
-const \u0275TimePanel = TimePanel;
-
 function useInputEnableStatus(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const allowInput = (_a = props.allowInput) != null ? _a : config.allowInput;
     return {
@@ -37039,8 +38134,8 @@ function usePickerControl(valueProp, dateConfig, format, inputPreProcessors, val
   const [inputValue, setInputValue] = useState$1(void 0);
   const [panelValue, setPanelValue] = useState$1(void 0);
   const { parse, format: formatDate } = dateConfig;
-  const dateValue = computed$1(() => convertToDate(dateConfig, valueProp.value, format.value));
-  const formatedDateValue = computed$1(() => isString(valueProp.value) ? valueProp.value : dateValue.value ? formatDate(dateValue.value, format.value) : "");
+  const dateValue = computed(() => convertToDate(dateConfig, valueProp.value, format.value));
+  const formatedDateValue = computed(() => isString(valueProp.value) ? valueProp.value : dateValue.value ? formatDate(dateValue.value, format.value) : "");
   function init() {
     var _a;
     if (!inputValue.value || parse(inputValue.value, format.value).valueOf() !== ((_a = dateValue.value) == null ? void 0 : _a.valueOf())) {
@@ -37076,14 +38171,14 @@ function preProcessInputValue(value, inputPreProcessors) {
   return inputPreProcessors.reduce((result, processor) => processor(result), value);
 }
 function useRangePickerControl(valueProp, dateConfig, format, inputPreProcessors, validateInput, onChange) {
-  const rangeValueRef = computed$1(() => {
-    if (!isArray$2(valueProp.value)) {
+  const rangeValueRef = computed(() => {
+    if (!isArray$1(valueProp.value)) {
       return [void 0, void 0];
     }
     return valueProp.value.map((v) => convertToDate(dateConfig, v, format.value));
   });
-  const fromValue = computed$1(() => rangeValueRef.value[0]);
-  const toValue = computed$1(() => rangeValueRef.value[1]);
+  const fromValue = computed(() => rangeValueRef.value[0]);
+  const toValue = computed(() => rangeValueRef.value[1]);
   const fromControl = usePickerControl(fromValue, dateConfig, format, inputPreProcessors, validateInput, (value) => {
     onChange([value, toValue.value]);
   });
@@ -37092,14 +38187,14 @@ function useRangePickerControl(valueProp, dateConfig, format, inputPreProcessors
   });
   return [fromControl, toControl];
 }
-function useCommonInputProps(props, config, formContext) {
-  return computed$1(() => {
-    var _a, _b, _c, _d, _e;
+function useCommonInputProps(props, config) {
+  return computed(() => {
+    var _a, _b, _c;
     return {
       borderless: (_a = props.borderless) != null ? _a : config.borderless,
       clearable: (_b = props.clearable) != null ? _b : config.clearable,
       clearIcon: (_c = props.clearIcon) != null ? _c : config.clearIcon,
-      size: (_e = (_d = props.size) != null ? _d : formContext == null ? void 0 : formContext.size.value) != null ? _e : config.size
+      size: "sm"
     };
   });
 }
@@ -37111,11 +38206,11 @@ function useCommonTriggerProps(props, timePickerContext2) {
     formContext,
     commonBindings: { isDisabled, isFocused, handleBlur, handleFocus }
   } = timePickerContext2;
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b, _c, _d, _e, _f, _g, _h;
     const pickerClearable = (_a = pickerProps.clearable) != null ? _a : config.clearable;
     const enableExternalInput = ((_b = pickerProps.allowInput) != null ? _b : config.allowInput) === true;
-    const valueNotEmpty = isArray$2(props.value) ? props.value.some((v) => !!v) : !!props.value;
+    const valueNotEmpty = isArray$1(props.value) ? props.value.some((v) => !!v) : !!props.value;
     return {
       disabled: (_c = isDisabled == null ? void 0 : isDisabled.value) != null ? _c : pickerProps.disabled,
       focused: (isFocused == null ? void 0 : isFocused.value) || overlayOpened.value,
@@ -37131,7 +38226,7 @@ function useCommonTriggerProps(props, timePickerContext2) {
   });
 }
 function useCommonPanelProps(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     const {
       disabledHours,
       disabledMinutes,
@@ -37161,7 +38256,7 @@ function useCommonPanelProps(props, config) {
 }
 const defaultOffset$1 = [0, 8];
 function useCommonOverlayProps(props, config, mergedPrefixCls, setVisibility) {
-  return computed$1(() => {
+  return computed(() => {
     var _a, _b;
     return {
       class: props.overlayClassName,
@@ -37176,11 +38271,11 @@ function useCommonOverlayProps(props, config, mergedPrefixCls, setVisibility) {
   });
 }
 function valueIsRange(value) {
-  return isArray$2(value);
+  return isArray$1(value);
 }
 function useTimePickerCommonBindings(props) {
   const accessor = useFormAccessor();
-  const isDisabled = computed$1(() => accessor.disabled.value);
+  const isDisabled = computed(() => accessor.disabled.value);
   const [isFocused, setFocused] = useState$1(false);
   function handleChange(value) {
     let newValue;
@@ -37236,7 +38331,6 @@ var Overlay = defineComponent({
       config,
       format,
       dateConfig,
-      formContext,
       inputEnableStatus,
       mergedPrefixCls,
       overlayOpened,
@@ -37257,7 +38351,7 @@ var Overlay = defineComponent({
       handleClear(evt);
       setInputValue("");
     };
-    const inputProps = useCommonInputProps(props, config, formContext);
+    const inputProps = useCommonInputProps(props, config);
     const panelProps = useCommonPanelProps(props, config);
     const inputSlots = {
       clearIcon: slots.clearIcon
@@ -37295,26 +38389,26 @@ var Overlay = defineComponent({
     };
   }
 });
-var __defProp$2$3 = Object.defineProperty;
-var __defProps$4 = Object.defineProperties;
-var __getOwnPropDescs$4 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$2$3 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$3 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$3 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2$3 = (obj, key, value) => key in obj ? __defProp$2$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2$3 = (a, b) => {
+var __defProp$2$4 = Object.defineProperty;
+var __defProps$7 = Object.defineProperties;
+var __getOwnPropDescs$7 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$2$4 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$4 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$4 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$4 = (obj, key, value) => key in obj ? __defProp$2$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$4 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$2$3.call(b, prop))
-      __defNormalProp$2$3(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2$3)
-    for (var prop of __getOwnPropSymbols$2$3(b)) {
-      if (__propIsEnum$2$3.call(b, prop))
-        __defNormalProp$2$3(a, prop, b[prop]);
+    if (__hasOwnProp$2$4.call(b, prop))
+      __defNormalProp$2$4(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$4)
+    for (var prop of __getOwnPropSymbols$2$4(b)) {
+      if (__propIsEnum$2$4.call(b, prop))
+        __defNormalProp$2$4(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$4 = (a, b) => __defProps$4(a, __getOwnPropDescs$4(b));
-const basePickerProps = __spreadProps$4(__spreadValues$2$3({}, baseTimePanelProps), {
+var __spreadProps$7 = (a, b) => __defProps$7(a, __getOwnPropDescs$7(b));
+const basePickerProps = __spreadProps$7(__spreadValues$2$4({}, baseTimePanelProps), {
   open: IxPropTypes.bool,
   control: controlPropDef,
   allowInput: IxPropTypes.oneOfType([Boolean, IxPropTypes.oneOf(["overlay"])]),
@@ -37334,7 +38428,7 @@ const basePickerProps = __spreadProps$4(__spreadValues$2$3({}, baseTimePanelProp
   onFocus: IxPropTypes.emit(),
   onBlur: IxPropTypes.emit()
 });
-const timePickerProps = __spreadProps$4(__spreadValues$2$3({}, basePickerProps), {
+const timePickerProps = __spreadProps$7(__spreadValues$2$4({}, basePickerProps), {
   value: IxPropTypes.oneOfType([Number, String, Date]),
   defaultOpenValue: IxPropTypes.oneOfType([Number, String, Date]),
   disabled: IxPropTypes.bool.def(false),
@@ -37343,7 +38437,7 @@ const timePickerProps = __spreadProps$4(__spreadValues$2$3({}, basePickerProps),
   "onUpdate:value": IxPropTypes.emit(),
   onChange: IxPropTypes.emit()
 });
-const timeRangePickerProps = __spreadProps$4(__spreadValues$2$3({}, basePickerProps), {
+const timeRangePickerProps = __spreadProps$7(__spreadValues$2$4({}, basePickerProps), {
   value: IxPropTypes.object(),
   defaultOpenValue: IxPropTypes.object(),
   disabled: IxPropTypes.bool.def(false),
@@ -37380,8 +38474,8 @@ var BaseTrigger = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-picker-trigger`);
-    const isDisabled = computed$1(() => props.disabled);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-picker-trigger`);
+    const isDisabled = computed(() => props.disabled);
     const focusMonitor = useSharedFocusMonitor();
     const triggerRef = ref();
     onMounted(() => {
@@ -37399,7 +38493,7 @@ var BaseTrigger = defineComponent({
         }
       });
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -37452,28 +38546,28 @@ var BaseTrigger = defineComponent({
     };
   }
 });
-var __defProp$1$4 = Object.defineProperty;
-var __getOwnPropSymbols$1$4 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$4 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$4 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$4 = (obj, key, value) => key in obj ? __defProp$1$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$4 = (a, b) => {
+var __defProp$1$5 = Object.defineProperty;
+var __getOwnPropSymbols$1$5 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$5 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$5 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$5 = (obj, key, value) => key in obj ? __defProp$1$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$5 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$4.call(b, prop))
-      __defNormalProp$1$4(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$4)
-    for (var prop of __getOwnPropSymbols$1$4(b)) {
-      if (__propIsEnum$1$4.call(b, prop))
-        __defNormalProp$1$4(a, prop, b[prop]);
+    if (__hasOwnProp$1$5.call(b, prop))
+      __defNormalProp$1$5(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$5)
+    for (var prop of __getOwnPropSymbols$1$5(b)) {
+      if (__propIsEnum$1$5.call(b, prop))
+        __defNormalProp$1$5(a, prop, b[prop]);
     }
   return a;
 };
-var Trigger$1 = defineComponent({
+var Trigger = defineComponent({
   name: "IxTimePickerTrigger",
   props: timePickerTriggerProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-picker-trigger`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-picker-trigger`);
     const context = inject(timePickerContext);
     const {
       props: pickerProps,
@@ -37498,7 +38592,7 @@ var Trigger$1 = defineComponent({
       }
       setOverlayOpened(true);
     };
-    const placeholder = computed$1(() => {
+    const placeholder = computed(() => {
       var _a;
       return (_a = pickerProps.placeholder) != null ? _a : locale.timePicker.placeholder;
     });
@@ -37532,19 +38626,21 @@ var Trigger$1 = defineComponent({
     return () => createVNode(BaseTrigger, mergeProps(triggerProps.value, {
       "onClick": handleClick,
       "onClear": handleClear
-    }), __spreadValues$1$4({
+    }), __spreadValues$1$5({
       default: () => [renderContent()]
     }, slots));
   }
 });
 var TimePicker = defineComponent({
   name: "IxTimePicker",
+  inheritAttrs: false,
   props: timePickerProps,
   setup(props, {
+    attrs,
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-picker`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-picker`);
     const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("timePicker");
     const dateConfig = useDateConfig();
@@ -37553,7 +38649,7 @@ var TimePicker = defineComponent({
       parse
     } = dateConfig;
     const [visibility, setVisibility] = useControlledProp(props, "open", false);
-    const format = computed$1(() => {
+    const format = computed(() => {
       var _a;
       return (_a = props.format) != null ? _a : config.format;
     });
@@ -37592,12 +38688,13 @@ var TimePicker = defineComponent({
     });
     const overlayProps = useCommonOverlayProps(props, config, mergedPrefixCls, changeVisible);
     return () => {
-      const renderTrigger = () => createVNode(Trigger$1, {
+      const renderTrigger = () => createVNode(Trigger, mergeProps({
         "class": mergedPrefixCls.value,
         "value": convertToDate(dateConfig, accessor.valueRef.value, format.value)
-      }, null);
+      }, attrs), null);
       const renderContent = () => createVNode(Overlay, null, null);
       return createVNode(\u0275Overlay, mergeProps(overlayProps.value, {
+        "triggerId": attrs.id,
         "visible": visibility.value,
         "disabled": isDisabled.value || props.readonly
       }), {
@@ -37620,7 +38717,6 @@ var RangeOverlay = defineComponent({
       format,
       inputEnableStatus,
       overlayOpened,
-      formContext,
       bufferValue,
       commonBindings: {
         isDisabled,
@@ -37630,7 +38726,7 @@ var RangeOverlay = defineComponent({
       setOverlayOpened
     } = inject(timeRangePickerContext);
     const [fromPickerControl, toPickerControl] = inject(timeRangePickerControl);
-    const inputProps = useCommonInputProps(props, config, formContext);
+    const inputProps = useCommonInputProps(props, config);
     const panelProps = useCommonPanelProps(props, config);
     const handleConfirm = () => {
       handleChange(bufferValue.value);
@@ -37675,7 +38771,7 @@ var RangeOverlay = defineComponent({
         onConfirm: handleConfirm
       })) != null ? _b : createVNode(IxButton, {
         "mode": "primary",
-        "size": "sm",
+        "size": "xs",
         "onClick": handleConfirm
       }, {
         default: () => [locale.timeRangePicker.okText]
@@ -37696,19 +38792,19 @@ var RangeOverlay = defineComponent({
     };
   }
 });
-var __defProp$7 = Object.defineProperty;
+var __defProp$8 = Object.defineProperty;
 var __getOwnPropSymbols$8 = Object.getOwnPropertySymbols;
 var __hasOwnProp$8 = Object.prototype.hasOwnProperty;
 var __propIsEnum$8 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$7 = (obj, key, value) => key in obj ? __defProp$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$7 = (a, b) => {
+var __defNormalProp$8 = (obj, key, value) => key in obj ? __defProp$8(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$8 = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$8.call(b, prop))
-      __defNormalProp$7(a, prop, b[prop]);
+      __defNormalProp$8(a, prop, b[prop]);
   if (__getOwnPropSymbols$8)
     for (var prop of __getOwnPropSymbols$8(b)) {
       if (__propIsEnum$8.call(b, prop))
-        __defNormalProp$7(a, prop, b[prop]);
+        __defNormalProp$8(a, prop, b[prop]);
     }
   return a;
 };
@@ -37717,8 +38813,8 @@ var RangeTrigger = defineComponent({
   props: timeRangePickerTriggerProps,
   setup(props) {
     const common = useGlobalConfig$1("common");
-    const commonPrefixCls = computed$1(() => common.prefixCls);
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-range-picker-trigger`);
+    const commonPrefixCls = computed(() => common.prefixCls);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-range-picker-trigger`);
     const context = inject(timeRangePickerContext);
     const {
       props: pickerProps,
@@ -37741,7 +38837,7 @@ var RangeTrigger = defineComponent({
       }
       setOverlayOpened(true);
     };
-    const placeholder = computed$1(() => {
+    const placeholder = computed(() => {
       var _a, _b, _c, _d;
       return [(_b = (_a = pickerProps.placeholder) == null ? void 0 : _a[0]) != null ? _b : locale.timeRangePicker.placeholder[0], (_d = (_c = pickerProps.placeholder) == null ? void 0 : _c[1]) != null ? _d : locale.timeRangePicker.placeholder[1]];
     });
@@ -37764,7 +38860,7 @@ var RangeTrigger = defineComponent({
     return () => createVNode(BaseTrigger, mergeProps(triggerProps.value, {
       "onClick": handleClick,
       "onClear": handleClear
-    }), __spreadValues$7({
+    }), __spreadValues$8({
       default: () => [renderContent()]
     }, slots));
   }
@@ -37796,12 +38892,14 @@ function renderSide(value, format, dateConfig, pickerControl, enableInput, disab
 }
 var TimeRangePicker = defineComponent({
   name: "IxTimeRangePicker",
+  inheritAttrs: false,
   props: timeRangePickerProps,
   setup(props, {
+    attrs,
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-time-range-picker`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-time-range-picker`);
     const locale = useGlobalConfig$1("locale");
     const config = useGlobalConfig$1("timeRangePicker");
     const dateConfig = useDateConfig();
@@ -37810,7 +38908,7 @@ var TimeRangePicker = defineComponent({
       parse
     } = dateConfig;
     const [visibility, setVisibility] = useControlledProp(props, "open", false);
-    const format = computed$1(() => {
+    const format = computed(() => {
       var _a;
       return (_a = props.format) != null ? _a : config.format;
     });
@@ -37819,8 +38917,8 @@ var TimeRangePicker = defineComponent({
       accessor,
       isDisabled
     } = commonBindings;
-    const accessorDateValue = computed$1(() => {
-      if (!isArray$2(accessor.valueRef.value)) {
+    const accessorDateValue = computed(() => {
+      if (!isArray$1(accessor.valueRef.value)) {
         return [void 0, void 0];
       }
       return accessor.valueRef.value.map((v) => convertToDate(dateConfig, v, format.value));
@@ -37859,12 +38957,13 @@ var TimeRangePicker = defineComponent({
     });
     const overlayProps = useCommonOverlayProps(props, config, mergedPrefixCls, changeVisible);
     return () => {
-      const renderTrigger = () => createVNode(RangeTrigger, {
+      const renderTrigger = () => createVNode(RangeTrigger, mergeProps({
         "class": mergedPrefixCls.value,
         "value": accessorDateValue.value
-      }, null);
+      }, attrs), null);
       const renderContent = () => createVNode(RangeOverlay, null, null);
       return createVNode(\u0275Overlay, mergeProps(overlayProps.value, {
+        "triggerId": attrs.id,
         "visible": visibility.value,
         "disabled": isDisabled.value || props.readonly
       }), {
@@ -37876,256 +38975,6 @@ var TimeRangePicker = defineComponent({
 });
 const IxTimePicker = TimePicker;
 const IxTimeRangePicker = TimeRangePicker;
-
-let activeEffectScope;
-function recordEffectScope(effect, scope = activeEffectScope) {
-    if (scope && scope.active) {
-        scope.effects.push(effect);
-    }
-}
-
-const createDep = (effects) => {
-    const dep = new Set(effects);
-    dep.w = 0;
-    dep.n = 0;
-    return dep;
-};
-const wasTracked = (dep) => (dep.w & trackOpBit) > 0;
-const newTracked = (dep) => (dep.n & trackOpBit) > 0;
-const initDepMarkers = ({ deps }) => {
-    if (deps.length) {
-        for (let i = 0; i < deps.length; i++) {
-            deps[i].w |= trackOpBit; // set was tracked
-        }
-    }
-};
-const finalizeDepMarkers = (effect) => {
-    const { deps } = effect;
-    if (deps.length) {
-        let ptr = 0;
-        for (let i = 0; i < deps.length; i++) {
-            const dep = deps[i];
-            if (wasTracked(dep) && !newTracked(dep)) {
-                dep.delete(effect);
-            }
-            else {
-                deps[ptr++] = dep;
-            }
-            // clear bits
-            dep.w &= ~trackOpBit;
-            dep.n &= ~trackOpBit;
-        }
-        deps.length = ptr;
-    }
-};
-// The number of effects currently being tracked recursively.
-let effectTrackDepth = 0;
-let trackOpBit = 1;
-/**
- * The bitwise track markers support at most 30 levels of recursion.
- * This value is chosen to enable modern JS engines to use a SMI on all platforms.
- * When recursion depth is greater, fall back to using a full cleanup.
- */
-const maxMarkerBits = 30;
-let activeEffect;
-Symbol((process.env.NODE_ENV !== 'production') ? 'iterate' : '');
-Symbol((process.env.NODE_ENV !== 'production') ? 'Map key iterate' : '');
-class ReactiveEffect {
-    constructor(fn, scheduler = null, scope) {
-        this.fn = fn;
-        this.scheduler = scheduler;
-        this.active = true;
-        this.deps = [];
-        this.parent = undefined;
-        recordEffectScope(this, scope);
-    }
-    run() {
-        if (!this.active) {
-            return this.fn();
-        }
-        let parent = activeEffect;
-        let lastShouldTrack = shouldTrack;
-        while (parent) {
-            if (parent === this) {
-                return;
-            }
-            parent = parent.parent;
-        }
-        try {
-            this.parent = activeEffect;
-            activeEffect = this;
-            shouldTrack = true;
-            trackOpBit = 1 << ++effectTrackDepth;
-            if (effectTrackDepth <= maxMarkerBits) {
-                initDepMarkers(this);
-            }
-            else {
-                cleanupEffect(this);
-            }
-            return this.fn();
-        }
-        finally {
-            if (effectTrackDepth <= maxMarkerBits) {
-                finalizeDepMarkers(this);
-            }
-            trackOpBit = 1 << --effectTrackDepth;
-            activeEffect = this.parent;
-            shouldTrack = lastShouldTrack;
-            this.parent = undefined;
-        }
-    }
-    stop() {
-        if (this.active) {
-            cleanupEffect(this);
-            if (this.onStop) {
-                this.onStop();
-            }
-            this.active = false;
-        }
-    }
-}
-function cleanupEffect(effect) {
-    const { deps } = effect;
-    if (deps.length) {
-        for (let i = 0; i < deps.length; i++) {
-            deps[i].delete(effect);
-        }
-        deps.length = 0;
-    }
-}
-let shouldTrack = true;
-function trackEffects(dep, debuggerEventExtraInfo) {
-    let shouldTrack = false;
-    if (effectTrackDepth <= maxMarkerBits) {
-        if (!newTracked(dep)) {
-            dep.n |= trackOpBit; // set newly tracked
-            shouldTrack = !wasTracked(dep);
-        }
-    }
-    else {
-        // Full cleanup mode.
-        shouldTrack = !dep.has(activeEffect);
-    }
-    if (shouldTrack) {
-        dep.add(activeEffect);
-        activeEffect.deps.push(dep);
-        if ((process.env.NODE_ENV !== 'production') && activeEffect.onTrack) {
-            activeEffect.onTrack(Object.assign({
-                effect: activeEffect
-            }, debuggerEventExtraInfo));
-        }
-    }
-}
-function triggerEffects(dep, debuggerEventExtraInfo) {
-    // spread into array for stabilization
-    for (const effect of isArray(dep) ? dep : [...dep]) {
-        if (effect !== activeEffect || effect.allowRecurse) {
-            if ((process.env.NODE_ENV !== 'production') && effect.onTrigger) {
-                effect.onTrigger(extend({ effect }, debuggerEventExtraInfo));
-            }
-            if (effect.scheduler) {
-                effect.scheduler();
-            }
-            else {
-                effect.run();
-            }
-        }
-    }
-}
-new Set(Object.getOwnPropertyNames(Symbol)
-    .map(key => Symbol[key])
-    .filter(isSymbol));
-function toRaw(observed) {
-    const raw = observed && observed["__v_raw" /* RAW */];
-    return raw ? toRaw(raw) : observed;
-}
-
-function trackRefValue(ref) {
-    if (shouldTrack && activeEffect) {
-        ref = toRaw(ref);
-        if ((process.env.NODE_ENV !== 'production')) {
-            trackEffects(ref.dep || (ref.dep = createDep()), {
-                target: ref,
-                type: "get" /* GET */,
-                key: 'value'
-            });
-        }
-        else {
-            trackEffects(ref.dep || (ref.dep = createDep()));
-        }
-    }
-}
-function triggerRefValue(ref, newVal) {
-    ref = toRaw(ref);
-    if (ref.dep) {
-        if ((process.env.NODE_ENV !== 'production')) {
-            triggerEffects(ref.dep, {
-                target: ref,
-                type: "set" /* SET */,
-                key: 'value',
-                newValue: newVal
-            });
-        }
-        else {
-            triggerEffects(ref.dep);
-        }
-    }
-}
-
-class ComputedRefImpl {
-    constructor(getter, _setter, isReadonly, isSSR) {
-        this._setter = _setter;
-        this.dep = undefined;
-        this.__v_isRef = true;
-        this._dirty = true;
-        this.effect = new ReactiveEffect(getter, () => {
-            if (!this._dirty) {
-                this._dirty = true;
-                triggerRefValue(this);
-            }
-        });
-        this.effect.computed = this;
-        this.effect.active = this._cacheable = !isSSR;
-        this["__v_isReadonly" /* IS_READONLY */] = isReadonly;
-    }
-    get value() {
-        // the computed ref may get wrapped by other proxies e.g. readonly() #3376
-        const self = toRaw(this);
-        trackRefValue(self);
-        if (self._dirty || !self._cacheable) {
-            self._dirty = false;
-            self._value = self.effect.run();
-        }
-        return self._value;
-    }
-    set value(newValue) {
-        this._setter(newValue);
-    }
-}
-function computed(getterOrOptions, debugOptions, isSSR = false) {
-    let getter;
-    let setter;
-    const onlyGetter = isFunction(getterOrOptions);
-    if (onlyGetter) {
-        getter = getterOrOptions;
-        setter = (process.env.NODE_ENV !== 'production')
-            ? () => {
-                console.warn('Write operation failed: computed value is readonly');
-            }
-            : NOOP;
-    }
-    else {
-        getter = getterOrOptions.get;
-        setter = getterOrOptions.set;
-    }
-    const cRef = new ComputedRefImpl(getter, setter, onlyGetter || !setter, isSSR);
-    if ((process.env.NODE_ENV !== 'production') && debugOptions && !isSSR) {
-        cRef.effect.onTrack = debugOptions.onTrack;
-        cRef.effect.onTrigger = debugOptions.onTrigger;
-    }
-    return cRef;
-}
-Promise.resolve();
 
 const timelineToken = Symbol("timelineToken");
 const timelineItemKey = Symbol("IDUX_TIMELINE_ITEM_KEY");
@@ -38150,32 +38999,30 @@ var TimelineItem = defineComponent({
     slots
   }) {
     const {
-      vnode
-    } = getCurrentInstance();
-    const {
       props: parentProps,
-      itemIndexArray,
-      hasPendingNode,
       mergedPrefixCls
     } = inject(timelineToken);
-    const itemIndex = computed$1(() => itemIndexArray.value.indexOf(vnode.index));
-    const itemPlacement = computed$1(() => {
+    const {
+      vnode
+    } = getCurrentInstance();
+    const itemPlacement = computed(() => {
       const {
-        placement: parentpPlacement
+        placement: parentPlacement
       } = parentProps;
       const {
         placement
       } = props;
+      const index = vnode.index;
       let _placement;
-      if (parentpPlacement === "alternate") {
-        _placement = placement ? placement : itemIndex.value % 2 ? "start" : "end";
+      if (parentPlacement === "alternate") {
+        _placement = placement ? placement : index % 2 ? "start" : "end";
       } else {
-        _placement = parentpPlacement;
+        _placement = parentPlacement;
       }
       return _placement;
     });
-    const isPresetOrStatusColor = computed$1(() => isPresetColor(props.color) || isStatusColor(props.color));
-    const dotStyle = computed$1(() => {
+    const isPresetOrStatusColor = computed(() => isPresetColor(props.color) || isStatusColor(props.color));
+    const dotStyle = computed(() => {
       const {
         color
       } = props;
@@ -38187,24 +39034,16 @@ var TimelineItem = defineComponent({
         "border-color": color
       };
     });
-    const classes = computed$1(() => {
-      const {
-        reverse
-      } = parentProps;
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-item`;
       const placement = itemPlacement.value;
-      const allItemLength = itemIndexArray.value.length;
-      const index = itemIndex.value;
-      const isReversePending = hasPendingNode.value && reverse && index === 0;
-      const isPending = hasPendingNode.value && !reverse && index === allItemLength - 2;
       return normalizeClass({
         [`${prefixCls}`]: true,
-        [`${prefixCls}-${placement}`]: true,
-        [`${prefixCls}-pending`]: isReversePending || isPending
+        [`${prefixCls}-${placement}`]: true
       });
     });
-    const dotClass = computed$1(() => {
-      const prefixCls = `${mergedPrefixCls.value}-item`;
+    const dotClass = computed(() => {
+      const prefixCls = `${mergedPrefixCls.value}-item-head`;
       const {
         dot,
         color
@@ -38226,16 +39065,18 @@ var TimelineItem = defineComponent({
       return createVNode("li", {
         "class": classes.value
       }, [createVNode("div", {
-        "class": `${prefixCls}-line`
+        "class": `${prefixCls}-head`
+      }, [createVNode("div", {
+        "class": `${prefixCls}-head-line`
       }, null), createVNode("div", {
         "class": dotClass.value,
         "style": dotStyle.value
-      }, [dotNode]), createVNode("div", {
+      }, [dotNode])]), createVNode("div", {
         "class": `${prefixCls}-content`
       }, [labelNode && createVNode("div", {
-        "class": `${prefixCls}-label`
+        "class": `${prefixCls}-content-label`
       }, [labelNode]), slots.default && createVNode("div", {
-        "class": `${prefixCls}-desc`
+        "class": `${prefixCls}-content-desc`
       }, [slots.default()])])]);
     };
   }
@@ -38249,8 +39090,6 @@ var Timeline = defineComponent({
     const common = useGlobalConfig$1("common");
     const mergedPrefixCls = computed(() => `${common.prefixCls}-timeline`);
     const hasPendingNode = computed(() => props.pending !== false || hasSlot(slots, "pending"));
-    const itemNodes = useItems(slots, props, hasPendingNode, mergedPrefixCls);
-    const itemIndexArray = computed(() => itemNodes.value.map((node) => node.index));
     const classes = computed(() => {
       const {
         placement,
@@ -38262,27 +39101,27 @@ var Timeline = defineComponent({
         [`${prefixCls}`]: true,
         [`${prefixCls}-${placement}`]: true,
         [`${prefixCls}-reverse`]: reverse,
-        [`${prefixCls}-not-both`]: !both
+        [`${prefixCls}-not-both`]: !both,
+        [`${prefixCls}-pending`]: hasPendingNode.value
       });
     });
     provide(timelineToken, {
       props,
-      itemIndexArray,
-      hasPendingNode,
       mergedPrefixCls
     });
     return () => {
+      const itemNodes = useItems(slots, props, hasPendingNode, mergedPrefixCls);
       return createVNode("ul", {
         "class": classes.value
       }, [itemNodes.value]);
     };
   }
 });
-function convertItemNodes(itemsNodes) {
-  return flattenNode(itemsNodes, {
+function convertItemNodes(itemNodes) {
+  return flattenNode(itemNodes, {
     key: timelineItemKey
   }).map((node, index) => {
-    node.index = index + 1;
+    node.index = index;
     return node;
   });
 }
@@ -38295,19 +39134,19 @@ function useItems(slots, props, hasPendingNode, mergedPrefixCls) {
       reverse
     } = props;
     const defaultSlots = ((_a = slots == null ? void 0 : slots.default) == null ? void 0 : _a.call(slots)) || [];
-    const pendingDotNode = ((_b = slots == null ? void 0 : slots.pendingDot) == null ? void 0 : _b.call(slots)) || pendingDot || createVNode(IxIcon, {
-      "name": "loading"
-    }, null);
-    let penddingItem = null;
+    let pendingNode = null;
     if (hasPendingNode.value) {
-      penddingItem = createVNode(TimelineItem, {
-        "class": `${mergedPrefixCls.value}-item-pending-dot`
+      const pendingDotNode = ((_b = slots == null ? void 0 : slots.pendingDot) == null ? void 0 : _b.call(slots)) || pendingDot || createVNode(IxIcon, {
+        "name": "loading"
+      }, null);
+      pendingNode = createVNode(TimelineItem, {
+        "class": `${mergedPrefixCls.value}-item-pending`
       }, {
         default: () => [convertStringVNode(slots.pending, isBoolean(pending) ? "" : pending)],
         dot: () => pendingDotNode
       });
     }
-    const timelineItemNodes = reverse ? [penddingItem, ...defaultSlots.reverse()] : [...defaultSlots, penddingItem];
+    const timelineItemNodes = reverse ? [pendingNode, ...defaultSlots.reverse()] : [...defaultSlots, pendingNode];
     return convertItemNodes(timelineItemNodes.filter(Boolean));
   });
 }
@@ -38376,7 +39215,7 @@ var CheckableListItem = defineComponent({
         "class": `${prefixCls}-label`
       }, [(_b = (_a = slots.default) == null ? void 0 : _a.call(slots)) != null ? _b : props.label]);
     };
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-item`;
       return normalizeClass({
         [prefixCls]: true,
@@ -38396,14 +39235,14 @@ var CheckableListItem = defineComponent({
   }
 });
 var CheckableList = defineComponent({
-  name: "IxCheckableList",
+  name: "\u0275CheckableList",
   props: checkableListProps,
   setup(props, {
     slots,
     expose
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-checkable-list`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-checkable-list`);
     const virtualScrollRef = ref();
     provide(checkableListContext, {
       mergedPrefixCls
@@ -38473,9 +39312,9 @@ var CheckableList = defineComponent({
           "ref": virtualScrollRef,
           "dataSource": data,
           "fullHeight": fullHeight,
+          "getKey": getRowKey,
           "height": height,
           "itemHeight": 32,
-          "itemKey": getRowKey,
           "itemRender": ({
             item
           }) => renderListItem(item),
@@ -38490,7 +39329,7 @@ var CheckableList = defineComponent({
         "onScroll": handleScroll
       }, [data.map((item) => renderListItem(item))]);
     };
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [prefixCls]: true,
@@ -38559,7 +39398,7 @@ var TransferOperations = defineComponent({
       if (slots.operations) {
         return slots.operations(convertToSlotParams(transferOperationsContext));
       }
-      if (transferProps2.mode === "transferBySelect") {
+      if (transferProps2.mode === "immediate") {
         return;
       }
       return createVNode("div", {
@@ -38575,8 +39414,8 @@ var TransferOperations = defineComponent({
   }
 });
 var __defProp$4$1 = Object.defineProperty;
-var __defProps$2 = Object.defineProperties;
-var __getOwnPropDescs$2 = Object.getOwnPropertyDescriptors;
+var __defProps$2$1 = Object.defineProperties;
+var __getOwnPropDescs$2$1 = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$4$1 = Object.getOwnPropertySymbols;
 var __hasOwnProp$4$1 = Object.prototype.hasOwnProperty;
 var __propIsEnum$4$1 = Object.prototype.propertyIsEnumerable;
@@ -38592,7 +39431,7 @@ var __spreadValues$4$1 = (a, b) => {
     }
   return a;
 };
-var __spreadProps$2 = (a, b) => __defProps$2(a, __getOwnPropDescs$2(b));
+var __spreadProps$2$1 = (a, b) => __defProps$2$1(a, __getOwnPropDescs$2$1(b));
 function usePagination(props) {
   const paginationConfig = useGlobalConfig$1("pagination");
   return {
@@ -38603,7 +39442,7 @@ function usePagination(props) {
 function createPagination(props, paginationConfig, isSource) {
   const pageIndex = ref();
   const pageSize = ref();
-  const tempPagination = computed$1(() => {
+  const tempPagination = computed(() => {
     const pagination = props.pagination;
     if (!pagination) {
       return null;
@@ -38612,9 +39451,9 @@ function createPagination(props, paginationConfig, isSource) {
       return {};
     }
     const idx = isSource ? 0 : 1;
-    const pageIndex2 = isArray$2(pagination.pageIndex) ? pagination.pageIndex : [pagination.pageIndex];
-    const pageSize2 = isArray$2(pagination.pageSize) ? pagination.pageSize : [pagination.pageSize];
-    const total = isArray$2(pagination.total) ? pagination.total : [pagination.total];
+    const pageIndex2 = convertArray(pagination.pageIndex);
+    const pageSize2 = convertArray(pagination.pageSize);
+    const total = convertArray(pagination.total);
     return {
       pageIndex: pageIndex2 == null ? void 0 : pageIndex2[idx],
       pageSize: pageSize2 == null ? void 0 : pageSize2[idx],
@@ -38635,12 +39474,12 @@ function createPagination(props, paginationConfig, isSource) {
   const handlePageIndexChange = (index) => {
     pageIndex.value = index;
   };
-  return computed$1(() => {
+  return computed(() => {
     const pagination = tempPagination.value;
     if (pagination === null) {
       return;
     }
-    return __spreadProps$2(__spreadValues$4$1({
+    return __spreadProps$2$1(__spreadValues$4$1({
       simple: true,
       showTotal: false
     }, pagination), {
@@ -38652,8 +39491,8 @@ function createPagination(props, paginationConfig, isSource) {
 }
 function useSearchable$1(props, config) {
   return {
-    source: computed$1(() => getSearchable(props, config, true)),
-    target: computed$1(() => getSearchable(props, config, false))
+    source: computed(() => getSearchable(props, config, true)),
+    target: computed(() => getSearchable(props, config, false))
   };
 }
 function getSearchable(props, config, isSource) {
@@ -38665,17 +39504,17 @@ function getSearchable(props, config, isSource) {
   return isSource ? searchable.source : searchable.target;
 }
 var __defProp$3$1 = Object.defineProperty;
-var __getOwnPropSymbols$3$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$3$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$3$1 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$3$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3$2 = Object.prototype.propertyIsEnumerable;
 var __defNormalProp$3$1 = (obj, key, value) => key in obj ? __defProp$3$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
 var __spreadValues$3$1 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$3$1.call(b, prop))
+    if (__hasOwnProp$3$2.call(b, prop))
       __defNormalProp$3$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$3$1)
-    for (var prop of __getOwnPropSymbols$3$1(b)) {
-      if (__propIsEnum$3$1.call(b, prop))
+  if (__getOwnPropSymbols$3$2)
+    for (var prop of __getOwnPropSymbols$3$2(b)) {
+      if (__propIsEnum$3$2.call(b, prop))
         __defNormalProp$3$1(a, prop, b[prop]);
     }
   return a;
@@ -38771,7 +39610,7 @@ function useTransferBindings(props, transferDataContext, transferOperationsConte
   };
 }
 function useGetRowKey(props, config) {
-  const getKey = computed$1(() => {
+  const getKey = computed(() => {
     var _a;
     const getKey2 = (_a = props.getKey) != null ? _a : config.getKey;
     if (isString(getKey2)) {
@@ -38798,27 +39637,27 @@ function useTransferData(props, config, transferDataStrategies, transferPaginati
     append: _append,
     remove: _remove
   } = transferDataStrategies;
-  const dataSource = computed$1(() => props.dataSource);
-  const dataKeyMap = computed$1(() => genDataKeyMap(dataSource.value, getRowKey));
+  const dataSource = computed(() => props.dataSource);
+  const dataKeyMap = computed(() => genDataKeyMap(dataSource.value, getRowKey));
   const [targetKeys, setTargetKeys] = useControlledProp(props, "value", () => []);
   const [sourceSearchValue, setSourceSearchValue] = useState$1("");
   const [targetSearchValue, setTargetSearchValue] = useState$1("");
-  const targetKeySet = computed$1(() => new Set(targetKeys.value));
+  const targetKeySet = computed(() => new Set(targetKeys.value));
   const handleChange = (keys) => {
     callEmit(props.onChange, keys, targetKeys.value);
     setTargetKeys(keys);
   };
-  const separatedData = computed$1(() => separateDataSource(dataSource.value, dataKeyMap.value, targetKeySet.value, getRowKey));
-  const sourceData = computed$1(() => separatedData.value.sourceData);
-  const targetData = computed$1(() => separatedData.value.targetData);
-  const sourceDataKeys = computed$1(() => genDataKeys(sourceData.value, getRowKey));
-  const targetDataKeys = computed$1(() => genDataKeys(targetData.value, getRowKey));
-  const filteredDataSource = computed$1(() => dataFilter(dataSource.value, sourceSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(true, item, searchValue)));
-  const filteredSourceData = computed$1(() => dataFilter(sourceData.value, sourceSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(true, item, searchValue)));
-  const filteredTargetData = computed$1(() => dataFilter(targetData.value, targetSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(false, item, searchValue)));
-  const paginatedDataSource = computed$1(() => getPaginatedData(filteredDataSource.value, transferPaginationContext.sourcePagination.value));
-  const paginatedSourceData = computed$1(() => getPaginatedData(filteredSourceData.value, transferPaginationContext.sourcePagination.value));
-  const paginatedTargetData = computed$1(() => getPaginatedData(filteredTargetData.value, transferPaginationContext.targetPagination.value));
+  const separatedData = computed(() => separateDataSource(dataSource.value, dataKeyMap.value, targetKeySet.value, getRowKey));
+  const sourceData = computed(() => separatedData.value.sourceData);
+  const targetData = computed(() => separatedData.value.targetData);
+  const sourceDataKeys = computed(() => genDataKeys(sourceData.value, getRowKey));
+  const targetDataKeys = computed(() => genDataKeys(targetData.value, getRowKey));
+  const filteredDataSource = computed(() => dataFilter(dataSource.value, sourceSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(true, item, searchValue)));
+  const filteredSourceData = computed(() => dataFilter(sourceData.value, sourceSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(true, item, searchValue)));
+  const filteredTargetData = computed(() => dataFilter(targetData.value, targetSearchValue.value, (item, searchValue) => !props.searchFn || props.searchFn(false, item, searchValue)));
+  const paginatedDataSource = computed(() => getPaginatedData(filteredDataSource.value, transferPaginationContext.sourcePagination.value));
+  const paginatedSourceData = computed(() => getPaginatedData(filteredSourceData.value, transferPaginationContext.sourcePagination.value));
+  const paginatedTargetData = computed(() => getPaginatedData(filteredTargetData.value, transferPaginationContext.targetPagination.value));
   const append = (keys) => {
     _append(keys, targetKeySet.value, getRowKey, handleChange);
   };
@@ -38828,8 +39667,8 @@ function useTransferData(props, config, transferDataStrategies, transferPaginati
   const clear = () => {
     handleChange(Array.from(disabledTargetKeys.value));
   };
-  const disabledKeys = computed$1(() => genDisabledKeys(dataSource.value, getRowKey));
-  const disabledTargetKeys = computed$1(() => {
+  const disabledKeys = computed(() => genDisabledKeys(dataSource.value, getRowKey));
+  const disabledTargetKeys = computed(() => {
     const keys = genDisabledKeys(targetData.value, getRowKey);
     targetKeySet.value.forEach((key) => {
       if (disabledKeys.value.has(key)) {
@@ -38838,7 +39677,7 @@ function useTransferData(props, config, transferDataStrategies, transferPaginati
     });
     return keys;
   });
-  const disabledSourceKeys = computed$1(() => genDisabledKeys(sourceData.value, getRowKey));
+  const disabledSourceKeys = computed(() => genDisabledKeys(sourceData.value, getRowKey));
   return {
     dataSource,
     dataKeyMap,
@@ -38879,19 +39718,19 @@ function getPaginatedData(data, pagination) {
   const startIndex = (pagination.pageIndex - 1) * pageSize;
   return data.slice(startIndex, startIndex + pageSize);
 }
-var __defProp$2$2 = Object.defineProperty;
-var __getOwnPropSymbols$2$2 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$2 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$2 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2$2 = (obj, key, value) => key in obj ? __defProp$2$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2$2 = (a, b) => {
+var __defProp$2$3 = Object.defineProperty;
+var __getOwnPropSymbols$2$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$3 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$3 = (obj, key, value) => key in obj ? __defProp$2$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$3 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$2$2.call(b, prop))
-      __defNormalProp$2$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2$2)
-    for (var prop of __getOwnPropSymbols$2$2(b)) {
-      if (__propIsEnum$2$2.call(b, prop))
-        __defNormalProp$2$2(a, prop, b[prop]);
+    if (__hasOwnProp$2$3.call(b, prop))
+      __defNormalProp$2$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$3)
+    for (var prop of __getOwnPropSymbols$2$3(b)) {
+      if (__propIsEnum$2$3.call(b, prop))
+        __defNormalProp$2$3(a, prop, b[prop]);
     }
   return a;
 };
@@ -38970,7 +39809,7 @@ function createDefaultStrategies() {
 function useTransferDataStrategies() {
   const strategies = inject(TRANSFER_DATA_STRATEGIES, null);
   const defaultStrategies = createDefaultStrategies();
-  return strategies ? __spreadValues$2$2(__spreadValues$2$2({}, defaultStrategies), strategies) : defaultStrategies;
+  return strategies ? __spreadValues$2$3(__spreadValues$2$3({}, defaultStrategies), strategies) : defaultStrategies;
 }
 function useTransferOperations(props, transferDataContext, transferSelectStateContext) {
   const {
@@ -38985,21 +39824,21 @@ function useTransferOperations(props, transferDataContext, transferSelectStateCo
     getRowKey
   } = transferDataContext;
   const { sourceSelectedKeys, targetSelectedKeys } = transferSelectStateContext;
-  const appendDisabled = computed$1(() => props.disabled || sourceSelectedKeys.value.length <= 0);
-  const removeDisabled = computed$1(() => props.disabled || targetSelectedKeys.value.length <= 0);
-  const appendAllDisabled = computed$1(() => props.disabled || sourceData.value.every((item) => disabledSourceKeys.value.has(getRowKey(item))));
-  const clearDisabled = computed$1(() => props.disabled || targetData.value.every((item) => disabledTargetKeys.value.has(getRowKey(item))));
+  const appendDisabled = computed(() => props.disabled || sourceSelectedKeys.value.length <= 0);
+  const removeDisabled = computed(() => props.disabled || targetSelectedKeys.value.length <= 0);
+  const appendAllDisabled = computed(() => props.disabled || sourceData.value.every((item) => disabledSourceKeys.value.has(getRowKey(item))));
+  const clearDisabled = computed(() => props.disabled || targetData.value.every((item) => disabledTargetKeys.value.has(getRowKey(item))));
   const triggerAppend = (keys) => {
     if (!keys && appendDisabled.value || keys && props.disabled) {
       return;
     }
-    append(keys != null ? keys : Array.from(sourceSelectedKeys.value));
+    append((keys != null ? keys : Array.from(sourceSelectedKeys.value)).filter((key) => !disabledSourceKeys.value.has(key)));
   };
   const triggerRemove = (keys) => {
     if (!keys && removeDisabled.value || keys && props.disabled) {
       return;
     }
-    remove(keys != null ? keys : Array.from(targetSelectedKeys.value));
+    remove((keys != null ? keys : Array.from(targetSelectedKeys.value)).filter((key) => !disabledTargetKeys.value.has(key)));
   };
   const triggerAppendAll = () => {
     if (appendAllDisabled.value) {
@@ -39028,25 +39867,26 @@ function useTransferOperations(props, transferDataContext, transferSelectStateCo
 function useTransferSelectState(props, transferDataContext) {
   const [sourceSelectedKeys, setSourceSelectedKeys] = useControlledProp(props, "sourceSelectedKeys", () => []);
   const [targetSelectedKeys, setTargetSelectedKeys] = useControlledProp(props, "targetSelectedKeys", () => []);
-  const sourceSelectedKeySet = computed$1(() => new Set(sourceSelectedKeys.value));
-  const targetSelectedKeySet = computed$1(() => new Set(targetSelectedKeys.value));
+  const sourceSelectedKeySet = computed(() => new Set(sourceSelectedKeys.value));
+  const targetSelectedKeySet = computed(() => new Set(targetSelectedKeys.value));
   const { dataKeyMap, sourceDataKeys, targetDataKeys, disabledKeys, disabledSourceKeys, disabledTargetKeys } = transferDataContext;
-  const sourceCheckableDataCount = computed$1(() => {
-    const allCount = props.mode === "transferBySelect" ? dataKeyMap.value.size : sourceDataKeys.value.size;
-    const disabledCount = props.mode === "transferBySelect" ? disabledKeys.value.size : disabledSourceKeys.value.size;
-    return allCount - disabledCount;
+  const sourceDataCount = computed(() => props.mode === "immediate" ? dataKeyMap.value.size : sourceDataKeys.value.size);
+  const targetDataCount = computed(() => targetDataKeys.value.size);
+  const sourceCheckableDataCount = computed(() => {
+    const disabledCount = props.mode === "immediate" ? disabledKeys.value.size : disabledSourceKeys.value.size;
+    return sourceDataCount.value - disabledCount;
   });
-  const targetCheckableDataCount = computed$1(() => targetDataKeys.value.size - disabledTargetKeys.value.size);
-  const sourceSelectAllStatus = computed$1(() => {
+  const targetCheckableDataCount = computed(() => targetDataKeys.value.size - disabledTargetKeys.value.size);
+  const sourceSelectAllStatus = computed(() => {
     return {
-      checked: sourceCheckableDataCount.value === sourceSelectedKeys.value.length && sourceSelectedKeys.value.length > 0,
-      indeterminate: sourceCheckableDataCount.value > sourceSelectedKeys.value.length && sourceSelectedKeys.value.length > 0
+      checked: sourceDataCount.value >= sourceSelectedKeys.value.length && sourceSelectedKeys.value.length > 0,
+      indeterminate: sourceDataCount.value > sourceSelectedKeys.value.length && sourceSelectedKeys.value.length > 0
     };
   });
-  const targetSelectAllStatus = computed$1(() => {
+  const targetSelectAllStatus = computed(() => {
     return {
-      checked: targetCheckableDataCount.value === targetSelectedKeys.value.length && targetSelectedKeys.value.length > 0,
-      indeterminate: targetCheckableDataCount.value > targetSelectedKeys.value.length && targetSelectedKeys.value.length > 0
+      checked: targetDataCount.value >= targetSelectedKeys.value.length && targetSelectedKeys.value.length > 0,
+      indeterminate: targetDataCount.value > targetSelectedKeys.value.length && targetSelectedKeys.value.length > 0
     };
   });
   watch([sourceCheckableDataCount, dataKeyMap, disabledKeys, targetDataKeys], (_, [, , , prevSelectedKeys]) => {
@@ -39056,11 +39896,11 @@ function useTransferSelectState(props, transferDataContext) {
         tempKeys.delete(key);
         return;
       }
-      if (props.mode === "normal" && targetDataKeys.value.has(key)) {
+      if (props.mode === "default" && targetDataKeys.value.has(key)) {
         tempKeys.delete(key);
       }
     });
-    if (props.mode === "transferBySelect") {
+    if (props.mode === "immediate") {
       targetDataKeys.value.forEach((key) => {
         if (dataKeyMap.value.has(key)) {
           tempKeys.add(key);
@@ -39088,41 +39928,45 @@ function useTransferSelectState(props, transferDataContext) {
       return;
     }
     const currentSelectedKeys = new Set(keys);
-    if (props.mode === "transferBySelect") {
+    if (props.mode === "immediate") {
       transferBySelectionChange(sourceSelectedKeySet.value, currentSelectedKeys, transferDataContext);
     }
-    setSourceSelectedKeys((isArray$2(keys) ? keys : Array.from(keys)).filter((key) => !disabledKeys.value.has(key)));
+    setSourceSelectedKeys(isArray$1(keys) ? keys : Array.from(keys));
   };
   const handleTargetSelectChange = (keys) => {
     if (props.disabled) {
       return;
     }
-    setTargetSelectedKeys(isArray$2(keys) ? keys : Array.from(keys).filter((key) => !disabledKeys.value.has(key)));
+    setTargetSelectedKeys(isArray$1(keys) ? keys : Array.from(keys));
   };
   const handleSelectAll = (selected = true, isSource = true) => {
     if (props.disabled) {
       return;
     }
-    const dataKeys = isSource ? props.mode === "normal" ? sourceDataKeys.value : new Set(dataKeyMap.value.keys()) : targetDataKeys.value;
-    const _disabledKeys = isSource ? props.mode === "normal" ? disabledSourceKeys.value : disabledKeys.value : disabledTargetKeys.value;
+    const dataKeys = isSource ? props.mode === "default" ? sourceDataKeys.value : new Set(dataKeyMap.value.keys()) : targetDataKeys.value;
+    const _disabledKeys = isSource ? props.mode === "default" ? disabledSourceKeys.value : disabledKeys.value : disabledTargetKeys.value;
+    const selectedKeySet = isSource ? sourceSelectedKeySet : targetSelectedKeySet;
     const setSelectedKeys = isSource ? setSourceSelectedKeys : setTargetSelectedKeys;
     let tempKeys;
     if (!selected) {
       tempKeys = /* @__PURE__ */ new Set();
+      _disabledKeys.forEach((key) => {
+        selectedKeySet.value.has(key) && tempKeys.add(key);
+      });
     } else {
       tempKeys = new Set(dataKeys);
       _disabledKeys.forEach((key) => {
-        tempKeys.delete(key);
+        !selectedKeySet.value.has(key) && tempKeys.delete(key);
       });
     }
-    if (props.mode === "transferBySelect" && isSource) {
+    if (props.mode === "immediate" && isSource) {
       transferBySelectionChange(sourceSelectedKeySet.value, tempKeys, transferDataContext);
     }
     setSelectedKeys(Array.from(tempKeys));
     callEmit(props.onSelectAll, isSource, selected);
   };
-  const sourceSelectAllDisabled = computed$1(() => props.disabled || sourceCheckableDataCount.value <= 0);
-  const targetSelectAllDisabled = computed$1(() => props.disabled || targetCheckableDataCount.value <= 0);
+  const sourceSelectAllDisabled = computed(() => props.disabled || sourceCheckableDataCount.value <= 0);
+  const targetSelectAllDisabled = computed(() => props.disabled || targetCheckableDataCount.value <= 0);
   return {
     sourceSelectedKeys,
     targetSelectedKeys,
@@ -39173,7 +40017,7 @@ const transferProps = {
   searchable: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]),
   searchFn: IxPropTypes.func(),
   pagination: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]),
-  mode: IxPropTypes.oneOf(["normal", "transferBySelect"]).def("normal"),
+  mode: IxPropTypes.oneOf(["default", "immediate"]).def("default"),
   showSelectAll: IxPropTypes.bool,
   spin: IxPropTypes.oneOfType([Boolean, IxPropTypes.object()]),
   clearable: IxPropTypes.bool,
@@ -39205,21 +40049,21 @@ const transferListFooterProps = transferListProps;
   onChange: IxPropTypes.emit(),
   onRemove: IxPropTypes.emit()
 });
-var __defProp$1$3 = Object.defineProperty;
+var __defProp$1$4 = Object.defineProperty;
 var __defProps$1$1 = Object.defineProperties;
 var __getOwnPropDescs$1$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$3 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$3 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$3 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$3 = (obj, key, value) => key in obj ? __defProp$1$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$3 = (a, b) => {
+var __getOwnPropSymbols$1$4 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$4 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$4 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$4 = (obj, key, value) => key in obj ? __defProp$1$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$4 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$3.call(b, prop))
-      __defNormalProp$1$3(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$3)
-    for (var prop of __getOwnPropSymbols$1$3(b)) {
-      if (__propIsEnum$1$3.call(b, prop))
-        __defNormalProp$1$3(a, prop, b[prop]);
+    if (__hasOwnProp$1$4.call(b, prop))
+      __defNormalProp$1$4(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$4)
+    for (var prop of __getOwnPropSymbols$1$4(b)) {
+      if (__propIsEnum$1$4.call(b, prop))
+        __defNormalProp$1$4(a, prop, b[prop]);
     }
   return a;
 };
@@ -39240,7 +40084,7 @@ var TransferListBody = defineComponent({
       paginatedDataSource,
       paginatedData,
       selectedKeySet,
-      disabledKeys,
+      disabledDataSourceKeys,
       handleSelectChange
     } = transferBindings;
     const {
@@ -39256,9 +40100,9 @@ var TransferListBody = defineComponent({
     const handleScrolledChange = (startIndex, endIndex, visibleData) => {
       callEmit(transferProps2.onScrolledChange, props.isSource, startIndex, endIndex, visibleData);
     };
-    const checkListData = computed$1(() => props.isSource && transferProps2.mode === "transferBySelect" ? paginatedDataSource.value : paginatedData.value);
+    const checkListData = computed(() => props.isSource && transferProps2.mode === "immediate" ? paginatedDataSource.value : paginatedData.value);
     const defaultBodyRenderer = (prefixCls) => {
-      const data = props.isSource && transferProps2.mode === "transferBySelect" ? paginatedDataSource.value : paginatedData.value;
+      const data = props.isSource && transferProps2.mode === "immediate" ? paginatedDataSource.value : paginatedData.value;
       if (data.length <= 0) {
         return createVNode("div", {
           "class": `${prefixCls}-empty-wrapper`
@@ -39281,9 +40125,9 @@ var TransferListBody = defineComponent({
         "dataSource": checkListData.value,
         "getRowKey": getRowKey,
         "checked": (item) => selectedKeySet.value.has(getRowKey(item)),
-        "disabled": (item) => transferProps2.disabled || disabledKeys.value.has(getRowKey(item)),
-        "checkable": props.isSource || transferProps2.mode === "normal",
-        "removable": !props.isSource && transferProps2.mode === "transferBySelect",
+        "disabled": (item) => transferProps2.disabled || disabledDataSourceKeys.value.has(getRowKey(item)),
+        "checkable": props.isSource || transferProps2.mode === "default",
+        "removable": !props.isSource && transferProps2.mode === "immediate",
         "virtual": transferProps2.virtual,
         "scroll": transferProps2.scroll,
         "onCheckChange": onCheckChange,
@@ -39297,7 +40141,7 @@ var TransferListBody = defineComponent({
     };
     const renderBody = (prefixCls) => {
       if (slots.default) {
-        return slots.default(__spreadProps$1$1(__spreadValues$1$3({}, convertToSlotParams(transferBindings)), {
+        return slots.default(__spreadProps$1$1(__spreadValues$1$4({}, convertToSlotParams(transferBindings)), {
           isSource: props.isSource
         }));
       }
@@ -39311,25 +40155,25 @@ var TransferListBody = defineComponent({
     };
   }
 });
-var __defProp$6 = Object.defineProperty;
-var __defProps$3 = Object.defineProperties;
-var __getOwnPropDescs$3 = Object.getOwnPropertyDescriptors;
+var __defProp$7 = Object.defineProperty;
+var __defProps$6 = Object.defineProperties;
+var __getOwnPropDescs$6 = Object.getOwnPropertyDescriptors;
 var __getOwnPropSymbols$7 = Object.getOwnPropertySymbols;
 var __hasOwnProp$7 = Object.prototype.hasOwnProperty;
 var __propIsEnum$7 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$6 = (obj, key, value) => key in obj ? __defProp$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$6 = (a, b) => {
+var __defNormalProp$7 = (obj, key, value) => key in obj ? __defProp$7(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$7 = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$7.call(b, prop))
-      __defNormalProp$6(a, prop, b[prop]);
+      __defNormalProp$7(a, prop, b[prop]);
   if (__getOwnPropSymbols$7)
     for (var prop of __getOwnPropSymbols$7(b)) {
       if (__propIsEnum$7.call(b, prop))
-        __defNormalProp$6(a, prop, b[prop]);
+        __defNormalProp$7(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$3 = (a, b) => __defProps$3(a, __getOwnPropDescs$3(b));
+var __spreadProps$6 = (a, b) => __defProps$6(a, __getOwnPropDescs$6(b));
 var TransferListFooter = defineComponent({
   props: transferListFooterProps,
   setup(props) {
@@ -39347,14 +40191,14 @@ var TransferListFooter = defineComponent({
     const renderFooter = (prefixCls) => {
       var _a, _b;
       if (slots.footer) {
-        return slots.footer(__spreadProps$3(__spreadValues$6({}, convertToSlotParams(transferBindings)), {
+        return slots.footer(__spreadProps$6(__spreadValues$7({}, convertToSlotParams(transferBindings)), {
           isSource: props.isSource
         }));
       }
       if (!pagination.value) {
         return;
       }
-      const total = (_b = (_a = pagination.value) == null ? void 0 : _a.total) != null ? _b : props.isSource && transferProps2.mode === "transferBySelect" ? filteredDataSource.value.length : filteredData.value.length;
+      const total = (_b = (_a = pagination.value) == null ? void 0 : _a.total) != null ? _b : props.isSource && transferProps2.mode === "immediate" ? filteredDataSource.value.length : filteredData.value.length;
       return createVNode("div", {
         "class": `${prefixCls}-inner`
       }, [createVNode(IxPagination, mergeProps({
@@ -39366,7 +40210,7 @@ var TransferListFooter = defineComponent({
     return () => {
       const prefixCls = `${mergedPrefixCls.value}-list-footer`;
       const children = renderFooter(prefixCls);
-      if (!children || isArray$2(children) && children.length <= 0) {
+      if (!children || isArray$1(children) && children.length <= 0) {
         return;
       }
       return createVNode("div", {
@@ -39432,7 +40276,7 @@ var TransferListHeader = defineComponent({
       selectAll(!!value);
     };
     const renderCheckAll = (prefixCls) => {
-      if (!showSelectAll.value || !props.isSource && transferProps2.mode === "transferBySelect") {
+      if (!showSelectAll.value || !props.isSource && transferProps2.mode === "immediate") {
         return;
       }
       return createVNode(IxCheckbox, {
@@ -39512,7 +40356,7 @@ var TransferListHeader = defineComponent({
     return () => {
       const prefixCls = `${mergedPrefixCls.value}-list-header`;
       const children = renderHeader(prefixCls);
-      if (!children || isArray$2(children) && children.length <= 0) {
+      if (!children || isArray$1(children) && children.length <= 0) {
         return;
       }
       return createVNode("div", {
@@ -39528,7 +40372,7 @@ var TransferList = defineComponent({
       props: transferProps2,
       mergedPrefixCls
     } = inject(transferContext);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-list`;
       return normalizeClass({
         [prefixCls]: true,
@@ -39537,7 +40381,7 @@ var TransferList = defineComponent({
         [`${prefixCls}-disabled`]: transferProps2.disabled
       });
     });
-    const style = computed$1(() => {
+    const style = computed(() => {
       var _a;
       const scrollWidth = (_a = transferProps2.scroll) == null ? void 0 : _a.width;
       let width;
@@ -39553,7 +40397,7 @@ var TransferList = defineComponent({
         width: convertCssPixel(width)
       });
     });
-    const spinProps = computed$1(() => {
+    const spinProps = computed(() => {
       if (isNil(transferProps2.spin)) {
         return;
       }
@@ -39593,8 +40437,8 @@ var Transfer = defineComponent({
     const common = useGlobalConfig$1("common");
     const config = useGlobalConfig$1("transfer");
     const locale = useGlobalConfig$1("locale").transfer;
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-transfer`);
-    const showSelectAll = computed$1(() => {
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-transfer`);
+    const showSelectAll = computed(() => {
       var _a;
       return (_a = props.showSelectAll) != null ? _a : config.showSelectAll;
     });
@@ -39614,18 +40458,9 @@ var Transfer = defineComponent({
     const sourceCheckableListRef = ref();
     const targetCheckableListRef = ref();
     const transferApi = {
-      scrollTo: (options, isSource) => {
-        var _a, _b, _c, _d;
-        if (isNil(options) && isNil(isSource)) {
-          return (_a = sourceCheckableListRef.value) == null ? void 0 : _a.scrollTo();
-        }
-        if (isBoolean(options)) {
-          return (_b = (options ? sourceCheckableListRef : targetCheckableListRef).value) == null ? void 0 : _b.scrollTo();
-        }
-        if (isNil(isSource)) {
-          return (_c = sourceCheckableListRef.value) == null ? void 0 : _c.scrollTo(options);
-        }
-        return (_d = (isSource ? sourceCheckableListRef : targetCheckableListRef).value) == null ? void 0 : _d.scrollTo(options);
+      scrollTo: (isSource, ...params) => {
+        var _a;
+        return (_a = (isSource ? sourceCheckableListRef : targetCheckableListRef).value) == null ? void 0 : _a.scrollTo(...params);
       }
     };
     expose(transferApi);
@@ -39693,7 +40528,7 @@ function getParentKeys(nodeMap, currNode, disabledKeys) {
 }
 function useCheckable(props, mergedNodeMap) {
   const [checkedKeys, setCheckedKeys] = useControlledProp(props, "checkedKeys", () => []);
-  const checkDisabledKeys = computed$1(() => {
+  const checkDisabledKeys = computed(() => {
     const disabledKeys = [];
     if (props.checkable) {
       mergedNodeMap.value.forEach((node, key) => {
@@ -39704,14 +40539,14 @@ function useCheckable(props, mergedNodeMap) {
     }
     return disabledKeys;
   });
-  const allCheckedKeys = computed$1(() => {
+  const allCheckedKeys = computed(() => {
     if (props.cascade) {
       return findAllCheckedKeys(mergedNodeMap.value, checkedKeys.value, checkDisabledKeys.value);
     } else {
       return checkedKeys.value;
     }
   });
-  const indeterminateKeys = computed$1(() => {
+  const indeterminateKeys = computed(() => {
     const _checkedKeys = allCheckedKeys.value;
     if (_checkedKeys.length === 0 || !props.cascade) {
       return [];
@@ -39843,28 +40678,28 @@ function filterCheckedKeysWithDisabled(dataMap, tempKeys, disabledKeys) {
   }
   return res;
 }
-var __defProp$1$2 = Object.defineProperty;
-var __defProps$1 = Object.defineProperties;
-var __getOwnPropDescs$1 = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$1$2 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$2 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$2 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$2 = (obj, key, value) => key in obj ? __defProp$1$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$2 = (a, b) => {
+var __defProp$1$3 = Object.defineProperty;
+var __defProps$5 = Object.defineProperties;
+var __getOwnPropDescs$5 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$3 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$3 = (obj, key, value) => key in obj ? __defProp$1$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$3 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$2.call(b, prop))
-      __defNormalProp$1$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$2)
-    for (var prop of __getOwnPropSymbols$1$2(b)) {
-      if (__propIsEnum$1$2.call(b, prop))
-        __defNormalProp$1$2(a, prop, b[prop]);
+    if (__hasOwnProp$1$3.call(b, prop))
+      __defNormalProp$1$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$3)
+    for (var prop of __getOwnPropSymbols$1$3(b)) {
+      if (__propIsEnum$1$3.call(b, prop))
+        __defNormalProp$1$3(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps$1 = (a, b) => __defProps$1(a, __getOwnPropDescs$1(b));
+var __spreadProps$5 = (a, b) => __defProps$5(a, __getOwnPropDescs$5(b));
 function useMergeNodes$1(props, getNodeKey) {
-  const mergedNodes = computed$1(() => convertMergeNodes$1(props, getNodeKey, props.dataSource));
-  const mergedNodeMap = computed$1(() => {
+  const mergedNodes = computed(() => convertMergeNodes$1(props, getNodeKey, props.dataSource));
+  const mergedNodeMap = computed(() => {
     const map = /* @__PURE__ */ new Map();
     convertMergedNodeMap$1(mergedNodes.value, map);
     return map;
@@ -39872,19 +40707,20 @@ function useMergeNodes$1(props, getNodeKey) {
   return { mergedNodes, mergedNodeMap };
 }
 function useFlattedNodes(mergedNodes, { expandedKeys }) {
-  return computed$1(() => {
+  return computed(() => {
     const _expandedKeysMap = new Map(expandedKeys.value.map((item, index) => [item, index]));
     if (_expandedKeysMap.size > 0) {
       const nodes = flatNode(mergedNodes.value, _expandedKeysMap);
       return nodes;
     }
-    return mergedNodes.value.map((item) => __spreadProps$1(__spreadValues$1$2({}, item), { expanded: false, level: 0 }));
+    return mergedNodes.value.map((item) => __spreadProps$5(__spreadValues$1$3({}, item), { expanded: false, level: 0 }));
   });
 }
-function convertMergeNodes$1(props, getNodeKey, nodes, parentKey) {
+function convertMergeNodes$1(props, getNodeKey, nodes, parentKey, parentLevel) {
   const getKey = getNodeKey.value;
   const { childrenKey, labelKey, disabled, loadChildren } = props;
-  return nodes.map((node, index) => convertMergeNode$1(node, getKey, disabled, childrenKey, labelKey, !!loadChildren, index === 0, index === nodes.length - 1, -1, parentKey));
+  const level = isNil(parentLevel) ? -1 : parentLevel;
+  return nodes.map((node, index) => convertMergeNode$1(node, getKey, disabled, childrenKey, labelKey, !!loadChildren, index === 0, index === nodes.length - 1, level, parentKey));
 }
 function convertMergeNode$1(rawNode, getKey, disabled, childrenKey, labelKey, hasLoad, isFirst, isLast, level, parentKey) {
   var _a;
@@ -39912,27 +40748,22 @@ function convertMergeNode$1(rawNode, getKey, disabled, childrenKey, labelKey, ha
   };
 }
 function convertDisabled$1(node, disabled) {
-  const nodeDisabled = node.disabled;
-  if (isBoolean(nodeDisabled)) {
-    return { check: nodeDisabled, drag: nodeDisabled, drop: nodeDisabled, select: nodeDisabled };
-  } else {
-    let { check, drag, drop, select } = nodeDisabled != null ? nodeDisabled : {};
-    if (disabled) {
-      const treeDisabled = disabled(node);
-      if (isBoolean(treeDisabled)) {
-        check != null ? check : check = treeDisabled;
-        drag != null ? drag : drag = treeDisabled;
-        drop != null ? drop : drop = treeDisabled;
-        select != null ? select : select = treeDisabled;
-      } else {
-        check != null ? check : check = treeDisabled.check;
-        drag != null ? drag : drag = treeDisabled.drag;
-        drop != null ? drop : drop = treeDisabled.drop;
-        select != null ? select : select = treeDisabled.select;
-      }
-    }
-    return { check, drag, drop, select };
+  const nodeDisabled = node.disabled || {};
+  if (nodeDisabled === true) {
+    return { check: true, drag: true, drop: true, select: true };
   }
+  let { check, drag, drop, select } = nodeDisabled;
+  if (disabled) {
+    const treeDisabled = disabled(node) || {};
+    if (treeDisabled === true) {
+      return { check: true, drag: true, drop: true, select: true };
+    }
+    check = check || treeDisabled.check;
+    drag = drag || treeDisabled.drag;
+    drop = drop || treeDisabled.drop;
+    select = select || treeDisabled.select;
+  }
+  return { check, drag, drop, select };
 }
 function convertMergedNodeMap$1(mergedNodes, map) {
   mergedNodes.forEach((item) => {
@@ -40094,11 +40925,11 @@ function useDragDrop(props, { expandedKeys }) {
     cleanDropState();
   };
   return {
-    dragKey: computed$1(() => {
+    dragKey: computed(() => {
       var _a;
       return (_a = dragNodeRef.value) == null ? void 0 : _a.key;
     }),
-    dropKey: computed$1(() => {
+    dropKey: computed(() => {
       var _a;
       return (_a = dropNodeRef.value) == null ? void 0 : _a.key;
     }),
@@ -40270,7 +41101,7 @@ var __async$4 = (__this, __arguments, generator) => {
   });
 };
 function useExpandable(props, config, getNodeKey, mergedNodeMap, searchedKeys, lastEffectiveSearchedKeys) {
-  const expandIcon = computed$1(() => {
+  const expandIcon = computed(() => {
     var _a;
     return (_a = props.expandIcon) != null ? _a : config.expandIcon;
   });
@@ -40308,7 +41139,8 @@ function useExpandable(props, config, getNodeKey, mergedNodeMap, searchedKeys, l
       const nodeMap = mergedNodeMap.value;
       const currNode = nodeMap.get(key);
       if (childrenNodes.length) {
-        const mergedChildren = convertMergeNodes$1(props, getNodeKey, childrenNodes, key);
+        const level = currNode.level;
+        const mergedChildren = convertMergeNodes$1(props, getNodeKey, childrenNodes, key, level);
         convertMergedNodeMap$1(mergedChildren, nodeMap);
         currNode.rawNode[childrenKey] = childrenNodes;
         currNode.children = mergedChildren;
@@ -40337,7 +41169,7 @@ function useExpandable(props, config, getNodeKey, mergedNodeMap, searchedKeys, l
   return { expandIcon, expandedKeys, handleExpand, loadingKeys };
 }
 function useGetNodeKey$1(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const nodeKey = (_a = props.nodeKey) != null ? _a : config.nodeKey;
     if (isString(nodeKey)) {
@@ -40355,7 +41187,7 @@ function useGetNodeKey$1(props, config) {
 const defaultSearchedKeys = [];
 function useSearchable(props, mergedNodeMap) {
   const lastEffectiveSearchedKeys = ref([]);
-  const searchedKeys = computed$1(() => {
+  const searchedKeys = computed(() => {
     const { searchValue, searchFn } = props;
     if (!searchValue && !searchFn) {
       return defaultSearchedKeys;
@@ -40385,14 +41217,14 @@ function checkNodeIsMatched(node, searchValue, searchFn) {
 }
 function useSelectable(props, mergedNodeMap) {
   const [selectedKeys, setSelectedKeys] = useControlledProp(props, "selectedKeys", () => []);
-  const isMultiple = computed$1(() => props.selectable === "multiple");
+  const isMultiple = computed(() => props.selectable === "multiple");
   const activeKey = ref();
   watchEffect(() => {
     const currKeys = selectedKeys.value;
     const keySize = currKeys.length;
     activeKey.value = keySize > 0 ? currKeys[keySize - 1] : void 0;
   });
-  const activeNode = computed$1(() => {
+  const activeNode = computed(() => {
     const currKey = activeKey.value;
     return currKey !== void 0 ? mergedNodeMap.value.get(currKey) : void 0;
   });
@@ -40525,10 +41357,10 @@ var Checkbox = defineComponent({
       indeterminateKeys,
       handleCheck
     } = inject(treeToken);
-    const isChecked = computed$1(() => {
+    const isChecked = computed(() => {
       return allCheckedKeys.value.includes(props.node.key);
     });
-    const isIndeterminate = computed$1(() => indeterminateKeys.value.includes(props.node.key));
+    const isIndeterminate = computed(() => indeterminateKeys.value.includes(props.node.key));
     const onChange = () => handleCheck(props.node);
     return () => createVNode(IxCheckbox, {
       "class": `${mergedPrefixCls.value}-node-checkbox`,
@@ -40549,7 +41381,7 @@ var Content$1 = defineComponent({
       handleSelect,
       searchedKeys
     } = inject(treeToken);
-    const searched = computed$1(() => searchedKeys.value.includes(props.nodeKey));
+    const searched = computed(() => searchedKeys.value.includes(props.nodeKey));
     const onClick = (evt) => {
       if (!props.disabled) {
         handleSelect(props.nodeKey);
@@ -40628,8 +41460,8 @@ var Expand = defineComponent({
       loadingKeys,
       handleExpand
     } = inject(treeToken);
-    const isLoading = computed$1(() => loadingKeys.value.includes(props.nodeKey));
-    const classes = computed$1(() => {
+    const isLoading = computed(() => loadingKeys.value.includes(props.nodeKey));
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-node-expand`;
       return normalizeClass({
         [prefixCls]: true,
@@ -40740,18 +41572,18 @@ var TreeNode = defineComponent({
       handleDrop
     } = inject(treeToken);
     const key = useKey();
-    const isActive = computed$1(() => activeKey.value === key);
-    const isLast = computed$1(() => treeProps2.showLine && props.isLast);
-    const hasTopLine = computed$1(() => treeProps2.showLine && !props.isLeaf && props.level !== 0 && props.isFirst);
-    const selected = computed$1(() => selectedKeys.value.includes(key));
-    const disabled = computed$1(() => props.selectDisabled || !treeProps2.selectable);
-    const dragging = computed$1(() => dragKey.value === key);
-    const dropping = computed$1(() => dropKey.value === key);
-    const dropParent = computed$1(() => dropParentKey.value === key);
-    const dropBefore = computed$1(() => dropping.value && dropType.value === "before");
-    const dropInside = computed$1(() => dropping.value && dropType.value === "inside");
-    const dropAfter = computed$1(() => dropping.value && dropType.value === "after");
-    const classes = computed$1(() => {
+    const isActive = computed(() => activeKey.value === key);
+    const isLast = computed(() => treeProps2.showLine && props.isLast);
+    const hasTopLine = computed(() => treeProps2.showLine && !props.isLeaf && props.level !== 0 && props.isFirst);
+    const selected = computed(() => selectedKeys.value.includes(key));
+    const disabled = computed(() => props.selectDisabled || !treeProps2.selectable);
+    const dragging = computed(() => dragKey.value === key);
+    const dropping = computed(() => dropKey.value === key);
+    const dropParent = computed(() => dropParentKey.value === key);
+    const dropBefore = computed(() => dropping.value && dropType.value === "before");
+    const dropInside = computed(() => dropping.value && dropType.value === "inside");
+    const dropAfter = computed(() => dropping.value && dropType.value === "after");
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-node`;
       return {
         [prefixCls]: true,
@@ -40858,19 +41690,19 @@ var TreeNode = defineComponent({
     };
   }
 });
-var __defProp$5 = Object.defineProperty;
+var __defProp$6 = Object.defineProperty;
 var __getOwnPropSymbols$6 = Object.getOwnPropertySymbols;
 var __hasOwnProp$6 = Object.prototype.hasOwnProperty;
 var __propIsEnum$6 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$5 = (obj, key, value) => key in obj ? __defProp$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$5 = (a, b) => {
+var __defNormalProp$6 = (obj, key, value) => key in obj ? __defProp$6(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$6 = (a, b) => {
   for (var prop in b || (b = {}))
     if (__hasOwnProp$6.call(b, prop))
-      __defNormalProp$5(a, prop, b[prop]);
+      __defNormalProp$6(a, prop, b[prop]);
   if (__getOwnPropSymbols$6)
     for (var prop of __getOwnPropSymbols$6(b)) {
       if (__propIsEnum$6.call(b, prop))
-        __defNormalProp$5(a, prop, b[prop]);
+        __defNormalProp$6(a, prop, b[prop]);
     }
   return a;
 };
@@ -40893,7 +41725,7 @@ var Tree = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tree`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-tree`);
     const config = useGlobalConfig$1("tree");
     const getNodeKey = useGetNodeKey$1(props, config);
     const {
@@ -40909,7 +41741,7 @@ var Tree = defineComponent({
     const checkableContext = useCheckable(props, mergedNodeMap);
     const dragDropContext = useDragDrop(props, expandableContext);
     const selectableContext = useSelectable(props, mergedNodeMap);
-    provide(treeToken, __spreadValues$5(__spreadValues$5(__spreadValues$5(__spreadValues$5({
+    provide(treeToken, __spreadValues$6(__spreadValues$6(__spreadValues$6(__spreadValues$6({
       props,
       slots,
       config,
@@ -40930,7 +41762,7 @@ var Tree = defineComponent({
       handleKeydown,
       handleKeyup
     } = useEvents(props, mergedNodeMap, flattedNodes, expandableContext, selectableContext);
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = mergedPrefixCls.value;
       const {
         blocked = config.blocked,
@@ -40944,7 +41776,7 @@ var Tree = defineComponent({
         [`${prefixCls}-show-line`]: showLine
       };
     });
-    const accessibilityPath = computed$1(() => {
+    const accessibilityPath = computed(() => {
       var _a, _b;
       const _activeKey = activeKey.value;
       if (isNil(_activeKey)) {
@@ -40998,9 +41830,9 @@ var Tree = defineComponent({
         children = createVNode(CdkVirtualScroll, {
           "ref": virtualScrollRef,
           "dataSource": nodes,
+          "getKey": "key",
           "height": height,
           "itemHeight": 28,
-          "itemKey": "key",
           "itemRender": itemRender,
           "virtual": virtual,
           "onScroll": onScroll,
@@ -41035,7 +41867,7 @@ var Tree = defineComponent({
 const IxTree = Tree;
 
 function useMergeNodes(props, getNodeKey, config) {
-  const mergedNodeMap = computed$1(() => {
+  const mergedNodeMap = computed(() => {
     const map = /* @__PURE__ */ new Map();
     const nodes = convertMergeNodes(props, getNodeKey, props.dataSource, config);
     convertMergedNodeMap(nodes, map);
@@ -41048,20 +41880,20 @@ function convertMergeNodes(props, getNodeKey, nodes, config, parentKey) {
   const { childrenKey = config.childrenKey, labelKey = config.labelKey, treeDisabled, loadChildren } = props;
   return nodes.map((option) => convertMergeNode(option, getKey, treeDisabled, childrenKey, labelKey, !!loadChildren, parentKey));
 }
-function convertMergeNode(rawNode, getKey, disabled, childrenKey, labelKey, hasLoad, parentKey) {
+function convertMergeNode(rawData, getKey, disabled, childrenKey, labelKey, hasLoad, parentKey) {
   var _a;
-  const key = getKey(rawNode);
-  const { check, drag, drop, select } = convertDisabled(rawNode, disabled);
-  const subNodes = rawNode[childrenKey];
-  const label = rawNode[labelKey];
+  const key = getKey(rawData);
+  const { check, drag, drop, select } = convertDisabled(rawData, disabled);
+  const subNodes = rawData[childrenKey];
+  const label = rawData[labelKey];
   const children = subNodes == null ? void 0 : subNodes.map((subNode) => convertMergeNode(subNode, getKey, disabled, childrenKey, labelKey, hasLoad, key));
   return {
     children,
     label,
     key,
-    isLeaf: (_a = rawNode.isLeaf) != null ? _a : !((children == null ? void 0 : children.length) || hasLoad),
+    isLeaf: (_a = rawData.isLeaf) != null ? _a : !((children == null ? void 0 : children.length) || hasLoad),
     parentKey,
-    rawNode,
+    rawData,
     checkDisabled: check,
     dragDisabled: drag,
     dropDisabled: drop,
@@ -41102,7 +41934,7 @@ function convertMergedNodeMap(MergedNodes, map) {
   });
 }
 function useGetNodeKey(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     const nodeKey = (_a = props.nodeKey) != null ? _a : config.nodeKey;
     if (isString(nodeKey)) {
@@ -41117,101 +41949,22 @@ function useGetNodeKey(props, config) {
     return nodeKey;
   });
 }
-function useInputState(props, inputRef, accessor, searchValue) {
-  const mirrorRef = ref();
-  const inputWidth = ref("");
-  const isFocused = ref(false);
-  const syncMirrorWidth = () => {
-    if (props.multiple) {
-      const inputElement = inputRef.value;
-      const mirrorElement = mirrorRef.value;
-      if (inputElement && mirrorElement) {
-        mirrorElement.innerText = ` ${inputElement.value}`;
-        inputWidth.value = `${mirrorElement.scrollWidth}px`;
-      }
-    }
-  };
-  const handleInput = (evt) => {
-    if (props.searchable === true) {
-      const { value } = evt.target;
-      if (value !== searchValue.value) {
-        searchValue.value = value;
-      }
-      syncMirrorWidth();
-    }
-  };
-  const handleFocus = (evt) => {
-    isFocused.value = true;
-    callEmit(props.onFocus, evt);
-  };
-  const handleBlur = (evt) => {
-    var _a;
-    isFocused.value = false;
-    callEmit(props.onBlur, evt);
-    (_a = accessor.markAsBlurred) == null ? void 0 : _a.call(accessor);
-  };
-  const clearInput = () => {
-    const inputElement = inputRef.value;
-    if (inputElement) {
-      inputElement.value = "";
-    }
-    searchValue.value = "";
-    syncMirrorWidth();
-  };
-  onMounted(() => syncMirrorWidth());
-  return {
-    mirrorRef,
-    inputWidth,
-    isFocused,
-    handleInput,
-    handleFocus,
-    handleBlur,
-    clearInput
-  };
-}
-function useOverlayProps(props, triggerRef) {
-  const overlayRef = ref();
-  const overlayWidth = ref();
-  const overlayStyle = computed$1(() => ({ width: overlayWidth.value }));
-  const [overlayOpened, setOverlayOpened] = useControlledProp(props, "open", false);
-  const updatePopper = () => {
-    var _a, _b;
-    overlayWidth.value = convertCssPixel((_a = triggerRef.value) == null ? void 0 : _a.getBoundingClientRect().width);
-    (_b = overlayRef.value) == null ? void 0 : _b.updatePopper();
-  };
-  onMounted(() => {
-    if (props.autofocus) {
-      setOverlayOpened(true);
-    }
-    watchEffect(() => {
-      if (overlayOpened.value) {
-        updatePopper();
-      }
-    });
-    onResize(triggerRef.value, updatePopper);
-  });
-  onBeforeUnmount(() => {
-    offResize(triggerRef.value, updatePopper);
-  });
-  return { overlayRef, overlayStyle, overlayOpened, setOverlayOpened };
-}
 function useSelectedState(props, accessor, mergedNodeMap) {
-  const selectedValue = computed$1(() => convertArray(accessor.valueRef.value));
-  const selectedNodes = computed$1(() => {
+  const selectedValue = computed(() => convertArray(accessor.valueRef.value));
+  const selectedNodes = computed(() => {
     const nodesMap = mergedNodeMap.value;
     return selectedValue.value.map((value) => nodesMap.get(value)).filter(Boolean);
   });
-  const setValue = (value, nodes) => {
+  const setValue = (value) => {
     const currValue = props.multiple ? value : value[0];
-    const node = props.multiple ? nodes : nodes == null ? void 0 : nodes[0];
-    const oldValue = toRaw$1(accessor.valueRef.value);
+    const oldValue = toRaw(accessor.valueRef.value);
     if (currValue !== oldValue) {
       accessor.setValue(currValue);
-      callEmit(props.onChange, currValue, oldValue, node);
+      callEmit(props.onChange, currValue, oldValue);
     }
   };
-  const changeSelected = (value, nodes) => {
-    setValue(value, nodes);
+  const changeSelected = (value) => {
+    setValue(value);
   };
   const handleItemRemove = (key) => {
     setValue(selectedValue.value.filter((item) => key !== item));
@@ -41259,12 +42012,13 @@ var Content = defineComponent({
       getNodeKey,
       mergedPrefixCls,
       mergedNodeMap,
-      selectedValue,
-      searchValue,
-      expandedKeys,
+      inputValue,
+      setInputValue,
       treeRef,
+      expandedKeys,
       setExpandedKeys,
       setExpandAll,
+      selectedValue,
       changeSelected,
       handleNodeClick
     } = inject(treeSelectToken);
@@ -41274,7 +42028,7 @@ var Content = defineComponent({
       const {
         onScrolledChange
       } = props;
-      callEmit(onScrolledChange, startIndex, endIndex, visibleNodes.map((item) => item.rawNode));
+      callEmit(onScrolledChange, startIndex, endIndex, visibleNodes.map((item) => item.rawData));
     };
     const handleClick = (evt) => {
       evt.stopPropagation();
@@ -41321,26 +42075,20 @@ var Content = defineComponent({
       if (childrenNodes.length && currNode) {
         const mergedChildren = convertMergeNodes(props, getNodeKey, childrenNodes, config, key);
         convertMergedNodeMap(mergedChildren, nodeMap);
-        currNode.rawNode.children = childrenNodes;
+        currNode.rawData.children = childrenNodes;
         currNode.children = mergedChildren;
         setLoadedKeys(loadedKeys2);
         callEmit(props.onLoaded, loadedKeys2, node);
       }
     });
-    const handleSearchInput = (evt) => {
-      const {
-        value
-      } = evt.target;
-      if (value !== searchValue.value) {
-        searchValue.value = value;
-      }
-    };
-    const handleSearchClear = (evt) => {
-      searchValue.value = "";
-      evt.stopPropagation();
-    };
-    const checkable = computed$1(() => props.multiple && props.checkable);
-    const cascade = computed$1(() => checkable.value && props.cascade);
+    const mergedClearIcon = computed(() => {
+      var _a;
+      return (_a = props.clearIcon) != null ? _a : config.clearIcon;
+    });
+    const handleInput = (evt) => setInputValue(evt.target.value);
+    const handleClear = () => setInputValue("");
+    const checkable = computed(() => props.multiple && props.checkable);
+    const cascade = computed(() => checkable.value && props.cascade);
     return () => {
       const {
         checkStrategy,
@@ -41407,7 +42155,7 @@ var Content = defineComponent({
         "virtual": virtual,
         "selectable": multiple ? "multiple" : true,
         "selectedKeys": selectedValue.value,
-        "searchValue": searchValue.value,
+        "searchValue": inputValue.value,
         "searchFn": searchFn,
         "showLine": showLine,
         "onClick": handleClick,
@@ -41432,18 +42180,22 @@ var Content = defineComponent({
         "onScrolledChange": handleScrolledChange
       }, treeSlots)];
       if (searchable === "overlay") {
+        const value = inputValue.value;
         children.unshift(createVNode("div", {
           "class": `${prefixCls}-overlay-search-wrapper`
         }, [createVNode(IxButton, {
           "size": "md",
           "icon": expandAllBtnStatus.value ? "tree-expand" : "tree-unexpand",
           "onClick": handleExpandAll
-        }, null), createVNode(IxInput, {
+        }, null), createVNode(\u0275Input, {
           "clearable": true,
+          "clearIcon": mergedClearIcon.value,
+          "clearVisible": !!value,
+          "size": "sm",
           "suffix": "search",
-          "value": searchValue.value,
-          "onInput": handleSearchInput,
-          "onClear": handleSearchClear
+          "value": value,
+          "onClear": handleClear,
+          "onInput": handleInput
         }, null)]));
       }
       return overlayRender ? overlayRender(children) : createVNode("div", null, [children]);
@@ -41451,366 +42203,74 @@ var Content = defineComponent({
   }
 });
 const treeSelectProps = {
-  value: IxPropTypes.any,
-  expandedKeys: IxPropTypes.array(),
-  loadedKeys: IxPropTypes.array(),
   control: controlPropDef,
-  open: IxPropTypes.bool,
-  autofocus: IxPropTypes.bool.def(false),
-  childrenKey: IxPropTypes.string,
-  cascade: IxPropTypes.bool.def(false),
-  checkable: IxPropTypes.bool.def(false),
-  clearable: IxPropTypes.bool.def(false),
-  checkStrategy: IxPropTypes.oneOf(["all", "parent", "child"]).def("all"),
-  dataSource: IxPropTypes.array().def(() => []),
-  disabled: IxPropTypes.bool.def(false),
-  draggable: IxPropTypes.bool.def(false),
-  droppable: IxPropTypes.func(),
-  empty: IxPropTypes.oneOfType([String, IxPropTypes.object()]),
-  expandIcon: IxPropTypes.string,
-  maxLabelCount: IxPropTypes.number.def(Number.MAX_SAFE_INTEGER),
-  multiple: IxPropTypes.bool.def(false),
-  labelKey: IxPropTypes.string,
-  leafLineIcon: IxPropTypes.string,
-  loadChildren: IxPropTypes.func(),
-  nodeKey: IxPropTypes.oneOfType([String, IxPropTypes.func()]),
-  overlayClassName: IxPropTypes.string,
-  overlayRender: IxPropTypes.func(),
-  placeholder: IxPropTypes.string,
-  readonly: IxPropTypes.bool.def(false),
-  searchable: IxPropTypes.oneOfType([Boolean, IxPropTypes.oneOf(["overlay"])]).def(false),
-  searchFn: IxPropTypes.func(),
-  size: IxPropTypes.oneOf(["sm", "md", "lg"]),
-  suffix: IxPropTypes.string,
-  showLine: IxPropTypes.bool,
+  value: { type: null, default: void 0 },
+  open: { type: Boolean, default: void 0 },
+  expandedKeys: { type: Array, default: void 0 },
+  loadedKeys: { type: Array, default: void 0 },
+  autocomplete: { type: String, default: "off" },
+  autofocus: { type: Boolean, default: false },
+  borderless: { type: Boolean, default: void 0 },
+  childrenKey: { type: String, default: void 0 },
+  cascade: { type: Boolean, default: false },
+  checkable: { type: Boolean, default: false },
+  clearable: { type: Boolean, default: false },
+  clearIcon: { type: String, default: void 0 },
+  checkStrategy: { type: String, default: "all" },
+  dataSource: { type: Array, default: () => [] },
+  disabled: { type: Boolean, default: false },
+  draggable: { type: Boolean, default: false },
+  droppable: { type: Function, default: void 0 },
+  empty: { type: [String, Object], default: void 0 },
+  expandIcon: { type: String, default: void 0 },
+  labelKey: { type: String, default: void 0 },
+  leafLineIcon: { type: String, default: void 0 },
+  loadChildren: { type: Function, default: void 0 },
+  maxLabelCount: { type: [Number, String], default: void 0 },
+  maxLabel: { type: [Number, String], default: Number.MAX_SAFE_INTEGER },
+  multiple: { type: Boolean, default: false },
+  nodeKey: { type: [String, Function], default: void 0 },
+  overlayClassName: { type: String, default: void 0 },
+  overlayMatchWidth: { type: Boolean, default: void 0 },
+  overlayRender: { type: Function, default: void 0 },
+  placeholder: { type: String, default: void 0 },
+  readonly: { type: Boolean, default: false },
+  searchable: { type: [Boolean, String], default: false },
+  searchFn: { type: Function, default: void 0 },
+  size: { type: String, default: void 0 },
+  showLine: { type: Boolean, default: void 0 },
+  suffix: { type: String, default: void 0 },
   target: portalTargetDef,
-  treeDisabled: IxPropTypes.func(),
-  virtual: IxPropTypes.bool.def(false),
-  "onUpdate:value": IxPropTypes.emit(),
-  "onUpdate:expandedKeys": IxPropTypes.emit(),
-  "onUpdate:loadedKeys": IxPropTypes.emit(),
-  onCheck: IxPropTypes.emit(),
-  onChange: IxPropTypes.emit(),
-  onClear: IxPropTypes.emit(),
-  onDragstart: IxPropTypes.emit(),
-  onDragend: IxPropTypes.emit(),
-  onDragenter: IxPropTypes.emit(),
-  onDragleave: IxPropTypes.emit(),
-  onDragover: IxPropTypes.emit(),
-  onDrop: IxPropTypes.emit(),
-  onExpand: IxPropTypes.emit(),
-  onExpandedChange: IxPropTypes.emit(),
-  onLoaded: IxPropTypes.emit(),
-  onSelect: IxPropTypes.emit(),
-  onBlur: IxPropTypes.emit(),
-  onFocus: IxPropTypes.emit(),
-  onNodeClick: IxPropTypes.emit(),
-  onNodeContextmenu: IxPropTypes.emit(),
-  onSearchedChange: IxPropTypes.emit(),
-  onScroll: IxPropTypes.emit(),
-  onScrolledChange: IxPropTypes.emit(),
-  onScrolledBottom: IxPropTypes.emit(),
-  overlayHeight: IxPropTypes.number.def(256)
-};
-const treeSelectorProps = {
-  clearable: IxPropTypes.bool,
-  suffix: IxPropTypes.string
-};
-var Input = defineComponent({
-  setup() {
-    const {
-      props,
-      mergedPrefixCls,
-      isDisabled,
-      inputRef,
-      inputWidth,
-      mirrorRef,
-      searchValue,
-      handleInput
-    } = inject(treeSelectToken);
-    const onClick = (evt) => {
-      if (props.multiple) {
-        evt.stopPropagation();
-      }
-    };
-    const style = computed$1(() => ({
-      width: inputWidth.value
-    }));
-    const innerStyle = computed$1(() => {
-      const {
-        searchable
-      } = props;
-      return {
-        opacity: searchable === true ? void 0 : 0
-      };
-    });
-    return () => {
-      const {
-        autofocus,
-        multiple,
-        readonly
-      } = props;
-      const prefixCls = `${mergedPrefixCls.value}-selector-input`;
-      return createVNode("div", {
-        "class": prefixCls,
-        "style": style.value
-      }, [createVNode("input", {
-        "ref": inputRef,
-        "class": `${prefixCls}-inner`,
-        "style": innerStyle.value,
-        "autocomplete": "off",
-        "autofocus": autofocus,
-        "disabled": isDisabled.value,
-        "readonly": readonly,
-        "value": searchValue.value,
-        "onClick": onClick,
-        "onInput": handleInput
-      }, null), multiple && createVNode("span", {
-        "ref": mirrorRef,
-        "class": `${prefixCls}-mirror`,
-        "aria-hidden": true
-      }, null)]);
-    };
-  }
-});
-const Item = (props, {
-  slots
-}) => {
-  const {
-    disabled,
-    prefixCls,
-    removable,
-    handleItemRemove
-  } = props;
-  const key = useKey();
-  const classes = prefixCls + (disabled ? ` ${prefixCls}-disabled` : "");
-  const handleClick = (evt) => {
-    evt.stopPropagation();
-    handleItemRemove(key);
-  };
-  return createVNode("div", {
-    "class": classes
-  }, [createVNode("span", {
-    "class": `${prefixCls}-label`
-  }, [slots.default()]), removable && createVNode("span", {
-    "class": `${prefixCls}-remove`,
-    "onClick": handleClick
-  }, [createVNode(IxIcon, {
-    "name": "close"
-  }, null)])]);
-};
-var Selector = defineComponent({
-  props: treeSelectorProps,
-  setup(props) {
-    const {
-      props: treeSelectProps2,
-      slots,
-      mergedPrefixCls,
-      isDisabled,
-      selectedValue,
-      selectedNodes,
-      handleItemRemove,
-      handleClear,
-      searchValue
-    } = inject(treeSelectToken);
-    const selectedItems = computed$1(() => {
-      const {
-        maxLabelCount
-      } = treeSelectProps2;
-      const nodes = selectedNodes.value;
-      const items = nodes.slice(0, maxLabelCount);
-      if (nodes.length > maxLabelCount) {
-        const label = `+ ${nodes.length - maxLabelCount} ...`;
-        const key = nodes.slice(maxLabelCount).map((node) => node.rawNode);
-        items.push({
-          isMax: true,
-          key,
-          label
-        });
-      }
-      return items;
-    });
-    const showItems = computed$1(() => {
-      return treeSelectProps2.multiple || selectedValue.value.length > 0 && !searchValue.value;
-    });
-    const showPlaceholder = computed$1(() => {
-      return selectedValue.value.length === 0 && (!searchValue.value || treeSelectProps2.searchable === "overlay");
-    });
-    return () => {
-      var _a, _b, _c, _d;
-      const {
-        clearable,
-        suffix
-      } = props;
-      const {
-        multiple,
-        readonly
-      } = treeSelectProps2;
-      const disabled = isDisabled.value;
-      const prefixCls = `${mergedPrefixCls.value}-selector`;
-      const itemPrefixCls = `${prefixCls}-item`;
-      const itemNodes = selectedItems.value.map((item) => {
-        var _a2, _b2, _c2, _d2;
-        const {
-          key,
-          isMax,
-          label
-        } = item;
-        const _disabled = disabled || item.selectDisabled;
-        const removable = multiple && !_disabled && !readonly && !isMax;
-        const itemProps = {
-          key,
-          disabled: _disabled,
-          prefixCls: itemPrefixCls,
-          removable,
-          title: label,
-          handleItemRemove
-        };
-        let labelNode;
-        if (isMax) {
-          labelNode = (_b2 = (_a2 = slots.maxLabel) == null ? void 0 : _a2.call(slots, item.key)) != null ? _b2 : label;
-        } else {
-          labelNode = (_d2 = (_c2 = slots.label) == null ? void 0 : _c2.call(slots, item.rawNode)) != null ? _d2 : label;
-        }
-        return createVNode(Item, itemProps, {
-          default: () => [labelNode]
-        });
-      });
-      return createVNode("label", {
-        "class": prefixCls
-      }, [showItems.value && itemNodes, createVNode(Input, null, null), showPlaceholder.value && createVNode("div", {
-        "class": `${prefixCls}-placeholder`
-      }, [createTextVNode(" "), (_b = (_a = slots.placeholder) == null ? void 0 : _a.call(slots)) != null ? _b : treeSelectProps2.placeholder]), (slots.suffix || suffix) && createVNode("div", {
-        "class": `${prefixCls}-suffix`
-      }, [(_d = (_c = slots.suffix) == null ? void 0 : _c.call(slots)) != null ? _d : createVNode(IxIcon, {
-        "name": suffix
-      }, null)]), clearable && createVNode("div", {
-        "class": `${prefixCls}-clear`,
-        "onClick": handleClear
-      }, [createVNode(IxIcon, {
-        "name": "close-circle"
-      }, null)])]);
-    };
-  }
-});
-const hiddenBoxStyle = {
-  width: 0,
-  height: 0,
-  display: "flex",
-  overflow: "hidden",
-  opacity: 0
-};
-var Trigger = defineComponent({
-  setup() {
-    const {
-      props,
-      slots,
-      config,
-      focusMonitor,
-      mergedPrefixCls,
-      triggerRef,
-      isDisabled,
-      selectedValue,
-      isFocused,
-      overlayOpened,
-      handleFocus,
-      handleBlur,
-      setOverlayOpened
-    } = inject(treeSelectToken);
-    const formContext = inject(FORM_TOKEN, null);
-    const clearable = computed$1(() => {
-      return !isDisabled.value && !props.readonly && props.clearable && selectedValue.value.length > 0;
-    });
-    const searchable = computed$1(() => {
-      return !isDisabled.value && !props.readonly && props.searchable;
-    });
-    const suffix = computed$1(() => {
-      const {
-        suffix: suffix2
-      } = props;
-      if (suffix2) {
-        return suffix2;
-      }
-      return props.searchable === true && isFocused.value ? "search" : config.suffix;
-    });
-    const classes = computed$1(() => {
-      var _a;
-      const {
-        multiple,
-        readonly,
-        size = (_a = formContext == null ? void 0 : formContext.size.value) != null ? _a : config.size
-      } = props;
-      const disabled = isDisabled.value;
-      const prefixCls = mergedPrefixCls.value;
-      return {
-        [prefixCls]: true,
-        [`${prefixCls}-clearable`]: clearable.value,
-        [`${prefixCls}-readonly`]: readonly,
-        [`${prefixCls}-disabled`]: disabled,
-        [`${prefixCls}-readonly`]: readonly,
-        [`${prefixCls}-focused`]: isFocused.value,
-        [`${prefixCls}-opened`]: overlayOpened.value,
-        [`${prefixCls}-multiple`]: multiple,
-        [`${prefixCls}-single`]: !multiple,
-        [`${prefixCls}-searchable`]: searchable.value === true,
-        [`${prefixCls}-with-suffix`]: slots.suffix || suffix.value,
-        [`${prefixCls}-${size}`]: true
-      };
-    });
-    const handleClick = () => {
-      const currOpened = overlayOpened.value;
-      const notAllowedClick = isDisabled.value || props.readonly;
-      if (notAllowedClick || currOpened && searchable.value) {
-        return;
-      }
-      setOverlayOpened(!currOpened);
-    };
-    onMounted(() => {
-      watch(focusMonitor.monitor(triggerRef.value, true), (evt) => {
-        const {
-          origin,
-          event
-        } = evt;
-        if (event) {
-          if (origin) {
-            handleFocus(event);
-          } else {
-            handleBlur(event);
-          }
-        }
-      });
-    });
-    onBeforeUnmount(() => focusMonitor.stopMonitoring(triggerRef.value));
-    return () => {
-      return createVNode("div", {
-        "ref": triggerRef,
-        "class": classes.value,
-        "onClick": handleClick
-      }, [isFocused.value && !overlayOpened.value && createVNode("span", {
-        "style": hiddenBoxStyle,
-        "aria-live": "polite"
-      }, [selectedValue.value.join(", ")]), createVNode(Selector, {
-        "clearable": clearable.value,
-        "suffix": suffix.value
-      }, null)]);
-    };
-  }
-});
-var __defProp$4 = Object.defineProperty;
-var __getOwnPropSymbols$5 = Object.getOwnPropertySymbols;
-var __hasOwnProp$5 = Object.prototype.hasOwnProperty;
-var __propIsEnum$5 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$4 = (obj, key, value) => key in obj ? __defProp$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$4 = (a, b) => {
-  for (var prop in b || (b = {}))
-    if (__hasOwnProp$5.call(b, prop))
-      __defNormalProp$4(a, prop, b[prop]);
-  if (__getOwnPropSymbols$5)
-    for (var prop of __getOwnPropSymbols$5(b)) {
-      if (__propIsEnum$5.call(b, prop))
-        __defNormalProp$4(a, prop, b[prop]);
-    }
-  return a;
+  treeDisabled: {
+    type: Function,
+    default: void 0
+  },
+  virtual: { type: Boolean, default: false },
+  "onUpdate:value": [Function, Array],
+  "onUpdate:open": [Function, Array],
+  "onUpdate:expandedKeys": [Function, Array],
+  "onUpdate:loadedKeys": [Function, Array],
+  onCheck: [Function, Array],
+  onChange: [Function, Array],
+  onClear: [Function, Array],
+  onDragstart: [Function, Array],
+  onDragend: [Function, Array],
+  onDragenter: [Function, Array],
+  onDragleave: [Function, Array],
+  onDragover: [Function, Array],
+  onDrop: [Function, Array],
+  onExpand: [Function, Array],
+  onExpandedChange: [Function, Array],
+  onLoaded: [Function, Array],
+  onNodeClick: [Function, Array],
+  onNodeContextmenu: [Function, Array],
+  onSearch: [Function, Array],
+  onSearchedChange: [Function, Array],
+  onSelect: [Function, Array],
+  onScroll: [Function, Array],
+  onScrolledChange: [Function, Array],
+  onScrolledBottom: [Function, Array],
+  overlayHeight: { type: Number, default: 256 }
 };
 const defaultOffset = [0, 8];
 var TreeSelect = defineComponent({
@@ -41823,34 +42283,42 @@ var TreeSelect = defineComponent({
     slots
   }) {
     const common = useGlobalConfig$1("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-tree-select`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-tree-select`);
     const config = useGlobalConfig$1("treeSelect");
     const getNodeKey = useGetNodeKey(props, config);
-    const searchValue = ref("");
+    const triggerRef = ref();
+    const [inputValue, setInputValue] = useState$1("");
+    const focus = () => {
+      var _a;
+      return (_a = triggerRef.value) == null ? void 0 : _a.focus();
+    };
+    const blur = () => {
+      var _a;
+      return (_a = triggerRef.value) == null ? void 0 : _a.blur();
+    };
+    const clearInput = () => {
+      var _a;
+      props.searchable === "overlay" ? setInputValue("") : (_a = triggerRef.value) == null ? void 0 : _a.clearInput();
+    };
     const [expandedKeys, setExpandedKeys] = useControlledProp(props, "expandedKeys", () => []);
-    const focusMonitor = useSharedFocusMonitor();
-    const {
-      elementRef: inputRef,
-      focus,
-      blur
-    } = useFormElement();
     const accessor = useFormAccessor();
-    const isDisabled = computed$1(() => accessor.disabled.value);
-    const inputStateContext = useInputState(props, inputRef, accessor, searchValue);
-    const {
-      clearInput
-    } = inputStateContext;
     const {
       mergedNodeMap
     } = useMergeNodes(props, getNodeKey, config);
-    const selectedStateContext = useSelectedState(props, accessor, mergedNodeMap);
-    const triggerRef = ref();
+    const {
+      selectedValue,
+      selectedNodes,
+      changeSelected,
+      handleItemRemove,
+      handleClear
+    } = useSelectedState(props, accessor, mergedNodeMap);
     const {
       overlayRef,
       overlayStyle,
+      updateOverlay,
       overlayOpened,
       setOverlayOpened
-    } = useOverlayProps(props, triggerRef);
+    } = useOverlayState(props, config, triggerRef);
     const treeRef = ref();
     const scrollTo = (options) => {
       var _a;
@@ -41863,7 +42331,7 @@ var TreeSelect = defineComponent({
         mergedNodeMap.value.forEach((node) => {
           if (!node.isLeaf) {
             _expendedKeys.push(node.key);
-            _expendedNodes.push(node.rawNode);
+            _expendedNodes.push(node.rawData);
           }
         });
       }
@@ -41884,67 +42352,101 @@ var TreeSelect = defineComponent({
         setOverlayOpened(false);
       }
     };
-    provide(treeSelectToken, __spreadValues$4(__spreadValues$4({
+    const handleBlur = () => accessor.markAsBlurred();
+    provide(treeSelectToken, {
       props,
       slots,
       config,
+      mergedPrefixCls,
       getNodeKey,
       expandedKeys,
-      mergedPrefixCls,
       mergedNodeMap,
-      focusMonitor,
-      triggerRef,
+      inputValue,
+      setInputValue,
       treeRef,
-      inputRef,
-      overlayOpened,
       accessor,
-      isDisabled,
-      searchValue,
       setExpandedKeys,
       setExpandAll,
+      overlayOpened,
+      setOverlayOpened,
       handleNodeClick,
-      setOverlayOpened
-    }, selectedStateContext), inputStateContext));
+      selectedValue,
+      changeSelected
+    });
     watch(overlayOpened, (opened) => {
       opened ? focus() : blur();
       clearInput();
     });
-    const classes = computed$1(() => {
+    const overlayClasses = computed(() => {
       const {
-        overlayClassName
+        overlayClassName,
+        multiple
       } = props;
       const prefixCls = mergedPrefixCls.value;
       return normalizeClass({
         [`${prefixCls}-overlay`]: true,
+        [`${prefixCls}-overlay-multiple`]: multiple,
         [overlayClassName || ""]: !!overlayClassName
       });
     });
-    const target = computed$1(() => {
+    const target = computed(() => {
       var _a, _b;
       return (_b = (_a = props.target) != null ? _a : config.target) != null ? _b : `${mergedPrefixCls.value}-overlay-container`;
     });
+    const renderTrigger = () => {
+      var _a;
+      return createVNode(\u0275Selector, mergeProps({
+        "ref": triggerRef,
+        "className": mergedPrefixCls.value,
+        "allowInput": false,
+        "autocomplete": props.autocomplete,
+        "autofocus": props.autofocus,
+        "borderless": props.borderless,
+        "clearable": props.clearable,
+        "clearIcon": props.clearIcon,
+        "config": config,
+        "dataSource": selectedNodes.value,
+        "disabled": accessor.disabled.value,
+        "maxLabel": (_a = props.maxLabelCount) != null ? _a : props.maxLabel,
+        "multiple": props.multiple,
+        "opened": overlayOpened.value,
+        "placeholder": props.placeholder,
+        "readonly": props.readonly,
+        "searchable": props.searchable,
+        "size": props.size,
+        "suffix": props.suffix,
+        "value": selectedValue.value,
+        "onBlur": handleBlur,
+        "onClear": handleClear,
+        "onInputValueChange": setInputValue,
+        "onItemRemove": handleItemRemove,
+        "onOpenedChange": setOverlayOpened,
+        "onResize": updateOverlay,
+        "onSearch": props.onSearch
+      }, attrs), slots);
+    };
+    const renderContent = () => createVNode(Content, null, null);
     return () => {
-      const renderTrigger = () => createVNode(Trigger, attrs, null);
-      const renderContent = () => createVNode(Content, null, null);
       const overlayProps = {
+        class: overlayClasses.value,
+        style: overlayStyle.value,
+        clickOutside: true,
+        disabled: accessor.disabled.value || props.readonly,
+        offset: defaultOffset,
+        placement: "bottomStart",
+        target: target.value,
+        trigger: "manual",
+        triggerId: attrs.id,
+        visible: overlayOpened.value,
         "onUpdate:visible": setOverlayOpened
+      };
+      const overlaySlots = {
+        default: renderTrigger,
+        content: renderContent
       };
       return createVNode(\u0275Overlay, mergeProps({
         "ref": overlayRef
-      }, overlayProps, {
-        "visible": overlayOpened.value,
-        "class": classes.value,
-        "style": overlayStyle.value,
-        "target": target.value,
-        "offset": defaultOffset,
-        "disabled": isDisabled.value || props.readonly,
-        "clickOutside": true,
-        "placement": "bottom",
-        "trigger": "manual"
-      }), {
-        default: renderTrigger,
-        content: renderContent
-      });
+      }, overlayProps), overlaySlots);
     };
   }
 });
@@ -41981,25 +42483,25 @@ function isLegality(type) {
   return false;
 }
 
-var __defProp$2$1 = Object.defineProperty;
-var __getOwnPropSymbols$2$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2$1 = (obj, key, value) => key in obj ? __defProp$2$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2$1 = (a, b) => {
+var __defProp$2$2 = Object.defineProperty;
+var __getOwnPropSymbols$2$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$2 = (obj, key, value) => key in obj ? __defProp$2$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$2 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$2$1.call(b, prop))
-      __defNormalProp$2$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2$1)
-    for (var prop of __getOwnPropSymbols$2$1(b)) {
-      if (__propIsEnum$2$1.call(b, prop))
-        __defNormalProp$2$1(a, prop, b[prop]);
+    if (__hasOwnProp$2$2.call(b, prop))
+      __defNormalProp$2$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$2)
+    for (var prop of __getOwnPropSymbols$2$2(b)) {
+      if (__propIsEnum$2$2.call(b, prop))
+        __defNormalProp$2$2(a, prop, b[prop]);
     }
   return a;
 };
 function getFileInfo(file, options = {}) {
   const key = uniqueId();
-  return __spreadValues$2$1({
+  return __spreadValues$2$2({
     key,
     name: file.name,
     raw: file,
@@ -42060,11 +42562,11 @@ function getFilesCountAllow(filesSelected, curFilesCount, maxCount) {
 }
 function useCmpClasses() {
   const commonPrefix = useGlobalConfig$1("common");
-  return computed$1(() => `${commonPrefix.prefixCls}-upload`);
+  return computed(() => `${commonPrefix.prefixCls}-upload`);
 }
 function useListClasses(props, type) {
   const cpmClasses = useCmpClasses();
-  return computed$1(() => normalizeClass([
+  return computed(() => normalizeClass([
     `${cpmClasses.value}-list`,
     `${cpmClasses.value}-list-${type}`,
     { [`${cpmClasses.value}-list-disabled`]: props.disabled }
@@ -42072,14 +42574,14 @@ function useListClasses(props, type) {
 }
 function useIcon(props) {
   const uploadFilesConfig = useGlobalConfig$1("uploadFiles");
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     return (_a = props.icon) != null ? _a : uploadFilesConfig.icon;
   });
 }
 function useSelectorVisible(props, listType) {
-  const outerSelector = computed$1(() => props.dragable || (isProxy(listType) ? listType.value !== "imageCard" : listType !== "imageCard"));
-  const imageCardSelector = computed$1(() => !outerSelector.value);
+  const outerSelector = computed(() => props.dragable || (isProxy(listType) ? listType.value !== "imageCard" : listType !== "imageCard"));
+  const imageCardSelector = computed(() => !outerSelector.value);
   return [outerSelector, imageCardSelector];
 }
 function useThumb() {
@@ -42286,7 +42788,7 @@ function showPreview(status) {
 function useDrag(props) {
   const dragOver = ref(false);
   const filesSelected = shallowRef([]);
-  const allowDrag = computed$1(() => !!props.dragable && !props.disabled);
+  const allowDrag = computed(() => !!props.dragable && !props.disabled);
   function onDrop(e) {
     var _a, _b;
     e.preventDefault();
@@ -42357,7 +42859,7 @@ var FileSelector = defineComponent({
     const multiple = useMultiple(uploadProps2, config);
     const dragable = useDragable(uploadProps2, config);
     const accept = useAccept(uploadProps2);
-    const maxCount = computed$1(() => {
+    const maxCount = computed(() => {
       var _a;
       return (_a = uploadProps2.maxCount) != null ? _a : 0;
     });
@@ -42372,7 +42874,7 @@ var FileSelector = defineComponent({
     const [filesSelected, updateFilesSelected] = useFilesSelected(dragFilesSelected, allowDrag);
     const filesReady = useFilesAllowed(files, filesSelected, accept, maxCount);
     const fileInputRef = ref(null);
-    const inputClasses = computed$1(() => `${cpmClasses.value}-input`);
+    const inputClasses = computed(() => `${cpmClasses.value}-input`);
     const selectorClasses = useSelectorClasses(uploadProps2, cpmClasses, dragable, dragOver);
     syncUploadHandle(uploadProps2, files, filesReady, onUpdateFiles, abort, startUpload);
     return () => {
@@ -42396,7 +42898,7 @@ var FileSelector = defineComponent({
   }
 });
 function useSelectorClasses(props, cpmClasses, dragable, dragOver) {
-  return computed$1(() => normalizeClass({
+  return computed(() => normalizeClass({
     [`${cpmClasses.value}-selector`]: true,
     [`${cpmClasses.value}-selector-drag`]: dragable.value,
     [`${cpmClasses.value}-selector-disabled`]: props.disabled,
@@ -42408,25 +42910,25 @@ function useDir(props, config) {
     directory: "directory",
     webkitdirectory: "webkitdirectory"
   };
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     return ((_a = props.directory) != null ? _a : config.directory) ? directoryCfg : {};
   });
 }
 function useAccept(props) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     return (_a = props.accept) == null ? void 0 : _a.split(",").map((type) => type.trim()).filter((type) => type);
   });
 }
 function useMultiple(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     return (_a = props.multiple) != null ? _a : config.multiple;
   });
 }
 function useDragable(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     return (_a = props.dragable) != null ? _a : config.dragable;
   });
@@ -42590,7 +43092,7 @@ function showUploadStatus(status) {
   return status && ["uploading", "error"].includes(status);
 }
 function useShowSelector$1(uploadProps2, files, imageCardVisible) {
-  return computed$1(() => {
+  return computed(() => {
     const countLimit = !uploadProps2.maxCount || files.value.length < uploadProps2.maxCount;
     return countLimit && imageCardVisible.value;
   });
@@ -42726,19 +43228,19 @@ function renderItem(uploadProps2, file, icons, cpmClasses, fileOperation, locale
     "hide-info": true
   }, (_a = uploadProps2.progress) != null ? _a : {}), null)]);
 }
-var __defProp$1$1 = Object.defineProperty;
-var __getOwnPropSymbols$1$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1$1 = (obj, key, value) => key in obj ? __defProp$1$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1$1 = (a, b) => {
+var __defProp$1$2 = Object.defineProperty;
+var __getOwnPropSymbols$1$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$2 = (obj, key, value) => key in obj ? __defProp$1$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$2 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1$1.call(b, prop))
-      __defNormalProp$1$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1$1)
-    for (var prop of __getOwnPropSymbols$1$1(b)) {
-      if (__propIsEnum$1$1.call(b, prop))
-        __defNormalProp$1$1(a, prop, b[prop]);
+    if (__hasOwnProp$1$2.call(b, prop))
+      __defNormalProp$1$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$2)
+    for (var prop of __getOwnPropSymbols$1$2(b)) {
+      if (__propIsEnum$1$2.call(b, prop))
+        __defNormalProp$1$2(a, prop, b[prop]);
     }
   return a;
 };
@@ -42759,11 +43261,11 @@ var UploadFiles = defineComponent({
     } = inject(uploadToken);
     const [outerSelector] = useSelectorVisible(uploadProps2, listType);
     watchEffect(() => setSelectorVisible(outerSelector.value));
-    return () => h$1(cpmMap[listType.value], __spreadValues$1$1({}, props));
+    return () => h$1(cpmMap[listType.value], __spreadValues$1$2({}, props));
   }
 });
 function useListType(props, config) {
-  return computed$1(() => {
+  return computed(() => {
     var _a;
     return (_a = props.type) != null ? _a : config.type;
   });
@@ -42849,19 +43351,19 @@ function upload(option) {
     }
   };
 }
-var __defProp$3 = Object.defineProperty;
-var __getOwnPropSymbols$4 = Object.getOwnPropertySymbols;
-var __hasOwnProp$4 = Object.prototype.hasOwnProperty;
-var __propIsEnum$4 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$3 = (obj, key, value) => key in obj ? __defProp$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$3 = (a, b) => {
+var __defProp$5 = Object.defineProperty;
+var __getOwnPropSymbols$5 = Object.getOwnPropertySymbols;
+var __hasOwnProp$5 = Object.prototype.hasOwnProperty;
+var __propIsEnum$5 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$5 = (obj, key, value) => key in obj ? __defProp$5(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$5 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$4.call(b, prop))
-      __defNormalProp$3(a, prop, b[prop]);
-  if (__getOwnPropSymbols$4)
-    for (var prop of __getOwnPropSymbols$4(b)) {
-      if (__propIsEnum$4.call(b, prop))
-        __defNormalProp$3(a, prop, b[prop]);
+    if (__hasOwnProp$5.call(b, prop))
+      __defNormalProp$5(a, prop, b[prop]);
+  if (__getOwnPropSymbols$5)
+    for (var prop of __getOwnPropSymbols$5(b)) {
+      if (__propIsEnum$5.call(b, prop))
+        __defNormalProp$5(a, prop, b[prop]);
     }
   return a;
 };
@@ -42901,7 +43403,7 @@ function useRequest(props, files) {
     aborts.delete(curFile.key);
     props.onRequestChange && callEmit(props.onRequestChange, {
       status: "abort",
-      file: __spreadValues$3({}, curFile)
+      file: __spreadValues$5({}, curFile)
     });
   }
   function startUpload(file) {
@@ -42955,7 +43457,7 @@ function useRequest(props, files) {
       const uploadHttpRequest = (_f = (_e = props.customRequest) != null ? _e : config.customRequest) != null ? _f : upload;
       props.onRequestChange && callEmit(props.onRequestChange, {
         status: "loadstart",
-        file: __spreadValues$3({}, file)
+        file: __spreadValues$5({}, file)
       });
       setFileStatus(file, "uploading", props.onFileStatusChange);
       file.percent = 0;
@@ -42973,7 +43475,7 @@ function useRequest(props, files) {
     curFile.percent = (_a = event.percent) != null ? _a : 0;
     props.onRequestChange && callEmit(props.onRequestChange, {
       status: "progress",
-      file: __spreadValues$3({}, curFile),
+      file: __spreadValues$5({}, curFile),
       event
     });
   }
@@ -42985,7 +43487,7 @@ function useRequest(props, files) {
     fileUploading.value.splice(getTargetFileIndex(curFile, fileUploading.value), 1);
     curFile.error = error;
     props.onRequestChange && callEmit(props.onRequestChange, {
-      file: __spreadValues$3({}, curFile),
+      file: __spreadValues$5({}, curFile),
       status: "error",
       error
     });
@@ -42999,7 +43501,7 @@ function useRequest(props, files) {
     curFile.response = res;
     props.onRequestChange && callEmit(props.onRequestChange, {
       status: "loadend",
-      file: __spreadValues$3({}, curFile),
+      file: __spreadValues$5({}, curFile),
       response: res
     });
     setFileStatus(curFile, "success", props.onFileStatusChange);
@@ -43017,14 +43519,14 @@ function getAction(props, file) {
     if (!props.action) {
       throwError("components/upload", "action not found.");
     }
-    const action = isFunction$1(props.action) ? yield props.action(file) : props.action;
+    const action = isFunction(props.action) ? yield props.action(file) : props.action;
     return action;
   });
 }
 function getRequestData(props, file) {
   return __async(this, null, function* () {
     var _a;
-    const requestData = isFunction$1(props.requestData) ? yield props.requestData(file) : (_a = props.requestData) != null ? _a : {};
+    const requestData = isFunction(props.requestData) ? yield props.requestData(file) : (_a = props.requestData) != null ? _a : {};
     return requestData;
   });
 }
@@ -43106,114 +43608,114 @@ function useImageViewer() {
 const IxUpload = Upload;
 const IxUploadFiles = UploadFiles;
 
-const version$1 = '1.0.0-beta.2';
+const version$1 = '1.0.0-beta.7';
 
 const components$1 = [
-    IxAffix,
-    IxAlert,
-    IxAnchor,
-    IxAnchorLink,
-    IxAvatar,
-    IxBackTop,
-    IxBadge,
-    IxBreadcrumb,
-    IxBreadcrumbItem,
-    IxButton,
-    IxButtonGroup,
-    IxCard,
-    IxCardGrid,
-    IxCarousel,
-    IxCheckbox,
-    IxCheckboxGroup,
-    IxCollapse,
-    IxCollapsePanel,
-    IxDatePicker,
-    IxDivider,
-    IxDrawer,
-    IxDrawerProvider,
-    IxDropdown,
-    IxEmpty,
-    IxForm,
-    IxFormItem,
-    IxFormWrapper,
-    IxCol,
-    IxRow,
-    IxHeader,
-    IxIcon,
-    IxImage,
-    IxImageViewer,
-    IxInput,
-    IxInputNumber,
-    IxLayout,
-    IxLayoutContent,
-    IxLayoutFooter,
-    IxLayoutHeader,
-    IxLayoutSider,
-    IxList,
-    IxListItem,
-    IxMenu,
-    IxMenuDivider,
-    IxMenuItem,
-    IxMenuItemGroup,
-    IxMenuSub,
-    IxMessage,
-    IxMessageProvider,
-    IxModal,
-    IxModalProvider,
-    IxNotification,
-    IxNotificationProvider,
-    IxPagination,
-    IxPopconfirm,
-    IxPopover,
-    IxProgress,
-    IxRadio,
-    IxRadioGroup,
-    IxRate,
-    IxResult,
-    IxSelect,
-    IxSelectOption,
-    IxSelectOptionGroup,
-    IxSkeleton,
-    IxSlider,
-    IxSpace,
-    IxSpin,
-    IxStatistic,
-    IxStepper,
-    IxStepperItem,
-    IxSwitch,
-    IxTable,
-    IxTableColumn,
-    IxTab,
-    IxTabs,
-    IxTag,
-    IxTextarea,
-    IxTimePicker,
-    IxTimeRangePicker,
-    IxTransfer,
-    IxTimeline,
-    IxTimelineItem,
-    IxTooltip,
-    IxTree,
-    IxTreeSelect,
-    IxUpload,
-    IxUploadFiles,
+  IxAffix,
+  IxAlert,
+  IxAnchor,
+  IxAnchorLink,
+  IxAvatar,
+  IxBackTop,
+  IxBadge,
+  IxBreadcrumb,
+  IxBreadcrumbItem,
+  IxButton,
+  IxButtonGroup,
+  IxCard,
+  IxCardGrid,
+  IxCarousel,
+  IxComment,
+  IxCheckbox,
+  IxCheckboxGroup,
+  IxCollapse,
+  IxCollapsePanel,
+  IxDatePicker,
+  IxDateRangePicker,
+  IxDivider,
+  IxDrawer,
+  IxDrawerProvider,
+  IxDropdown,
+  IxEmpty,
+  IxForm,
+  IxFormItem,
+  IxFormWrapper,
+  IxCol,
+  IxRow,
+  IxHeader,
+  IxIcon,
+  IxImage,
+  IxImageViewer,
+  IxInput,
+  IxInputNumber,
+  IxLayout,
+  IxLayoutContent,
+  IxLayoutFooter,
+  IxLayoutHeader,
+  IxLayoutSider,
+  IxList,
+  IxListItem,
+  IxMenu,
+  IxMenuDivider,
+  IxMenuItem,
+  IxMenuItemGroup,
+  IxMenuSub,
+  IxMessage,
+  IxMessageProvider,
+  IxModal,
+  IxModalProvider,
+  IxNotification,
+  IxNotificationProvider,
+  IxPagination,
+  IxPopconfirm,
+  IxPopover,
+  IxProgress,
+  IxRadio,
+  IxRadioGroup,
+  IxRate,
+  IxResult,
+  IxSelect,
+  IxSelectOption,
+  IxSelectOptionGroup,
+  IxSkeleton,
+  IxSlider,
+  IxSpace,
+  IxSpin,
+  IxStatistic,
+  IxStepper,
+  IxStepperItem,
+  IxSwitch,
+  IxTable,
+  IxTableColumn,
+  IxTab,
+  IxTabs,
+  IxTag,
+  IxTagGroup,
+  IxTextarea,
+  IxTimePicker,
+  IxTimeRangePicker,
+  IxTransfer,
+  IxTimeline,
+  IxTimelineItem,
+  IxTooltip,
+  IxTree,
+  IxTreeSelect,
+  IxUpload,
+  IxUploadFiles
 ];
 const directives$1 = {
-    typography: typography,
+  typography: typography
 };
 const install$2 = (app) => {
-    components$1.forEach(component => {
-        var _a;
-        app.component((_a = component.displayName) !== null && _a !== void 0 ? _a : component.name, component);
-    });
-    Object.keys(directives$1).forEach(key => {
-        app.directive(key, directives$1[key]);
-    });
+  components$1.forEach((component) => {
+    var _a;
+    app.component((_a = component.displayName) != null ? _a : component.name, component);
+  });
+  Object.keys(directives$1).forEach((key) => {
+    app.directive(key, directives$1[key]);
+  });
 };
-var index$1 = {
-    install: install$2,
-    version: version$1,
-};
+const installer$1 = { install: install$2, version: version$1 };
 
 const common = { prefixCls: "ix-pro" };
 const defaultConfig = {
@@ -43287,7 +43789,7 @@ function useActiveKey(props) {
   return { activeKey, setActiveKey };
 }
 function useActiveHeaderKey(props, activePaths, headerMenus) {
-  return computed$1(() => {
+  return computed(() => {
     const { type } = props;
     const currActivePaths = activePaths.value;
     if (type === "both") {
@@ -43304,23 +43806,23 @@ function useActiveHeaderKey(props, activePaths, headerMenus) {
     return void 0;
   });
 }
-var __getOwnPropSymbols$3 = Object.getOwnPropertySymbols;
-var __hasOwnProp$3 = Object.prototype.hasOwnProperty;
-var __propIsEnum$3 = Object.prototype.propertyIsEnumerable;
+var __getOwnPropSymbols$3$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3$1 = Object.prototype.propertyIsEnumerable;
 var __objRest = (source, exclude) => {
   var target = {};
   for (var prop in source)
-    if (__hasOwnProp$3.call(source, prop) && exclude.indexOf(prop) < 0)
+    if (__hasOwnProp$3$1.call(source, prop) && exclude.indexOf(prop) < 0)
       target[prop] = source[prop];
-  if (source != null && __getOwnPropSymbols$3)
-    for (var prop of __getOwnPropSymbols$3(source)) {
-      if (exclude.indexOf(prop) < 0 && __propIsEnum$3.call(source, prop))
+  if (source != null && __getOwnPropSymbols$3$1)
+    for (var prop of __getOwnPropSymbols$3$1(source)) {
+      if (exclude.indexOf(prop) < 0 && __propIsEnum$3$1.call(source, prop))
         target[prop] = source[prop];
     }
   return target;
 };
 function useHeaderMenus(props) {
-  return computed$1(() => {
+  return computed(() => {
     const { type, menus } = props;
     if (type === "header") {
       return menus;
@@ -43339,7 +43841,7 @@ function useHeaderMenus(props) {
   });
 }
 function useSiderMenus(props, activeHeaderKey) {
-  return computed$1(() => {
+  return computed(() => {
     const { type, menus } = props;
     if (["mixin", "sider"].includes(type)) {
       return menus;
@@ -43352,25 +43854,25 @@ function useSiderMenus(props, activeHeaderKey) {
   });
 }
 const proLayoutToken = Symbol("proLayout");
-var __defProp$2 = Object.defineProperty;
-var __defProps = Object.defineProperties;
-var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
-var __getOwnPropSymbols$2 = Object.getOwnPropertySymbols;
-var __hasOwnProp$2 = Object.prototype.hasOwnProperty;
-var __propIsEnum$2 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$2 = (a, b) => {
+var __defProp$2$1 = Object.defineProperty;
+var __defProps$4 = Object.defineProperties;
+var __getOwnPropDescs$4 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$2$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2$1 = (obj, key, value) => key in obj ? __defProp$2$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2$1 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$2.call(b, prop))
-      __defNormalProp$2(a, prop, b[prop]);
-  if (__getOwnPropSymbols$2)
-    for (var prop of __getOwnPropSymbols$2(b)) {
-      if (__propIsEnum$2.call(b, prop))
-        __defNormalProp$2(a, prop, b[prop]);
+    if (__hasOwnProp$2$1.call(b, prop))
+      __defNormalProp$2$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2$1)
+    for (var prop of __getOwnPropSymbols$2$1(b)) {
+      if (__propIsEnum$2$1.call(b, prop))
+        __defNormalProp$2$1(a, prop, b[prop]);
     }
   return a;
 };
-var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var __spreadProps$4 = (a, b) => __defProps$4(a, __getOwnPropDescs$4(b));
 var Header = defineComponent({
   name: "ProLayoutHeader",
   setup() {
@@ -43382,19 +43884,19 @@ var Header = defineComponent({
       headerMenus,
       activeHeaderKey
     } = inject(proLayoutToken);
-    const theme = computed$1(() => {
+    const theme = computed(() => {
       const {
         theme: theme2
       } = props;
       return isObject(theme2) ? theme2.header : theme2;
     });
-    const fixed = computed$1(() => {
+    const fixed = computed(() => {
       const {
         fixed: fixed2
       } = props;
       return isObject(fixed2) ? fixed2.header : fixed2;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-header`;
       return normalizeClass({
         [prefixCls]: true,
@@ -43402,7 +43904,7 @@ var Header = defineComponent({
         [`${prefixCls}-fixed`]: fixed.value
       });
     });
-    const menuSelectedKeys = computed$1(() => activeHeaderKey.value ? [activeHeaderKey.value] : []);
+    const menuSelectedKeys = computed(() => activeHeaderKey.value ? [activeHeaderKey.value] : []);
     const onMenuClick = (menuClickOption) => {
       var _a;
       if (props.type === "both") {
@@ -43410,7 +43912,7 @@ var Header = defineComponent({
         if (targetMenu && "children" in targetMenu && !!((_a = targetMenu.children) == null ? void 0 : _a.length)) {
           const activePaths = getDefaultPaths(targetMenu.children);
           setActiveKey(activePaths.pop().key);
-          callEmit(props["onMenuClick"], __spreadProps(__spreadValues$2({}, menuClickOption), {
+          callEmit(props["onMenuClick"], __spreadProps$4(__spreadValues$2$1({}, menuClickOption), {
             type: targetMenu.type
           }));
           return;
@@ -43446,19 +43948,19 @@ var Header = defineComponent({
     };
   }
 });
-var __defProp$1 = Object.defineProperty;
-var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
-var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
-var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
-var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues$1 = (a, b) => {
+var __defProp$1$1 = Object.defineProperty;
+var __getOwnPropSymbols$1$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1$1 = (obj, key, value) => key in obj ? __defProp$1$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1$1 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp$1.call(b, prop))
-      __defNormalProp$1(a, prop, b[prop]);
-  if (__getOwnPropSymbols$1)
-    for (var prop of __getOwnPropSymbols$1(b)) {
-      if (__propIsEnum$1.call(b, prop))
-        __defNormalProp$1(a, prop, b[prop]);
+    if (__hasOwnProp$1$1.call(b, prop))
+      __defNormalProp$1$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1$1)
+    for (var prop of __getOwnPropSymbols$1$1(b)) {
+      if (__propIsEnum$1$1.call(b, prop))
+        __defNormalProp$1$1(a, prop, b[prop]);
     }
   return a;
 };
@@ -43482,19 +43984,19 @@ var Sider = defineComponent({
       expandedKeys,
       setExpandedKeys
     } = useExpandedKeys(activePaths, siderMenus);
-    const theme = computed$1(() => {
+    const theme = computed(() => {
       const {
         theme: theme2
       } = props;
       return isObject(theme2) ? theme2.sider : theme2;
     });
-    const fixed = computed$1(() => {
+    const fixed = computed(() => {
       const {
         fixed: fixed2
       } = props;
       return isObject(fixed2) ? fixed2.sider : fixed2;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-sider`;
       return normalizeClass({
         [prefixCls]: true,
@@ -43503,7 +44005,7 @@ var Sider = defineComponent({
         [`${prefixCls}-fixed`]: fixed.value
       });
     });
-    const menuSelectedKeys = computed$1(() => [activeKey.value]);
+    const menuSelectedKeys = computed(() => [activeKey.value]);
     const onMenuClick = (menuClickOption) => {
       callEmit(props["onMenuClick"], menuClickOption);
     };
@@ -43517,7 +44019,7 @@ var Sider = defineComponent({
     };
     return () => {
       const prefixCls = `${mergedPrefixCls.value}-sider`;
-      const menuProps = __spreadValues$1({
+      const menuProps = __spreadValues$1$1({
         overlayClassName: `${prefixCls}-menu-overlay`,
         collapsed: collapsed.value,
         dataSource: siderMenus.value,
@@ -43530,7 +44032,7 @@ var Sider = defineComponent({
         onClick: onMenuClick
       }, props.siderMenu);
       const contentNode = slots.siderContent ? slots.siderContent(menuProps) : createVNode(IxMenu, menuProps, slots);
-      const siderProps = __spreadValues$1({
+      const siderProps = __spreadValues$1$1({
         collapsed: collapsed.value,
         "onUpdate:collapsed": setCollapsed
       }, props.sider);
@@ -43629,19 +44131,19 @@ const proLayoutSiderTriggerProps = {
     default: void 0
   }
 };
-var __defProp = Object.defineProperty;
-var __getOwnPropSymbols = Object.getOwnPropertySymbols;
-var __hasOwnProp = Object.prototype.hasOwnProperty;
-var __propIsEnum = Object.prototype.propertyIsEnumerable;
-var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
-var __spreadValues = (a, b) => {
+var __defProp$4 = Object.defineProperty;
+var __getOwnPropSymbols$4 = Object.getOwnPropertySymbols;
+var __hasOwnProp$4 = Object.prototype.hasOwnProperty;
+var __propIsEnum$4 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$4 = (obj, key, value) => key in obj ? __defProp$4(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$4 = (a, b) => {
   for (var prop in b || (b = {}))
-    if (__hasOwnProp.call(b, prop))
-      __defNormalProp(a, prop, b[prop]);
-  if (__getOwnPropSymbols)
-    for (var prop of __getOwnPropSymbols(b)) {
-      if (__propIsEnum.call(b, prop))
-        __defNormalProp(a, prop, b[prop]);
+    if (__hasOwnProp$4.call(b, prop))
+      __defNormalProp$4(a, prop, b[prop]);
+  if (__getOwnPropSymbols$4)
+    for (var prop of __getOwnPropSymbols$4(b)) {
+      if (__propIsEnum$4.call(b, prop))
+        __defNormalProp$4(a, prop, b[prop]);
     }
   return a;
 };
@@ -43652,12 +44154,12 @@ var ProLayout = defineComponent({
     slots
   }) {
     const common = useGlobalConfig("common");
-    const mergedPrefixCls = computed$1(() => `${common.prefixCls}-layout`);
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-layout`);
     const {
       activeKey,
       setActiveKey
     } = useActiveKey(props);
-    const activePaths = computed$1(() => getTargetPaths(props.menus, activeKey.value));
+    const activePaths = computed(() => getTargetPaths(props.menus, activeKey.value));
     const headerMenus = useHeaderMenus(props);
     const activeHeaderKey = useActiveHeaderKey(props, activePaths, headerMenus);
     const siderMenus = useSiderMenus(props, activeHeaderKey);
@@ -43681,7 +44183,7 @@ var ProLayout = defineComponent({
       handleCollapsedDelay,
       setCollapsed
     });
-    const layoutClasses = computed$1(() => {
+    const layoutClasses = computed(() => {
       const {
         type,
         fixed,
@@ -43695,7 +44197,7 @@ var ProLayout = defineComponent({
         [`${prefixCls}-float`]: !compress
       });
     });
-    const showSider = computed$1(() => {
+    const showSider = computed(() => {
       const {
         type
       } = props;
@@ -43723,14 +44225,14 @@ var ProLayout = defineComponent({
   }
 });
 function useHoverTrigger(props) {
-  return computed$1(() => {
+  return computed(() => {
     if (isUndefined(props.siderHover) || isBoolean(props.siderHover)) {
       return {
         enable: !!props.siderHover,
         delay: 0
       };
     }
-    return __spreadValues({
+    return __spreadValues$4({
       enable: true
     }, props.siderHover);
   });
@@ -43768,11 +44270,11 @@ var ProLayoutSiderTrigger = defineComponent({
       collapsed,
       setCollapsed
     } = inject(proLayoutToken);
-    const icon = computed$1(() => {
+    const icon = computed(() => {
       const [fold = "menu-fold", unfold = "menu-unfold"] = props.icon || [];
       return collapsed.value ? fold : unfold;
     });
-    const classes = computed$1(() => {
+    const classes = computed(() => {
       const prefixCls = `${mergedPrefixCls.value}-sider-trigger`;
       return {
         [prefixCls]: true,
@@ -43805,23 +44307,821 @@ var ProLayoutSiderTrigger = defineComponent({
 const IxProLayout = ProLayout;
 const IxProLayoutSiderTrigger = ProLayoutSiderTrigger;
 
-const version = '1.0.0-beta.2';
+var __defProp$3 = Object.defineProperty;
+var __defProps$3 = Object.defineProperties;
+var __getOwnPropDescs$3 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$3 = Object.getOwnPropertySymbols;
+var __hasOwnProp$3 = Object.prototype.hasOwnProperty;
+var __propIsEnum$3 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$3 = (obj, key, value) => key in obj ? __defProp$3(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$3 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$3.call(b, prop))
+      __defNormalProp$3(a, prop, b[prop]);
+  if (__getOwnPropSymbols$3)
+    for (var prop of __getOwnPropSymbols$3(b)) {
+      if (__propIsEnum$3.call(b, prop))
+        __defNormalProp$3(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$3 = (a, b) => __defProps$3(a, __getOwnPropDescs$3(b));
+function traverseTree(data, childrenKey, fn, parent) {
+  data.forEach((item) => {
+    fn(item, parent);
+    if (item[childrenKey]) {
+      traverseTree(item[childrenKey], childrenKey, fn, item);
+    }
+  });
+}
+function filterTree(data, childrenKey, fn, filterStrategy = "or") {
+  return data.map((item) => {
+    let children;
+    if (isArray$1(item[childrenKey])) {
+      children = filterTree(item[childrenKey], childrenKey, fn, filterStrategy);
+    }
+    let itemValid = fn(item);
+    itemValid = filterStrategy === "and" ? !!(children && children.length > 0) && itemValid : !!(children && children.length > 0) || itemValid;
+    return itemValid && __spreadProps$3(__spreadValues$3({}, item), {
+      [childrenKey]: item[childrenKey] && children
+    });
+  }).filter((item) => !!item);
+}
+function combineTrees(sourceTree, targetTree, childrenKey, getRowKey) {
+  sourceTree.forEach((item) => {
+    const targetItem = targetTree.find((_item) => {
+      const sourceKey = getRowKey(item);
+      const targetKey = getRowKey(_item);
+      return !isNil(sourceKey) && !isNil(targetKey) && sourceKey === targetKey;
+    });
+    if (!targetItem) {
+      targetTree.push(item);
+      return;
+    }
+    if (!isArray$1(item[childrenKey])) {
+      return;
+    }
+    if (!isArray$1(targetItem[childrenKey])) {
+      targetItem[childrenKey] = [];
+    }
+    combineTrees(item[childrenKey], targetItem[childrenKey], childrenKey, getRowKey);
+  });
+  return targetTree;
+}
+function flattenTree(data, childrenKey, leafOnly = false) {
+  const res = [];
+  traverseTree(data, childrenKey, (item) => {
+    (!leafOnly || !item[childrenKey] || item[childrenKey].length <= 0) && res.push(item);
+  });
+  return res;
+}
+function genFlattenedTreeKeys(data, childrenKey, getRowKey) {
+  const keys = [];
+  traverseTree(data, childrenKey, (item) => {
+    keys.push(getRowKey(item));
+  });
+  return keys;
+}
+function useTreeDataStrategies(childrenKey, defaultTreeData) {
+  let cachedTargetData = defaultTreeData != null ? defaultTreeData : [];
+  const dataKeyMap = /* @__PURE__ */ new Map();
+  const parentKeyMap = /* @__PURE__ */ new Map();
+  onUnmounted(() => {
+    cachedTargetData = [];
+    dataKeyMap.clear();
+    parentKeyMap.clear();
+  });
+  const genDisabledKeys = (data, getRowKey, disabledKeys) => {
+    let keys = disabledKeys != null ? disabledKeys : /* @__PURE__ */ new Set();
+    data.forEach((item) => {
+      const key = getRowKey(item);
+      if (item.disabled) {
+        keys.add(key);
+        return;
+      }
+      const parentKey = parentKeyMap.get(key);
+      if (!isNil(parentKey) && keys.has(parentKey)) {
+        keys.add(key);
+        return;
+      }
+      if (item[childrenKey.value]) {
+        keys = genDisabledKeys(item[childrenKey.value], getRowKey, keys);
+        if (item[childrenKey.value].every((child) => keys.has(getRowKey(child)))) {
+          keys.add(key);
+        }
+      }
+    });
+    return keys;
+  };
+  return {
+    dataKeyMap,
+    parentKeyMap,
+    dataStrategies: {
+      genDataKeys: (data, getRowKey) => {
+        return new Set(genFlattenedTreeKeys(data, childrenKey.value, getRowKey));
+      },
+      genDataKeyMap: (data, getRowKey) => {
+        parentKeyMap.clear();
+        dataKeyMap.clear();
+        traverseTree(data, childrenKey.value, (node, parent) => {
+          const key = getRowKey(node);
+          dataKeyMap.set(key, node);
+          parentKeyMap.set(key, parent && getRowKey(parent));
+        });
+        return new Map(dataKeyMap);
+      },
+      genDisabledKeys,
+      separateDataSource: (data, _, selectedKeySet, getRowKey) => {
+        const filterData = (data2, isSource) => filterTree(data2, childrenKey.value, (item) => isSource ? !selectedKeySet.has(getRowKey(item)) : selectedKeySet.has(getRowKey(item)), "or");
+        const newTargetData = filterData(data, false);
+        const previousTargetData = filterData(cachedTargetData, false);
+        const targetData = combineTrees(newTargetData, previousTargetData, childrenKey.value, getRowKey);
+        cachedTargetData = targetData;
+        return {
+          sourceData: filterData(data, true),
+          targetData
+        };
+      },
+      remove: (keys, selectedKeySet, getRowKey, handleChange) => {
+        const newKeys = new Set(selectedKeySet);
+        keys.forEach((key) => {
+          newKeys.delete(key);
+          let currentKey = key;
+          while (parentKeyMap.has(currentKey)) {
+            currentKey = parentKeyMap.get(currentKey);
+            if (isNil(currentKey)) {
+              return;
+            }
+            newKeys.delete(currentKey);
+          }
+        });
+        if (newKeys.size !== selectedKeySet.size) {
+          handleChange(Array.from(newKeys));
+        }
+      },
+      dataFilter: (data, searchValue, searchFn) => {
+        if (!searchValue) {
+          return data;
+        }
+        return filterTree(data, childrenKey.value, (item) => searchFn(item, searchValue), "or");
+      }
+    }
+  };
+}
+function useTreeExpandedKeys(props, targetKeys, parentKeyMap) {
+  const [sourceExpandedKeys, setSourceExpandedKeys] = useControlledProp(props, "sourceExpandedKeys", () => []);
+  const [targetExpandedKeys, setTargetExpandedKeys] = useControlledProp(props, "targetExpandedKeys", () => []);
+  const sourceExpandedKeySet = computed(() => new Set(sourceExpandedKeys.value));
+  const targetExpandedKeySet = computed(() => new Set(targetExpandedKeys.value));
+  const syncSelectedExpandedState = (key, expandedKeysSource, expandedKeysTarget) => {
+    let currentKey = key;
+    while (currentKey) {
+      if (expandedKeysSource.has(currentKey) && !expandedKeysTarget.has(currentKey)) {
+        expandedKeysTarget.add(currentKey);
+      }
+      currentKey = parentKeyMap.get(currentKey);
+    }
+  };
+  watch(targetKeys, (keys, oldKeys) => {
+    const newKeys = keys == null ? void 0 : keys.filter((key) => oldKeys && oldKeys.findIndex((oldKey) => oldKey === key) < 0);
+    const deletedKeys = oldKeys == null ? void 0 : oldKeys.filter((oldkey) => keys && keys.findIndex((key) => key === oldkey) < 0);
+    const newTargetExpandedKeySet = new Set(targetExpandedKeySet.value);
+    const newSourceExpandedKeySet = new Set(sourceExpandedKeySet.value);
+    newKeys == null ? void 0 : newKeys.forEach((key) => {
+      syncSelectedExpandedState(key, sourceExpandedKeySet.value, newTargetExpandedKeySet);
+    });
+    deletedKeys == null ? void 0 : deletedKeys.forEach((key) => {
+      syncSelectedExpandedState(key, targetExpandedKeySet.value, newSourceExpandedKeySet);
+    });
+    newTargetExpandedKeySet.size !== targetExpandedKeySet.value.size && setTargetExpandedKeys(Array.from(newTargetExpandedKeySet));
+    newSourceExpandedKeySet.size !== sourceExpandedKeySet.value.size && setSourceExpandedKeys(Array.from(newSourceExpandedKeySet));
+  });
+  return {
+    sourceExpandedKeys,
+    targetExpandedKeys,
+    handleSourceExpandedChange: setSourceExpandedKeys,
+    handleTargetExpandedChange: setTargetExpandedKeys
+  };
+}
+const proTransferContext = Symbol("proTransferContext");
+const proTransferProps = {
+  type: {
+    type: String,
+    default: "table"
+  },
+  dataSource: {
+    type: Array,
+    default: () => []
+  },
+  value: Array,
+  sourceSelectedKeys: Array,
+  targetSelectedKeys: Array,
+  disabled: {
+    type: Boolean,
+    default: false
+  },
+  virtual: {
+    type: Boolean,
+    default: false
+  },
+  searchable: {
+    type: [Boolean, Object],
+    default: false
+  },
+  searchFn: Function,
+  clearable: {
+    type: Boolean,
+    default: void 0
+  },
+  clearIcon: String,
+  empty: [String, Object],
+  pagination: [Boolean, Object],
+  mode: {
+    type: String,
+    default: "default"
+  },
+  spin: [Boolean, Object],
+  getKey: [String, Function],
+  scroll: Object,
+  tableProps: Object,
+  treeProps: Object,
+  defaultTargetData: Array,
+  flatTargetData: {
+    type: Boolean,
+    default: false
+  },
+  sourceExpandedKeys: Array,
+  targetExpandedKeys: Array,
+  "onUpdate:value": [Function, Array],
+  "onUpdate:sourceSelectedKeys": [Function, Array],
+  "onUpdate:targetSelectedKeys": [Function, Array],
+  "onUpdate:sourceExpandedKeys": [Function, Array],
+  "onUpdate:targetExpandedKeys": [Function, Array],
+  onChange: [Function, Array],
+  onSearch: [Function, Array],
+  onSelectAll: [Function, Array],
+  onClear: [Function, Array],
+  onScroll: [Function, Array],
+  onScrolledChange: [Function, Array],
+  onScrolledBottom: [Function, Array]
+};
+const proTransferTableContentProps = {
+  isSource: {
+    type: Boolean,
+    default: true
+  }
+};
+const proTransferTreeContentProps = {
+  isSource: {
+    type: Boolean,
+    default: true
+  }
+};
+const proTransferListContentProps = {
+  isSource: {
+    type: Boolean,
+    default: true
+  }
+};
+var ProTransferList = defineComponent({
+  props: proTransferListContentProps,
+  setup(props) {
+    const {
+      props: proTransferProps2,
+      slots,
+      mergedPrefixCls,
+      childrenKey,
+      sourceContentRef,
+      targetContentRef
+    } = inject(proTransferContext);
+    const transferBindings = inject(props.isSource ? TRANSFER_SOURCE_TOKEN : TRANSFER_TARGET_TOKEN);
+    const {
+      disabledKeys,
+      paginatedData,
+      paginatedDataSource,
+      selectedKeySet,
+      handleSelectChange,
+      getRowKey,
+      triggerRemove
+    } = transferBindings;
+    const onCheckChange = (item, checked) => {
+      const key = getRowKey(item);
+      const _checkedKeys = new Set(selectedKeySet.value);
+      checked ? _checkedKeys.add(key) : _checkedKeys.delete(key);
+      handleSelectChange(_checkedKeys);
+    };
+    const onRemove = (item) => {
+      const key = getRowKey(item);
+      triggerRemove([key]);
+    };
+    const handleScroll = (evt) => {
+      callEmit(proTransferProps2.onScroll, props.isSource, evt);
+    };
+    const handleScrolledBottom = () => {
+      callEmit(proTransferProps2.onScrolledBottom, props.isSource);
+    };
+    const handleScrolledChange = (startIndex, endIndex, visibleData) => {
+      callEmit(proTransferProps2.onScrolledChange, props.isSource, startIndex, endIndex, visibleData);
+    };
+    const dataSource = computed(() => {
+      const data = props.isSource && proTransferProps2.mode === "immediate" ? paginatedDataSource.value : paginatedData.value;
+      return proTransferProps2.type === "tree" ? flattenTree(data, childrenKey.value, true) : data;
+    });
+    return () => {
+      if (!dataSource.value || dataSource.value.length <= 0) {
+        return createVNode("div", {
+          "class": `${mergedPrefixCls.value}-empty-wrapper`
+        }, [createVNode(\u0275Empty, {
+          "empty": proTransferProps2.empty
+        }, slots)]);
+      }
+      const contentRef = props.isSource ? sourceContentRef : targetContentRef;
+      return createVNode(\u0275CheckableList, {
+        "ref": contentRef,
+        "dataSource": dataSource.value,
+        "getRowKey": getRowKey,
+        "checked": (item) => selectedKeySet.value.has(getRowKey(item)),
+        "disabled": (item) => proTransferProps2.disabled || disabledKeys.value.has(getRowKey(item)),
+        "checkable": props.isSource || proTransferProps2.mode === "default",
+        "removable": !props.isSource && proTransferProps2.mode === "immediate",
+        "virtual": proTransferProps2.virtual,
+        "scroll": proTransferProps2.scroll,
+        "onCheckChange": onCheckChange,
+        "onRemove": onRemove,
+        "onScroll": handleScroll,
+        "onScrolledChange": handleScrolledChange,
+        "onScrolledBottom": handleScrolledBottom
+      }, {
+        label: slots.label
+      });
+    };
+  }
+});
+function renderRemovableLabel(key, disabled, defaultSlot, triggerRemove, prefixCls) {
+  const onClick = () => {
+    triggerRemove([key]);
+  };
+  return createVNode("span", {
+    "class": `${prefixCls}-removable-label`
+  }, [defaultSlot == null ? void 0 : defaultSlot(), !disabled && renderRemoveIcon(prefixCls, onClick)]);
+}
+function renderRemoveIcon(prefixCls, onClick) {
+  return createVNode(IxIcon, {
+    "class": `${prefixCls}-close-icon`,
+    "name": "close",
+    "onClick": onClick
+  }, null);
+}
+var __defProp$2 = Object.defineProperty;
+var __defProps$2 = Object.defineProperties;
+var __getOwnPropDescs$2 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$2 = Object.getOwnPropertySymbols;
+var __hasOwnProp$2 = Object.prototype.hasOwnProperty;
+var __propIsEnum$2 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$2 = (obj, key, value) => key in obj ? __defProp$2(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$2 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$2.call(b, prop))
+      __defNormalProp$2(a, prop, b[prop]);
+  if (__getOwnPropSymbols$2)
+    for (var prop of __getOwnPropSymbols$2(b)) {
+      if (__propIsEnum$2.call(b, prop))
+        __defNormalProp$2(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$2 = (a, b) => __defProps$2(a, __getOwnPropDescs$2(b));
+function useTransferTableProps(props, slots, transferBindings, mergedPrefixCls, isSource) {
+  const { paginatedData, paginatedDataSource, selectedKeys, getRowKey } = transferBindings;
+  return computed(() => {
+    var _a, _b, _c;
+    const columns = isSource ? (_a = props.tableProps) == null ? void 0 : _a.sourceColumns : (_b = props.tableProps) == null ? void 0 : _b.targetColumns;
+    const scroll = props.scroll && {
+      height: props.scroll.height,
+      fullHeight: props.scroll.fullHeight,
+      width: "100%"
+    };
+    const customTableProps = __spreadValues$2({}, (_c = props.tableProps) != null ? _c : {});
+    delete customTableProps.sourceColumns;
+    delete customTableProps.targetColumns;
+    return __spreadProps$2(__spreadValues$2({}, customTableProps), {
+      dataSource: isSource && props.mode === "immediate" ? paginatedDataSource.value : paginatedData.value,
+      columns: convertTableColumns(columns, mergedPrefixCls, transferBindings, props, slots, isSource),
+      scroll,
+      pagination: false,
+      selectedRowKeys: selectedKeys.value,
+      virtual: props.virtual,
+      rowKey: getRowKey,
+      onScroll: (evt) => {
+        callEmit(props.onScroll, isSource, evt);
+      },
+      onScrolledChange: (startIndex, endIndex, visibleData) => {
+        callEmit(props.onScrolledChange, isSource, startIndex, endIndex, visibleData);
+      },
+      onScrolledBottom: () => {
+        callEmit(props.onScrolledBottom, isSource);
+      }
+    });
+  });
+}
+function convertTableColumns(columns, mergedPrefixCls, transferBindings, props, slots, isSource) {
+  var _a;
+  const { handleSelectChange, getRowKey, triggerRemove, disabledDataSourceKeys } = transferBindings;
+  const convertedColumns = (_a = columns && [...columns]) != null ? _a : [];
+  const selectableColumnIdx = convertedColumns.findIndex((col) => "type" in col && col.type === "selectable");
+  const defaultSelectableColumn = {
+    type: "selectable",
+    disabled: (record) => disabledDataSourceKeys.value.has(getRowKey(record)) || !!props.disabled,
+    multiple: true,
+    trigger: "click",
+    onChange: (selectedKeys) => handleSelectChange(selectedKeys)
+  };
+  if (isSource || props.mode !== "immediate") {
+    if (selectableColumnIdx < 0) {
+      convertedColumns.unshift(defaultSelectableColumn);
+    } else {
+      convertedColumns[selectableColumnIdx] = __spreadValues$2(__spreadValues$2({}, convertedColumns[selectableColumnIdx]), defaultSelectableColumn);
+    }
+  } else {
+    selectableColumnIdx > -1 && convertedColumns.splice(selectableColumnIdx, 1);
+  }
+  if (props.mode === "immediate" && !isSource) {
+    const lastCol = convertedColumns[convertedColumns.length - 1];
+    if ("type" in lastCol) {
+      convertedColumns.push({
+        customCell: ({ record }) => {
+          const key = getRowKey(record);
+          return renderRemovableLabel(key, disabledDataSourceKeys.value.has(key), null, triggerRemove, mergedPrefixCls.value);
+        }
+      });
+    } else {
+      const originalCustomCell = lastCol.customCell;
+      const renderLabel = (data) => {
+        var _a2;
+        if (!originalCustomCell) {
+          return data.value;
+        }
+        if (isString(originalCustomCell)) {
+          return (_a2 = slots[originalCustomCell]) == null ? void 0 : _a2.call(slots, data);
+        }
+        return originalCustomCell(data);
+      };
+      convertedColumns.splice(convertedColumns.length - 1, 1, __spreadProps$2(__spreadValues$2({}, lastCol), {
+        customCell: (data) => {
+          const key = getRowKey(data.record);
+          return renderRemovableLabel(key, disabledDataSourceKeys.value.has(key), () => renderLabel(data), triggerRemove, mergedPrefixCls.value);
+        }
+      }));
+    }
+  }
+  return convertedColumns;
+}
+var ProTransferTable = defineComponent({
+  props: proTransferTableContentProps,
+  setup(props) {
+    const {
+      props: proTransferProps2,
+      slots,
+      mergedPrefixCls,
+      sourceContentRef,
+      targetContentRef
+    } = inject(proTransferContext);
+    const proTransferTableCls = computed(() => `${mergedPrefixCls.value}-table-content`);
+    const transferBindings = inject(props.isSource ? TRANSFER_SOURCE_TOKEN : TRANSFER_TARGET_TOKEN);
+    const tableProps = useTransferTableProps(proTransferProps2, slots, transferBindings, proTransferTableCls, props.isSource);
+    return () => {
+      const dataSource = tableProps.value.dataSource;
+      const prefixCls = proTransferTableCls.value;
+      if (dataSource && dataSource.length > 0) {
+        const contentRef = props.isSource ? sourceContentRef : targetContentRef;
+        return createVNode(IxTable, mergeProps({
+          "ref": contentRef,
+          "class": prefixCls
+        }, tableProps.value), null);
+      }
+      return createVNode("div", {
+        "class": `${mergedPrefixCls.value}-empty-wrapper`
+      }, [createVNode(\u0275Empty, {
+        "empty": proTransferProps2.empty
+      }, slots)]);
+    };
+  }
+});
+var __defProp$1 = Object.defineProperty;
+var __defProps$1 = Object.defineProperties;
+var __getOwnPropDescs$1 = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols$1 = Object.getOwnPropertySymbols;
+var __hasOwnProp$1 = Object.prototype.hasOwnProperty;
+var __propIsEnum$1 = Object.prototype.propertyIsEnumerable;
+var __defNormalProp$1 = (obj, key, value) => key in obj ? __defProp$1(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues$1 = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp$1.call(b, prop))
+      __defNormalProp$1(a, prop, b[prop]);
+  if (__getOwnPropSymbols$1)
+    for (var prop of __getOwnPropSymbols$1(b)) {
+      if (__propIsEnum$1.call(b, prop))
+        __defNormalProp$1(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps$1 = (a, b) => __defProps$1(a, __getOwnPropDescs$1(b));
+function useTransferTreeProps(props, transferBindings, expandedKeysContext, parentKeyMap, childrenKey, isSource) {
+  const {
+    dataKeyMap,
+    paginatedData,
+    paginatedDataSource,
+    selectedKeys,
+    selectedKeySet,
+    disabledKeys,
+    disabledDataSourceKeys,
+    getRowKey,
+    handleSelectChange
+  } = transferBindings;
+  const { sourceExpandedKeys, targetExpandedKeys, handleSourceExpandedChange, handleTargetExpandedChange } = expandedKeysContext;
+  const _disabledKeys = isSource && props.mode === "immediate" ? disabledDataSourceKeys : disabledKeys;
+  const treeDataSource = isSource && props.mode === "immediate" ? paginatedDataSource : paginatedData;
+  const checkedKeys = computed(() => {
+    const tempKeySet = new Set(selectedKeySet.value);
+    selectedKeys.value.forEach((key) => {
+      var _a, _b;
+      if (((_a = dataKeyMap.value.get(key)) == null ? void 0 : _a[childrenKey.value]) && ((_b = dataKeyMap.value.get(key)) == null ? void 0 : _b[childrenKey.value].length) > 0) {
+        return;
+      }
+      let currentKey = key;
+      while (parentKeyMap.has(currentKey)) {
+        currentKey = parentKeyMap.get(currentKey);
+        if (isNil(currentKey) || !tempKeySet.has(currentKey)) {
+          return;
+        }
+        const item = dataKeyMap.value.get(currentKey);
+        if (item[childrenKey.value].some((child) => !tempKeySet.has(getRowKey(child)))) {
+          tempKeySet.delete(currentKey);
+        }
+      }
+    });
+    return Array.from(tempKeySet);
+  });
+  return computed(() => {
+    var _a, _b, _c;
+    return __spreadProps$1(__spreadValues$1({}, (_a = props.treeProps) != null ? _a : {}), {
+      blocked: true,
+      cascade: true,
+      childrenKey: childrenKey.value,
+      checkable: isSource || props.mode !== "immediate",
+      checkedKeys: checkedKeys.value,
+      checkStrategy: "all",
+      dataSource: treeDataSource.value,
+      disabled: (node) => _disabledKeys.value.has(getRowKey(node)) || !!props.disabled,
+      draggable: false,
+      expandedKeys: isSource ? sourceExpandedKeys.value : targetExpandedKeys.value,
+      height: isNumber((_b = props.scroll) == null ? void 0 : _b.height) ? (_c = props.scroll) == null ? void 0 : _c.height : void 0,
+      nodeKey: getRowKey,
+      selectable: true,
+      virtual: props.virtual,
+      "onUpdate:checkedKeys": handleSelectChange,
+      "onUpdate:expandedKeys": isSource ? handleSourceExpandedChange : handleTargetExpandedChange,
+      onScroll: (evt) => {
+        callEmit(props.onScroll, isSource, evt);
+      },
+      onScrolledChange: (startIndex, endIndex, visibleData) => {
+        callEmit(props.onScrolledChange, isSource, startIndex, endIndex, visibleData);
+      },
+      onScrolledBottom: () => {
+        callEmit(props.onScrolledBottom, isSource);
+      }
+    });
+  });
+}
+var ProTransferTree = defineComponent({
+  props: proTransferTreeContentProps,
+  setup(props) {
+    const {
+      props: proTransferProps2,
+      slots,
+      mergedPrefixCls,
+      expandedKeysContext,
+      childrenKey,
+      parentKeyMap,
+      sourceContentRef,
+      targetContentRef
+    } = inject(proTransferContext);
+    const proTransferTreeCls = computed(() => `${mergedPrefixCls.value}-tree-content`);
+    const transferBindings = inject(props.isSource ? TRANSFER_SOURCE_TOKEN : TRANSFER_TARGET_TOKEN);
+    const {
+      disabledKeys,
+      getRowKey,
+      triggerRemove
+    } = transferBindings;
+    const treeProps = useTransferTreeProps(proTransferProps2, transferBindings, expandedKeysContext, parentKeyMap, childrenKey, props.isSource);
+    const renderTreeRemovableSuffix = ({
+      node
+    }) => {
+      var _a;
+      const prefixCls = proTransferTreeCls.value;
+      const key = getRowKey(node);
+      const onClick = () => {
+        triggerRemove(genFlattenedTreeKeys([node], childrenKey.value, getRowKey));
+      };
+      return createVNode("span", {
+        "class": `${prefixCls}-suffix`
+      }, [(_a = slots.suffix) == null ? void 0 : _a.call(slots), !disabledKeys.value.has(key) && renderRemoveIcon(prefixCls, onClick)]);
+    };
+    const treeStyle = computed(() => {
+      const scroll = proTransferProps2.scroll;
+      if (!scroll) {
+        return;
+      }
+      return normalizeStyle({
+        [scroll.fullHeight ? "height" : "min-height"]: convertCssPixel(scroll.height)
+      });
+    });
+    return () => {
+      const dataSource = treeProps.value.dataSource;
+      const prefixCls = proTransferTreeCls.value;
+      const treeSlots = {
+        prefix: slots.prefix,
+        label: slots.label,
+        suffix: proTransferProps2.mode === "immediate" && !props.isSource ? renderTreeRemovableSuffix : slots.suffix
+      };
+      if (dataSource && dataSource.length > 0) {
+        const contentRef = props.isSource ? sourceContentRef : targetContentRef;
+        return createVNode(IxTree, mergeProps({
+          "ref": contentRef,
+          "class": prefixCls,
+          "style": treeStyle.value
+        }, treeProps.value), treeSlots);
+      }
+      return createVNode("div", {
+        "class": `${mergedPrefixCls.value}-empty-wrapper`
+      }, [createVNode(\u0275Empty, {
+        "empty": proTransferProps2.empty
+      }, slots)]);
+    };
+  }
+});
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key, value) => key in obj ? __defProp(obj, key, { enumerable: true, configurable: true, writable: true, value }) : obj[key] = value;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
+var ProTransfer = defineComponent({
+  name: "IxProTransfer",
+  props: proTransferProps,
+  setup(props, {
+    slots,
+    expose
+  }) {
+    const common = useGlobalConfig("common");
+    const mergedPrefixCls = computed(() => `${common.prefixCls}-transfer`);
+    const transferLocale = useGlobalConfig$1("locale").transfer;
+    const [targetKeys, setTargetKeys] = useControlledProp(props, "value");
+    const targetKeySet = computed(() => new Set(targetKeys.value));
+    const childrenKey = computed(() => {
+      var _a, _b;
+      return (_b = (_a = props.treeProps) == null ? void 0 : _a.childrenKey) != null ? _b : "children";
+    });
+    const sourceContentRef = ref();
+    const targetContentRef = ref();
+    let context = {
+      props,
+      slots,
+      childrenKey,
+      mergedPrefixCls,
+      sourceContentRef,
+      targetContentRef
+    };
+    let dataKeyMap;
+    if (props.type === "tree") {
+      const {
+        dataKeyMap: _dataKeyMap,
+        parentKeyMap,
+        dataStrategies
+      } = useTreeDataStrategies(childrenKey, props.defaultTargetData);
+      const expandedKeysContext = useTreeExpandedKeys(props, targetKeys, parentKeyMap);
+      dataKeyMap = _dataKeyMap;
+      context = __spreadProps(__spreadValues({}, context), {
+        expandedKeysContext,
+        parentKeyMap
+      });
+      provide(TRANSFER_DATA_STRATEGIES, dataStrategies);
+    }
+    provide(proTransferContext, context);
+    const renderTransferListBody = ({
+      isSource
+    }) => {
+      if (props.type === "tree") {
+        return !isSource && props.flatTargetData ? createVNode(ProTransferList, {
+          "isSource": isSource
+        }, null) : createVNode(ProTransferTree, {
+          "isSource": isSource
+        }, null);
+      }
+      return createVNode(ProTransferTable, {
+        "isSource": isSource
+      }, null);
+    };
+    const renderTranferTreeHeaderLabel = (params) => {
+      var _a;
+      if (slots.headerLabel) {
+        return slots.headerLabel(params);
+      }
+      const isSource = params.isSource;
+      const label = isSource ? transferLocale.toSelect : transferLocale.selected;
+      let count = 0;
+      if (isSource) {
+        dataKeyMap.forEach((item, key) => {
+          if (!targetKeySet.value.has(key) && (!item[childrenKey.value] || item[childrenKey.value].length <= 0)) {
+            ++count;
+          }
+        });
+      } else {
+        (_a = targetKeys.value) == null ? void 0 : _a.forEach((key) => {
+          const item = dataKeyMap.get(key);
+          if (item && (!item[childrenKey.value] || item[childrenKey.value].length <= 0)) {
+            ++count;
+          }
+        });
+      }
+      return `${label} (${count})`;
+    };
+    const transferApi = {
+      scrollTo: (isSource, ...params) => {
+        var _a;
+        return (_a = (isSource ? sourceContentRef : targetContentRef).value) == null ? void 0 : _a.scrollTo(...params);
+      }
+    };
+    expose(transferApi);
+    return () => {
+      const transferProps = {
+        dataSource: props.dataSource,
+        value: targetKeys.value,
+        sourceSelectedKeys: props.sourceSelectedKeys,
+        targetSelectedKeys: props.targetSelectedKeys,
+        disabled: props.disabled,
+        searchable: props.searchable,
+        searchFn: props.searchFn,
+        clearable: props.clearable,
+        clearIcon: props.clearIcon,
+        showSelectAll: props.type !== "table",
+        scroll: props.scroll,
+        empty: props.empty,
+        pagination: props.pagination,
+        mode: props.mode,
+        spin: props.spin,
+        getKey: props.getKey,
+        "onUpdate:value": setTargetKeys,
+        "onUpdate:sourceSelectedKeys": props["onUpdate:sourceSelectedKeys"],
+        "onUpdate:targetSelectedKeys": props["onUpdate:targetSelectedKeys"],
+        onChange: props.onChange,
+        onSearch: props.onSearch,
+        onSelectAll: props.onSelectAll,
+        onClear: props.onClear
+      };
+      const transferSlots = {
+        default: renderTransferListBody,
+        headerLabel: props.type === "tree" ? renderTranferTreeHeaderLabel : slots.headerLabel,
+        headerSuffix: slots.headerSuffix,
+        footer: slots.footer,
+        clearIcon: slots.clearIcon,
+        operations: slots.operations
+      };
+      return createVNode(IxTransfer, mergeProps({
+        "class": mergedPrefixCls.value
+      }, transferProps), transferSlots);
+    };
+  }
+});
+const IxProTransfer = ProTransfer;
+
+const version = '1.0.0-beta.7';
 
 const directives = {};
-const components = [IxProLayout, IxProLayoutSiderTrigger];
+const components = [IxProLayout, IxProLayoutSiderTrigger, IxProTransfer];
 const install$1 = (app) => {
-    components.forEach(component => {
-        var _a;
-        app.component((_a = component.name) !== null && _a !== void 0 ? _a : component.displayName, component);
-    });
-    Object.keys(directives).forEach(key => {
-        app.directive(key, directives[key]);
-    });
+  components.forEach((component) => {
+    var _a;
+    app.component((_a = component.name) != null ? _a : component.displayName, component);
+  });
+  Object.keys(directives).forEach((key) => {
+    app.directive(key, directives[key]);
+  });
 };
-var index = {
-    install: install$1,
-    version,
-};
+const installer = { install: install$1, version: version };
 
 // 静态加载: `IDUX_ICON_DEPENDENCIES` 是 `@idux` 的部分组件默认所使用到图标，建议在此时静态引入。
 addIconDefinitions(IDUX_ICON_DEPENDENCIES);
@@ -43837,7 +45137,7 @@ addIconDefinitions(IDUX_ICON_DEPENDENCIES);
 // })
 
 const install = (app) => {
-  app.use(index$2).use(index$1).use(index);
+  app.use(installer$2).use(installer$1).use(installer);
 };
 
 var idux = { install };
