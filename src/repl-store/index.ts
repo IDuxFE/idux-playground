@@ -1,12 +1,10 @@
 import { reactive, watchEffect } from 'vue'
 import * as defaultCompiler from 'vue/compiler-sfc'
-import vuePkg from 'vue/package.json'
-import iduxPkg from '@idux/components/package.json'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
-import type { ReplStoreParam, VersionRecord } from '@/types'
-import { defaultCode, defaultFile, iduxCode, setupIdux } from '@/const'
-import { decodeData, encodeData } from '@/utils'
+import type { PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
+import { defaultCode, defaultFile, genImportsMap, iduxCode, setupIdux } from '@/const'
+import { decodeData, encodeData, genLink } from '@/utils'
 
 const getInitFiles = (serializedState = '') => {
   let files: StoreState['files'] = {
@@ -27,6 +25,34 @@ const getInitFiles = (serializedState = '') => {
   return files
 }
 
+const genVueLink = (version: string) => {
+  const compilerSfc = genLink(
+    '@vue/compiler-sfc',
+    version,
+    '/dist/compiler-sfc.esm-browser.js',
+  )
+  const runtimeDom = genLink(
+    '@vue/runtime-dom',
+    version,
+    '/dist/runtime-dom.esm-browser.js',
+  )
+
+  return {
+    compilerSfc,
+    runtimeDom,
+  }
+}
+
+const genImports = (versions: VersionRecord) => {
+  const deps = {
+    ...genImportsMap(versions),
+  }
+
+  return Object.fromEntries(
+    Object.entries(deps).map(([key, info]) => [key, genLink(info.pkg, info.version, info.file)])
+  )
+}
+
 export class ReplStore implements Store {
   state: StoreState
   compiler = defaultCompiler
@@ -34,13 +60,11 @@ export class ReplStore implements Store {
   versions: VersionRecord
   initialShowOutput = false
   initialOutputMode: OutputModes = 'preview'
-
-  private defaultVueRuntimeURL = ''
+  private pendingCompiler: PendingCompiler = null
 
   constructor({
     serializedState = '',
-    versions = { Vue: vuePkg.version, Idux: iduxPkg.version },
-    defaultVueRuntimeURL = './vue.esm-browser.js',
+    versions = { Vue: 'latest', iDux: 'latest' },
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
     const mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
@@ -49,9 +73,8 @@ export class ReplStore implements Store {
       files,
       activeFile: files[mainFile],
       errors: [],
-      vueRuntimeURL: defaultVueRuntimeURL,
+      vueRuntimeURL: '',
     })
-    this.defaultVueRuntimeURL = defaultVueRuntimeURL
     this.versions = versions
     this.initImportMap()
   }
@@ -60,12 +83,7 @@ export class ReplStore implements Store {
     if (!this.state.files['import-map.json']) {
       this.state.files['import-map.json'] = new File(
         'import-map.json',
-        JSON.stringify({
-          imports: {
-            vue: this.defaultVueRuntimeURL,
-            idux: './idux.js',
-          }
-        }, null, 2)
+        JSON.stringify({ imports: {} }, null, 2)
       )
     }
   }
@@ -81,7 +99,57 @@ export class ReplStore implements Store {
     }
   }
 
+  private setImportMap(map: { imports: Record<string, string> }) {
+    try {
+      this.state.files['import-map.json'].code = JSON.stringify(map, null, 2)
+    } catch (e) {
+      this.state.errors = [
+        `stringify error in import-map.json: ${(e as Error).message}`,
+      ]
+    }
+  }
+
+  private addDeps() {
+    const importMap = this.getImportMap()
+    importMap.imports = {
+      ...importMap.imports,
+      ...genImports(this.versions),
+    }
+    this.setImportMap(importMap)
+  }
+
+  public async setVersion(key: VersionKey, version: string) {
+    switch (key) {
+      case 'iDux':
+        await this.setIduxVersion(version)
+        break
+      case 'Vue':
+        await this.setVueVersion(version)
+        break
+    }
+  }
+
+  private async setIduxVersion(version: string) {
+    this.versions.iDux = version
+    this.addDeps()
+  }
+
+  private async setVueVersion(version: string) {
+    const { compilerSfc, runtimeDom } = genVueLink(version)
+
+    this.pendingCompiler = import(/* @vite-ignore */compilerSfc)
+    this.compiler = await this.pendingCompiler
+    this.pendingCompiler = null
+
+    this.state.vueRuntimeURL = runtimeDom
+
+    this.versions.Vue = version
+
+    this.addDeps()
+  }
+
   async initStore() {
+    await this.setVueVersion(this.versions.Vue)
     this.state.files[setupIdux] = new File(
       setupIdux,
       iduxCode,

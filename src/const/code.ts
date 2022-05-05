@@ -3,10 +3,11 @@ export const setupIdux = 'setupIdux.js'
 
 export const iduxCode = `
 import { getCurrentInstance } from 'vue'
-import Idux from 'idux'
+import IduxComponents from '@idux/components'
+import IduxCdk from '@idux/cdk'
 
 const install = (app) => {
-  app.use(Idux)
+  app.use(IduxCdk).use(IduxComponents)
 }
 
 const loadCss = () => {
