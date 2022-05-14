@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between p-2">
     <h1 class="text-base">
-      Idux Playground
+      iDux Playground
     </h1>
     <IxSpace>
       <template
@@ -49,6 +49,7 @@
 import { useMessage } from '@idux/components/message'
 import { downloadProject, getIduxVersions, getVueVersions } from '@/utils'
 import type { ReplStore } from '@/repl-store'
+import type { VersionKey } from '@/types'
 
 const props = defineProps<{
   store: ReplStore

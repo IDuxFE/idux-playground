@@ -3,19 +3,24 @@ import * as defaultCompiler from 'vue/compiler-sfc'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
 import type { PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
-import { defaultCode, defaultFile, genImportsMap, iduxCode, setupIdux } from '@/const'
+import { defaultFile, genImportsMap, playgroundApp, setupIdux } from '@/const'
 import { decodeData, encodeData, genLink } from '@/utils'
+import playgroundAppCode from '@/template/PlaygroundApp.vue?raw'
+import defaultCode from '@/template/App.vue?raw'
+import iduxCode from '@/template/setupIdux.js?raw'
 
 const getInitFiles = (serializedState = '') => {
   let files: StoreState['files'] = {
-    [defaultFile]: new File(defaultFile, defaultCode)
+    [playgroundApp]: new File(playgroundApp, playgroundAppCode, true),
+    [defaultFile]: new File(defaultFile, defaultCode),
   }
   if (serializedState) {
     try {
       files = {}
       const res = JSON.parse(decodeData(serializedState))
       for (const filename of Object.keys(res)) {
-        files[filename] = new File(filename, res[filename])
+        const isHidden = filename === playgroundApp
+        files[filename] = new File(filename, res[filename], isHidden)
       }
     } catch (err) {
       console.log(err)
@@ -67,11 +72,12 @@ export class ReplStore implements Store {
     versions = { Vue: 'latest', iDux: 'latest' },
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
-    const mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
+    const mainFile = files[playgroundApp] ? playgroundApp : Object.keys(files)[0]
+
     this.state = reactive({
       mainFile,
       files,
-      activeFile: files[mainFile],
+      activeFile: files[defaultFile],
       errors: [],
       vueRuntimeURL: '',
     })
@@ -122,6 +128,7 @@ export class ReplStore implements Store {
     switch (key) {
       case 'iDux':
         await this.setIduxVersion(version)
+        compileFile(this, this.state.files[setupIdux])
         break
       case 'Vue':
         await this.setVueVersion(version)
@@ -131,6 +138,19 @@ export class ReplStore implements Store {
 
   private async setIduxVersion(version: string) {
     this.versions.iDux = version
+
+    const styleHref = genLink(
+      '@idux/components',
+      version,
+      '/default.min.css',
+    )
+
+    this.state.files[setupIdux] = new File(
+      setupIdux,
+      iduxCode.replace('#STYLE_HREF#', styleHref),
+      true,
+    )
+
     this.addDeps()
   }
 
@@ -150,11 +170,7 @@ export class ReplStore implements Store {
 
   async initStore() {
     await this.setVueVersion(this.versions.Vue)
-    this.state.files[setupIdux] = new File(
-      setupIdux,
-      iduxCode,
-      true
-    )
+    await this.setIduxVersion(this.versions.iDux)
 
     watchEffect(() => compileFile(this, this.state.activeFile))
 
@@ -183,7 +199,7 @@ export class ReplStore implements Store {
   public deleteFile(filename: string) {
     if (window?.confirm(`Confirm to delete ${filename}?`)) {
       if (this.state.activeFile.filename === filename) {
-        this.state.activeFile = this.state.files[this.state.mainFile]
+        this.state.activeFile = this.state.files[defaultFile]
       }
       delete this.state.files[filename]
     }

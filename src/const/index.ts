@@ -1,3 +1,8 @@
 
-export { iduxCode, defaultCode, setupIdux, defaultFile } from './code'
 export { genImportsMap } from './imports'
+
+export const setupIdux = 'setupIdux.js'
+
+export const defaultFile = 'App.vue'
+
+export const playgroundApp = 'PlaygroundApp.vue'
