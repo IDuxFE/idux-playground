@@ -1,6 +1,6 @@
-# idux-playground
+# iDux Playground
 
-基于`@vue/repl`实现
+基于`@vue/repl`实现，直接访问[iDux Playground](https://playground.idux.site/)查看效果
 
 ## 技术栈
 
@@ -10,19 +10,16 @@
 - unocss
 - typescript
 - pnpm
-- rollup（使用 rollup 对组件库进行二次打包）
 
 ## 快速开始
 
 ```js
 pnpm i
 
-// 每次更新vue3、idux依赖都要重新build一次，才能run dev
-pnpm build
-
 pnpm dev
 ```
 
 ## 感谢
 
+- [vue-sfc-playground](https://sfc.vuejs.org/)
 - [element-plus-playground](//github.com/element-plus/element-plus-playground)
