@@ -70,15 +70,15 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: 'latest',
       file: '/lib/index.js',
     },
-    'date-fns':{
+    'date-fns': {
       pkg: 'date-fns',
       version: 'latest',
-      file: '/index.js',
+      file: '/esm/index.js',
     },
-    'date-fns/locale':{
+    'date-fns/': {
       pkg: 'date-fns',
       version: 'latest',
-      file: '/locale/index.js',
+      file: '/esm/',
     }
   }
 }

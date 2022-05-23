@@ -5,9 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { useModal } from "@idux/components";
+import { useModal } from '@idux/components'
 
-const { open } = useModal();
-
-const onOpen = () => open({ header: "Hello @idux", content: "This is playground app" });
+const { open } = useModal()
+const onOpen = () => open({ header: 'Hello @idux', content: 'This is playground app' })
 </script>
