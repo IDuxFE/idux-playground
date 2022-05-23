@@ -14,7 +14,7 @@ var q=Object.defineProperty;var S=Object.getOwnPropertySymbols;var Y=Object.prot
 `,je=`import { createApp } from 'vue'
 import Idux from './idux.js'
 
-import App from './App.vue'
+import App from './PlaygroundApp.vue'
 
 createApp(App).use(Idux).mount('#app')
 `,be=`
@@ -88,9 +88,8 @@ To start:
 pnpm i
 pnpm run dev
 \`\`\`
-`;const we=async s=>{const e=["setupIdux.js","import-map.json"],{default:t}=await R(()=>import("./jszip.min.5f302b9f.js").then(function(a){return a.j}),["assets/jszip.min.5f302b9f.js","assets/vendor.cf7d3899.js"]),n=new t;n.file("index.html",ye),n.file("package.json",ke),n.file("vite.config.js",Ce),n.file("README.md",De);const i=n.folder("src");i==null||i.file("main.js",je),i==null||i.file("idux.js",be);const o=s.getFiles();for(const a in o){if(e.includes(a))continue;let l=o[a];a==="App.vue"&&(l=l.replace(`import { setupIdux } from './setupIdux.js'
-`,"").replace(`setupIdux() // don't remove
-`,"")),i==null||i.file(a,l)}const r=await n.generateAsync({type:"blob"});K.exports.saveAs(r,"idux-starter.zip")},U=s=>W(`https://data.jsdelivr.com/v1/package/npm/${s}`,{initialData:[],afterFetch:e=>(e.data=e.data.versions,e)}).json().data,j=(s,e,t="")=>{const n=e?`@${e}`:"";return`https://unpkg.com/${s}${n}${t}`},Ee=()=>{const s=U("vue");return N(()=>{var e;return(e=s.value)==null?void 0:e.filter(t=>O(t,"3.2.9",">="))})},Se=()=>{const s=U("@idux/components");return N(()=>{var e;return(e=s.value)==null?void 0:e.filter(t=>O(t,"1.0.0-beta.8",">="))})},Ne={class:"flex justify-between p-2"},Oe=w("h1",{class:"text-base"}," iDux Playground ",-1),Ve=E(" Download "),Pe=E(" Share "),Ae=E(" GitHub "),Le=V({props:{store:null},setup(s){const e=s,{success:t,warning:n}=Q(),i=async()=>{if(!navigator.clipboard){n("navigator.clipboard is undefined");return}await navigator.clipboard.writeText(location.href),t("Current URL has been copied to clipboard.")},o=P({Vue:{name:"Vue",vers:Ee(),activeVer:e.store.versions.Vue,isLoading:!1},iDux:{name:"iDux",vers:Se(),activeVer:e.store.versions.iDux,isLoading:!1}}),r=async(a,l)=>{o[a].isLoading=!0,await e.store.setVersion(a,l),o[a].isLoading=!1};return(a,l)=>{const T=ee,z=te,B=ne,H=M,k=se,G=ie,X=oe;return v(),D("div",Ne,[Oe,p(X,{layout:"inline"},{default:c(()=>[(v(!0),D(A,null,L(x(o),u=>(v(),_(H,{key:u.name,spinning:u.isLoading},{default:c(()=>[p(B,{label:u.name},{default:c(()=>[p(z,{value:u.activeVer,"onUpdate:value":[f=>u.activeVer=f,f=>r(u.name,f)],class:"min-w-32",searchable:!0},{default:c(()=>[(v(!0),D(A,null,L(u.vers,f=>(v(),_(T,{key:f,label:f,value:f},null,8,["label","value"]))),128))]),_:2},1032,["value","onUpdate:value"])]),_:2},1032,["label"])]),_:2},1032,["spinning"]))),128)),p(G,null,{default:c(()=>[p(k,{onClick:l[0]||(l[0]=u=>x(we)(s.store))},{default:c(()=>[Ve]),_:1}),p(k,{onClick:i},{default:c(()=>[Pe]),_:1}),p(k,{mode:"link",href:"https://github.com/IDuxFE/idux-playground",target:"_blank",rel:"noopener noreferrer"},{default:c(()=>[Ae]),_:1})]),_:1})]),_:1})])}}}),Me=s=>{const{Vue:e,iDux:t}=s;return{"@idux/cdk":{pkg:"@idux/cdk",version:t,file:"/index.full.min.mjs"},"@idux/cdk/":{pkg:"@idux/cdk",version:t,file:"/"},"@idux/components":{pkg:"@idux/components",version:t,file:"/index.full.min.mjs"},"@idux/components/":{pkg:"@idux/components",version:t,file:"/"},"@idux/pro":{pkg:"@idux/pro",version:t,file:"/index.full.min.mjs"},"@idux/pro/":{pkg:"@idux/pro",version:t,file:"/"},vue:{pkg:"vue",version:e,file:"/dist/vue.esm-browser.js"},"lodash-es":{pkg:"lodash-es",version:"latest",file:"/lodash.js"},"vue-types":{pkg:"vue-types",version:"latest",file:"/dist/vue-types.m.js"},"@vue/shared":{pkg:"@vue/shared",version:"latest",file:"/dist/shared.esm-bundler.js"},"@juggle/resize-observer":{pkg:"@juggle/resize-observer",version:"latest",file:"/lib/exports/resize-observer.js"},"is-plain-object":{pkg:"is-plain-object",version:"latest",file:"/dist/is-plain-object.mjs"},"@popperjs/core":{pkg:"@popperjs/core",version:"latest",file:"/lib/index.js"},"date-fns":{pkg:"date-fns",version:"latest",file:"/index.js"},"date-fns/locale":{pkg:"date-fns",version:"latest",file:"/locale/index.js"}}},b="setupIdux.js",h="App.vue",g="PlaygroundApp.vue";var $e=`<template>
+`;const we=async s=>{const e=["setupIdux.js","import-map.json"],{default:t}=await R(()=>import("./jszip.min.5f302b9f.js").then(function(a){return a.j}),["assets/jszip.min.5f302b9f.js","assets/vendor.cf7d3899.js"]),n=new t;n.file("index.html",ye),n.file("package.json",ke),n.file("vite.config.js",Ce),n.file("README.md",De);const i=n.folder("src");i==null||i.file("main.js",je),i==null||i.file("idux.js",be);const o=s.getFiles();for(const a in o){if(e.includes(a))continue;let l=o[a];a==="PlaygroundApp.vue"&&(l=l.replace(`import { setupIdux } from './setupIdux.js'
+`,"").replace("setupIdux()","")),i==null||i.file(a,l)}const r=await n.generateAsync({type:"blob"});K.exports.saveAs(r,"idux-starter.zip")},U=s=>W(`https://data.jsdelivr.com/v1/package/npm/${s}`,{initialData:[],afterFetch:e=>(e.data=e.data.versions,e)}).json().data,j=(s,e,t="")=>{const n=e?`@${e}`:"";return`https://unpkg.com/${s}${n}${t}`},Ee=()=>{const s=U("vue");return N(()=>{var e;return(e=s.value)==null?void 0:e.filter(t=>O(t,"3.2.9",">="))})},Se=()=>{const s=U("@idux/components");return N(()=>{var e;return(e=s.value)==null?void 0:e.filter(t=>O(t,"1.0.0-beta.8",">="))})},Ne={class:"flex justify-between p-2"},Oe=w("h1",{class:"text-base"}," iDux Playground ",-1),Ve=E(" Download "),Pe=E(" Share "),Ae=E(" GitHub "),Le=V({props:{store:null},setup(s){const e=s,{success:t,warning:n}=Q(),i=async()=>{if(!navigator.clipboard){n("navigator.clipboard is undefined");return}await navigator.clipboard.writeText(location.href),t("Current URL has been copied to clipboard.")},o=P({Vue:{name:"Vue",vers:Ee(),activeVer:e.store.versions.Vue,isLoading:!1},iDux:{name:"iDux",vers:Se(),activeVer:e.store.versions.iDux,isLoading:!1}}),r=async(a,l)=>{o[a].isLoading=!0,await e.store.setVersion(a,l),o[a].isLoading=!1};return(a,l)=>{const T=ee,z=te,B=ne,H=M,k=se,G=ie,X=oe;return v(),D("div",Ne,[Oe,p(X,{layout:"inline"},{default:c(()=>[(v(!0),D(A,null,L(x(o),u=>(v(),_(H,{key:u.name,spinning:u.isLoading},{default:c(()=>[p(B,{label:u.name},{default:c(()=>[p(z,{value:u.activeVer,"onUpdate:value":[f=>u.activeVer=f,f=>r(u.name,f)],class:"min-w-32",searchable:!0},{default:c(()=>[(v(!0),D(A,null,L(u.vers,f=>(v(),_(T,{key:f,label:f,value:f},null,8,["label","value"]))),128))]),_:2},1032,["value","onUpdate:value"])]),_:2},1032,["label"])]),_:2},1032,["spinning"]))),128)),p(G,null,{default:c(()=>[p(k,{onClick:l[0]||(l[0]=u=>x(we)(s.store))},{default:c(()=>[Ve]),_:1}),p(k,{onClick:i},{default:c(()=>[Pe]),_:1}),p(k,{mode:"link",href:"https://github.com/IDuxFE/idux-playground",target:"_blank",rel:"noopener noreferrer"},{default:c(()=>[Ae]),_:1})]),_:1})]),_:1})])}}}),Me=s=>{const{Vue:e,iDux:t}=s;return{"@idux/cdk":{pkg:"@idux/cdk",version:t,file:"/index.full.min.mjs"},"@idux/cdk/":{pkg:"@idux/cdk",version:t,file:"/"},"@idux/components":{pkg:"@idux/components",version:t,file:"/index.full.min.mjs"},"@idux/components/":{pkg:"@idux/components",version:t,file:"/"},"@idux/pro":{pkg:"@idux/pro",version:t,file:"/index.full.min.mjs"},"@idux/pro/":{pkg:"@idux/pro",version:t,file:"/"},vue:{pkg:"vue",version:e,file:"/dist/vue.esm-browser.js"},"lodash-es":{pkg:"lodash-es",version:"latest",file:"/lodash.js"},"vue-types":{pkg:"vue-types",version:"latest",file:"/dist/vue-types.m.js"},"@vue/shared":{pkg:"@vue/shared",version:"latest",file:"/dist/shared.esm-bundler.js"},"@juggle/resize-observer":{pkg:"@juggle/resize-observer",version:"latest",file:"/lib/exports/resize-observer.js"},"is-plain-object":{pkg:"is-plain-object",version:"latest",file:"/dist/is-plain-object.mjs"},"@popperjs/core":{pkg:"@popperjs/core",version:"latest",file:"/lib/index.js"},"date-fns":{pkg:"date-fns",version:"latest",file:"/esm/index.js"},"date-fns/":{pkg:"date-fns",version:"latest",file:"/esm/"}}},b="setupIdux.js",h="App.vue",g="PlaygroundApp.vue";var $e=`<template>
   <IxDrawerProvider>
     <IxNotificationProvider>
       <IxModalProvider>
@@ -103,9 +102,9 @@ pnpm run dev
 </template>
 
 <script lang="ts" setup>
-import { setupIdux } from "./setupIdux.js";
-import App from "./App.vue";
-setupIdux();
+import { setupIdux } from './setupIdux.js'
+import App from './App.vue'
+setupIdux()
 <\/script>
 `,J=`<template>
   <div style="padding: 24px">
@@ -114,25 +113,24 @@ setupIdux();
 </template>
 
 <script setup lang="ts">
-import { useModal } from "@idux/components";
+import { useModal } from '@idux/components'
 
-const { open } = useModal();
-
-const onOpen = () => open({ header: "Hello @idux", content: "This is playground app" });
+const { open } = useModal()
+const onOpen = () => open({ header: 'Hello @idux', content: 'This is playground app' })
 <\/script>
-`,Fe=`import { getCurrentInstance } from "vue"
-import IduxCdk from "@idux/cdk"
+`,Fe=`import { getCurrentInstance } from 'vue'
+import IduxCdk from '@idux/cdk'
 import IduxComponents, {
   IDUX_ICON_DEPENDENCIES,
   addIconDefinitions,
   createGlobalConfig,
 } from '@idux/components'
 
-addIconDefinitions(IDUX_ICON_DEPENDENCIES);
+addIconDefinitions(IDUX_ICON_DEPENDENCIES)
 
 const loadIconDynamically = (iconName) => {
   return fetch(\`https://idux-cdn.sangfor.com.cn/icons/\${iconName}.svg\`)
-          .then((res) => res.text());
+    .then((res) => res.text())
 }
 
 const globalConfig = createGlobalConfig({
