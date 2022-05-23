@@ -1,15 +1,24 @@
-import { getCurrentInstance } from 'vue'
-import IduxComponents from '@idux/components'
-import IduxCdk from '@idux/cdk'
-import {
+import { getCurrentInstance } from "vue"
+import IduxCdk from "@idux/cdk"
+import IduxComponents, {
   IDUX_ICON_DEPENDENCIES,
   addIconDefinitions,
-} from '@idux/components';
+  createGlobalConfig,
+} from '@idux/components'
 
 addIconDefinitions(IDUX_ICON_DEPENDENCIES);
 
+const loadIconDynamically = (iconName) => {
+  return fetch(`https://idux-cdn.sangfor.com.cn/icons/${iconName}.svg`)
+          .then((res) => res.text());
+}
+
+const globalConfig = createGlobalConfig({
+  icon: { loadIconDynamically },
+})
+
 const install = (app) => {
-  app.use(IduxCdk).use(IduxComponents)
+  app.use(IduxCdk).use(IduxComponents).use(globalConfig)
 }
 
 const loadCss = () => {
