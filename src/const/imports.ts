@@ -1,37 +1,39 @@
 import { VersionRecord } from '@/types'
 
-const iduxCdks = [
-  'click-outside',
-  'portal',
-  'scroll',
-  'a11y',
-  'breakpoint',
-  'forms',
-  'platform',
-  'popper',
-  'utils',
-]
 
 export const genImportsMap = (versions: VersionRecord) => {
   const { Vue, iDux } = versions
 
-  const iduxCdksMap = Object.fromEntries(iduxCdks.map(item => [`@idux/cdk/${item}`, {
-    pkg: '@idux/cdk',
-    version: iDux,
-    file: '/index.full.min.mjs',
-  }]))
-
   return {
-    ...iduxCdksMap,
+    '@idux/cdk': {
+      pkg: '@idux/cdk',
+      version: iDux,
+      file: '/index.full.min.mjs',
+    },
+    '@idux/cdk/': {
+      pkg: '@idux/cdk',
+      version: iDux,
+      file: '/',
+    },
     '@idux/components': {
       pkg: '@idux/components',
       version: iDux,
       file: '/index.full.min.mjs',
     },
-    '@idux/cdk': {
-      pkg: '@idux/cdk',
+    '@idux/components/': {
+      pkg: '@idux/components',
+      version: iDux,
+      file: '/',
+    },
+    '@idux/pro': {
+      pkg: '@idux/pro',
       version: iDux,
       file: '/index.full.min.mjs',
+    },
+    '@idux/pro/': {
+      pkg: '@idux/pro',
+      version: iDux,
+      file: '/',
     },
     vue: {
       pkg: 'vue',
@@ -68,5 +70,15 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: 'latest',
       file: '/lib/index.js',
     },
+    'date-fns':{
+      pkg: 'date-fns',
+      version: 'latest',
+      file: '/index.js',
+    },
+    'date-fns/locale':{
+      pkg: 'date-fns',
+      version: 'latest',
+      file: '/locale/index.js',
+    }
   }
 }

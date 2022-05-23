@@ -3,14 +3,14 @@
     <h1 class="text-base">
       iDux Playground
     </h1>
-    <IxSpace>
+  
+    <IxForm layout="inline"> 
       <template
         v-for="item of selectors"
         :key="item.name"
       >
         <IxSpin :spinning="item.isLoading">
-          <IxSpace>
-            {{ item.name }}:
+          <IxFormItem :label="item.name">
             <IxSelect
               v-model:value="item.activeVer"
               class="min-w-32"
@@ -24,24 +24,26 @@
                 :value="ver"
               />
             </IxSelect>
-          </IxSpace>
+          </IxFormItem>
         </IxSpin>
       </template>
-      <IxButton @click="downloadProject(store)">
-        Download
-      </IxButton>
-      <IxButton @click="onShareClick">
-        Share
-      </IxButton>
-      <IxButton
-        mode="link"
-        href="https://github.com/IDuxFE/idux-playground"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        GitHub
-      </IxButton>
-    </IxSpace>
+      <IxSpace>
+        <IxButton @click="downloadProject(store)">
+          Download
+        </IxButton>
+        <IxButton @click="onShareClick">
+          Share
+        </IxButton>
+        <IxButton
+          mode="link"
+          href="https://github.com/IDuxFE/idux-playground"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </IxButton>
+      </IxSpace>
+    </IxForm>
   </div>
 </template>
 
