@@ -36,7 +36,7 @@
 
 <script lang="ts" setup>
 import { useMessage } from '@idux/components/message'
-import { downloadProject } from '@/utils'
+import { copyText, downloadProject } from '@/utils'
 import type { ReplStore } from '@/repl-store'
 import QrcodeVue from 'qrcode.vue'
 
@@ -45,9 +45,10 @@ const props = defineProps<{
 }>()
 
 const { success, warning } = useMessage()
+
 const onShareClick = async () => {
   if (!navigator.clipboard) {
-    warning('navigator.clipboard is undefined')
+    copyText(location.href) || warning('navigator.clipboard is undefined')
     return
   }
   await navigator.clipboard.writeText(location.href)

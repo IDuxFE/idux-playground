@@ -5,7 +5,7 @@ import iduxPkg from '@idux/components/package.json'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
 import type { ReplStoreParam, VersionRecord } from '@/types'
-import { defaultFile, playgroundApp, setupIdux } from '@/const'
+import { defaultFile, playgroundApp, projectImportsMap, setupIdux } from '@/const'
 import { decodeData, encodeData } from '@/utils'
 
 import playgroundAppCode from '@/template/PlaygroundApp.vue?raw'
@@ -42,12 +42,14 @@ export class ReplStore implements Store {
   initialOutputMode: OutputModes = 'preview'
 
   private defaultVueRuntimeURL = ''
+  private defaultVueServerRendererURL = ''
 
   constructor({
     serializedState = '',
     versions = { Vue: vuePkg.version, Idux: iduxPkg.version },
-    defaultVueRuntimeURL = './vue.esm-browser.js',
+    defaultVueRuntimeURL = projectImportsMap.vue,
   }: ReplStoreParam) {
+    this.defaultVueRuntimeURL = defaultVueRuntimeURL
     const files = getInitFiles(serializedState)
     const mainFile = files[playgroundApp] ? playgroundApp : Object.keys(files)[0]
     this.state = reactive({
@@ -55,9 +57,9 @@ export class ReplStore implements Store {
       files,
       activeFile: files[defaultFile],
       errors: [],
-      vueRuntimeURL: defaultVueRuntimeURL,
+      vueRuntimeURL: this.defaultVueRuntimeURL,
+      vueServerRendererURL: this.defaultVueServerRendererURL,
     })
-    this.defaultVueRuntimeURL = defaultVueRuntimeURL
     this.versions = versions
     this.initImportMap()
   }
@@ -67,12 +69,7 @@ export class ReplStore implements Store {
       this.state.files['import-map.json'] = new File(
         'import-map.json',
         JSON.stringify({
-          imports: {
-            vue: this.defaultVueRuntimeURL,
-            '@idux/components': './idux-components.js',
-            '@idux/cdk': './idux-cdk.js',
-            '@idux/pro': './idux-pro.js',
-          }
+          imports: projectImportsMap,
         }, null, 2)
       )
     }
@@ -89,7 +86,7 @@ export class ReplStore implements Store {
     }
   }
 
-  async initStore() {
+  async init() {
     this.state.files[setupIdux] = new File(
       setupIdux,
       iduxCode,

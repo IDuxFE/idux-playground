@@ -27,10 +27,10 @@ export const downloadProject = async (store: ReplStore) => {
       continue
     }
     let code = files[file]
-    if (file === 'App.vue') {
+    if (file === 'PlaygroundApp.vue') {
       code = code
         .replace("import { setupIdux } from './setupIdux.js'\n", '')
-        .replace("setupIdux() // don't remove\n", '')
+        .replace('setupIdux()', '')
     }
     srcFolder?.file(file, code)
   }

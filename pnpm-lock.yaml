@@ -14,9 +14,9 @@ specifiers:
   '@typescript-eslint/parser': ^5.10.2
   '@vitejs/plugin-vue': ^2.1.0
   '@vue/eslint-config-typescript': ^10.0.0
-  '@vue/repl': 1.0.0
+  '@vue/repl': 1.2.4
   '@vueuse/core': ^7.5.4
-  es-module-shims: 0.10.1
+  es-module-shims: 1.5.6
   eslint: ^8.8.0
   eslint-plugin-import: ^2.25.4
   eslint-plugin-vue: ^8.4.0
@@ -38,9 +38,8 @@ dependencies:
   '@idux/cdk': 1.0.0-beta.12_vue@3.2.31
   '@idux/components': 1.0.0-beta.12_vue@3.2.31
   '@idux/pro': 1.0.0-beta.12_vue@3.2.31
-  '@vue/repl': registry.npmmirror.com/@vue/repl/1.0.0_vue@3.2.31
+  '@vue/repl': 1.2.4_vue@3.2.31
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/7.5.5_vue@3.2.31
-  es-module-shims: 0.10.1
   file-saver: registry.npmmirror.com/file-saver/2.0.5
   jszip: registry.npmmirror.com/jszip/3.7.1
   qrcode.vue: 3.3.3_vue@3.2.31
@@ -57,6 +56,7 @@ devDependencies:
   '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.10.2_txwvkng2juu2h6yeaibqmql3uy
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/2.1.0_vite@2.7.13+vue@3.2.31
   '@vue/eslint-config-typescript': registry.npmmirror.com/@vue/eslint-config-typescript/10.0.0_4vasxpz7nniku4yvqdxut6xzqq
+  es-module-shims: 1.5.6
   eslint: registry.npmmirror.com/eslint/8.8.0
   eslint-plugin-import: registry.npmmirror.com/eslint-plugin-import/2.25.4_eslint@8.8.0
   eslint-plugin-vue: registry.npmmirror.com/eslint-plugin-vue/8.4.0_eslint@8.8.0
@@ -224,6 +224,14 @@ packages:
       '@vue/shared': 3.2.31
     dev: false
 
+  /@vue/repl/1.2.4_vue@3.2.31:
+    resolution: {integrity: sha512-qmM4eIFQoz85gmHzBzcDwL0Tq3o1SBtT/HXvq6z6Co42AruKQFqle6LHo/XV9DJA+sPxHAQyBkuMXmokQ4vGsg==}
+    peerDependencies:
+      vue: ^3.2.13
+    dependencies:
+      vue: 3.2.31
+    dev: false
+
   /@vue/runtime-core/3.2.31:
     resolution: {integrity: sha512-Kcog5XmSY7VHFEMuk4+Gap8gUssYMZ2+w+cmGI6OpZWYOEIcbE0TPzzPHi+8XTzAgx1w/ZxDFcXhZeXN5eKWsA==}
     dependencies:
@@ -272,9 +280,9 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /es-module-shims/0.10.1:
-    resolution: {integrity: sha512-o6aRBzkuQHPaPrME84YQYexMi60xS93YoAWPy1NON1fdI0oq7er+S7tJmShZ8my0vwKEwkm3GGpIUseWqH6mZQ==}
-    dev: false
+  /es-module-shims/1.5.6:
+    resolution: {integrity: sha512-P/WNC3j4hncbMjx8mdgNchYaSulXJO8Q7lF6CJthc0Rv3t6ZuzfQnkXkNzluUdgnS9/7mTTJrS9dDgZ2OYbZvA==}
+    dev: true
 
   /esbuild-android-arm64/0.13.15:
     resolution: {integrity: sha512-m602nft/XXeO8YQPUDVoHfjyRVPdPgjyyXOxZ44MK/agewFFkPa8tUo6lAzSWh5Ui5PB4KR9UIFTSBKh/RrCmg==}
@@ -1320,17 +1328,6 @@ packages:
       - supports-color
       - typescript
     dev: true
-
-  registry.npmmirror.com/@vue/repl/1.0.0_vue@3.2.31:
-    resolution: {integrity: sha512-cDcQuWKZuA0Y0JYEpiQS/ZAEGP/RrfkcK+zKm5H8tUjfD8XIxYHY+sQGoY6FSkz/gAOQJocrsaPgt7ddKL0inQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/repl/-/repl-1.0.0.tgz}
-    id: registry.npmmirror.com/@vue/repl/1.0.0
-    name: '@vue/repl'
-    version: 1.0.0
-    peerDependencies:
-      vue: ^3.2.13
-    dependencies:
-      vue: 3.2.31
-    dev: false
 
   registry.npmmirror.com/@vueuse/core/7.5.5_vue@3.2.31:
     resolution: {integrity: sha512-RBDqmIoGfak4h3xdXa/Av+ibkb8NY044wEy6+PG2FAWNaID8/FkqmSFjbxogrbmpSX1yZ1PBHrM8DUp/FrIpbg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vueuse/core/-/core-7.5.5.tgz}

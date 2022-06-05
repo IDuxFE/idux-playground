@@ -37,7 +37,7 @@ const store = new ReplStore({
   serializedState: location.hash.slice(1),
 })
 
-store.initStore().then(() => {
+store.init().then(() => {
   isLoading.value = false
 })
 
