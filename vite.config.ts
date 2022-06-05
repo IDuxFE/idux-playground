@@ -13,12 +13,14 @@ const pathSrc = path.resolve(__dirname, 'src')
 const copyDepPlugin = (): Plugin => {
   const vueDep = path.resolve(__dirname, 'node_modules/vue/dist/vue.esm-browser.js')
   const iduxCssDep = path.resolve(__dirname, 'node_modules/@idux/components/default.min.css')
+  const esModuleShims = path.resolve(__dirname, 'node_modules/es-module-shims/dist/es-module-shims.min.js')
 
   return {
-    name: 'copy-dep',
+    name: 'vite-plugin-copy-dep',
     buildStart() {
       fs.copyFileSync(vueDep, path.resolve('public/vue.esm-browser.js'))
       fs.copyFileSync(iduxCssDep, path.resolve('public/idux-components.default.min.css'))
+      fs.copyFileSync(esModuleShims, path.resolve('public/es-module-shims.min.js'))
     },
   }
 }

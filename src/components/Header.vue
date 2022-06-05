@@ -1,7 +1,7 @@
 <template>
   <div class="flex justify-between p-2">
     <h1 class="text-base">
-      Idux Playground
+      iDux Playground
       {{ versionText }}
     </h1>
     <IxSpace>
@@ -55,7 +55,7 @@ const onShareClick = async () => {
 }
 
 const versionText = computed(
-  () => ` ( Vue@${props.store.versions.Vue}, Idux@${props.store.versions.Idux} )`
+  () => ` ( Vue@${props.store.versions.Vue}, iDux@${props.store.versions.Idux} )`
 )
 
 const qrcodeVal = ref('')

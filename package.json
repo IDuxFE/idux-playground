@@ -11,6 +11,7 @@
     "eslint": "eslint --fix ./src --ext .vue,.js,.ts,.tsx",
     "ls-lint": "ls-lint",
     "prepare": "husky install",
+    "postinstall": "npx @milahu/patch-package @vue/repl",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -40,11 +41,12 @@
     "vite-plugin-inspect": "^0.3.13"
   },
   "dependencies": {
-    "@idux/cdk": "1.0.0-beta.2",
-    "@idux/components": "1.0.0-beta.2",
-    "@idux/pro": "1.0.0-beta.2",
-    "@vue/repl": "^1.0.0",
+    "@idux/cdk": "1.0.0-beta.12",
+    "@idux/components": "1.0.0-beta.12",
+    "@idux/pro": "1.0.0-beta.12",
+    "@vue/repl": "1.0.0",
     "@vueuse/core": "^7.5.4",
+    "es-module-shims": "0.10.1",
     "file-saver": "^2.0.5",
     "jszip": "^3.7.1",
     "qrcode.vue": "^3.3.3",

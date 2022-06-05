@@ -1,0 +1,6 @@
+dist
+lib
+public
+node_modules
+pnpm-lock.yaml
+src/template

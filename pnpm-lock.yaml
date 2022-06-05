@@ -1,11 +1,11 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@commitlint/cli': ^16.1.0
   '@commitlint/config-conventional': ^16.0.0
-  '@idux/cdk': 1.0.0-beta.2
-  '@idux/components': 1.0.0-beta.2
-  '@idux/pro': 1.0.0-beta.2
+  '@idux/cdk': 1.0.0-beta.12
+  '@idux/components': 1.0.0-beta.12
+  '@idux/pro': 1.0.0-beta.12
   '@ls-lint/ls-lint': ^1.10.0
   '@rollup/plugin-node-resolve': ^13.1.3
   '@types/file-saver': ^2.0.5
@@ -14,8 +14,9 @@ specifiers:
   '@typescript-eslint/parser': ^5.10.2
   '@vitejs/plugin-vue': ^2.1.0
   '@vue/eslint-config-typescript': ^10.0.0
-  '@vue/repl': ^1.0.0
+  '@vue/repl': 1.0.0
   '@vueuse/core': ^7.5.4
+  es-module-shims: 0.10.1
   eslint: ^8.8.0
   eslint-plugin-import: ^2.25.4
   eslint-plugin-vue: ^8.4.0
@@ -34,11 +35,12 @@ specifiers:
   vue: ^3.2.31
 
 dependencies:
-  '@idux/cdk': 1.0.0-beta.2_vue@3.2.31
-  '@idux/components': 1.0.0-beta.2_vue@3.2.31
-  '@idux/pro': 1.0.0-beta.2_vue@3.2.31
+  '@idux/cdk': 1.0.0-beta.12_vue@3.2.31
+  '@idux/components': 1.0.0-beta.12_vue@3.2.31
+  '@idux/pro': 1.0.0-beta.12_vue@3.2.31
   '@vue/repl': registry.npmmirror.com/@vue/repl/1.0.0_vue@3.2.31
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/7.5.5_vue@3.2.31
+  es-module-shims: 0.10.1
   file-saver: registry.npmmirror.com/file-saver/2.0.5
   jszip: registry.npmmirror.com/jszip/3.7.1
   qrcode.vue: 3.3.3_vue@3.2.31
@@ -51,10 +53,10 @@ devDependencies:
   '@rollup/plugin-node-resolve': 13.1.3_rollup@2.67.3
   '@types/file-saver': 2.0.5
   '@types/node': registry.npmmirror.com/@types/node/17.0.14
-  '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.10.2_2595c2126aec4d4b6e944b931dabb4c2
-  '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.10.2_eslint@8.8.0+typescript@4.5.5
+  '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.10.2_ewk4eetk5rguw3uujojr3k5uyi
+  '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.10.2_txwvkng2juu2h6yeaibqmql3uy
   '@vitejs/plugin-vue': registry.npmmirror.com/@vitejs/plugin-vue/2.1.0_vite@2.7.13+vue@3.2.31
-  '@vue/eslint-config-typescript': registry.npmmirror.com/@vue/eslint-config-typescript/10.0.0_e5412bbf3f6b50aa731580ef49faf984
+  '@vue/eslint-config-typescript': registry.npmmirror.com/@vue/eslint-config-typescript/10.0.0_4vasxpz7nniku4yvqdxut6xzqq
   eslint: registry.npmmirror.com/eslint/8.8.0
   eslint-plugin-import: registry.npmmirror.com/eslint-plugin-import/2.25.4_eslint@8.8.0
   eslint-plugin-vue: registry.npmmirror.com/eslint-plugin-vue/8.4.0_eslint@8.8.0
@@ -63,8 +65,8 @@ devDependencies:
   rollup: 2.67.3
   typescript: registry.npmmirror.com/typescript/4.5.5
   unocss: registry.npmmirror.com/unocss/0.22.6
-  unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.5.11_0dc1e5f8bd4483ad694f8972204ce588
-  unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.17.15_1597b0d118ee341fc27d5f4880f74223
+  unplugin-auto-import: registry.npmmirror.com/unplugin-auto-import/0.5.11_bxa6l6f5isb222kprfzcathfra
+  unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.17.15_cwl3buiy5y2b7qt5l5eib52cem
   vite: registry.npmmirror.com/vite/2.7.13
   vite-plugin-inspect: registry.npmmirror.com/vite-plugin-inspect/0.3.13_vite@2.7.13
 
@@ -76,44 +78,39 @@ packages:
     hasBin: true
     dev: false
 
-  /@idux/cdk/1.0.0-beta.2_vue@3.2.31:
-    resolution: {integrity: sha512-nFPySqEVvbkZiXSS07vSo4r4oOItrbze0XLl6UCHvTLFgkdDCI2P/LJ8ZXNGqaMgqUzA5G/0wsDosbEphpHS/A==}
+  /@idux/cdk/1.0.0-beta.12_vue@3.2.31:
+    resolution: {integrity: sha512-o/h5dM/Szhju0IdN55P4B0zlVVvXUquTCUWThnoOYQdQDS7OLJvhgcAIPKEBlowYU3/HmvhPDH3D2KoAOU4BgQ==}
     peerDependencies:
-      vue: ^3.2.29
+      vue: ^3.2.0
     dependencies:
-      '@juggle/resize-observer': 3.3.1
       '@popperjs/core': 2.11.2
       lodash-es: 4.17.21
       vue: 3.2.31
       vue-types: 3.0.2_vue@3.2.31
     dev: false
 
-  /@idux/components/1.0.0-beta.2_vue@3.2.31:
-    resolution: {integrity: sha512-klvthjnyDupA3NcIQA/WnCEYQmmH3JAt5M9i6G+s4TQBIKIYkmycdw5g1m36C7nCrmNo2V3L29wmrEhXLG+kBA==}
+  /@idux/components/1.0.0-beta.12_vue@3.2.31:
+    resolution: {integrity: sha512-KZzyH2S25LKngRqsY3JWKVwBM93D+7dOsvqe+fEJTqWqn5EIW7wR5QbkcAPFFMDJhu52Rzgl58YcXgiuGBNeVQ==}
     hasBin: true
     peerDependencies:
-      vue: ^3.2.29
+      vue: ^3.2.0
     dependencies:
-      '@idux/cdk': 1.0.0-beta.2_vue@3.2.31
+      '@idux/cdk': 1.0.0-beta.12_vue@3.2.31
       date-fns: 2.28.0
       lodash-es: 4.17.21
       vue: 3.2.31
       vue-types: 3.0.2_vue@3.2.31
     dev: false
 
-  /@idux/pro/1.0.0-beta.2_vue@3.2.31:
-    resolution: {integrity: sha512-+GyUDyuwgy9cclDTIwQyrG30uqA05DK5O80x45PK2C2qNiuxgRksO3XqtgsEKGZ7Vf9CprLJL+MI1OHKldVZQw==}
+  /@idux/pro/1.0.0-beta.12_vue@3.2.31:
+    resolution: {integrity: sha512-ZrCjxcmxYHpEv/xizbmBxSjlhO5bd8LvjLZS7/bHGo3r98x47cTijIJQ9SzGVsc/iV9LFGont93TowDjTOToTw==}
     peerDependencies:
-      vue: ^3.2.29
+      vue: ^3.2.0
     dependencies:
-      '@idux/cdk': 1.0.0-beta.2_vue@3.2.31
-      '@idux/components': 1.0.0-beta.2_vue@3.2.31
+      '@idux/cdk': 1.0.0-beta.12_vue@3.2.31
+      '@idux/components': 1.0.0-beta.12_vue@3.2.31
       lodash-es: 4.17.21
       vue: 3.2.31
-    dev: false
-
-  /@juggle/resize-observer/3.3.1:
-    resolution: {integrity: sha512-zMM9Ds+SawiUkakS7y94Ymqx+S0ORzpG3frZirN3l+UlXUmSUR7hF4wxCVqW+ei94JzV5kt0uXBcoOEAuiydrw==}
     dev: false
 
   /@popperjs/core/2.11.2:
@@ -274,6 +271,10 @@ packages:
     resolution: {integrity: sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /es-module-shims/0.10.1:
+    resolution: {integrity: sha512-o6aRBzkuQHPaPrME84YQYexMi60xS93YoAWPy1NON1fdI0oq7er+S7tJmShZ8my0vwKEwkm3GGpIUseWqH6mZQ==}
+    dev: false
 
   /esbuild-android-arm64/0.13.15:
     resolution: {integrity: sha512-m602nft/XXeO8YQPUDVoHfjyRVPdPgjyyXOxZ44MK/agewFFkPa8tUo6lAzSWh5Ui5PB4KR9UIFTSBKh/RrCmg==}
@@ -739,7 +740,7 @@ packages:
       '@commitlint/types': registry.npmmirror.com/@commitlint/types/16.0.0
       chalk: registry.npmmirror.com/chalk/4.1.2
       cosmiconfig: registry.npmmirror.com/cosmiconfig/7.0.1
-      cosmiconfig-typescript-loader: registry.npmmirror.com/cosmiconfig-typescript-loader/1.0.4_43d2036524ce97aa8076ce68340fa9ec
+      cosmiconfig-typescript-loader: registry.npmmirror.com/cosmiconfig-typescript-loader/1.0.4_ipjagzjez2l2vadwzzudid5j5q
       lodash: registry.npmmirror.com/lodash/4.17.21
       resolve-from: registry.npmmirror.com/resolve-from/5.0.0
       typescript: registry.npmmirror.com/typescript/4.5.5
@@ -1014,7 +1015,7 @@ packages:
     version: 2.1.0
     dev: true
 
-  registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.10.2_2595c2126aec4d4b6e944b931dabb4c2:
+  registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.10.2_ewk4eetk5rguw3uujojr3k5uyi:
     resolution: {integrity: sha512-4W/9lLuE+v27O/oe7hXJKjNtBLnZE8tQAFpapdxwSVHqtmIoPB1gph3+ahNwVuNL37BX7YQHyGF9Xv6XCnIX2Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.10.2.tgz}
     id: registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.10.2
     name: '@typescript-eslint/eslint-plugin'
@@ -1028,10 +1029,10 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.10.2_eslint@8.8.0+typescript@4.5.5
+      '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.10.2_txwvkng2juu2h6yeaibqmql3uy
       '@typescript-eslint/scope-manager': registry.npmmirror.com/@typescript-eslint/scope-manager/5.10.2
-      '@typescript-eslint/type-utils': registry.npmmirror.com/@typescript-eslint/type-utils/5.10.2_eslint@8.8.0+typescript@4.5.5
-      '@typescript-eslint/utils': registry.npmmirror.com/@typescript-eslint/utils/5.10.2_eslint@8.8.0+typescript@4.5.5
+      '@typescript-eslint/type-utils': registry.npmmirror.com/@typescript-eslint/type-utils/5.10.2_txwvkng2juu2h6yeaibqmql3uy
+      '@typescript-eslint/utils': registry.npmmirror.com/@typescript-eslint/utils/5.10.2_txwvkng2juu2h6yeaibqmql3uy
       debug: registry.npmmirror.com/debug/4.3.3
       eslint: registry.npmmirror.com/eslint/8.8.0
       functional-red-black-tree: registry.npmmirror.com/functional-red-black-tree/1.0.1
@@ -1044,7 +1045,7 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/@typescript-eslint/parser/5.10.2_eslint@8.8.0+typescript@4.5.5:
+  registry.npmmirror.com/@typescript-eslint/parser/5.10.2_txwvkng2juu2h6yeaibqmql3uy:
     resolution: {integrity: sha512-JaNYGkaQVhP6HNF+lkdOr2cAs2wdSZBoalE22uYWq8IEv/OVH0RksSGydk+sW8cLoSeYmC+OHvRyv2i4AQ7Czg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/parser/-/parser-5.10.2.tgz}
     id: registry.npmmirror.com/@typescript-eslint/parser/5.10.2
     name: '@typescript-eslint/parser'
@@ -1077,7 +1078,7 @@ packages:
       '@typescript-eslint/visitor-keys': registry.npmmirror.com/@typescript-eslint/visitor-keys/5.10.2
     dev: true
 
-  registry.npmmirror.com/@typescript-eslint/type-utils/5.10.2_eslint@8.8.0+typescript@4.5.5:
+  registry.npmmirror.com/@typescript-eslint/type-utils/5.10.2_txwvkng2juu2h6yeaibqmql3uy:
     resolution: {integrity: sha512-uRKSvw/Ccs5FYEoXW04Z5VfzF2iiZcx8Fu7DGIB7RHozuP0VbKNzP1KfZkHBTM75pCpsWxIthEH1B33dmGBKHw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/type-utils/-/type-utils-5.10.2.tgz}
     id: registry.npmmirror.com/@typescript-eslint/type-utils/5.10.2
     name: '@typescript-eslint/type-utils'
@@ -1090,7 +1091,7 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/utils': registry.npmmirror.com/@typescript-eslint/utils/5.10.2_eslint@8.8.0+typescript@4.5.5
+      '@typescript-eslint/utils': registry.npmmirror.com/@typescript-eslint/utils/5.10.2_txwvkng2juu2h6yeaibqmql3uy
       debug: registry.npmmirror.com/debug/4.3.3
       eslint: registry.npmmirror.com/eslint/8.8.0
       tsutils: registry.npmmirror.com/tsutils/3.21.0_typescript@4.5.5
@@ -1130,7 +1131,7 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/@typescript-eslint/utils/5.10.2_eslint@8.8.0+typescript@4.5.5:
+  registry.npmmirror.com/@typescript-eslint/utils/5.10.2_txwvkng2juu2h6yeaibqmql3uy:
     resolution: {integrity: sha512-vuJaBeig1NnBRkf7q9tgMLREiYD7zsMrsN1DA3wcoMDvr3BTFiIpKjGiYZoKPllfEwN7spUjv7ZqD+JhbVjEPg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@typescript-eslint/utils/-/utils-5.10.2.tgz}
     id: registry.npmmirror.com/@typescript-eslint/utils/5.10.2
     name: '@typescript-eslint/utils'
@@ -1300,7 +1301,7 @@ packages:
       vue: 3.2.31
     dev: true
 
-  registry.npmmirror.com/@vue/eslint-config-typescript/10.0.0_e5412bbf3f6b50aa731580ef49faf984:
+  registry.npmmirror.com/@vue/eslint-config-typescript/10.0.0_4vasxpz7nniku4yvqdxut6xzqq:
     resolution: {integrity: sha512-F94cL8ug3FaYXlCfU5/wiGjk1qeadmoBpRGAOBq+qre3Smdupa59dd6ZJrsfRODpsMPyTG7330juMDsUvpZ3Rw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vue/eslint-config-typescript/-/eslint-config-typescript-10.0.0.tgz}
     id: registry.npmmirror.com/@vue/eslint-config-typescript/10.0.0
     name: '@vue/eslint-config-typescript'
@@ -1310,8 +1311,8 @@ packages:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
       eslint-plugin-vue: ^8.0.1
     dependencies:
-      '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.10.2_2595c2126aec4d4b6e944b931dabb4c2
-      '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.10.2_eslint@8.8.0+typescript@4.5.5
+      '@typescript-eslint/eslint-plugin': registry.npmmirror.com/@typescript-eslint/eslint-plugin/5.10.2_ewk4eetk5rguw3uujojr3k5uyi
+      '@typescript-eslint/parser': registry.npmmirror.com/@typescript-eslint/parser/5.10.2_txwvkng2juu2h6yeaibqmql3uy
       eslint: registry.npmmirror.com/eslint/8.8.0
       eslint-plugin-vue: registry.npmmirror.com/eslint-plugin-vue/8.4.0_eslint@8.8.0
       vue-eslint-parser: registry.npmmirror.com/vue-eslint-parser/8.2.0_eslint@8.8.0
@@ -1811,7 +1812,7 @@ packages:
     version: 1.0.3
     dev: false
 
-  registry.npmmirror.com/cosmiconfig-typescript-loader/1.0.4_43d2036524ce97aa8076ce68340fa9ec:
+  registry.npmmirror.com/cosmiconfig-typescript-loader/1.0.4_ipjagzjez2l2vadwzzudid5j5q:
     resolution: {integrity: sha512-ulv2dvwurP/MZAIthXm69bO7EzzIUThZ6RJ1qXhdlXM6to3F+IKBL/17EnhYSG52A5N1KcAUu66vSG/3/77KrA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/cosmiconfig-typescript-loader/-/cosmiconfig-typescript-loader-1.0.4.tgz}
     id: registry.npmmirror.com/cosmiconfig-typescript-loader/1.0.4
     name: cosmiconfig-typescript-loader
@@ -1823,7 +1824,7 @@ packages:
     dependencies:
       '@types/node': registry.npmmirror.com/@types/node/17.0.14
       cosmiconfig: registry.npmmirror.com/cosmiconfig/7.0.1
-      ts-node: registry.npmmirror.com/ts-node/10.4.0_43d2036524ce97aa8076ce68340fa9ec
+      ts-node: registry.npmmirror.com/ts-node/10.4.0_ipjagzjez2l2vadwzzudid5j5q
       typescript: registry.npmmirror.com/typescript/4.5.5
     transitivePeerDependencies:
       - '@swc/core'
@@ -4123,7 +4124,7 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  registry.npmmirror.com/ts-node/10.4.0_43d2036524ce97aa8076ce68340fa9ec:
+  registry.npmmirror.com/ts-node/10.4.0_ipjagzjez2l2vadwzzudid5j5q:
     resolution: {integrity: sha512-g0FlPvvCXSIO1JDF6S232P5jPYqBkRL9qly81ZgAOSU7rwI0stphCgd2kLiCrU9DjQCrJMWEqcNSjQL02s6d8A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ts-node/-/ts-node-10.4.0.tgz}
     id: registry.npmmirror.com/ts-node/10.4.0
     name: ts-node
@@ -4297,7 +4298,7 @@ packages:
       - supports-color
     dev: true
 
-  registry.npmmirror.com/unplugin-auto-import/0.5.11_0dc1e5f8bd4483ad694f8972204ce588:
+  registry.npmmirror.com/unplugin-auto-import/0.5.11_bxa6l6f5isb222kprfzcathfra:
     resolution: {integrity: sha512-MJ3POLe/IysRHF4yd32FkKDoxqSRoiuIHm89ys67B8FLuz2Pvh9poeqTVe6IhJsNxwv0+GSdFfj5Dpq24lhm4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unplugin-auto-import/-/unplugin-auto-import-0.5.11.tgz}
     id: registry.npmmirror.com/unplugin-auto-import/0.5.11
     name: unplugin-auto-import
@@ -4323,7 +4324,7 @@ packages:
       - webpack
     dev: true
 
-  registry.npmmirror.com/unplugin-vue-components/0.17.15_1597b0d118ee341fc27d5f4880f74223:
+  registry.npmmirror.com/unplugin-vue-components/0.17.15_cwl3buiy5y2b7qt5l5eib52cem:
     resolution: {integrity: sha512-KpSlv7BaPRswwlCUy7gdpiqOAaHnMeMTmMOqJPmreYTGupt+6qXH3S3uLEmPmXUcuzRXlL+4eysuVunSAbsn0A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/unplugin-vue-components/-/unplugin-vue-components-0.17.15.tgz}
     id: registry.npmmirror.com/unplugin-vue-components/0.17.15
     name: unplugin-vue-components

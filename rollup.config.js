@@ -1,9 +1,13 @@
 import resolve from '@rollup/plugin-node-resolve'
 
 export default {
-  input: ['./src/idux.js'],
+  input: [
+    './src/bundler/idux-components.js',
+    './src/bundler/idux-cdk.js',
+    './src/bundler/idux-pro.js',
+  ],
   output: {
-    file: './public/idux.js',
+    dir: './public',
     format: 'esm',
   },
   external: ['vue'],

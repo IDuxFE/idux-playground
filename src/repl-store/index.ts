@@ -5,19 +5,25 @@ import iduxPkg from '@idux/components/package.json'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
 import type { ReplStoreParam, VersionRecord } from '@/types'
-import { defaultCode, defaultFile, iduxCode, setupIdux } from '@/const'
+import { defaultFile, playgroundApp, setupIdux } from '@/const'
 import { decodeData, encodeData } from '@/utils'
+
+import playgroundAppCode from '@/template/PlaygroundApp.vue?raw'
+import defaultCode from '@/template/App.vue?raw'
+import iduxCode from '@/template/setupIdux.js?raw'
 
 const getInitFiles = (serializedState = '') => {
   let files: StoreState['files'] = {
-    [defaultFile]: new File(defaultFile, defaultCode)
+    [playgroundApp]: new File(playgroundApp, playgroundAppCode, true),
+    [defaultFile]: new File(defaultFile, defaultCode),
   }
   if (serializedState) {
     try {
       files = {}
       const res = JSON.parse(decodeData(serializedState))
       for (const filename of Object.keys(res)) {
-        files[filename] = new File(filename, res[filename])
+        const isHidden = filename === playgroundApp
+        files[filename] = new File(filename, res[filename], isHidden)
       }
     } catch (err) {
       console.log(err)
@@ -43,11 +49,11 @@ export class ReplStore implements Store {
     defaultVueRuntimeURL = './vue.esm-browser.js',
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
-    const mainFile = files[defaultFile] ? defaultFile : Object.keys(files)[0]
+    const mainFile = files[playgroundApp] ? playgroundApp : Object.keys(files)[0]
     this.state = reactive({
       mainFile,
       files,
-      activeFile: files[mainFile],
+      activeFile: files[defaultFile],
       errors: [],
       vueRuntimeURL: defaultVueRuntimeURL,
     })
@@ -63,7 +69,9 @@ export class ReplStore implements Store {
         JSON.stringify({
           imports: {
             vue: this.defaultVueRuntimeURL,
-            idux: './idux.js',
+            '@idux/components': './idux-components.js',
+            '@idux/cdk': './idux-cdk.js',
+            '@idux/pro': './idux-pro.js',
           }
         }, null, 2)
       )
@@ -115,7 +123,7 @@ export class ReplStore implements Store {
   public deleteFile(filename: string) {
     if (window?.confirm(`Confirm to delete ${filename}?`)) {
       if (this.state.activeFile.filename === filename) {
-        this.state.activeFile = this.state.files[this.state.mainFile]
+        this.state.activeFile = this.state.files[defaultFile]
       }
       delete this.state.files[filename]
     }
@@ -149,7 +157,7 @@ export class ReplStore implements Store {
   serialize() {
     const arr = Object
       .entries(this.getFiles())
-      .filter(([file]) => file !== setupIdux)
+      .filter(([file]) => file !== setupIdux && file !== 'import-map.json')
       .map(([file, content]) => {
         if (file === 'import-map.json') {
           try {
