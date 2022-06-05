@@ -3,7 +3,7 @@ import * as defaultCompiler from 'vue/compiler-sfc'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
 import type { PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
-import { defaultFile, genImportsMap, playgroundApp, setupIdux } from '@/const'
+import { defaultFile, genImportsMap, genLocalImportsMap, playgroundApp, setupIdux } from '@/const'
 import { decodeData, encodeData, genLink } from '@/utils'
 import playgroundAppCode from '@/template/PlaygroundApp.vue?raw'
 import defaultCode from '@/template/App.vue?raw'
@@ -53,9 +53,16 @@ const genImports = (versions: VersionRecord) => {
     ...genImportsMap(versions),
   }
 
-  return Object.fromEntries(
-    Object.entries(deps).map(([key, info]) => [key, genLink(info.pkg, info.version, info.file)])
-  )
+  return {
+    ...Object.fromEntries(
+      Object.entries(deps).map(([key, info]) => [key, genLink(info.pkg, info.version, info.file)])
+    ),
+    ...Object.fromEntries(
+      Object.entries({
+        ...genLocalImportsMap(),
+      }).map(([key, info]) => [key, info.file])
+    ),
+  }
 }
 
 export class ReplStore implements Store {

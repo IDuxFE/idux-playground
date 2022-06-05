@@ -40,11 +40,6 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: Vue,
       file: '/dist/vue.esm-browser.js',
     },
-    'lodash-es': {
-      pkg: 'lodash-es',
-      version: 'latest',
-      file: '/lodash.js',
-    },
     'vue-types': {
       pkg: 'vue-types',
       version: 'latest',
@@ -65,11 +60,6 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: 'latest',
       file: '/dist/is-plain-object.mjs',
     },
-    '@popperjs/core': {
-      pkg: '@popperjs/core',
-      version: 'latest',
-      file: '/lib/index.js',
-    },
     'date-fns': {
       pkg: 'date-fns',
       version: 'latest',
@@ -80,5 +70,20 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: 'latest',
       file: '/esm/',
     }
+  }
+}
+
+export const genLocalImportsMap = () => {
+  return {
+    'lodash-es': {
+      pkg: 'lodash-es',
+      version: 'latest',
+      file: './lodash-es.js',
+    },
+    '@popperjs/core': {
+      pkg: '@popperjs/core',
+      version: 'latest',
+      file: './popper.js',
+    },
   }
 }

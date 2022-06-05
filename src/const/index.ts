@@ -1,5 +1,5 @@
 
-export { genImportsMap } from './imports'
+export * from './imports'
 
 export const setupIdux = 'setupIdux.js'
 
