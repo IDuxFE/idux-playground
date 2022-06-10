@@ -240,7 +240,7 @@ export class ReplStore implements Store {
   serialize() {
     const arr = Object
       .entries(this.getFiles())
-      .filter(([file]) => file !== setupIdux)
+      .filter(([file]) => file !== setupIdux && file !== 'import-map.json')
       .map(([file, content]) => {
         if (file === 'import-map.json') {
           try {

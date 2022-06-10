@@ -1,8 +1,26 @@
 import { VersionRecord } from '@/types'
 
+const iduxCdks = [
+  'click-outside',
+  'portal',
+  'scroll',
+  'a11y',
+  'breakpoint',
+  'forms',
+  'platform',
+  'popper',
+  'utils',
+  'resize',
+]
 
 export const genImportsMap = (versions: VersionRecord) => {
   const { Vue, iDux } = versions
+
+  const iduxCdksMap = Object.fromEntries(iduxCdks.map(item => [`@idux/cdk/${item}`, {
+    pkg: '@idux/cdk',
+    version: iDux,
+    file: '/index.full.min.mjs',
+  }]))
 
   return {
     '@idux/cdk': {
@@ -10,6 +28,7 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: iDux,
       file: '/index.full.min.mjs',
     },
+    ...iduxCdksMap,
     '@idux/cdk/': {
       pkg: '@idux/cdk',
       version: iDux,
@@ -36,9 +55,9 @@ export const genImportsMap = (versions: VersionRecord) => {
       file: '/',
     },
     vue: {
-      pkg: 'vue',
+      pkg: '@vue/runtime-dom',
       version: Vue,
-      file: '/dist/vue.esm-browser.js',
+      file: '/dist/runtime-dom.esm-browser.js',
     },
     'vue-types': {
       pkg: 'vue-types',

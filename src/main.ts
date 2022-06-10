@@ -13,4 +13,8 @@ addIconDefinitions(IDUX_ICON_DEPENDENCIES)
 
 import App from './App.vue'
 
+// window.VUE_DEVTOOLS_CONFIG = {
+//   defaultSelectedAppId: 'repl',
+// }
+
 createApp(App).mount('#app')
