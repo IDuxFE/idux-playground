@@ -13,8 +13,17 @@ const loadIconDynamically = (iconName) => {
     .then((res) => res.text())
 }
 
+const targetConfig = {
+  target: document.body,
+}
+
 const globalConfig = createGlobalConfig({
   icon: { loadIconDynamically },
+  modal: targetConfig,
+  drawer: targetConfig,
+  message: targetConfig,
+  notification: targetConfig,
+  imageViewer: targetConfig,
 })
 
 const install = (app) => {
