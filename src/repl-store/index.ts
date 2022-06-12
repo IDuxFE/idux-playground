@@ -2,7 +2,7 @@ import { reactive, watchEffect } from 'vue'
 import * as defaultCompiler from 'vue/compiler-sfc'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
-import type { PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
+import type { ImportMap, PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
 import { defaultFile, genImportsMap, genLocalImportsMap, playgroundApp, setupIdux } from '@/const'
 import { decodeData, encodeData, genLink } from '@/utils'
 import playgroundAppCode from '@/template/PlaygroundApp.vue?raw'
@@ -17,7 +17,7 @@ const getInitFiles = (serializedState = '') => {
   if (serializedState) {
     try {
       files = {}
-      const res = JSON.parse(decodeData(serializedState))
+      const res: Record<string, string> = JSON.parse(decodeData(serializedState))
       for (const filename of Object.keys(res)) {
         const isHidden = filename === playgroundApp
         files[filename] = new File(filename, res[filename], isHidden)
@@ -101,7 +101,7 @@ export class ReplStore implements Store {
     }
   }
 
-  public getImportMap() {
+  public getImportMap(): Partial<ImportMap> {
     try {
       return JSON.parse(this.state.files['import-map.json'].code)
     } catch (e) {
@@ -112,7 +112,7 @@ export class ReplStore implements Store {
     }
   }
 
-  private setImportMap(map: { imports: Record<string, string> }) {
+  private setImportMap(map: Required<ImportMap>) {
     try {
       this.state.files['import-map.json'].code = JSON.stringify(map, null, 2)
     } catch (e) {
@@ -128,7 +128,7 @@ export class ReplStore implements Store {
       ...importMap.imports,
       ...genImports(this.versions),
     }
-    this.setImportMap(importMap)
+    this.setImportMap(importMap as Required<ImportMap>)
   }
 
   public async setVersion(key: VersionKey, version: string) {
