@@ -3,9 +3,9 @@ lockfileVersion: 5.4
 specifiers:
   '@commitlint/cli': ^16.1.0
   '@commitlint/config-conventional': ^16.0.0
-  '@idux/cdk': 1.0.0-beta.12
-  '@idux/components': 1.0.0-beta.12
-  '@idux/pro': 1.0.0-beta.12
+  '@idux/cdk': 1.0.0-beta.17
+  '@idux/components': 1.0.0-beta.17
+  '@idux/pro': 1.0.0-beta.17
   '@ls-lint/ls-lint': ^1.10.0
   '@rollup/plugin-node-resolve': ^13.1.3
   '@types/file-saver': ^2.0.5
@@ -35,9 +35,9 @@ specifiers:
   vue: ^3.2.31
 
 dependencies:
-  '@idux/cdk': 1.0.0-beta.12_vue@3.2.31
-  '@idux/components': 1.0.0-beta.12_vue@3.2.31
-  '@idux/pro': 1.0.0-beta.12_vue@3.2.31
+  '@idux/cdk': 1.0.0-beta.17_vue@3.2.31
+  '@idux/components': 1.0.0-beta.17_vue@3.2.31
+  '@idux/pro': 1.0.0-beta.17_vue@3.2.31
   '@vue/repl': 1.2.4_vue@3.2.31
   '@vueuse/core': registry.npmmirror.com/@vueuse/core/7.5.5_vue@3.2.31
   file-saver: registry.npmmirror.com/file-saver/2.0.5
@@ -78,8 +78,8 @@ packages:
     hasBin: true
     dev: false
 
-  /@idux/cdk/1.0.0-beta.12_vue@3.2.31:
-    resolution: {integrity: sha512-o/h5dM/Szhju0IdN55P4B0zlVVvXUquTCUWThnoOYQdQDS7OLJvhgcAIPKEBlowYU3/HmvhPDH3D2KoAOU4BgQ==}
+  /@idux/cdk/1.0.0-beta.17_vue@3.2.31:
+    resolution: {integrity: sha512-8SwGw4oIfc0TttKoDE4RY2Wvcb5GStyuhUxhnwYInHuhI/vcvF5wGCtNVzzPhb7bMuUqgflezXfpP1G0LQQqQg==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -89,26 +89,26 @@ packages:
       vue-types: 3.0.2_vue@3.2.31
     dev: false
 
-  /@idux/components/1.0.0-beta.12_vue@3.2.31:
-    resolution: {integrity: sha512-KZzyH2S25LKngRqsY3JWKVwBM93D+7dOsvqe+fEJTqWqn5EIW7wR5QbkcAPFFMDJhu52Rzgl58YcXgiuGBNeVQ==}
+  /@idux/components/1.0.0-beta.17_vue@3.2.31:
+    resolution: {integrity: sha512-Ebjk8c74JIt/yS9fRQsLlyM6Z/Y+Q4rzqzxz11a21fAEvkqumhd7Ayu37BwyqkjuvHZj7WWuovGlq9UN2o3mlg==}
     hasBin: true
     peerDependencies:
       vue: ^3.2.0
     dependencies:
-      '@idux/cdk': 1.0.0-beta.12_vue@3.2.31
+      '@idux/cdk': 1.0.0-beta.17_vue@3.2.31
       date-fns: 2.28.0
       lodash-es: 4.17.21
       vue: 3.2.31
       vue-types: 3.0.2_vue@3.2.31
     dev: false
 
-  /@idux/pro/1.0.0-beta.12_vue@3.2.31:
-    resolution: {integrity: sha512-ZrCjxcmxYHpEv/xizbmBxSjlhO5bd8LvjLZS7/bHGo3r98x47cTijIJQ9SzGVsc/iV9LFGont93TowDjTOToTw==}
+  /@idux/pro/1.0.0-beta.17_vue@3.2.31:
+    resolution: {integrity: sha512-p3k4n/ModiLQrCPx3Iqm3nzB1j9ofNUNRo/ynQlyzzZ8OyLvo8b+m3CiIO666u65BHyYMM2xu9pInZVgXGE+cQ==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
-      '@idux/cdk': 1.0.0-beta.12_vue@3.2.31
-      '@idux/components': 1.0.0-beta.12_vue@3.2.31
+      '@idux/cdk': 1.0.0-beta.17_vue@3.2.31
+      '@idux/components': 1.0.0-beta.17_vue@3.2.31
       lodash-es: 4.17.21
       vue: 3.2.31
     dev: false
