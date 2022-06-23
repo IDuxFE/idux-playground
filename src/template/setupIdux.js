@@ -4,12 +4,25 @@ import * as IduxCdk from '@idux/cdk'
 import {
   IDUX_ICON_DEPENDENCIES,
   addIconDefinitions,
+  createGlobalConfig,
 } from '@idux/components';
 
 addIconDefinitions(IDUX_ICON_DEPENDENCIES);
 
+const targetConfig = {
+  target: document.body,
+}
+
+const globalConfig = createGlobalConfig({
+  modal: targetConfig,
+  drawer: targetConfig,
+  message: targetConfig,
+  notification: targetConfig,
+  imageViewer: targetConfig,
+})
+
 const install = (app) => {
-  app.use(IduxCdk).use(IduxComponents)
+  app.use(IduxCdk).use(IduxComponents).use(globalConfig)
 }
 
 const loadCss = () => {

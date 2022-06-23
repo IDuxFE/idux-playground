@@ -42,9 +42,9 @@
     "vite-plugin-inspect": "^0.3.13"
   },
   "dependencies": {
-    "@idux/cdk": "1.0.0-beta.12",
-    "@idux/components": "1.0.0-beta.12",
-    "@idux/pro": "1.0.0-beta.12",
+    "@idux/cdk": "1.0.0-beta.17",
+    "@idux/components": "1.0.0-beta.17",
+    "@idux/pro": "1.0.0-beta.17",
     "@vue/repl": "1.2.4",
     "@vueuse/core": "^7.5.4",
     "file-saver": "^2.0.5",
