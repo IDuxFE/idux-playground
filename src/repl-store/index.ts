@@ -151,10 +151,15 @@ export class ReplStore implements Store {
       version,
       '/default.min.css',
     )
+    const cdkStyleHref = genLink(
+      '@idux/cdk',
+      version,
+      '/index.min.css',
+    )
 
     this.state.files[setupIdux] = new File(
       setupIdux,
-      iduxCode.replace('#STYLE_HREF#', styleHref),
+      iduxCode.replace('#STYLE_HREF#', styleHref).replace('#CDK_STYLE_HREF#', cdkStyleHref),
       true,
     )
 

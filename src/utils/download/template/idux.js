@@ -1,10 +1,18 @@
 
+// 导入 cdk 样式，注意是 `index`, 因为 cdk 不会区分主题
+import '@idux/cdk/index.css'
+
+// 如果不需要 reset 全局样式和滚动条样式，移除下面 2 行代码
+import '@idux/components/style/core/reset.default.css'
+import '@idux/components/style/core/reset-scroll.default.css'
+
+// 如果需要 css 按需加载，移除下面 2 行代码
+import '@idux/components/default.css'
+import '@idux/pro/default.css'
+
 import IduxCdk from '@idux/cdk'
 import IduxComponents from '@idux/components'
 import IduxPro from '@idux/pro'
-
-import '@idux/components/default.min.css'
-import '@idux/pro/default.min.css'
 
 // 默认为中文，可以打开注释设置为其他语言
 // import { useLocale, enUS } from "@idux/components/i18n";
