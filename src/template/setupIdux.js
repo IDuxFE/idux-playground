@@ -31,6 +31,11 @@ const install = (app) => {
 }
 
 const loadCss = () => {
+  const cdkLink = document.createElement('link')
+  cdkLink.rel = 'stylesheet'
+  cdkLink.href = '#CDK_STYLE_HREF#'
+  document.body.appendChild(cdkLink)
+
   const link = document.createElement('link')
   link.rel = 'stylesheet'
   link.href = '#STYLE_HREF#'
