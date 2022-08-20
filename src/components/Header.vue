@@ -4,7 +4,10 @@
       iDux Playground
     </h1>
   
-    <IxForm layout="inline"> 
+    <IxForm
+      layout="inline"
+      :message-tooltip="true"
+    > 
       <template
         v-for="item of selectors"
         :key="item.name"
@@ -27,14 +30,21 @@
           </IxFormItem>
         </IxSpin>
       </template>
-      <IxSpace>
-        <IxButton @click="downloadProject(store)">
+      <IxSpace size="sm">
+        <IxButton
+          size="sm"
+          @click="downloadProject(store)"
+        >
           Download
         </IxButton>
-        <IxButton @click="onShareClick">
+        <IxButton
+          size="sm"
+          @click="onShareClick"
+        >
           Share
         </IxButton>
         <IxButton
+          size="sm"
           mode="link"
           href="https://github.com/IDuxFE/idux-playground"
           target="_blank"

@@ -1,4 +1,5 @@
 import { VersionRecord } from '@/types'
+import * as compInfo from '@idux/components'
 
 const iduxCdks = [
   'click-outside',
@@ -22,38 +23,16 @@ export const genImportsMap = (versions: VersionRecord) => {
     file: '/index.full.min.mjs',
   }]))
 
+  const compNames = Object.keys(compInfo)
+    .map(name => name.toLowerCase())
+    .filter(name => name.startsWith('ix'))
+  const iduxCompMap = Object.fromEntries(compNames.map(name => [`@idux/components/${name.slice(2)}`, {
+    pkg: '@idux/components',
+    version: iDux,
+    file: '/index.full.min.mjs',
+  }]))
+
   return {
-    '@idux/cdk': {
-      pkg: '@idux/cdk',
-      version: iDux,
-      file: '/index.full.min.mjs',
-    },
-    ...iduxCdksMap,
-    '@idux/cdk/': {
-      pkg: '@idux/cdk',
-      version: iDux,
-      file: '/',
-    },
-    '@idux/components': {
-      pkg: '@idux/components',
-      version: iDux,
-      file: '/index.full.min.mjs',
-    },
-    '@idux/components/': {
-      pkg: '@idux/components',
-      version: iDux,
-      file: '/',
-    },
-    '@idux/pro': {
-      pkg: '@idux/pro',
-      version: iDux,
-      file: '/index.full.min.mjs',
-    },
-    '@idux/pro/': {
-      pkg: '@idux/pro',
-      version: iDux,
-      file: '/',
-    },
     vue: {
       pkg: '@vue/runtime-dom',
       version: Vue,
@@ -79,30 +58,73 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: 'latest',
       file: '/dist/is-plain-object.mjs',
     },
-    'date-fns': {
-      pkg: 'date-fns',
-      version: 'latest',
-      file: '/esm/index.js',
+    '@idux/cdk': {
+      pkg: '@idux/cdk',
+      version: iDux,
+      file: '/index.full.min.mjs',
     },
-    'date-fns/': {
-      pkg: 'date-fns',
-      version: 'latest',
-      file: '/esm/',
-    }
+    ...iduxCdksMap,
+    '@idux/cdk/': {
+      pkg: '@idux/cdk',
+      version: iDux,
+      file: '/',
+    },
+    '@idux/components': {
+      pkg: '@idux/components',
+      version: iDux,
+      file: '/index.full.min.mjs',
+    },
+    ...iduxCompMap,
+    '@idux/components/': {
+      pkg: '@idux/components',
+      version: iDux,
+      file: '/',
+    },
+    '@idux/pro': {
+      pkg: '@idux/pro',
+      version: iDux,
+      file: '/index.full.min.mjs',
+    },
+    '@idux/pro/': {
+      pkg: '@idux/pro',
+      version: iDux,
+      file: '/',
+    },
   }
 }
 
 export const genLocalImportsMap = () => {
+
   return {
     'lodash-es': {
       pkg: 'lodash-es',
       version: 'latest',
-      file: './lodash-es.js',
+      file: './deps/lodash-es.js',
     },
     '@popperjs/core': {
       pkg: '@popperjs/core',
       version: 'latest',
-      file: './popper.js',
+      file: './deps/popper.js',
+    },
+    'ajv': {
+      pkg: 'ajv',
+      version: 'latest',
+      file: './deps/ajv.js',
+    },
+    'ajv-formats': {
+      pkg: 'ajv-formats',
+      version: 'latest',
+      file: './deps/ajv-formats.js',
+    },
+    'date-fns': {
+      pkg: 'date-fns',
+      version: 'latest',
+      file: './deps/date-fns.js',
+    },
+    'date-fns/locale': {
+      pkg: 'date-fns',
+      version: 'latest',
+      file: './deps/date-fns.js',
     },
   }
 }

@@ -3,10 +3,12 @@ lockfileVersion: 5.4
 specifiers:
   '@commitlint/cli': ^16.1.0
   '@commitlint/config-conventional': ^16.0.0
-  '@idux/cdk': 1.0.0-beta.14
-  '@idux/components': 1.0.0-beta.14
+  '@idux/cdk': 1.0.0-rc.3
+  '@idux/components': 1.0.0-rc.3
   '@ls-lint/ls-lint': ^1.10.0
   '@popperjs/core': ^2.11.5
+  '@rollup/plugin-commonjs': ^22.0.2
+  '@rollup/plugin-json': ^4.1.0
   '@rollup/plugin-node-resolve': ^13.3.0
   '@types/file-saver': ^2.0.5
   '@types/node': ^17.0.10
@@ -16,7 +18,10 @@ specifiers:
   '@vue/eslint-config-typescript': ^10.0.0
   '@vue/repl': ^1.0.0
   '@vueuse/core': ^7.5.4
+  ajv: ^8.11.0
+  ajv-formats: ^2.1.1
   compare-versions: ^4.1.3
+  date-fns: ^2.29.2
   eslint: ^8.8.0
   eslint-plugin-import: ^2.25.4
   eslint-plugin-vue: ^8.4.0
@@ -36,8 +41,8 @@ specifiers:
   vue: ^3.2.31
 
 dependencies:
-  '@idux/cdk': 1.0.0-beta.14_vue@3.2.31
-  '@idux/components': 1.0.0-beta.14_vue@3.2.31
+  '@idux/cdk': 1.0.0-rc.3_vue@3.2.31
+  '@idux/components': 1.0.0-rc.3_vue@3.2.31
   '@vue/repl': 1.0.0_vue@3.2.31
   '@vueuse/core': 7.5.5_vue@3.2.31
   compare-versions: 4.1.3
@@ -50,6 +55,8 @@ devDependencies:
   '@commitlint/config-conventional': 16.0.0
   '@ls-lint/ls-lint': 1.10.0
   '@popperjs/core': 2.11.5
+  '@rollup/plugin-commonjs': 22.0.2_rollup@2.75.5
+  '@rollup/plugin-json': 4.1.0_rollup@2.75.5
   '@rollup/plugin-node-resolve': 13.3.0_rollup@2.75.5
   '@types/file-saver': 2.0.5
   '@types/node': 17.0.14
@@ -57,6 +64,9 @@ devDependencies:
   '@typescript-eslint/parser': 5.10.2_txwvkng2juu2h6yeaibqmql3uy
   '@vitejs/plugin-vue': 2.1.0_vite@2.7.13+vue@3.2.31
   '@vue/eslint-config-typescript': 10.0.0_4vasxpz7nniku4yvqdxut6xzqq
+  ajv: 8.11.0
+  ajv-formats: 2.1.1
+  date-fns: 2.29.2
   eslint: 8.8.0
   eslint-plugin-import: 2.25.4_eslint@8.8.0
   eslint-plugin-vue: 8.4.0_eslint@8.8.0
@@ -341,28 +351,26 @@ packages:
       - supports-color
     dev: true
 
-  /@idux/cdk/1.0.0-beta.14_vue@3.2.31:
-    resolution: {integrity: sha512-4ZGom1WANg8CEk4r/puZH7ocD7w7/IbMh9AtQY7S8gG3f1o+zIb4PbxQtpURbZcECSvixltlEP1OpKZTLBckiQ==}
+  /@idux/cdk/1.0.0-rc.3_vue@3.2.31:
+    resolution: {integrity: sha512-UtMeXieRyrABAMVCjguqo6yZX62UYrFWGJl6A2ySd6XqJpfVASGvgi2FEn2Oq7Vpkm0cdHs3mo1tNMS1yCxg8g==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
       '@popperjs/core': 2.11.5
       lodash-es: 4.17.21
       vue: 3.2.31
-      vue-types: 3.0.2_vue@3.2.31
     dev: false
 
-  /@idux/components/1.0.0-beta.14_vue@3.2.31:
-    resolution: {integrity: sha512-Ovvbu5pvkv2V8bs+wocdm3RFiyDVtTAOE1W4wZJ9FZdDA8w3sf+KU76PlM3XIjtejX2yoSG4TxmfDhcdUN0idw==}
+  /@idux/components/1.0.0-rc.3_vue@3.2.31:
+    resolution: {integrity: sha512-MNSJgb0YU38dFfn/yAE9RIupUzxGJUAdlq98HYwkGRUPLyPohkos0rGl1e566EZcMmOoHTeVz89/5+VT+TnH6Q==}
     hasBin: true
     peerDependencies:
       vue: ^3.2.0
     dependencies:
-      '@idux/cdk': 1.0.0-beta.14_vue@3.2.31
-      date-fns: 2.28.0
+      '@idux/cdk': 1.0.0-rc.3_vue@3.2.31
+      date-fns: 2.29.2
       lodash-es: 4.17.21
       vue: 3.2.31
-      vue-types: 3.0.2_vue@3.2.31
     dev: false
 
   /@ls-lint/ls-lint/1.10.0:
@@ -399,6 +407,31 @@ packages:
 
   /@popperjs/core/2.11.5:
     resolution: {integrity: sha512-9X2obfABZuDVLCgPK9aX0a/x4jaOEweTTWE2+9sr0Qqqevj2Uv5XorvusThmc9XGYpS9yI+fhh8RTafBtGposw==}
+
+  /@rollup/plugin-commonjs/22.0.2_rollup@2.75.5:
+    resolution: {integrity: sha512-//NdP6iIwPbMTcazYsiBMbJW7gfmpHom33u1beiIoHDEM0Q9clvtQB1T0efvMqHeKsGohiHo97BCPCkBXdscwg==}
+    engines: {node: '>= 12.0.0'}
+    peerDependencies:
+      rollup: ^2.68.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.75.5
+      commondir: 1.0.1
+      estree-walker: 2.0.2
+      glob: 7.2.0
+      is-reference: 1.2.1
+      magic-string: 0.25.7
+      resolve: 1.22.0
+      rollup: 2.75.5
+    dev: true
+
+  /@rollup/plugin-json/4.1.0_rollup@2.75.5:
+    resolution: {integrity: sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.75.5
+      rollup: 2.75.5
+    dev: true
 
   /@rollup/plugin-node-resolve/13.3.0_rollup@2.75.5:
     resolution: {integrity: sha512-Lus8rbUo1eEcnS4yTFKLZrVumLPY+YayBdWXgFSHYhTT2iJbMhoaaBL3xl5NCdeRytErGr8tZ0L71BMRmnlwSw==}
@@ -903,12 +936,30 @@ packages:
       indent-string: 4.0.0
     dev: true
 
+  /ajv-formats/2.1.1:
+    resolution: {integrity: sha512-Wx0Kx52hxE7C18hkMEggYlEifqWZtYaRgouJor+WMdPnQyEK13vgEWyVNup7SoeeoLMsr4kf5h6dOW11I15MUA==}
+    peerDependenciesMeta:
+      ajv:
+        optional: true
+    dependencies:
+      ajv: 8.11.0
+    dev: true
+
   /ajv/6.12.6:
-    resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/ajv/-/ajv-6.12.6.tgz}
+    resolution: {integrity: sha512-j3fVLgvTo527anyYyJOGTYJbG+vnnQYvE0m5mmkc1TK+nxAppkCLMIL0aZ4dblVCNoGShhm+kzE4ZUykBoMg4g==}
     dependencies:
       fast-deep-equal: 3.1.3
       fast-json-stable-stringify: 2.1.0
       json-schema-traverse: 0.4.1
+      uri-js: 4.4.1
+    dev: true
+
+  /ajv/8.11.0:
+    resolution: {integrity: sha512-wGgprdCvMalC0BztXvitD2hC04YffAvtsUn93JbGXYLAtCUO4xd17mCCZQxUOItiBwZvJScWo8NIvQMQ71rdpg==}
+    dependencies:
+      fast-deep-equal: 3.1.3
+      json-schema-traverse: 1.0.0
+      require-from-string: 2.0.2
       uri-js: 4.4.1
     dev: true
 
@@ -1168,6 +1219,10 @@ packages:
     engines: {node: '>= 12'}
     dev: true
 
+  /commondir/1.0.1:
+    resolution: {integrity: sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==}
+    dev: true
+
   /compare-func/2.0.0:
     resolution: {integrity: sha512-zHig5N+tPWARooBnb0Zx1MFcdfpyJrfTJ3Y5L+IFvUm8rM74hHz66z0gw0x4tijh5CorKkKUCnW82R2vmpeCRA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/compare-func/-/compare-func-2.0.0.tgz}
     dependencies:
@@ -1270,10 +1325,9 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /date-fns/2.28.0:
-    resolution: {integrity: sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==}
+  /date-fns/2.29.2:
+    resolution: {integrity: sha512-0VNbwmWJDS/G3ySwFSJA3ayhbURMTJLtwM2DTxf9CWondCnh6DTNlO9JgRSq6ibf4eD0lfMJNBxUdEAHHix+bA==}
     engines: {node: '>=0.11'}
-    dev: false
 
   /debug/2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/debug/-/debug-2.6.9.tgz}
@@ -1803,7 +1857,7 @@ packages:
     dev: true
 
   /fast-deep-equal/3.1.3:
-    resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz}
+    resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
     dev: true
 
   /fast-glob/3.2.11:
@@ -1904,7 +1958,7 @@ packages:
     dev: true
 
   /fs.realpath/1.0.0:
-    resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/fs.realpath/-/fs.realpath-1.0.0.tgz}
+    resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
     dev: true
 
   /fsevents/2.3.2:
@@ -1976,7 +2030,7 @@ packages:
     dev: true
 
   /glob/7.2.0:
-    resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/glob/-/glob-7.2.0.tgz}
+    resolution: {integrity: sha512-lmLf6gtyrPq8tTjSmrO94wBeQbFR3HbLHbuyD69wuyQkImp2hWqMGB47OX65FBkPffO641IP9jWa1z4ivqG26Q==}
     dependencies:
       fs.realpath: 1.0.0
       inflight: 1.0.6
@@ -2116,7 +2170,7 @@ packages:
     dev: true
 
   /inflight/1.0.6:
-    resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/inflight/-/inflight-1.0.6.tgz}
+    resolution: {integrity: sha512-k92I/b08q4wvFscXCLvqfsHCrjrF7yiXsQuIVvVE7N82W3+aqpzuUdBbfhWcy/FZR3/4IgflMgKLOsvPDrGCJA==}
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
@@ -2241,10 +2295,11 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /is-plain-object/3.0.1:
-    resolution: {integrity: sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==}
-    engines: {node: '>=0.10.0'}
-    dev: false
+  /is-reference/1.2.1:
+    resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
+    dependencies:
+      '@types/estree': 0.0.39
+    dev: true
 
   /is-regex/1.1.4:
     resolution: {integrity: sha512-kvRdxDsxZjhzUX07ZnLydzS1TU/TJlTUHHY4YLL87e37oUA49DfkLqgy+VjFocowy29cKvcSiu+kIv728jTTVg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/is-regex/-/is-regex-1.1.4.tgz}
@@ -2319,7 +2374,11 @@ packages:
     dev: true
 
   /json-schema-traverse/0.4.1:
-    resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/json-schema-traverse/-/json-schema-traverse-0.4.1.tgz}
+    resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
+    dev: true
+
+  /json-schema-traverse/1.0.0:
+    resolution: {integrity: sha512-NM8/P9n3XjXhIZn1lLhkFaACTOURQXjWhV4BA/RnOv8xvgqtqpAX9IO4mRQxSx1Rlo4tqzeqb0sOlruaOy3dug==}
     dev: true
 
   /json-stable-stringify-without-jsonify/1.0.1:
@@ -2647,7 +2706,7 @@ packages:
     dev: true
 
   /once/1.4.0:
-    resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/once/-/once-1.4.0.tgz}
+    resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
     dev: true
@@ -2762,7 +2821,7 @@ packages:
     dev: true
 
   /path-is-absolute/1.0.1:
-    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/path-is-absolute/-/path-is-absolute-1.0.1.tgz}
+    resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
     dev: true
 
@@ -2810,7 +2869,7 @@ packages:
     dev: false
 
   /punycode/2.1.1:
-    resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/punycode/-/punycode-2.1.1.tgz}
+    resolution: {integrity: sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==}
     engines: {node: '>=6'}
     dev: true
 
@@ -2890,6 +2949,11 @@ packages:
 
   /require-directory/2.1.1:
     resolution: {integrity: sha512-fGxEI7+wsG9xrvdjsrlmL22OMTTiHRwAMroiEeMgq8gzoLC/PQr7RsRDSTLUg/bZAZtF+TVIkHc6/4RIKrui+Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/require-directory/-/require-directory-2.1.1.tgz}
+    engines: {node: '>=0.10.0'}
+    dev: true
+
+  /require-from-string/2.0.2:
+    resolution: {integrity: sha512-Xf0nWe6RseziFMu+Ap9biiUbmplq6S9/p+7w7YXP/JBHhrUDDUhwa+vANyubuqfZWTveU//DYVGsDG7RKL/vEw==}
     engines: {node: '>=0.10.0'}
     dev: true
 
@@ -3477,7 +3541,7 @@ packages:
     dev: true
 
   /uri-js/4.4.1:
-    resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/uri-js/-/uri-js-4.4.1.tgz}
+    resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
     dependencies:
       punycode: 2.1.1
     dev: true
@@ -3569,16 +3633,6 @@ packages:
       - supports-color
     dev: true
 
-  /vue-types/3.0.2_vue@3.2.31:
-    resolution: {integrity: sha512-IwUC0Aq2zwaXqy74h4WCvFCUtoV0iSWr0snWnE9TnU18S66GAQyqQbRf2qfJtUuiFsBf6qp0MEwdonlwznlcrw==}
-    engines: {node: '>=10.15.0'}
-    peerDependencies:
-      vue: ^3.0.0
-    dependencies:
-      is-plain-object: 3.0.1
-      vue: 3.2.31
-    dev: false
-
   /vue/3.2.31:
     resolution: {integrity: sha512-odT3W2tcffTiQCy57nOT93INw1auq5lYLLYtWpPYQQYQOOdHiqFct9Xhna6GJ+pJQaF67yZABraH47oywkJgFw==}
     dependencies:
@@ -3635,7 +3689,7 @@ packages:
     dev: true
 
   /wrappy/1.0.2:
-    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npm.taobao.org/wrappy/-/wrappy-1.0.2.tgz}
+    resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
     dev: true
 
   /y18n/5.0.8:

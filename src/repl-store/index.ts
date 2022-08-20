@@ -54,12 +54,12 @@ const genImports = (versions: VersionRecord) => {
 
   return {
     ...Object.fromEntries(
-      Object.entries(deps).map(([key, info]) => [key, genLink(info.pkg, info.version, info.file)])
-    ),
-    ...Object.fromEntries(
       Object.entries({
         ...genLocalImportsMap(),
       }).map(([key, info]) => [key, info.file])
+    ),
+    ...Object.fromEntries(
+      Object.entries(deps).map(([key, info]) => [key, genLink(info.pkg, info.version, info.file)])
     ),
   }
 }

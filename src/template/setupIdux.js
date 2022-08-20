@@ -5,6 +5,7 @@ import IduxComponents, {
   addIconDefinitions,
   createGlobalConfig,
 } from '@idux/components'
+import IduxPro from '@idux/pro'
 
 addIconDefinitions(IDUX_ICON_DEPENDENCIES)
 
@@ -13,21 +14,21 @@ const loadIconDynamically = (iconName) => {
     .then((res) => res.text())
 }
 
-const targetConfig = {
-  target: document.body,
-}
+// const targetConfig = {
+//   target: document.body,
+// }
 
 const globalConfig = createGlobalConfig({
   icon: { loadIconDynamically },
-  modal: targetConfig,
-  drawer: targetConfig,
-  message: targetConfig,
-  notification: targetConfig,
-  imageViewer: targetConfig,
+  // modal: targetConfig,
+  // drawer: targetConfig,
+  // message: targetConfig,
+  // notification: targetConfig,
+  // imageViewer: targetConfig,
 })
 
 const install = (app) => {
-  app.use(IduxCdk).use(IduxComponents).use(globalConfig)
+  app.use(IduxCdk).use(IduxComponents).use(IduxPro).use(globalConfig)
 }
 
 const loadResetCss = () => {
