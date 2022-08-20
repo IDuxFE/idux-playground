@@ -10,13 +10,12 @@ import defaultCode from '@/template/App.vue?raw'
 import iduxCode from '@/template/setupIdux.js?raw'
 
 const getInitFiles = (serializedState = '') => {
-  let files: StoreState['files'] = {
+  const files: StoreState['files'] = {
     [playgroundApp]: new File(playgroundApp, playgroundAppCode, true),
     [defaultFile]: new File(defaultFile, defaultCode),
   }
   if (serializedState) {
     try {
-      files = {}
       const res: Record<string, string> = JSON.parse(decodeData(serializedState))
       for (const filename of Object.keys(res)) {
         const isHidden = filename === playgroundApp
