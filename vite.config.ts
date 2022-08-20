@@ -7,6 +7,7 @@ import Components from 'unplugin-vue-components/vite'
 import { IduxResolver } from 'unplugin-vue-components/resolvers'
 import AutoImport from 'unplugin-auto-import/vite'
 import Inspect from 'vite-plugin-inspect'
+import { copyFilePlugin } from './bundler/plugins/copyFile'
 
 const pathSrc = path.resolve(__dirname, 'src')
 
@@ -23,6 +24,7 @@ export default defineConfig(async () => {
       port: 2022,
     },
     plugins: [
+      copyFilePlugin(),
       vue({
         reactivityTransform: `${pathSrc}/**/*`,
       }),

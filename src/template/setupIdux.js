@@ -30,6 +30,18 @@ const install = (app) => {
   app.use(IduxCdk).use(IduxComponents).use(globalConfig)
 }
 
+const loadResetCss = () => {
+  const resetLink = document.createElement('link')
+  resetLink.rel = 'stylesheet'
+  resetLink.href = './reset.default.css'
+  document.body.appendChild(resetLink)
+
+  const resetScrollLink = document.createElement('link')
+  resetScrollLink.rel = 'stylesheet'
+  resetScrollLink.href = './reset-scroll.default.css'
+  document.body.appendChild(resetScrollLink)
+}
+
 const loadCss = () => {
   const cdkLink = document.createElement('link')
   cdkLink.rel = 'stylesheet'
@@ -45,5 +57,6 @@ const loadCss = () => {
 export const setupIdux = () => {
   const instance = getCurrentInstance()
   instance?.appContext.app.use({ install })
+  loadResetCss()
   loadCss()
 }
