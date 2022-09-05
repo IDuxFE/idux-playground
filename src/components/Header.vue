@@ -5,6 +5,7 @@
     </h1>
   
     <IxForm
+      class="playground-header-form"
       layout="inline"
       :message-tooltip="true"
     > 
@@ -98,3 +99,11 @@ const onVerChange = async (name: string, ver: unknown) => {
   selectors[name as VersionKey].isLoading = false
 }
 </script>
+
+<style>
+  @media (max-width: 720px) {
+    .playground-header-form {
+      display: none;
+    }
+  }
+</style>

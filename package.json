@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "vite --host",
+    "dev": "vite --host --open",
     "build:dep": "rollup -c",
     "build": "pnpm build:dep && vite build",
     "type-coverage": "type-coverage --strict --at-least=97",
