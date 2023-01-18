@@ -2355,7 +2355,7 @@ const keyword_1 = keyword;
 const subschema_1 = subschema;
 const codegen_1$n = codegen;
 const names_1$3 = names$1;
-const resolve_1$2 = resolve$1;
+const resolve_1$1 = resolve$1;
 const util_1$l = util;
 const errors_1 = errors;
 // schema compilation - generates validation function, subschemaCode (below) is used for subschemas
@@ -2487,7 +2487,7 @@ function checkNoDefault(it) {
 function updateContext(it) {
     const schId = it.schema[it.opts.schemaId];
     if (schId)
-        it.baseId = (0, resolve_1$2.resolveUrl)(it.opts.uriResolver, it.baseId, schId);
+        it.baseId = (0, resolve_1$1.resolveUrl)(it.opts.uriResolver, it.baseId, schId);
 }
 function checkAsyncSchema(it) {
     if (it.schema.$async && !it.schemaEnv.$async)
@@ -2589,7 +2589,7 @@ function checkContextTypes(it, types) {
             strictTypesError(it, `type "${t}" not allowed by context "${it.dataTypes.join(",")}"`);
         }
     });
-    it.dataTypes = it.dataTypes.filter((t) => includesType(types, t));
+    narrowSchemaTypes(it, types);
 }
 function checkMultipleTypes(it, ts) {
     if (ts.length > 1 && !(ts.length === 2 && ts.includes("null"))) {
@@ -2613,6 +2613,16 @@ function hasApplicableType(schTs, kwdT) {
 }
 function includesType(ts, t) {
     return ts.includes(t) || (t === "integer" && ts.includes("number"));
+}
+function narrowSchemaTypes(it, withTypes) {
+    const ts = [];
+    for (const t of it.dataTypes) {
+        if (includesType(withTypes, t))
+            ts.push(t);
+        else if (withTypes.includes("integer") && t === "number")
+            ts.push("integer");
+    }
+    it.dataTypes = ts;
 }
 function strictTypesError(it, msg) {
     const schemaPath = it.schemaEnv.baseId + it.errSchemaPath;
@@ -2854,35 +2864,51 @@ validate.getData = getData;
 
 var validation_error = {};
 
-Object.defineProperty(validation_error, "__esModule", { value: true });
-class ValidationError extends Error {
-    constructor(errors) {
-        super("validation failed");
-        this.errors = errors;
-        this.ajv = this.validation = true;
-    }
+var hasRequiredValidation_error;
+
+function requireValidation_error () {
+	if (hasRequiredValidation_error) return validation_error;
+	hasRequiredValidation_error = 1;
+	Object.defineProperty(validation_error, "__esModule", { value: true });
+	class ValidationError extends Error {
+	    constructor(errors) {
+	        super("validation failed");
+	        this.errors = errors;
+	        this.ajv = this.validation = true;
+	    }
+	}
+	validation_error.default = ValidationError;
+	
+	return validation_error;
 }
-validation_error.default = ValidationError;
 
 var ref_error = {};
 
-Object.defineProperty(ref_error, "__esModule", { value: true });
-const resolve_1$1 = resolve$1;
-class MissingRefError extends Error {
-    constructor(resolver, baseId, ref, msg) {
-        super(msg || `can't resolve reference ${ref} from id ${baseId}`);
-        this.missingRef = (0, resolve_1$1.resolveUrl)(resolver, baseId, ref);
-        this.missingSchema = (0, resolve_1$1.normalizeId)((0, resolve_1$1.getFullPath)(resolver, this.missingRef));
-    }
+var hasRequiredRef_error;
+
+function requireRef_error () {
+	if (hasRequiredRef_error) return ref_error;
+	hasRequiredRef_error = 1;
+	Object.defineProperty(ref_error, "__esModule", { value: true });
+	const resolve_1 = resolve$1;
+	class MissingRefError extends Error {
+	    constructor(resolver, baseId, ref, msg) {
+	        super(msg || `can't resolve reference ${ref} from id ${baseId}`);
+	        this.missingRef = (0, resolve_1.resolveUrl)(resolver, baseId, ref);
+	        this.missingSchema = (0, resolve_1.normalizeId)((0, resolve_1.getFullPath)(resolver, this.missingRef));
+	    }
+	}
+	ref_error.default = MissingRefError;
+	
+	return ref_error;
 }
-ref_error.default = MissingRefError;
 
 var compile = {};
 
 Object.defineProperty(compile, "__esModule", { value: true });
 compile.resolveSchema = compile.getCompilingSchema = compile.resolveRef = compile.compileSchema = compile.SchemaEnv = void 0;
 const codegen_1$m = codegen;
-const validation_error_1 = validation_error;
+const validation_error_1 = requireValidation_error();
 const names_1$2 = names$1;
 const resolve_1 = resolve$1;
 const util_1$k = util;
@@ -4576,8 +4602,8 @@ uri$1.default = uri;
 	Object.defineProperty(exports, "nil", { enumerable: true, get: function () { return codegen_1.nil; } });
 	Object.defineProperty(exports, "Name", { enumerable: true, get: function () { return codegen_1.Name; } });
 	Object.defineProperty(exports, "CodeGen", { enumerable: true, get: function () { return codegen_1.CodeGen; } });
-	const validation_error_1 = validation_error;
-	const ref_error_1 = ref_error;
+	const validation_error_1 = requireValidation_error();
+	const ref_error_1 = requireRef_error();
 	const rules_1 = rules;
 	const compile_1 = compile;
 	const codegen_2 = codegen;
@@ -5202,7 +5228,7 @@ var ref = {};
 
 Object.defineProperty(ref, "__esModule", { value: true });
 ref.callRef = ref.getValidate = void 0;
-const ref_error_1 = ref_error;
+const ref_error_1 = requireRef_error();
 const code_1$8 = code;
 const codegen_1$l = codegen;
 const names_1$1 = names$1;
@@ -7143,7 +7169,7 @@ var require$$3 = {
 
 (function (module, exports) {
 	Object.defineProperty(exports, "__esModule", { value: true });
-	exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
+	exports.MissingRefError = exports.ValidationError = exports.CodeGen = exports.Name = exports.nil = exports.stringify = exports.str = exports._ = exports.KeywordCxt = void 0;
 	const core_1 = core$2;
 	const draft7_1 = draft7;
 	const discriminator_1 = discriminator;
@@ -7184,6 +7210,10 @@ var require$$3 = {
 	Object.defineProperty(exports, "nil", { enumerable: true, get: function () { return codegen_1.nil; } });
 	Object.defineProperty(exports, "Name", { enumerable: true, get: function () { return codegen_1.Name; } });
 	Object.defineProperty(exports, "CodeGen", { enumerable: true, get: function () { return codegen_1.CodeGen; } });
+	var validation_error_1 = requireValidation_error();
+	Object.defineProperty(exports, "ValidationError", { enumerable: true, get: function () { return validation_error_1.default; } });
+	var ref_error_1 = requireRef_error();
+	Object.defineProperty(exports, "MissingRefError", { enumerable: true, get: function () { return ref_error_1.default; } });
 	
 } (ajv$1, ajv$1.exports));
 

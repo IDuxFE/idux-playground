@@ -18,6 +18,7 @@ function requiredArgs(required, args) {
   }
 }
 
+function _typeof$E(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$E = function _typeof(obj) { return typeof obj; }; } else { _typeof$E = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$E(obj); }
 /**
  * @name toDate
  * @category Common Helpers
@@ -53,7 +54,7 @@ function toDate(argument) {
   requiredArgs(1, arguments);
   var argStr = Object.prototype.toString.call(argument); // Clone the date
 
-  if (argument instanceof Date || typeof argument === 'object' && argStr === '[object Date]') {
+  if (argument instanceof Date || _typeof$E(argument) === 'object' && argStr === '[object Date]') {
     // Prevent the date to lose the milliseconds when passed to new Date() in IE10
     return new Date(argument.getTime());
   } else if (typeof argument === 'number' || argStr === '[object Number]') {
@@ -170,6 +171,8 @@ function addMonths(dirtyDate, dirtyAmount) {
   }
 }
 
+function _typeof$D(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$D = function _typeof(obj) { return typeof obj; }; } else { _typeof$D = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$D(obj); }
+
 /**
  * @name add
  * @category Common Helpers
@@ -211,7 +214,7 @@ function addMonths(dirtyDate, dirtyAmount) {
  */
 function add(dirtyDate, duration) {
   requiredArgs(2, arguments);
-  if (!duration || typeof duration !== 'object') return new Date(NaN);
+  if (!duration || _typeof$D(duration) !== 'object') return new Date(NaN);
   var years = duration.years ? toInteger(duration.years) : 0;
   var months = duration.months ? toInteger(duration.months) : 0;
   var weeks = duration.weeks ? toInteger(duration.weeks) : 0;
@@ -916,6 +919,7 @@ function areIntervalsOverlapping(intervalLeft, intervalRight, options) {
   return leftStartTime < rightEndTime && rightStartTime < leftEndTime;
 }
 
+function _typeof$C(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$C = function _typeof(obj) { return typeof obj; }; } else { _typeof$C = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$C(obj); }
 /**
  * @name max
  * @category Common Helpers
@@ -945,7 +949,7 @@ function max(dirtyDatesArray) {
 
   if (dirtyDatesArray && typeof dirtyDatesArray.forEach === 'function') {
     datesArray = dirtyDatesArray; // If `dirtyDatesArray` is Array-like Object, convert to Array.
-  } else if (typeof dirtyDatesArray === 'object' && dirtyDatesArray !== null) {
+  } else if (_typeof$C(dirtyDatesArray) === 'object' && dirtyDatesArray !== null) {
     datesArray = Array.prototype.slice.call(dirtyDatesArray);
   } else {
     // `dirtyDatesArray` is non-iterable, return Invalid Date
@@ -963,6 +967,7 @@ function max(dirtyDatesArray) {
   return result || new Date(NaN);
 }
 
+function _typeof$B(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$B = function _typeof(obj) { return typeof obj; }; } else { _typeof$B = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$B(obj); }
 /**
  * @name min
  * @category Common Helpers
@@ -992,7 +997,7 @@ function min(dirtyDatesArray) {
 
   if (dirtyDatesArray && typeof dirtyDatesArray.forEach === 'function') {
     datesArray = dirtyDatesArray; // If `dirtyDatesArray` is Array-like Object, convert to Array.
-  } else if (typeof dirtyDatesArray === 'object' && dirtyDatesArray !== null) {
+  } else if (_typeof$B(dirtyDatesArray) === 'object' && dirtyDatesArray !== null) {
     datesArray = Array.prototype.slice.call(dirtyDatesArray);
   } else {
     // `dirtyDatesArray` is non-iterable, return Invalid Date
@@ -1510,6 +1515,7 @@ function isSameDay(dirtyDateLeft, dirtyDateRight) {
   return dateLeftStartOfDay.getTime() === dateRightStartOfDay.getTime();
 }
 
+function _typeof$A(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$A = function _typeof(obj) { return typeof obj; }; } else { _typeof$A = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$A(obj); }
 /**
  * @name isDate
  * @category Common Helpers
@@ -1545,7 +1551,7 @@ function isSameDay(dirtyDateLeft, dirtyDateRight) {
 
 function isDate(value) {
   requiredArgs(1, arguments);
-  return value instanceof Date || typeof value === 'object' && Object.prototype.toString.call(value) === '[object Date]';
+  return value instanceof Date || _typeof$A(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
 }
 
 /**
@@ -2005,7 +2011,7 @@ var roundingMap = {
   ceil: Math.ceil,
   round: Math.round,
   floor: Math.floor,
-  trunc: function (value) {
+  trunc: function trunc(value) {
     return value < 0 ? Math.ceil(value) : Math.floor(value);
   } // Math.trunc is not supported by IE
 
@@ -3601,7 +3607,7 @@ function addLeadingZeros(number, targetLength) {
 
 var formatters$1 = {
   // Year
-  y: function (date, token) {
+  y: function y(date, token) {
     // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_tokens
     // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
     // |----------|-------|----|-------|-------|-------|
@@ -3616,16 +3622,16 @@ var formatters$1 = {
     return addLeadingZeros(token === 'yy' ? year % 100 : year, token.length);
   },
   // Month
-  M: function (date, token) {
+  M: function M(date, token) {
     var month = date.getUTCMonth();
     return token === 'M' ? String(month + 1) : addLeadingZeros(month + 1, 2);
   },
   // Day of the month
-  d: function (date, token) {
+  d: function d(date, token) {
     return addLeadingZeros(date.getUTCDate(), token.length);
   },
   // AM or PM
-  a: function (date, token) {
+  a: function a(date, token) {
     var dayPeriodEnumValue = date.getUTCHours() / 12 >= 1 ? 'pm' : 'am';
 
     switch (token) {
@@ -3645,23 +3651,23 @@ var formatters$1 = {
     }
   },
   // Hour [1-12]
-  h: function (date, token) {
+  h: function h(date, token) {
     return addLeadingZeros(date.getUTCHours() % 12 || 12, token.length);
   },
   // Hour [0-23]
-  H: function (date, token) {
+  H: function H(date, token) {
     return addLeadingZeros(date.getUTCHours(), token.length);
   },
   // Minute
-  m: function (date, token) {
+  m: function m(date, token) {
     return addLeadingZeros(date.getUTCMinutes(), token.length);
   },
   // Second
-  s: function (date, token) {
+  s: function s(date, token) {
     return addLeadingZeros(date.getUTCSeconds(), token.length);
   },
   // Fraction of second
-  S: function (date, token) {
+  S: function S(date, token) {
     var numberOfDigits = token.length;
     var milliseconds = date.getUTCMilliseconds();
     var fractionalSeconds = Math.floor(milliseconds * Math.pow(10, numberOfDigits - 3));
@@ -3727,7 +3733,7 @@ var dayPeriodEnum = {
  */
 var formatters = {
   // Era
-  G: function (date, token, localize) {
+  G: function G(date, token, localize) {
     var era = date.getUTCFullYear() > 0 ? 1 : 0;
 
     switch (token) {
@@ -3754,7 +3760,7 @@ var formatters = {
     }
   },
   // Year
-  y: function (date, token, localize) {
+  y: function y(date, token, localize) {
     // Ordinal number
     if (token === 'yo') {
       var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
@@ -3768,7 +3774,7 @@ var formatters = {
     return formatters$1.y(date, token);
   },
   // Local week-numbering year
-  Y: function (date, token, localize, options) {
+  Y: function Y(date, token, localize, options) {
     var signedWeekYear = getUTCWeekYear(date, options); // Returns 1 for 1 BC (which is year 0 in JavaScript)
 
     var weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear; // Two digit year
@@ -3789,7 +3795,7 @@ var formatters = {
     return addLeadingZeros(weekYear, token.length);
   },
   // ISO week-numbering year
-  R: function (date, token) {
+  R: function R(date, token) {
     var isoWeekYear = getUTCISOWeekYear(date); // Padding
 
     return addLeadingZeros(isoWeekYear, token.length);
@@ -3803,12 +3809,12 @@ var formatters = {
   // | BC 2 |   2 |  -1 |
   // Also `yy` always returns the last two digits of a year,
   // while `uu` pads single digit years to 2 characters and returns other years unchanged.
-  u: function (date, token) {
+  u: function u(date, token) {
     var year = date.getUTCFullYear();
     return addLeadingZeros(year, token.length);
   },
   // Quarter
-  Q: function (date, token, localize) {
+  Q: function Q(date, token, localize) {
     var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
 
     switch (token) {
@@ -3850,7 +3856,7 @@ var formatters = {
     }
   },
   // Stand-alone quarter
-  q: function (date, token, localize) {
+  q: function q(date, token, localize) {
     var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
 
     switch (token) {
@@ -3892,7 +3898,7 @@ var formatters = {
     }
   },
   // Month
-  M: function (date, token, localize) {
+  M: function M(date, token, localize) {
     var month = date.getUTCMonth();
 
     switch (token) {
@@ -3930,7 +3936,7 @@ var formatters = {
     }
   },
   // Stand-alone month
-  L: function (date, token, localize) {
+  L: function L(date, token, localize) {
     var month = date.getUTCMonth();
 
     switch (token) {
@@ -3972,7 +3978,7 @@ var formatters = {
     }
   },
   // Local week of year
-  w: function (date, token, localize, options) {
+  w: function w(date, token, localize, options) {
     var week = getUTCWeek(date, options);
 
     if (token === 'wo') {
@@ -3984,7 +3990,7 @@ var formatters = {
     return addLeadingZeros(week, token.length);
   },
   // ISO week of year
-  I: function (date, token, localize) {
+  I: function I(date, token, localize) {
     var isoWeek = getUTCISOWeek(date);
 
     if (token === 'Io') {
@@ -3996,7 +4002,7 @@ var formatters = {
     return addLeadingZeros(isoWeek, token.length);
   },
   // Day of the month
-  d: function (date, token, localize) {
+  d: function d(date, token, localize) {
     if (token === 'do') {
       return localize.ordinalNumber(date.getUTCDate(), {
         unit: 'date'
@@ -4006,7 +4012,7 @@ var formatters = {
     return formatters$1.d(date, token);
   },
   // Day of year
-  D: function (date, token, localize) {
+  D: function D(date, token, localize) {
     var dayOfYear = getUTCDayOfYear(date);
 
     if (token === 'Do') {
@@ -4018,7 +4024,7 @@ var formatters = {
     return addLeadingZeros(dayOfYear, token.length);
   },
   // Day of week
-  E: function (date, token, localize) {
+  E: function E(date, token, localize) {
     var dayOfWeek = date.getUTCDay();
 
     switch (token) {
@@ -4055,7 +4061,7 @@ var formatters = {
     }
   },
   // Local day of week
-  e: function (date, token, localize, options) {
+  e: function e(date, token, localize, options) {
     var dayOfWeek = date.getUTCDay();
     var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
 
@@ -4104,7 +4110,7 @@ var formatters = {
     }
   },
   // Stand-alone local day of week
-  c: function (date, token, localize, options) {
+  c: function c(date, token, localize, options) {
     var dayOfWeek = date.getUTCDay();
     var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
 
@@ -4153,7 +4159,7 @@ var formatters = {
     }
   },
   // ISO day of week
-  i: function (date, token, localize) {
+  i: function i(date, token, localize) {
     var dayOfWeek = date.getUTCDay();
     var isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
 
@@ -4203,7 +4209,7 @@ var formatters = {
     }
   },
   // AM or PM
-  a: function (date, token, localize) {
+  a: function a(date, token, localize) {
     var hours = date.getUTCHours();
     var dayPeriodEnumValue = hours / 12 >= 1 ? 'pm' : 'am';
 
@@ -4236,7 +4242,7 @@ var formatters = {
     }
   },
   // AM, PM, midnight, noon
-  b: function (date, token, localize) {
+  b: function b(date, token, localize) {
     var hours = date.getUTCHours();
     var dayPeriodEnumValue;
 
@@ -4277,7 +4283,7 @@ var formatters = {
     }
   },
   // in the morning, in the afternoon, in the evening, at night
-  B: function (date, token, localize) {
+  B: function B(date, token, localize) {
     var hours = date.getUTCHours();
     var dayPeriodEnumValue;
 
@@ -4315,7 +4321,7 @@ var formatters = {
     }
   },
   // Hour [1-12]
-  h: function (date, token, localize) {
+  h: function h(date, token, localize) {
     if (token === 'ho') {
       var hours = date.getUTCHours() % 12;
       if (hours === 0) hours = 12;
@@ -4327,7 +4333,7 @@ var formatters = {
     return formatters$1.h(date, token);
   },
   // Hour [0-23]
-  H: function (date, token, localize) {
+  H: function H(date, token, localize) {
     if (token === 'Ho') {
       return localize.ordinalNumber(date.getUTCHours(), {
         unit: 'hour'
@@ -4337,7 +4343,7 @@ var formatters = {
     return formatters$1.H(date, token);
   },
   // Hour [0-11]
-  K: function (date, token, localize) {
+  K: function K(date, token, localize) {
     var hours = date.getUTCHours() % 12;
 
     if (token === 'Ko') {
@@ -4349,7 +4355,7 @@ var formatters = {
     return addLeadingZeros(hours, token.length);
   },
   // Hour [1-24]
-  k: function (date, token, localize) {
+  k: function k(date, token, localize) {
     var hours = date.getUTCHours();
     if (hours === 0) hours = 24;
 
@@ -4362,7 +4368,7 @@ var formatters = {
     return addLeadingZeros(hours, token.length);
   },
   // Minute
-  m: function (date, token, localize) {
+  m: function m(date, token, localize) {
     if (token === 'mo') {
       return localize.ordinalNumber(date.getUTCMinutes(), {
         unit: 'minute'
@@ -4372,7 +4378,7 @@ var formatters = {
     return formatters$1.m(date, token);
   },
   // Second
-  s: function (date, token, localize) {
+  s: function s(date, token, localize) {
     if (token === 'so') {
       return localize.ordinalNumber(date.getUTCSeconds(), {
         unit: 'second'
@@ -4382,11 +4388,11 @@ var formatters = {
     return formatters$1.s(date, token);
   },
   // Fraction of second
-  S: function (date, token) {
+  S: function S(date, token) {
     return formatters$1.S(date, token);
   },
   // Timezone (ISO-8601. If offset is 0, output is always `'Z'`)
-  X: function (date, token, _localize, options) {
+  X: function X(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
 
@@ -4418,7 +4424,7 @@ var formatters = {
     }
   },
   // Timezone (ISO-8601. If offset is 0, output is `'+00:00'` or equivalent)
-  x: function (date, token, _localize, options) {
+  x: function x(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
 
@@ -4446,7 +4452,7 @@ var formatters = {
     }
   },
   // Timezone (GMT)
-  O: function (date, token, _localize, options) {
+  O: function O(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
 
@@ -4464,7 +4470,7 @@ var formatters = {
     }
   },
   // Timezone (specific non-location)
-  z: function (date, token, _localize, options) {
+  z: function z(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
 
@@ -4482,13 +4488,13 @@ var formatters = {
     }
   },
   // Seconds timestamp
-  t: function (date, token, _localize, options) {
+  t: function t(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timestamp = Math.floor(originalDate.getTime() / 1000);
     return addLeadingZeros(timestamp, token.length);
   },
   // Milliseconds timestamp
-  T: function (date, token, _localize, options) {
+  T: function T(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timestamp = originalDate.getTime();
     return addLeadingZeros(timestamp, token.length);
@@ -4527,7 +4533,7 @@ function formatTimezone(offset, dirtyDelimiter) {
   return sign + hours + delimiter + minutes;
 }
 
-var dateLongFormatter = function (pattern, formatLong) {
+var dateLongFormatter = function dateLongFormatter(pattern, formatLong) {
   switch (pattern) {
     case 'P':
       return formatLong.date({
@@ -4552,7 +4558,7 @@ var dateLongFormatter = function (pattern, formatLong) {
   }
 };
 
-var timeLongFormatter = function (pattern, formatLong) {
+var timeLongFormatter = function timeLongFormatter(pattern, formatLong) {
   switch (pattern) {
     case 'p':
       return formatLong.time({
@@ -4577,7 +4583,7 @@ var timeLongFormatter = function (pattern, formatLong) {
   }
 };
 
-var dateTimeLongFormatter = function (pattern, formatLong) {
+var dateTimeLongFormatter = function dateTimeLongFormatter(pattern, formatLong) {
   var matchResult = pattern.match(/(P+)(p+)?/) || [];
   var datePattern = matchResult[1];
   var timePattern = matchResult[2];
@@ -4707,7 +4713,7 @@ var formatDistanceLocale$1h = {
   }
 };
 
-var formatDistance$1j = function (token, count, options) {
+var formatDistance$1j = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1h[token];
 
@@ -4782,7 +4788,7 @@ var formatRelativeLocale$1i = {
   other: 'P'
 };
 
-var formatRelative$1j = function (token, _date, _baseDate, _options) {
+var formatRelative$1j = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1i[token];
 };
 
@@ -4899,7 +4905,7 @@ var formattingDayPeriodValues$13 = {
   }
 };
 
-var ordinalNumber$1i = function (dirtyNumber, _options) {
+var ordinalNumber$1i = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber); // If ordinal numbers depend on context, for example,
   // if they are different for different grammatical genders,
   // use `options.unit`.
@@ -4934,7 +4940,7 @@ var localize$1i = {
   quarter: buildLocalizeFn({
     values: quarterValues$1i,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -5078,7 +5084,7 @@ var match$1h = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1h,
     parsePattern: parseOrdinalNumberPattern$1h,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -5093,7 +5099,7 @@ var match$1h = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1h,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -6388,6 +6394,7 @@ function formatISO9075(dirtyDate, options) {
   return result;
 }
 
+function _typeof$z(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$z = function _typeof(obj) { return typeof obj; }; } else { _typeof$z = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$z(obj); }
 /**
  * @name formatISODuration
  * @category Common Helpers
@@ -6417,7 +6424,7 @@ function formatISO9075(dirtyDate, options) {
 
 function formatISODuration(duration) {
   requiredArgs(1, arguments);
-  if (typeof duration !== 'object') throw new Error('Duration must be an object');
+  if (_typeof$z(duration) !== 'object') throw new Error('Duration must be an object');
   var _duration$years = duration.years,
       years = _duration$years === void 0 ? 0 : _duration$years,
       _duration$months = duration.months,
@@ -8095,143 +8102,248 @@ function isFuture(dirtyDate) {
   return toDate(dirtyDate).getTime() > Date.now();
 }
 
-function _defineProperty$w(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _typeof$y(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$y = function _typeof(obj) { return typeof obj; }; } else { _typeof$y = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$y(obj); }
 
-var TIMEZONE_UNIT_PRIORITY = 10;
-class Setter {
-  constructor() {
-    _defineProperty$w(this, "priority", void 0);
+function _inherits$v(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$v(subClass, superClass); }
 
-    _defineProperty$w(this, "subPriority", 0);
-  }
+function _setPrototypeOf$v(o, p) { _setPrototypeOf$v = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$v(o, p); }
 
-  validate(_utcDate, _options) {
-    return true;
-  }
+function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = _getPrototypeOf$v(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$v(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$v(this, result); }; }
 
-}
-class ValueSetter extends Setter {
-  constructor(value, validateValue, setValue, priority, subPriority) {
-    super();
-    this.value = value;
-    this.validateValue = validateValue;
-    this.setValue = setValue;
-    this.priority = priority;
+function _possibleConstructorReturn$v(self, call) { if (call && (_typeof$y(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$v(self); }
 
-    if (subPriority) {
-      this.subPriority = subPriority;
-    }
-  }
+function _assertThisInitialized$v(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
-  validate(utcDate, options) {
-    return this.validateValue(utcDate, this.value, options);
-  }
+function _isNativeReflectConstruct$v() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
-  set(utcDate, flags, options) {
-    return this.setValue(utcDate, flags, this.value, options);
-  }
+function _getPrototypeOf$v(o) { _getPrototypeOf$v = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$v(o); }
 
-}
-class DateToSystemTimezoneSetter extends Setter {
-  constructor() {
-    super(...arguments);
+function _classCallCheck$w(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-    _defineProperty$w(this, "priority", TIMEZONE_UNIT_PRIORITY);
+function _defineProperties$w(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-    _defineProperty$w(this, "subPriority", -1);
-  }
-
-  set(date, flags) {
-    if (flags.timestampIsSet) {
-      return date;
-    }
-
-    var convertedDate = new Date(0);
-    convertedDate.setFullYear(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
-    convertedDate.setHours(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
-    return convertedDate;
-  }
-
-}
+function _createClass$w(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$w(Constructor.prototype, protoProps); if (staticProps) _defineProperties$w(Constructor, staticProps); return Constructor; }
 
 function _defineProperty$v(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class Parser {
-  constructor() {
-    _defineProperty$v(this, "incompatibleTokens", void 0);
 
-    _defineProperty$v(this, "priority", void 0);
+var TIMEZONE_UNIT_PRIORITY = 10;
+var Setter = /*#__PURE__*/function () {
+  function Setter() {
+    _classCallCheck$w(this, Setter);
 
-    _defineProperty$v(this, "subPriority", void 0);
+    _defineProperty$v(this, "subPriority", 0);
   }
 
-  run(dateString, token, match, options) {
-    var result = this.parse(dateString, token, match, options);
+  _createClass$w(Setter, [{
+    key: "validate",
+    value: function validate(_utcDate, _options) {
+      return true;
+    }
+  }]);
 
-    if (!result) {
-      return null;
+  return Setter;
+}();
+var ValueSetter = /*#__PURE__*/function (_Setter) {
+  _inherits$v(ValueSetter, _Setter);
+
+  var _super = _createSuper$v(ValueSetter);
+
+  function ValueSetter(value, validateValue, setValue, priority, subPriority) {
+    var _this;
+
+    _classCallCheck$w(this, ValueSetter);
+
+    _this = _super.call(this);
+    _this.value = value;
+    _this.validateValue = validateValue;
+    _this.setValue = setValue;
+    _this.priority = priority;
+
+    if (subPriority) {
+      _this.subPriority = subPriority;
     }
 
-    return {
-      setter: new ValueSetter(result.value, this.validate, this.set, this.priority, this.subPriority),
-      rest: result.rest
-    };
+    return _this;
   }
 
-  validate(_utcDate, _value, _options) {
-    return true;
+  _createClass$w(ValueSetter, [{
+    key: "validate",
+    value: function validate(utcDate, options) {
+      return this.validateValue(utcDate, this.value, options);
+    }
+  }, {
+    key: "set",
+    value: function set(utcDate, flags, options) {
+      return this.setValue(utcDate, flags, this.value, options);
+    }
+  }]);
+
+  return ValueSetter;
+}(Setter);
+var DateToSystemTimezoneSetter = /*#__PURE__*/function (_Setter2) {
+  _inherits$v(DateToSystemTimezoneSetter, _Setter2);
+
+  var _super2 = _createSuper$v(DateToSystemTimezoneSetter);
+
+  function DateToSystemTimezoneSetter() {
+    var _this2;
+
+    _classCallCheck$w(this, DateToSystemTimezoneSetter);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this2 = _super2.call.apply(_super2, [this].concat(args));
+
+    _defineProperty$v(_assertThisInitialized$v(_this2), "priority", TIMEZONE_UNIT_PRIORITY);
+
+    _defineProperty$v(_assertThisInitialized$v(_this2), "subPriority", -1);
+
+    return _this2;
   }
 
-}
+  _createClass$w(DateToSystemTimezoneSetter, [{
+    key: "set",
+    value: function set(date, flags) {
+      if (flags.timestampIsSet) {
+        return date;
+      }
+
+      var convertedDate = new Date(0);
+      convertedDate.setFullYear(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
+      convertedDate.setHours(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
+      return convertedDate;
+    }
+  }]);
+
+  return DateToSystemTimezoneSetter;
+}(Setter);
+
+function _classCallCheck$v(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$v(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$v(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$v(Constructor.prototype, protoProps); if (staticProps) _defineProperties$v(Constructor, staticProps); return Constructor; }
+var Parser = /*#__PURE__*/function () {
+  function Parser() {
+    _classCallCheck$v(this, Parser);
+  }
+
+  _createClass$v(Parser, [{
+    key: "run",
+    value: function run(dateString, token, match, options) {
+      var result = this.parse(dateString, token, match, options);
+
+      if (!result) {
+        return null;
+      }
+
+      return {
+        setter: new ValueSetter(result.value, this.validate, this.set, this.priority, this.subPriority),
+        rest: result.rest
+      };
+    }
+  }, {
+    key: "validate",
+    value: function validate(_utcDate, _value, _options) {
+      return true;
+    }
+  }]);
+
+  return Parser;
+}();
+
+function _typeof$x(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$x = function _typeof(obj) { return typeof obj; }; } else { _typeof$x = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$x(obj); }
+
+function _classCallCheck$u(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$u(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$u(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$u(Constructor.prototype, protoProps); if (staticProps) _defineProperties$u(Constructor, staticProps); return Constructor; }
+
+function _inherits$u(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$u(subClass, superClass); }
+
+function _setPrototypeOf$u(o, p) { _setPrototypeOf$u = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$u(o, p); }
+
+function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf$u(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$u(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$u(this, result); }; }
+
+function _possibleConstructorReturn$u(self, call) { if (call && (_typeof$x(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$u(self); }
+
+function _assertThisInitialized$u(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$u(o) { _getPrototypeOf$u = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$u(o); }
 
 function _defineProperty$u(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class EraParser extends Parser {
-  constructor() {
-    super(...arguments);
+var EraParser = /*#__PURE__*/function (_Parser) {
+  _inherits$u(EraParser, _Parser);
 
-    _defineProperty$u(this, "priority", 140);
+  var _super = _createSuper$u(EraParser);
 
-    _defineProperty$u(this, "incompatibleTokens", ['R', 'u', 't', 'T']);
-  }
+  function EraParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      // AD, BC
-      case 'G':
-      case 'GG':
-      case 'GGG':
-        return match.era(dateString, {
-          width: 'abbreviated'
-        }) || match.era(dateString, {
-          width: 'narrow'
-        });
-      // A, B
+    _classCallCheck$u(this, EraParser);
 
-      case 'GGGGG':
-        return match.era(dateString, {
-          width: 'narrow'
-        });
-      // Anno Domini, Before Christ
-
-      case 'GGGG':
-      default:
-        return match.era(dateString, {
-          width: 'wide'
-        }) || match.era(dateString, {
-          width: 'abbreviated'
-        }) || match.era(dateString, {
-          width: 'narrow'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$u(_assertThisInitialized$u(_this), "priority", 140);
+
+    _defineProperty$u(_assertThisInitialized$u(_this), "incompatibleTokens", ['R', 'u', 't', 'T']);
+
+    return _this;
   }
 
-  set(date, flags, value) {
-    flags.era = value;
-    date.setUTCFullYear(value, 0, 1);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+  _createClass$u(EraParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        // AD, BC
+        case 'G':
+        case 'GG':
+        case 'GGG':
+          return match.era(dateString, {
+            width: 'abbreviated'
+          }) || match.era(dateString, {
+            width: 'narrow'
+          });
+        // A, B
 
-}
+        case 'GGGGG':
+          return match.era(dateString, {
+            width: 'narrow'
+          });
+        // Anno Domini, Before Christ
+
+        case 'GGGG':
+        default:
+          return match.era(dateString, {
+            width: 'wide'
+          }) || match.era(dateString, {
+            width: 'abbreviated'
+          }) || match.era(dateString, {
+            width: 'narrow'
+          });
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, flags, value) {
+      flags.era = value;
+      date.setUTCFullYear(value, 0, 1);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return EraParser;
+}(Parser);
 
 var numericPatterns = {
   month: /^(1[0-2]|0?\d)/,
@@ -8409,6 +8521,28 @@ function isLeapYearIndex$1(year) {
   return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
 }
 
+function _typeof$w(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$w = function _typeof(obj) { return typeof obj; }; } else { _typeof$w = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$w(obj); }
+
+function _classCallCheck$t(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$t(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$t(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$t(Constructor.prototype, protoProps); if (staticProps) _defineProperties$t(Constructor, staticProps); return Constructor; }
+
+function _inherits$t(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$t(subClass, superClass); }
+
+function _setPrototypeOf$t(o, p) { _setPrototypeOf$t = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$t(o, p); }
+
+function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf$t(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$t(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$t(this, result); }; }
+
+function _possibleConstructorReturn$t(self, call) { if (call && (_typeof$w(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$t(self); }
+
+function _assertThisInitialized$t(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$t(o) { _getPrototypeOf$t = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$t(o); }
+
 function _defineProperty$t(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_Patterns
 // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
@@ -8418,455 +8552,767 @@ function _defineProperty$t(obj, key, value) { if (key in obj) { Object.definePro
 // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
 // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
 // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
-class YearParser extends Parser {
-  constructor() {
-    super(...arguments);
+var YearParser = /*#__PURE__*/function (_Parser) {
+  _inherits$t(YearParser, _Parser);
 
-    _defineProperty$t(this, "priority", 130);
+  var _super = _createSuper$t(YearParser);
 
-    _defineProperty$t(this, "incompatibleTokens", ['Y', 'R', 'u', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
-  }
+  function YearParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    var valueCallback = function (year) {
-      return {
-        year: year,
-        isTwoDigitYear: token === 'yy'
-      };
-    };
+    _classCallCheck$t(this, YearParser);
 
-    switch (token) {
-      case 'y':
-        return mapValue(parseNDigits(4, dateString), valueCallback);
-
-      case 'yo':
-        return mapValue(match.ordinalNumber(dateString, {
-          unit: 'year'
-        }), valueCallback);
-
-      default:
-        return mapValue(parseNDigits(token.length, dateString), valueCallback);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$t(_assertThisInitialized$t(_this), "priority", 130);
+
+    _defineProperty$t(_assertThisInitialized$t(_this), "incompatibleTokens", ['Y', 'R', 'u', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value.isTwoDigitYear || value.year > 0;
-  }
+  _createClass$t(YearParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      var valueCallback = function valueCallback(year) {
+        return {
+          year: year,
+          isTwoDigitYear: token === 'yy'
+        };
+      };
 
-  set(date, flags, value) {
-    var currentYear = date.getUTCFullYear();
+      switch (token) {
+        case 'y':
+          return mapValue(parseNDigits(4, dateString), valueCallback);
 
-    if (value.isTwoDigitYear) {
-      var normalizedTwoDigitYear = normalizeTwoDigitYear(value.year, currentYear);
-      date.setUTCFullYear(normalizedTwoDigitYear, 0, 1);
+        case 'yo':
+          return mapValue(match.ordinalNumber(dateString, {
+            unit: 'year'
+          }), valueCallback);
+
+        default:
+          return mapValue(parseNDigits(token.length, dateString), valueCallback);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value.isTwoDigitYear || value.year > 0;
+    }
+  }, {
+    key: "set",
+    value: function set(date, flags, value) {
+      var currentYear = date.getUTCFullYear();
+
+      if (value.isTwoDigitYear) {
+        var normalizedTwoDigitYear = normalizeTwoDigitYear(value.year, currentYear);
+        date.setUTCFullYear(normalizedTwoDigitYear, 0, 1);
+        date.setUTCHours(0, 0, 0, 0);
+        return date;
+      }
+
+      var year = !('era' in flags) || flags.era === 1 ? value.year : 1 - value.year;
+      date.setUTCFullYear(year, 0, 1);
       date.setUTCHours(0, 0, 0, 0);
       return date;
     }
+  }]);
 
-    var year = !('era' in flags) || flags.era === 1 ? value.year : 1 - value.year;
-    date.setUTCFullYear(year, 0, 1);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+  return YearParser;
+}(Parser);
 
-}
+function _typeof$v(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$v = function _typeof(obj) { return typeof obj; }; } else { _typeof$v = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$v(obj); }
+
+function _classCallCheck$s(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$s(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$s(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$s(Constructor.prototype, protoProps); if (staticProps) _defineProperties$s(Constructor, staticProps); return Constructor; }
+
+function _inherits$s(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$s(subClass, superClass); }
+
+function _setPrototypeOf$s(o, p) { _setPrototypeOf$s = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$s(o, p); }
+
+function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf$s(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$s(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$s(this, result); }; }
+
+function _possibleConstructorReturn$s(self, call) { if (call && (_typeof$v(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$s(self); }
+
+function _assertThisInitialized$s(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$s(o) { _getPrototypeOf$s = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$s(o); }
 
 function _defineProperty$s(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 // Local week-numbering year
-class LocalWeekYearParser extends Parser {
-  constructor() {
-    super(...arguments);
+var LocalWeekYearParser = /*#__PURE__*/function (_Parser) {
+  _inherits$s(LocalWeekYearParser, _Parser);
 
-    _defineProperty$s(this, "priority", 130);
+  var _super = _createSuper$s(LocalWeekYearParser);
 
-    _defineProperty$s(this, "incompatibleTokens", ['y', 'R', 'u', 'Q', 'q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
-  }
+  function LocalWeekYearParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    var valueCallback = function (year) {
-      return {
-        year: year,
-        isTwoDigitYear: token === 'YY'
-      };
-    };
+    _classCallCheck$s(this, LocalWeekYearParser);
 
-    switch (token) {
-      case 'Y':
-        return mapValue(parseNDigits(4, dateString), valueCallback);
-
-      case 'Yo':
-        return mapValue(match.ordinalNumber(dateString, {
-          unit: 'year'
-        }), valueCallback);
-
-      default:
-        return mapValue(parseNDigits(token.length, dateString), valueCallback);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$s(_assertThisInitialized$s(_this), "priority", 130);
+
+    _defineProperty$s(_assertThisInitialized$s(_this), "incompatibleTokens", ['y', 'R', 'u', 'Q', 'q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value.isTwoDigitYear || value.year > 0;
-  }
+  _createClass$s(LocalWeekYearParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      var valueCallback = function valueCallback(year) {
+        return {
+          year: year,
+          isTwoDigitYear: token === 'YY'
+        };
+      };
 
-  set(date, flags, value, options) {
-    var currentYear = getUTCWeekYear(date, options);
+      switch (token) {
+        case 'Y':
+          return mapValue(parseNDigits(4, dateString), valueCallback);
 
-    if (value.isTwoDigitYear) {
-      var normalizedTwoDigitYear = normalizeTwoDigitYear(value.year, currentYear);
-      date.setUTCFullYear(normalizedTwoDigitYear, 0, options.firstWeekContainsDate);
+        case 'Yo':
+          return mapValue(match.ordinalNumber(dateString, {
+            unit: 'year'
+          }), valueCallback);
+
+        default:
+          return mapValue(parseNDigits(token.length, dateString), valueCallback);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value.isTwoDigitYear || value.year > 0;
+    }
+  }, {
+    key: "set",
+    value: function set(date, flags, value, options) {
+      var currentYear = getUTCWeekYear(date, options);
+
+      if (value.isTwoDigitYear) {
+        var normalizedTwoDigitYear = normalizeTwoDigitYear(value.year, currentYear);
+        date.setUTCFullYear(normalizedTwoDigitYear, 0, options.firstWeekContainsDate);
+        date.setUTCHours(0, 0, 0, 0);
+        return startOfUTCWeek(date, options);
+      }
+
+      var year = !('era' in flags) || flags.era === 1 ? value.year : 1 - value.year;
+      date.setUTCFullYear(year, 0, options.firstWeekContainsDate);
       date.setUTCHours(0, 0, 0, 0);
       return startOfUTCWeek(date, options);
     }
+  }]);
 
-    var year = !('era' in flags) || flags.era === 1 ? value.year : 1 - value.year;
-    date.setUTCFullYear(year, 0, options.firstWeekContainsDate);
-    date.setUTCHours(0, 0, 0, 0);
-    return startOfUTCWeek(date, options);
-  }
+  return LocalWeekYearParser;
+}(Parser);
 
-}
+function _typeof$u(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$u = function _typeof(obj) { return typeof obj; }; } else { _typeof$u = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$u(obj); }
+
+function _classCallCheck$r(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$r(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$r(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$r(Constructor.prototype, protoProps); if (staticProps) _defineProperties$r(Constructor, staticProps); return Constructor; }
+
+function _inherits$r(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$r(subClass, superClass); }
+
+function _setPrototypeOf$r(o, p) { _setPrototypeOf$r = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$r(o, p); }
+
+function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf$r(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$r(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$r(this, result); }; }
+
+function _possibleConstructorReturn$r(self, call) { if (call && (_typeof$u(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$r(self); }
+
+function _assertThisInitialized$r(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$r(o) { _getPrototypeOf$r = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$r(o); }
 
 function _defineProperty$r(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class ISOWeekYearParser extends Parser {
-  constructor() {
-    super(...arguments);
+var ISOWeekYearParser = /*#__PURE__*/function (_Parser) {
+  _inherits$r(ISOWeekYearParser, _Parser);
 
-    _defineProperty$r(this, "priority", 130);
+  var _super = _createSuper$r(ISOWeekYearParser);
 
-    _defineProperty$r(this, "incompatibleTokens", ['G', 'y', 'Y', 'u', 'Q', 'q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
-  }
+  function ISOWeekYearParser() {
+    var _this;
 
-  parse(dateString, token) {
-    if (token === 'R') {
-      return parseNDigitsSigned(4, dateString);
+    _classCallCheck$r(this, ISOWeekYearParser);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    return parseNDigitsSigned(token.length, dateString);
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$r(_assertThisInitialized$r(_this), "priority", 130);
+
+    _defineProperty$r(_assertThisInitialized$r(_this), "incompatibleTokens", ['G', 'y', 'Y', 'u', 'Q', 'q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  set(_date, _flags, value) {
-    var firstWeekOfYear = new Date(0);
-    firstWeekOfYear.setUTCFullYear(value, 0, 4);
-    firstWeekOfYear.setUTCHours(0, 0, 0, 0);
-    return startOfUTCISOWeek(firstWeekOfYear);
-  }
+  _createClass$r(ISOWeekYearParser, [{
+    key: "parse",
+    value: function parse(dateString, token) {
+      if (token === 'R') {
+        return parseNDigitsSigned(4, dateString);
+      }
 
-}
+      return parseNDigitsSigned(token.length, dateString);
+    }
+  }, {
+    key: "set",
+    value: function set(_date, _flags, value) {
+      var firstWeekOfYear = new Date(0);
+      firstWeekOfYear.setUTCFullYear(value, 0, 4);
+      firstWeekOfYear.setUTCHours(0, 0, 0, 0);
+      return startOfUTCISOWeek(firstWeekOfYear);
+    }
+  }]);
+
+  return ISOWeekYearParser;
+}(Parser);
+
+function _typeof$t(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$t = function _typeof(obj) { return typeof obj; }; } else { _typeof$t = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$t(obj); }
+
+function _classCallCheck$q(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$q(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$q(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$q(Constructor.prototype, protoProps); if (staticProps) _defineProperties$q(Constructor, staticProps); return Constructor; }
+
+function _inherits$q(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$q(subClass, superClass); }
+
+function _setPrototypeOf$q(o, p) { _setPrototypeOf$q = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$q(o, p); }
+
+function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf$q(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$q(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$q(this, result); }; }
+
+function _possibleConstructorReturn$q(self, call) { if (call && (_typeof$t(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$q(self); }
+
+function _assertThisInitialized$q(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$q(o) { _getPrototypeOf$q = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$q(o); }
 
 function _defineProperty$q(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class ExtendedYearParser extends Parser {
-  constructor() {
-    super(...arguments);
+var ExtendedYearParser = /*#__PURE__*/function (_Parser) {
+  _inherits$q(ExtendedYearParser, _Parser);
 
-    _defineProperty$q(this, "priority", 130);
+  var _super = _createSuper$q(ExtendedYearParser);
 
-    _defineProperty$q(this, "incompatibleTokens", ['G', 'y', 'Y', 'R', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
-  }
+  function ExtendedYearParser() {
+    var _this;
 
-  parse(dateString, token) {
-    if (token === 'u') {
-      return parseNDigitsSigned(4, dateString);
+    _classCallCheck$q(this, ExtendedYearParser);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    return parseNDigitsSigned(token.length, dateString);
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$q(_assertThisInitialized$q(_this), "priority", 130);
+
+    _defineProperty$q(_assertThisInitialized$q(_this), "incompatibleTokens", ['G', 'y', 'Y', 'R', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  set(date, _flags, value) {
-    date.setUTCFullYear(value, 0, 1);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+  _createClass$q(ExtendedYearParser, [{
+    key: "parse",
+    value: function parse(dateString, token) {
+      if (token === 'u') {
+        return parseNDigitsSigned(4, dateString);
+      }
 
-}
+      return parseNDigitsSigned(token.length, dateString);
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCFullYear(value, 0, 1);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return ExtendedYearParser;
+}(Parser);
+
+function _typeof$s(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$s = function _typeof(obj) { return typeof obj; }; } else { _typeof$s = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$s(obj); }
+
+function _classCallCheck$p(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$p(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$p(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$p(Constructor.prototype, protoProps); if (staticProps) _defineProperties$p(Constructor, staticProps); return Constructor; }
+
+function _inherits$p(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$p(subClass, superClass); }
+
+function _setPrototypeOf$p(o, p) { _setPrototypeOf$p = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$p(o, p); }
+
+function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf$p(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$p(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$p(this, result); }; }
+
+function _possibleConstructorReturn$p(self, call) { if (call && (_typeof$s(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$p(self); }
+
+function _assertThisInitialized$p(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$p(o) { _getPrototypeOf$p = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$p(o); }
 
 function _defineProperty$p(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class QuarterParser extends Parser {
-  constructor() {
-    super(...arguments);
+var QuarterParser = /*#__PURE__*/function (_Parser) {
+  _inherits$p(QuarterParser, _Parser);
 
-    _defineProperty$p(this, "priority", 120);
+  var _super = _createSuper$p(QuarterParser);
 
-    _defineProperty$p(this, "incompatibleTokens", ['Y', 'R', 'q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
-  }
+  function QuarterParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      // 1, 2, 3, 4
-      case 'Q':
-      case 'QQ':
-        // 01, 02, 03, 04
-        return parseNDigits(token.length, dateString);
-      // 1st, 2nd, 3rd, 4th
+    _classCallCheck$p(this, QuarterParser);
 
-      case 'Qo':
-        return match.ordinalNumber(dateString, {
-          unit: 'quarter'
-        });
-      // Q1, Q2, Q3, Q4
-
-      case 'QQQ':
-        return match.quarter(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.quarter(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
-      case 'QQQQQ':
-        return match.quarter(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // 1st quarter, 2nd quarter, ...
-
-      case 'QQQQ':
-      default:
-        return match.quarter(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.quarter(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.quarter(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$p(_assertThisInitialized$p(_this), "priority", 120);
+
+    _defineProperty$p(_assertThisInitialized$p(_this), "incompatibleTokens", ['Y', 'R', 'q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 1 && value <= 4;
-  }
+  _createClass$p(QuarterParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        // 1, 2, 3, 4
+        case 'Q':
+        case 'QQ':
+          // 01, 02, 03, 04
+          return parseNDigits(token.length, dateString);
+        // 1st, 2nd, 3rd, 4th
 
-  set(date, _flags, value) {
-    date.setUTCMonth((value - 1) * 3, 1);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+        case 'Qo':
+          return match.ordinalNumber(dateString, {
+            unit: 'quarter'
+          });
+        // Q1, Q2, Q3, Q4
 
-}
+        case 'QQQ':
+          return match.quarter(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.quarter(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+
+        case 'QQQQQ':
+          return match.quarter(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // 1st quarter, 2nd quarter, ...
+
+        case 'QQQQ':
+        default:
+          return match.quarter(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.quarter(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.quarter(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 1 && value <= 4;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCMonth((value - 1) * 3, 1);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return QuarterParser;
+}(Parser);
+
+function _typeof$r(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$r = function _typeof(obj) { return typeof obj; }; } else { _typeof$r = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$r(obj); }
+
+function _classCallCheck$o(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$o(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$o(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$o(Constructor.prototype, protoProps); if (staticProps) _defineProperties$o(Constructor, staticProps); return Constructor; }
+
+function _inherits$o(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$o(subClass, superClass); }
+
+function _setPrototypeOf$o(o, p) { _setPrototypeOf$o = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$o(o, p); }
+
+function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf$o(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$o(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$o(this, result); }; }
+
+function _possibleConstructorReturn$o(self, call) { if (call && (_typeof$r(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$o(self); }
+
+function _assertThisInitialized$o(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$o(o) { _getPrototypeOf$o = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$o(o); }
 
 function _defineProperty$o(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class StandAloneQuarterParser extends Parser {
-  constructor() {
-    super(...arguments);
+var StandAloneQuarterParser = /*#__PURE__*/function (_Parser) {
+  _inherits$o(StandAloneQuarterParser, _Parser);
 
-    _defineProperty$o(this, "priority", 120);
+  var _super = _createSuper$o(StandAloneQuarterParser);
 
-    _defineProperty$o(this, "incompatibleTokens", ['Y', 'R', 'Q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
-  }
+  function StandAloneQuarterParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      // 1, 2, 3, 4
-      case 'q':
-      case 'qq':
-        // 01, 02, 03, 04
-        return parseNDigits(token.length, dateString);
-      // 1st, 2nd, 3rd, 4th
+    _classCallCheck$o(this, StandAloneQuarterParser);
 
-      case 'qo':
-        return match.ordinalNumber(dateString, {
-          unit: 'quarter'
-        });
-      // Q1, Q2, Q3, Q4
-
-      case 'qqq':
-        return match.quarter(dateString, {
-          width: 'abbreviated',
-          context: 'standalone'
-        }) || match.quarter(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
-      // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
-      case 'qqqqq':
-        return match.quarter(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
-      // 1st quarter, 2nd quarter, ...
-
-      case 'qqqq':
-      default:
-        return match.quarter(dateString, {
-          width: 'wide',
-          context: 'standalone'
-        }) || match.quarter(dateString, {
-          width: 'abbreviated',
-          context: 'standalone'
-        }) || match.quarter(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$o(_assertThisInitialized$o(_this), "priority", 120);
+
+    _defineProperty$o(_assertThisInitialized$o(_this), "incompatibleTokens", ['Y', 'R', 'Q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 1 && value <= 4;
-  }
+  _createClass$o(StandAloneQuarterParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        // 1, 2, 3, 4
+        case 'q':
+        case 'qq':
+          // 01, 02, 03, 04
+          return parseNDigits(token.length, dateString);
+        // 1st, 2nd, 3rd, 4th
 
-  set(date, _flags, value) {
-    date.setUTCMonth((value - 1) * 3, 1);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+        case 'qo':
+          return match.ordinalNumber(dateString, {
+            unit: 'quarter'
+          });
+        // Q1, Q2, Q3, Q4
 
-}
+        case 'qqq':
+          return match.quarter(dateString, {
+            width: 'abbreviated',
+            context: 'standalone'
+          }) || match.quarter(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+        // 1, 2, 3, 4 (narrow quarter; could be not numerical)
+
+        case 'qqqqq':
+          return match.quarter(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+        // 1st quarter, 2nd quarter, ...
+
+        case 'qqqq':
+        default:
+          return match.quarter(dateString, {
+            width: 'wide',
+            context: 'standalone'
+          }) || match.quarter(dateString, {
+            width: 'abbreviated',
+            context: 'standalone'
+          }) || match.quarter(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 1 && value <= 4;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCMonth((value - 1) * 3, 1);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return StandAloneQuarterParser;
+}(Parser);
+
+function _typeof$q(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$q = function _typeof(obj) { return typeof obj; }; } else { _typeof$q = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$q(obj); }
+
+function _classCallCheck$n(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$n(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$n(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$n(Constructor.prototype, protoProps); if (staticProps) _defineProperties$n(Constructor, staticProps); return Constructor; }
+
+function _inherits$n(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$n(subClass, superClass); }
+
+function _setPrototypeOf$n(o, p) { _setPrototypeOf$n = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$n(o, p); }
+
+function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = _getPrototypeOf$n(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$n(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$n(this, result); }; }
+
+function _possibleConstructorReturn$n(self, call) { if (call && (_typeof$q(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$n(self); }
+
+function _assertThisInitialized$n(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$n() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$n(o) { _getPrototypeOf$n = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$n(o); }
 
 function _defineProperty$n(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class MonthParser extends Parser {
-  constructor() {
-    super(...arguments);
+var MonthParser = /*#__PURE__*/function (_Parser) {
+  _inherits$n(MonthParser, _Parser);
 
-    _defineProperty$n(this, "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'L', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
+  var _super = _createSuper$n(MonthParser);
 
-    _defineProperty$n(this, "priority", 110);
-  }
+  function MonthParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    var valueCallback = function (value) {
-      return value - 1;
-    };
+    _classCallCheck$n(this, MonthParser);
 
-    switch (token) {
-      // 1, 2, ..., 12
-      case 'M':
-        return mapValue(parseNumericPattern(numericPatterns.month, dateString), valueCallback);
-      // 01, 02, ..., 12
-
-      case 'MM':
-        return mapValue(parseNDigits(2, dateString), valueCallback);
-      // 1st, 2nd, ..., 12th
-
-      case 'Mo':
-        return mapValue(match.ordinalNumber(dateString, {
-          unit: 'month'
-        }), valueCallback);
-      // Jan, Feb, ..., Dec
-
-      case 'MMM':
-        return match.month(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.month(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // J, F, ..., D
-
-      case 'MMMMM':
-        return match.month(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // January, February, ..., December
-
-      case 'MMMM':
-      default:
-        return match.month(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.month(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.month(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$n(_assertThisInitialized$n(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'L', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
+
+    _defineProperty$n(_assertThisInitialized$n(_this), "priority", 110);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 11;
-  }
+  _createClass$n(MonthParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      var valueCallback = function valueCallback(value) {
+        return value - 1;
+      };
 
-  set(date, _flags, value) {
-    date.setUTCMonth(value, 1);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+      switch (token) {
+        // 1, 2, ..., 12
+        case 'M':
+          return mapValue(parseNumericPattern(numericPatterns.month, dateString), valueCallback);
+        // 01, 02, ..., 12
 
-}
+        case 'MM':
+          return mapValue(parseNDigits(2, dateString), valueCallback);
+        // 1st, 2nd, ..., 12th
+
+        case 'Mo':
+          return mapValue(match.ordinalNumber(dateString, {
+            unit: 'month'
+          }), valueCallback);
+        // Jan, Feb, ..., Dec
+
+        case 'MMM':
+          return match.month(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.month(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // J, F, ..., D
+
+        case 'MMMMM':
+          return match.month(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // January, February, ..., December
+
+        case 'MMMM':
+        default:
+          return match.month(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.month(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.month(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 11;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCMonth(value, 1);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return MonthParser;
+}(Parser);
+
+function _typeof$p(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$p = function _typeof(obj) { return typeof obj; }; } else { _typeof$p = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$p(obj); }
+
+function _classCallCheck$m(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$m(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$m(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$m(Constructor.prototype, protoProps); if (staticProps) _defineProperties$m(Constructor, staticProps); return Constructor; }
+
+function _inherits$m(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$m(subClass, superClass); }
+
+function _setPrototypeOf$m(o, p) { _setPrototypeOf$m = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$m(o, p); }
+
+function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf$m(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$m(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$m(this, result); }; }
+
+function _possibleConstructorReturn$m(self, call) { if (call && (_typeof$p(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$m(self); }
+
+function _assertThisInitialized$m(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$m() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$m(o) { _getPrototypeOf$m = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$m(o); }
 
 function _defineProperty$m(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class StandAloneMonthParser extends Parser {
-  constructor() {
-    super(...arguments);
+var StandAloneMonthParser = /*#__PURE__*/function (_Parser) {
+  _inherits$m(StandAloneMonthParser, _Parser);
 
-    _defineProperty$m(this, "priority", 110);
+  var _super = _createSuper$m(StandAloneMonthParser);
 
-    _defineProperty$m(this, "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
-  }
+  function StandAloneMonthParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    var valueCallback = function (value) {
-      return value - 1;
-    };
+    _classCallCheck$m(this, StandAloneMonthParser);
 
-    switch (token) {
-      // 1, 2, ..., 12
-      case 'L':
-        return mapValue(parseNumericPattern(numericPatterns.month, dateString), valueCallback);
-      // 01, 02, ..., 12
-
-      case 'LL':
-        return mapValue(parseNDigits(2, dateString), valueCallback);
-      // 1st, 2nd, ..., 12th
-
-      case 'Lo':
-        return mapValue(match.ordinalNumber(dateString, {
-          unit: 'month'
-        }), valueCallback);
-      // Jan, Feb, ..., Dec
-
-      case 'LLL':
-        return match.month(dateString, {
-          width: 'abbreviated',
-          context: 'standalone'
-        }) || match.month(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
-      // J, F, ..., D
-
-      case 'LLLLL':
-        return match.month(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
-      // January, February, ..., December
-
-      case 'LLLL':
-      default:
-        return match.month(dateString, {
-          width: 'wide',
-          context: 'standalone'
-        }) || match.month(dateString, {
-          width: 'abbreviated',
-          context: 'standalone'
-        }) || match.month(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$m(_assertThisInitialized$m(_this), "priority", 110);
+
+    _defineProperty$m(_assertThisInitialized$m(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 11;
-  }
+  _createClass$m(StandAloneMonthParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      var valueCallback = function valueCallback(value) {
+        return value - 1;
+      };
 
-  set(date, _flags, value) {
-    date.setUTCMonth(value, 1);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+      switch (token) {
+        // 1, 2, ..., 12
+        case 'L':
+          return mapValue(parseNumericPattern(numericPatterns.month, dateString), valueCallback);
+        // 01, 02, ..., 12
 
-}
+        case 'LL':
+          return mapValue(parseNDigits(2, dateString), valueCallback);
+        // 1st, 2nd, ..., 12th
+
+        case 'Lo':
+          return mapValue(match.ordinalNumber(dateString, {
+            unit: 'month'
+          }), valueCallback);
+        // Jan, Feb, ..., Dec
+
+        case 'LLL':
+          return match.month(dateString, {
+            width: 'abbreviated',
+            context: 'standalone'
+          }) || match.month(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+        // J, F, ..., D
+
+        case 'LLLLL':
+          return match.month(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+        // January, February, ..., December
+
+        case 'LLLL':
+        default:
+          return match.month(dateString, {
+            width: 'wide',
+            context: 'standalone'
+          }) || match.month(dateString, {
+            width: 'abbreviated',
+            context: 'standalone'
+          }) || match.month(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 11;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCMonth(value, 1);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return StandAloneMonthParser;
+}(Parser);
 
 function setUTCWeek(dirtyDate, dirtyWeek, options) {
   requiredArgs(2, arguments);
@@ -8877,41 +9323,83 @@ function setUTCWeek(dirtyDate, dirtyWeek, options) {
   return date;
 }
 
+function _typeof$o(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$o = function _typeof(obj) { return typeof obj; }; } else { _typeof$o = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$o(obj); }
+
+function _classCallCheck$l(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$l(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$l(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$l(Constructor.prototype, protoProps); if (staticProps) _defineProperties$l(Constructor, staticProps); return Constructor; }
+
+function _inherits$l(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$l(subClass, superClass); }
+
+function _setPrototypeOf$l(o, p) { _setPrototypeOf$l = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$l(o, p); }
+
+function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf$l(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$l(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$l(this, result); }; }
+
+function _possibleConstructorReturn$l(self, call) { if (call && (_typeof$o(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$l(self); }
+
+function _assertThisInitialized$l(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$l(o) { _getPrototypeOf$l = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$l(o); }
+
 function _defineProperty$l(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class LocalWeekParser extends Parser {
-  constructor() {
-    super(...arguments);
+var LocalWeekParser = /*#__PURE__*/function (_Parser) {
+  _inherits$l(LocalWeekParser, _Parser);
 
-    _defineProperty$l(this, "priority", 100);
+  var _super = _createSuper$l(LocalWeekParser);
 
-    _defineProperty$l(this, "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
-  }
+  function LocalWeekParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'w':
-        return parseNumericPattern(numericPatterns.week, dateString);
+    _classCallCheck$l(this, LocalWeekParser);
 
-      case 'wo':
-        return match.ordinalNumber(dateString, {
-          unit: 'week'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$l(_assertThisInitialized$l(_this), "priority", 100);
+
+    _defineProperty$l(_assertThisInitialized$l(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 1 && value <= 53;
-  }
+  _createClass$l(LocalWeekParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'w':
+          return parseNumericPattern(numericPatterns.week, dateString);
 
-  set(date, _flags, value, options) {
-    return startOfUTCWeek(setUTCWeek(date, value, options), options);
-  }
+        case 'wo':
+          return match.ordinalNumber(dateString, {
+            unit: 'week'
+          });
 
-}
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 1 && value <= 53;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value, options) {
+      return startOfUTCWeek(setUTCWeek(date, value, options), options);
+    }
+  }]);
+
+  return LocalWeekParser;
+}(Parser);
 
 function setUTCISOWeek(dirtyDate, dirtyISOWeek) {
   requiredArgs(2, arguments);
@@ -8922,138 +9410,264 @@ function setUTCISOWeek(dirtyDate, dirtyISOWeek) {
   return date;
 }
 
+function _typeof$n(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$n = function _typeof(obj) { return typeof obj; }; } else { _typeof$n = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$n(obj); }
+
+function _classCallCheck$k(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$k(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$k(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$k(Constructor.prototype, protoProps); if (staticProps) _defineProperties$k(Constructor, staticProps); return Constructor; }
+
+function _inherits$k(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$k(subClass, superClass); }
+
+function _setPrototypeOf$k(o, p) { _setPrototypeOf$k = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$k(o, p); }
+
+function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf$k(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$k(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$k(this, result); }; }
+
+function _possibleConstructorReturn$k(self, call) { if (call && (_typeof$n(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$k(self); }
+
+function _assertThisInitialized$k(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$k(o) { _getPrototypeOf$k = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$k(o); }
+
 function _defineProperty$k(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class ISOWeekParser extends Parser {
-  constructor() {
-    super(...arguments);
+var ISOWeekParser = /*#__PURE__*/function (_Parser) {
+  _inherits$k(ISOWeekParser, _Parser);
 
-    _defineProperty$k(this, "priority", 100);
+  var _super = _createSuper$k(ISOWeekParser);
 
-    _defineProperty$k(this, "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
-  }
+  function ISOWeekParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'I':
-        return parseNumericPattern(numericPatterns.week, dateString);
+    _classCallCheck$k(this, ISOWeekParser);
 
-      case 'Io':
-        return match.ordinalNumber(dateString, {
-          unit: 'week'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$k(_assertThisInitialized$k(_this), "priority", 100);
+
+    _defineProperty$k(_assertThisInitialized$k(_this), "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 1 && value <= 53;
-  }
+  _createClass$k(ISOWeekParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'I':
+          return parseNumericPattern(numericPatterns.week, dateString);
 
-  set(date, _flags, value) {
-    return startOfUTCISOWeek(setUTCISOWeek(date, value));
-  }
+        case 'Io':
+          return match.ordinalNumber(dateString, {
+            unit: 'week'
+          });
 
-}
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 1 && value <= 53;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      return startOfUTCISOWeek(setUTCISOWeek(date, value));
+    }
+  }]);
+
+  return ISOWeekParser;
+}(Parser);
+
+function _typeof$m(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$m = function _typeof(obj) { return typeof obj; }; } else { _typeof$m = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$m(obj); }
+
+function _classCallCheck$j(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$j(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$j(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$j(Constructor.prototype, protoProps); if (staticProps) _defineProperties$j(Constructor, staticProps); return Constructor; }
+
+function _inherits$j(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$j(subClass, superClass); }
+
+function _setPrototypeOf$j(o, p) { _setPrototypeOf$j = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$j(o, p); }
+
+function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf$j(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$j(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$j(this, result); }; }
+
+function _possibleConstructorReturn$j(self, call) { if (call && (_typeof$m(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$j(self); }
+
+function _assertThisInitialized$j(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$j(o) { _getPrototypeOf$j = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$j(o); }
 
 function _defineProperty$j(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 var DAYS_IN_MONTH_LEAP_YEAR = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Day of the month
 
-class DateParser extends Parser {
-  constructor() {
-    super(...arguments);
+var DateParser = /*#__PURE__*/function (_Parser) {
+  _inherits$j(DateParser, _Parser);
 
-    _defineProperty$j(this, "priority", 90);
+  var _super = _createSuper$j(DateParser);
 
-    _defineProperty$j(this, "subPriority", 1);
+  function DateParser() {
+    var _this;
 
-    _defineProperty$j(this, "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
-  }
+    _classCallCheck$j(this, DateParser);
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'd':
-        return parseNumericPattern(numericPatterns.date, dateString);
-
-      case 'do':
-        return match.ordinalNumber(dateString, {
-          unit: 'date'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$j(_assertThisInitialized$j(_this), "priority", 90);
+
+    _defineProperty$j(_assertThisInitialized$j(_this), "subPriority", 1);
+
+    _defineProperty$j(_assertThisInitialized$j(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(date, value) {
-    var year = date.getUTCFullYear();
-    var isLeapYear = isLeapYearIndex$1(year);
-    var month = date.getUTCMonth();
+  _createClass$j(DateParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'd':
+          return parseNumericPattern(numericPatterns.date, dateString);
 
-    if (isLeapYear) {
-      return value >= 1 && value <= DAYS_IN_MONTH_LEAP_YEAR[month];
-    } else {
-      return value >= 1 && value <= DAYS_IN_MONTH[month];
+        case 'do':
+          return match.ordinalNumber(dateString, {
+            unit: 'date'
+          });
+
+        default:
+          return parseNDigits(token.length, dateString);
+      }
     }
-  }
+  }, {
+    key: "validate",
+    value: function validate(date, value) {
+      var year = date.getUTCFullYear();
+      var isLeapYear = isLeapYearIndex$1(year);
+      var month = date.getUTCMonth();
 
-  set(date, _flags, value) {
-    date.setUTCDate(value);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+      if (isLeapYear) {
+        return value >= 1 && value <= DAYS_IN_MONTH_LEAP_YEAR[month];
+      } else {
+        return value >= 1 && value <= DAYS_IN_MONTH[month];
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCDate(value);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
 
-}
+  return DateParser;
+}(Parser);
+
+function _typeof$l(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$l = function _typeof(obj) { return typeof obj; }; } else { _typeof$l = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$l(obj); }
+
+function _classCallCheck$i(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$i(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$i(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$i(Constructor.prototype, protoProps); if (staticProps) _defineProperties$i(Constructor, staticProps); return Constructor; }
+
+function _inherits$i(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$i(subClass, superClass); }
+
+function _setPrototypeOf$i(o, p) { _setPrototypeOf$i = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$i(o, p); }
+
+function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf$i(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$i(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$i(this, result); }; }
+
+function _possibleConstructorReturn$i(self, call) { if (call && (_typeof$l(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$i(self); }
+
+function _assertThisInitialized$i(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$i(o) { _getPrototypeOf$i = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$i(o); }
 
 function _defineProperty$i(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class DayOfYearParser extends Parser {
-  constructor() {
-    super(...arguments);
+var DayOfYearParser = /*#__PURE__*/function (_Parser) {
+  _inherits$i(DayOfYearParser, _Parser);
 
-    _defineProperty$i(this, "priority", 90);
+  var _super = _createSuper$i(DayOfYearParser);
 
-    _defineProperty$i(this, "subpriority", 1);
+  function DayOfYearParser() {
+    var _this;
 
-    _defineProperty$i(this, "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'L', 'w', 'I', 'd', 'E', 'i', 'e', 'c', 't', 'T']);
-  }
+    _classCallCheck$i(this, DayOfYearParser);
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'D':
-      case 'DD':
-        return parseNumericPattern(numericPatterns.dayOfYear, dateString);
-
-      case 'Do':
-        return match.ordinalNumber(dateString, {
-          unit: 'date'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$i(_assertThisInitialized$i(_this), "priority", 90);
+
+    _defineProperty$i(_assertThisInitialized$i(_this), "subpriority", 1);
+
+    _defineProperty$i(_assertThisInitialized$i(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'L', 'w', 'I', 'd', 'E', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(date, value) {
-    var year = date.getUTCFullYear();
-    var isLeapYear = isLeapYearIndex$1(year);
+  _createClass$i(DayOfYearParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'D':
+        case 'DD':
+          return parseNumericPattern(numericPatterns.dayOfYear, dateString);
 
-    if (isLeapYear) {
-      return value >= 1 && value <= 366;
-    } else {
-      return value >= 1 && value <= 365;
+        case 'Do':
+          return match.ordinalNumber(dateString, {
+            unit: 'date'
+          });
+
+        default:
+          return parseNDigits(token.length, dateString);
+      }
     }
-  }
+  }, {
+    key: "validate",
+    value: function validate(date, value) {
+      var year = date.getUTCFullYear();
+      var isLeapYear = isLeapYearIndex$1(year);
 
-  set(date, _flags, value) {
-    date.setUTCMonth(0, value);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+      if (isLeapYear) {
+        return value >= 1 && value <= 366;
+      } else {
+        return value >= 1 && value <= 365;
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCMonth(0, value);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
 
-}
+  return DayOfYearParser;
+}(Parser);
 
 function setUTCDay(dirtyDate, dirtyDay, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
@@ -9076,263 +9690,389 @@ function setUTCDay(dirtyDate, dirtyDay, options) {
   return date;
 }
 
+function _typeof$k(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$k = function _typeof(obj) { return typeof obj; }; } else { _typeof$k = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$k(obj); }
+
+function _classCallCheck$h(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$h(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$h(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$h(Constructor.prototype, protoProps); if (staticProps) _defineProperties$h(Constructor, staticProps); return Constructor; }
+
+function _inherits$h(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$h(subClass, superClass); }
+
+function _setPrototypeOf$h(o, p) { _setPrototypeOf$h = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$h(o, p); }
+
+function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf$h(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$h(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$h(this, result); }; }
+
+function _possibleConstructorReturn$h(self, call) { if (call && (_typeof$k(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$h(self); }
+
+function _assertThisInitialized$h(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$h(o) { _getPrototypeOf$h = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$h(o); }
+
 function _defineProperty$h(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class DayParser extends Parser {
-  constructor() {
-    super(...arguments);
+var DayParser = /*#__PURE__*/function (_Parser) {
+  _inherits$h(DayParser, _Parser);
 
-    _defineProperty$h(this, "priority", 90);
+  var _super = _createSuper$h(DayParser);
 
-    _defineProperty$h(this, "incompatibleTokens", ['D', 'i', 'e', 'c', 't', 'T']);
-  }
+  function DayParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      // Tue
-      case 'E':
-      case 'EE':
-      case 'EEE':
-        return match.day(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // T
+    _classCallCheck$h(this, DayParser);
 
-      case 'EEEEE':
-        return match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // Tu
-
-      case 'EEEEEE':
-        return match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // Tuesday
-
-      case 'EEEE':
-      default:
-        return match.day(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$h(_assertThisInitialized$h(_this), "priority", 90);
+
+    _defineProperty$h(_assertThisInitialized$h(_this), "incompatibleTokens", ['D', 'i', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 6;
-  }
+  _createClass$h(DayParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        // Tue
+        case 'E':
+        case 'EE':
+        case 'EEE':
+          return match.day(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // T
 
-  set(date, _flags, value, options) {
-    date = setUTCDay(date, value, options);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+        case 'EEEEE':
+          return match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // Tu
 
-}
+        case 'EEEEEE':
+          return match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // Tuesday
+
+        case 'EEEE':
+        default:
+          return match.day(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 6;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value, options) {
+      date = setUTCDay(date, value, options);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return DayParser;
+}(Parser);
+
+function _typeof$j(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$j = function _typeof(obj) { return typeof obj; }; } else { _typeof$j = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$j(obj); }
+
+function _classCallCheck$g(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$g(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$g(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$g(Constructor.prototype, protoProps); if (staticProps) _defineProperties$g(Constructor, staticProps); return Constructor; }
+
+function _inherits$g(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$g(subClass, superClass); }
+
+function _setPrototypeOf$g(o, p) { _setPrototypeOf$g = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$g(o, p); }
+
+function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf$g(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$g(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$g(this, result); }; }
+
+function _possibleConstructorReturn$g(self, call) { if (call && (_typeof$j(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$g(self); }
+
+function _assertThisInitialized$g(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$g(o) { _getPrototypeOf$g = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$g(o); }
 
 function _defineProperty$g(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class LocalDayParser extends Parser {
-  constructor() {
-    super(...arguments);
+var LocalDayParser = /*#__PURE__*/function (_Parser) {
+  _inherits$g(LocalDayParser, _Parser);
 
-    _defineProperty$g(this, "priority", 90);
+  var _super = _createSuper$g(LocalDayParser);
 
-    _defineProperty$g(this, "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'c', 't', 'T']);
-  }
+  function LocalDayParser() {
+    var _this;
 
-  parse(dateString, token, match, options) {
-    var valueCallback = function (value) {
-      var wholeWeekDays = Math.floor((value - 1) / 7) * 7;
-      return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
-    };
+    _classCallCheck$g(this, LocalDayParser);
 
-    switch (token) {
-      // 3
-      case 'e':
-      case 'ee':
-        // 03
-        return mapValue(parseNDigits(token.length, dateString), valueCallback);
-      // 3rd
-
-      case 'eo':
-        return mapValue(match.ordinalNumber(dateString, {
-          unit: 'day'
-        }), valueCallback);
-      // Tue
-
-      case 'eee':
-        return match.day(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // T
-
-      case 'eeeee':
-        return match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // Tu
-
-      case 'eeeeee':
-        return match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-      // Tuesday
-
-      case 'eeee':
-      default:
-        return match.day(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$g(_assertThisInitialized$g(_this), "priority", 90);
+
+    _defineProperty$g(_assertThisInitialized$g(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 6;
-  }
+  _createClass$g(LocalDayParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match, options) {
+      var valueCallback = function valueCallback(value) {
+        var wholeWeekDays = Math.floor((value - 1) / 7) * 7;
+        return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
+      };
 
-  set(date, _flags, value, options) {
-    date = setUTCDay(date, value, options);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+      switch (token) {
+        // 3
+        case 'e':
+        case 'ee':
+          // 03
+          return mapValue(parseNDigits(token.length, dateString), valueCallback);
+        // 3rd
 
-}
+        case 'eo':
+          return mapValue(match.ordinalNumber(dateString, {
+            unit: 'day'
+          }), valueCallback);
+        // Tue
+
+        case 'eee':
+          return match.day(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // T
+
+        case 'eeeee':
+          return match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // Tu
+
+        case 'eeeeee':
+          return match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+        // Tuesday
+
+        case 'eeee':
+        default:
+          return match.day(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 6;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value, options) {
+      date = setUTCDay(date, value, options);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return LocalDayParser;
+}(Parser);
+
+function _typeof$i(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$i = function _typeof(obj) { return typeof obj; }; } else { _typeof$i = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$i(obj); }
+
+function _classCallCheck$f(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$f(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$f(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$f(Constructor.prototype, protoProps); if (staticProps) _defineProperties$f(Constructor, staticProps); return Constructor; }
+
+function _inherits$f(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$f(subClass, superClass); }
+
+function _setPrototypeOf$f(o, p) { _setPrototypeOf$f = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$f(o, p); }
+
+function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = _getPrototypeOf$f(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$f(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$f(this, result); }; }
+
+function _possibleConstructorReturn$f(self, call) { if (call && (_typeof$i(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$f(self); }
+
+function _assertThisInitialized$f(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$f() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$f(o) { _getPrototypeOf$f = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$f(o); }
 
 function _defineProperty$f(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class StandAloneLocalDayParser extends Parser {
-  constructor() {
-    super(...arguments);
+var StandAloneLocalDayParser = /*#__PURE__*/function (_Parser) {
+  _inherits$f(StandAloneLocalDayParser, _Parser);
 
-    _defineProperty$f(this, "priority", 90);
+  var _super = _createSuper$f(StandAloneLocalDayParser);
 
-    _defineProperty$f(this, "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'e', 't', 'T']);
-  }
+  function StandAloneLocalDayParser() {
+    var _this;
 
-  parse(dateString, token, match, options) {
-    var valueCallback = function (value) {
-      var wholeWeekDays = Math.floor((value - 1) / 7) * 7;
-      return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
-    };
+    _classCallCheck$f(this, StandAloneLocalDayParser);
 
-    switch (token) {
-      // 3
-      case 'c':
-      case 'cc':
-        // 03
-        return mapValue(parseNDigits(token.length, dateString), valueCallback);
-      // 3rd
-
-      case 'co':
-        return mapValue(match.ordinalNumber(dateString, {
-          unit: 'day'
-        }), valueCallback);
-      // Tue
-
-      case 'ccc':
-        return match.day(dateString, {
-          width: 'abbreviated',
-          context: 'standalone'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'standalone'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
-      // T
-
-      case 'ccccc':
-        return match.day(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
-      // Tu
-
-      case 'cccccc':
-        return match.day(dateString, {
-          width: 'short',
-          context: 'standalone'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
-      // Tuesday
-
-      case 'cccc':
-      default:
-        return match.day(dateString, {
-          width: 'wide',
-          context: 'standalone'
-        }) || match.day(dateString, {
-          width: 'abbreviated',
-          context: 'standalone'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'standalone'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'standalone'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$f(_assertThisInitialized$f(_this), "priority", 90);
+
+    _defineProperty$f(_assertThisInitialized$f(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'e', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 6;
-  }
+  _createClass$f(StandAloneLocalDayParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match, options) {
+      var valueCallback = function valueCallback(value) {
+        var wholeWeekDays = Math.floor((value - 1) / 7) * 7;
+        return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
+      };
 
-  set(date, _flags, value, options) {
-    date = setUTCDay(date, value, options);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+      switch (token) {
+        // 3
+        case 'c':
+        case 'cc':
+          // 03
+          return mapValue(parseNDigits(token.length, dateString), valueCallback);
+        // 3rd
 
-}
+        case 'co':
+          return mapValue(match.ordinalNumber(dateString, {
+            unit: 'day'
+          }), valueCallback);
+        // Tue
+
+        case 'ccc':
+          return match.day(dateString, {
+            width: 'abbreviated',
+            context: 'standalone'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'standalone'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+        // T
+
+        case 'ccccc':
+          return match.day(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+        // Tu
+
+        case 'cccccc':
+          return match.day(dateString, {
+            width: 'short',
+            context: 'standalone'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+        // Tuesday
+
+        case 'cccc':
+        default:
+          return match.day(dateString, {
+            width: 'wide',
+            context: 'standalone'
+          }) || match.day(dateString, {
+            width: 'abbreviated',
+            context: 'standalone'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'standalone'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'standalone'
+          });
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 6;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value, options) {
+      date = setUTCDay(date, value, options);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return StandAloneLocalDayParser;
+}(Parser);
 
 function setUTCISODay(dirtyDate, dirtyDay) {
   requiredArgs(2, arguments);
@@ -9352,637 +10092,1259 @@ function setUTCISODay(dirtyDate, dirtyDay) {
   return date;
 }
 
+function _typeof$h(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$h = function _typeof(obj) { return typeof obj; }; } else { _typeof$h = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$h(obj); }
+
+function _classCallCheck$e(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$e(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$e(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$e(Constructor.prototype, protoProps); if (staticProps) _defineProperties$e(Constructor, staticProps); return Constructor; }
+
+function _inherits$e(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$e(subClass, superClass); }
+
+function _setPrototypeOf$e(o, p) { _setPrototypeOf$e = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$e(o, p); }
+
+function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf$e(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$e(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$e(this, result); }; }
+
+function _possibleConstructorReturn$e(self, call) { if (call && (_typeof$h(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$e(self); }
+
+function _assertThisInitialized$e(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$e(o) { _getPrototypeOf$e = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$e(o); }
+
 function _defineProperty$e(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class ISODayParser extends Parser {
-  constructor() {
-    super(...arguments);
+var ISODayParser = /*#__PURE__*/function (_Parser) {
+  _inherits$e(ISODayParser, _Parser);
 
-    _defineProperty$e(this, "priority", 90);
+  var _super = _createSuper$e(ISODayParser);
 
-    _defineProperty$e(this, "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'E', 'e', 'c', 't', 'T']);
-  }
+  function ISODayParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    var valueCallback = function (value) {
-      if (value === 0) {
-        return 7;
-      }
+    _classCallCheck$e(this, ISODayParser);
 
-      return value;
-    };
-
-    switch (token) {
-      // 2
-      case 'i':
-      case 'ii':
-        // 02
-        return parseNDigits(token.length, dateString);
-      // 2nd
-
-      case 'io':
-        return match.ordinalNumber(dateString, {
-          unit: 'day'
-        });
-      // Tue
-
-      case 'iii':
-        return mapValue(match.day(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        }), valueCallback);
-      // T
-
-      case 'iiiii':
-        return mapValue(match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        }), valueCallback);
-      // Tu
-
-      case 'iiiiii':
-        return mapValue(match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        }), valueCallback);
-      // Tuesday
-
-      case 'iiii':
-      default:
-        return mapValue(match.day(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'short',
-          context: 'formatting'
-        }) || match.day(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        }), valueCallback);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$e(_assertThisInitialized$e(_this), "priority", 90);
+
+    _defineProperty$e(_assertThisInitialized$e(_this), "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'E', 'e', 'c', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 1 && value <= 7;
-  }
+  _createClass$e(ISODayParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      var valueCallback = function valueCallback(value) {
+        if (value === 0) {
+          return 7;
+        }
 
-  set(date, _flags, value) {
-    date = setUTCISODay(date, value);
-    date.setUTCHours(0, 0, 0, 0);
-    return date;
-  }
+        return value;
+      };
 
-}
+      switch (token) {
+        // 2
+        case 'i':
+        case 'ii':
+          // 02
+          return parseNDigits(token.length, dateString);
+        // 2nd
+
+        case 'io':
+          return match.ordinalNumber(dateString, {
+            unit: 'day'
+          });
+        // Tue
+
+        case 'iii':
+          return mapValue(match.day(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          }), valueCallback);
+        // T
+
+        case 'iiiii':
+          return mapValue(match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          }), valueCallback);
+        // Tu
+
+        case 'iiiiii':
+          return mapValue(match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          }), valueCallback);
+        // Tuesday
+
+        case 'iiii':
+        default:
+          return mapValue(match.day(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'short',
+            context: 'formatting'
+          }) || match.day(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          }), valueCallback);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 1 && value <= 7;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date = setUTCISODay(date, value);
+      date.setUTCHours(0, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return ISODayParser;
+}(Parser);
+
+function _typeof$g(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$g = function _typeof(obj) { return typeof obj; }; } else { _typeof$g = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$g(obj); }
+
+function _classCallCheck$d(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$d(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$d(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$d(Constructor.prototype, protoProps); if (staticProps) _defineProperties$d(Constructor, staticProps); return Constructor; }
+
+function _inherits$d(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$d(subClass, superClass); }
+
+function _setPrototypeOf$d(o, p) { _setPrototypeOf$d = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$d(o, p); }
+
+function _createSuper$d(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$d(); return function _createSuperInternal() { var Super = _getPrototypeOf$d(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$d(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$d(this, result); }; }
+
+function _possibleConstructorReturn$d(self, call) { if (call && (_typeof$g(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$d(self); }
+
+function _assertThisInitialized$d(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$d() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$d(o) { _getPrototypeOf$d = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$d(o); }
 
 function _defineProperty$d(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class AMPMParser extends Parser {
-  constructor() {
-    super(...arguments);
+var AMPMParser = /*#__PURE__*/function (_Parser) {
+  _inherits$d(AMPMParser, _Parser);
 
-    _defineProperty$d(this, "priority", 80);
+  var _super = _createSuper$d(AMPMParser);
 
-    _defineProperty$d(this, "incompatibleTokens", ['b', 'B', 'H', 'k', 't', 'T']);
-  }
+  function AMPMParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'a':
-      case 'aa':
-      case 'aaa':
-        return match.dayPeriod(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    _classCallCheck$d(this, AMPMParser);
 
-      case 'aaaaa':
-        return match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-
-      case 'aaaa':
-      default:
-        return match.dayPeriod(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$d(_assertThisInitialized$d(_this), "priority", 80);
+
+    _defineProperty$d(_assertThisInitialized$d(_this), "incompatibleTokens", ['b', 'B', 'H', 'k', 't', 'T']);
+
+    return _this;
   }
 
-  set(date, _flags, value) {
-    date.setUTCHours(dayPeriodEnumToHours(value), 0, 0, 0);
-    return date;
-  }
+  _createClass$d(AMPMParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'a':
+        case 'aa':
+        case 'aaa':
+          return match.dayPeriod(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
 
-}
+        case 'aaaaa':
+          return match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+
+        case 'aaaa':
+        default:
+          return match.dayPeriod(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCHours(dayPeriodEnumToHours(value), 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return AMPMParser;
+}(Parser);
+
+function _typeof$f(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$f = function _typeof(obj) { return typeof obj; }; } else { _typeof$f = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$f(obj); }
+
+function _classCallCheck$c(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$c(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$c(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$c(Constructor.prototype, protoProps); if (staticProps) _defineProperties$c(Constructor, staticProps); return Constructor; }
+
+function _inherits$c(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$c(subClass, superClass); }
+
+function _setPrototypeOf$c(o, p) { _setPrototypeOf$c = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$c(o, p); }
+
+function _createSuper$c(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$c(); return function _createSuperInternal() { var Super = _getPrototypeOf$c(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$c(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$c(this, result); }; }
+
+function _possibleConstructorReturn$c(self, call) { if (call && (_typeof$f(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$c(self); }
+
+function _assertThisInitialized$c(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$c() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$c(o) { _getPrototypeOf$c = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$c(o); }
 
 function _defineProperty$c(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class AMPMMidnightParser extends Parser {
-  constructor() {
-    super(...arguments);
+var AMPMMidnightParser = /*#__PURE__*/function (_Parser) {
+  _inherits$c(AMPMMidnightParser, _Parser);
 
-    _defineProperty$c(this, "priority", 80);
+  var _super = _createSuper$c(AMPMMidnightParser);
 
-    _defineProperty$c(this, "incompatibleTokens", ['a', 'B', 'H', 'k', 't', 'T']);
-  }
+  function AMPMMidnightParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'b':
-      case 'bb':
-      case 'bbb':
-        return match.dayPeriod(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    _classCallCheck$c(this, AMPMMidnightParser);
 
-      case 'bbbbb':
-        return match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-
-      case 'bbbb':
-      default:
-        return match.dayPeriod(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$c(_assertThisInitialized$c(_this), "priority", 80);
+
+    _defineProperty$c(_assertThisInitialized$c(_this), "incompatibleTokens", ['a', 'B', 'H', 'k', 't', 'T']);
+
+    return _this;
   }
 
-  set(date, _flags, value) {
-    date.setUTCHours(dayPeriodEnumToHours(value), 0, 0, 0);
-    return date;
-  }
+  _createClass$c(AMPMMidnightParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'b':
+        case 'bb':
+        case 'bbb':
+          return match.dayPeriod(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
 
-}
+        case 'bbbbb':
+          return match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+
+        case 'bbbb':
+        default:
+          return match.dayPeriod(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCHours(dayPeriodEnumToHours(value), 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return AMPMMidnightParser;
+}(Parser);
+
+function _typeof$e(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$e = function _typeof(obj) { return typeof obj; }; } else { _typeof$e = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$e(obj); }
+
+function _classCallCheck$b(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$b(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$b(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$b(Constructor.prototype, protoProps); if (staticProps) _defineProperties$b(Constructor, staticProps); return Constructor; }
+
+function _inherits$b(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$b(subClass, superClass); }
+
+function _setPrototypeOf$b(o, p) { _setPrototypeOf$b = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$b(o, p); }
+
+function _createSuper$b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$b(); return function _createSuperInternal() { var Super = _getPrototypeOf$b(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$b(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$b(this, result); }; }
+
+function _possibleConstructorReturn$b(self, call) { if (call && (_typeof$e(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$b(self); }
+
+function _assertThisInitialized$b(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$b() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$b(o) { _getPrototypeOf$b = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$b(o); }
 
 function _defineProperty$b(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class DayPeriodParser extends Parser {
-  constructor() {
-    super(...arguments);
+var DayPeriodParser = /*#__PURE__*/function (_Parser) {
+  _inherits$b(DayPeriodParser, _Parser);
 
-    _defineProperty$b(this, "priority", 80);
+  var _super = _createSuper$b(DayPeriodParser);
 
-    _defineProperty$b(this, "incompatibleTokens", ['a', 'b', 't', 'T']);
-  }
+  function DayPeriodParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'B':
-      case 'BB':
-      case 'BBB':
-        return match.dayPeriod(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    _classCallCheck$b(this, DayPeriodParser);
 
-      case 'BBBBB':
-        return match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
-
-      case 'BBBB':
-      default:
-        return match.dayPeriod(dateString, {
-          width: 'wide',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'abbreviated',
-          context: 'formatting'
-        }) || match.dayPeriod(dateString, {
-          width: 'narrow',
-          context: 'formatting'
-        });
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$b(_assertThisInitialized$b(_this), "priority", 80);
+
+    _defineProperty$b(_assertThisInitialized$b(_this), "incompatibleTokens", ['a', 'b', 't', 'T']);
+
+    return _this;
   }
 
-  set(date, _flags, value) {
-    date.setUTCHours(dayPeriodEnumToHours(value), 0, 0, 0);
-    return date;
-  }
+  _createClass$b(DayPeriodParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'B':
+        case 'BB':
+        case 'BBB':
+          return match.dayPeriod(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
 
-}
+        case 'BBBBB':
+          return match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+
+        case 'BBBB':
+        default:
+          return match.dayPeriod(dateString, {
+            width: 'wide',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'abbreviated',
+            context: 'formatting'
+          }) || match.dayPeriod(dateString, {
+            width: 'narrow',
+            context: 'formatting'
+          });
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCHours(dayPeriodEnumToHours(value), 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return DayPeriodParser;
+}(Parser);
+
+function _typeof$d(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$d = function _typeof(obj) { return typeof obj; }; } else { _typeof$d = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$d(obj); }
+
+function _classCallCheck$a(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$a(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$a(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$a(Constructor.prototype, protoProps); if (staticProps) _defineProperties$a(Constructor, staticProps); return Constructor; }
+
+function _inherits$a(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$a(subClass, superClass); }
+
+function _setPrototypeOf$a(o, p) { _setPrototypeOf$a = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$a(o, p); }
+
+function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = _getPrototypeOf$a(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$a(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$a(this, result); }; }
+
+function _possibleConstructorReturn$a(self, call) { if (call && (_typeof$d(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$a(self); }
+
+function _assertThisInitialized$a(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$a() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$a(o) { _getPrototypeOf$a = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$a(o); }
 
 function _defineProperty$a(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class Hour1to12Parser extends Parser {
-  constructor() {
-    super(...arguments);
+var Hour1to12Parser = /*#__PURE__*/function (_Parser) {
+  _inherits$a(Hour1to12Parser, _Parser);
 
-    _defineProperty$a(this, "priority", 70);
+  var _super = _createSuper$a(Hour1to12Parser);
 
-    _defineProperty$a(this, "incompatibleTokens", ['H', 'K', 'k', 't', 'T']);
-  }
+  function Hour1to12Parser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'h':
-        return parseNumericPattern(numericPatterns.hour12h, dateString);
+    _classCallCheck$a(this, Hour1to12Parser);
 
-      case 'ho':
-        return match.ordinalNumber(dateString, {
-          unit: 'hour'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
-    }
-  }
-
-  validate(_date, value) {
-    return value >= 1 && value <= 12;
-  }
-
-  set(date, _flags, value) {
-    var isPM = date.getUTCHours() >= 12;
-
-    if (isPM && value < 12) {
-      date.setUTCHours(value + 12, 0, 0, 0);
-    } else if (!isPM && value === 12) {
-      date.setUTCHours(0, 0, 0, 0);
-    } else {
-      date.setUTCHours(value, 0, 0, 0);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    return date;
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$a(_assertThisInitialized$a(_this), "priority", 70);
+
+    _defineProperty$a(_assertThisInitialized$a(_this), "incompatibleTokens", ['H', 'K', 'k', 't', 'T']);
+
+    return _this;
   }
 
-}
+  _createClass$a(Hour1to12Parser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'h':
+          return parseNumericPattern(numericPatterns.hour12h, dateString);
+
+        case 'ho':
+          return match.ordinalNumber(dateString, {
+            unit: 'hour'
+          });
+
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 1 && value <= 12;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      var isPM = date.getUTCHours() >= 12;
+
+      if (isPM && value < 12) {
+        date.setUTCHours(value + 12, 0, 0, 0);
+      } else if (!isPM && value === 12) {
+        date.setUTCHours(0, 0, 0, 0);
+      } else {
+        date.setUTCHours(value, 0, 0, 0);
+      }
+
+      return date;
+    }
+  }]);
+
+  return Hour1to12Parser;
+}(Parser);
+
+function _typeof$c(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$c = function _typeof(obj) { return typeof obj; }; } else { _typeof$c = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$c(obj); }
+
+function _classCallCheck$9(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$9(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$9(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$9(Constructor.prototype, protoProps); if (staticProps) _defineProperties$9(Constructor, staticProps); return Constructor; }
+
+function _inherits$9(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$9(subClass, superClass); }
+
+function _setPrototypeOf$9(o, p) { _setPrototypeOf$9 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$9(o, p); }
+
+function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf$9(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$9(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$9(this, result); }; }
+
+function _possibleConstructorReturn$9(self, call) { if (call && (_typeof$c(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$9(self); }
+
+function _assertThisInitialized$9(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$9(o) { _getPrototypeOf$9 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$9(o); }
 
 function _defineProperty$9(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class Hour0to23Parser extends Parser {
-  constructor() {
-    super(...arguments);
+var Hour0to23Parser = /*#__PURE__*/function (_Parser) {
+  _inherits$9(Hour0to23Parser, _Parser);
 
-    _defineProperty$9(this, "priority", 70);
+  var _super = _createSuper$9(Hour0to23Parser);
 
-    _defineProperty$9(this, "incompatibleTokens", ['a', 'b', 'h', 'K', 'k', 't', 'T']);
-  }
+  function Hour0to23Parser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'H':
-        return parseNumericPattern(numericPatterns.hour23h, dateString);
+    _classCallCheck$9(this, Hour0to23Parser);
 
-      case 'Ho':
-        return match.ordinalNumber(dateString, {
-          unit: 'hour'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$9(_assertThisInitialized$9(_this), "priority", 70);
+
+    _defineProperty$9(_assertThisInitialized$9(_this), "incompatibleTokens", ['a', 'b', 'h', 'K', 'k', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 23;
-  }
+  _createClass$9(Hour0to23Parser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'H':
+          return parseNumericPattern(numericPatterns.hour23h, dateString);
 
-  set(date, _flags, value) {
-    date.setUTCHours(value, 0, 0, 0);
-    return date;
-  }
+        case 'Ho':
+          return match.ordinalNumber(dateString, {
+            unit: 'hour'
+          });
 
-}
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 23;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCHours(value, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return Hour0to23Parser;
+}(Parser);
+
+function _typeof$b(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$b = function _typeof(obj) { return typeof obj; }; } else { _typeof$b = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$b(obj); }
+
+function _classCallCheck$8(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$8(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$8(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$8(Constructor.prototype, protoProps); if (staticProps) _defineProperties$8(Constructor, staticProps); return Constructor; }
+
+function _inherits$8(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$8(subClass, superClass); }
+
+function _setPrototypeOf$8(o, p) { _setPrototypeOf$8 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$8(o, p); }
+
+function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf$8(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$8(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$8(this, result); }; }
+
+function _possibleConstructorReturn$8(self, call) { if (call && (_typeof$b(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$8(self); }
+
+function _assertThisInitialized$8(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$8(o) { _getPrototypeOf$8 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$8(o); }
 
 function _defineProperty$8(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class Hour0To11Parser extends Parser {
-  constructor() {
-    super(...arguments);
+var Hour0To11Parser = /*#__PURE__*/function (_Parser) {
+  _inherits$8(Hour0To11Parser, _Parser);
 
-    _defineProperty$8(this, "priority", 70);
+  var _super = _createSuper$8(Hour0To11Parser);
 
-    _defineProperty$8(this, "incompatibleTokens", ['h', 'H', 'k', 't', 'T']);
-  }
+  function Hour0To11Parser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'K':
-        return parseNumericPattern(numericPatterns.hour11h, dateString);
+    _classCallCheck$8(this, Hour0To11Parser);
 
-      case 'Ko':
-        return match.ordinalNumber(dateString, {
-          unit: 'hour'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
-    }
-  }
-
-  validate(_date, value) {
-    return value >= 0 && value <= 11;
-  }
-
-  set(date, _flags, value) {
-    var isPM = date.getUTCHours() >= 12;
-
-    if (isPM && value < 12) {
-      date.setUTCHours(value + 12, 0, 0, 0);
-    } else {
-      date.setUTCHours(value, 0, 0, 0);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    return date;
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$8(_assertThisInitialized$8(_this), "priority", 70);
+
+    _defineProperty$8(_assertThisInitialized$8(_this), "incompatibleTokens", ['h', 'H', 'k', 't', 'T']);
+
+    return _this;
   }
 
-}
+  _createClass$8(Hour0To11Parser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'K':
+          return parseNumericPattern(numericPatterns.hour11h, dateString);
+
+        case 'Ko':
+          return match.ordinalNumber(dateString, {
+            unit: 'hour'
+          });
+
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 11;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      var isPM = date.getUTCHours() >= 12;
+
+      if (isPM && value < 12) {
+        date.setUTCHours(value + 12, 0, 0, 0);
+      } else {
+        date.setUTCHours(value, 0, 0, 0);
+      }
+
+      return date;
+    }
+  }]);
+
+  return Hour0To11Parser;
+}(Parser);
+
+function _typeof$a(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$a = function _typeof(obj) { return typeof obj; }; } else { _typeof$a = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$a(obj); }
+
+function _classCallCheck$7(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$7(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); return Constructor; }
+
+function _inherits$7(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$7(subClass, superClass); }
+
+function _setPrototypeOf$7(o, p) { _setPrototypeOf$7 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$7(o, p); }
+
+function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf$7(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$7(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$7(this, result); }; }
+
+function _possibleConstructorReturn$7(self, call) { if (call && (_typeof$a(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$7(self); }
+
+function _assertThisInitialized$7(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$7(o) { _getPrototypeOf$7 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$7(o); }
 
 function _defineProperty$7(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class Hour1To24Parser extends Parser {
-  constructor() {
-    super(...arguments);
+var Hour1To24Parser = /*#__PURE__*/function (_Parser) {
+  _inherits$7(Hour1To24Parser, _Parser);
 
-    _defineProperty$7(this, "priority", 70);
+  var _super = _createSuper$7(Hour1To24Parser);
 
-    _defineProperty$7(this, "incompatibleTokens", ['a', 'b', 'h', 'H', 'K', 't', 'T']);
-  }
+  function Hour1To24Parser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'k':
-        return parseNumericPattern(numericPatterns.hour24h, dateString);
+    _classCallCheck$7(this, Hour1To24Parser);
 
-      case 'ko':
-        return match.ordinalNumber(dateString, {
-          unit: 'hour'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$7(_assertThisInitialized$7(_this), "priority", 70);
+
+    _defineProperty$7(_assertThisInitialized$7(_this), "incompatibleTokens", ['a', 'b', 'h', 'H', 'K', 't', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 1 && value <= 24;
-  }
+  _createClass$7(Hour1To24Parser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'k':
+          return parseNumericPattern(numericPatterns.hour24h, dateString);
 
-  set(date, _flags, value) {
-    var hours = value <= 24 ? value % 24 : value;
-    date.setUTCHours(hours, 0, 0, 0);
-    return date;
-  }
+        case 'ko':
+          return match.ordinalNumber(dateString, {
+            unit: 'hour'
+          });
 
-}
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 1 && value <= 24;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      var hours = value <= 24 ? value % 24 : value;
+      date.setUTCHours(hours, 0, 0, 0);
+      return date;
+    }
+  }]);
+
+  return Hour1To24Parser;
+}(Parser);
+
+function _typeof$9(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$9 = function _typeof(obj) { return typeof obj; }; } else { _typeof$9 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$9(obj); }
+
+function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$6(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$6(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$6(Constructor.prototype, protoProps); if (staticProps) _defineProperties$6(Constructor, staticProps); return Constructor; }
+
+function _inherits$6(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$6(subClass, superClass); }
+
+function _setPrototypeOf$6(o, p) { _setPrototypeOf$6 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$6(o, p); }
+
+function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf$6(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$6(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$6(this, result); }; }
+
+function _possibleConstructorReturn$6(self, call) { if (call && (_typeof$9(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$6(self); }
+
+function _assertThisInitialized$6(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$6(o) { _getPrototypeOf$6 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$6(o); }
 
 function _defineProperty$6(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class MinuteParser extends Parser {
-  constructor() {
-    super(...arguments);
+var MinuteParser = /*#__PURE__*/function (_Parser) {
+  _inherits$6(MinuteParser, _Parser);
 
-    _defineProperty$6(this, "priority", 60);
+  var _super = _createSuper$6(MinuteParser);
 
-    _defineProperty$6(this, "incompatibleTokens", ['t', 'T']);
-  }
+  function MinuteParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 'm':
-        return parseNumericPattern(numericPatterns.minute, dateString);
+    _classCallCheck$6(this, MinuteParser);
 
-      case 'mo':
-        return match.ordinalNumber(dateString, {
-          unit: 'minute'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$6(_assertThisInitialized$6(_this), "priority", 60);
+
+    _defineProperty$6(_assertThisInitialized$6(_this), "incompatibleTokens", ['t', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 59;
-  }
+  _createClass$6(MinuteParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 'm':
+          return parseNumericPattern(numericPatterns.minute, dateString);
 
-  set(date, _flags, value) {
-    date.setUTCMinutes(value, 0, 0);
-    return date;
-  }
+        case 'mo':
+          return match.ordinalNumber(dateString, {
+            unit: 'minute'
+          });
 
-}
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 59;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCMinutes(value, 0, 0);
+      return date;
+    }
+  }]);
+
+  return MinuteParser;
+}(Parser);
+
+function _typeof$8(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$8 = function _typeof(obj) { return typeof obj; }; } else { _typeof$8 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$8(obj); }
+
+function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$5(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$5(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$5(Constructor.prototype, protoProps); if (staticProps) _defineProperties$5(Constructor, staticProps); return Constructor; }
+
+function _inherits$5(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$5(subClass, superClass); }
+
+function _setPrototypeOf$5(o, p) { _setPrototypeOf$5 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$5(o, p); }
+
+function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf$5(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$5(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$5(this, result); }; }
+
+function _possibleConstructorReturn$5(self, call) { if (call && (_typeof$8(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$5(self); }
+
+function _assertThisInitialized$5(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$5(o) { _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$5(o); }
 
 function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class SecondParser extends Parser {
-  constructor() {
-    super(...arguments);
+var SecondParser = /*#__PURE__*/function (_Parser) {
+  _inherits$5(SecondParser, _Parser);
 
-    _defineProperty$5(this, "priority", 50);
+  var _super = _createSuper$5(SecondParser);
 
-    _defineProperty$5(this, "incompatibleTokens", ['t', 'T']);
-  }
+  function SecondParser() {
+    var _this;
 
-  parse(dateString, token, match) {
-    switch (token) {
-      case 's':
-        return parseNumericPattern(numericPatterns.second, dateString);
+    _classCallCheck$5(this, SecondParser);
 
-      case 'so':
-        return match.ordinalNumber(dateString, {
-          unit: 'second'
-        });
-
-      default:
-        return parseNDigits(token.length, dateString);
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$5(_assertThisInitialized$5(_this), "priority", 50);
+
+    _defineProperty$5(_assertThisInitialized$5(_this), "incompatibleTokens", ['t', 'T']);
+
+    return _this;
   }
 
-  validate(_date, value) {
-    return value >= 0 && value <= 59;
-  }
+  _createClass$5(SecondParser, [{
+    key: "parse",
+    value: function parse(dateString, token, match) {
+      switch (token) {
+        case 's':
+          return parseNumericPattern(numericPatterns.second, dateString);
 
-  set(date, _flags, value) {
-    date.setUTCSeconds(value, 0);
-    return date;
-  }
+        case 'so':
+          return match.ordinalNumber(dateString, {
+            unit: 'second'
+          });
 
-}
+        default:
+          return parseNDigits(token.length, dateString);
+      }
+    }
+  }, {
+    key: "validate",
+    value: function validate(_date, value) {
+      return value >= 0 && value <= 59;
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCSeconds(value, 0);
+      return date;
+    }
+  }]);
+
+  return SecondParser;
+}(Parser);
+
+function _typeof$7(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$7 = function _typeof(obj) { return typeof obj; }; } else { _typeof$7 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$7(obj); }
+
+function _classCallCheck$4(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); return Constructor; }
+
+function _inherits$4(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$4(subClass, superClass); }
+
+function _setPrototypeOf$4(o, p) { _setPrototypeOf$4 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$4(o, p); }
+
+function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf$4(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$4(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$4(this, result); }; }
+
+function _possibleConstructorReturn$4(self, call) { if (call && (_typeof$7(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$4(self); }
+
+function _assertThisInitialized$4(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$4(o) { _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$4(o); }
 
 function _defineProperty$4(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class FractionOfSecondParser extends Parser {
-  constructor() {
-    super(...arguments);
+var FractionOfSecondParser = /*#__PURE__*/function (_Parser) {
+  _inherits$4(FractionOfSecondParser, _Parser);
 
-    _defineProperty$4(this, "priority", 30);
+  var _super = _createSuper$4(FractionOfSecondParser);
 
-    _defineProperty$4(this, "incompatibleTokens", ['t', 'T']);
+  function FractionOfSecondParser() {
+    var _this;
+
+    _classCallCheck$4(this, FractionOfSecondParser);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$4(_assertThisInitialized$4(_this), "priority", 30);
+
+    _defineProperty$4(_assertThisInitialized$4(_this), "incompatibleTokens", ['t', 'T']);
+
+    return _this;
   }
 
-  parse(dateString, token) {
-    var valueCallback = function (value) {
-      return Math.floor(value * Math.pow(10, -token.length + 3));
-    };
+  _createClass$4(FractionOfSecondParser, [{
+    key: "parse",
+    value: function parse(dateString, token) {
+      var valueCallback = function valueCallback(value) {
+        return Math.floor(value * Math.pow(10, -token.length + 3));
+      };
 
-    return mapValue(parseNDigits(token.length, dateString), valueCallback);
-  }
+      return mapValue(parseNDigits(token.length, dateString), valueCallback);
+    }
+  }, {
+    key: "set",
+    value: function set(date, _flags, value) {
+      date.setUTCMilliseconds(value);
+      return date;
+    }
+  }]);
 
-  set(date, _flags, value) {
-    date.setUTCMilliseconds(value);
-    return date;
-  }
+  return FractionOfSecondParser;
+}(Parser);
 
-}
+function _typeof$6(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$6 = function _typeof(obj) { return typeof obj; }; } else { _typeof$6 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$6(obj); }
+
+function _classCallCheck$3(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$3(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$3(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$3(Constructor.prototype, protoProps); if (staticProps) _defineProperties$3(Constructor, staticProps); return Constructor; }
+
+function _inherits$3(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$3(subClass, superClass); }
+
+function _setPrototypeOf$3(o, p) { _setPrototypeOf$3 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$3(o, p); }
+
+function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf$3(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$3(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$3(this, result); }; }
+
+function _possibleConstructorReturn$3(self, call) { if (call && (_typeof$6(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$3(self); }
+
+function _assertThisInitialized$3(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$3(o) { _getPrototypeOf$3 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$3(o); }
 
 function _defineProperty$3(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class ISOTimezoneWithZParser extends Parser {
-  constructor() {
-    super(...arguments);
+var ISOTimezoneWithZParser = /*#__PURE__*/function (_Parser) {
+  _inherits$3(ISOTimezoneWithZParser, _Parser);
 
-    _defineProperty$3(this, "priority", 10);
+  var _super = _createSuper$3(ISOTimezoneWithZParser);
 
-    _defineProperty$3(this, "incompatibleTokens", ['t', 'T', 'x']);
-  }
+  function ISOTimezoneWithZParser() {
+    var _this;
 
-  parse(dateString, token) {
-    switch (token) {
-      case 'X':
-        return parseTimezonePattern(timezonePatterns.basicOptionalMinutes, dateString);
+    _classCallCheck$3(this, ISOTimezoneWithZParser);
 
-      case 'XX':
-        return parseTimezonePattern(timezonePatterns.basic, dateString);
-
-      case 'XXXX':
-        return parseTimezonePattern(timezonePatterns.basicOptionalSeconds, dateString);
-
-      case 'XXXXX':
-        return parseTimezonePattern(timezonePatterns.extendedOptionalSeconds, dateString);
-
-      case 'XXX':
-      default:
-        return parseTimezonePattern(timezonePatterns.extended, dateString);
-    }
-  }
-
-  set(date, flags, value) {
-    if (flags.timestampIsSet) {
-      return date;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    return new Date(date.getTime() - value);
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$3(_assertThisInitialized$3(_this), "priority", 10);
+
+    _defineProperty$3(_assertThisInitialized$3(_this), "incompatibleTokens", ['t', 'T', 'x']);
+
+    return _this;
   }
 
-}
+  _createClass$3(ISOTimezoneWithZParser, [{
+    key: "parse",
+    value: function parse(dateString, token) {
+      switch (token) {
+        case 'X':
+          return parseTimezonePattern(timezonePatterns.basicOptionalMinutes, dateString);
+
+        case 'XX':
+          return parseTimezonePattern(timezonePatterns.basic, dateString);
+
+        case 'XXXX':
+          return parseTimezonePattern(timezonePatterns.basicOptionalSeconds, dateString);
+
+        case 'XXXXX':
+          return parseTimezonePattern(timezonePatterns.extendedOptionalSeconds, dateString);
+
+        case 'XXX':
+        default:
+          return parseTimezonePattern(timezonePatterns.extended, dateString);
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, flags, value) {
+      if (flags.timestampIsSet) {
+        return date;
+      }
+
+      return new Date(date.getTime() - value);
+    }
+  }]);
+
+  return ISOTimezoneWithZParser;
+}(Parser);
+
+function _typeof$5(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$5 = function _typeof(obj) { return typeof obj; }; } else { _typeof$5 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$5(obj); }
+
+function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); return Constructor; }
+
+function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$2(subClass, superClass); }
+
+function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
+
+function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf$2(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$2(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$2(this, result); }; }
+
+function _possibleConstructorReturn$2(self, call) { if (call && (_typeof$5(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$2(self); }
+
+function _assertThisInitialized$2(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$2(o) { _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$2(o); }
 
 function _defineProperty$2(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-class ISOTimezoneParser extends Parser {
-  constructor() {
-    super(...arguments);
+var ISOTimezoneParser = /*#__PURE__*/function (_Parser) {
+  _inherits$2(ISOTimezoneParser, _Parser);
 
-    _defineProperty$2(this, "priority", 10);
+  var _super = _createSuper$2(ISOTimezoneParser);
 
-    _defineProperty$2(this, "incompatibleTokens", ['t', 'T', 'X']);
-  }
+  function ISOTimezoneParser() {
+    var _this;
 
-  parse(dateString, token) {
-    switch (token) {
-      case 'x':
-        return parseTimezonePattern(timezonePatterns.basicOptionalMinutes, dateString);
+    _classCallCheck$2(this, ISOTimezoneParser);
 
-      case 'xx':
-        return parseTimezonePattern(timezonePatterns.basic, dateString);
-
-      case 'xxxx':
-        return parseTimezonePattern(timezonePatterns.basicOptionalSeconds, dateString);
-
-      case 'xxxxx':
-        return parseTimezonePattern(timezonePatterns.extendedOptionalSeconds, dateString);
-
-      case 'xxx':
-      default:
-        return parseTimezonePattern(timezonePatterns.extended, dateString);
-    }
-  }
-
-  set(date, flags, value) {
-    if (flags.timestampIsSet) {
-      return date;
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
     }
 
-    return new Date(date.getTime() - value);
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$2(_assertThisInitialized$2(_this), "priority", 10);
+
+    _defineProperty$2(_assertThisInitialized$2(_this), "incompatibleTokens", ['t', 'T', 'X']);
+
+    return _this;
   }
 
-}
+  _createClass$2(ISOTimezoneParser, [{
+    key: "parse",
+    value: function parse(dateString, token) {
+      switch (token) {
+        case 'x':
+          return parseTimezonePattern(timezonePatterns.basicOptionalMinutes, dateString);
+
+        case 'xx':
+          return parseTimezonePattern(timezonePatterns.basic, dateString);
+
+        case 'xxxx':
+          return parseTimezonePattern(timezonePatterns.basicOptionalSeconds, dateString);
+
+        case 'xxxxx':
+          return parseTimezonePattern(timezonePatterns.extendedOptionalSeconds, dateString);
+
+        case 'xxx':
+        default:
+          return parseTimezonePattern(timezonePatterns.extended, dateString);
+      }
+    }
+  }, {
+    key: "set",
+    value: function set(date, flags, value) {
+      if (flags.timestampIsSet) {
+        return date;
+      }
+
+      return new Date(date.getTime() - value);
+    }
+  }]);
+
+  return ISOTimezoneParser;
+}(Parser);
+
+function _typeof$4(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$4 = function _typeof(obj) { return typeof obj; }; } else { _typeof$4 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$4(obj); }
+
+function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); return Constructor; }
+
+function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$1(subClass, superClass); }
+
+function _setPrototypeOf$1(o, p) { _setPrototypeOf$1 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$1(o, p); }
+
+function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
+
+function _possibleConstructorReturn$1(self, call) { if (call && (_typeof$4(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$1(self); }
+
+function _assertThisInitialized$1(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf$1(o) { _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$1(o); }
 
 function _defineProperty$1(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class TimestampSecondsParser extends Parser {
-  constructor() {
-    super(...arguments);
+var TimestampSecondsParser = /*#__PURE__*/function (_Parser) {
+  _inherits$1(TimestampSecondsParser, _Parser);
 
-    _defineProperty$1(this, "priority", 40);
+  var _super = _createSuper$1(TimestampSecondsParser);
 
-    _defineProperty$1(this, "incompatibleTokens", '*');
+  function TimestampSecondsParser() {
+    var _this;
+
+    _classCallCheck$1(this, TimestampSecondsParser);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty$1(_assertThisInitialized$1(_this), "priority", 40);
+
+    _defineProperty$1(_assertThisInitialized$1(_this), "incompatibleTokens", '*');
+
+    return _this;
   }
 
-  parse(dateString) {
-    return parseAnyDigitsSigned(dateString);
-  }
+  _createClass$1(TimestampSecondsParser, [{
+    key: "parse",
+    value: function parse(dateString) {
+      return parseAnyDigitsSigned(dateString);
+    }
+  }, {
+    key: "set",
+    value: function set(_date, _flags, value) {
+      return [new Date(value * 1000), {
+        timestampIsSet: true
+      }];
+    }
+  }]);
 
-  set(_date, _flags, value) {
-    return [new Date(value * 1000), {
-      timestampIsSet: true
-    }];
-  }
+  return TimestampSecondsParser;
+}(Parser);
 
-}
+function _typeof$3(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$3 = function _typeof(obj) { return typeof obj; }; } else { _typeof$3 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$3(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof$3(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-class TimestampMillisecondsParser extends Parser {
-  constructor() {
-    super(...arguments);
+var TimestampMillisecondsParser = /*#__PURE__*/function (_Parser) {
+  _inherits(TimestampMillisecondsParser, _Parser);
 
-    _defineProperty(this, "priority", 20);
+  var _super = _createSuper(TimestampMillisecondsParser);
 
-    _defineProperty(this, "incompatibleTokens", '*');
+  function TimestampMillisecondsParser() {
+    var _this;
+
+    _classCallCheck(this, TimestampMillisecondsParser);
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _super.call.apply(_super, [this].concat(args));
+
+    _defineProperty(_assertThisInitialized(_this), "priority", 20);
+
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", '*');
+
+    return _this;
   }
 
-  parse(dateString) {
-    return parseAnyDigitsSigned(dateString);
-  }
+  _createClass(TimestampMillisecondsParser, [{
+    key: "parse",
+    value: function parse(dateString) {
+      return parseAnyDigitsSigned(dateString);
+    }
+  }, {
+    key: "set",
+    value: function set(_date, _flags, value) {
+      return [new Date(value), {
+        timestampIsSet: true
+      }];
+    }
+  }]);
 
-  set(_date, _flags, value) {
-    return [new Date(value), {
-      timestampIsSet: true
-    }];
-  }
-
-}
+  return TimestampMillisecondsParser;
+}(Parser);
 
 /*
  * |     | Unit                           |     | Unit                           |
@@ -10062,6 +11424,13 @@ var parsers = {
   T: new TimestampMillisecondsParser()
 };
 
+function _typeof$2(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$2 = function _typeof(obj) { return typeof obj; }; } else { _typeof$2 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$2(obj); }
+
+function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 // - [yYQqMLwIdDecihHKkms]o matches any available ordinal number token
 //   (one of the certain letters followed by `o`)
 // - (\w)\1* matches any sequences of the same letter
@@ -10435,80 +11804,87 @@ function parse(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options) 
   }).join('').match(formattingTokensRegExp$1);
   var usedTokens = [];
 
-  var _loop = function (_token) {
-    if (!(options !== null && options !== void 0 && options.useAdditionalWeekYearTokens) && isProtectedWeekYearToken(_token)) {
-      throwProtectedError(_token, formatString, dirtyDateString);
-    }
+  var _iterator = _createForOfIteratorHelper(tokens),
+      _step;
 
-    if (!(options !== null && options !== void 0 && options.useAdditionalDayOfYearTokens) && isProtectedDayOfYearToken(_token)) {
-      throwProtectedError(_token, formatString, dirtyDateString);
-    }
+  try {
+    var _loop = function _loop() {
+      var token = _step.value;
 
-    var firstCharacter = _token[0];
-    var parser = parsers[firstCharacter];
+      if (!(options !== null && options !== void 0 && options.useAdditionalWeekYearTokens) && isProtectedWeekYearToken(token)) {
+        throwProtectedError(token, formatString, dirtyDateString);
+      }
 
-    if (parser) {
-      var incompatibleTokens = parser.incompatibleTokens;
+      if (!(options !== null && options !== void 0 && options.useAdditionalDayOfYearTokens) && isProtectedDayOfYearToken(token)) {
+        throwProtectedError(token, formatString, dirtyDateString);
+      }
 
-      if (Array.isArray(incompatibleTokens)) {
-        var incompatibleToken = usedTokens.find(function (usedToken) {
-          return incompatibleTokens.includes(usedToken.token) || usedToken.token === firstCharacter;
-        });
+      var firstCharacter = token[0];
+      var parser = parsers[firstCharacter];
 
-        if (incompatibleToken) {
-          throw new RangeError("The format string mustn't contain `".concat(incompatibleToken.fullToken, "` and `").concat(_token, "` at the same time"));
+      if (parser) {
+        var incompatibleTokens = parser.incompatibleTokens;
+
+        if (Array.isArray(incompatibleTokens)) {
+          var incompatibleToken = usedTokens.find(function (usedToken) {
+            return incompatibleTokens.includes(usedToken.token) || usedToken.token === firstCharacter;
+          });
+
+          if (incompatibleToken) {
+            throw new RangeError("The format string mustn't contain `".concat(incompatibleToken.fullToken, "` and `").concat(token, "` at the same time"));
+          }
+        } else if (parser.incompatibleTokens === '*' && usedTokens.length > 0) {
+          throw new RangeError("The format string mustn't contain `".concat(token, "` and any other token at the same time"));
         }
-      } else if (parser.incompatibleTokens === '*' && usedTokens.length > 0) {
-        throw new RangeError("The format string mustn't contain `".concat(_token, "` and any other token at the same time"));
-      }
 
-      usedTokens.push({
-        token: firstCharacter,
-        fullToken: _token
-      });
-      var parseResult = parser.run(dateString, _token, locale.match, subFnOptions);
+        usedTokens.push({
+          token: firstCharacter,
+          fullToken: token
+        });
+        var parseResult = parser.run(dateString, token, locale.match, subFnOptions);
 
-      if (!parseResult) {
-        token = _token;
-        return {
-          v: new Date(NaN)
-        };
-      }
+        if (!parseResult) {
+          return {
+            v: new Date(NaN)
+          };
+        }
 
-      setters.push(parseResult.setter);
-      dateString = parseResult.rest;
-    } else {
-      if (firstCharacter.match(unescapedLatinCharacterRegExp$1)) {
-        throw new RangeError('Format string contains an unescaped latin alphabet character `' + firstCharacter + '`');
-      } // Replace two single quote characters with one single quote character
-
-
-      if (_token === "''") {
-        _token = "'";
-      } else if (firstCharacter === "'") {
-        _token = cleanEscapedString$1(_token);
-      } // Cut token from string, or, if string doesn't match the token, return Invalid Date
-
-
-      if (dateString.indexOf(_token) === 0) {
-        dateString = dateString.slice(_token.length);
+        setters.push(parseResult.setter);
+        dateString = parseResult.rest;
       } else {
-        token = _token;
-        return {
-          v: new Date(NaN)
-        };
+        if (firstCharacter.match(unescapedLatinCharacterRegExp$1)) {
+          throw new RangeError('Format string contains an unescaped latin alphabet character `' + firstCharacter + '`');
+        } // Replace two single quote characters with one single quote character
+
+
+        if (token === "''") {
+          token = "'";
+        } else if (firstCharacter === "'") {
+          token = cleanEscapedString$1(token);
+        } // Cut token from string, or, if string doesn't match the token, return Invalid Date
+
+
+        if (dateString.indexOf(token) === 0) {
+          dateString = dateString.slice(token.length);
+        } else {
+          return {
+            v: new Date(NaN)
+          };
+        }
       }
-    }
+    };
 
-    token = _token;
-  };
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var _ret = _loop();
 
-  for (var token of tokens) {
-    var _ret = _loop(token);
+      if (_typeof$2(_ret) === "object") return _ret.v;
+    } // Check if the remaining input contains something other than whitespace
 
-    if (typeof _ret === "object") return _ret.v;
-  } // Check if the remaining input contains something other than whitespace
-
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
 
   if (dateString.length > 0 && notWhitespaceRegExp.test(dateString)) {
     return new Date(NaN);
@@ -10539,19 +11915,30 @@ function parse(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options) 
   var utcDate = subMilliseconds(date, getTimezoneOffsetInMilliseconds(date));
   var flags = {};
 
-  for (var setter of uniquePrioritySetters) {
-    if (!setter.validate(utcDate, subFnOptions)) {
-      return new Date(NaN);
-    }
+  var _iterator2 = _createForOfIteratorHelper(uniquePrioritySetters),
+      _step2;
 
-    var result = setter.set(utcDate, flags, subFnOptions); // Result is tuple (date, flags)
+  try {
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var setter = _step2.value;
 
-    if (Array.isArray(result)) {
-      utcDate = result[0];
-      assign(flags, result[1]); // Result is date
-    } else {
-      utcDate = result;
+      if (!setter.validate(utcDate, subFnOptions)) {
+        return new Date(NaN);
+      }
+
+      var result = setter.set(utcDate, flags, subFnOptions); // Result is tuple (date, flags)
+
+      if (Array.isArray(result)) {
+        utcDate = result[0];
+        assign(flags, result[1]); // Result is date
+      } else {
+        utcDate = result;
+      }
     }
+  } catch (err) {
+    _iterator2.e(err);
+  } finally {
+    _iterator2.f();
   }
 
   return utcDate;
@@ -13245,6 +14632,8 @@ function setMonth(dirtyDate, dirtyMonth) {
   return date;
 }
 
+function _typeof$1(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$1 = function _typeof(obj) { return typeof obj; }; } else { _typeof$1 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$1(obj); }
+
 /**
  * @name set
  * @category Common Helpers
@@ -13286,7 +14675,7 @@ function setMonth(dirtyDate, dirtyMonth) {
 function set(dirtyDate, values) {
   requiredArgs(2, arguments);
 
-  if (typeof values !== 'object' || values === null) {
+  if (_typeof$1(values) !== 'object' || values === null) {
     throw new RangeError('values parameter must be an object');
   }
 
@@ -13979,6 +15368,7 @@ function subMonths(dirtyDate, dirtyAmount) {
   return addMonths(dirtyDate, -amount);
 }
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 /**
  * @name sub
  * @category Common Helpers
@@ -14021,7 +15411,7 @@ function subMonths(dirtyDate, dirtyAmount) {
 
 function sub(date, duration) {
   requiredArgs(2, arguments);
-  if (!duration || typeof duration !== 'object') return new Date(NaN);
+  if (!duration || _typeof(duration) !== 'object') return new Date(NaN);
   var years = duration.years ? toInteger(duration.years) : 0;
   var months = duration.months ? toInteger(duration.months) : 0;
   var weeks = duration.weeks ? toInteger(duration.weeks) : 0;
@@ -14352,7 +15742,7 @@ var formatDistanceLocale$1g = {
   }
 };
 
-var formatDistance$1h = function (token, count, options) {
+var formatDistance$1h = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1g[token];
 
@@ -14417,7 +15807,7 @@ var formatRelativeLocale$1h = {
   other: 'P'
 };
 
-var formatRelative$1h = function (token, _date, _baseDate, _options) {
+var formatRelative$1h = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1h[token];
 };
 
@@ -14507,7 +15897,7 @@ var formattingDayPeriodValues$12 = {
   }
 };
 
-var ordinalNumber$1h = function (dirtyNumber) {
+var ordinalNumber$1h = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
 
@@ -14534,7 +15924,7 @@ var localize$1h = {
   quarter: buildLocalizeFn({
     values: quarterValues$1h,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -14610,7 +16000,7 @@ var match$1g = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1g,
     parsePattern: parseOrdinalNumberPattern$1g,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -14625,7 +16015,7 @@ var match$1g = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1g,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -14767,7 +16157,7 @@ var formatDistanceLocale$1f = {
   }
 };
 
-var formatDistance$1g = function (token, count, options) {
+var formatDistance$1g = function formatDistance(token, count, options) {
   var usageGroup = formatDistanceLocale$1f[token];
   var result;
 
@@ -14836,7 +16226,7 @@ var formatRelativeLocale$1g = {
   other: 'P'
 };
 
-var formatRelative$1g = function (token) {
+var formatRelative$1g = function formatRelative(token) {
   return formatRelativeLocale$1g[token];
 };
 
@@ -14926,7 +16316,7 @@ var formattingDayPeriodValues$11 = {
   }
 };
 
-var ordinalNumber$1g = function (num) {
+var ordinalNumber$1g = function ordinalNumber(num) {
   return String(num);
 };
 
@@ -14939,7 +16329,7 @@ var localize$1g = {
   quarter: buildLocalizeFn({
     values: quarterValues$1g,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -15017,7 +16407,7 @@ var match$1f = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1f,
     parsePattern: parseOrdinalNumberPattern$1f,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -15032,7 +16422,7 @@ var match$1f = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1f,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -15174,7 +16564,7 @@ var formatDistanceLocale$1e = {
   }
 };
 
-var formatDistance$1f = function (token, count, options) {
+var formatDistance$1f = function formatDistance(token, count, options) {
   options = options || {};
   var usageGroup = formatDistanceLocale$1e[token];
   var result;
@@ -15244,7 +16634,7 @@ var formatRelativeLocale$1f = {
   other: 'P'
 };
 
-var formatRelative$1f = function (token, _date, _baseDate, _options) {
+var formatRelative$1f = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1f[token];
 };
 
@@ -15334,7 +16724,7 @@ var formattingDayPeriodValues$10 = {
   }
 };
 
-var ordinalNumber$1f = function (dirtyNumber) {
+var ordinalNumber$1f = function ordinalNumber(dirtyNumber) {
   return String(dirtyNumber);
 };
 
@@ -15347,7 +16737,7 @@ var localize$1f = {
   quarter: buildLocalizeFn({
     values: quarterValues$1f,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return Number(quarter) - 1;
     }
   }),
@@ -15425,7 +16815,7 @@ var match$1e = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1e,
     parsePattern: parseOrdinalNumberPattern$1e,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -15440,7 +16830,7 @@ var match$1e = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1e,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return Number(index) + 1;
     }
   }),
@@ -15582,7 +16972,7 @@ var formatDistanceLocale$1d = {
   }
 };
 
-var formatDistance$1e = function (token, count, options) {
+var formatDistance$1e = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1d[token];
 
@@ -15651,7 +17041,7 @@ var formatRelativeLocale$1e = {
   other: 'P'
 };
 
-var formatRelative$1e = function (token, _date, _baseDate, _options) {
+var formatRelative$1e = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1e[token];
 };
 
@@ -15741,7 +17131,7 @@ var formattingDayPeriodValues$$ = {
   }
 };
 
-var ordinalNumber$1e = function (dirtyNumber, _options) {
+var ordinalNumber$1e = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -15754,7 +17144,7 @@ var localize$1e = {
   quarter: buildLocalizeFn({
     values: quarterValues$1e,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -15834,7 +17224,7 @@ var match$1d = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1d,
     parsePattern: parseOrdinalNumberPattern$1d,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -15849,7 +17239,7 @@ var match$1d = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1d,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -15990,7 +17380,7 @@ var formatDistanceLocale$1c = {
   }
 };
 
-var formatDistance$1d = function (token, count, options) {
+var formatDistance$1d = function formatDistance(token, count, options) {
   options = options || {};
   var usageGroup = formatDistanceLocale$1c[token];
   var result;
@@ -16060,7 +17450,7 @@ var formatRelativeLocale$1d = {
   other: 'P'
 };
 
-var formatRelative$1d = function (token, _date, _baseDate, _options) {
+var formatRelative$1d = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1d[token];
 };
 
@@ -16150,7 +17540,7 @@ var formattingDayPeriodValues$_ = {
   }
 };
 
-var ordinalNumber$1d = function (dirtyNumber) {
+var ordinalNumber$1d = function ordinalNumber(dirtyNumber) {
   return String(dirtyNumber);
 };
 
@@ -16163,7 +17553,7 @@ var localize$1d = {
   quarter: buildLocalizeFn({
     values: quarterValues$1d,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return Number(quarter) - 1;
     }
   }),
@@ -16241,7 +17631,7 @@ var match$1c = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1c,
     parsePattern: parseOrdinalNumberPattern$1c,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -16256,7 +17646,7 @@ var match$1c = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1c,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return Number(index) + 1;
     }
   }),
@@ -16396,7 +17786,7 @@ var formatDistanceLocale$1b = {
   }
 };
 
-var formatDistance$1c = function (token, count, options) {
+var formatDistance$1c = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1b[token];
 
@@ -16465,7 +17855,7 @@ var formatRelativeLocale$1c = {
   other: 'P'
 };
 
-var formatRelative$1c = function (token, _date, _baseDate, _options) {
+var formatRelative$1c = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1c[token];
 };
 
@@ -16555,7 +17945,7 @@ var formattingDayPeriodValues$Z = {
   }
 };
 
-var ordinalNumber$1c = function (dirtyNumber) {
+var ordinalNumber$1c = function ordinalNumber(dirtyNumber) {
   return String(dirtyNumber);
 };
 
@@ -16568,7 +17958,7 @@ var localize$1c = {
   quarter: buildLocalizeFn({
     values: quarterValues$1c,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -16646,7 +18036,7 @@ var match$1b = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1b,
     parsePattern: parseOrdinalNumberPattern$1b,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -16661,7 +18051,7 @@ var match$1b = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1b,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -16803,7 +18193,7 @@ var formatDistanceLocale$1a = {
   }
 };
 
-var formatDistance$1b = function (token, count, options) {
+var formatDistance$1b = function formatDistance(token, count, options) {
   var usageGroup = formatDistanceLocale$1a[token];
   var result;
 
@@ -16872,7 +18262,7 @@ var formatRelativeLocale$1b = {
   other: 'P'
 };
 
-var formatRelative$1b = function (token) {
+var formatRelative$1b = function formatRelative(token) {
   return formatRelativeLocale$1b[token];
 };
 
@@ -16962,7 +18352,7 @@ var formattingDayPeriodValues$Y = {
   }
 };
 
-var ordinalNumber$1b = function (num) {
+var ordinalNumber$1b = function ordinalNumber(num) {
   return String(num);
 };
 
@@ -16975,7 +18365,7 @@ var localize$1b = {
   quarter: buildLocalizeFn({
     values: quarterValues$1b,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -17053,7 +18443,7 @@ var match$1a = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1a,
     parsePattern: parseOrdinalNumberPattern$1a,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -17068,7 +18458,7 @@ var match$1a = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1a,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -17179,7 +18569,7 @@ var formatDistanceLocale$19 = {
   }
 };
 
-var formatDistance$1a = function (token, count, options) {
+var formatDistance$1a = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$19[token];
 
@@ -17244,7 +18634,7 @@ var formatRelativeLocale$1a = {
   other: 'P'
 };
 
-var formatRelative$1a = function (token, _date, _baseDate, _options) {
+var formatRelative$1a = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1a[token];
 };
 
@@ -17354,7 +18744,7 @@ var suffixes$1 = {
   90: '-ıncı'
 };
 
-var getSuffix = function (number) {
+var getSuffix = function getSuffix(number) {
   if (number === 0) {
     // special case for zero
     return number + '-ıncı';
@@ -17375,7 +18765,7 @@ var getSuffix = function (number) {
   return '';
 };
 
-var ordinalNumber$1a = function (dirtyNumber, _options) {
+var ordinalNumber$1a = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var suffix = getSuffix(number);
   return number + suffix;
@@ -17390,7 +18780,7 @@ var localize$1a = {
   quarter: buildLocalizeFn({
     values: quarterValues$1a,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -17470,7 +18860,7 @@ var match$19 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$19,
     parsePattern: parseOrdinalNumberPattern$19,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -17485,7 +18875,7 @@ var match$19 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$19,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -17570,7 +18960,7 @@ function buildLocalizeTokenFn$4(scheme) {
   };
 }
 
-var halfAMinute$1 = function (_, options) {
+var halfAMinute$1 = function halfAMinute(_, options) {
   if (options && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'праз паўхвіліны';
@@ -17771,7 +19161,7 @@ var formatDistanceLocale$18 = {
   })
 };
 
-var formatDistance$19 = function (token, count, options) {
+var formatDistance$19 = function formatDistance(token, count, options) {
   options = options || {};
   return formatDistanceLocale$18[token](count, options);
 };
@@ -17815,7 +19205,7 @@ function isSameUTCWeek(dirtyDateLeft, dirtyDateRight, options) {
 
 var accusativeWeekdays$7 = ['нядзелю', 'панядзелак', 'аўторак', 'сераду', 'чацвер', 'пятніцу', 'суботу'];
 
-function lastWeek$8(day) {
+function lastWeek$3(day) {
   var weekday = accusativeWeekdays$7[day];
 
   switch (day) {
@@ -17837,7 +19227,7 @@ function thisWeek$8(day) {
   return "'у " + weekday + " а' p";
 }
 
-function nextWeek$8(day) {
+function nextWeek$3(day) {
   var weekday = accusativeWeekdays$7[day];
 
   switch (day) {
@@ -17854,25 +19244,25 @@ function nextWeek$8(day) {
   }
 }
 
-var lastWeekFormat$2 = function (dirtyDate, baseDate, options) {
+var lastWeekFormat$2 = function lastWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$8(day);
   } else {
-    return lastWeek$8(day);
+    return lastWeek$3(day);
   }
 };
 
-var nextWeekFormat$2 = function (dirtyDate, baseDate, options) {
+var nextWeekFormat$2 = function nextWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$8(day);
   } else {
-    return nextWeek$8(day);
+    return nextWeek$3(day);
   }
 };
 
@@ -17885,7 +19275,7 @@ var formatRelativeLocale$19 = {
   other: 'P'
 };
 
-var formatRelative$19 = function (token, date, baseDate, options) {
+var formatRelative$19 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$19[token];
 
   if (typeof format === 'function') {
@@ -17986,7 +19376,7 @@ var formattingDayPeriodValues$W = {
   }
 };
 
-var ordinalNumber$19 = function (dirtyNumber, options) {
+var ordinalNumber$19 = function ordinalNumber(dirtyNumber, options) {
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
   var number = Number(dirtyNumber);
   var suffix;
@@ -18023,7 +19413,7 @@ var localize$19 = {
   quarter: buildLocalizeFn({
     values: quarterValues$19,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -18103,7 +19493,7 @@ var match$18 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$18,
     parsePattern: parseOrdinalNumberPattern$18,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -18118,7 +19508,7 @@ var match$18 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$18,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -18207,7 +19597,7 @@ function buildLocalizeTokenFn$3(scheme) {
   };
 }
 
-var halfAMinute = function (_, options) {
+var halfAMinute = function halfAMinute(_, options) {
   if (options && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'праз паўхвіліны';
@@ -18408,7 +19798,7 @@ var formatDistanceLocale$17 = {
   })
 };
 
-var formatDistance$18 = function (token, count, options) {
+var formatDistance$18 = function formatDistance(token, count, options) {
   options = options || {};
   return formatDistanceLocale$17[token](count, options);
 };
@@ -18445,7 +19835,7 @@ var formatLong$1g = {
 
 var accusativeWeekdays$6 = ['нядзелю', 'панядзелак', 'аўторак', 'сераду', 'чацьвер', 'пятніцу', 'суботу'];
 
-function lastWeek$7(day) {
+function lastWeek$2(day) {
   var weekday = accusativeWeekdays$6[day];
 
   switch (day) {
@@ -18467,7 +19857,7 @@ function thisWeek$7(day) {
   return "'у " + weekday + " а' p";
 }
 
-function nextWeek$7(day) {
+function nextWeek$2(day) {
   var weekday = accusativeWeekdays$6[day];
 
   switch (day) {
@@ -18484,25 +19874,25 @@ function nextWeek$7(day) {
   }
 }
 
-var lastWeekFormat$1 = function (dirtyDate, baseDate, options) {
+var lastWeekFormat$1 = function lastWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$7(day);
   } else {
-    return lastWeek$7(day);
+    return lastWeek$2(day);
   }
 };
 
-var nextWeekFormat$1 = function (dirtyDate, baseDate, options) {
+var nextWeekFormat$1 = function nextWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$7(day);
   } else {
-    return nextWeek$7(day);
+    return nextWeek$2(day);
   }
 };
 
@@ -18515,7 +19905,7 @@ var formatRelativeLocale$18 = {
   other: 'P'
 };
 
-var formatRelative$18 = function (token, date, baseDate, options) {
+var formatRelative$18 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$18[token];
 
   if (typeof format === 'function') {
@@ -18616,7 +20006,7 @@ var formattingDayPeriodValues$V = {
   }
 };
 
-var ordinalNumber$18 = function (dirtyNumber, options) {
+var ordinalNumber$18 = function ordinalNumber(dirtyNumber, options) {
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
   var number = Number(dirtyNumber);
   var suffix;
@@ -18653,7 +20043,7 @@ var localize$18 = {
   quarter: buildLocalizeFn({
     values: quarterValues$18,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -18733,7 +20123,7 @@ var match$17 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$17,
     parsePattern: parseOrdinalNumberPattern$17,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -18748,7 +20138,7 @@ var match$17 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$17,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -18860,7 +20250,7 @@ var formatDistanceLocale$16 = {
   }
 };
 
-var formatDistance$17 = function (token, count, options) {
+var formatDistance$17 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$16[token];
 
@@ -18916,7 +20306,7 @@ var formatLong$1f = {
 // Adapted from the `ru` translation
 var weekdays$3 = ['неделя', 'понеделник', 'вторник', 'сряда', 'четвъртък', 'петък', 'събота'];
 
-function lastWeek$6(day) {
+function lastWeek$1(day) {
   var weekday = weekdays$3[day];
 
   switch (day) {
@@ -18945,7 +20335,7 @@ function thisWeek$6(day) {
   }
 }
 
-function nextWeek$6(day) {
+function nextWeek$1(day) {
   var weekday = weekdays$3[day];
 
   switch (day) {
@@ -18962,25 +20352,25 @@ function nextWeek$6(day) {
   }
 }
 
-var lastWeekFormatToken = function (dirtyDate, baseDate, options) {
+var lastWeekFormatToken = function lastWeekFormatToken(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$6(day);
   } else {
-    return lastWeek$6(day);
+    return lastWeek$1(day);
   }
 };
 
-var nextWeekFormatToken = function (dirtyDate, baseDate, options) {
+var nextWeekFormatToken = function nextWeekFormatToken(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$6(day);
   } else {
-    return nextWeek$6(day);
+    return nextWeek$1(day);
   }
 };
 
@@ -18993,7 +20383,7 @@ var formatRelativeLocale$17 = {
   other: 'P'
 };
 
-var formatRelative$17 = function (token, date, baseDate, options) {
+var formatRelative$17 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$17[token];
 
   if (typeof format === 'function') {
@@ -19049,7 +20439,7 @@ function numberWithSuffix(number, unit, masculine, feminine, neuter) {
   return number + '-' + suffix;
 }
 
-var ordinalNumber$17 = function (dirtyNumber, options) {
+var ordinalNumber$17 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
 
@@ -19089,7 +20479,7 @@ var localize$17 = {
   quarter: buildLocalizeFn({
     values: quarterValues$17,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -19161,7 +20551,7 @@ var match$16 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$16,
     parsePattern: parseOrdinalNumberPattern$16,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -19176,7 +20566,7 @@ var match$16 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$16,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -19358,7 +20748,7 @@ function dateOrdinalNumber(number, localeNumber) {
   }
 }
 
-var ordinalNumber$16 = function (dirtyNumber, options) {
+var ordinalNumber$16 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var localeNumber = numberToLocale$1(number);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
@@ -19406,7 +20796,7 @@ var localize$16 = {
   quarter: buildLocalizeFn({
     values: quarterValues$16,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -19490,7 +20880,7 @@ var formatDistanceLocale$15 = {
   }
 };
 
-var formatDistance$16 = function (token, count, options) {
+var formatDistance$16 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$15[token];
 
@@ -19555,7 +20945,7 @@ var formatRelativeLocale$16 = {
   other: 'P'
 };
 
-var formatRelative$16 = function (token, _date, _baseDate, _options) {
+var formatRelative$16 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$16[token];
 };
 
@@ -19620,7 +21010,7 @@ var match$15 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$15,
     parsePattern: parseOrdinalNumberPattern$15,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -19635,7 +21025,7 @@ var match$15 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$15,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -19823,7 +21213,7 @@ var formatDistanceLocale$14 = {
   }
 };
 
-var formatDistance$15 = function (token, count, options) {
+var formatDistance$15 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$14[token];
 
@@ -19892,7 +21282,7 @@ var formatLong$1d = {
 };
 
 var formatRelativeLocale$15 = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     switch (date.getUTCDay()) {
       case 0:
         return "'prošle nedjelje u' p";
@@ -19910,7 +21300,7 @@ var formatRelativeLocale$15 = {
   yesterday: "'juče u' p",
   today: "'danas u' p",
   tomorrow: "'sutra u' p",
-  nextWeek: function (date) {
+  nextWeek: function nextWeek(date) {
     switch (date.getUTCDay()) {
       case 0:
         return "'sljedeće nedjelje u' p";
@@ -19928,7 +21318,7 @@ var formatRelativeLocale$15 = {
   other: 'P'
 };
 
-var formatRelative$15 = function (token, date, _baseDate, _options) {
+var formatRelative$15 = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$15[token];
 
   if (typeof format === 'function') {
@@ -20029,7 +21419,7 @@ var formattingDayPeriodValues$T = {
   }
 };
 
-var ordinalNumber$15 = function (dirtyNumber, _options) {
+var ordinalNumber$15 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return String(number) + '.';
 };
@@ -20043,7 +21433,7 @@ var localize$15 = {
   quarter: buildLocalizeFn({
     values: quarterValues$15,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -20121,7 +21511,7 @@ var match$14 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$14,
     parsePattern: parseOrdinalNumberPattern$14,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -20136,7 +21526,7 @@ var match$14 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$14,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -20261,7 +21651,7 @@ var formatDistanceLocale$13 = {
   }
 };
 
-var formatDistance$14 = function (token, count, options) {
+var formatDistance$14 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$13[token];
 
@@ -20336,7 +21726,7 @@ var formatRelativeLocalePlural$3 = {
   other: 'P'
 };
 
-var formatRelative$14 = function (token, date, _baseDate, _options) {
+var formatRelative$14 = function formatRelative(token, date, _baseDate, _options) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural$3[token];
   }
@@ -20476,7 +21866,7 @@ var formattingDayPeriodValues$S = {
  * Reference: https://aplicacions.llengua.gencat.cat/llc/AppJava/pdf/abrevia.pdf#page=18
  */
 
-var ordinalNumber$14 = function (dirtyNumber, _options) {
+var ordinalNumber$14 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
 
@@ -20508,7 +21898,7 @@ var localize$14 = {
   quarter: buildLocalizeFn({
     values: quarterValues$14,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -20590,7 +21980,7 @@ var match$13 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$13,
     parsePattern: parseOrdinalNumberPattern$13,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -20605,7 +21995,7 @@ var match$13 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$13,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -20921,7 +22311,7 @@ var formatDistanceLocale$12 = {
   }
 };
 
-var formatDistance$13 = function (token, count, options) {
+var formatDistance$13 = function formatDistance(token, count, options) {
   var pluralResult;
   var tokenValue = formatDistanceLocale$12[token]; // cs pluralization
 
@@ -20990,14 +22380,14 @@ var formatRelativeLocale$13 = {
   yesterday: "'včera v' p",
   today: "'dnes v' p",
   tomorrow: "'zítra v' p",
-  nextWeek: function (date) {
+  nextWeek: function nextWeek(date) {
     var day = date.getUTCDay();
     return "'v " + accusativeWeekdays$5[day] + " o' p";
   },
   other: 'P'
 };
 
-var formatRelative$13 = function (token, date) {
+var formatRelative$13 = function formatRelative(token, date) {
   var format = formatRelativeLocale$13[token];
 
   if (typeof format === 'function') {
@@ -21098,7 +22488,7 @@ var formattingDayPeriodValues$R = {
   }
 };
 
-var ordinalNumber$13 = function (dirtyNumber, _options) {
+var ordinalNumber$13 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -21112,7 +22502,7 @@ var localize$13 = {
   quarter: buildLocalizeFn({
     values: quarterValues$13,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -21190,7 +22580,7 @@ var match$12 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$12,
     parsePattern: parseOrdinalNumberPattern$12,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -21205,7 +22595,7 @@ var match$12 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$12,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -21330,7 +22720,7 @@ var formatDistanceLocale$11 = {
   }
 };
 
-var formatDistance$12 = function (token, count, options) {
+var formatDistance$12 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$11[token];
 
@@ -21397,7 +22787,7 @@ var formatRelativeLocale$12 = {
   other: 'P'
 };
 
-var formatRelative$12 = function (token, _date, _baseDate, _options) {
+var formatRelative$12 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$12[token];
 };
 
@@ -21491,7 +22881,7 @@ var formattingDayPeriodValues$Q = {
   }
 };
 
-var ordinalNumber$12 = function (dirtyNumber, _options) {
+var ordinalNumber$12 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
 
   if (number < 20) {
@@ -21546,7 +22936,7 @@ var localize$12 = {
   quarter: buildLocalizeFn({
     values: quarterValues$12,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -21625,7 +23015,7 @@ var match$11 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$11,
     parsePattern: parseOrdinalNumberPattern$11,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -21640,7 +23030,7 @@ var match$11 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$11,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -21752,7 +23142,7 @@ var formatDistanceLocale$10 = {
   }
 };
 
-var formatDistance$11 = function (token, count, options) {
+var formatDistance$11 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$10[token];
 
@@ -21817,7 +23207,7 @@ var formatRelativeLocale$11 = {
   other: 'P'
 };
 
-var formatRelative$11 = function (token, _date, _baseDate, _options) {
+var formatRelative$11 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$11[token];
 };
 
@@ -21910,7 +23300,7 @@ var formattingDayPeriodValues$P = {
   }
 };
 
-var ordinalNumber$11 = function (dirtyNumber, _options) {
+var ordinalNumber$11 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -21924,7 +23314,7 @@ var localize$11 = {
   quarter: buildLocalizeFn({
     values: quarterValues$11,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -22001,7 +23391,7 @@ var match$10 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$10,
     parsePattern: parseOrdinalNumberPattern$10,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -22016,7 +23406,7 @@ var match$10 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$10,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -22224,7 +23614,7 @@ var formatDistanceLocale$$ = {
   }
 };
 
-var formatDistance$10 = function (token, count, options) {
+var formatDistance$10 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = options !== null && options !== void 0 && options.addSuffix ? formatDistanceLocale$$[token].withPreposition : formatDistanceLocale$$[token].standalone;
 
@@ -22294,7 +23684,7 @@ var formatRelativeLocale$10 = {
   other: 'P'
 };
 
-var formatRelative$10 = function (token, _date, _baseDate, _options) {
+var formatRelative$10 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$10[token];
 };
 
@@ -22395,7 +23785,7 @@ var formattingDayPeriodValues$O = {
   }
 };
 
-var ordinalNumber$10 = function (dirtyNumber) {
+var ordinalNumber$10 = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -22409,7 +23799,7 @@ var localize$10 = {
   quarter: buildLocalizeFn({
     values: quarterValues$10,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -22489,7 +23879,7 @@ var match$$ = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$$,
     parsePattern: parseOrdinalNumberPattern$$,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value);
     }
   }),
@@ -22504,7 +23894,7 @@ var match$$ = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$$,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -22652,7 +24042,7 @@ var formattingDayPeriodValues$N = {
   }
 };
 
-var ordinalNumber$$ = function (dirtyNumber) {
+var ordinalNumber$$ = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -22666,7 +24056,7 @@ var localize$$ = {
   quarter: buildLocalizeFn({
     values: quarterValues$$,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -22775,7 +24165,7 @@ var formatDistanceLocale$_ = {
   }
 };
 
-var formatDistance$$ = function (token, count, options) {
+var formatDistance$$ = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$_[token];
 
@@ -22832,7 +24222,7 @@ var formatLong$17 = {
 };
 
 var formatRelativeLocale$$ = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     switch (date.getUTCDay()) {
       case 6:
         //Σάββατο
@@ -22849,7 +24239,7 @@ var formatRelativeLocale$$ = {
   other: 'P'
 };
 
-var formatRelative$$ = function (token, date) {
+var formatRelative$$ = function formatRelative(token, date) {
   var format = formatRelativeLocale$$[token];
   if (typeof format === 'function') return format(date);
   return format;
@@ -22914,7 +24304,7 @@ var dayPeriodValues$_ = {
   }
 };
 
-var ordinalNumber$_ = function (dirtyNumber, options) {
+var ordinalNumber$_ = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   var suffix;
@@ -22939,7 +24329,7 @@ var localize$_ = {
   quarter: buildLocalizeFn({
     values: quarterValues$_,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -23016,7 +24406,7 @@ var match$_ = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$_,
     parsePattern: parseOrdinalNumberPattern$_,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -23031,7 +24421,7 @@ var match$_ = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$_,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -23200,7 +24590,7 @@ var formatDistanceLocale$Z = {
   }
 };
 
-var formatDistance$_ = function (token, count, options) {
+var formatDistance$_ = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$Z[token];
 
@@ -23597,7 +24987,7 @@ var formatDistanceLocale$Y = {
   }
 };
 
-var formatDistance$Z = function (token, count, options) {
+var formatDistance$Z = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$Y[token];
 
@@ -23659,7 +25049,7 @@ var formatRelativeLocale$_ = {
   other: 'P'
 };
 
-var formatRelative$_ = function (token, _date, _baseDate, _options) {
+var formatRelative$_ = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$_[token];
 };
 
@@ -23717,7 +25107,7 @@ var dayPeriodValues$Z = {
   }
 };
 
-var ordinalNumber$Z = function (dirtyNumber) {
+var ordinalNumber$Z = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   return number + '-a';
 };
@@ -23731,7 +25121,7 @@ var localize$Z = {
   quarter: buildLocalizeFn({
     values: quarterValues$Z,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return Number(quarter) - 1;
     }
   }),
@@ -23807,7 +25197,7 @@ var match$Z = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$Z,
     parsePattern: parseOrdinalNumberPattern$Z,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -23822,7 +25212,7 @@ var match$Z = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$Z,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -23933,7 +25323,7 @@ var formatDistanceLocale$X = {
   }
 };
 
-var formatDistance$Y = function (token, count, options) {
+var formatDistance$Y = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$X[token];
 
@@ -24006,7 +25396,7 @@ var formatRelativeLocalePlural$2 = {
   other: 'P'
 };
 
-var formatRelative$Z = function (token, date, _baseDate, _options) {
+var formatRelative$Z = function formatRelative(token, date, _baseDate, _options) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural$2[token];
   } else {
@@ -24100,7 +25490,7 @@ var formattingDayPeriodValues$M = {
   }
 };
 
-var ordinalNumber$Y = function (dirtyNumber, _options) {
+var ordinalNumber$Y = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
@@ -24114,7 +25504,7 @@ var localize$Y = {
   quarter: buildLocalizeFn({
     values: quarterValues$Y,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return Number(quarter) - 1;
     }
   }),
@@ -24192,7 +25582,7 @@ var match$Y = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$Y,
     parsePattern: parseOrdinalNumberPattern$Y,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -24207,7 +25597,7 @@ var match$Y = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$Y,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -24415,7 +25805,7 @@ var formatDistanceLocale$W = {
   }
 };
 
-var formatDistance$X = function (token, count, options) {
+var formatDistance$X = function formatDistance(token, count, options) {
   var usageGroup = options !== null && options !== void 0 && options.addSuffix ? formatDistanceLocale$W[token].withPreposition : formatDistanceLocale$W[token].standalone;
   var result;
 
@@ -24480,7 +25870,7 @@ var formatRelativeLocale$Y = {
   other: 'P'
 };
 
-var formatRelative$Y = function (token, _date, _baseDate, _options) {
+var formatRelative$Y = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$Y[token];
 };
 
@@ -24570,7 +25960,7 @@ var formattingDayPeriodValues$L = {
   }
 };
 
-var ordinalNumber$X = function (dirtyNumber, _options) {
+var ordinalNumber$X = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -24584,7 +25974,7 @@ var localize$X = {
   quarter: buildLocalizeFn({
     values: quarterValues$X,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -24663,7 +26053,7 @@ var match$X = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$X,
     parsePattern: parseOrdinalNumberPattern$X,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -24678,7 +26068,7 @@ var match$X = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$X,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -24790,7 +26180,7 @@ var formatDistanceLocale$V = {
   }
 };
 
-var formatDistance$W = function (token, count, options) {
+var formatDistance$W = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$V[token];
 
@@ -24863,7 +26253,7 @@ var formatRelativeLocalePlural$1 = {
   other: 'P'
 };
 
-var formatRelative$X = function (token, date) {
+var formatRelative$X = function formatRelative(token, date) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural$1[token];
   }
@@ -24957,7 +26347,7 @@ var formattingDayPeriodValues$K = {
   }
 };
 
-var ordinalNumber$W = function (dirtyNumber, _options) {
+var ordinalNumber$W = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -24971,7 +26361,7 @@ var localize$W = {
   quarter: buildLocalizeFn({
     values: quarterValues$W,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -25062,7 +26452,7 @@ var match$W = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$W,
     parsePattern: parseOrdinalNumberPattern$W,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -25077,7 +26467,7 @@ var match$W = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$W,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -25189,7 +26579,7 @@ var formatDistanceLocale$U = {
   }
 };
 
-var formatDistance$V = function (token, count, options) {
+var formatDistance$V = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$U[token];
 
@@ -25254,7 +26644,7 @@ var formatRelativeLocale$W = {
   other: 'P'
 };
 
-var formatRelative$W = function (token, _date, _baseDate, _options) {
+var formatRelative$W = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$W[token];
 };
 
@@ -25348,7 +26738,7 @@ var formattingDayPeriodValues$J = {
   }
 };
 
-var ordinalNumber$V = function (dirtyNumber, _options) {
+var ordinalNumber$V = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -25361,7 +26751,7 @@ var localize$V = {
   quarter: buildLocalizeFn({
     values: quarterValues$V,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -25439,7 +26829,7 @@ var match$V = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$V,
     parsePattern: parseOrdinalNumberPattern$V,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -25454,7 +26844,7 @@ var match$V = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$V,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -25544,7 +26934,7 @@ var formatDistanceLocale$T = {
   halfAMinute: {
     one: 'puoli minuuttia',
     other: 'puoli minuuttia',
-    futureTense: function (_text) {
+    futureTense: function futureTense(_text) {
       return 'puolen minuutin';
     }
   },
@@ -25615,7 +27005,7 @@ var formatDistanceLocale$T = {
   }
 };
 
-var formatDistance$U = function (token, count, options) {
+var formatDistance$U = function formatDistance(token, count, options) {
   var tokenValue = formatDistanceLocale$T[token];
   var result = count === 1 ? tokenValue.one : tokenValue.other.replace('{{count}}', String(count));
 
@@ -25672,7 +27062,7 @@ var formatRelativeLocale$V = {
   other: 'P'
 };
 
-var formatRelative$V = function (token, _date, _baseDate, _options) {
+var formatRelative$V = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$V[token];
 };
 
@@ -25741,7 +27131,7 @@ var dayPeriodValues$U = {
   }
 };
 
-var ordinalNumber$U = function (dirtyNumber, _options) {
+var ordinalNumber$U = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -25755,7 +27145,7 @@ var localize$U = {
   quarter: buildLocalizeFn({
     values: quarterValues$U,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -25834,7 +27224,7 @@ var match$U = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$U,
     parsePattern: parseOrdinalNumberPattern$U,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -25849,7 +27239,7 @@ var match$U = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$U,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -25963,7 +27353,7 @@ var formatDistanceLocale$S = {
   }
 };
 
-var formatDistance$T = function (token, count, options) {
+var formatDistance$T = function formatDistance(token, count, options) {
   var result;
   var form = formatDistanceLocale$S[token];
 
@@ -26028,7 +27418,7 @@ var formatRelativeLocale$U = {
   other: 'P'
 };
 
-var formatRelative$U = function (token, _date, _baseDate, _options) {
+var formatRelative$U = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$U[token];
 };
 
@@ -26086,7 +27476,7 @@ var dayPeriodValues$T = {
   }
 };
 
-var ordinalNumber$T = function (dirtyNumber, options) {
+var ordinalNumber$T = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   if (number === 0) return '0';
@@ -26111,7 +27501,7 @@ var localize$T = {
   quarter: buildLocalizeFn({
     values: quarterValues$T,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -26186,7 +27576,7 @@ var match$T = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$T,
     parsePattern: parseOrdinalNumberPattern$T,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value);
     }
   }),
@@ -26201,7 +27591,7 @@ var match$T = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$T,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -26353,7 +27743,7 @@ var formatRelativeLocale$T = {
   other: 'P'
 };
 
-var formatRelative$T = function (token, _date, _baseDate, _options) {
+var formatRelative$T = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$T[token];
 };
 
@@ -26449,7 +27839,7 @@ var formatDistanceLocale$R = {
   }
 };
 
-var formatDistance$S = function (token, count, options) {
+var formatDistance$S = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$R[token];
 
@@ -26514,7 +27904,7 @@ var formatRelativeLocale$S = {
   other: 'P'
 };
 
-var formatRelative$S = function (token, _date, _baseDate, _options) {
+var formatRelative$S = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$S[token];
 };
 
@@ -26572,7 +27962,7 @@ var dayPeriodValues$S = {
   }
 };
 
-var ordinalNumber$S = function (dirtyNumber, _options) {
+var ordinalNumber$S = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'e';
 };
@@ -26586,7 +27976,7 @@ var localize$S = {
   quarter: buildLocalizeFn({
     values: quarterValues$S,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -26660,7 +28050,7 @@ var match$S = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$S,
     parsePattern: parseOrdinalNumberPattern$S,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -26675,7 +28065,7 @@ var match$S = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$S,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -26793,7 +28183,7 @@ var formatDistanceLocale$Q = {
   }
 };
 
-var formatDistance$R = function (token, count, options) {
+var formatDistance$R = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$Q[token];
 
@@ -26863,7 +28253,7 @@ var formatRelativeLocale$R = {
   other: 'P'
 };
 
-var formatRelative$R = function (token, _date, _baseDate, _options) {
+var formatRelative$R = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$R[token];
 };
 
@@ -26957,7 +28347,7 @@ var formattingDayPeriodValues$I = {
   }
 };
 
-var ordinalNumber$R = function (dirtyNumber) {
+var ordinalNumber$R = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
 
@@ -26987,7 +28377,7 @@ var localize$R = {
   quarter: buildLocalizeFn({
     values: quarterValues$R,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -27064,7 +28454,7 @@ var match$R = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$R,
     parsePattern: parseOrdinalNumberPattern$R,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -27079,7 +28469,7 @@ var match$R = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$R,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -27191,7 +28581,7 @@ var formatDistanceLocale$P = {
   }
 };
 
-var formatDistance$Q = function (token, count, options) {
+var formatDistance$Q = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$P[token];
 
@@ -27264,7 +28654,7 @@ var formatRelativeLocalePlural = {
   other: 'P'
 };
 
-var formatRelative$Q = function (token, date, _baseDate, _options) {
+var formatRelative$Q = function formatRelative(token, date, _baseDate, _options) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural[token];
   }
@@ -27358,7 +28748,7 @@ var formattingDayPeriodValues$H = {
   }
 };
 
-var ordinalNumber$Q = function (dirtyNumber, _options) {
+var ordinalNumber$Q = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
@@ -27372,7 +28762,7 @@ var localize$Q = {
   quarter: buildLocalizeFn({
     values: quarterValues$Q,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -27450,7 +28840,7 @@ var match$Q = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$Q,
     parsePattern: parseOrdinalNumberPattern$Q,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -27465,7 +28855,7 @@ var match$Q = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$Q,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -27581,7 +28971,7 @@ var formatDistanceLocale$O = {
   }
 };
 
-var formatDistance$P = function (token, count, options) {
+var formatDistance$P = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$O[token];
 
@@ -27664,7 +29054,7 @@ var formatRelativeLocale$P = {
   other: 'P'
 };
 
-var formatRelative$P = function (token, _date, _baseDate, _options) {
+var formatRelative$P = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$P[token];
 };
 
@@ -27782,7 +29172,7 @@ var formattingDayPeriodValues$G = {
   }
 };
 
-var ordinalNumber$P = function (dirtyNumber, _options) {
+var ordinalNumber$P = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -27795,7 +29185,7 @@ var localize$P = {
   quarter: buildLocalizeFn({
     values: quarterValues$P,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -27873,7 +29263,7 @@ var match$P = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$P,
     parsePattern: parseOrdinalNumberPattern$P,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -27888,7 +29278,7 @@ var match$P = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$P,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -28015,7 +29405,7 @@ var formatDistanceLocale$N = {
   }
 };
 
-var formatDistance$O = function (token, count, options) {
+var formatDistance$O = function formatDistance(token, count, options) {
   // Return word instead of `in one day` or `one day ago`
   if (token === 'xDays' && options !== null && options !== void 0 && options.addSuffix && count <= 2) {
     if (options.comparison && options.comparison > 0) {
@@ -28091,7 +29481,7 @@ var formatRelativeLocale$O = {
   other: 'P'
 };
 
-var formatRelative$O = function (token, _date, _baseDate, _options) {
+var formatRelative$O = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$O[token];
 };
 
@@ -28181,7 +29571,7 @@ var formattingDayPeriodValues$F = {
   }
 };
 
-var ordinalNumber$O = function (dirtyNumber, options) {
+var ordinalNumber$O = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber); // We only show words till 10
 
   if (number <= 0 || number > 10) return String(number);
@@ -28202,7 +29592,7 @@ var localize$O = {
   quarter: buildLocalizeFn({
     values: quarterValues$O,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -28280,7 +29670,7 @@ var match$O = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$O,
     parsePattern: parseOrdinalNumberPattern$O,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       var number = parseInt(value, 10);
       return isNaN(number) ? ordinalName.indexOf(value) + 1 : number;
     }
@@ -28296,7 +29686,7 @@ var match$O = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$O,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -28465,7 +29855,7 @@ var formattingDayPeriodValues$E = {
   }
 };
 
-var ordinalNumber$N = function (dirtyNumber, _options) {
+var ordinalNumber$N = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return numberToLocale(number);
 };
@@ -28490,7 +29880,7 @@ var localize$N = {
   quarter: buildLocalizeFn({
     values: quarterValues$N,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -28580,7 +29970,7 @@ var formatDistanceLocale$M = {
   }
 };
 
-var formatDistance$N = function (token, count, options) {
+var formatDistance$N = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$M[token];
 
@@ -28657,7 +30047,7 @@ var formatRelativeLocale$N = {
   other: 'P'
 };
 
-var formatRelative$N = function (token, _date, _baseDate, _options) {
+var formatRelative$N = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$N[token];
 };
 
@@ -28733,7 +30123,7 @@ var match$N = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$N,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -28920,7 +30310,7 @@ var formatDistanceLocale$L = {
   }
 };
 
-var formatDistance$M = function (token, count, options) {
+var formatDistance$M = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$L[token];
 
@@ -28989,7 +30379,7 @@ var formatLong$N = {
 };
 
 var formatRelativeLocale$M = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     switch (date.getUTCDay()) {
       case 0:
         return "'prošlu nedjelju u' p";
@@ -29007,7 +30397,7 @@ var formatRelativeLocale$M = {
   yesterday: "'jučer u' p",
   today: "'danas u' p",
   tomorrow: "'sutra u' p",
-  nextWeek: function (date) {
+  nextWeek: function nextWeek(date) {
     switch (date.getUTCDay()) {
       case 0:
         return "'iduću nedjelju u' p";
@@ -29025,7 +30415,7 @@ var formatRelativeLocale$M = {
   other: 'P'
 };
 
-var formatRelative$M = function (token, date, _baseDate, _options) {
+var formatRelative$M = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$M[token];
 
   if (typeof format === 'function') {
@@ -29126,7 +30516,7 @@ var dayPeriodValues$M = {
   }
 };
 
-var ordinalNumber$M = function (dirtyNumber, _options) {
+var ordinalNumber$M = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -29140,7 +30530,7 @@ var localize$M = {
   quarter: buildLocalizeFn({
     values: quarterValues$M,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -29219,7 +30609,7 @@ var match$M = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$M,
     parsePattern: parseOrdinalNumberPattern$M,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -29234,7 +30624,7 @@ var match$M = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$M,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -29348,7 +30738,7 @@ var formatDistanceLocale$K = {
   }
 };
 
-var formatDistance$L = function (token, count, options) {
+var formatDistance$L = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$K[token];
 
@@ -29413,7 +30803,7 @@ var formatRelativeLocale$L = {
   other: 'P'
 };
 
-var formatRelative$L = function (token, _date, _baseDate, _options) {
+var formatRelative$L = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$L[token];
 };
 
@@ -29471,7 +30861,7 @@ var dayPeriodValues$L = {
   }
 };
 
-var ordinalNumber$L = function (dirtyNumber, _options) {
+var ordinalNumber$L = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   if (number === 0) return String(number);
   var suffix = number === 1 ? 'ye' : 'yèm';
@@ -29487,7 +30877,7 @@ var localize$L = {
   quarter: buildLocalizeFn({
     values: quarterValues$L,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -29562,7 +30952,7 @@ var match$L = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$L,
     parsePattern: parseOrdinalNumberPattern$L,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -29577,7 +30967,7 @@ var match$L = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$L,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -29685,7 +31075,7 @@ var withSuffixes = {
   }
 };
 
-var formatDistance$K = function (token, count, options) {
+var formatDistance$K = function formatDistance(token, count, options) {
   var adverb = token.match(/about|over|almost|lessthan/i);
   var unit = adverb ? token.replace(adverb[0], '') : token;
   var addSuffix = (options === null || options === void 0 ? void 0 : options.addSuffix) === true;
@@ -29754,7 +31144,7 @@ var formatRelativeLocale$K = {
   other: 'P'
 };
 
-var formatRelative$K = function (token, date) {
+var formatRelative$K = function formatRelative(token, date) {
   var format = formatRelativeLocale$K[token];
 
   if (typeof format === 'function') {
@@ -29823,7 +31213,7 @@ var dayPeriodValues$K = {
   }
 };
 
-var ordinalNumber$K = function (dirtyNumber, _options) {
+var ordinalNumber$K = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -29837,7 +31227,7 @@ var localize$K = {
   quarter: buildLocalizeFn({
     values: quarterValues$K,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     },
     formattingValues: formattingQuarterValues$3,
@@ -29915,7 +31305,7 @@ var match$K = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$K,
     parsePattern: parseOrdinalNumberPattern$K,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -29930,7 +31320,7 @@ var match$K = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$K,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -30044,7 +31434,7 @@ var formatDistanceLocale$J = {
   }
 };
 
-var formatDistance$J = function (token, count, options) {
+var formatDistance$J = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$J[token];
 
@@ -30109,7 +31499,7 @@ var formatRelativeLocale$J = {
   other: 'P'
 };
 
-var formatRelative$J = function (token, _date, _baseDate, _options) {
+var formatRelative$J = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$J[token];
 };
 
@@ -30199,7 +31589,7 @@ var formattingDayPeriodValues$C = {
   }
 };
 
-var ordinalNumber$J = function (dirtyNumber, _options) {
+var ordinalNumber$J = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber); // If ordinal numbers depend on context, for example,
   // if they are different for different grammatical genders,
   // use `options.unit`.
@@ -30227,7 +31617,7 @@ var localize$J = {
   quarter: buildLocalizeFn({
     values: quarterValues$J,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -30306,7 +31696,7 @@ var match$J = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$J,
     parsePattern: parseOrdinalNumberPattern$J,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -30321,7 +31711,7 @@ var match$J = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$J,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -30433,7 +31823,7 @@ var formatDistanceLocale$I = {
   }
 };
 
-var formatDistance$I = function (token, count, options) {
+var formatDistance$I = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$I[token];
 
@@ -30498,7 +31888,7 @@ var formatRelativeLocale$I = {
   other: 'P'
 };
 
-var formatRelative$I = function (token, _date, _baseDate, _options) {
+var formatRelative$I = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$I[token];
 };
 
@@ -30594,7 +31984,7 @@ var formattingDayPeriodValues$B = {
   }
 };
 
-var ordinalNumber$I = function (dirtyNumber, _options) {
+var ordinalNumber$I = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber); // Can't use "pertama", "kedua" because can't be parsed
 
   return 'ke-' + number;
@@ -30609,7 +31999,7 @@ var localize$I = {
   quarter: buildLocalizeFn({
     values: quarterValues$I,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -30686,7 +32076,7 @@ var match$I = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$I,
     parsePattern: parseOrdinalNumberPattern$I,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -30701,7 +32091,7 @@ var match$I = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$I,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -30816,7 +32206,7 @@ var formatDistanceLocale$H = {
   }
 };
 
-var formatDistance$H = function (token, count, options) {
+var formatDistance$H = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$H[token];
 
@@ -30881,7 +32271,7 @@ var formatRelativeLocale$H = {
   other: 'P'
 };
 
-var formatRelative$H = function (token, _date, _baseDate, _options) {
+var formatRelative$H = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$H[token];
 };
 
@@ -30971,7 +32361,7 @@ var formattingDayPeriodValues$A = {
   }
 };
 
-var ordinalNumber$H = function (dirtyNumber, _options) {
+var ordinalNumber$H = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -30985,7 +32375,7 @@ var localize$H = {
   quarter: buildLocalizeFn({
     values: quarterValues$H,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -31062,7 +32452,7 @@ var match$H = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$H,
     parsePattern: parseOrdinalNumberPattern$H,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -31077,7 +32467,7 @@ var match$H = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$H,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -31190,7 +32580,7 @@ var formatDistanceLocale$G = {
   }
 };
 
-var formatDistance$G = function (token, count, options) {
+var formatDistance$G = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$G[token];
 
@@ -31248,7 +32638,7 @@ var formatLong$H = {
 
 var weekdays$2 = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
 
-function lastWeek$5(day) {
+function _lastWeek$4(day) {
   switch (day) {
     case 0:
       return "'domenica scorsa alle' p";
@@ -31262,7 +32652,7 @@ function thisWeek$5(day) {
   return "'" + weekdays$2[day] + " alle' p";
 }
 
-function nextWeek$5(day) {
+function _nextWeek$4(day) {
   switch (day) {
     case 0:
       return "'domenica prossima alle' p";
@@ -31273,31 +32663,31 @@ function nextWeek$5(day) {
 }
 
 var formatRelativeLocale$G = {
-  lastWeek: function (date, baseDate, options) {
+  lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$5(day);
     } else {
-      return lastWeek$5(day);
+      return _lastWeek$4(day);
     }
   },
   yesterday: "'ieri alle' p",
   today: "'oggi alle' p",
   tomorrow: "'domani alle' p",
-  nextWeek: function (date, baseDate, options) {
+  nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$5(day);
     } else {
-      return nextWeek$5(day);
+      return _nextWeek$4(day);
     }
   },
   other: 'P'
 };
 
-var formatRelative$G = function (token, date, baseDate, options) {
+var formatRelative$G = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$G[token];
 
   if (typeof format === 'function') {
@@ -31393,7 +32783,7 @@ var formattingDayPeriodValues$z = {
   }
 };
 
-var ordinalNumber$G = function (dirtyNumber, _options) {
+var ordinalNumber$G = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return String(number);
 };
@@ -31407,7 +32797,7 @@ var localize$G = {
   quarter: buildLocalizeFn({
     values: quarterValues$G,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -31484,7 +32874,7 @@ var match$G = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$G,
     parsePattern: parseOrdinalNumberPattern$G,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -31499,7 +32889,7 @@ var match$G = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$G,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -31674,7 +33064,7 @@ var formatDistanceLocale$F = {
   }
 };
 
-var formatDistance$F = function (token, count, options) {
+var formatDistance$F = function formatDistance(token, count, options) {
   options = options || {};
   var result;
   var tokenValue = formatDistanceLocale$F[token];
@@ -31748,7 +33138,7 @@ var formatRelativeLocale$F = {
   other: 'P'
 };
 
-var formatRelative$F = function (token, _date, _baseDate, _options) {
+var formatRelative$F = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$F[token];
 };
 
@@ -31838,7 +33228,7 @@ var formattingDayPeriodValues$y = {
   }
 };
 
-var ordinalNumber$F = function (dirtyNumber, options) {
+var ordinalNumber$F = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
 
@@ -31881,7 +33271,7 @@ var localize$F = {
   quarter: buildLocalizeFn({
     values: quarterValues$F,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return Number(quarter) - 1;
     }
   }),
@@ -31956,7 +33346,7 @@ var match$F = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$F,
     parsePattern: parseOrdinalNumberPattern$F,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -31971,7 +33361,7 @@ var match$F = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$F,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -32090,7 +33480,7 @@ var formatDistanceLocale$E = {
   }
 };
 
-var formatDistance$E = function (token, count, options) {
+var formatDistance$E = function formatDistance(token, count, options) {
   options = options || {};
   var result;
   var tokenValue = formatDistanceLocale$E[token];
@@ -32164,7 +33554,7 @@ var formatRelativeLocale$E = {
   other: 'P'
 };
 
-var formatRelative$E = function (token, _date, _baseDate, _options) {
+var formatRelative$E = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$E[token];
 };
 
@@ -32254,7 +33644,7 @@ var formattingDayPeriodValues$x = {
   }
 };
 
-var ordinalNumber$E = function (dirtyNumber, options) {
+var ordinalNumber$E = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
 
@@ -32297,7 +33687,7 @@ var localize$E = {
   quarter: buildLocalizeFn({
     values: quarterValues$E,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return Number(quarter) - 1;
     }
   }),
@@ -32372,7 +33762,7 @@ var match$E = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$E,
     parsePattern: parseOrdinalNumberPattern$E,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -32387,7 +33777,7 @@ var match$E = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$E,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -32518,7 +33908,7 @@ var formatDistanceLocale$D = {
   }
 };
 
-var formatDistance$D = function (token, count, options) {
+var formatDistance$D = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$D[token];
 
@@ -32577,7 +33967,7 @@ var formatRelativeLocale$D = {
   other: 'P'
 };
 
-var formatRelative$D = function (token, _date, _baseDate, _options) {
+var formatRelative$D = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$D[token];
 };
 
@@ -32671,7 +34061,7 @@ var formattingDayPeriodValues$w = {
   }
 };
 
-var ordinalNumber$D = function (dirtyNumber) {
+var ordinalNumber$D = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
 
   if (number === 1) {
@@ -32690,7 +34080,7 @@ var localize$D = {
   quarter: buildLocalizeFn({
     values: quarterValues$D,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -32761,7 +34151,7 @@ var match$D = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$D,
     parsePattern: parseOrdinalNumberPattern$D,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -32776,7 +34166,7 @@ var match$D = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$D,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -32857,7 +34247,7 @@ var formatDistanceLocale$C = {
       pluralGenitive: '{{count}} секундтан кейін'
     }
   },
-  halfAMinute: function (options) {
+  halfAMinute: function halfAMinute(options) {
     if (options !== null && options !== void 0 && options.addSuffix) {
       if (options.comparison && options.comparison > 0) {
         return 'жарты минут ішінде';
@@ -33024,7 +34414,7 @@ function declension$4(scheme, count) {
   }
 }
 
-var formatDistance$C = function (token, count, options) {
+var formatDistance$C = function formatDistance(token, count, options) {
   var tokenValue = formatDistanceLocale$C[token];
   if (typeof tokenValue === 'function') return tokenValue(options);
 
@@ -33083,7 +34473,7 @@ var formatLong$C = {
 
 var accusativeWeekdays$3 = ['жексенбіде', 'дүйсенбіде', 'сейсенбіде', 'сәрсенбіде', 'бейсенбіде', 'жұмада', 'сенбіде'];
 
-function lastWeek$4(day) {
+function _lastWeek$3(day) {
   var weekday = accusativeWeekdays$3[day];
   return "'өткен " + weekday + " сағат' p'-де'";
 }
@@ -33093,37 +34483,37 @@ function thisWeek$4(day) {
   return "'" + weekday + " сағат' p'-де'";
 }
 
-function nextWeek$4(day) {
+function _nextWeek$3(day) {
   var weekday = accusativeWeekdays$3[day];
   return "'келесі " + weekday + " сағат' p'-де'";
 }
 
 var formatRelativeLocale$C = {
-  lastWeek: function (date, baseDate, options) {
+  lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$4(day);
     } else {
-      return lastWeek$4(day);
+      return _lastWeek$3(day);
     }
   },
   yesterday: "'кеше сағат' p'-де'",
   today: "'бүгін сағат' p'-де'",
   tomorrow: "'ертең сағат' p'-де'",
-  nextWeek: function (date, baseDate, options) {
+  nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$4(day);
     } else {
-      return nextWeek$4(day);
+      return _nextWeek$3(day);
     }
   },
   other: 'P'
 };
 
-var formatRelative$C = function (token, date, baseDate, options) {
+var formatRelative$C = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$C[token];
 
   if (typeof format === 'function') {
@@ -33226,7 +34616,7 @@ var suffixes = {
   100: '-ші'
 };
 
-var ordinalNumber$C = function (dirtyNumber, _options) {
+var ordinalNumber$C = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var mod10 = number % 10;
   var b = number >= 100 ? 100 : null;
@@ -33243,7 +34633,7 @@ var localize$C = {
   quarter: buildLocalizeFn({
     values: quarterValues$C,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -33324,7 +34714,7 @@ var match$C = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$C,
     parsePattern: parseOrdinalNumberPattern$C,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -33339,7 +34729,7 @@ var match$C = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$C,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -33406,7 +34796,7 @@ var formatDistanceLocale$B = {
   almostXYears: 'ជិត {{count}} ឆ្នាំ'
 };
 
-var formatDistance$B = function (token, count, options) {
+var formatDistance$B = function formatDistance(token, count, options) {
   var tokenValue = formatDistanceLocale$B[token];
   var result = tokenValue;
 
@@ -33467,7 +34857,7 @@ var formatRelativeLocale$B = {
   other: 'P'
 };
 
-var formatRelative$B = function (token, _date, _baseDate, _options) {
+var formatRelative$B = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$B[token];
 };
 
@@ -33557,7 +34947,7 @@ var formattingDayPeriodValues$u = {
   }
 };
 
-var ordinalNumber$B = function (dirtyNumber, _) {
+var ordinalNumber$B = function ordinalNumber(dirtyNumber, _) {
   var number = Number(dirtyNumber);
   return number.toString();
 };
@@ -33571,7 +34961,7 @@ var localize$B = {
   quarter: buildLocalizeFn({
     values: quarterValues$B,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -33648,7 +35038,7 @@ var match$B = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$B,
     parsePattern: parseOrdinalNumberPattern$B,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -33663,7 +35053,7 @@ var match$B = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$B,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -33894,7 +35284,7 @@ function getResultByTense(parentToken, options) {
   return parentToken.default;
 }
 
-var formatDistance$A = function (token, count, options) {
+var formatDistance$A = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$A[token];
 
@@ -33961,7 +35351,7 @@ var formatRelativeLocale$A = {
   other: 'P'
 };
 
-var formatRelative$A = function (token, _date, _baseDate, _options) {
+var formatRelative$A = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$A[token];
 };
 
@@ -34058,7 +35448,7 @@ var formattingDayPeriodValues$t = {
   }
 };
 
-var ordinalNumber$A = function (dirtyNumber, _options) {
+var ordinalNumber$A = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'ನೇ';
 };
@@ -34072,7 +35462,7 @@ var localize$A = {
   quarter: buildLocalizeFn({
     values: quarterValues$A,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -34149,7 +35539,7 @@ var match$A = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$A,
     parsePattern: parseOrdinalNumberPattern$A,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -34164,7 +35554,7 @@ var match$A = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$A,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -34276,7 +35666,7 @@ var formatDistanceLocale$z = {
   }
 };
 
-var formatDistance$z = function (token, count, options) {
+var formatDistance$z = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$z[token];
 
@@ -34341,7 +35731,7 @@ var formatRelativeLocale$z = {
   other: 'P'
 };
 
-var formatRelative$z = function (token, _date, _baseDate, _options) {
+var formatRelative$z = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$z[token];
 };
 
@@ -34431,7 +35821,7 @@ var formattingDayPeriodValues$s = {
   }
 };
 
-var ordinalNumber$z = function (dirtyNumber, options) {
+var ordinalNumber$z = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
 
@@ -34457,7 +35847,7 @@ var localize$z = {
   quarter: buildLocalizeFn({
     values: quarterValues$z,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -34531,7 +35921,7 @@ var match$z = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$z,
     parsePattern: parseOrdinalNumberPattern$z,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -34546,7 +35936,7 @@ var match$z = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$z,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -34777,7 +36167,7 @@ function isFinalNNeeded(nextWords) {
   return false;
 }
 
-var formatDistance$y = function (token, count, options) {
+var formatDistance$y = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$y[token];
   var usageGroup = options !== null && options !== void 0 && options.addSuffix ? tokenValue.withPreposition : tokenValue.standalone;
@@ -34839,7 +36229,7 @@ var formatLong$y = {
 };
 
 var formatRelativeLocale$y = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     var day = date.getUTCDay();
     var result = "'läschte";
 
@@ -34858,7 +36248,7 @@ var formatRelativeLocale$y = {
   other: 'P'
 };
 
-var formatRelative$y = function (token, date, _baseDate, _options) {
+var formatRelative$y = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$y[token];
 
   if (typeof format === 'function') {
@@ -34954,7 +36344,7 @@ var formattingDayPeriodValues$r = {
   }
 };
 
-var ordinalNumber$y = function (dirtyNumber, _options) {
+var ordinalNumber$y = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -34968,7 +36358,7 @@ var localize$y = {
   quarter: buildLocalizeFn({
     values: quarterValues$y,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -35047,7 +36437,7 @@ var match$y = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$y,
     parsePattern: parseOrdinalNumberPattern$y,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -35062,7 +36452,7 @@ var match$y = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$y,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -35130,7 +36520,7 @@ var translations = {
   lessthan: 'mažiau nei'
 };
 
-var translateSeconds = function (_number, addSuffix, _key, isFuture) {
+var translateSeconds = function translateSeconds(_number, addSuffix, _key, isFuture) {
   if (!addSuffix) {
     return 'kelios sekundės';
   } else {
@@ -35138,11 +36528,11 @@ var translateSeconds = function (_number, addSuffix, _key, isFuture) {
   }
 };
 
-var translateSingular = function (_number, addSuffix, key, isFuture) {
+var translateSingular = function translateSingular(_number, addSuffix, key, isFuture) {
   return !addSuffix ? forms(key)[0] : isFuture ? forms(key)[1] : forms(key)[2];
 };
 
-var translate = function (number, addSuffix, key, isFuture) {
+var translate = function translate(number, addSuffix, key, isFuture) {
   var result = number + ' ';
 
   if (number === 1) {
@@ -35230,7 +36620,7 @@ var formatDistanceLocale$x = {
   }
 };
 
-var formatDistance$x = function (token, count, options) {
+var formatDistance$x = function formatDistance(token, count, options) {
   var adverb = token.match(/about|over|almost|lessthan/i);
   var unit = adverb ? token.replace(adverb[0], '') : token;
   var isFuture = (options === null || options === void 0 ? void 0 : options.comparison) !== undefined && options.comparison > 0;
@@ -35304,7 +36694,7 @@ var formatRelativeLocale$x = {
   other: 'P'
 };
 
-var formatRelative$x = function (token, _date, _baseDate, _options) {
+var formatRelative$x = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$x[token];
 };
 
@@ -35410,7 +36800,7 @@ var formattingDayPeriodValues$q = {
   }
 };
 
-var ordinalNumber$x = function (dirtyNumber, _options) {
+var ordinalNumber$x = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '-oji';
 };
@@ -35426,7 +36816,7 @@ var localize$x = {
     defaultWidth: 'wide',
     formattingValues: formattingQuarterValues$2,
     defaultFormattingWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -35520,7 +36910,7 @@ var match$x = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$x,
     parsePattern: parseOrdinalNumberPattern$x,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -35535,7 +36925,7 @@ var match$x = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$x,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -35613,7 +37003,7 @@ var formatDistanceLocale$w = {
     one: ['1 {{time}}', 'sekunde', 'sekundes'],
     other: ['{{count}} {{time}}', 'sekunde', 'sekundes', 'sekundes', 'sekundēm']
   }),
-  halfAMinute: function (_count, options) {
+  halfAMinute: function halfAMinute(_count, options) {
     if (options !== null && options !== void 0 && options.addSuffix) {
       return 'pusminūtes';
     } else {
@@ -35675,7 +37065,7 @@ var formatDistanceLocale$w = {
   })
 };
 
-var formatDistance$w = function (token, count, options) {
+var formatDistance$w = function formatDistance(token, count, options) {
   var result = formatDistanceLocale$w[token](count, options);
 
   if (options !== null && options !== void 0 && options.addSuffix) {
@@ -35724,7 +37114,7 @@ var formatLong$w = {
 
 var weekdays$1 = ['svētdienā', 'pirmdienā', 'otrdienā', 'trešdienā', 'ceturtdienā', 'piektdienā', 'sestdienā'];
 var formatRelativeLocale$w = {
-  lastWeek: function (date, baseDate, options) {
+  lastWeek: function lastWeek(date, baseDate, options) {
     if (isSameUTCWeek(date, baseDate, options)) {
       return "eeee 'plkst.' p";
     }
@@ -35735,7 +37125,7 @@ var formatRelativeLocale$w = {
   yesterday: "'Vakar plkst.' p",
   today: "'Šodien plkst.' p",
   tomorrow: "'Rīt plkst.' p",
-  nextWeek: function (date, baseDate, options) {
+  nextWeek: function nextWeek(date, baseDate, options) {
     if (isSameUTCWeek(date, baseDate, options)) {
       return "eeee 'plkst.' p";
     }
@@ -35746,7 +37136,7 @@ var formatRelativeLocale$w = {
   other: 'P'
 };
 
-var formatRelative$w = function (token, date, baseDate, options) {
+var formatRelative$w = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$w[token];
 
   if (typeof format === 'function') {
@@ -35858,7 +37248,7 @@ var formattingDayPeriodValues$p = {
   }
 };
 
-var ordinalNumber$w = function (dirtyNumber, _options) {
+var ordinalNumber$w = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -35874,7 +37264,7 @@ var localize$w = {
     defaultWidth: 'wide',
     formattingValues: formattingQuarterValues$1,
     defaultFormattingWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -35958,7 +37348,7 @@ var match$w = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$w,
     parsePattern: parseOrdinalNumberPattern$w,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -35973,7 +37363,7 @@ var match$w = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$w,
     defaultParseWidth: 'wide',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -36085,7 +37475,7 @@ var formatDistanceLocale$v = {
   }
 };
 
-var formatDistance$v = function (token, count, options) {
+var formatDistance$v = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$v[token];
 
@@ -36140,7 +37530,7 @@ var formatLong$v = {
 
 var weekdays = ['недела', 'понеделник', 'вторник', 'среда', 'четврток', 'петок', 'сабота'];
 
-function lastWeek$3(day) {
+function _lastWeek$2(day) {
   var weekday = weekdays[day];
 
   switch (day) {
@@ -36174,7 +37564,7 @@ function thisWeek$3(day) {
   }
 }
 
-function nextWeek$3(day) {
+function _nextWeek$2(day) {
   var weekday = weekdays[day];
 
   switch (day) {
@@ -36192,31 +37582,31 @@ function nextWeek$3(day) {
 }
 
 var formatRelativeLocale$v = {
-  lastWeek: function (date, baseDate, options) {
+  lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$3(day);
     } else {
-      return lastWeek$3(day);
+      return _lastWeek$2(day);
     }
   },
   yesterday: "'вчера во' p",
   today: "'денес во' p",
   tomorrow: "'утре во' p",
-  nextWeek: function (date, baseDate, options) {
+  nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$3(day);
     } else {
-      return nextWeek$3(day);
+      return _nextWeek$2(day);
     }
   },
   other: 'P'
 };
 
-var formatRelative$v = function (token, date, baseDate, options) {
+var formatRelative$v = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$v[token];
 
   if (typeof format === 'function') {
@@ -36259,7 +37649,7 @@ var dayPeriodValues$v = {
   }
 };
 
-var ordinalNumber$v = function (dirtyNumber, _options) {
+var ordinalNumber$v = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
 
@@ -36289,7 +37679,7 @@ var localize$v = {
   quarter: buildLocalizeFn({
     values: quarterValues$v,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -36361,7 +37751,7 @@ var match$v = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$v,
     parsePattern: parseOrdinalNumberPattern$v,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -36376,7 +37766,7 @@ var match$v = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$v,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -36489,7 +37879,7 @@ var formatDistanceLocale$u = {
   }
 };
 
-var formatDistance$u = function (token, count, options) {
+var formatDistance$u = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$u[token];
 
@@ -36602,7 +37992,7 @@ var formatRelativeLocale$u = {
   other: 'P'
 };
 
-var formatRelative$u = function (token, _date, _baseDate, _options) {
+var formatRelative$u = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$u[token];
 };
 
@@ -36675,7 +38065,7 @@ var dayPeriodValues$u = {
   }
 };
 
-var ordinalNumber$u = function (dirtyNumber, _options) {
+var ordinalNumber$u = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -36688,7 +38078,7 @@ var localize$u = {
   quarter: buildLocalizeFn({
     values: quarterValues$u,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -36767,7 +38157,7 @@ var match$u = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$u,
     parsePattern: parseOrdinalNumberPattern$u,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -36782,7 +38172,7 @@ var match$u = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$u,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -36894,7 +38284,7 @@ var formatDistanceLocale$t = {
   }
 };
 
-var formatDistance$t = function (token, count, options) {
+var formatDistance$t = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$t[token];
 
@@ -36959,7 +38349,7 @@ var formatRelativeLocale$t = {
   other: 'P'
 };
 
-var formatRelative$t = function (token, _date, _baseDate, _options) {
+var formatRelative$t = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$t[token];
 };
 
@@ -37055,7 +38445,7 @@ var formattingDayPeriodValues$o = {
   }
 };
 
-var ordinalNumber$t = function (dirtyNumber, _options) {
+var ordinalNumber$t = function ordinalNumber(dirtyNumber, _options) {
   // Can't use "pertama", "kedua" because can't be parsed
   return 'ke-' + Number(dirtyNumber);
 };
@@ -37069,7 +38459,7 @@ var localize$t = {
   quarter: buildLocalizeFn({
     values: quarterValues$t,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -37146,7 +38536,7 @@ var match$t = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$t,
     parsePattern: parseOrdinalNumberPattern$t,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -37161,7 +38551,7 @@ var match$t = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$t,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -37277,7 +38667,7 @@ var formatDistanceLocale$s = {
   }
 };
 
-var formatDistance$s = function (token, count, options) {
+var formatDistance$s = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$s[token];
 
@@ -37344,7 +38734,7 @@ var formatRelativeLocale$s = {
   other: 'P'
 };
 
-var formatRelative$s = function (token, _date, _baseDate, _options) {
+var formatRelative$s = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$s[token];
 };
 
@@ -37434,7 +38824,7 @@ var formattingDayPeriodValues$n = {
   }
 };
 
-var ordinalNumber$s = function (dirtyNumber, _options) {
+var ordinalNumber$s = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
@@ -37448,7 +38838,7 @@ var localize$s = {
   quarter: buildLocalizeFn({
     values: quarterValues$s,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -37525,7 +38915,7 @@ var match$s = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$s,
     parsePattern: parseOrdinalNumberPattern$s,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -37540,7 +38930,7 @@ var match$s = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$s,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -37653,7 +39043,7 @@ var formatDistanceLocale$r = {
   }
 };
 
-var formatDistance$r = function (token, count, options) {
+var formatDistance$r = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$r[token];
 
@@ -37718,7 +39108,7 @@ var formatRelativeLocale$r = {
   other: 'P'
 };
 
-var formatRelative$r = function (token, _date, _baseDate, _options) {
+var formatRelative$r = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$r[token];
 };
 
@@ -37776,7 +39166,7 @@ var dayPeriodValues$r = {
   }
 };
 
-var ordinalNumber$r = function (dirtyNumber, _options) {
+var ordinalNumber$r = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -37790,7 +39180,7 @@ var localize$r = {
   quarter: buildLocalizeFn({
     values: quarterValues$r,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -37864,7 +39254,7 @@ var match$r = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$r,
     parsePattern: parseOrdinalNumberPattern$r,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -37879,7 +39269,7 @@ var match$r = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$r,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -37993,7 +39383,7 @@ var formatDistanceLocale$q = {
   }
 };
 
-var formatDistance$q = function (token, count, options) {
+var formatDistance$q = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$q[token];
 
@@ -38058,7 +39448,7 @@ var formatRelativeLocale$q = {
   other: 'P'
 };
 
-var formatRelative$q = function (token, _date, _baseDate, _options) {
+var formatRelative$q = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$q[token];
 };
 
@@ -38116,7 +39506,7 @@ var dayPeriodValues$q = {
   }
 };
 
-var ordinalNumber$q = function (dirtyNumber, _options) {
+var ordinalNumber$q = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'e';
 };
@@ -38130,7 +39520,7 @@ var localize$q = {
   quarter: buildLocalizeFn({
     values: quarterValues$q,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -38204,7 +39594,7 @@ var match$q = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$q,
     parsePattern: parseOrdinalNumberPattern$q,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -38219,7 +39609,7 @@ var match$q = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$q,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -38336,7 +39726,7 @@ var formatDistanceLocale$p = {
   }
 };
 
-var formatDistance$p = function (token, count, options) {
+var formatDistance$p = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$p[token];
 
@@ -38401,7 +39791,7 @@ var formatRelativeLocale$p = {
   other: 'P'
 };
 
-var formatRelative$p = function (token, _date, _baseDate, _options) {
+var formatRelative$p = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$p[token];
 };
 
@@ -38459,7 +39849,7 @@ var dayPeriodValues$p = {
   }
 };
 
-var ordinalNumber$p = function (dirtyNumber, _options) {
+var ordinalNumber$p = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'e';
 };
@@ -38473,7 +39863,7 @@ var localize$p = {
   quarter: buildLocalizeFn({
     values: quarterValues$p,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -38547,7 +39937,7 @@ var match$p = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$p,
     parsePattern: parseOrdinalNumberPattern$p,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -38562,7 +39952,7 @@ var match$p = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$p,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -38678,7 +40068,7 @@ var formatDistanceLocale$o = {
 };
 var wordMapping$1 = ['null', 'ein', 'to', 'tre', 'fire', 'fem', 'seks', 'sju', 'åtte', 'ni', 'ti', 'elleve', 'tolv'];
 
-var formatDistance$o = function (token, count, options) {
+var formatDistance$o = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$o[token];
 
@@ -38747,7 +40137,7 @@ var formatRelativeLocale$o = {
   other: 'P'
 };
 
-var formatRelative$o = function (token, _date, _baseDate, _options) {
+var formatRelative$o = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$o[token];
 };
 
@@ -38805,7 +40195,7 @@ var dayPeriodValues$o = {
   }
 };
 
-var ordinalNumber$o = function (dirtyNumber, _options) {
+var ordinalNumber$o = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -38819,7 +40209,7 @@ var localize$o = {
   quarter: buildLocalizeFn({
     values: quarterValues$o,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -38893,7 +40283,7 @@ var match$o = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$o,
     parsePattern: parseOrdinalNumberPattern$o,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -38908,7 +40298,7 @@ var match$o = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$o,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -39020,7 +40410,7 @@ var formatDistanceLocale$n = {
   }
 };
 
-var formatDistance$n = function (token, count, options) {
+var formatDistance$n = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$n[token];
 
@@ -39085,7 +40475,7 @@ var formatRelativeLocale$n = {
   other: 'P'
 };
 
-var formatRelative$n = function (token, _date, _baseDate, _options) {
+var formatRelative$n = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$n[token];
 };
 
@@ -39175,7 +40565,7 @@ var formattingDayPeriodValues$m = {
   }
 };
 
-var ordinalNumber$n = function (dirtyNumber, options) {
+var ordinalNumber$n = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   var ordinal;
@@ -39210,7 +40600,7 @@ var localize$n = {
   quarter: buildLocalizeFn({
     values: quarterValues$n,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -39287,7 +40677,7 @@ var match$n = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$n,
     parsePattern: parseOrdinalNumberPattern$n,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -39302,7 +40692,7 @@ var match$n = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$n,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -39487,7 +40877,7 @@ function declension$3(scheme, count, time) {
   return finalText.replace('{{count}}', String(count));
 }
 
-var formatDistance$m = function (token, count, options) {
+var formatDistance$m = function formatDistance(token, count, options) {
   var scheme = formatDistanceLocale$m[token];
 
   if (!(options !== null && options !== void 0 && options.addSuffix)) {
@@ -39584,7 +40974,7 @@ var formatRelativeLocale$m = {
   other: 'P'
 };
 
-var formatRelative$m = function (token, date, baseDate, options) {
+var formatRelative$m = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$m[token];
 
   if (typeof format === 'function') {
@@ -39691,7 +41081,7 @@ var dayPeriodFormattingValues = {
   }
 };
 
-var ordinalNumber$m = function (dirtyNumber, _options) {
+var ordinalNumber$m = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -39704,7 +41094,7 @@ var localize$m = {
   quarter: buildLocalizeFn({
     values: quarterValues$m,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -39797,7 +41187,7 @@ var match$m = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$m,
     parsePattern: parseOrdinalNumberPattern$m,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -39812,7 +41202,7 @@ var match$m = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$m,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -39927,7 +41317,7 @@ var formatDistanceLocale$l = {
   }
 };
 
-var formatDistance$l = function (token, count, options) {
+var formatDistance$l = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$l[token];
 
@@ -39984,7 +41374,7 @@ var formatLong$l = {
 };
 
 var formatRelativeLocale$l = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     var weekday = date.getUTCDay();
     var last = weekday === 0 || weekday === 6 ? 'último' : 'última';
     return "'" + last + "' eeee 'às' p";
@@ -39996,7 +41386,7 @@ var formatRelativeLocale$l = {
   other: 'P'
 };
 
-var formatRelative$l = function (token, date, _baseDate, _options) {
+var formatRelative$l = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$l[token];
 
   if (typeof format === 'function') {
@@ -40092,7 +41482,7 @@ var formattingDayPeriodValues$l = {
   }
 };
 
-var ordinalNumber$l = function (dirtyNumber, _options) {
+var ordinalNumber$l = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
@@ -40106,7 +41496,7 @@ var localize$l = {
   quarter: buildLocalizeFn({
     values: quarterValues$l,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -40184,7 +41574,7 @@ var match$l = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$l,
     parsePattern: parseOrdinalNumberPattern$l,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -40199,7 +41589,7 @@ var match$l = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$l,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -40312,7 +41702,7 @@ var formatDistanceLocale$k = {
   }
 };
 
-var formatDistance$k = function (token, count, options) {
+var formatDistance$k = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$k[token];
 
@@ -40369,7 +41759,7 @@ var formatLong$k = {
 };
 
 var formatRelativeLocale$k = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     var weekday = date.getUTCDay();
     var last = weekday === 0 || weekday === 6 ? 'último' : 'última';
     return "'" + last + "' eeee 'às' p";
@@ -40381,7 +41771,7 @@ var formatRelativeLocale$k = {
   other: 'P'
 };
 
-var formatRelative$k = function (token, date, _baseDate, _options) {
+var formatRelative$k = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$k[token];
 
   if (typeof format === 'function') {
@@ -40477,7 +41867,7 @@ var formattingDayPeriodValues$k = {
   }
 };
 
-var ordinalNumber$k = function (dirtyNumber, options) {
+var ordinalNumber$k = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
 
   if ((options === null || options === void 0 ? void 0 : options.unit) === 'week') {
@@ -40496,7 +41886,7 @@ var localize$k = {
   quarter: buildLocalizeFn({
     values: quarterValues$k,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -40575,7 +41965,7 @@ var match$k = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$k,
     parsePattern: parseOrdinalNumberPattern$k,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -40590,7 +41980,7 @@ var match$k = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$k,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -40703,7 +42093,7 @@ var formatDistanceLocale$j = {
   }
 };
 
-var formatDistance$j = function (token, count, options) {
+var formatDistance$j = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$j[token];
 
@@ -40768,7 +42158,7 @@ var formatRelativeLocale$j = {
   other: 'P'
 };
 
-var formatRelative$j = function (token, _date, _baseDate, _options) {
+var formatRelative$j = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$j[token];
 };
 
@@ -40858,7 +42248,7 @@ var formattingDayPeriodValues$j = {
   }
 };
 
-var ordinalNumber$j = function (dirtyNumber, _options) {
+var ordinalNumber$j = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -40871,7 +42261,7 @@ var localize$j = {
   quarter: buildLocalizeFn({
     values: quarterValues$j,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -40949,7 +42339,7 @@ var match$j = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$j,
     parsePattern: parseOrdinalNumberPattern$j,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -40964,7 +42354,7 @@ var match$j = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$j,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -41086,7 +42476,7 @@ var formatDistanceLocale$i = {
       pluralGenitive: 'через {{count}} секунд'
     }
   }),
-  halfAMinute: function (_count, options) {
+  halfAMinute: function halfAMinute(_count, options) {
     if (options !== null && options !== void 0 && options.addSuffix) {
       if (options.comparison && options.comparison > 0) {
         return 'через полминуты';
@@ -41237,7 +42627,7 @@ var formatDistanceLocale$i = {
   })
 };
 
-var formatDistance$i = function (token, count, options) {
+var formatDistance$i = function formatDistance(token, count, options) {
   return formatDistanceLocale$i[token](count, options);
 };
 
@@ -41273,7 +42663,7 @@ var formatLong$i = {
 
 var accusativeWeekdays$2 = ['воскресенье', 'понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу'];
 
-function lastWeek$2(day) {
+function _lastWeek$1(day) {
   var weekday = accusativeWeekdays$2[day];
 
   switch (day) {
@@ -41304,7 +42694,7 @@ function thisWeek$2(day) {
   }
 }
 
-function nextWeek$2(day) {
+function _nextWeek$1(day) {
   var weekday = accusativeWeekdays$2[day];
 
   switch (day) {
@@ -41324,31 +42714,31 @@ function nextWeek$2(day) {
 }
 
 var formatRelativeLocale$i = {
-  lastWeek: function (date, baseDate, options) {
+  lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$2(day);
     } else {
-      return lastWeek$2(day);
+      return _lastWeek$1(day);
     }
   },
   yesterday: "'вчера в' p",
   today: "'сегодня в' p",
   tomorrow: "'завтра в' p",
-  nextWeek: function (date, baseDate, options) {
+  nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$2(day);
     } else {
-      return nextWeek$2(day);
+      return _nextWeek$1(day);
     }
   },
   other: 'P'
 };
 
-var formatRelative$i = function (token, date, baseDate, options) {
+var formatRelative$i = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$i[token];
 
   if (typeof format === 'function') {
@@ -41449,7 +42839,7 @@ var formattingDayPeriodValues$i = {
   }
 };
 
-var ordinalNumber$i = function (dirtyNumber, options) {
+var ordinalNumber$i = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   var suffix;
@@ -41474,7 +42864,7 @@ var localize$i = {
   quarter: buildLocalizeFn({
     values: quarterValues$i,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -41554,7 +42944,7 @@ var match$i = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$i,
     parsePattern: parseOrdinalNumberPattern$i,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -41569,7 +42959,7 @@ var match$i = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$i,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -41805,7 +43195,7 @@ var formatDistanceLocale$h = {
   }
 };
 
-var formatDistance$h = function (token, count, options) {
+var formatDistance$h = function formatDistance(token, count, options) {
   var preposition = extractPreposition(token) || '';
   var key = lowercaseFirstLetter(token.substring(preposition.length));
   var scheme = formatDistanceLocale$h[key];
@@ -41859,7 +43249,7 @@ var formatLong$h = {
 // https://www.unicode.org/cldr/charts/32/summary/sk.html?hide#1308
 var accusativeWeekdays$1 = ['nedeľu', 'pondelok', 'utorok', 'stredu', 'štvrtok', 'piatok', 'sobotu'];
 
-function lastWeek$1(day) {
+function _lastWeek(day) {
   var weekday = accusativeWeekdays$1[day];
 
   switch (day) {
@@ -41891,7 +43281,7 @@ function thisWeek$1(day) {
   }
 }
 
-function nextWeek$1(day) {
+function _nextWeek(day) {
   var weekday = accusativeWeekdays$1[day];
 
   switch (day) {
@@ -41912,31 +43302,31 @@ function nextWeek$1(day) {
 }
 
 var formatRelativeLocale$h = {
-  lastWeek: function (date, baseDate, options) {
+  lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$1(day);
     } else {
-      return lastWeek$1(day);
+      return _lastWeek(day);
     }
   },
   yesterday: "'včera o' p",
   today: "'dnes o' p",
   tomorrow: "'zajtra o' p",
-  nextWeek: function (date, baseDate, options) {
+  nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
 
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$1(day);
     } else {
-      return nextWeek$1(day);
+      return _nextWeek(day);
     }
   },
   other: 'P'
 };
 
-var formatRelative$h = function (token, date, baseDate, options) {
+var formatRelative$h = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$h[token];
 
   if (typeof format === 'function') {
@@ -42041,7 +43431,7 @@ var formattingDayPeriodValues$h = {
   }
 };
 
-var ordinalNumber$h = function (dirtyNumber, _options) {
+var ordinalNumber$h = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -42055,7 +43445,7 @@ var localize$h = {
   quarter: buildLocalizeFn({
     values: quarterValues$h,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -42135,7 +43525,7 @@ var match$h = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$h,
     parsePattern: parseOrdinalNumberPattern$h,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -42150,7 +43540,7 @@ var match$h = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$h,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -42497,7 +43887,7 @@ function getFormFromCount(count) {
   }
 }
 
-var formatDistance$g = function (token, count, options) {
+var formatDistance$g = function formatDistance(token, count, options) {
   var result = '';
   var tense = 'present';
 
@@ -42562,7 +43952,7 @@ var formatLong$g = {
 };
 
 var formatRelativeLocale$g = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     var day = date.getUTCDay();
 
     switch (day) {
@@ -42582,7 +43972,7 @@ var formatRelativeLocale$g = {
   yesterday: "'včeraj ob' p",
   today: "'danes ob' p",
   tomorrow: "'jutri ob' p",
-  nextWeek: function (date) {
+  nextWeek: function nextWeek(date) {
     var day = date.getUTCDay();
 
     switch (day) {
@@ -42602,7 +43992,7 @@ var formatRelativeLocale$g = {
   other: 'P'
 };
 
-var formatRelative$g = function (token, date, _baseDate, _options) {
+var formatRelative$g = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$g[token];
 
   if (typeof format === 'function') {
@@ -42698,7 +44088,7 @@ var formattingDayPeriodValues$g = {
   }
 };
 
-var ordinalNumber$g = function (dirtyNumber, _options) {
+var ordinalNumber$g = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -42712,7 +44102,7 @@ var localize$g = {
   quarter: buildLocalizeFn({
     values: quarterValues$g,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -42799,7 +44189,7 @@ var match$g = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$g,
     parsePattern: parseOrdinalNumberPattern$g,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -42814,7 +44204,7 @@ var match$g = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$g,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -42927,7 +44317,7 @@ var formatDistanceLocale$f = {
   }
 };
 
-var formatDistance$f = function (token, count, options) {
+var formatDistance$f = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$f[token];
 
@@ -42992,7 +44382,7 @@ var formatRelativeLocale$f = {
   other: 'P'
 };
 
-var formatRelative$f = function (token, _date, _baseDate, _options) {
+var formatRelative$f = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$f[token];
 };
 
@@ -43086,7 +44476,7 @@ var formattingDayPeriodValues$f = {
   }
 };
 
-var ordinalNumber$f = function (dirtyNumber, options) {
+var ordinalNumber$f = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   if ((options === null || options === void 0 ? void 0 : options.unit) === 'hour') return String(number);
   if (number === 1) return number + '-rë';
@@ -43103,7 +44493,7 @@ var localize$f = {
   quarter: buildLocalizeFn({
     values: quarterValues$f,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -43180,7 +44570,7 @@ var match$f = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$f,
     parsePattern: parseOrdinalNumberPattern$f,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -43195,7 +44585,7 @@ var match$f = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$f,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -43382,7 +44772,7 @@ var formatDistanceLocale$e = {
   }
 };
 
-var formatDistance$e = function (token, count, options) {
+var formatDistance$e = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$e[token];
 
@@ -43451,7 +44841,7 @@ var formatLong$e = {
 };
 
 var formatRelativeLocale$e = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     var day = date.getUTCDay();
 
     switch (day) {
@@ -43471,7 +44861,7 @@ var formatRelativeLocale$e = {
   yesterday: "'јуче у' p",
   today: "'данас у' p",
   tomorrow: "'сутра у' p",
-  nextWeek: function (date) {
+  nextWeek: function nextWeek(date) {
     var day = date.getUTCDay();
 
     switch (day) {
@@ -43491,7 +44881,7 @@ var formatRelativeLocale$e = {
   other: 'P'
 };
 
-var formatRelative$e = function (token, date, _baseDate, _options) {
+var formatRelative$e = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$e[token];
 
   if (typeof format === 'function') {
@@ -43592,7 +44982,7 @@ var dayPeriodValues$e = {
   }
 };
 
-var ordinalNumber$e = function (dirtyNumber, _options) {
+var ordinalNumber$e = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -43606,7 +44996,7 @@ var localize$e = {
   quarter: buildLocalizeFn({
     values: quarterValues$e,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -43684,7 +45074,7 @@ var match$e = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$e,
     parsePattern: parseOrdinalNumberPattern$e,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -43699,7 +45089,7 @@ var match$e = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$e,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -43886,7 +45276,7 @@ var formatDistanceLocale$d = {
   }
 };
 
-var formatDistance$d = function (token, count, options) {
+var formatDistance$d = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$d[token];
 
@@ -43955,7 +45345,7 @@ var formatLong$d = {
 };
 
 var formatRelativeLocale$d = {
-  lastWeek: function (date) {
+  lastWeek: function lastWeek(date) {
     switch (date.getUTCDay()) {
       case 0:
         return "'prošle nedelje u' p";
@@ -43973,7 +45363,7 @@ var formatRelativeLocale$d = {
   yesterday: "'juče u' p",
   today: "'danas u' p",
   tomorrow: "'sutra u' p",
-  nextWeek: function (date) {
+  nextWeek: function nextWeek(date) {
     switch (date.getUTCDay()) {
       case 0:
         return "'sledeće nedelje u' p";
@@ -43991,7 +45381,7 @@ var formatRelativeLocale$d = {
   other: 'P'
 };
 
-var formatRelative$d = function (token, date, _baseDate, _options) {
+var formatRelative$d = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$d[token];
 
   if (typeof format === 'function') {
@@ -44092,7 +45482,7 @@ var dayPeriodValues$d = {
   }
 };
 
-var ordinalNumber$d = function (dirtyNumber, _options) {
+var ordinalNumber$d = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -44106,7 +45496,7 @@ var localize$d = {
   quarter: buildLocalizeFn({
     values: quarterValues$d,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -44184,7 +45574,7 @@ var match$d = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$d,
     parsePattern: parseOrdinalNumberPattern$d,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -44199,7 +45589,7 @@ var match$d = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$d,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -44312,7 +45702,7 @@ var formatDistanceLocale$c = {
 };
 var wordMapping = ['noll', 'en', 'två', 'tre', 'fyra', 'fem', 'sex', 'sju', 'åtta', 'nio', 'tio', 'elva', 'tolv'];
 
-var formatDistance$c = function (token, count, options) {
+var formatDistance$c = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$c[token];
 
@@ -44381,7 +45771,7 @@ var formatRelativeLocale$c = {
   other: 'P'
 };
 
-var formatRelative$c = function (token, _date, _baseDate, _options) {
+var formatRelative$c = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$c[token];
 };
 
@@ -44472,7 +45862,7 @@ var formattingDayPeriodValues$c = {
   }
 };
 
-var ordinalNumber$c = function (dirtyNumber, _options) {
+var ordinalNumber$c = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
 
@@ -44496,7 +45886,7 @@ var localize$c = {
   quarter: buildLocalizeFn({
     values: quarterValues$c,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -44571,7 +45961,7 @@ var match$c = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$c,
     parsePattern: parseOrdinalNumberPattern$c,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -44586,7 +45976,7 @@ var match$c = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$c,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -44828,7 +46218,7 @@ var formatDistanceLocale$b = {
   }
 };
 
-var formatDistance$b = function (token, count, options) {
+var formatDistance$b = function formatDistance(token, count, options) {
   var tense = options !== null && options !== void 0 && options.addSuffix ? options.comparison && options.comparison > 0 ? 'in' : 'ago' : 'default';
   var tokenValue = formatDistanceLocale$b[token];
   if (!isPluralType(tokenValue)) return tokenValue[tense];
@@ -44885,7 +46275,7 @@ var formatRelativeLocale$b = {
   other: 'P'
 };
 
-var formatRelative$b = function (token, _date, _baseDate, _options) {
+var formatRelative$b = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$b[token];
 };
 
@@ -45008,7 +46398,7 @@ var formattingDayPeriodValues$b = {
   }
 };
 
-var ordinalNumber$b = function (dirtyNumber, _options) {
+var ordinalNumber$b = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -45021,7 +46411,7 @@ var localize$b = {
   quarter: buildLocalizeFn({
     values: quarterValues$b,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -45099,7 +46489,7 @@ var match$b = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$b,
     parsePattern: parseOrdinalNumberPattern$b,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -45114,7 +46504,7 @@ var match$b = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$b,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -45327,7 +46717,7 @@ var formatDistanceLocale$a = {
   }
 };
 
-var formatDistance$a = function (token, count, options) {
+var formatDistance$a = function formatDistance(token, count, options) {
   var result;
   var tokenValue = options !== null && options !== void 0 && options.addSuffix ? formatDistanceLocale$a[token].withPreposition : formatDistanceLocale$a[token].standalone;
 
@@ -45402,7 +46792,7 @@ var formatRelativeLocale$a = {
   other: 'P'
 };
 
-var formatRelative$a = function (token, _date, _baseDate, _options) {
+var formatRelative$a = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$a[token];
 };
 
@@ -45499,7 +46889,7 @@ var formattingDayPeriodValues$a = {
   }
 };
 
-var ordinalNumber$a = function (dirtyNumber, _options) {
+var ordinalNumber$a = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'వ';
 };
@@ -45513,7 +46903,7 @@ var localize$a = {
   quarter: buildLocalizeFn({
     values: quarterValues$a,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -45590,7 +46980,7 @@ var match$a = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$a,
     parsePattern: parseOrdinalNumberPattern$a,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -45605,7 +46995,7 @@ var match$a = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$a,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -45717,7 +47107,7 @@ var formatDistanceLocale$9 = {
   }
 };
 
-var formatDistance$9 = function (token, count, options) {
+var formatDistance$9 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$9[token];
 
@@ -45786,7 +47176,7 @@ var formatRelativeLocale$9 = {
   other: 'P'
 };
 
-var formatRelative$9 = function (token, _date, _baseDate, _options) {
+var formatRelative$9 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$9[token];
 };
 
@@ -45876,7 +47266,7 @@ var formattingDayPeriodValues$9 = {
   }
 };
 
-var ordinalNumber$9 = function (dirtyNumber, _options) {
+var ordinalNumber$9 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -45889,7 +47279,7 @@ var localize$9 = {
   quarter: buildLocalizeFn({
     values: quarterValues$9,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -45965,7 +47355,7 @@ var match$9 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$9,
     parsePattern: parseOrdinalNumberPattern$9,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -45980,7 +47370,7 @@ var match$9 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$9,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -46094,7 +47484,7 @@ var formatDistanceLocale$8 = {
   }
 };
 
-var formatDistance$8 = function (token, count, options) {
+var formatDistance$8 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$8[token];
 
@@ -46159,7 +47549,7 @@ var formatRelativeLocale$8 = {
   other: 'P'
 };
 
-var formatRelative$8 = function (token, _date, _baseDate, _options) {
+var formatRelative$8 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$8[token];
 };
 
@@ -46249,7 +47639,7 @@ var formattingDayPeriodValues$8 = {
   }
 };
 
-var ordinalNumber$8 = function (dirtyNumber, _options) {
+var ordinalNumber$8 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
@@ -46263,7 +47653,7 @@ var localize$8 = {
   quarter: buildLocalizeFn({
     values: quarterValues$8,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return Number(quarter) - 1;
     }
   }),
@@ -46343,7 +47733,7 @@ var match$8 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$8,
     parsePattern: parseOrdinalNumberPattern$8,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -46358,7 +47748,7 @@ var match$8 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$8,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -46476,7 +47866,7 @@ var formatDistanceLocale$7 = {
   }
 };
 
-var formatDistance$7 = function (token, count, options) {
+var formatDistance$7 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$7[token];
 
@@ -46541,7 +47931,7 @@ var formatRelativeLocale$7 = {
   other: 'P'
 };
 
-var formatRelative$7 = function (token, _date, _baseDate, _options) {
+var formatRelative$7 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$7[token];
 };
 
@@ -46635,7 +48025,7 @@ var formattingDayPeriodValues$7 = {
   }
 };
 
-var ordinalNumber$7 = function (dirtyNumber, _options) {
+var ordinalNumber$7 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -46648,7 +48038,7 @@ var localize$7 = {
   quarter: buildLocalizeFn({
     values: quarterValues$7,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -46725,7 +48115,7 @@ var match$7 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$7,
     parsePattern: parseOrdinalNumberPattern$7,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -46740,7 +48130,7 @@ var match$7 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$7,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -46828,7 +48218,7 @@ function buildLocalizeTokenFn(scheme) {
   };
 }
 
-var halfAtMinute = function (_, options) {
+var halfAtMinute = function halfAtMinute(_, options) {
   if (options && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'за півхвилини';
@@ -46926,7 +48316,7 @@ var formatDistanceLocale$6 = {
   xDays: buildLocalizeTokenFn({
     regular: {
       singularNominative: '{{count}} день',
-      singularGenitive: '{{count}} дня',
+      singularGenitive: '{{count}} днi',
       pluralGenitive: '{{count}} днів'
     }
   }),
@@ -46939,14 +48329,14 @@ var formatDistanceLocale$6 = {
     future: {
       singularNominative: 'приблизно за {{count}} тиждень',
       singularGenitive: 'приблизно за {{count}} тижні',
-      pluralGenitive: 'приблизно за {{count}} тижні'
+      pluralGenitive: 'приблизно за {{count}} тижнів'
     }
   }),
   xWeeks: buildLocalizeTokenFn({
     regular: {
       singularNominative: '{{count}} тиждень',
-      singularGenitive: '{{count}} тижня',
-      pluralGenitive: '{{count}} тижні'
+      singularGenitive: '{{count}} тижні',
+      pluralGenitive: '{{count}} тижнів'
     }
   }),
   aboutXMonths: buildLocalizeTokenFn({
@@ -46957,14 +48347,14 @@ var formatDistanceLocale$6 = {
     },
     future: {
       singularNominative: 'приблизно за {{count}} місяць',
-      singularGenitive: 'приблизно за {{count}} місяця',
+      singularGenitive: 'приблизно за {{count}} місяці',
       pluralGenitive: 'приблизно за {{count}} місяців'
     }
   }),
   xMonths: buildLocalizeTokenFn({
     regular: {
       singularNominative: '{{count}} місяць',
-      singularGenitive: '{{count}} місяця',
+      singularGenitive: '{{count}} місяці',
       pluralGenitive: '{{count}} місяців'
     }
   }),
@@ -47013,7 +48403,7 @@ var formatDistanceLocale$6 = {
   })
 };
 
-var formatDistance$6 = function (token, count, options) {
+var formatDistance$6 = function formatDistance(token, count, options) {
   options = options || {};
   return formatDistanceLocale$6[token](count, options);
 };
@@ -47092,7 +48482,7 @@ function nextWeek(day) {
   }
 }
 
-var lastWeekFormat = function (dirtyDate, baseDate, options) {
+var lastWeekFormat = function lastWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
@@ -47103,7 +48493,7 @@ var lastWeekFormat = function (dirtyDate, baseDate, options) {
   }
 };
 
-var nextWeekFormat = function (dirtyDate, baseDate, options) {
+var nextWeekFormat = function nextWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
 
@@ -47123,7 +48513,7 @@ var formatRelativeLocale$6 = {
   other: 'P'
 };
 
-var formatRelative$6 = function (token, date, baseDate, options) {
+var formatRelative$6 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$6[token];
 
   if (typeof format === 'function') {
@@ -47225,7 +48615,7 @@ var formattingDayPeriodValues$6 = {
   }
 };
 
-var ordinalNumber$6 = function (dirtyNumber, options) {
+var ordinalNumber$6 = function ordinalNumber(dirtyNumber, options) {
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
   var number = Number(dirtyNumber);
   var suffix;
@@ -47254,7 +48644,7 @@ var localize$6 = {
   quarter: buildLocalizeFn({
     values: quarterValues$6,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -47334,7 +48724,7 @@ var match$6 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$6,
     parsePattern: parseOrdinalNumberPattern$6,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -47349,7 +48739,7 @@ var match$6 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$6,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -47462,7 +48852,7 @@ var formatDistanceLocale$5 = {
   }
 };
 
-var formatDistance$5 = function (token, count, options) {
+var formatDistance$5 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$5[token];
 
@@ -47524,7 +48914,7 @@ var formatRelativeLocale$5 = {
   other: 'P'
 };
 
-var formatRelative$5 = function (token, _date, _baseDate, _options) {
+var formatRelative$5 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$5[token];
 };
 
@@ -47618,7 +49008,7 @@ var formattingDayPeriodValues$5 = {
   }
 };
 
-var ordinalNumber$5 = function (dirtyNumber, _options) {
+var ordinalNumber$5 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -47631,7 +49021,7 @@ var localize$5 = {
   quarter: buildLocalizeFn({
     values: quarterValues$5,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -47708,7 +49098,7 @@ var match$5 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$5,
     parsePattern: parseOrdinalNumberPattern$5,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -47723,7 +49113,7 @@ var match$5 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$5,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -47835,7 +49225,7 @@ var formatDistanceLocale$4 = {
   }
 };
 
-var formatDistance$4 = function (token, count, options) {
+var formatDistance$4 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$4[token];
 
@@ -47897,7 +49287,7 @@ var formatRelativeLocale$4 = {
   other: 'P'
 };
 
-var formatRelative$4 = function (token, _date, _baseDate, _options) {
+var formatRelative$4 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$4[token];
 };
 
@@ -47947,7 +49337,7 @@ var formattingDayPeriodValues$4 = {
   }
 };
 
-var ordinalNumber$4 = function (dirtyNumber, _options) {
+var ordinalNumber$4 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
 
@@ -47960,7 +49350,7 @@ var localize$4 = {
   quarter: buildLocalizeFn({
     values: quarterValues$4,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -48036,7 +49426,7 @@ var match$4 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$4,
     parsePattern: parseOrdinalNumberPattern$4,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -48051,7 +49441,7 @@ var match$4 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$4,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -48163,7 +49553,7 @@ var formatDistanceLocale$3 = {
   }
 };
 
-var formatDistance$3 = function (token, count, options) {
+var formatDistance$3 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$3[token];
 
@@ -48234,7 +49624,7 @@ var formatRelativeLocale$3 = {
   other: 'P'
 };
 
-var formatRelative$3 = function (token, _date, _baseDate, _options) {
+var formatRelative$3 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$3[token];
 };
 
@@ -48349,7 +49739,7 @@ var formattingDayPeriodValues$3 = {
   }
 };
 
-var ordinalNumber$3 = function (dirtyNumber, options) {
+var ordinalNumber$3 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
 
@@ -48426,7 +49816,7 @@ var localize$3 = {
     defaultWidth: 'wide',
     formattingValues: formattingQuarterValues,
     defaultFormattingWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -48513,7 +49903,7 @@ var match$3 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$3,
     parsePattern: parseOrdinalNumberPattern$3,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -48528,7 +49918,7 @@ var match$3 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$3,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -48643,7 +50033,7 @@ var formatDistanceLocale$2 = {
   }
 };
 
-var formatDistance$2 = function (token, count, options) {
+var formatDistance$2 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$2[token];
 
@@ -48722,7 +50112,7 @@ var formatRelativeLocale$2 = {
   other: 'PP p'
 };
 
-var formatRelative$2 = function (token, date, baseDate, options) {
+var formatRelative$2 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$2[token];
 
   if (typeof format === 'function') {
@@ -48818,7 +50208,7 @@ var formattingDayPeriodValues$2 = {
   }
 };
 
-var ordinalNumber$2 = function (dirtyNumber, options) {
+var ordinalNumber$2 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
 
   switch (options === null || options === void 0 ? void 0 : options.unit) {
@@ -48848,7 +50238,7 @@ var localize$2 = {
   quarter: buildLocalizeFn({
     values: quarterValues$2,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -48923,7 +50313,7 @@ var match$2 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$2,
     parsePattern: parseOrdinalNumberPattern$2,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -48938,7 +50328,7 @@ var match$2 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$2,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -49054,7 +50444,7 @@ var formatDistanceLocale$1 = {
   }
 };
 
-var formatDistance$1 = function (token, count, options) {
+var formatDistance$1 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1[token];
 
@@ -49119,7 +50509,7 @@ var formatRelativeLocale$1 = {
   other: 'P'
 };
 
-var formatRelative$1 = function (token, _date, _baseDate, _options) {
+var formatRelative$1 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1[token];
 };
 
@@ -49209,7 +50599,7 @@ var formattingDayPeriodValues$1 = {
   }
 };
 
-var ordinalNumber$1 = function (dirtyNumber, options) {
+var ordinalNumber$1 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
 
   switch (options === null || options === void 0 ? void 0 : options.unit) {
@@ -49239,7 +50629,7 @@ var localize$1 = {
   quarter: buildLocalizeFn({
     values: quarterValues$1,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -49314,7 +50704,7 @@ var match$1 = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$1,
     parsePattern: parseOrdinalNumberPattern$1,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -49329,7 +50719,7 @@ var match$1 = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns$1,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
@@ -49441,7 +50831,7 @@ var formatDistanceLocale = {
   }
 };
 
-var formatDistance = function (token, count, options) {
+var formatDistance = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale[token];
 
@@ -49506,7 +50896,7 @@ var formatRelativeLocale = {
   other: 'P'
 };
 
-var formatRelative = function (token, _date, _baseDate, _options) {
+var formatRelative = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale[token];
 };
 
@@ -49596,7 +50986,7 @@ var formattingDayPeriodValues = {
   }
 };
 
-var ordinalNumber = function (dirtyNumber, options) {
+var ordinalNumber = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
 
   switch (options === null || options === void 0 ? void 0 : options.unit) {
@@ -49626,7 +51016,7 @@ var localize = {
   quarter: buildLocalizeFn({
     values: quarterValues,
     defaultWidth: 'wide',
-    argumentCallback: function (quarter) {
+    argumentCallback: function argumentCallback(quarter) {
       return quarter - 1;
     }
   }),
@@ -49701,7 +51091,7 @@ var match = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern,
     parsePattern: parseOrdinalNumberPattern,
-    valueCallback: function (value) {
+    valueCallback: function valueCallback(value) {
       return parseInt(value, 10);
     }
   }),
@@ -49716,7 +51106,7 @@ var match = {
     defaultMatchWidth: 'wide',
     parsePatterns: parseQuarterPatterns,
     defaultParseWidth: 'any',
-    valueCallback: function (index) {
+    valueCallback: function valueCallback(index) {
       return index + 1;
     }
   }),
