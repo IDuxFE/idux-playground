@@ -14,5 +14,5 @@ export const getVueVersions = () => {
 
 export const getIduxVersions = () => {
   const versions = fetchVersions('@idux/components')
-  return computed(() => versions.value?.filter(ver => compare(ver, '1.0.0-beta.8', '>=')))
+  return computed(() => versions.value?.filter(ver => compare(ver, '1.0.0', '>=')))
 }

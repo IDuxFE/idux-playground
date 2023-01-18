@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
 import '@vue/repl/style.css'
 import 'uno.css'
-import '@idux/components/default.min.css'
+import '@idux/components/default.css'
 
 import {
   IDUX_ICON_DEPENDENCIES,

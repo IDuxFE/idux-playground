@@ -7,7 +7,7 @@
       <div class="ixp-height-full" />
     </IxSpin>
     <div class="flex flex-col ixp-height-full">
-      <Header :store="store" />
+      <PlaygroundHeader :store="store" />
       <Repl
         class="grow"
         auto-resize
@@ -37,7 +37,7 @@ const store = new ReplStore({
   serializedState: location.hash.slice(1),
 })
 
-store.initStore().then(() => {
+store.init().then(() => {
   isLoading.value = false
 })
 

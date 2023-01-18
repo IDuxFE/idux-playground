@@ -86,9 +86,24 @@ export class ReplStore implements Store {
       activeFile: files[defaultFile],
       errors: [],
       vueRuntimeURL: '',
+      vueServerRendererURL: '',
+      resetFlip: true,
     })
     this.versions = versions
     this.initImportMap()
+  }
+
+  async init() {
+    await this.setVueVersion(this.versions.Vue)
+    await this.setIduxVersion(this.versions.iDux)
+
+    watchEffect(() => compileFile(this, this.state.activeFile))
+
+    for (const file of Object.keys(this.state.files)) {
+      if (file !== defaultFile) {
+        compileFile(this, this.state.files[file])
+      }
+    }
   }
 
   private initImportMap() {
@@ -145,20 +160,25 @@ export class ReplStore implements Store {
   private async setIduxVersion(version: string) {
     this.versions.iDux = version
 
-    const styleHref = genLink(
+    const componentsStyleHref = genLink(
       '@idux/components',
       version,
-      '/default.min.css',
+      '/default.css',
     )
     const cdkStyleHref = genLink(
       '@idux/cdk',
       version,
-      '/index.min.css',
+      '/index.css',
+    )
+    const proStyleHref = genLink(
+      '@idux/pro',
+      version,
+      '/default.css',
     )
 
     this.state.files[setupIdux] = new File(
       setupIdux,
-      iduxCode.replace('#STYLE_HREF#', styleHref).replace('#CDK_STYLE_HREF#', cdkStyleHref),
+      iduxCode.replace('#COMPONENTS_STYLE_HREF#', componentsStyleHref).replace('#CDK_STYLE_HREF#', cdkStyleHref).replace('#PRO_STYLE_HREF#', proStyleHref),
       true,
     )
 
@@ -177,19 +197,6 @@ export class ReplStore implements Store {
     this.versions.Vue = version
 
     this.addDeps()
-  }
-
-  async initStore() {
-    await this.setVueVersion(this.versions.Vue)
-    await this.setIduxVersion(this.versions.iDux)
-
-    watchEffect(() => compileFile(this, this.state.activeFile))
-
-    for (const file of Object.keys(this.state.files)) {
-      if (file !== defaultFile) {
-        compileFile(this, this.state.files[file])
-      }
-    }
   }
 
   setActive(filename: string) {

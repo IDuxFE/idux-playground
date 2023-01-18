@@ -101,10 +101,10 @@ export const genLocalImportsMap = () => {
       version: 'latest',
       file: './deps/lodash-es.js',
     },
-    '@popperjs/core': {
-      pkg: '@popperjs/core',
+    '@floating-ui/dom': {
+      pkg: '@floating-ui/dom',
       version: 'latest',
-      file: './deps/popper.js',
+      file: './deps/floating-ui.js',
     },
     'ajv': {
       pkg: 'ajv',

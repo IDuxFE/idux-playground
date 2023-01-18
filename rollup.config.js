@@ -5,7 +5,7 @@ import json from '@rollup/plugin-json'
 export default {
   input: [
     './bundler/lodash-es.js',
-    './bundler/popper.js',
+    './bundler/floating-ui.js',
     './bundler/ajv.js',
     './bundler/ajv-formats.js',
     './bundler/date-fns.js',
