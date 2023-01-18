@@ -49,10 +49,15 @@ const loadCss = () => {
   cdkLink.href = '#CDK_STYLE_HREF#'
   document.body.appendChild(cdkLink)
 
-  const link = document.createElement('link')
-  link.rel = 'stylesheet'
-  link.href = '#STYLE_HREF#'
-  document.body.appendChild(link)
+  const componentsLink = document.createElement('link')
+  componentsLink.rel = 'stylesheet'
+  componentsLink.href = '#COMPONENTS_STYLE_HREF#'
+  document.body.appendChild(componentsLink)
+
+  const proLink = document.createElement('link')
+  proLink.rel = 'stylesheet'
+  proLink.href = '#PRO_STYLE_HREF#'
+  document.body.appendChild(proLink)
 }
 
 export const setupIdux = () => {
