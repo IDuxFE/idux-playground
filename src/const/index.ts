@@ -1,5 +1,6 @@
 
 export * from './imports'
+export * from './shared'
 
 export const setupIdux = 'setupIdux.js'
 

@@ -1,15 +1,18 @@
+import { versionRequestUrl } from '@/const'
 
 export const fetchVersions = (pkg: string) => {
-  return useFetch(
-    `https://data.jsdelivr.com/v1/package/npm/${pkg}`, {
-    initialData: [],
-    afterFetch: (ctx) => ((ctx.data = ctx.data.versions), ctx),
-  })
-    .json<string[]>().data
+  const { data } = useFetch(`${versionRequestUrl}${pkg}`, {
+    afterFetch: (ctx) => {
+      ctx.data = Object.keys(ctx.data.versions)
+      return ctx
+    },
+  }).json<string[]>()
+
+  return data
 }
 
 export const fetchVersionsRaw = async (pkg: string) => {
-  const res = await fetch(`https://data.jsdelivr.com/v1/package/npm/${pkg}`)
+  const res = await fetch(`${versionRequestUrl}${pkg}`)
 
   const json = await res.json()
 
