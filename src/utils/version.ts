@@ -1,10 +1,11 @@
 
 import { fetchVersions } from '@/api'
 import { compare } from 'compare-versions'
+import { esmoduleUrl } from '@/const'
 
 export const genLink = (pkg: string, version?: string, file = '') => {
   const ver = version ? `@${version}` : ''
-  return `https://unpkg.com/${pkg}${ver}${file}`
+  return `${esmoduleUrl}${pkg}${ver}${file}`
 }
 
 export const getVueVersions = () => {

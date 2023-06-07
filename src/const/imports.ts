@@ -1,52 +1,23 @@
 import { VersionRecord } from '@/types'
-import * as compInfo from '@idux/components'
-
-const iduxCdks = [
-  'click-outside',
-  'portal',
-  'scroll',
-  'a11y',
-  'breakpoint',
-  'forms',
-  'platform',
-  'popper',
-  'utils',
-  'resize',
-]
 
 export const genImportsMap = (versions: VersionRecord) => {
   const { Vue, iDux } = versions
-
-  const iduxCdksMap = Object.fromEntries(iduxCdks.map(item => [`@idux/cdk/${item}`, {
-    pkg: '@idux/cdk',
-    version: iDux,
-    file: '/index.full.min.mjs',
-  }]))
-
-  const compNames = Object.keys(compInfo)
-    .map(name => name.toLowerCase())
-    .filter(name => name.startsWith('ix'))
-  const iduxCompMap = Object.fromEntries(compNames.map(name => [`@idux/components/${name.slice(2)}`, {
-    pkg: '@idux/components',
-    version: iDux,
-    file: '/index.full.min.mjs',
-  }]))
 
   return {
     vue: {
       pkg: '@vue/runtime-dom',
       version: Vue,
-      file: '/dist/runtime-dom.esm-browser.js',
+      file: '',
     },
     'vue-types': {
       pkg: 'vue-types',
       version: 'latest',
-      file: '/dist/vue-types.m.js',
+      file: '',
     },
     '@vue/shared': {
       pkg: '@vue/shared',
       version: 'latest',
-      file: '/dist/shared.esm-bundler.js',
+      file: '',
     },
     '@juggle/resize-observer': {
       pkg: '@juggle/resize-observer',
@@ -56,14 +27,13 @@ export const genImportsMap = (versions: VersionRecord) => {
     'is-plain-object': {
       pkg: 'is-plain-object',
       version: 'latest',
-      file: '/dist/is-plain-object.mjs',
+      file: '',
     },
     '@idux/cdk': {
       pkg: '@idux/cdk',
       version: iDux,
-      file: '/index.full.min.mjs',
+      file: '',
     },
-    ...iduxCdksMap,
     '@idux/cdk/': {
       pkg: '@idux/cdk',
       version: iDux,
@@ -72,9 +42,8 @@ export const genImportsMap = (versions: VersionRecord) => {
     '@idux/components': {
       pkg: '@idux/components',
       version: iDux,
-      file: '/index.full.min.mjs',
+      file: '',
     },
-    ...iduxCompMap,
     '@idux/components/': {
       pkg: '@idux/components',
       version: iDux,
@@ -83,7 +52,7 @@ export const genImportsMap = (versions: VersionRecord) => {
     '@idux/pro': {
       pkg: '@idux/pro',
       version: iDux,
-      file: '/index.full.min.mjs',
+      file: '',
     },
     '@idux/pro/': {
       pkg: '@idux/pro',
