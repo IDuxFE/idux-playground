@@ -1,14 +1,21 @@
+function _typeof(obj) {
+  "@babel/helpers - typeof";
+
+  return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) {
+    return typeof obj;
+  } : function (obj) {
+    return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
+  }, _typeof(obj);
+}
+
 function toInteger(dirtyNumber) {
   if (dirtyNumber === null || dirtyNumber === true || dirtyNumber === false) {
     return NaN;
   }
-
   var number = Number(dirtyNumber);
-
   if (isNaN(number)) {
     return number;
   }
-
   return number < 0 ? Math.ceil(number) : Math.floor(number);
 }
 
@@ -18,7 +25,6 @@ function requiredArgs(required, args) {
   }
 }
 
-function _typeof$E(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$E = function _typeof(obj) { return typeof obj; }; } else { _typeof$E = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$E(obj); }
 /**
  * @name toDate
  * @category Common Helpers
@@ -49,12 +55,12 @@ function _typeof$E(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "func
  * const result = toDate(1392098430000)
  * //=> Tue Feb 11 2014 11:30:30
  */
-
 function toDate(argument) {
   requiredArgs(1, arguments);
-  var argStr = Object.prototype.toString.call(argument); // Clone the date
+  var argStr = Object.prototype.toString.call(argument);
 
-  if (argument instanceof Date || _typeof$E(argument) === 'object' && argStr === '[object Date]') {
+  // Clone the date
+  if (argument instanceof Date || _typeof(argument) === 'object' && argStr === '[object Date]') {
     // Prevent the date to lose the milliseconds when passed to new Date() in IE10
     return new Date(argument.getTime());
   } else if (typeof argument === 'number' || argStr === '[object Number]') {
@@ -62,11 +68,10 @@ function toDate(argument) {
   } else {
     if ((typeof argument === 'string' || argStr === '[object String]') && typeof console !== 'undefined') {
       // eslint-disable-next-line no-console
-      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments"); // eslint-disable-next-line no-console
-
+      console.warn("Starting with v2.0.0-beta.1 date-fns doesn't accept strings as date arguments. Please use `parseISO` to parse strings. See: https://github.com/date-fns/date-fns/blob/master/docs/upgradeGuide.md#string-arguments");
+      // eslint-disable-next-line no-console
       console.warn(new Error().stack);
     }
-
     return new Date(NaN);
   }
 }
@@ -89,21 +94,17 @@ function toDate(argument) {
  * const result = addDays(new Date(2014, 8, 1), 10)
  * //=> Thu Sep 11 2014 00:00:00
  */
-
 function addDays(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
   var amount = toInteger(dirtyAmount);
-
   if (isNaN(amount)) {
     return new Date(NaN);
   }
-
   if (!amount) {
     // If 0 days, no-op to avoid changing times in the hour before end of DST
     return date;
   }
-
   date.setDate(date.getDate() + amount);
   return date;
 }
@@ -126,22 +127,20 @@ function addDays(dirtyDate, dirtyAmount) {
  * const result = addMonths(new Date(2014, 8, 1), 5)
  * //=> Sun Feb 01 2015 00:00:00
  */
-
 function addMonths(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
   var amount = toInteger(dirtyAmount);
-
   if (isNaN(amount)) {
     return new Date(NaN);
   }
-
   if (!amount) {
     // If 0 months, no-op to avoid changing times in the hour before end of DST
     return date;
   }
+  var dayOfMonth = date.getDate();
 
-  var dayOfMonth = date.getDate(); // The JS Date object supports date math by accepting out-of-bounds values for
+  // The JS Date object supports date math by accepting out-of-bounds values for
   // month, day, etc. For example, new Date(2020, 0, 0) returns 31 Dec 2019 and
   // new Date(2020, 13, 1) returns 1 Feb 2021.  This is *almost* the behavior we
   // want except that dates will wrap around the end of a month, meaning that
@@ -149,11 +148,9 @@ function addMonths(dirtyDate, dirtyAmount) {
   // we'll default to the end of the desired month by adding 1 to the desired
   // month and using a date of 0 to back up one day to the end of the desired
   // month.
-
   var endOfDesiredMonth = new Date(date.getTime());
   endOfDesiredMonth.setMonth(date.getMonth() + amount + 1, 0);
   var daysInMonth = endOfDesiredMonth.getDate();
-
   if (dayOfMonth >= daysInMonth) {
     // If we're already at the end of the month, then this is the correct date
     // and we're done.
@@ -170,8 +167,6 @@ function addMonths(dirtyDate, dirtyAmount) {
     return date;
   }
 }
-
-function _typeof$D(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$D = function _typeof(obj) { return typeof obj; }; } else { _typeof$D = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$D(obj); }
 
 /**
  * @name add
@@ -214,20 +209,23 @@ function _typeof$D(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "func
  */
 function add(dirtyDate, duration) {
   requiredArgs(2, arguments);
-  if (!duration || _typeof$D(duration) !== 'object') return new Date(NaN);
+  if (!duration || _typeof(duration) !== 'object') return new Date(NaN);
   var years = duration.years ? toInteger(duration.years) : 0;
   var months = duration.months ? toInteger(duration.months) : 0;
   var weeks = duration.weeks ? toInteger(duration.weeks) : 0;
   var days = duration.days ? toInteger(duration.days) : 0;
   var hours = duration.hours ? toInteger(duration.hours) : 0;
   var minutes = duration.minutes ? toInteger(duration.minutes) : 0;
-  var seconds = duration.seconds ? toInteger(duration.seconds) : 0; // Add years and months
+  var seconds = duration.seconds ? toInteger(duration.seconds) : 0;
 
+  // Add years and months
   var date = toDate(dirtyDate);
-  var dateWithMonths = months || years ? addMonths(date, months + years * 12) : date; // Add weeks and days
+  var dateWithMonths = months || years ? addMonths(date, months + years * 12) : date;
 
-  var dateWithDays = days || weeks ? addDays(dateWithMonths, days + weeks * 7) : dateWithMonths; // Add days, hours, minutes and seconds
+  // Add weeks and days
+  var dateWithDays = days || weeks ? addDays(dateWithMonths, days + weeks * 7) : dateWithMonths;
 
+  // Add days, hours, minutes and seconds
   var minutesToAdd = minutes + hours * 60;
   var secondsToAdd = seconds + minutesToAdd * 60;
   var msToAdd = secondsToAdd * 1000;
@@ -252,7 +250,6 @@ function add(dirtyDate, duration) {
  * const result = isWeekend(new Date(2014, 9, 5))
  * //=> true
  */
-
 function isWeekend(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -277,7 +274,6 @@ function isWeekend(dirtyDate) {
  * const result = isSunday(new Date(2014, 8, 21))
  * //=> true
  */
-
 function isSunday(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getDay() === 0;
@@ -300,7 +296,6 @@ function isSunday(dirtyDate) {
  * const result = isSaturday(new Date(2014, 8, 27))
  * //=> true
  */
-
 function isSaturday(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getDay() === 6;
@@ -324,7 +319,6 @@ function isSaturday(dirtyDate) {
  * const result = addBusinessDays(new Date(2014, 8, 1), 10)
  * //=> Mon Sep 15 2014 00:00:00 (skipped weekend days)
  */
-
 function addBusinessDays(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -334,26 +328,28 @@ function addBusinessDays(dirtyDate, dirtyAmount) {
   var hours = date.getHours();
   var sign = amount < 0 ? -1 : 1;
   var fullWeeks = toInteger(amount / 5);
-  date.setDate(date.getDate() + fullWeeks * 7); // Get remaining days not part of a full week
+  date.setDate(date.getDate() + fullWeeks * 7);
 
-  var restDays = Math.abs(amount % 5); // Loops over remaining days
+  // Get remaining days not part of a full week
+  var restDays = Math.abs(amount % 5);
 
+  // Loops over remaining days
   while (restDays > 0) {
     date.setDate(date.getDate() + sign);
     if (!isWeekend(date)) restDays -= 1;
-  } // If the date is a weekend day and we reduce a dividable of
+  }
+
+  // If the date is a weekend day and we reduce a dividable of
   // 5 from it, we land on a weekend date.
   // To counter this, we add days accordingly to land on the next business day
-
-
   if (startedOnWeekend && isWeekend(date) && amount !== 0) {
     // If we're reducing days, we want to add days until we land on a weekday
     // If we're adding days we want to reduce days until we land on a weekday
     if (isSaturday(date)) date.setDate(date.getDate() + (sign < 0 ? 2 : -1));
     if (isSunday(date)) date.setDate(date.getDate() + (sign < 0 ? 1 : -2));
-  } // Restore hours to avoid DST lag
+  }
 
-
+  // Restore hours to avoid DST lag
   date.setHours(hours);
   return date;
 }
@@ -376,7 +372,6 @@ function addBusinessDays(dirtyDate, dirtyAmount) {
  * const result = addMilliseconds(new Date(2014, 6, 10, 12, 45, 30, 0), 750)
  * //=> Thu Jul 10 2014 12:45:30.750
  */
-
 function addMilliseconds(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var timestamp = toDate(dirtyDate).getTime();
@@ -385,6 +380,7 @@ function addMilliseconds(dirtyDate, dirtyAmount) {
 }
 
 var MILLISECONDS_IN_HOUR = 3600000;
+
 /**
  * @name addHours
  * @category Hour Helpers
@@ -403,7 +399,6 @@ var MILLISECONDS_IN_HOUR = 3600000;
  * const result = addHours(new Date(2014, 6, 10, 23, 0), 2)
  * //=> Fri Jul 11 2014 01:00:00
  */
-
 function addHours(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -445,18 +440,16 @@ function setDefaultOptions$1(newOptions) {
  * const result = startOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
  * //=> Mon Sep 01 2014 00:00:00
  */
-
 function startOfWeek(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var defaultOptions = getDefaultOptions$1();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   var date = toDate(dirtyDate);
   var day = date.getDay();
   var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
@@ -485,7 +478,6 @@ function startOfWeek(dirtyDate, options) {
  * const result = startOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Mon Sep 01 2014 00:00:00
  */
-
 function startOfISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
   return startOfWeek(dirtyDate, {
@@ -513,7 +505,6 @@ function startOfISOWeek(dirtyDate) {
  * const result = getISOWeekYear(new Date(2005, 0, 2))
  * //=> 2004
  */
-
 function getISOWeekYear(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -526,7 +517,6 @@ function getISOWeekYear(dirtyDate) {
   fourthOfJanuaryOfThisYear.setFullYear(year, 0, 4);
   fourthOfJanuaryOfThisYear.setHours(0, 0, 0, 0);
   var startOfThisYear = startOfISOWeek(fourthOfJanuaryOfThisYear);
-
   if (date.getTime() >= startOfNextYear.getTime()) {
     return year + 1;
   } else if (date.getTime() >= startOfThisYear.getTime()) {
@@ -557,7 +547,6 @@ function getISOWeekYear(dirtyDate) {
  * const result = startOfISOWeekYear(new Date(2005, 6, 2))
  * //=> Mon Jan 03 2005 00:00:00
  */
-
 function startOfISOWeekYear(dirtyDate) {
   requiredArgs(1, arguments);
   var year = getISOWeekYear(dirtyDate);
@@ -603,7 +592,6 @@ function getTimezoneOffsetInMilliseconds(date) {
  * const result = startOfDay(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 02 2014 00:00:00
  */
-
 function startOfDay(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -612,6 +600,7 @@ function startOfDay(dirtyDate) {
 }
 
 var MILLISECONDS_IN_DAY$2 = 86400000;
+
 /**
  * @name differenceInCalendarDays
  * @category Day Helpers
@@ -642,16 +631,16 @@ var MILLISECONDS_IN_DAY$2 = 86400000;
  * )
  * //=> 1
  */
-
 function differenceInCalendarDays(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var startOfDayLeft = startOfDay(dirtyDateLeft);
   var startOfDayRight = startOfDay(dirtyDateRight);
   var timestampLeft = startOfDayLeft.getTime() - getTimezoneOffsetInMilliseconds(startOfDayLeft);
-  var timestampRight = startOfDayRight.getTime() - getTimezoneOffsetInMilliseconds(startOfDayRight); // Round the number of days to the nearest integer
+  var timestampRight = startOfDayRight.getTime() - getTimezoneOffsetInMilliseconds(startOfDayRight);
+
+  // Round the number of days to the nearest integer
   // because the number of milliseconds in a day is not constant
   // (e.g. it's different in the day of the daylight saving time clock shift)
-
   return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_DAY$2);
 }
 
@@ -676,7 +665,6 @@ function differenceInCalendarDays(dirtyDateLeft, dirtyDateRight) {
  * const result = setISOWeekYear(new Date(2008, 11, 29), 2007)
  * //=> Mon Jan 01 2007 00:00:00
  */
-
 function setISOWeekYear(dirtyDate, dirtyISOWeekYear) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -710,7 +698,6 @@ function setISOWeekYear(dirtyDate, dirtyISOWeekYear) {
  * const result = addISOWeekYears(new Date(2010, 6, 2), 5)
  * //=> Fri Jun 26 2015 00:00:00
  */
-
 function addISOWeekYears(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -718,6 +705,7 @@ function addISOWeekYears(dirtyDate, dirtyAmount) {
 }
 
 var MILLISECONDS_IN_MINUTE$1 = 60000;
+
 /**
  * @name addMinutes
  * @category Minute Helpers
@@ -736,7 +724,6 @@ var MILLISECONDS_IN_MINUTE$1 = 60000;
  * const result = addMinutes(new Date(2014, 6, 10, 12, 0), 30)
  * //=> Thu Jul 10 2014 12:30:00
  */
-
 function addMinutes(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -761,7 +748,6 @@ function addMinutes(dirtyDate, dirtyAmount) {
  * const result = addQuarters(new Date(2014, 8, 1), 1)
  * //=> Mon Dec 01 2014 00:00:00
  */
-
 function addQuarters(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -787,7 +773,6 @@ function addQuarters(dirtyDate, dirtyAmount) {
  * const result = addSeconds(new Date(2014, 6, 10, 12, 45, 0), 30)
  * //=> Thu Jul 10 2014 12:45:30
  */
-
 function addSeconds(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -812,7 +797,6 @@ function addSeconds(dirtyDate, dirtyAmount) {
  * const result = addWeeks(new Date(2014, 8, 1), 4)
  * //=> Mon Sep 29 2014 00:00:00
  */
-
 function addWeeks(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -838,7 +822,6 @@ function addWeeks(dirtyDate, dirtyAmount) {
  * const result = addYears(new Date(2014, 8, 1), 5)
  * //=> Sun Sep 01 2019 00:00:00
  */
-
 function addYears(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -900,26 +883,23 @@ function addYears(dirtyDate, dirtyAmount) {
  * )
  * //=> true
  */
-
 function areIntervalsOverlapping(intervalLeft, intervalRight, options) {
   requiredArgs(2, arguments);
   var leftStartTime = toDate(intervalLeft === null || intervalLeft === void 0 ? void 0 : intervalLeft.start).getTime();
   var leftEndTime = toDate(intervalLeft === null || intervalLeft === void 0 ? void 0 : intervalLeft.end).getTime();
   var rightStartTime = toDate(intervalRight === null || intervalRight === void 0 ? void 0 : intervalRight.start).getTime();
-  var rightEndTime = toDate(intervalRight === null || intervalRight === void 0 ? void 0 : intervalRight.end).getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var rightEndTime = toDate(intervalRight === null || intervalRight === void 0 ? void 0 : intervalRight.end).getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(leftStartTime <= leftEndTime && rightStartTime <= rightEndTime)) {
     throw new RangeError('Invalid interval');
   }
-
   if (options !== null && options !== void 0 && options.inclusive) {
     return leftStartTime <= rightEndTime && rightStartTime <= leftEndTime;
   }
-
   return leftStartTime < rightEndTime && rightStartTime < leftEndTime;
 }
 
-function _typeof$C(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$C = function _typeof(obj) { return typeof obj; }; } else { _typeof$C = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$C(obj); }
 /**
  * @name max
  * @category Common Helpers
@@ -942,24 +922,23 @@ function _typeof$C(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "func
  * ])
  * //=> Sun Jul 02 1995 00:00:00
  */
-
 function max(dirtyDatesArray) {
   requiredArgs(1, arguments);
-  var datesArray; // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
-
+  var datesArray;
+  // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
   if (dirtyDatesArray && typeof dirtyDatesArray.forEach === 'function') {
-    datesArray = dirtyDatesArray; // If `dirtyDatesArray` is Array-like Object, convert to Array.
-  } else if (_typeof$C(dirtyDatesArray) === 'object' && dirtyDatesArray !== null) {
+    datesArray = dirtyDatesArray;
+
+    // If `dirtyDatesArray` is Array-like Object, convert to Array.
+  } else if (_typeof(dirtyDatesArray) === 'object' && dirtyDatesArray !== null) {
     datesArray = Array.prototype.slice.call(dirtyDatesArray);
   } else {
     // `dirtyDatesArray` is non-iterable, return Invalid Date
     return new Date(NaN);
   }
-
   var result;
   datesArray.forEach(function (dirtyDate) {
     var currentDate = toDate(dirtyDate);
-
     if (result === undefined || result < currentDate || isNaN(Number(currentDate))) {
       result = currentDate;
     }
@@ -967,7 +946,6 @@ function max(dirtyDatesArray) {
   return result || new Date(NaN);
 }
 
-function _typeof$B(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$B = function _typeof(obj) { return typeof obj; }; } else { _typeof$B = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$B(obj); }
 /**
  * @name min
  * @category Common Helpers
@@ -990,24 +968,22 @@ function _typeof$B(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "func
  * ])
  * //=> Wed Feb 11 1987 00:00:00
  */
-
 function min(dirtyDatesArray) {
   requiredArgs(1, arguments);
-  var datesArray; // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
-
+  var datesArray;
+  // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
   if (dirtyDatesArray && typeof dirtyDatesArray.forEach === 'function') {
-    datesArray = dirtyDatesArray; // If `dirtyDatesArray` is Array-like Object, convert to Array.
-  } else if (_typeof$B(dirtyDatesArray) === 'object' && dirtyDatesArray !== null) {
+    datesArray = dirtyDatesArray;
+    // If `dirtyDatesArray` is Array-like Object, convert to Array.
+  } else if (_typeof(dirtyDatesArray) === 'object' && dirtyDatesArray !== null) {
     datesArray = Array.prototype.slice.call(dirtyDatesArray);
   } else {
     // `dirtyDatesArray` is non-iterable, return Invalid Date
     return new Date(NaN);
   }
-
   var result;
   datesArray.forEach(function (dirtyDate) {
     var currentDate = toDate(dirtyDate);
-
     if (result === undefined || result > currentDate || isNaN(currentDate.getDate())) {
       result = currentDate;
     }
@@ -1041,10 +1017,9 @@ function min(dirtyDatesArray) {
  * @returns {Date} the date bounded by the start and the end of the interval
  * @throws {TypeError} 2 arguments required
  */
-
 function clamp(date, _ref) {
   var start = _ref.start,
-      end = _ref.end;
+    end = _ref.end;
   requiredArgs(2, arguments);
   return min([max([date, start]), end]);
 }
@@ -1073,35 +1048,34 @@ function clamp(date, _ref) {
  * const result = closestIndexTo(dateToCompare, datesArray)
  * //=> 1
  */
-
 function closestIndexTo(dirtyDateToCompare, dirtyDatesArray) {
   requiredArgs(2, arguments);
   var dateToCompare = toDate(dirtyDateToCompare);
   if (isNaN(Number(dateToCompare))) return NaN;
   var timeToCompare = dateToCompare.getTime();
-  var datesArray; // `dirtyDatesArray` is undefined or null
-
+  var datesArray;
+  // `dirtyDatesArray` is undefined or null
   if (dirtyDatesArray == null) {
-    datesArray = []; // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
+    datesArray = [];
+
+    // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
   } else if (typeof dirtyDatesArray.forEach === 'function') {
-    datesArray = dirtyDatesArray; // If `dirtyDatesArray` is Array-like Object, convert to Array. Otherwise, make it empty Array
+    datesArray = dirtyDatesArray;
+
+    // If `dirtyDatesArray` is Array-like Object, convert to Array. Otherwise, make it empty Array
   } else {
     datesArray = Array.prototype.slice.call(dirtyDatesArray);
   }
-
   var result;
   var minDistance;
   datesArray.forEach(function (dirtyDate, index) {
     var currentDate = toDate(dirtyDate);
-
     if (isNaN(Number(currentDate))) {
       result = NaN;
       minDistance = NaN;
       return;
     }
-
     var distance = Math.abs(timeToCompare - currentDate.getTime());
-
     if (result == null || distance < Number(minDistance)) {
       result = index;
       minDistance = distance;
@@ -1132,35 +1106,34 @@ function closestIndexTo(dirtyDateToCompare, dirtyDatesArray) {
  * ])
  * //=> Tue Jan 01 2030 00:00:00
  */
-
 function closestTo(dirtyDateToCompare, dirtyDatesArray) {
   requiredArgs(2, arguments);
   var dateToCompare = toDate(dirtyDateToCompare);
   if (isNaN(Number(dateToCompare))) return new Date(NaN);
   var timeToCompare = dateToCompare.getTime();
-  var datesArray; // `dirtyDatesArray` is undefined or null
-
+  var datesArray;
+  // `dirtyDatesArray` is undefined or null
   if (dirtyDatesArray == null) {
-    datesArray = []; // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
+    datesArray = [];
+
+    // `dirtyDatesArray` is Array, Set or Map, or object with custom `forEach` method
   } else if (typeof dirtyDatesArray.forEach === 'function') {
-    datesArray = dirtyDatesArray; // If `dirtyDatesArray` is Array-like Object, convert to Array. Otherwise, make it empty Array
+    datesArray = dirtyDatesArray;
+
+    // If `dirtyDatesArray` is Array-like Object, convert to Array. Otherwise, make it empty Array
   } else {
     datesArray = Array.prototype.slice.call(dirtyDatesArray);
   }
-
   var result;
   var minDistance;
   datesArray.forEach(function (dirtyDate) {
     var currentDate = toDate(dirtyDate);
-
     if (isNaN(Number(currentDate))) {
       result = new Date(NaN);
       minDistance = NaN;
       return;
     }
-
     var distance = Math.abs(timeToCompare - currentDate.getTime());
-
     if (result == null || distance < Number(minDistance)) {
       result = currentDate;
       minDistance = distance;
@@ -1201,17 +1174,16 @@ function closestTo(dirtyDateToCompare, dirtyDatesArray) {
  * //   Sun Jul 02 1995 00:00:00
  * // ]
  */
-
 function compareAsc(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
   var dateRight = toDate(dirtyDateRight);
   var diff = dateLeft.getTime() - dateRight.getTime();
-
   if (diff < 0) {
     return -1;
   } else if (diff > 0) {
-    return 1; // Return 0 if diff is 0; return NaN if diff is NaN
+    return 1;
+    // Return 0 if diff is 0; return NaN if diff is NaN
   } else {
     return diff;
   }
@@ -1249,17 +1221,16 @@ function compareAsc(dirtyDateLeft, dirtyDateRight) {
  * //   Wed Feb 11 1987 00:00:00
  * // ]
  */
-
 function compareDesc(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
   var dateRight = toDate(dirtyDateRight);
   var diff = dateLeft.getTime() - dateRight.getTime();
-
   if (diff > 0) {
     return -1;
   } else if (diff < 0) {
-    return 1; // Return 0 if diff is 0; return NaN if diff is NaN
+    return 1;
+    // Return 0 if diff is 0; return NaN if diff is NaN
   } else {
     return diff;
   }
@@ -1274,6 +1245,7 @@ function compareDesc(dirtyDateLeft, dirtyDateRight) {
  * @default
  */
 var daysInWeek = 7;
+
 /**
  * Days in 1 year
  * One years equals 365.2425 days according to the formula:
@@ -1286,8 +1258,8 @@ var daysInWeek = 7;
  * @type {number}
  * @default
  */
-
 var daysInYear$1 = 365.2425;
+
 /**
  * Maximum allowed time.
  *
@@ -1296,8 +1268,8 @@ var daysInYear$1 = 365.2425;
  * @type {number}
  * @default
  */
-
 var maxTime = Math.pow(10, 8) * 24 * 60 * 60 * 1000;
+
 /**
  * Milliseconds in 1 minute
  *
@@ -1306,8 +1278,8 @@ var maxTime = Math.pow(10, 8) * 24 * 60 * 60 * 1000;
  * @type {number}
  * @default
  */
-
 var millisecondsInMinute = 60000;
+
 /**
  * Milliseconds in 1 hour
  *
@@ -1316,8 +1288,8 @@ var millisecondsInMinute = 60000;
  * @type {number}
  * @default
  */
-
 var millisecondsInHour = 3600000;
+
 /**
  * Milliseconds in 1 second
  *
@@ -1326,8 +1298,8 @@ var millisecondsInHour = 3600000;
  * @type {number}
  * @default
  */
-
 var millisecondsInSecond = 1000;
+
 /**
  * Minimum allowed time.
  *
@@ -1336,8 +1308,8 @@ var millisecondsInSecond = 1000;
  * @type {number}
  * @default
  */
-
 var minTime = -maxTime;
+
 /**
  * Minutes in 1 hour
  *
@@ -1346,8 +1318,8 @@ var minTime = -maxTime;
  * @type {number}
  * @default
  */
-
 var minutesInHour = 60;
+
 /**
  * Months in 1 quarter
  *
@@ -1356,8 +1328,8 @@ var minutesInHour = 60;
  * @type {number}
  * @default
  */
-
 var monthsInQuarter = 3;
+
 /**
  * Months in 1 year
  *
@@ -1366,8 +1338,8 @@ var monthsInQuarter = 3;
  * @type {number}
  * @default
  */
-
 var monthsInYear = 12;
+
 /**
  * Quarters in 1 year
  *
@@ -1376,8 +1348,8 @@ var monthsInYear = 12;
  * @type {number}
  * @default
  */
-
 var quartersInYear = 4;
+
 /**
  * Seconds in 1 hour
  *
@@ -1386,8 +1358,8 @@ var quartersInYear = 4;
  * @type {number}
  * @default
  */
-
 var secondsInHour = 3600;
+
 /**
  * Seconds in 1 minute
  *
@@ -1396,8 +1368,8 @@ var secondsInHour = 3600;
  * @type {number}
  * @default
  */
-
 var secondsInMinute = 60;
+
 /**
  * Seconds in 1 day
  *
@@ -1406,8 +1378,8 @@ var secondsInMinute = 60;
  * @type {number}
  * @default
  */
-
 var secondsInDay = secondsInHour * 24;
+
 /**
  * Seconds in 1 week
  *
@@ -1416,8 +1388,8 @@ var secondsInDay = secondsInHour * 24;
  * @type {number}
  * @default
  */
-
 var secondsInWeek = secondsInDay * 7;
+
 /**
  * Seconds in 1 year
  *
@@ -1426,8 +1398,8 @@ var secondsInWeek = secondsInDay * 7;
  * @type {number}
  * @default
  */
-
 var secondsInYear = secondsInDay * daysInYear$1;
+
 /**
  * Seconds in 1 month
  *
@@ -1436,8 +1408,8 @@ var secondsInYear = secondsInDay * daysInYear$1;
  * @type {number}
  * @default
  */
-
 var secondsInMonth = secondsInYear / 12;
+
 /**
  * Seconds in 1 quarter
  *
@@ -1446,7 +1418,6 @@ var secondsInMonth = secondsInYear / 12;
  * @type {number}
  * @default
  */
-
 var secondsInQuarter = secondsInMonth * 3;
 
 /**
@@ -1472,7 +1443,6 @@ var secondsInQuarter = secondsInMonth * 3;
  * const result = daysToWeeks(13)
  * //=> 1
  */
-
 function daysToWeeks(days) {
   requiredArgs(1, arguments);
   var weeks = days / daysInWeek;
@@ -1507,7 +1477,6 @@ function daysToWeeks(days) {
  * const result = isSameDay(new Date(2014, 8, 4), new Date(2015, 8, 4))
  * //=> false
  */
-
 function isSameDay(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeftStartOfDay = startOfDay(dirtyDateLeft);
@@ -1515,7 +1484,6 @@ function isSameDay(dirtyDateLeft, dirtyDateRight) {
   return dateLeftStartOfDay.getTime() === dateRightStartOfDay.getTime();
 }
 
-function _typeof$A(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$A = function _typeof(obj) { return typeof obj; }; } else { _typeof$A = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$A(obj); }
 /**
  * @name isDate
  * @category Common Helpers
@@ -1548,10 +1516,9 @@ function _typeof$A(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "func
  * const result = isDate({})
  * //=> false
  */
-
 function isDate(value) {
   requiredArgs(1, arguments);
-  return value instanceof Date || _typeof$A(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
+  return value instanceof Date || _typeof(value) === 'object' && Object.prototype.toString.call(value) === '[object Date]';
 }
 
 /**
@@ -1585,14 +1552,11 @@ function isDate(value) {
  * const result = isValid(new Date(''))
  * //=> false
  */
-
 function isValid(dirtyDate) {
   requiredArgs(1, arguments);
-
   if (!isDate(dirtyDate) && typeof dirtyDate !== 'number') {
     return false;
   }
-
   var date = toDate(dirtyDate);
   return !isNaN(Number(date));
 }
@@ -1646,7 +1610,6 @@ function isValid(dirtyDate) {
  * )
  * //=> 0
  */
-
 function differenceInBusinessDays(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
@@ -1656,14 +1619,14 @@ function differenceInBusinessDays(dirtyDateLeft, dirtyDateRight) {
   var sign = calendarDifference < 0 ? -1 : 1;
   var weeks = toInteger(calendarDifference / 7);
   var result = weeks * 5;
-  dateRight = addDays(dateRight, weeks * 7); // the loop below will run at most 6 times to account for the remaining days that don't makeup a full week
+  dateRight = addDays(dateRight, weeks * 7);
 
+  // the loop below will run at most 6 times to account for the remaining days that don't makeup a full week
   while (!isSameDay(dateLeft, dateRight)) {
     // sign is used to account for both negative and positive differences
     result += isWeekend(dateRight) ? 0 : sign;
     dateRight = addDays(dateRight, sign);
   }
-
   return result === 0 ? 0 : result;
 }
 
@@ -1690,13 +1653,13 @@ function differenceInBusinessDays(dirtyDateLeft, dirtyDateRight) {
  * )
  * //=> 2
  */
-
 function differenceInCalendarISOWeekYears(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   return getISOWeekYear(dirtyDateLeft) - getISOWeekYear(dirtyDateRight);
 }
 
 var MILLISECONDS_IN_WEEK$6 = 604800000;
+
 /**
  * @name differenceInCalendarISOWeeks
  * @category ISO Week Helpers
@@ -1720,16 +1683,16 @@ var MILLISECONDS_IN_WEEK$6 = 604800000;
  * )
  * //=> 3
  */
-
 function differenceInCalendarISOWeeks(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var startOfISOWeekLeft = startOfISOWeek(dirtyDateLeft);
   var startOfISOWeekRight = startOfISOWeek(dirtyDateRight);
   var timestampLeft = startOfISOWeekLeft.getTime() - getTimezoneOffsetInMilliseconds(startOfISOWeekLeft);
-  var timestampRight = startOfISOWeekRight.getTime() - getTimezoneOffsetInMilliseconds(startOfISOWeekRight); // Round the number of days to the nearest integer
+  var timestampRight = startOfISOWeekRight.getTime() - getTimezoneOffsetInMilliseconds(startOfISOWeekRight);
+
+  // Round the number of days to the nearest integer
   // because the number of milliseconds in a week is not constant
   // (e.g. it's different in the week of the daylight saving time clock shift)
-
   return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_WEEK$6);
 }
 
@@ -1754,7 +1717,6 @@ function differenceInCalendarISOWeeks(dirtyDateLeft, dirtyDateRight) {
  * )
  * //=> 8
  */
-
 function differenceInCalendarMonths(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
@@ -1781,7 +1743,6 @@ function differenceInCalendarMonths(dirtyDateLeft, dirtyDateRight) {
  * const result = getQuarter(new Date(2014, 6, 2))
  * //=> 3
  */
-
 function getQuarter(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -1810,7 +1771,6 @@ function getQuarter(dirtyDate) {
  * )
  * //=> 3
  */
-
 function differenceInCalendarQuarters(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
@@ -1821,6 +1781,7 @@ function differenceInCalendarQuarters(dirtyDateLeft, dirtyDateRight) {
 }
 
 var MILLISECONDS_IN_WEEK$5 = 604800000;
+
 /**
  * @name differenceInCalendarWeeks
  * @category Week Helpers
@@ -1856,16 +1817,16 @@ var MILLISECONDS_IN_WEEK$5 = 604800000;
  * )
  * //=> 2
  */
-
 function differenceInCalendarWeeks(dirtyDateLeft, dirtyDateRight, options) {
   requiredArgs(2, arguments);
   var startOfWeekLeft = startOfWeek(dirtyDateLeft, options);
   var startOfWeekRight = startOfWeek(dirtyDateRight, options);
   var timestampLeft = startOfWeekLeft.getTime() - getTimezoneOffsetInMilliseconds(startOfWeekLeft);
-  var timestampRight = startOfWeekRight.getTime() - getTimezoneOffsetInMilliseconds(startOfWeekRight); // Round the number of days to the nearest integer
+  var timestampRight = startOfWeekRight.getTime() - getTimezoneOffsetInMilliseconds(startOfWeekRight);
+
+  // Round the number of days to the nearest integer
   // because the number of milliseconds in a week is not constant
   // (e.g. it's different in the week of the daylight saving time clock shift)
-
   return Math.round((timestampLeft - timestampRight) / MILLISECONDS_IN_WEEK$5);
 }
 
@@ -1890,7 +1851,6 @@ function differenceInCalendarWeeks(dirtyDateLeft, dirtyDateRight, options) {
  * )
  * //=> 2
  */
-
 function differenceInCalendarYears(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
@@ -1901,18 +1861,18 @@ function differenceInCalendarYears(dirtyDateLeft, dirtyDateRight) {
 // for accurate equality comparisons of UTC timestamps that end up
 // having the same representation in local time, e.g. one hour before
 // DST ends vs. the instant that DST ends.
-
 function compareLocalAsc(dateLeft, dateRight) {
   var diff = dateLeft.getFullYear() - dateRight.getFullYear() || dateLeft.getMonth() - dateRight.getMonth() || dateLeft.getDate() - dateRight.getDate() || dateLeft.getHours() - dateRight.getHours() || dateLeft.getMinutes() - dateRight.getMinutes() || dateLeft.getSeconds() - dateRight.getSeconds() || dateLeft.getMilliseconds() - dateRight.getMilliseconds();
-
   if (diff < 0) {
     return -1;
   } else if (diff > 0) {
-    return 1; // Return 0 if diff is 0; return NaN if diff is NaN
+    return 1;
+    // Return 0 if diff is 0; return NaN if diff is NaN
   } else {
     return diff;
   }
 }
+
 /**
  * @name differenceInDays
  * @category Day Helpers
@@ -1962,20 +1922,19 @@ function compareLocalAsc(dateLeft, dateRight) {
  * )
 //=> 92
  */
-
-
 function differenceInDays(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
   var dateRight = toDate(dirtyDateRight);
   var sign = compareLocalAsc(dateLeft, dateRight);
   var difference = Math.abs(differenceInCalendarDays(dateLeft, dateRight));
-  dateLeft.setDate(dateLeft.getDate() - sign * difference); // Math.abs(diff in full days - diff in calendar days) === 1 if last calendar day is not full
+  dateLeft.setDate(dateLeft.getDate() - sign * difference);
+
+  // Math.abs(diff in full days - diff in calendar days) === 1 if last calendar day is not full
   // If so, result must be decreased by 1 in absolute value
-
   var isLastDayNotFull = Number(compareLocalAsc(dateLeft, dateRight) === -sign);
-  var result = sign * (difference - isLastDayNotFull); // Prevent negative zero
-
+  var result = sign * (difference - isLastDayNotFull);
+  // Prevent negative zero
   return result === 0 ? 0 : result;
 }
 
@@ -2001,7 +1960,6 @@ function differenceInDays(dirtyDateLeft, dirtyDateRight) {
  * )
  * //=> 1100
  */
-
 function differenceInMilliseconds(dateLeft, dateRight) {
   requiredArgs(2, arguments);
   return toDate(dateLeft).getTime() - toDate(dateRight).getTime();
@@ -2014,8 +1972,8 @@ var roundingMap = {
   trunc: function trunc(value) {
     return value < 0 ? Math.ceil(value) : Math.floor(value);
   } // Math.trunc is not supported by IE
-
 };
+
 var defaultRoundingMethod = 'trunc';
 function getRoundingMethod(method) {
   return method ? roundingMap[method] : roundingMap[defaultRoundingMethod];
@@ -2044,7 +2002,6 @@ function getRoundingMethod(method) {
  * )
  * //=> 12
  */
-
 function differenceInHours(dateLeft, dateRight, options) {
   requiredArgs(2, arguments);
   var diff = differenceInMilliseconds(dateLeft, dateRight) / millisecondsInHour;
@@ -2071,7 +2028,6 @@ function differenceInHours(dateLeft, dateRight, options) {
  * const result = subISOWeekYears(new Date(2014, 8, 1), 5)
  * //=> Mon Aug 31 2009 00:00:00
  */
-
 function subISOWeekYears(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -2101,20 +2057,20 @@ function subISOWeekYears(dirtyDate, dirtyAmount) {
  * )
  * //=> 1
  */
-
 function differenceInISOWeekYears(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
   var dateRight = toDate(dirtyDateRight);
   var sign = compareAsc(dateLeft, dateRight);
   var difference = Math.abs(differenceInCalendarISOWeekYears(dateLeft, dateRight));
-  dateLeft = subISOWeekYears(dateLeft, sign * difference); // Math.abs(diff in full ISO years - diff in calendar ISO years) === 1
+  dateLeft = subISOWeekYears(dateLeft, sign * difference);
+
+  // Math.abs(diff in full ISO years - diff in calendar ISO years) === 1
   // if last calendar ISO year is not full
   // If so, result must be decreased by 1 in absolute value
-
   var isLastISOWeekYearNotFull = Number(compareAsc(dateLeft, dateRight) === -sign);
-  var result = sign * (difference - isLastISOWeekYearNotFull); // Prevent negative zero
-
+  var result = sign * (difference - isLastISOWeekYearNotFull);
+  // Prevent negative zero
   return result === 0 ? 0 : result;
 }
 
@@ -2149,7 +2105,6 @@ function differenceInISOWeekYears(dirtyDateLeft, dirtyDateRight) {
  * )
  * //=> -1
  */
-
 function differenceInMinutes(dateLeft, dateRight, options) {
   requiredArgs(2, arguments);
   var diff = differenceInMilliseconds(dateLeft, dateRight) / millisecondsInMinute;
@@ -2174,7 +2129,6 @@ function differenceInMinutes(dateLeft, dateRight, options) {
  * const result = endOfDay(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 02 2014 23:59:59.999
  */
-
 function endOfDay(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -2200,7 +2154,6 @@ function endOfDay(dirtyDate) {
  * const result = endOfMonth(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 30 2014 23:59:59.999
  */
-
 function endOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -2227,7 +2180,6 @@ function endOfMonth(dirtyDate) {
  * const result = isLastDayOfMonth(new Date(2014, 1, 28))
  * //=> true
  */
-
 function isLastDayOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -2252,15 +2204,15 @@ function isLastDayOfMonth(dirtyDate) {
  * const result = differenceInMonths(new Date(2014, 8, 1), new Date(2014, 0, 31))
  * //=> 7
  */
-
 function differenceInMonths(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
   var dateRight = toDate(dirtyDateRight);
   var sign = compareAsc(dateLeft, dateRight);
   var difference = Math.abs(differenceInCalendarMonths(dateLeft, dateRight));
-  var result; // Check for the difference of less than month
+  var result;
 
+  // Check for the difference of less than month
   if (difference < 1) {
     result = 0;
   } else {
@@ -2269,20 +2221,20 @@ function differenceInMonths(dirtyDateLeft, dirtyDateRight) {
       // to compare it with Jan
       dateLeft.setDate(30);
     }
+    dateLeft.setMonth(dateLeft.getMonth() - sign * difference);
 
-    dateLeft.setMonth(dateLeft.getMonth() - sign * difference); // Math.abs(diff in full months - diff in calendar months) === 1 if last calendar month is not full
+    // Math.abs(diff in full months - diff in calendar months) === 1 if last calendar month is not full
     // If so, result must be decreased by 1 in absolute value
+    var isLastMonthNotFull = compareAsc(dateLeft, dateRight) === -sign;
 
-    var isLastMonthNotFull = compareAsc(dateLeft, dateRight) === -sign; // Check for cases of one full calendar month
-
+    // Check for cases of one full calendar month
     if (isLastDayOfMonth(toDate(dirtyDateLeft)) && difference === 1 && compareAsc(dirtyDateLeft, dateRight) === 1) {
       isLastMonthNotFull = false;
     }
-
     result = sign * (difference - Number(isLastMonthNotFull));
-  } // Prevent negative zero
+  }
 
-
+  // Prevent negative zero
   return result === 0 ? 0 : result;
 }
 
@@ -2306,7 +2258,6 @@ function differenceInMonths(dirtyDateLeft, dirtyDateRight) {
  * const result = differenceInQuarters(new Date(2014, 6, 2), new Date(2013, 11, 31))
  * //=> 2
  */
-
 function differenceInQuarters(dateLeft, dateRight, options) {
   requiredArgs(2, arguments);
   var diff = differenceInMonths(dateLeft, dateRight) / 3;
@@ -2337,7 +2288,6 @@ function differenceInQuarters(dateLeft, dateRight, options) {
  * )
  * //=> 12
  */
-
 function differenceInSeconds(dateLeft, dateRight, options) {
   requiredArgs(2, arguments);
   var diff = differenceInMilliseconds(dateLeft, dateRight) / 1000;
@@ -2385,7 +2335,6 @@ function differenceInSeconds(dateLeft, dateRight, options) {
  * )
  * //=> 8
  */
-
 function differenceInWeeks(dateLeft, dateRight, options) {
   requiredArgs(2, arguments);
   var diff = differenceInDays(dateLeft, dateRight) / 7;
@@ -2410,22 +2359,23 @@ function differenceInWeeks(dateLeft, dateRight, options) {
  * const result = differenceInYears(new Date(2015, 1, 11), new Date(2013, 11, 31))
  * //=> 1
  */
-
 function differenceInYears(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
   var dateRight = toDate(dirtyDateRight);
   var sign = compareAsc(dateLeft, dateRight);
-  var difference = Math.abs(differenceInCalendarYears(dateLeft, dateRight)); // Set both dates to a valid leap year for accurate comparison when dealing
+  var difference = Math.abs(differenceInCalendarYears(dateLeft, dateRight));
+
+  // Set both dates to a valid leap year for accurate comparison when dealing
   // with leap days
-
   dateLeft.setFullYear(1584);
-  dateRight.setFullYear(1584); // Math.abs(diff in full years - diff in calendar years) === 1 if last calendar year is not full
+  dateRight.setFullYear(1584);
+
+  // Math.abs(diff in full years - diff in calendar years) === 1 if last calendar year is not full
   // If so, result must be decreased by 1 in absolute value
-
   var isLastYearNotFull = compareAsc(dateLeft, dateRight) === -sign;
-  var result = sign * (difference - Number(isLastYearNotFull)); // Prevent negative zero
-
+  var result = sign * (difference - Number(isLastYearNotFull));
+  // Prevent negative zero
   return result === 0 ? 0 : result;
 }
 
@@ -2460,32 +2410,28 @@ function differenceInYears(dirtyDateLeft, dirtyDateRight) {
  * //   Fri Oct 10 2014 00:00:00
  * // ]
  */
-
 function eachDayOfInterval(dirtyInterval, options) {
   var _options$step;
-
   requiredArgs(1, arguments);
   var interval = dirtyInterval || {};
   var startDate = toDate(interval.start);
   var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var endTime = endDate.getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(startDate.getTime() <= endTime)) {
     throw new RangeError('Invalid interval');
   }
-
   var dates = [];
   var currentDate = startDate;
   currentDate.setHours(0, 0, 0, 0);
   var step = Number((_options$step = options === null || options === void 0 ? void 0 : options.step) !== null && _options$step !== void 0 ? _options$step : 1);
   if (step < 1 || isNaN(step)) throw new RangeError('`options.step` must be a number greater than 1');
-
   while (currentDate.getTime() <= endTime) {
     dates.push(toDate(currentDate));
     currentDate.setDate(currentDate.getDate() + step);
     currentDate.setHours(0, 0, 0, 0);
   }
-
   return dates;
 }
 
@@ -2521,29 +2467,26 @@ function eachDayOfInterval(dirtyInterval, options) {
  */
 function eachHourOfInterval(dirtyInterval, options) {
   var _options$step;
-
   requiredArgs(1, arguments);
   var interval = dirtyInterval || {};
   var startDate = toDate(interval.start);
   var endDate = toDate(interval.end);
   var startTime = startDate.getTime();
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var endTime = endDate.getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(startTime <= endTime)) {
     throw new RangeError('Invalid interval');
   }
-
   var dates = [];
   var currentDate = startDate;
   currentDate.setMinutes(0, 0, 0);
   var step = Number((_options$step = options === null || options === void 0 ? void 0 : options.step) !== null && _options$step !== void 0 ? _options$step : 1);
   if (step < 1 || isNaN(step)) throw new RangeError('`options.step` must be a number greater than 1');
-
   while (currentDate.getTime() <= endTime) {
     dates.push(toDate(currentDate));
     currentDate = addHours(currentDate, step);
   }
-
   return dates;
 }
 
@@ -2565,7 +2508,6 @@ function eachHourOfInterval(dirtyInterval, options) {
  * const result = startOfMinute(new Date(2014, 11, 1, 22, 15, 45, 400))
  * //=> Mon Dec 01 2014 22:15:00
  */
-
 function startOfMinute(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -2605,27 +2547,22 @@ function startOfMinute(dirtyDate) {
  */
 function eachMinuteOfInterval(interval, options) {
   var _options$step;
-
   requiredArgs(1, arguments);
   var startDate = startOfMinute(toDate(interval.start));
   var endDate = toDate(interval.end);
   var startTime = startDate.getTime();
   var endTime = endDate.getTime();
-
   if (startTime >= endTime) {
     throw new RangeError('Invalid interval');
   }
-
   var dates = [];
   var currentDate = startDate;
   var step = Number((_options$step = options === null || options === void 0 ? void 0 : options.step) !== null && _options$step !== void 0 ? _options$step : 1);
   if (step < 1 || isNaN(step)) throw new RangeError('`options.step` must be a number equal to or greater than 1');
-
   while (currentDate.getTime() <= endTime) {
     dates.push(toDate(currentDate));
     currentDate = addMinutes(currentDate, step);
   }
-
   return dates;
 }
 
@@ -2659,28 +2596,25 @@ function eachMinuteOfInterval(interval, options) {
  * //   Fri Aug 01 2014 00:00:00
  * // ]
  */
-
 function eachMonthOfInterval(dirtyInterval) {
   requiredArgs(1, arguments);
   var interval = dirtyInterval || {};
   var startDate = toDate(interval.start);
   var endDate = toDate(interval.end);
   var endTime = endDate.getTime();
-  var dates = []; // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var dates = [];
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(startDate.getTime() <= endTime)) {
     throw new RangeError('Invalid interval');
   }
-
   var currentDate = startDate;
   currentDate.setHours(0, 0, 0, 0);
   currentDate.setDate(1);
-
   while (currentDate.getTime() <= endTime) {
     dates.push(toDate(currentDate));
     currentDate.setMonth(currentDate.getMonth() + 1);
   }
-
   return dates;
 }
 
@@ -2702,7 +2636,6 @@ function eachMonthOfInterval(dirtyInterval) {
  * const result = startOfQuarter(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Jul 01 2014 00:00:00
  */
-
 function startOfQuarter(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -2739,29 +2672,26 @@ function startOfQuarter(dirtyDate) {
  * //   Tue Jul 01 2014 00:00:00,
  * // ]
  */
-
 function eachQuarterOfInterval(dirtyInterval) {
   requiredArgs(1, arguments);
   var interval = dirtyInterval || {};
   var startDate = toDate(interval.start);
   var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var endTime = endDate.getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(startDate.getTime() <= endTime)) {
     throw new RangeError('Invalid interval');
   }
-
   var startDateQuarter = startOfQuarter(startDate);
   var endDateQuarter = startOfQuarter(endDate);
   endTime = endDateQuarter.getTime();
   var quarters = [];
   var currentQuarter = startDateQuarter;
-
   while (currentQuarter.getTime() <= endTime) {
     quarters.push(toDate(currentQuarter));
     currentQuarter = addQuarters(currentQuarter, 1);
   }
-
   return quarters;
 }
 
@@ -2800,34 +2730,32 @@ function eachQuarterOfInterval(dirtyInterval) {
  * //   Sun Nov 23 2014 00:00:00
  * // ]
  */
-
 function eachWeekOfInterval(dirtyInterval, options) {
   requiredArgs(1, arguments);
   var interval = dirtyInterval || {};
   var startDate = toDate(interval.start);
   var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var endTime = endDate.getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(startDate.getTime() <= endTime)) {
     throw new RangeError('Invalid interval');
   }
-
   var startDateWeek = startOfWeek(startDate, options);
-  var endDateWeek = startOfWeek(endDate, options); // Some timezones switch DST at midnight, making start of day unreliable in these timezones, 3pm is a safe bet
+  var endDateWeek = startOfWeek(endDate, options);
 
+  // Some timezones switch DST at midnight, making start of day unreliable in these timezones, 3pm is a safe bet
   startDateWeek.setHours(15);
   endDateWeek.setHours(15);
   endTime = endDateWeek.getTime();
   var weeks = [];
   var currentWeek = startDateWeek;
-
   while (currentWeek.getTime() <= endTime) {
     currentWeek.setHours(0);
     weeks.push(toDate(currentWeek));
     currentWeek = addWeeks(currentWeek, 1);
     currentWeek.setHours(15);
   }
-
   return weeks;
 }
 
@@ -2858,22 +2786,18 @@ function eachWeekOfInterval(dirtyInterval, options) {
  * //   Sun Sep 30 2018 00:00:00
  * // ]
  */
-
 function eachWeekendOfInterval(interval) {
   requiredArgs(1, arguments);
   var dateInterval = eachDayOfInterval(interval);
   var weekends = [];
   var index = 0;
-
   while (index < dateInterval.length) {
     var date = dateInterval[index++];
-
     if (isWeekend(date)) {
       weekends.push(date);
       if (isSunday(date)) index = index + 5;
     }
   }
-
   return weekends;
 }
 
@@ -2895,7 +2819,6 @@ function eachWeekendOfInterval(interval) {
  * const result = startOfMonth(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Mon Sep 01 2014 00:00:00
  */
-
 function startOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -2931,7 +2854,6 @@ function startOfMonth(dirtyDate) {
  * //   Sun Feb 27 2022 00:00:00
  * // ]
  */
-
 function eachWeekendOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
   var startDate = startOfMonth(dirtyDate);
@@ -2961,7 +2883,6 @@ function eachWeekendOfMonth(dirtyDate) {
  * const result = endOfYear(new Date(2014, 8, 2, 11, 55, 00))
  * //=> Wed Dec 31 2014 23:59:59.999
  */
-
 function endOfYear(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -2989,7 +2910,6 @@ function endOfYear(dirtyDate) {
  * const result = startOfYear(new Date(2014, 8, 2, 11, 55, 00))
  * //=> Wed Jan 01 2014 00:00:00
  */
-
 function startOfYear(dirtyDate) {
   requiredArgs(1, arguments);
   var cleanDate = toDate(dirtyDate);
@@ -3023,7 +2943,6 @@ function startOfYear(dirtyDate) {
  * // ]
  * ]
  */
-
 function eachWeekendOfYear(dirtyDate) {
   requiredArgs(1, arguments);
   var startDate = startOfYear(dirtyDate);
@@ -3061,28 +2980,25 @@ function eachWeekendOfYear(dirtyDate) {
  * //   Sun Jan 01 2017 00:00:00
  * // ]
  */
-
 function eachYearOfInterval(dirtyInterval) {
   requiredArgs(1, arguments);
   var interval = dirtyInterval || {};
   var startDate = toDate(interval.start);
   var endDate = toDate(interval.end);
-  var endTime = endDate.getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var endTime = endDate.getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(startDate.getTime() <= endTime)) {
     throw new RangeError('Invalid interval');
   }
-
   var dates = [];
   var currentDate = startDate;
   currentDate.setHours(0, 0, 0, 0);
   currentDate.setMonth(0, 1);
-
   while (currentDate.getTime() <= endTime) {
     dates.push(toDate(currentDate));
     currentDate.setFullYear(currentDate.getFullYear() + 1);
   }
-
   return dates;
 }
 
@@ -3106,7 +3022,6 @@ function eachYearOfInterval(dirtyInterval) {
  * const result = endOfDecade(new Date(1984, 4, 12, 00, 00, 00))
  * //=> Dec 31 1989 23:59:59.999
  */
-
 function endOfDecade(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -3135,7 +3050,6 @@ function endOfDecade(dirtyDate) {
  * const result = endOfHour(new Date(2014, 8, 2, 11, 55))
  * //=> Tue Sep 02 2014 11:59:59.999
  */
-
 function endOfHour(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -3172,15 +3086,14 @@ function endOfHour(dirtyDate) {
  */
 function endOfWeek(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var defaultOptions = getDefaultOptions$1();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   var date = toDate(dirtyDate);
   var day = date.getDay();
   var diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
@@ -3209,7 +3122,6 @@ function endOfWeek(dirtyDate, options) {
  * const result = endOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Sun Sep 07 2014 23:59:59.999
  */
-
 function endOfISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
   return endOfWeek(dirtyDate, {
@@ -3238,7 +3150,6 @@ function endOfISOWeek(dirtyDate) {
  * const result = endOfISOWeekYear(new Date(2005, 6, 2))
  * //=> Sun Jan 01 2006 23:59:59.999
  */
-
 function endOfISOWeekYear(dirtyDate) {
   requiredArgs(1, arguments);
   var year = getISOWeekYear(dirtyDate);
@@ -3268,7 +3179,6 @@ function endOfISOWeekYear(dirtyDate) {
  * const result = endOfMinute(new Date(2014, 11, 1, 22, 15, 45, 400))
  * //=> Mon Dec 01 2014 22:15:59.999
  */
-
 function endOfMinute(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -3294,7 +3204,6 @@ function endOfMinute(dirtyDate) {
  * const result = endOfQuarter(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 30 2014 23:59:59.999
  */
-
 function endOfQuarter(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -3323,7 +3232,6 @@ function endOfQuarter(dirtyDate) {
  * const result = endOfSecond(new Date(2014, 11, 1, 22, 15, 45, 400))
  * //=> Mon Dec 01 2014 22:15:45.999
  */
-
 function endOfSecond(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -3350,7 +3258,6 @@ function endOfSecond(dirtyDate) {
  * const result = endOfToday()
  * //=> Mon Oct 6 2014 23:59:59.999
  */
-
 function endOfToday() {
   return endOfDay(Date.now());
 }
@@ -3433,7 +3340,6 @@ function endOfYesterday() {
  * const result = subMilliseconds(new Date(2014, 6, 10, 12, 45, 30, 0), 750)
  * //=> Thu Jul 10 2014 12:45:29.250
  */
-
 function subMilliseconds(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -3475,7 +3381,6 @@ function getUTCISOWeekYear(dirtyDate) {
   fourthOfJanuaryOfThisYear.setUTCFullYear(year, 0, 4);
   fourthOfJanuaryOfThisYear.setUTCHours(0, 0, 0, 0);
   var startOfThisYear = startOfUTCISOWeek(fourthOfJanuaryOfThisYear);
-
   if (date.getTime() >= startOfNextYear.getTime()) {
     return year + 1;
   } else if (date.getTime() >= startOfThisYear.getTime()) {
@@ -3499,24 +3404,24 @@ var MILLISECONDS_IN_WEEK$4 = 604800000;
 function getUTCISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
-  var diff = startOfUTCISOWeek(date).getTime() - startOfUTCISOWeekYear(date).getTime(); // Round the number of days to the nearest integer
+  var diff = startOfUTCISOWeek(date).getTime() - startOfUTCISOWeekYear(date).getTime();
+
+  // Round the number of days to the nearest integer
   // because the number of milliseconds in a week is not constant
   // (e.g. it's different in the week of the daylight saving time clock shift)
-
   return Math.round(diff / MILLISECONDS_IN_WEEK$4) + 1;
 }
 
 function startOfUTCWeek(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var defaultOptions = getDefaultOptions$1();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
   var diff = (day < weekStartsOn ? 7 : 0) + day - weekStartsOn;
@@ -3527,17 +3432,16 @@ function startOfUTCWeek(dirtyDate, options) {
 
 function getUTCWeekYear(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
   var year = date.getUTCFullYear();
   var defaultOptions = getDefaultOptions$1();
-  var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
+  var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
 
+  // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
   if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
     throw new RangeError('firstWeekContainsDate must be between 1 and 7 inclusively');
   }
-
   var firstWeekOfNextYear = new Date(0);
   firstWeekOfNextYear.setUTCFullYear(year + 1, 0, firstWeekContainsDate);
   firstWeekOfNextYear.setUTCHours(0, 0, 0, 0);
@@ -3546,7 +3450,6 @@ function getUTCWeekYear(dirtyDate, options) {
   firstWeekOfThisYear.setUTCFullYear(year, 0, firstWeekContainsDate);
   firstWeekOfThisYear.setUTCHours(0, 0, 0, 0);
   var startOfThisYear = startOfUTCWeek(firstWeekOfThisYear, options);
-
   if (date.getTime() >= startOfNextYear.getTime()) {
     return year + 1;
   } else if (date.getTime() >= startOfThisYear.getTime()) {
@@ -3558,7 +3461,6 @@ function getUTCWeekYear(dirtyDate, options) {
 
 function startOfUTCWeekYear(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var defaultOptions = getDefaultOptions$1();
   var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
@@ -3574,21 +3476,20 @@ var MILLISECONDS_IN_WEEK$3 = 604800000;
 function getUTCWeek(dirtyDate, options) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
-  var diff = startOfUTCWeek(date, options).getTime() - startOfUTCWeekYear(date, options).getTime(); // Round the number of days to the nearest integer
+  var diff = startOfUTCWeek(date, options).getTime() - startOfUTCWeekYear(date, options).getTime();
+
+  // Round the number of days to the nearest integer
   // because the number of milliseconds in a week is not constant
   // (e.g. it's different in the week of the daylight saving time clock shift)
-
   return Math.round(diff / MILLISECONDS_IN_WEEK$3) + 1;
 }
 
 function addLeadingZeros(number, targetLength) {
   var sign = number < 0 ? '-' : '';
   var output = Math.abs(number).toString();
-
   while (output.length < targetLength) {
     output = '0' + output;
   }
-
   return sign + output;
 }
 
@@ -3604,7 +3505,6 @@ function addLeadingZeros(number, targetLength) {
  *
  * Letters marked by * are not implemented but reserved by Unicode standard.
  */
-
 var formatters$1 = {
   // Year
   y: function y(date, token) {
@@ -3616,8 +3516,9 @@ var formatters$1 = {
     // | AD 123   |   123 | 23 |   123 |  0123 | 00123 |
     // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
     // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
-    var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
 
+    var signedYear = date.getUTCFullYear();
+    // Returns 1 for 1 BC (which is year 0 in JavaScript)
     var year = signedYear > 0 ? signedYear : 1 - signedYear;
     return addLeadingZeros(token === 'yy' ? year % 100 : year, token.length);
   },
@@ -3633,18 +3534,14 @@ var formatters$1 = {
   // AM or PM
   a: function a(date, token) {
     var dayPeriodEnumValue = date.getUTCHours() / 12 >= 1 ? 'pm' : 'am';
-
     switch (token) {
       case 'a':
       case 'aa':
         return dayPeriodEnumValue.toUpperCase();
-
       case 'aaa':
         return dayPeriodEnumValue;
-
       case 'aaaaa':
         return dayPeriodEnumValue[0];
-
       case 'aaaa':
       default:
         return dayPeriodEnumValue === 'am' ? 'a.m.' : 'p.m.';
@@ -3685,7 +3582,6 @@ var dayPeriodEnum = {
   evening: 'evening',
   night: 'night'
 };
-
 /*
  * |     | Unit                           |     | Unit                           |
  * |-----|--------------------------------|-----|--------------------------------|
@@ -3731,11 +3627,11 @@ var dayPeriodEnum = {
  * - `P` is long localized date format
  * - `p` is long localized time format
  */
+
 var formatters = {
   // Era
   G: function G(date, token, localize) {
     var era = date.getUTCFullYear() > 0 ? 1 : 0;
-
     switch (token) {
       // AD, BC
       case 'G':
@@ -3745,13 +3641,11 @@ var formatters = {
           width: 'abbreviated'
         });
       // A, B
-
       case 'GGGGG':
         return localize.era(era, {
           width: 'narrow'
         });
       // Anno Domini, Before Christ
-
       case 'GGGG':
       default:
         return localize.era(era, {
@@ -3763,41 +3657,42 @@ var formatters = {
   y: function y(date, token, localize) {
     // Ordinal number
     if (token === 'yo') {
-      var signedYear = date.getUTCFullYear(); // Returns 1 for 1 BC (which is year 0 in JavaScript)
-
+      var signedYear = date.getUTCFullYear();
+      // Returns 1 for 1 BC (which is year 0 in JavaScript)
       var year = signedYear > 0 ? signedYear : 1 - signedYear;
       return localize.ordinalNumber(year, {
         unit: 'year'
       });
     }
-
     return formatters$1.y(date, token);
   },
   // Local week-numbering year
   Y: function Y(date, token, localize, options) {
-    var signedWeekYear = getUTCWeekYear(date, options); // Returns 1 for 1 BC (which is year 0 in JavaScript)
+    var signedWeekYear = getUTCWeekYear(date, options);
+    // Returns 1 for 1 BC (which is year 0 in JavaScript)
+    var weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear;
 
-    var weekYear = signedWeekYear > 0 ? signedWeekYear : 1 - signedWeekYear; // Two digit year
-
+    // Two digit year
     if (token === 'YY') {
       var twoDigitYear = weekYear % 100;
       return addLeadingZeros(twoDigitYear, 2);
-    } // Ordinal number
+    }
 
-
+    // Ordinal number
     if (token === 'Yo') {
       return localize.ordinalNumber(weekYear, {
         unit: 'year'
       });
-    } // Padding
+    }
 
-
+    // Padding
     return addLeadingZeros(weekYear, token.length);
   },
   // ISO week-numbering year
   R: function R(date, token) {
-    var isoWeekYear = getUTCISOWeekYear(date); // Padding
+    var isoWeekYear = getUTCISOWeekYear(date);
 
+    // Padding
     return addLeadingZeros(isoWeekYear, token.length);
   },
   // Extended year. This is a single number designating the year of this calendar system.
@@ -3816,37 +3711,31 @@ var formatters = {
   // Quarter
   Q: function Q(date, token, localize) {
     var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
-
     switch (token) {
       // 1, 2, 3, 4
       case 'Q':
         return String(quarter);
       // 01, 02, 03, 04
-
       case 'QQ':
         return addLeadingZeros(quarter, 2);
       // 1st, 2nd, 3rd, 4th
-
       case 'Qo':
         return localize.ordinalNumber(quarter, {
           unit: 'quarter'
         });
       // Q1, Q2, Q3, Q4
-
       case 'QQQ':
         return localize.quarter(quarter, {
           width: 'abbreviated',
           context: 'formatting'
         });
       // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
       case 'QQQQQ':
         return localize.quarter(quarter, {
           width: 'narrow',
           context: 'formatting'
         });
       // 1st quarter, 2nd quarter, ...
-
       case 'QQQQ':
       default:
         return localize.quarter(quarter, {
@@ -3858,37 +3747,31 @@ var formatters = {
   // Stand-alone quarter
   q: function q(date, token, localize) {
     var quarter = Math.ceil((date.getUTCMonth() + 1) / 3);
-
     switch (token) {
       // 1, 2, 3, 4
       case 'q':
         return String(quarter);
       // 01, 02, 03, 04
-
       case 'qq':
         return addLeadingZeros(quarter, 2);
       // 1st, 2nd, 3rd, 4th
-
       case 'qo':
         return localize.ordinalNumber(quarter, {
           unit: 'quarter'
         });
       // Q1, Q2, Q3, Q4
-
       case 'qqq':
         return localize.quarter(quarter, {
           width: 'abbreviated',
           context: 'standalone'
         });
       // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
       case 'qqqqq':
         return localize.quarter(quarter, {
           width: 'narrow',
           context: 'standalone'
         });
       // 1st quarter, 2nd quarter, ...
-
       case 'qqqq':
       default:
         return localize.quarter(quarter, {
@@ -3900,33 +3783,28 @@ var formatters = {
   // Month
   M: function M(date, token, localize) {
     var month = date.getUTCMonth();
-
     switch (token) {
       case 'M':
       case 'MM':
         return formatters$1.M(date, token);
       // 1st, 2nd, ..., 12th
-
       case 'Mo':
         return localize.ordinalNumber(month + 1, {
           unit: 'month'
         });
       // Jan, Feb, ..., Dec
-
       case 'MMM':
         return localize.month(month, {
           width: 'abbreviated',
           context: 'formatting'
         });
       // J, F, ..., D
-
       case 'MMMMM':
         return localize.month(month, {
           width: 'narrow',
           context: 'formatting'
         });
       // January, February, ..., December
-
       case 'MMMM':
       default:
         return localize.month(month, {
@@ -3938,37 +3816,31 @@ var formatters = {
   // Stand-alone month
   L: function L(date, token, localize) {
     var month = date.getUTCMonth();
-
     switch (token) {
       // 1, 2, ..., 12
       case 'L':
         return String(month + 1);
       // 01, 02, ..., 12
-
       case 'LL':
         return addLeadingZeros(month + 1, 2);
       // 1st, 2nd, ..., 12th
-
       case 'Lo':
         return localize.ordinalNumber(month + 1, {
           unit: 'month'
         });
       // Jan, Feb, ..., Dec
-
       case 'LLL':
         return localize.month(month, {
           width: 'abbreviated',
           context: 'standalone'
         });
       // J, F, ..., D
-
       case 'LLLLL':
         return localize.month(month, {
           width: 'narrow',
           context: 'standalone'
         });
       // January, February, ..., December
-
       case 'LLLL':
       default:
         return localize.month(month, {
@@ -3980,25 +3852,21 @@ var formatters = {
   // Local week of year
   w: function w(date, token, localize, options) {
     var week = getUTCWeek(date, options);
-
     if (token === 'wo') {
       return localize.ordinalNumber(week, {
         unit: 'week'
       });
     }
-
     return addLeadingZeros(week, token.length);
   },
   // ISO week of year
   I: function I(date, token, localize) {
     var isoWeek = getUTCISOWeek(date);
-
     if (token === 'Io') {
       return localize.ordinalNumber(isoWeek, {
         unit: 'week'
       });
     }
-
     return addLeadingZeros(isoWeek, token.length);
   },
   // Day of the month
@@ -4008,25 +3876,21 @@ var formatters = {
         unit: 'date'
       });
     }
-
     return formatters$1.d(date, token);
   },
   // Day of year
   D: function D(date, token, localize) {
     var dayOfYear = getUTCDayOfYear(date);
-
     if (token === 'Do') {
       return localize.ordinalNumber(dayOfYear, {
         unit: 'dayOfYear'
       });
     }
-
     return addLeadingZeros(dayOfYear, token.length);
   },
   // Day of week
   E: function E(date, token, localize) {
     var dayOfWeek = date.getUTCDay();
-
     switch (token) {
       // Tue
       case 'E':
@@ -4037,21 +3901,18 @@ var formatters = {
           context: 'formatting'
         });
       // T
-
       case 'EEEEE':
         return localize.day(dayOfWeek, {
           width: 'narrow',
           context: 'formatting'
         });
       // Tu
-
       case 'EEEEEE':
         return localize.day(dayOfWeek, {
           width: 'short',
           context: 'formatting'
         });
       // Tuesday
-
       case 'EEEE':
       default:
         return localize.day(dayOfWeek, {
@@ -4064,43 +3925,36 @@ var formatters = {
   e: function e(date, token, localize, options) {
     var dayOfWeek = date.getUTCDay();
     var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
-
     switch (token) {
       // Numerical value (Nth day of week with current locale or weekStartsOn)
       case 'e':
         return String(localDayOfWeek);
       // Padded numerical value
-
       case 'ee':
         return addLeadingZeros(localDayOfWeek, 2);
       // 1st, 2nd, ..., 7th
-
       case 'eo':
         return localize.ordinalNumber(localDayOfWeek, {
           unit: 'day'
         });
-
       case 'eee':
         return localize.day(dayOfWeek, {
           width: 'abbreviated',
           context: 'formatting'
         });
       // T
-
       case 'eeeee':
         return localize.day(dayOfWeek, {
           width: 'narrow',
           context: 'formatting'
         });
       // Tu
-
       case 'eeeeee':
         return localize.day(dayOfWeek, {
           width: 'short',
           context: 'formatting'
         });
       // Tuesday
-
       case 'eeee':
       default:
         return localize.day(dayOfWeek, {
@@ -4113,43 +3967,36 @@ var formatters = {
   c: function c(date, token, localize, options) {
     var dayOfWeek = date.getUTCDay();
     var localDayOfWeek = (dayOfWeek - options.weekStartsOn + 8) % 7 || 7;
-
     switch (token) {
       // Numerical value (same as in `e`)
       case 'c':
         return String(localDayOfWeek);
       // Padded numerical value
-
       case 'cc':
         return addLeadingZeros(localDayOfWeek, token.length);
       // 1st, 2nd, ..., 7th
-
       case 'co':
         return localize.ordinalNumber(localDayOfWeek, {
           unit: 'day'
         });
-
       case 'ccc':
         return localize.day(dayOfWeek, {
           width: 'abbreviated',
           context: 'standalone'
         });
       // T
-
       case 'ccccc':
         return localize.day(dayOfWeek, {
           width: 'narrow',
           context: 'standalone'
         });
       // Tu
-
       case 'cccccc':
         return localize.day(dayOfWeek, {
           width: 'short',
           context: 'standalone'
         });
       // Tuesday
-
       case 'cccc':
       default:
         return localize.day(dayOfWeek, {
@@ -4162,44 +4009,37 @@ var formatters = {
   i: function i(date, token, localize) {
     var dayOfWeek = date.getUTCDay();
     var isoDayOfWeek = dayOfWeek === 0 ? 7 : dayOfWeek;
-
     switch (token) {
       // 2
       case 'i':
         return String(isoDayOfWeek);
       // 02
-
       case 'ii':
         return addLeadingZeros(isoDayOfWeek, token.length);
       // 2nd
-
       case 'io':
         return localize.ordinalNumber(isoDayOfWeek, {
           unit: 'day'
         });
       // Tue
-
       case 'iii':
         return localize.day(dayOfWeek, {
           width: 'abbreviated',
           context: 'formatting'
         });
       // T
-
       case 'iiiii':
         return localize.day(dayOfWeek, {
           width: 'narrow',
           context: 'formatting'
         });
       // Tu
-
       case 'iiiiii':
         return localize.day(dayOfWeek, {
           width: 'short',
           context: 'formatting'
         });
       // Tuesday
-
       case 'iiii':
       default:
         return localize.day(dayOfWeek, {
@@ -4212,7 +4052,6 @@ var formatters = {
   a: function a(date, token, localize) {
     var hours = date.getUTCHours();
     var dayPeriodEnumValue = hours / 12 >= 1 ? 'pm' : 'am';
-
     switch (token) {
       case 'a':
       case 'aa':
@@ -4220,19 +4059,16 @@ var formatters = {
           width: 'abbreviated',
           context: 'formatting'
         });
-
       case 'aaa':
         return localize.dayPeriod(dayPeriodEnumValue, {
           width: 'abbreviated',
           context: 'formatting'
         }).toLowerCase();
-
       case 'aaaaa':
         return localize.dayPeriod(dayPeriodEnumValue, {
           width: 'narrow',
           context: 'formatting'
         });
-
       case 'aaaa':
       default:
         return localize.dayPeriod(dayPeriodEnumValue, {
@@ -4245,7 +4081,6 @@ var formatters = {
   b: function b(date, token, localize) {
     var hours = date.getUTCHours();
     var dayPeriodEnumValue;
-
     if (hours === 12) {
       dayPeriodEnumValue = dayPeriodEnum.noon;
     } else if (hours === 0) {
@@ -4253,7 +4088,6 @@ var formatters = {
     } else {
       dayPeriodEnumValue = hours / 12 >= 1 ? 'pm' : 'am';
     }
-
     switch (token) {
       case 'b':
       case 'bb':
@@ -4261,19 +4095,16 @@ var formatters = {
           width: 'abbreviated',
           context: 'formatting'
         });
-
       case 'bbb':
         return localize.dayPeriod(dayPeriodEnumValue, {
           width: 'abbreviated',
           context: 'formatting'
         }).toLowerCase();
-
       case 'bbbbb':
         return localize.dayPeriod(dayPeriodEnumValue, {
           width: 'narrow',
           context: 'formatting'
         });
-
       case 'bbbb':
       default:
         return localize.dayPeriod(dayPeriodEnumValue, {
@@ -4286,7 +4117,6 @@ var formatters = {
   B: function B(date, token, localize) {
     var hours = date.getUTCHours();
     var dayPeriodEnumValue;
-
     if (hours >= 17) {
       dayPeriodEnumValue = dayPeriodEnum.evening;
     } else if (hours >= 12) {
@@ -4296,7 +4126,6 @@ var formatters = {
     } else {
       dayPeriodEnumValue = dayPeriodEnum.night;
     }
-
     switch (token) {
       case 'B':
       case 'BB':
@@ -4305,13 +4134,11 @@ var formatters = {
           width: 'abbreviated',
           context: 'formatting'
         });
-
       case 'BBBBB':
         return localize.dayPeriod(dayPeriodEnumValue, {
           width: 'narrow',
           context: 'formatting'
         });
-
       case 'BBBB':
       default:
         return localize.dayPeriod(dayPeriodEnumValue, {
@@ -4329,7 +4156,6 @@ var formatters = {
         unit: 'hour'
       });
     }
-
     return formatters$1.h(date, token);
   },
   // Hour [0-23]
@@ -4339,32 +4165,27 @@ var formatters = {
         unit: 'hour'
       });
     }
-
     return formatters$1.H(date, token);
   },
   // Hour [0-11]
   K: function K(date, token, localize) {
     var hours = date.getUTCHours() % 12;
-
     if (token === 'Ko') {
       return localize.ordinalNumber(hours, {
         unit: 'hour'
       });
     }
-
     return addLeadingZeros(hours, token.length);
   },
   // Hour [1-24]
   k: function k(date, token, localize) {
     var hours = date.getUTCHours();
     if (hours === 0) hours = 24;
-
     if (token === 'ko') {
       return localize.ordinalNumber(hours, {
         unit: 'hour'
       });
     }
-
     return addLeadingZeros(hours, token.length);
   },
   // Minute
@@ -4374,7 +4195,6 @@ var formatters = {
         unit: 'minute'
       });
     }
-
     return formatters$1.m(date, token);
   },
   // Second
@@ -4384,7 +4204,6 @@ var formatters = {
         unit: 'second'
       });
     }
-
     return formatters$1.s(date, token);
   },
   // Fraction of second
@@ -4395,30 +4214,27 @@ var formatters = {
   X: function X(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
-
     if (timezoneOffset === 0) {
       return 'Z';
     }
-
     switch (token) {
       // Hours and optional minutes
       case 'X':
         return formatTimezoneWithOptionalMinutes(timezoneOffset);
+
       // Hours, minutes and optional seconds without `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `XX`
-
       case 'XXXX':
       case 'XX':
         // Hours and minutes without `:` delimiter
         return formatTimezone(timezoneOffset);
+
       // Hours, minutes and optional seconds with `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `XXX`
-
       case 'XXXXX':
       case 'XXX': // Hours and minutes with `:` delimiter
-
       default:
         return formatTimezone(timezoneOffset, ':');
     }
@@ -4427,26 +4243,24 @@ var formatters = {
   x: function x(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
-
     switch (token) {
       // Hours and optional minutes
       case 'x':
         return formatTimezoneWithOptionalMinutes(timezoneOffset);
+
       // Hours, minutes and optional seconds without `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `xx`
-
       case 'xxxx':
       case 'xx':
         // Hours and minutes without `:` delimiter
         return formatTimezone(timezoneOffset);
+
       // Hours, minutes and optional seconds with `:` delimiter
       // Note: neither ISO-8601 nor JavaScript supports seconds in timezone offsets
       // so this token always has the same output as `xxx`
-
       case 'xxxxx':
       case 'xxx': // Hours and minutes with `:` delimiter
-
       default:
         return formatTimezone(timezoneOffset, ':');
     }
@@ -4455,7 +4269,6 @@ var formatters = {
   O: function O(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
-
     switch (token) {
       // Short
       case 'O':
@@ -4463,7 +4276,6 @@ var formatters = {
       case 'OOO':
         return 'GMT' + formatTimezoneShort(timezoneOffset, ':');
       // Long
-
       case 'OOOO':
       default:
         return 'GMT' + formatTimezone(timezoneOffset, ':');
@@ -4473,7 +4285,6 @@ var formatters = {
   z: function z(date, token, _localize, options) {
     var originalDate = options._originalDate || date;
     var timezoneOffset = originalDate.getTimezoneOffset();
-
     switch (token) {
       // Short
       case 'z':
@@ -4481,7 +4292,6 @@ var formatters = {
       case 'zzz':
         return 'GMT' + formatTimezoneShort(timezoneOffset, ':');
       // Long
-
       case 'zzzz':
       default:
         return 'GMT' + formatTimezone(timezoneOffset, ':');
@@ -4500,30 +4310,24 @@ var formatters = {
     return addLeadingZeros(timestamp, token.length);
   }
 };
-
 function formatTimezoneShort(offset, dirtyDelimiter) {
   var sign = offset > 0 ? '-' : '+';
   var absOffset = Math.abs(offset);
   var hours = Math.floor(absOffset / 60);
   var minutes = absOffset % 60;
-
   if (minutes === 0) {
     return sign + String(hours);
   }
-
   var delimiter = dirtyDelimiter || '';
   return sign + String(hours) + delimiter + addLeadingZeros(minutes, 2);
 }
-
 function formatTimezoneWithOptionalMinutes(offset, dirtyDelimiter) {
   if (offset % 60 === 0) {
     var sign = offset > 0 ? '-' : '+';
     return sign + addLeadingZeros(Math.abs(offset) / 60, 2);
   }
-
   return formatTimezone(offset, dirtyDelimiter);
 }
-
 function formatTimezone(offset, dirtyDelimiter) {
   var delimiter = dirtyDelimiter || '';
   var sign = offset > 0 ? '-' : '+';
@@ -4539,17 +4343,14 @@ var dateLongFormatter = function dateLongFormatter(pattern, formatLong) {
       return formatLong.date({
         width: 'short'
       });
-
     case 'PP':
       return formatLong.date({
         width: 'medium'
       });
-
     case 'PPP':
       return formatLong.date({
         width: 'long'
       });
-
     case 'PPPP':
     default:
       return formatLong.date({
@@ -4557,24 +4358,20 @@ var dateLongFormatter = function dateLongFormatter(pattern, formatLong) {
       });
   }
 };
-
 var timeLongFormatter = function timeLongFormatter(pattern, formatLong) {
   switch (pattern) {
     case 'p':
       return formatLong.time({
         width: 'short'
       });
-
     case 'pp':
       return formatLong.time({
         width: 'medium'
       });
-
     case 'ppp':
       return formatLong.time({
         width: 'long'
       });
-
     case 'pppp':
     default:
       return formatLong.time({
@@ -4582,37 +4379,30 @@ var timeLongFormatter = function timeLongFormatter(pattern, formatLong) {
       });
   }
 };
-
 var dateTimeLongFormatter = function dateTimeLongFormatter(pattern, formatLong) {
   var matchResult = pattern.match(/(P+)(p+)?/) || [];
   var datePattern = matchResult[1];
   var timePattern = matchResult[2];
-
   if (!timePattern) {
     return dateLongFormatter(pattern, formatLong);
   }
-
   var dateTimeFormat;
-
   switch (datePattern) {
     case 'P':
       dateTimeFormat = formatLong.dateTime({
         width: 'short'
       });
       break;
-
     case 'PP':
       dateTimeFormat = formatLong.dateTime({
         width: 'medium'
       });
       break;
-
     case 'PPP':
       dateTimeFormat = formatLong.dateTime({
         width: 'long'
       });
       break;
-
     case 'PPPP':
     default:
       dateTimeFormat = formatLong.dateTime({
@@ -4620,10 +4410,8 @@ var dateTimeLongFormatter = function dateTimeLongFormatter(pattern, formatLong) 
       });
       break;
   }
-
   return dateTimeFormat.replace('{{date}}', dateLongFormatter(datePattern, formatLong)).replace('{{time}}', timeLongFormatter(timePattern, formatLong));
 };
-
 var longFormatters = {
   p: timeLongFormatter,
   P: dateTimeLongFormatter
@@ -4712,11 +4500,9 @@ var formatDistanceLocale$1h = {
     other: 'almost {{count}} years'
   }
 };
-
 var formatDistance$1j = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1h[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -4724,7 +4510,6 @@ var formatDistance$1j = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'in ' + result;
@@ -4732,7 +4517,6 @@ var formatDistance$1j = function formatDistance(token, count, options) {
       return result + ' ago';
     }
   }
-
   return result;
 };
 
@@ -4787,7 +4571,6 @@ var formatRelativeLocale$1i = {
   nextWeek: "eeee 'at' p",
   other: 'P'
 };
-
 var formatRelative$1j = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1i[token];
 };
@@ -4796,21 +4579,17 @@ function buildLocalizeFn(args) {
   return function (dirtyIndex, options) {
     var context = options !== null && options !== void 0 && options.context ? String(options.context) : 'standalone';
     var valuesArray;
-
     if (context === 'formatting' && args.formattingValues) {
       var defaultWidth = args.defaultFormattingWidth || args.defaultWidth;
       var width = options !== null && options !== void 0 && options.width ? String(options.width) : defaultWidth;
       valuesArray = args.formattingValues[width] || args.formattingValues[defaultWidth];
     } else {
       var _defaultWidth = args.defaultWidth;
-
       var _width = options !== null && options !== void 0 && options.width ? String(options.width) : args.defaultWidth;
-
       valuesArray = args.values[_width] || args.values[_defaultWidth];
     }
-
-    var index = args.argumentCallback ? args.argumentCallback(dirtyIndex) : dirtyIndex; // @ts-ignore: For some reason TypeScript just don't want to match it, no matter how hard we try. I challenge you to try to remove it!
-
+    var index = args.argumentCallback ? args.argumentCallback(dirtyIndex) : dirtyIndex;
+    // @ts-ignore: For some reason TypeScript just don't want to match it, no matter how hard we try. I challenge you to try to remove it!
     return valuesArray[index];
   };
 }
@@ -4824,11 +4603,12 @@ var quarterValues$1i = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
   wide: ['1st quarter', '2nd quarter', '3rd quarter', '4th quarter']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$1i = {
   narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
   abbreviated: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -4904,9 +4684,10 @@ var formattingDayPeriodValues$13 = {
     night: 'at night'
   }
 };
-
 var ordinalNumber$1i = function ordinalNumber(dirtyNumber, _options) {
-  var number = Number(dirtyNumber); // If ordinal numbers depend on context, for example,
+  var number = Number(dirtyNumber);
+
+  // If ordinal numbers depend on context, for example,
   // if they are different for different grammatical genders,
   // use `options.unit`.
   //
@@ -4914,23 +4695,18 @@ var ordinalNumber$1i = function ordinalNumber(dirtyNumber, _options) {
   // 'day', 'hour', 'minute', 'second'.
 
   var rem100 = number % 100;
-
   if (rem100 > 20 || rem100 < 10) {
     switch (rem100 % 10) {
       case 1:
         return number + 'st';
-
       case 2:
         return number + 'nd';
-
       case 3:
         return number + 'rd';
     }
   }
-
   return number + 'th';
 };
-
 var localize$1i = {
   ordinalNumber: ordinalNumber$1i,
   era: buildLocalizeFn({
@@ -4966,11 +4742,9 @@ function buildMatchFn(args) {
     var width = options.width;
     var matchPattern = width && args.matchPatterns[width] || args.matchPatterns[args.defaultMatchWidth];
     var matchResult = string.match(matchPattern);
-
     if (!matchResult) {
       return null;
     }
-
     var matchedString = matchResult[0];
     var parsePatterns = width && args.parsePatterns[width] || args.parsePatterns[args.defaultParseWidth];
     var key = Array.isArray(parsePatterns) ? findIndex(parsePatterns, function (pattern) {
@@ -4988,24 +4762,20 @@ function buildMatchFn(args) {
     };
   };
 }
-
 function findKey(object, predicate) {
   for (var key in object) {
     if (object.hasOwnProperty(key) && predicate(object[key])) {
       return key;
     }
   }
-
   return undefined;
 }
-
 function findIndex(array, predicate) {
   for (var key = 0; key < array.length; key++) {
     if (predicate(array[key])) {
       return key;
     }
   }
-
   return undefined;
 }
 
@@ -5140,9 +4910,7 @@ var locale$1s = {
   localize: localize$1i,
   match: match$1h,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -5157,14 +4925,15 @@ var locale$1s = {
 //   If there is no matching single quote
 //   then the sequence will continue until the end of the string.
 // - . matches any single character unmatched by previous parts of the RegExps
+var formattingTokensRegExp$2 = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
 
-var formattingTokensRegExp$2 = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g; // This RegExp catches symbols escaped by quotes, and also
+// This RegExp catches symbols escaped by quotes, and also
 // sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
-
 var longFormattingTokensRegExp$1 = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
 var escapedStringRegExp$2 = /^'([^]*?)'?$/;
 var doubleQuoteRegExp$2 = /''/g;
 var unescapedLatinCharacterRegExp$2 = /[a-zA-Z]/;
+
 /**
  * @name format
  * @category Common Helpers
@@ -5459,40 +5228,36 @@ var unescapedLatinCharacterRegExp$2 = /[a-zA-Z]/;
 
 function format(dirtyDate, dirtyFormatStr, options) {
   var _ref, _options$locale, _ref2, _ref3, _ref4, _options$firstWeekCon, _options$locale2, _options$locale2$opti, _defaultOptions$local, _defaultOptions$local2, _ref5, _ref6, _ref7, _options$weekStartsOn, _options$locale3, _options$locale3$opti, _defaultOptions$local3, _defaultOptions$local4;
-
   requiredArgs(2, arguments);
   var formatStr = String(dirtyFormatStr);
   var defaultOptions = getDefaultOptions$1();
   var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : locale$1s;
-  var firstWeekContainsDate = toInteger((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
+  var firstWeekContainsDate = toInteger((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1);
 
+  // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
   if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
     throw new RangeError('firstWeekContainsDate must be between 1 and 7 inclusively');
   }
+  var weekStartsOn = toInteger((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0);
 
-  var weekStartsOn = toInteger((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
-
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   if (!locale.localize) {
     throw new RangeError('locale must contain localize property');
   }
-
   if (!locale.formatLong) {
     throw new RangeError('locale must contain formatLong property');
   }
-
   var originalDate = toDate(dirtyDate);
-
   if (!isValid(originalDate)) {
     throw new RangeError('Invalid time value');
-  } // Convert the date in system timezone to the same date in UTC+00:00 timezone.
+  }
+
+  // Convert the date in system timezone to the same date in UTC+00:00 timezone.
   // This ensures that when UTC functions will be implemented, locales will be compatible with them.
   // See an issue about UTC functions: https://github.com/date-fns/date-fns/issues/376
-
-
   var timezoneOffset = getTimezoneOffsetInMilliseconds(originalDate);
   var utcDate = subMilliseconds(originalDate, timezoneOffset);
   var formatterOptions = {
@@ -5503,55 +5268,42 @@ function format(dirtyDate, dirtyFormatStr, options) {
   };
   var result = formatStr.match(longFormattingTokensRegExp$1).map(function (substring) {
     var firstCharacter = substring[0];
-
     if (firstCharacter === 'p' || firstCharacter === 'P') {
       var longFormatter = longFormatters[firstCharacter];
       return longFormatter(substring, locale.formatLong);
     }
-
     return substring;
   }).join('').match(formattingTokensRegExp$2).map(function (substring) {
     // Replace two single quote characters with one single quote character
     if (substring === "''") {
       return "'";
     }
-
     var firstCharacter = substring[0];
-
     if (firstCharacter === "'") {
       return cleanEscapedString$2(substring);
     }
-
     var formatter = formatters[firstCharacter];
-
     if (formatter) {
       if (!(options !== null && options !== void 0 && options.useAdditionalWeekYearTokens) && isProtectedWeekYearToken(substring)) {
         throwProtectedError(substring, dirtyFormatStr, String(dirtyDate));
       }
-
       if (!(options !== null && options !== void 0 && options.useAdditionalDayOfYearTokens) && isProtectedDayOfYearToken(substring)) {
         throwProtectedError(substring, dirtyFormatStr, String(dirtyDate));
       }
-
       return formatter(utcDate, substring, locale.localize, formatterOptions);
     }
-
     if (firstCharacter.match(unescapedLatinCharacterRegExp$2)) {
       throw new RangeError('Format string contains an unescaped latin alphabet character `' + firstCharacter + '`');
     }
-
     return substring;
   }).join('');
   return result;
 }
-
 function cleanEscapedString$2(input) {
   var matched = input.match(escapedStringRegExp$2);
-
   if (!matched) {
     return input;
   }
-
   return matched[1].replace(doubleQuoteRegExp$2, "'");
 }
 
@@ -5559,13 +5311,11 @@ function assign(target, object) {
   if (target == null) {
     throw new TypeError('assign requires that input parameter not be null or undefined');
   }
-
   for (var property in object) {
     if (Object.prototype.hasOwnProperty.call(object, property)) {
       target[property] = object[property];
     }
   }
-
   return target;
 }
 
@@ -5577,6 +5327,7 @@ var MINUTES_IN_DAY$1 = 1440;
 var MINUTES_IN_ALMOST_TWO_DAYS = 2520;
 var MINUTES_IN_MONTH$1 = 43200;
 var MINUTES_IN_TWO_MONTHS = 86400;
+
 /**
  * @name formatDistance
  * @category Common Helpers
@@ -5660,28 +5411,22 @@ var MINUTES_IN_TWO_MONTHS = 86400;
 
 function formatDistance$1i(dirtyDate, dirtyBaseDate, options) {
   var _ref, _options$locale;
-
   requiredArgs(2, arguments);
   var defaultOptions = getDefaultOptions$1();
   var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : locale$1s;
-
   if (!locale.formatDistance) {
     throw new RangeError('locale must contain formatDistance property');
   }
-
   var comparison = compareAsc(dirtyDate, dirtyBaseDate);
-
   if (isNaN(comparison)) {
     throw new RangeError('Invalid time value');
   }
-
   var localizeOptions = assign(cloneObject(options), {
     addSuffix: Boolean(options === null || options === void 0 ? void 0 : options.addSuffix),
     comparison: comparison
   });
   var dateLeft;
   var dateRight;
-
   if (comparison > 0) {
     dateLeft = toDate(dirtyBaseDate);
     dateRight = toDate(dirtyDate);
@@ -5689,12 +5434,12 @@ function formatDistance$1i(dirtyDate, dirtyBaseDate, options) {
     dateLeft = toDate(dirtyDate);
     dateRight = toDate(dirtyBaseDate);
   }
-
   var seconds = differenceInSeconds(dateRight, dateLeft);
   var offsetInSeconds = (getTimezoneOffsetInMilliseconds(dateRight) - getTimezoneOffsetInMilliseconds(dateLeft)) / 1000;
   var minutes = Math.round((seconds - offsetInSeconds) / 60);
-  var months; // 0 up to 2 mins
+  var months;
 
+  // 0 up to 2 mins
   if (minutes < 2) {
     if (options !== null && options !== void 0 && options.includeSeconds) {
       if (seconds < 5) {
@@ -5716,38 +5461,56 @@ function formatDistance$1i(dirtyDate, dirtyBaseDate, options) {
       } else {
         return locale.formatDistance('xMinutes', minutes, localizeOptions);
       }
-    } // 2 mins up to 0.75 hrs
+    }
 
+    // 2 mins up to 0.75 hrs
   } else if (minutes < 45) {
-    return locale.formatDistance('xMinutes', minutes, localizeOptions); // 0.75 hrs up to 1.5 hrs
+    return locale.formatDistance('xMinutes', minutes, localizeOptions);
+
+    // 0.75 hrs up to 1.5 hrs
   } else if (minutes < 90) {
-    return locale.formatDistance('aboutXHours', 1, localizeOptions); // 1.5 hrs up to 24 hrs
+    return locale.formatDistance('aboutXHours', 1, localizeOptions);
+
+    // 1.5 hrs up to 24 hrs
   } else if (minutes < MINUTES_IN_DAY$1) {
     var hours = Math.round(minutes / 60);
-    return locale.formatDistance('aboutXHours', hours, localizeOptions); // 1 day up to 1.75 days
+    return locale.formatDistance('aboutXHours', hours, localizeOptions);
+
+    // 1 day up to 1.75 days
   } else if (minutes < MINUTES_IN_ALMOST_TWO_DAYS) {
-    return locale.formatDistance('xDays', 1, localizeOptions); // 1.75 days up to 30 days
+    return locale.formatDistance('xDays', 1, localizeOptions);
+
+    // 1.75 days up to 30 days
   } else if (minutes < MINUTES_IN_MONTH$1) {
     var days = Math.round(minutes / MINUTES_IN_DAY$1);
-    return locale.formatDistance('xDays', days, localizeOptions); // 1 month up to 2 months
+    return locale.formatDistance('xDays', days, localizeOptions);
+
+    // 1 month up to 2 months
   } else if (minutes < MINUTES_IN_TWO_MONTHS) {
     months = Math.round(minutes / MINUTES_IN_MONTH$1);
     return locale.formatDistance('aboutXMonths', months, localizeOptions);
   }
+  months = differenceInMonths(dateRight, dateLeft);
 
-  months = differenceInMonths(dateRight, dateLeft); // 2 months up to 12 months
-
+  // 2 months up to 12 months
   if (months < 12) {
     var nearestMonth = Math.round(minutes / MINUTES_IN_MONTH$1);
-    return locale.formatDistance('xMonths', nearestMonth, localizeOptions); // 1 year up to max Date
+    return locale.formatDistance('xMonths', nearestMonth, localizeOptions);
+
+    // 1 year up to max Date
   } else {
     var monthsSinceStartOfYear = months % 12;
-    var years = Math.floor(months / 12); // N years up to 1 years 3 months
+    var years = Math.floor(months / 12);
 
+    // N years up to 1 years 3 months
     if (monthsSinceStartOfYear < 3) {
-      return locale.formatDistance('aboutXYears', years, localizeOptions); // N years 3 months up to N years 9 months
+      return locale.formatDistance('aboutXYears', years, localizeOptions);
+
+      // N years 3 months up to N years 9 months
     } else if (monthsSinceStartOfYear < 9) {
-      return locale.formatDistance('overXYears', years, localizeOptions); // N years 9 months up to N year 12 months
+      return locale.formatDistance('overXYears', years, localizeOptions);
+
+      // N years 9 months up to N year 12 months
     } else {
       return locale.formatDistance('almostXYears', years + 1, localizeOptions);
     }
@@ -5758,6 +5521,7 @@ var MILLISECONDS_IN_MINUTE = 1000 * 60;
 var MINUTES_IN_DAY = 60 * 24;
 var MINUTES_IN_MONTH = MINUTES_IN_DAY * 30;
 var MINUTES_IN_YEAR = MINUTES_IN_DAY * 365;
+
 /**
  * @name formatDistanceStrict
  * @category Common Helpers
@@ -5842,28 +5606,22 @@ var MINUTES_IN_YEAR = MINUTES_IN_DAY * 365;
 
 function formatDistanceStrict(dirtyDate, dirtyBaseDate, options) {
   var _ref, _options$locale, _options$roundingMeth;
-
   requiredArgs(2, arguments);
   var defaultOptions = getDefaultOptions$1();
   var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : locale$1s;
-
   if (!locale.formatDistance) {
     throw new RangeError('locale must contain localize.formatDistance property');
   }
-
   var comparison = compareAsc(dirtyDate, dirtyBaseDate);
-
   if (isNaN(comparison)) {
     throw new RangeError('Invalid time value');
   }
-
   var localizeOptions = assign(cloneObject(options), {
     addSuffix: Boolean(options === null || options === void 0 ? void 0 : options.addSuffix),
     comparison: comparison
   });
   var dateLeft;
   var dateRight;
-
   if (comparison > 0) {
     dateLeft = toDate(dirtyBaseDate);
     dateRight = toDate(dirtyDate);
@@ -5871,10 +5629,8 @@ function formatDistanceStrict(dirtyDate, dirtyBaseDate, options) {
     dateLeft = toDate(dirtyDate);
     dateRight = toDate(dirtyBaseDate);
   }
-
   var roundingMethod = String((_options$roundingMeth = options === null || options === void 0 ? void 0 : options.roundingMethod) !== null && _options$roundingMeth !== void 0 ? _options$roundingMeth : 'round');
   var roundingMethodFn;
-
   if (roundingMethod === 'floor') {
     roundingMethodFn = Math.floor;
   } else if (roundingMethod === 'ceil') {
@@ -5884,16 +5640,15 @@ function formatDistanceStrict(dirtyDate, dirtyBaseDate, options) {
   } else {
     throw new RangeError("roundingMethod must be 'floor', 'ceil' or 'round'");
   }
-
   var milliseconds = dateRight.getTime() - dateLeft.getTime();
   var minutes = milliseconds / MILLISECONDS_IN_MINUTE;
-  var timezoneOffset = getTimezoneOffsetInMilliseconds(dateRight) - getTimezoneOffsetInMilliseconds(dateLeft); // Use DST-normalized difference in minutes for years, months and days;
-  // use regular difference in minutes for hours, minutes and seconds.
+  var timezoneOffset = getTimezoneOffsetInMilliseconds(dateRight) - getTimezoneOffsetInMilliseconds(dateLeft);
 
+  // Use DST-normalized difference in minutes for years, months and days;
+  // use regular difference in minutes for hours, minutes and seconds.
   var dstNormalizedMinutes = (milliseconds - timezoneOffset) / MILLISECONDS_IN_MINUTE;
   var defaultUnit = options === null || options === void 0 ? void 0 : options.unit;
   var unit;
-
   if (!defaultUnit) {
     if (minutes < 1) {
       unit = 'second';
@@ -5910,29 +5665,38 @@ function formatDistanceStrict(dirtyDate, dirtyBaseDate, options) {
     }
   } else {
     unit = String(defaultUnit);
-  } // 0 up to 60 seconds
+  }
 
-
+  // 0 up to 60 seconds
   if (unit === 'second') {
     var seconds = roundingMethodFn(milliseconds / 1000);
-    return locale.formatDistance('xSeconds', seconds, localizeOptions); // 1 up to 60 mins
+    return locale.formatDistance('xSeconds', seconds, localizeOptions);
+
+    // 1 up to 60 mins
   } else if (unit === 'minute') {
     var roundedMinutes = roundingMethodFn(minutes);
-    return locale.formatDistance('xMinutes', roundedMinutes, localizeOptions); // 1 up to 24 hours
+    return locale.formatDistance('xMinutes', roundedMinutes, localizeOptions);
+
+    // 1 up to 24 hours
   } else if (unit === 'hour') {
     var hours = roundingMethodFn(minutes / 60);
-    return locale.formatDistance('xHours', hours, localizeOptions); // 1 up to 30 days
+    return locale.formatDistance('xHours', hours, localizeOptions);
+
+    // 1 up to 30 days
   } else if (unit === 'day') {
     var days = roundingMethodFn(dstNormalizedMinutes / MINUTES_IN_DAY);
-    return locale.formatDistance('xDays', days, localizeOptions); // 1 up to 12 months
+    return locale.formatDistance('xDays', days, localizeOptions);
+
+    // 1 up to 12 months
   } else if (unit === 'month') {
     var months = roundingMethodFn(dstNormalizedMinutes / MINUTES_IN_MONTH);
-    return months === 12 && defaultUnit !== 'month' ? locale.formatDistance('xYears', 1, localizeOptions) : locale.formatDistance('xMonths', months, localizeOptions); // 1 year up to max Date
+    return months === 12 && defaultUnit !== 'month' ? locale.formatDistance('xYears', 1, localizeOptions) : locale.formatDistance('xMonths', months, localizeOptions);
+
+    // 1 year up to max Date
   } else if (unit === 'year') {
     var years = roundingMethodFn(dstNormalizedMinutes / MINUTES_IN_YEAR);
     return locale.formatDistance('xYears', years, localizeOptions);
   }
-
   throw new RangeError("unit must be 'second', 'minute', 'hour', 'day', 'month' or 'year'");
 }
 
@@ -6101,13 +5865,13 @@ function formatDistanceToNow(dirtyDate, options) {
  * )
  * //=> '1 jaro'
  */
-
 function formatDistanceToNowStrict(dirtyDate, options) {
   requiredArgs(1, arguments);
   return formatDistanceStrict(dirtyDate, Date.now(), options);
 }
 
 var defaultFormat = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'seconds'];
+
 /**
  * @name formatDuration
  * @category Common Helpers
@@ -6170,34 +5934,27 @@ var defaultFormat = ['years', 'months', 'weeks', 'days', 'hours', 'minutes', 'se
  * formatDuration({ years: 2, months: 9, weeks: 3 }, { delimiter: ', ' })
  * //=> '2 years, 9 months, 3 weeks'
  */
-
 function formatDuration(duration, options) {
   var _ref, _options$locale, _options$format, _options$zero, _options$delimiter;
-
   if (arguments.length < 1) {
     throw new TypeError("1 argument required, but only ".concat(arguments.length, " present"));
   }
-
   var defaultOptions = getDefaultOptions$1();
   var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : locale$1s;
   var format = (_options$format = options === null || options === void 0 ? void 0 : options.format) !== null && _options$format !== void 0 ? _options$format : defaultFormat;
   var zero = (_options$zero = options === null || options === void 0 ? void 0 : options.zero) !== null && _options$zero !== void 0 ? _options$zero : false;
   var delimiter = (_options$delimiter = options === null || options === void 0 ? void 0 : options.delimiter) !== null && _options$delimiter !== void 0 ? _options$delimiter : ' ';
-
   if (!locale.formatDistance) {
     return '';
   }
-
   var result = format.reduce(function (acc, unit) {
     var token = "x".concat(unit.replace(/(^.)/, function (m) {
       return m.toUpperCase();
     }));
     var value = duration[unit];
-
     if (typeof value === 'number' && (zero || duration[unit])) {
       return acc.concat(locale.formatDistance(token, value));
     }
-
     return acc;
   }, []).join(delimiter);
   return result;
@@ -6241,68 +5998,63 @@ function formatDuration(duration, options) {
  * const result = formatISO(new Date(2019, 8, 18, 19, 0, 52), { representation: 'time' })
  * //=> '19:00:52Z'
  */
-
 function formatISO(date, options) {
   var _options$format, _options$representati;
-
   requiredArgs(1, arguments);
   var originalDate = toDate(date);
-
   if (isNaN(originalDate.getTime())) {
     throw new RangeError('Invalid time value');
   }
-
   var format = String((_options$format = options === null || options === void 0 ? void 0 : options.format) !== null && _options$format !== void 0 ? _options$format : 'extended');
   var representation = String((_options$representati = options === null || options === void 0 ? void 0 : options.representation) !== null && _options$representati !== void 0 ? _options$representati : 'complete');
-
   if (format !== 'extended' && format !== 'basic') {
     throw new RangeError("format must be 'extended' or 'basic'");
   }
-
   if (representation !== 'date' && representation !== 'time' && representation !== 'complete') {
     throw new RangeError("representation must be 'date', 'time', or 'complete'");
   }
-
   var result = '';
   var tzOffset = '';
   var dateDelimiter = format === 'extended' ? '-' : '';
-  var timeDelimiter = format === 'extended' ? ':' : ''; // Representation is either 'date' or 'complete'
+  var timeDelimiter = format === 'extended' ? ':' : '';
 
+  // Representation is either 'date' or 'complete'
   if (representation !== 'time') {
     var day = addLeadingZeros(originalDate.getDate(), 2);
     var month = addLeadingZeros(originalDate.getMonth() + 1, 2);
-    var year = addLeadingZeros(originalDate.getFullYear(), 4); // yyyyMMdd or yyyy-MM-dd.
+    var year = addLeadingZeros(originalDate.getFullYear(), 4);
 
+    // yyyyMMdd or yyyy-MM-dd.
     result = "".concat(year).concat(dateDelimiter).concat(month).concat(dateDelimiter).concat(day);
-  } // Representation is either 'time' or 'complete'
+  }
 
-
+  // Representation is either 'time' or 'complete'
   if (representation !== 'date') {
     // Add the timezone.
     var offset = originalDate.getTimezoneOffset();
-
     if (offset !== 0) {
       var absoluteOffset = Math.abs(offset);
       var hourOffset = addLeadingZeros(Math.floor(absoluteOffset / 60), 2);
-      var minuteOffset = addLeadingZeros(absoluteOffset % 60, 2); // If less than 0, the sign is +, because it is ahead of time.
-
+      var minuteOffset = addLeadingZeros(absoluteOffset % 60, 2);
+      // If less than 0, the sign is +, because it is ahead of time.
       var sign = offset < 0 ? '+' : '-';
       tzOffset = "".concat(sign).concat(hourOffset, ":").concat(minuteOffset);
     } else {
       tzOffset = 'Z';
     }
-
     var hour = addLeadingZeros(originalDate.getHours(), 2);
     var minute = addLeadingZeros(originalDate.getMinutes(), 2);
-    var second = addLeadingZeros(originalDate.getSeconds(), 2); // If there's also date, separate it with time with 'T'
+    var second = addLeadingZeros(originalDate.getSeconds(), 2);
 
-    var separator = result === '' ? '' : 'T'; // Creates a time string consisting of hour, minute, and second, separated by delimiters, if defined.
+    // If there's also date, separate it with time with 'T'
+    var separator = result === '' ? '' : 'T';
 
-    var time = [hour, minute, second].join(timeDelimiter); // HHmmss or HH:mm:ss.
+    // Creates a time string consisting of hour, minute, and second, separated by delimiters, if defined.
+    var time = [hour, minute, second].join(timeDelimiter);
 
+    // HHmmss or HH:mm:ss.
     result = "".concat(result).concat(separator).concat(time).concat(tzOffset);
   }
-
   return result;
 }
 
@@ -6346,55 +6098,50 @@ function formatISO(date, options) {
  */
 function formatISO9075(dirtyDate, options) {
   var _options$format, _options$representati;
-
   if (arguments.length < 1) {
     throw new TypeError("1 argument required, but only ".concat(arguments.length, " present"));
   }
-
   var originalDate = toDate(dirtyDate);
-
   if (!isValid(originalDate)) {
     throw new RangeError('Invalid time value');
   }
-
   var format = String((_options$format = options === null || options === void 0 ? void 0 : options.format) !== null && _options$format !== void 0 ? _options$format : 'extended');
   var representation = String((_options$representati = options === null || options === void 0 ? void 0 : options.representation) !== null && _options$representati !== void 0 ? _options$representati : 'complete');
-
   if (format !== 'extended' && format !== 'basic') {
     throw new RangeError("format must be 'extended' or 'basic'");
   }
-
   if (representation !== 'date' && representation !== 'time' && representation !== 'complete') {
     throw new RangeError("representation must be 'date', 'time', or 'complete'");
   }
-
   var result = '';
   var dateDelimiter = format === 'extended' ? '-' : '';
-  var timeDelimiter = format === 'extended' ? ':' : ''; // Representation is either 'date' or 'complete'
+  var timeDelimiter = format === 'extended' ? ':' : '';
 
+  // Representation is either 'date' or 'complete'
   if (representation !== 'time') {
     var day = addLeadingZeros(originalDate.getDate(), 2);
     var month = addLeadingZeros(originalDate.getMonth() + 1, 2);
-    var year = addLeadingZeros(originalDate.getFullYear(), 4); // yyyyMMdd or yyyy-MM-dd.
+    var year = addLeadingZeros(originalDate.getFullYear(), 4);
 
+    // yyyyMMdd or yyyy-MM-dd.
     result = "".concat(year).concat(dateDelimiter).concat(month).concat(dateDelimiter).concat(day);
-  } // Representation is either 'time' or 'complete'
+  }
 
-
+  // Representation is either 'time' or 'complete'
   if (representation !== 'date') {
     var hour = addLeadingZeros(originalDate.getHours(), 2);
     var minute = addLeadingZeros(originalDate.getMinutes(), 2);
-    var second = addLeadingZeros(originalDate.getSeconds(), 2); // If there's also date, separate it with time with a space
+    var second = addLeadingZeros(originalDate.getSeconds(), 2);
 
-    var separator = result === '' ? '' : ' '; // HHmmss or HH:mm:ss.
+    // If there's also date, separate it with time with a space
+    var separator = result === '' ? '' : ' ';
 
+    // HHmmss or HH:mm:ss.
     result = "".concat(result).concat(separator).concat(hour).concat(timeDelimiter).concat(minute).concat(timeDelimiter).concat(second);
   }
-
   return result;
 }
 
-function _typeof$z(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$z = function _typeof(obj) { return typeof obj; }; } else { _typeof$z = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$z(obj); }
 /**
  * @name formatISODuration
  * @category Common Helpers
@@ -6421,22 +6168,21 @@ function _typeof$z(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "func
  * })
  * //=> 'P39Y2M20DT0H0M0S'
  */
-
 function formatISODuration(duration) {
   requiredArgs(1, arguments);
-  if (_typeof$z(duration) !== 'object') throw new Error('Duration must be an object');
+  if (_typeof(duration) !== 'object') throw new Error('Duration must be an object');
   var _duration$years = duration.years,
-      years = _duration$years === void 0 ? 0 : _duration$years,
-      _duration$months = duration.months,
-      months = _duration$months === void 0 ? 0 : _duration$months,
-      _duration$days = duration.days,
-      days = _duration$days === void 0 ? 0 : _duration$days,
-      _duration$hours = duration.hours,
-      hours = _duration$hours === void 0 ? 0 : _duration$hours,
-      _duration$minutes = duration.minutes,
-      minutes = _duration$minutes === void 0 ? 0 : _duration$minutes,
-      _duration$seconds = duration.seconds,
-      seconds = _duration$seconds === void 0 ? 0 : _duration$seconds;
+    years = _duration$years === void 0 ? 0 : _duration$years,
+    _duration$months = duration.months,
+    months = _duration$months === void 0 ? 0 : _duration$months,
+    _duration$days = duration.days,
+    days = _duration$days === void 0 ? 0 : _duration$days,
+    _duration$hours = duration.hours,
+    hours = _duration$hours === void 0 ? 0 : _duration$hours,
+    _duration$minutes = duration.minutes,
+    minutes = _duration$minutes === void 0 ? 0 : _duration$minutes,
+    _duration$seconds = duration.seconds,
+    seconds = _duration$seconds === void 0 ? 0 : _duration$seconds;
   return "P".concat(years, "Y").concat(months, "M").concat(days, "DT").concat(hours, "H").concat(minutes, "M").concat(seconds, "S");
 }
 
@@ -6473,23 +6219,19 @@ function formatISODuration(duration) {
  */
 function formatRFC3339(dirtyDate, options) {
   var _options$fractionDigi;
-
   if (arguments.length < 1) {
     throw new TypeError("1 arguments required, but only ".concat(arguments.length, " present"));
   }
-
   var originalDate = toDate(dirtyDate);
-
   if (!isValid(originalDate)) {
     throw new RangeError('Invalid time value');
   }
+  var fractionDigits = Number((_options$fractionDigi = options === null || options === void 0 ? void 0 : options.fractionDigits) !== null && _options$fractionDigi !== void 0 ? _options$fractionDigi : 0);
 
-  var fractionDigits = Number((_options$fractionDigi = options === null || options === void 0 ? void 0 : options.fractionDigits) !== null && _options$fractionDigi !== void 0 ? _options$fractionDigi : 0); // Test if fractionDigits is between 0 and 3 _and_ is not NaN
-
+  // Test if fractionDigits is between 0 and 3 _and_ is not NaN
   if (!(fractionDigits >= 0 && fractionDigits <= 3)) {
     throw new RangeError('fractionDigits must be between 0 and 3 inclusively');
   }
-
   var day = addLeadingZeros(originalDate.getDate(), 2);
   var month = addLeadingZeros(originalDate.getMonth() + 1, 2);
   var year = originalDate.getFullYear();
@@ -6497,32 +6239,29 @@ function formatRFC3339(dirtyDate, options) {
   var minute = addLeadingZeros(originalDate.getMinutes(), 2);
   var second = addLeadingZeros(originalDate.getSeconds(), 2);
   var fractionalSecond = '';
-
   if (fractionDigits > 0) {
     var milliseconds = originalDate.getMilliseconds();
     var fractionalSeconds = Math.floor(milliseconds * Math.pow(10, fractionDigits - 3));
     fractionalSecond = '.' + addLeadingZeros(fractionalSeconds, fractionDigits);
   }
-
   var offset = '';
   var tzOffset = originalDate.getTimezoneOffset();
-
   if (tzOffset !== 0) {
     var absoluteOffset = Math.abs(tzOffset);
     var hourOffset = addLeadingZeros(toInteger(absoluteOffset / 60), 2);
-    var minuteOffset = addLeadingZeros(absoluteOffset % 60, 2); // If less than 0, the sign is +, because it is ahead of time.
-
+    var minuteOffset = addLeadingZeros(absoluteOffset % 60, 2);
+    // If less than 0, the sign is +, because it is ahead of time.
     var sign = tzOffset < 0 ? '+' : '-';
     offset = "".concat(sign).concat(hourOffset, ":").concat(minuteOffset);
   } else {
     offset = 'Z';
   }
-
   return "".concat(year, "-").concat(month, "-").concat(day, "T").concat(hour, ":").concat(minute, ":").concat(second).concat(fractionalSecond).concat(offset);
 }
 
 var days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
 /**
  * @name formatRFC7231
  * @category Common Helpers
@@ -6542,26 +6281,23 @@ var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oc
  * const result = formatRFC7231(new Date(2019, 8, 18, 19, 0, 52))
  * //=> 'Wed, 18 Sep 2019 19:00:52 GMT'
  */
-
 function formatRFC7231(dirtyDate) {
   if (arguments.length < 1) {
     throw new TypeError("1 arguments required, but only ".concat(arguments.length, " present"));
   }
-
   var originalDate = toDate(dirtyDate);
-
   if (!isValid(originalDate)) {
     throw new RangeError('Invalid time value');
   }
-
   var dayName = days[originalDate.getUTCDay()];
   var dayOfMonth = addLeadingZeros(originalDate.getUTCDate(), 2);
   var monthName = months[originalDate.getUTCMonth()];
   var year = originalDate.getUTCFullYear();
   var hour = addLeadingZeros(originalDate.getUTCHours(), 2);
   var minute = addLeadingZeros(originalDate.getUTCMinutes(), 2);
-  var second = addLeadingZeros(originalDate.getUTCSeconds(), 2); // Result variables.
+  var second = addLeadingZeros(originalDate.getUTCSeconds(), 2);
 
+  // Result variables.
   return "".concat(dayName, ", ").concat(dayOfMonth, " ").concat(monthName, " ").concat(year, " ").concat(hour, ":").concat(minute, ":").concat(second, " GMT");
 }
 
@@ -6601,37 +6337,28 @@ function formatRFC7231(dirtyDate) {
  * const result = formatRelative(addDays(new Date(), -6), new Date())
  * //=> "last Thursday at 12:45 AM"
  */
-
 function formatRelative$1i(dirtyDate, dirtyBaseDate, options) {
   var _ref, _options$locale, _ref2, _ref3, _ref4, _options$weekStartsOn, _options$locale2, _options$locale2$opti, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
   var baseDate = toDate(dirtyBaseDate);
   var defaultOptions = getDefaultOptions$1();
   var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : locale$1s;
   var weekStartsOn = toInteger((_ref2 = (_ref3 = (_ref4 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.weekStartsOn) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : 0);
-
   if (!locale.localize) {
     throw new RangeError('locale must contain localize property');
   }
-
   if (!locale.formatLong) {
     throw new RangeError('locale must contain formatLong property');
   }
-
   if (!locale.formatRelative) {
     throw new RangeError('locale must contain formatRelative property');
   }
-
   var diff = differenceInCalendarDays(date, baseDate);
-
   if (isNaN(diff)) {
     throw new RangeError('Invalid time value');
   }
-
   var token;
-
   if (diff < -6) {
     token = 'other';
   } else if (diff < -1) {
@@ -6647,7 +6374,6 @@ function formatRelative$1i(dirtyDate, dirtyBaseDate, options) {
   } else {
     token = 'other';
   }
-
   var utcDate = subMilliseconds(date, getTimezoneOffsetInMilliseconds(date));
   var utcBaseDate = subMilliseconds(baseDate, getTimezoneOffsetInMilliseconds(baseDate));
   var formatStr = locale.formatRelative(token, utcDate, utcBaseDate, {
@@ -6677,7 +6403,6 @@ function formatRelative$1i(dirtyDate, dirtyBaseDate, options) {
  * const result = fromUnixTime(1330515905)
  * //=> Wed Feb 29 2012 11:45:05
  */
-
 function fromUnixTime(dirtyUnixTime) {
   requiredArgs(1, arguments);
   var unixTime = toInteger(dirtyUnixTime);
@@ -6701,7 +6426,6 @@ function fromUnixTime(dirtyUnixTime) {
  * const result = getDate(new Date(2012, 1, 29))
  * //=> 29
  */
-
 function getDate(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -6726,7 +6450,6 @@ function getDate(dirtyDate) {
  * const result = getDay(new Date(2012, 1, 29))
  * //=> 3
  */
-
 function getDay(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -6751,7 +6474,6 @@ function getDay(dirtyDate) {
  * const result = getDayOfYear(new Date(2014, 6, 2))
  * //=> 183
  */
-
 function getDayOfYear(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -6777,7 +6499,6 @@ function getDayOfYear(dirtyDate) {
  * const result = getDaysInMonth(new Date(2000, 1))
  * //=> 29
  */
-
 function getDaysInMonth(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -6806,7 +6527,6 @@ function getDaysInMonth(dirtyDate) {
  * const result = isLeapYear(new Date(2012, 8, 1))
  * //=> true
  */
-
 function isLeapYear(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -6831,15 +6551,12 @@ function isLeapYear(dirtyDate) {
  * const result = getDaysInYear(new Date(2012, 0, 1))
  * //=> 366
  */
-
 function getDaysInYear(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
-
   if (String(new Date(date)) === 'Invalid Date') {
     return NaN;
   }
-
   return isLeapYear(date) ? 366 : 365;
 }
 
@@ -6860,7 +6577,6 @@ function getDaysInYear(dirtyDate) {
  * const result = getDecade(new Date(1942, 10, 27))
  * //=> 1940
  */
-
 function getDecade(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -6893,7 +6609,6 @@ function getDecade(dirtyDate) {
  * const result = getDefaultOptions()
  * //=> { weekStarsOn: 1, firstWeekContainsDate: 4 }
  */
-
 function getDefaultOptions() {
   return assign({}, getDefaultOptions$1());
 }
@@ -6915,7 +6630,6 @@ function getDefaultOptions() {
  * const result = getHours(new Date(2012, 1, 29, 11, 45))
  * //=> 11
  */
-
 function getHours(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -6943,20 +6657,18 @@ function getHours(dirtyDate) {
  * const result = getISODay(new Date(2012, 1, 26))
  * //=> 7
  */
-
 function getISODay(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
   var day = date.getDay();
-
   if (day === 0) {
     day = 7;
   }
-
   return day;
 }
 
 var MILLISECONDS_IN_WEEK$2 = 604800000;
+
 /**
  * @name getISOWeek
  * @category ISO Week Helpers
@@ -6976,18 +6688,19 @@ var MILLISECONDS_IN_WEEK$2 = 604800000;
  * const result = getISOWeek(new Date(2005, 0, 2))
  * //=> 53
  */
-
 function getISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
-  var diff = startOfISOWeek(date).getTime() - startOfISOWeekYear(date).getTime(); // Round the number of days to the nearest integer
+  var diff = startOfISOWeek(date).getTime() - startOfISOWeekYear(date).getTime();
+
+  // Round the number of days to the nearest integer
   // because the number of milliseconds in a week is not constant
   // (e.g. it's different in the week of the daylight saving time clock shift)
-
   return Math.round(diff / MILLISECONDS_IN_WEEK$2) + 1;
 }
 
 var MILLISECONDS_IN_WEEK$1 = 604800000;
+
 /**
  * @name getISOWeeksInYear
  * @category ISO Week-Numbering Year Helpers
@@ -7007,15 +6720,14 @@ var MILLISECONDS_IN_WEEK$1 = 604800000;
  * const result = getISOWeeksInYear(new Date(2015, 1, 11))
  * //=> 53
  */
-
 function getISOWeeksInYear(dirtyDate) {
   requiredArgs(1, arguments);
   var thisYear = startOfISOWeekYear(dirtyDate);
   var nextYear = startOfISOWeekYear(addWeeks(thisYear, 60));
-  var diff = nextYear.valueOf() - thisYear.valueOf(); // Round the number of weeks to the nearest integer
+  var diff = nextYear.valueOf() - thisYear.valueOf();
+  // Round the number of weeks to the nearest integer
   // because the number of milliseconds in a week is not constant
   // (e.g. it's different in the week of the daylight saving time clock shift)
-
   return Math.round(diff / MILLISECONDS_IN_WEEK$1);
 }
 
@@ -7036,7 +6748,6 @@ function getISOWeeksInYear(dirtyDate) {
  * const result = getMilliseconds(new Date(2012, 1, 29, 11, 45, 5, 123))
  * //=> 123
  */
-
 function getMilliseconds(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -7061,7 +6772,6 @@ function getMilliseconds(dirtyDate) {
  * const result = getMinutes(new Date(2012, 1, 29, 11, 45, 5))
  * //=> 45
  */
-
 function getMinutes(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -7086,7 +6796,6 @@ function getMinutes(dirtyDate) {
  * const result = getMonth(new Date(2012, 1, 29))
  * //=> 1
  */
-
 function getMonth(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -7095,6 +6804,7 @@ function getMonth(dirtyDate) {
 }
 
 var MILLISECONDS_IN_DAY = 24 * 60 * 60 * 1000;
+
 /**
  * @name getOverlappingDaysInIntervals
  * @category Interval Helpers
@@ -7134,18 +6844,16 @@ function getOverlappingDaysInIntervals(dirtyIntervalLeft, dirtyIntervalRight) {
   var leftStartTime = toDate(intervalLeft.start).getTime();
   var leftEndTime = toDate(intervalLeft.end).getTime();
   var rightStartTime = toDate(intervalRight.start).getTime();
-  var rightEndTime = toDate(intervalRight.end).getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var rightEndTime = toDate(intervalRight.end).getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(leftStartTime <= leftEndTime && rightStartTime <= rightEndTime)) {
     throw new RangeError('Invalid interval');
   }
-
   var isOverlapping = leftStartTime < rightEndTime && rightStartTime < leftEndTime;
-
   if (!isOverlapping) {
     return 0;
   }
-
   var overlapStartDate = rightStartTime < leftStartTime ? leftStartTime : rightStartTime;
   var overlapEndDate = rightEndTime > leftEndTime ? leftEndTime : rightEndTime;
   var differenceInMs = overlapEndDate - overlapStartDate;
@@ -7169,7 +6877,6 @@ function getOverlappingDaysInIntervals(dirtyIntervalLeft, dirtyIntervalRight) {
  * const result = getSeconds(new Date(2012, 1, 29, 11, 45, 5, 123))
  * //=> 5
  */
-
 function getSeconds(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -7194,7 +6901,6 @@ function getSeconds(dirtyDate) {
  * const result = getTime(new Date(2012, 1, 29, 11, 45, 5, 123))
  * //=> 1330515905123
  */
-
 function getTime(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -7219,7 +6925,6 @@ function getTime(dirtyDate) {
  * const result = getUnixTime(new Date(2012, 1, 29, 11, 45, 5))
  * //=> 1330512305
  */
-
 function getUnixTime(dirtyDate) {
   requiredArgs(1, arguments);
   return Math.floor(getTime(dirtyDate) / 1000);
@@ -7264,20 +6969,18 @@ function getUnixTime(dirtyDate) {
  * const result = getWeekYear(new Date(2004, 11, 26), { firstWeekContainsDate: 4 })
  * //=> 2004
  */
-
 function getWeekYear(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
   var year = date.getFullYear();
   var defaultOptions = getDefaultOptions$1();
-  var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
+  var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
 
+  // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
   if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
     throw new RangeError('firstWeekContainsDate must be between 1 and 7 inclusively');
   }
-
   var firstWeekOfNextYear = new Date(0);
   firstWeekOfNextYear.setFullYear(year + 1, 0, firstWeekContainsDate);
   firstWeekOfNextYear.setHours(0, 0, 0, 0);
@@ -7286,7 +6989,6 @@ function getWeekYear(dirtyDate, options) {
   firstWeekOfThisYear.setFullYear(year, 0, firstWeekContainsDate);
   firstWeekOfThisYear.setHours(0, 0, 0, 0);
   var startOfThisYear = startOfWeek(firstWeekOfThisYear, options);
-
   if (date.getTime() >= startOfNextYear.getTime()) {
     return year + 1;
   } else if (date.getTime() >= startOfThisYear.getTime()) {
@@ -7335,10 +7037,8 @@ function getWeekYear(dirtyDate, options) {
  * })
  * //=> Mon Jan 03 2005 00:00:00
  */
-
 function startOfWeekYear(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var defaultOptions = getDefaultOptions$1();
   var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
@@ -7351,6 +7051,7 @@ function startOfWeekYear(dirtyDate, options) {
 }
 
 var MILLISECONDS_IN_WEEK = 604800000;
+
 /**
  * @name getWeek
  * @category Week Helpers
@@ -7393,10 +7094,11 @@ var MILLISECONDS_IN_WEEK = 604800000;
 function getWeek(dirtyDate, options) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
-  var diff = startOfWeek(date, options).getTime() - startOfWeekYear(date, options).getTime(); // Round the number of days to the nearest integer
+  var diff = startOfWeek(date, options).getTime() - startOfWeekYear(date, options).getTime();
+
+  // Round the number of days to the nearest integer
   // because the number of milliseconds in a week is not constant
   // (e.g. it's different in the week of the daylight saving time clock shift)
-
   return Math.round(diff / MILLISECONDS_IN_WEEK) + 1;
 }
 
@@ -7421,18 +7123,14 @@ function getWeek(dirtyDate, options) {
  * const result = getWeekOfMonth(new Date(2017, 10, 9))
  * //=> 2
  */
-
 function getWeekOfMonth(date, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var defaultOptions = getDefaultOptions$1();
   var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
-
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   var currentDayOfMonth = getDate(date);
   if (isNaN(currentDayOfMonth)) return NaN;
   var startWeekDay = getDay(startOfMonth(date));
@@ -7460,7 +7158,6 @@ function getWeekOfMonth(date, options) {
  * const result = lastDayOfMonth(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 30 2014 00:00:00
  */
-
 function lastDayOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -7519,7 +7216,6 @@ function getWeeksInMonth(date, options) {
  * const result = getYear(new Date(2014, 6, 2))
  * //=> 2014
  */
-
 function getYear(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getFullYear();
@@ -7543,7 +7239,6 @@ function getYear(dirtyDate) {
  * const result = hoursToMilliseconds(2)
  * //=> 7200000
  */
-
 function hoursToMilliseconds(hours) {
   requiredArgs(1, arguments);
   return Math.floor(hours * millisecondsInHour);
@@ -7567,7 +7262,6 @@ function hoursToMilliseconds(hours) {
  * const result = hoursToMinutes(2)
  * //=> 120
  */
-
 function hoursToMinutes(hours) {
   requiredArgs(1, arguments);
   return Math.floor(hours * minutesInHour);
@@ -7591,7 +7285,6 @@ function hoursToMinutes(hours) {
  * const result = hoursToSeconds(2)
  * //=> 7200
  */
-
 function hoursToSeconds(hours) {
   requiredArgs(1, arguments);
   return Math.floor(hours * secondsInHour);
@@ -7620,7 +7313,6 @@ function hoursToSeconds(hours) {
  * })
  * // => { years: 39, months: 2, days: 20, hours: 7, minutes: 5, seconds: 0 }
  */
-
 function intervalToDuration(interval) {
   requiredArgs(1, arguments);
   var start = toDate(interval.start);
@@ -7725,19 +7417,15 @@ function intervalToDuration(interval) {
  */
 function intlFormat(date, formatOrLocale, localeOptions) {
   var _localeOptions;
-
   requiredArgs(1, arguments);
   var formatOptions;
-
   if (isFormatOptions(formatOrLocale)) {
     formatOptions = formatOrLocale;
   } else {
     localeOptions = formatOrLocale;
   }
-
   return new Intl.DateTimeFormat((_localeOptions = localeOptions) === null || _localeOptions === void 0 ? void 0 : _localeOptions.locale, formatOptions).format(date);
 }
-
 function isFormatOptions(opts) {
   return opts !== undefined && !('locale' in opts);
 }
@@ -7849,7 +7537,6 @@ function intlFormatDistance(date, baseDate, options) {
   var unit;
   var dateLeft = toDate(date);
   var dateRight = toDate(baseDate);
-
   if (!(options !== null && options !== void 0 && options.unit)) {
     // Get the unit based on diffInSeconds calculations if no unit is specified
     var diffInSeconds = differenceInSeconds(dateLeft, dateRight); // The smallest unit
@@ -7887,7 +7574,6 @@ function intlFormatDistance(date, baseDate, options) {
   } else {
     // Get the value if unit is specified
     unit = options === null || options === void 0 ? void 0 : options.unit;
-
     if (unit === 'second') {
       value = differenceInSeconds(dateLeft, dateRight);
     } else if (unit === 'minute') {
@@ -7906,7 +7592,6 @@ function intlFormatDistance(date, baseDate, options) {
       value = differenceInCalendarYears(dateLeft, dateRight);
     }
   }
-
   var rtf = new Intl.RelativeTimeFormat(options === null || options === void 0 ? void 0 : options.locale, {
     localeMatcher: options === null || options === void 0 ? void 0 : options.localeMatcher,
     numeric: (options === null || options === void 0 ? void 0 : options.numeric) || 'auto',
@@ -7933,7 +7618,6 @@ function intlFormatDistance(date, baseDate, options) {
  * const result = isAfter(new Date(1989, 6, 10), new Date(1987, 1, 11))
  * //=> true
  */
-
 function isAfter(dirtyDate, dirtyDateToCompare) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -7959,7 +7643,6 @@ function isAfter(dirtyDate, dirtyDateToCompare) {
  * const result = isBefore(new Date(1989, 6, 10), new Date(1987, 1, 11))
  * //=> false
  */
-
 function isBefore(dirtyDate, dirtyDateToCompare) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -7988,7 +7671,6 @@ function isBefore(dirtyDate, dirtyDateToCompare) {
  * )
  * //=> false
  */
-
 function isEqual(dirtyLeftDate, dirtyRightDate) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyLeftDate);
@@ -8024,7 +7706,6 @@ function isExists(year, month, day) {
   if (arguments.length < 3) {
     throw new TypeError('3 argument required, but only ' + arguments.length + ' present');
   }
-
   var date = new Date(year, month, day);
   return date.getFullYear() === year && date.getMonth() === month && date.getDate() === day;
 }
@@ -8046,7 +7727,6 @@ function isExists(year, month, day) {
  * const result = isFirstDayOfMonth(new Date(2014, 8, 1))
  * //=> true
  */
-
 function isFirstDayOfMonth(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getDate() === 1;
@@ -8069,7 +7749,6 @@ function isFirstDayOfMonth(dirtyDate) {
  * const result = isFriday(new Date(2014, 8, 26))
  * //=> true
  */
-
 function isFriday(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getDay() === 5;
@@ -8096,77 +7775,240 @@ function isFriday(dirtyDate) {
  * const result = isFuture(new Date(2014, 11, 31))
  * //=> true
  */
-
 function isFuture(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getTime() > Date.now();
 }
 
-function _typeof$y(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$y = function _typeof(obj) { return typeof obj; }; } else { _typeof$y = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$y(obj); }
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+  return arr2;
+}
 
-function _inherits$v(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$v(subClass, superClass); }
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
 
-function _setPrototypeOf$v(o, p) { _setPrototypeOf$v = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$v(o, p); }
+function _createForOfIteratorHelper(o, allowArrayLike) {
+  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
+  if (!it) {
+    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+      if (it) o = it;
+      var i = 0;
+      var F = function F() {};
+      return {
+        s: F,
+        n: function n() {
+          if (i >= o.length) return {
+            done: true
+          };
+          return {
+            done: false,
+            value: o[i++]
+          };
+        },
+        e: function e(_e) {
+          throw _e;
+        },
+        f: F
+      };
+    }
+    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+  }
+  var normalCompletion = true,
+    didErr = false,
+    err;
+  return {
+    s: function s() {
+      it = it.call(o);
+    },
+    n: function n() {
+      var step = it.next();
+      normalCompletion = step.done;
+      return step;
+    },
+    e: function e(_e2) {
+      didErr = true;
+      err = _e2;
+    },
+    f: function f() {
+      try {
+        if (!normalCompletion && it["return"] != null) it["return"]();
+      } finally {
+        if (didErr) throw err;
+      }
+    }
+  };
+}
 
-function _createSuper$v(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$v(); return function _createSuperInternal() { var Super = _getPrototypeOf$v(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$v(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$v(this, result); }; }
+function _assertThisInitialized(self) {
+  if (self === void 0) {
+    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+  }
+  return self;
+}
 
-function _possibleConstructorReturn$v(self, call) { if (call && (_typeof$y(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$v(self); }
+function _setPrototypeOf(o, p) {
+  _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) {
+    o.__proto__ = p;
+    return o;
+  };
+  return _setPrototypeOf(o, p);
+}
 
-function _assertThisInitialized$v(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _inherits(subClass, superClass) {
+  if (typeof superClass !== "function" && superClass !== null) {
+    throw new TypeError("Super expression must either be null or a function");
+  }
+  subClass.prototype = Object.create(superClass && superClass.prototype, {
+    constructor: {
+      value: subClass,
+      writable: true,
+      configurable: true
+    }
+  });
+  Object.defineProperty(subClass, "prototype", {
+    writable: false
+  });
+  if (superClass) _setPrototypeOf(subClass, superClass);
+}
 
-function _isNativeReflectConstruct$v() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) {
+  _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) {
+    return o.__proto__ || Object.getPrototypeOf(o);
+  };
+  return _getPrototypeOf(o);
+}
 
-function _getPrototypeOf$v(o) { _getPrototypeOf$v = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$v(o); }
+function _isNativeReflectConstruct() {
+  if (typeof Reflect === "undefined" || !Reflect.construct) return false;
+  if (Reflect.construct.sham) return false;
+  if (typeof Proxy === "function") return true;
+  try {
+    Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {}));
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
 
-function _classCallCheck$w(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _possibleConstructorReturn(self, call) {
+  if (call && (_typeof(call) === "object" || typeof call === "function")) {
+    return call;
+  } else if (call !== void 0) {
+    throw new TypeError("Derived constructors may only return object or undefined");
+  }
+  return _assertThisInitialized(self);
+}
 
-function _defineProperties$w(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _createSuper(Derived) {
+  var hasNativeReflectConstruct = _isNativeReflectConstruct();
+  return function _createSuperInternal() {
+    var Super = _getPrototypeOf(Derived),
+      result;
+    if (hasNativeReflectConstruct) {
+      var NewTarget = _getPrototypeOf(this).constructor;
+      result = Reflect.construct(Super, arguments, NewTarget);
+    } else {
+      result = Super.apply(this, arguments);
+    }
+    return _possibleConstructorReturn(this, result);
+  };
+}
 
-function _createClass$w(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$w(Constructor.prototype, protoProps); if (staticProps) _defineProperties$w(Constructor, staticProps); return Constructor; }
+function _classCallCheck(instance, Constructor) {
+  if (!(instance instanceof Constructor)) {
+    throw new TypeError("Cannot call a class as a function");
+  }
+}
 
-function _defineProperty$v(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPrimitive(input, hint) {
+  if (_typeof(input) !== "object" || input === null) return input;
+  var prim = input[Symbol.toPrimitive];
+  if (prim !== undefined) {
+    var res = prim.call(input, hint || "default");
+    if (_typeof(res) !== "object") return res;
+    throw new TypeError("@@toPrimitive must return a primitive value.");
+  }
+  return (hint === "string" ? String : Number)(input);
+}
+
+function _toPropertyKey(arg) {
+  var key = _toPrimitive(arg, "string");
+  return _typeof(key) === "symbol" ? key : String(key);
+}
+
+function _defineProperties(target, props) {
+  for (var i = 0; i < props.length; i++) {
+    var descriptor = props[i];
+    descriptor.enumerable = descriptor.enumerable || false;
+    descriptor.configurable = true;
+    if ("value" in descriptor) descriptor.writable = true;
+    Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor);
+  }
+}
+function _createClass(Constructor, protoProps, staticProps) {
+  if (protoProps) _defineProperties(Constructor.prototype, protoProps);
+  if (staticProps) _defineProperties(Constructor, staticProps);
+  Object.defineProperty(Constructor, "prototype", {
+    writable: false
+  });
+  return Constructor;
+}
+
+function _defineProperty(obj, key, value) {
+  key = _toPropertyKey(key);
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+  return obj;
+}
 
 var TIMEZONE_UNIT_PRIORITY = 10;
 var Setter = /*#__PURE__*/function () {
   function Setter() {
-    _classCallCheck$w(this, Setter);
-
-    _defineProperty$v(this, "subPriority", 0);
+    _classCallCheck(this, Setter);
+    _defineProperty(this, "priority", void 0);
+    _defineProperty(this, "subPriority", 0);
   }
-
-  _createClass$w(Setter, [{
+  _createClass(Setter, [{
     key: "validate",
     value: function validate(_utcDate, _options) {
       return true;
     }
   }]);
-
   return Setter;
 }();
 var ValueSetter = /*#__PURE__*/function (_Setter) {
-  _inherits$v(ValueSetter, _Setter);
-
-  var _super = _createSuper$v(ValueSetter);
-
+  _inherits(ValueSetter, _Setter);
+  var _super = _createSuper(ValueSetter);
   function ValueSetter(value, validateValue, setValue, priority, subPriority) {
     var _this;
-
-    _classCallCheck$w(this, ValueSetter);
-
+    _classCallCheck(this, ValueSetter);
     _this = _super.call(this);
     _this.value = value;
     _this.validateValue = validateValue;
     _this.setValue = setValue;
     _this.priority = priority;
-
     if (subPriority) {
       _this.subPriority = subPriority;
     }
-
     return _this;
   }
-
-  _createClass$w(ValueSetter, [{
+  _createClass(ValueSetter, [{
     key: "validate",
     value: function validate(utcDate, options) {
       return this.validateValue(utcDate, this.value, options);
@@ -8177,68 +8019,51 @@ var ValueSetter = /*#__PURE__*/function (_Setter) {
       return this.setValue(utcDate, flags, this.value, options);
     }
   }]);
-
   return ValueSetter;
 }(Setter);
 var DateToSystemTimezoneSetter = /*#__PURE__*/function (_Setter2) {
-  _inherits$v(DateToSystemTimezoneSetter, _Setter2);
-
-  var _super2 = _createSuper$v(DateToSystemTimezoneSetter);
-
+  _inherits(DateToSystemTimezoneSetter, _Setter2);
+  var _super2 = _createSuper(DateToSystemTimezoneSetter);
   function DateToSystemTimezoneSetter() {
     var _this2;
-
-    _classCallCheck$w(this, DateToSystemTimezoneSetter);
-
+    _classCallCheck(this, DateToSystemTimezoneSetter);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this2 = _super2.call.apply(_super2, [this].concat(args));
-
-    _defineProperty$v(_assertThisInitialized$v(_this2), "priority", TIMEZONE_UNIT_PRIORITY);
-
-    _defineProperty$v(_assertThisInitialized$v(_this2), "subPriority", -1);
-
+    _defineProperty(_assertThisInitialized(_this2), "priority", TIMEZONE_UNIT_PRIORITY);
+    _defineProperty(_assertThisInitialized(_this2), "subPriority", -1);
     return _this2;
   }
-
-  _createClass$w(DateToSystemTimezoneSetter, [{
+  _createClass(DateToSystemTimezoneSetter, [{
     key: "set",
     value: function set(date, flags) {
       if (flags.timestampIsSet) {
         return date;
       }
-
       var convertedDate = new Date(0);
       convertedDate.setFullYear(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate());
       convertedDate.setHours(date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds(), date.getUTCMilliseconds());
       return convertedDate;
     }
   }]);
-
   return DateToSystemTimezoneSetter;
 }(Setter);
 
-function _classCallCheck$v(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$v(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$v(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$v(Constructor.prototype, protoProps); if (staticProps) _defineProperties$v(Constructor, staticProps); return Constructor; }
 var Parser = /*#__PURE__*/function () {
   function Parser() {
-    _classCallCheck$v(this, Parser);
+    _classCallCheck(this, Parser);
+    _defineProperty(this, "incompatibleTokens", void 0);
+    _defineProperty(this, "priority", void 0);
+    _defineProperty(this, "subPriority", void 0);
   }
-
-  _createClass$v(Parser, [{
+  _createClass(Parser, [{
     key: "run",
     value: function run(dateString, token, match, options) {
       var result = this.parse(dateString, token, match, options);
-
       if (!result) {
         return null;
       }
-
       return {
         setter: new ValueSetter(result.value, this.validate, this.set, this.priority, this.subPriority),
         rest: result.rest
@@ -8250,57 +8075,24 @@ var Parser = /*#__PURE__*/function () {
       return true;
     }
   }]);
-
   return Parser;
 }();
 
-function _typeof$x(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$x = function _typeof(obj) { return typeof obj; }; } else { _typeof$x = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$x(obj); }
-
-function _classCallCheck$u(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$u(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$u(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$u(Constructor.prototype, protoProps); if (staticProps) _defineProperties$u(Constructor, staticProps); return Constructor; }
-
-function _inherits$u(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$u(subClass, superClass); }
-
-function _setPrototypeOf$u(o, p) { _setPrototypeOf$u = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$u(o, p); }
-
-function _createSuper$u(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$u(); return function _createSuperInternal() { var Super = _getPrototypeOf$u(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$u(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$u(this, result); }; }
-
-function _possibleConstructorReturn$u(self, call) { if (call && (_typeof$x(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$u(self); }
-
-function _assertThisInitialized$u(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$u() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$u(o) { _getPrototypeOf$u = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$u(o); }
-
-function _defineProperty$u(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var EraParser = /*#__PURE__*/function (_Parser) {
-  _inherits$u(EraParser, _Parser);
-
-  var _super = _createSuper$u(EraParser);
-
+  _inherits(EraParser, _Parser);
+  var _super = _createSuper(EraParser);
   function EraParser() {
     var _this;
-
-    _classCallCheck$u(this, EraParser);
-
+    _classCallCheck(this, EraParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$u(_assertThisInitialized$u(_this), "priority", 140);
-
-    _defineProperty$u(_assertThisInitialized$u(_this), "incompatibleTokens", ['R', 'u', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 140);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['R', 'u', 't', 'T']);
     return _this;
   }
-
-  _createClass$u(EraParser, [{
+  _createClass(EraParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
@@ -8314,13 +8106,11 @@ var EraParser = /*#__PURE__*/function (_Parser) {
             width: 'narrow'
           });
         // A, B
-
         case 'GGGGG':
           return match.era(dateString, {
             width: 'narrow'
           });
         // Anno Domini, Before Christ
-
         case 'GGGG':
         default:
           return match.era(dateString, {
@@ -8341,7 +8131,6 @@ var EraParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return EraParser;
 }(Parser);
 
@@ -8366,6 +8155,7 @@ var numericPatterns = {
   // 0 to 59
   second: /^[0-5]?\d/,
   // 0 to 59
+
   singleDigit: /^\d/,
   // 0 to 9
   twoDigits: /^\d{1,2}/,
@@ -8374,6 +8164,7 @@ var numericPatterns = {
   // 0 to 999
   fourDigits: /^\d{1,4}/,
   // 0 to 9999
+
   anyDigitsSigned: /^-?\d+/,
   singleDigitSigned: /^-?\d/,
   // 0 to 9, -0 to -9
@@ -8382,8 +8173,8 @@ var numericPatterns = {
   threeDigitsSigned: /^-?\d{1,3}/,
   // 0 to 999, -0 to -999
   fourDigitsSigned: /^-?\d{1,4}/ // 0 to 9999, -0 to -9999
-
 };
+
 var timezonePatterns = {
   basicOptionalMinutes: /^([+-])(\d{2})(\d{2})?|Z/,
   basic: /^([+-])(\d{2})(\d{2})|Z/,
@@ -8396,7 +8187,6 @@ function mapValue(parseFnResult, mapFn) {
   if (!parseFnResult) {
     return parseFnResult;
   }
-
   return {
     value: mapFn(parseFnResult.value),
     rest: parseFnResult.rest
@@ -8404,11 +8194,9 @@ function mapValue(parseFnResult, mapFn) {
 }
 function parseNumericPattern(pattern, dateString) {
   var matchResult = dateString.match(pattern);
-
   if (!matchResult) {
     return null;
   }
-
   return {
     value: parseInt(matchResult[0], 10),
     rest: dateString.slice(matchResult[0].length)
@@ -8416,19 +8204,17 @@ function parseNumericPattern(pattern, dateString) {
 }
 function parseTimezonePattern(pattern, dateString) {
   var matchResult = dateString.match(pattern);
-
   if (!matchResult) {
     return null;
-  } // Input is 'Z'
+  }
 
-
+  // Input is 'Z'
   if (matchResult[0] === 'Z') {
     return {
       value: 0,
       rest: dateString.slice(1)
     };
   }
-
   var sign = matchResult[1] === '+' ? 1 : -1;
   var hours = matchResult[2] ? parseInt(matchResult[2], 10) : 0;
   var minutes = matchResult[3] ? parseInt(matchResult[3], 10) : 0;
@@ -8445,16 +8231,12 @@ function parseNDigits(n, dateString) {
   switch (n) {
     case 1:
       return parseNumericPattern(numericPatterns.singleDigit, dateString);
-
     case 2:
       return parseNumericPattern(numericPatterns.twoDigits, dateString);
-
     case 3:
       return parseNumericPattern(numericPatterns.threeDigits, dateString);
-
     case 4:
       return parseNumericPattern(numericPatterns.fourDigits, dateString);
-
     default:
       return parseNumericPattern(new RegExp('^\\d{1,' + n + '}'), dateString);
   }
@@ -8463,16 +8245,12 @@ function parseNDigitsSigned(n, dateString) {
   switch (n) {
     case 1:
       return parseNumericPattern(numericPatterns.singleDigitSigned, dateString);
-
     case 2:
       return parseNumericPattern(numericPatterns.twoDigitsSigned, dateString);
-
     case 3:
       return parseNumericPattern(numericPatterns.threeDigitsSigned, dateString);
-
     case 4:
       return parseNumericPattern(numericPatterns.fourDigitsSigned, dateString);
-
     default:
       return parseNumericPattern(new RegExp('^-?\\d{1,' + n + '}'), dateString);
   }
@@ -8481,15 +8259,12 @@ function dayPeriodEnumToHours(dayPeriod) {
   switch (dayPeriod) {
     case 'morning':
       return 4;
-
     case 'evening':
       return 17;
-
     case 'pm':
     case 'noon':
     case 'afternoon':
       return 12;
-
     case 'am':
     case 'midnight':
     case 'night':
@@ -8498,14 +8273,13 @@ function dayPeriodEnumToHours(dayPeriod) {
   }
 }
 function normalizeTwoDigitYear(twoDigitYear, currentYear) {
-  var isCommonEra = currentYear > 0; // Absolute number of the current year:
+  var isCommonEra = currentYear > 0;
+  // Absolute number of the current year:
   // 1 -> 1 AC
   // 0 -> 1 BC
   // -1 -> 2 BC
-
   var absCurrentYear = isCommonEra ? currentYear : 1 - currentYear;
   var result;
-
   if (absCurrentYear <= 50) {
     result = twoDigitYear || 100;
   } else {
@@ -8514,36 +8288,12 @@ function normalizeTwoDigitYear(twoDigitYear, currentYear) {
     var isPreviousCentury = twoDigitYear >= rangeEnd % 100;
     result = twoDigitYear + rangeEndCentury - (isPreviousCentury ? 100 : 0);
   }
-
   return isCommonEra ? result : 1 - result;
 }
 function isLeapYearIndex$1(year) {
   return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
 }
 
-function _typeof$w(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$w = function _typeof(obj) { return typeof obj; }; } else { _typeof$w = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$w(obj); }
-
-function _classCallCheck$t(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$t(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$t(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$t(Constructor.prototype, protoProps); if (staticProps) _defineProperties$t(Constructor, staticProps); return Constructor; }
-
-function _inherits$t(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$t(subClass, superClass); }
-
-function _setPrototypeOf$t(o, p) { _setPrototypeOf$t = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$t(o, p); }
-
-function _createSuper$t(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$t(); return function _createSuperInternal() { var Super = _getPrototypeOf$t(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$t(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$t(this, result); }; }
-
-function _possibleConstructorReturn$t(self, call) { if (call && (_typeof$w(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$t(self); }
-
-function _assertThisInitialized$t(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$t() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$t(o) { _getPrototypeOf$t = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$t(o); }
-
-function _defineProperty$t(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 // From http://www.unicode.org/reports/tr35/tr35-31/tr35-dates.html#Date_Format_Patterns
 // | Year     |     y | yy |   yyy |  yyyy | yyyyy |
 // |----------|-------|----|-------|-------|-------|
@@ -8553,29 +8303,20 @@ function _defineProperty$t(obj, key, value) { if (key in obj) { Object.definePro
 // | AD 1234  |  1234 | 34 |  1234 |  1234 | 01234 |
 // | AD 12345 | 12345 | 45 | 12345 | 12345 | 12345 |
 var YearParser = /*#__PURE__*/function (_Parser) {
-  _inherits$t(YearParser, _Parser);
-
-  var _super = _createSuper$t(YearParser);
-
+  _inherits(YearParser, _Parser);
+  var _super = _createSuper(YearParser);
   function YearParser() {
     var _this;
-
-    _classCallCheck$t(this, YearParser);
-
+    _classCallCheck(this, YearParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$t(_assertThisInitialized$t(_this), "priority", 130);
-
-    _defineProperty$t(_assertThisInitialized$t(_this), "incompatibleTokens", ['Y', 'R', 'u', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 130);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['Y', 'R', 'u', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$t(YearParser, [{
+  _createClass(YearParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       var valueCallback = function valueCallback(year) {
@@ -8584,16 +8325,13 @@ var YearParser = /*#__PURE__*/function (_Parser) {
           isTwoDigitYear: token === 'yy'
         };
       };
-
       switch (token) {
         case 'y':
           return mapValue(parseNDigits(4, dateString), valueCallback);
-
         case 'yo':
           return mapValue(match.ordinalNumber(dateString, {
             unit: 'year'
           }), valueCallback);
-
         default:
           return mapValue(parseNDigits(token.length, dateString), valueCallback);
       }
@@ -8607,72 +8345,37 @@ var YearParser = /*#__PURE__*/function (_Parser) {
     key: "set",
     value: function set(date, flags, value) {
       var currentYear = date.getUTCFullYear();
-
       if (value.isTwoDigitYear) {
         var normalizedTwoDigitYear = normalizeTwoDigitYear(value.year, currentYear);
         date.setUTCFullYear(normalizedTwoDigitYear, 0, 1);
         date.setUTCHours(0, 0, 0, 0);
         return date;
       }
-
       var year = !('era' in flags) || flags.era === 1 ? value.year : 1 - value.year;
       date.setUTCFullYear(year, 0, 1);
       date.setUTCHours(0, 0, 0, 0);
       return date;
     }
   }]);
-
   return YearParser;
 }(Parser);
 
-function _typeof$v(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$v = function _typeof(obj) { return typeof obj; }; } else { _typeof$v = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$v(obj); }
-
-function _classCallCheck$s(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$s(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$s(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$s(Constructor.prototype, protoProps); if (staticProps) _defineProperties$s(Constructor, staticProps); return Constructor; }
-
-function _inherits$s(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$s(subClass, superClass); }
-
-function _setPrototypeOf$s(o, p) { _setPrototypeOf$s = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$s(o, p); }
-
-function _createSuper$s(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$s(); return function _createSuperInternal() { var Super = _getPrototypeOf$s(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$s(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$s(this, result); }; }
-
-function _possibleConstructorReturn$s(self, call) { if (call && (_typeof$v(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$s(self); }
-
-function _assertThisInitialized$s(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$s() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$s(o) { _getPrototypeOf$s = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$s(o); }
-
-function _defineProperty$s(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 // Local week-numbering year
 var LocalWeekYearParser = /*#__PURE__*/function (_Parser) {
-  _inherits$s(LocalWeekYearParser, _Parser);
-
-  var _super = _createSuper$s(LocalWeekYearParser);
-
+  _inherits(LocalWeekYearParser, _Parser);
+  var _super = _createSuper(LocalWeekYearParser);
   function LocalWeekYearParser() {
     var _this;
-
-    _classCallCheck$s(this, LocalWeekYearParser);
-
+    _classCallCheck(this, LocalWeekYearParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$s(_assertThisInitialized$s(_this), "priority", 130);
-
-    _defineProperty$s(_assertThisInitialized$s(_this), "incompatibleTokens", ['y', 'R', 'u', 'Q', 'q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 130);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['y', 'R', 'u', 'Q', 'q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
     return _this;
   }
-
-  _createClass$s(LocalWeekYearParser, [{
+  _createClass(LocalWeekYearParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       var valueCallback = function valueCallback(year) {
@@ -8681,16 +8384,13 @@ var LocalWeekYearParser = /*#__PURE__*/function (_Parser) {
           isTwoDigitYear: token === 'YY'
         };
       };
-
       switch (token) {
         case 'Y':
           return mapValue(parseNDigits(4, dateString), valueCallback);
-
         case 'Yo':
           return mapValue(match.ordinalNumber(dateString, {
             unit: 'year'
           }), valueCallback);
-
         default:
           return mapValue(parseNDigits(token.length, dateString), valueCallback);
       }
@@ -8704,78 +8404,41 @@ var LocalWeekYearParser = /*#__PURE__*/function (_Parser) {
     key: "set",
     value: function set(date, flags, value, options) {
       var currentYear = getUTCWeekYear(date, options);
-
       if (value.isTwoDigitYear) {
         var normalizedTwoDigitYear = normalizeTwoDigitYear(value.year, currentYear);
         date.setUTCFullYear(normalizedTwoDigitYear, 0, options.firstWeekContainsDate);
         date.setUTCHours(0, 0, 0, 0);
         return startOfUTCWeek(date, options);
       }
-
       var year = !('era' in flags) || flags.era === 1 ? value.year : 1 - value.year;
       date.setUTCFullYear(year, 0, options.firstWeekContainsDate);
       date.setUTCHours(0, 0, 0, 0);
       return startOfUTCWeek(date, options);
     }
   }]);
-
   return LocalWeekYearParser;
 }(Parser);
 
-function _typeof$u(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$u = function _typeof(obj) { return typeof obj; }; } else { _typeof$u = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$u(obj); }
-
-function _classCallCheck$r(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$r(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$r(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$r(Constructor.prototype, protoProps); if (staticProps) _defineProperties$r(Constructor, staticProps); return Constructor; }
-
-function _inherits$r(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$r(subClass, superClass); }
-
-function _setPrototypeOf$r(o, p) { _setPrototypeOf$r = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$r(o, p); }
-
-function _createSuper$r(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$r(); return function _createSuperInternal() { var Super = _getPrototypeOf$r(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$r(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$r(this, result); }; }
-
-function _possibleConstructorReturn$r(self, call) { if (call && (_typeof$u(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$r(self); }
-
-function _assertThisInitialized$r(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$r() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$r(o) { _getPrototypeOf$r = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$r(o); }
-
-function _defineProperty$r(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var ISOWeekYearParser = /*#__PURE__*/function (_Parser) {
-  _inherits$r(ISOWeekYearParser, _Parser);
-
-  var _super = _createSuper$r(ISOWeekYearParser);
-
+  _inherits(ISOWeekYearParser, _Parser);
+  var _super = _createSuper(ISOWeekYearParser);
   function ISOWeekYearParser() {
     var _this;
-
-    _classCallCheck$r(this, ISOWeekYearParser);
-
+    _classCallCheck(this, ISOWeekYearParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$r(_assertThisInitialized$r(_this), "priority", 130);
-
-    _defineProperty$r(_assertThisInitialized$r(_this), "incompatibleTokens", ['G', 'y', 'Y', 'u', 'Q', 'q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 130);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['G', 'y', 'Y', 'u', 'Q', 'q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$r(ISOWeekYearParser, [{
+  _createClass(ISOWeekYearParser, [{
     key: "parse",
     value: function parse(dateString, token) {
       if (token === 'R') {
         return parseNDigitsSigned(4, dateString);
       }
-
       return parseNDigitsSigned(token.length, dateString);
     }
   }, {
@@ -8787,63 +8450,29 @@ var ISOWeekYearParser = /*#__PURE__*/function (_Parser) {
       return startOfUTCISOWeek(firstWeekOfYear);
     }
   }]);
-
   return ISOWeekYearParser;
 }(Parser);
 
-function _typeof$t(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$t = function _typeof(obj) { return typeof obj; }; } else { _typeof$t = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$t(obj); }
-
-function _classCallCheck$q(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$q(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$q(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$q(Constructor.prototype, protoProps); if (staticProps) _defineProperties$q(Constructor, staticProps); return Constructor; }
-
-function _inherits$q(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$q(subClass, superClass); }
-
-function _setPrototypeOf$q(o, p) { _setPrototypeOf$q = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$q(o, p); }
-
-function _createSuper$q(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$q(); return function _createSuperInternal() { var Super = _getPrototypeOf$q(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$q(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$q(this, result); }; }
-
-function _possibleConstructorReturn$q(self, call) { if (call && (_typeof$t(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$q(self); }
-
-function _assertThisInitialized$q(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$q() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$q(o) { _getPrototypeOf$q = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$q(o); }
-
-function _defineProperty$q(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var ExtendedYearParser = /*#__PURE__*/function (_Parser) {
-  _inherits$q(ExtendedYearParser, _Parser);
-
-  var _super = _createSuper$q(ExtendedYearParser);
-
+  _inherits(ExtendedYearParser, _Parser);
+  var _super = _createSuper(ExtendedYearParser);
   function ExtendedYearParser() {
     var _this;
-
-    _classCallCheck$q(this, ExtendedYearParser);
-
+    _classCallCheck(this, ExtendedYearParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$q(_assertThisInitialized$q(_this), "priority", 130);
-
-    _defineProperty$q(_assertThisInitialized$q(_this), "incompatibleTokens", ['G', 'y', 'Y', 'R', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 130);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['G', 'y', 'Y', 'R', 'w', 'I', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$q(ExtendedYearParser, [{
+  _createClass(ExtendedYearParser, [{
     key: "parse",
     value: function parse(dateString, token) {
       if (token === 'u') {
         return parseNDigitsSigned(4, dateString);
       }
-
       return parseNDigitsSigned(token.length, dateString);
     }
   }, {
@@ -8854,57 +8483,24 @@ var ExtendedYearParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return ExtendedYearParser;
 }(Parser);
 
-function _typeof$s(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$s = function _typeof(obj) { return typeof obj; }; } else { _typeof$s = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$s(obj); }
-
-function _classCallCheck$p(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$p(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$p(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$p(Constructor.prototype, protoProps); if (staticProps) _defineProperties$p(Constructor, staticProps); return Constructor; }
-
-function _inherits$p(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$p(subClass, superClass); }
-
-function _setPrototypeOf$p(o, p) { _setPrototypeOf$p = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$p(o, p); }
-
-function _createSuper$p(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$p(); return function _createSuperInternal() { var Super = _getPrototypeOf$p(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$p(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$p(this, result); }; }
-
-function _possibleConstructorReturn$p(self, call) { if (call && (_typeof$s(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$p(self); }
-
-function _assertThisInitialized$p(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$p() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$p(o) { _getPrototypeOf$p = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$p(o); }
-
-function _defineProperty$p(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var QuarterParser = /*#__PURE__*/function (_Parser) {
-  _inherits$p(QuarterParser, _Parser);
-
-  var _super = _createSuper$p(QuarterParser);
-
+  _inherits(QuarterParser, _Parser);
+  var _super = _createSuper(QuarterParser);
   function QuarterParser() {
     var _this;
-
-    _classCallCheck$p(this, QuarterParser);
-
+    _classCallCheck(this, QuarterParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$p(_assertThisInitialized$p(_this), "priority", 120);
-
-    _defineProperty$p(_assertThisInitialized$p(_this), "incompatibleTokens", ['Y', 'R', 'q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 120);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['Y', 'R', 'q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$p(QuarterParser, [{
+  _createClass(QuarterParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
@@ -8914,13 +8510,11 @@ var QuarterParser = /*#__PURE__*/function (_Parser) {
           // 01, 02, 03, 04
           return parseNDigits(token.length, dateString);
         // 1st, 2nd, 3rd, 4th
-
         case 'Qo':
           return match.ordinalNumber(dateString, {
             unit: 'quarter'
           });
         // Q1, Q2, Q3, Q4
-
         case 'QQQ':
           return match.quarter(dateString, {
             width: 'abbreviated',
@@ -8930,14 +8524,12 @@ var QuarterParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           });
         // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
         case 'QQQQQ':
           return match.quarter(dateString, {
             width: 'narrow',
             context: 'formatting'
           });
         // 1st quarter, 2nd quarter, ...
-
         case 'QQQQ':
         default:
           return match.quarter(dateString, {
@@ -8965,57 +8557,24 @@ var QuarterParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return QuarterParser;
 }(Parser);
 
-function _typeof$r(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$r = function _typeof(obj) { return typeof obj; }; } else { _typeof$r = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$r(obj); }
-
-function _classCallCheck$o(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$o(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$o(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$o(Constructor.prototype, protoProps); if (staticProps) _defineProperties$o(Constructor, staticProps); return Constructor; }
-
-function _inherits$o(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$o(subClass, superClass); }
-
-function _setPrototypeOf$o(o, p) { _setPrototypeOf$o = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$o(o, p); }
-
-function _createSuper$o(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$o(); return function _createSuperInternal() { var Super = _getPrototypeOf$o(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$o(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$o(this, result); }; }
-
-function _possibleConstructorReturn$o(self, call) { if (call && (_typeof$r(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$o(self); }
-
-function _assertThisInitialized$o(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$o() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$o(o) { _getPrototypeOf$o = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$o(o); }
-
-function _defineProperty$o(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var StandAloneQuarterParser = /*#__PURE__*/function (_Parser) {
-  _inherits$o(StandAloneQuarterParser, _Parser);
-
-  var _super = _createSuper$o(StandAloneQuarterParser);
-
+  _inherits(StandAloneQuarterParser, _Parser);
+  var _super = _createSuper(StandAloneQuarterParser);
   function StandAloneQuarterParser() {
     var _this;
-
-    _classCallCheck$o(this, StandAloneQuarterParser);
-
+    _classCallCheck(this, StandAloneQuarterParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$o(_assertThisInitialized$o(_this), "priority", 120);
-
-    _defineProperty$o(_assertThisInitialized$o(_this), "incompatibleTokens", ['Y', 'R', 'Q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 120);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['Y', 'R', 'Q', 'M', 'L', 'w', 'I', 'd', 'D', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$o(StandAloneQuarterParser, [{
+  _createClass(StandAloneQuarterParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
@@ -9025,13 +8584,11 @@ var StandAloneQuarterParser = /*#__PURE__*/function (_Parser) {
           // 01, 02, 03, 04
           return parseNDigits(token.length, dateString);
         // 1st, 2nd, 3rd, 4th
-
         case 'qo':
           return match.ordinalNumber(dateString, {
             unit: 'quarter'
           });
         // Q1, Q2, Q3, Q4
-
         case 'qqq':
           return match.quarter(dateString, {
             width: 'abbreviated',
@@ -9041,14 +8598,12 @@ var StandAloneQuarterParser = /*#__PURE__*/function (_Parser) {
             context: 'standalone'
           });
         // 1, 2, 3, 4 (narrow quarter; could be not numerical)
-
         case 'qqqqq':
           return match.quarter(dateString, {
             width: 'narrow',
             context: 'standalone'
           });
         // 1st quarter, 2nd quarter, ...
-
         case 'qqqq':
         default:
           return match.quarter(dateString, {
@@ -9076,79 +8631,42 @@ var StandAloneQuarterParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return StandAloneQuarterParser;
 }(Parser);
 
-function _typeof$q(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$q = function _typeof(obj) { return typeof obj; }; } else { _typeof$q = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$q(obj); }
-
-function _classCallCheck$n(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$n(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$n(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$n(Constructor.prototype, protoProps); if (staticProps) _defineProperties$n(Constructor, staticProps); return Constructor; }
-
-function _inherits$n(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$n(subClass, superClass); }
-
-function _setPrototypeOf$n(o, p) { _setPrototypeOf$n = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$n(o, p); }
-
-function _createSuper$n(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$n(); return function _createSuperInternal() { var Super = _getPrototypeOf$n(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$n(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$n(this, result); }; }
-
-function _possibleConstructorReturn$n(self, call) { if (call && (_typeof$q(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$n(self); }
-
-function _assertThisInitialized$n(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$n() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$n(o) { _getPrototypeOf$n = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$n(o); }
-
-function _defineProperty$n(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var MonthParser = /*#__PURE__*/function (_Parser) {
-  _inherits$n(MonthParser, _Parser);
-
-  var _super = _createSuper$n(MonthParser);
-
+  _inherits(MonthParser, _Parser);
+  var _super = _createSuper(MonthParser);
   function MonthParser() {
     var _this;
-
-    _classCallCheck$n(this, MonthParser);
-
+    _classCallCheck(this, MonthParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$n(_assertThisInitialized$n(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'L', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
-
-    _defineProperty$n(_assertThisInitialized$n(_this), "priority", 110);
-
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'L', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
+    _defineProperty(_assertThisInitialized(_this), "priority", 110);
     return _this;
   }
-
-  _createClass$n(MonthParser, [{
+  _createClass(MonthParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       var valueCallback = function valueCallback(value) {
         return value - 1;
       };
-
       switch (token) {
         // 1, 2, ..., 12
         case 'M':
           return mapValue(parseNumericPattern(numericPatterns.month, dateString), valueCallback);
         // 01, 02, ..., 12
-
         case 'MM':
           return mapValue(parseNDigits(2, dateString), valueCallback);
         // 1st, 2nd, ..., 12th
-
         case 'Mo':
           return mapValue(match.ordinalNumber(dateString, {
             unit: 'month'
           }), valueCallback);
         // Jan, Feb, ..., Dec
-
         case 'MMM':
           return match.month(dateString, {
             width: 'abbreviated',
@@ -9158,14 +8676,12 @@ var MonthParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           });
         // J, F, ..., D
-
         case 'MMMMM':
           return match.month(dateString, {
             width: 'narrow',
             context: 'formatting'
           });
         // January, February, ..., December
-
         case 'MMMM':
         default:
           return match.month(dateString, {
@@ -9193,79 +8709,42 @@ var MonthParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return MonthParser;
 }(Parser);
 
-function _typeof$p(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$p = function _typeof(obj) { return typeof obj; }; } else { _typeof$p = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$p(obj); }
-
-function _classCallCheck$m(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$m(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$m(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$m(Constructor.prototype, protoProps); if (staticProps) _defineProperties$m(Constructor, staticProps); return Constructor; }
-
-function _inherits$m(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$m(subClass, superClass); }
-
-function _setPrototypeOf$m(o, p) { _setPrototypeOf$m = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$m(o, p); }
-
-function _createSuper$m(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$m(); return function _createSuperInternal() { var Super = _getPrototypeOf$m(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$m(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$m(this, result); }; }
-
-function _possibleConstructorReturn$m(self, call) { if (call && (_typeof$p(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$m(self); }
-
-function _assertThisInitialized$m(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$m() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$m(o) { _getPrototypeOf$m = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$m(o); }
-
-function _defineProperty$m(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var StandAloneMonthParser = /*#__PURE__*/function (_Parser) {
-  _inherits$m(StandAloneMonthParser, _Parser);
-
-  var _super = _createSuper$m(StandAloneMonthParser);
-
+  _inherits(StandAloneMonthParser, _Parser);
+  var _super = _createSuper(StandAloneMonthParser);
   function StandAloneMonthParser() {
     var _this;
-
-    _classCallCheck$m(this, StandAloneMonthParser);
-
+    _classCallCheck(this, StandAloneMonthParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$m(_assertThisInitialized$m(_this), "priority", 110);
-
-    _defineProperty$m(_assertThisInitialized$m(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 110);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$m(StandAloneMonthParser, [{
+  _createClass(StandAloneMonthParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       var valueCallback = function valueCallback(value) {
         return value - 1;
       };
-
       switch (token) {
         // 1, 2, ..., 12
         case 'L':
           return mapValue(parseNumericPattern(numericPatterns.month, dateString), valueCallback);
         // 01, 02, ..., 12
-
         case 'LL':
           return mapValue(parseNDigits(2, dateString), valueCallback);
         // 1st, 2nd, ..., 12th
-
         case 'Lo':
           return mapValue(match.ordinalNumber(dateString, {
             unit: 'month'
           }), valueCallback);
         // Jan, Feb, ..., Dec
-
         case 'LLL':
           return match.month(dateString, {
             width: 'abbreviated',
@@ -9275,14 +8754,12 @@ var StandAloneMonthParser = /*#__PURE__*/function (_Parser) {
             context: 'standalone'
           });
         // J, F, ..., D
-
         case 'LLLLL':
           return match.month(dateString, {
             width: 'narrow',
             context: 'standalone'
           });
         // January, February, ..., December
-
         case 'LLLL':
         default:
           return match.month(dateString, {
@@ -9310,7 +8787,6 @@ var StandAloneMonthParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return StandAloneMonthParser;
 }(Parser);
 
@@ -9323,65 +8799,30 @@ function setUTCWeek(dirtyDate, dirtyWeek, options) {
   return date;
 }
 
-function _typeof$o(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$o = function _typeof(obj) { return typeof obj; }; } else { _typeof$o = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$o(obj); }
-
-function _classCallCheck$l(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$l(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$l(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$l(Constructor.prototype, protoProps); if (staticProps) _defineProperties$l(Constructor, staticProps); return Constructor; }
-
-function _inherits$l(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$l(subClass, superClass); }
-
-function _setPrototypeOf$l(o, p) { _setPrototypeOf$l = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$l(o, p); }
-
-function _createSuper$l(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$l(); return function _createSuperInternal() { var Super = _getPrototypeOf$l(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$l(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$l(this, result); }; }
-
-function _possibleConstructorReturn$l(self, call) { if (call && (_typeof$o(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$l(self); }
-
-function _assertThisInitialized$l(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$l() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$l(o) { _getPrototypeOf$l = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$l(o); }
-
-function _defineProperty$l(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var LocalWeekParser = /*#__PURE__*/function (_Parser) {
-  _inherits$l(LocalWeekParser, _Parser);
-
-  var _super = _createSuper$l(LocalWeekParser);
-
+  _inherits(LocalWeekParser, _Parser);
+  var _super = _createSuper(LocalWeekParser);
   function LocalWeekParser() {
     var _this;
-
-    _classCallCheck$l(this, LocalWeekParser);
-
+    _classCallCheck(this, LocalWeekParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$l(_assertThisInitialized$l(_this), "priority", 100);
-
-    _defineProperty$l(_assertThisInitialized$l(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 100);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'i', 't', 'T']);
     return _this;
   }
-
-  _createClass$l(LocalWeekParser, [{
+  _createClass(LocalWeekParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'w':
           return parseNumericPattern(numericPatterns.week, dateString);
-
         case 'wo':
           return match.ordinalNumber(dateString, {
             unit: 'week'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -9397,7 +8838,6 @@ var LocalWeekParser = /*#__PURE__*/function (_Parser) {
       return startOfUTCWeek(setUTCWeek(date, value, options), options);
     }
   }]);
-
   return LocalWeekParser;
 }(Parser);
 
@@ -9410,65 +8850,30 @@ function setUTCISOWeek(dirtyDate, dirtyISOWeek) {
   return date;
 }
 
-function _typeof$n(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$n = function _typeof(obj) { return typeof obj; }; } else { _typeof$n = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$n(obj); }
-
-function _classCallCheck$k(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$k(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$k(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$k(Constructor.prototype, protoProps); if (staticProps) _defineProperties$k(Constructor, staticProps); return Constructor; }
-
-function _inherits$k(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$k(subClass, superClass); }
-
-function _setPrototypeOf$k(o, p) { _setPrototypeOf$k = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$k(o, p); }
-
-function _createSuper$k(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$k(); return function _createSuperInternal() { var Super = _getPrototypeOf$k(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$k(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$k(this, result); }; }
-
-function _possibleConstructorReturn$k(self, call) { if (call && (_typeof$n(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$k(self); }
-
-function _assertThisInitialized$k(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$k() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$k(o) { _getPrototypeOf$k = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$k(o); }
-
-function _defineProperty$k(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var ISOWeekParser = /*#__PURE__*/function (_Parser) {
-  _inherits$k(ISOWeekParser, _Parser);
-
-  var _super = _createSuper$k(ISOWeekParser);
-
+  _inherits(ISOWeekParser, _Parser);
+  var _super = _createSuper(ISOWeekParser);
   function ISOWeekParser() {
     var _this;
-
-    _classCallCheck$k(this, ISOWeekParser);
-
+    _classCallCheck(this, ISOWeekParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$k(_assertThisInitialized$k(_this), "priority", 100);
-
-    _defineProperty$k(_assertThisInitialized$k(_this), "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 100);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$k(ISOWeekParser, [{
+  _createClass(ISOWeekParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'I':
           return parseNumericPattern(numericPatterns.week, dateString);
-
         case 'Io':
           return match.ordinalNumber(dateString, {
             unit: 'week'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -9484,73 +8889,38 @@ var ISOWeekParser = /*#__PURE__*/function (_Parser) {
       return startOfUTCISOWeek(setUTCISOWeek(date, value));
     }
   }]);
-
   return ISOWeekParser;
 }(Parser);
 
-function _typeof$m(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$m = function _typeof(obj) { return typeof obj; }; } else { _typeof$m = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$m(obj); }
-
-function _classCallCheck$j(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$j(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$j(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$j(Constructor.prototype, protoProps); if (staticProps) _defineProperties$j(Constructor, staticProps); return Constructor; }
-
-function _inherits$j(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$j(subClass, superClass); }
-
-function _setPrototypeOf$j(o, p) { _setPrototypeOf$j = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$j(o, p); }
-
-function _createSuper$j(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$j(); return function _createSuperInternal() { var Super = _getPrototypeOf$j(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$j(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$j(this, result); }; }
-
-function _possibleConstructorReturn$j(self, call) { if (call && (_typeof$m(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$j(self); }
-
-function _assertThisInitialized$j(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$j() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$j(o) { _getPrototypeOf$j = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$j(o); }
-
-function _defineProperty$j(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var DAYS_IN_MONTH = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-var DAYS_IN_MONTH_LEAP_YEAR = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]; // Day of the month
+var DAYS_IN_MONTH_LEAP_YEAR = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
+// Day of the month
 var DateParser = /*#__PURE__*/function (_Parser) {
-  _inherits$j(DateParser, _Parser);
-
-  var _super = _createSuper$j(DateParser);
-
+  _inherits(DateParser, _Parser);
+  var _super = _createSuper(DateParser);
   function DateParser() {
     var _this;
-
-    _classCallCheck$j(this, DateParser);
-
+    _classCallCheck(this, DateParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$j(_assertThisInitialized$j(_this), "priority", 90);
-
-    _defineProperty$j(_assertThisInitialized$j(_this), "subPriority", 1);
-
-    _defineProperty$j(_assertThisInitialized$j(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 90);
+    _defineProperty(_assertThisInitialized(_this), "subPriority", 1);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'w', 'I', 'D', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$j(DateParser, [{
+  _createClass(DateParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'd':
           return parseNumericPattern(numericPatterns.date, dateString);
-
         case 'do':
           return match.ordinalNumber(dateString, {
             unit: 'date'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -9561,7 +8931,6 @@ var DateParser = /*#__PURE__*/function (_Parser) {
       var year = date.getUTCFullYear();
       var isLeapYear = isLeapYearIndex$1(year);
       var month = date.getUTCMonth();
-
       if (isLeapYear) {
         return value >= 1 && value <= DAYS_IN_MONTH_LEAP_YEAR[month];
       } else {
@@ -9576,71 +8945,35 @@ var DateParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return DateParser;
 }(Parser);
 
-function _typeof$l(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$l = function _typeof(obj) { return typeof obj; }; } else { _typeof$l = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$l(obj); }
-
-function _classCallCheck$i(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$i(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$i(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$i(Constructor.prototype, protoProps); if (staticProps) _defineProperties$i(Constructor, staticProps); return Constructor; }
-
-function _inherits$i(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$i(subClass, superClass); }
-
-function _setPrototypeOf$i(o, p) { _setPrototypeOf$i = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$i(o, p); }
-
-function _createSuper$i(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$i(); return function _createSuperInternal() { var Super = _getPrototypeOf$i(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$i(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$i(this, result); }; }
-
-function _possibleConstructorReturn$i(self, call) { if (call && (_typeof$l(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$i(self); }
-
-function _assertThisInitialized$i(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$i() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$i(o) { _getPrototypeOf$i = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$i(o); }
-
-function _defineProperty$i(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var DayOfYearParser = /*#__PURE__*/function (_Parser) {
-  _inherits$i(DayOfYearParser, _Parser);
-
-  var _super = _createSuper$i(DayOfYearParser);
-
+  _inherits(DayOfYearParser, _Parser);
+  var _super = _createSuper(DayOfYearParser);
   function DayOfYearParser() {
     var _this;
-
-    _classCallCheck$i(this, DayOfYearParser);
-
+    _classCallCheck(this, DayOfYearParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$i(_assertThisInitialized$i(_this), "priority", 90);
-
-    _defineProperty$i(_assertThisInitialized$i(_this), "subpriority", 1);
-
-    _defineProperty$i(_assertThisInitialized$i(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'L', 'w', 'I', 'd', 'E', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 90);
+    _defineProperty(_assertThisInitialized(_this), "subpriority", 1);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['Y', 'R', 'q', 'Q', 'M', 'L', 'w', 'I', 'd', 'E', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$i(DayOfYearParser, [{
+  _createClass(DayOfYearParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'D':
         case 'DD':
           return parseNumericPattern(numericPatterns.dayOfYear, dateString);
-
         case 'Do':
           return match.ordinalNumber(dateString, {
             unit: 'date'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -9650,7 +8983,6 @@ var DayOfYearParser = /*#__PURE__*/function (_Parser) {
     value: function validate(date, value) {
       var year = date.getUTCFullYear();
       var isLeapYear = isLeapYearIndex$1(year);
-
       if (isLeapYear) {
         return value >= 1 && value <= 366;
       } else {
@@ -9665,21 +8997,19 @@ var DayOfYearParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return DayOfYearParser;
 }(Parser);
 
 function setUTCDay(dirtyDate, dirtyDay, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(2, arguments);
   var defaultOptions = getDefaultOptions$1();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   var date = toDate(dirtyDate);
   var day = toInteger(dirtyDay);
   var currentDay = date.getUTCDay();
@@ -9690,54 +9020,21 @@ function setUTCDay(dirtyDate, dirtyDay, options) {
   return date;
 }
 
-function _typeof$k(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$k = function _typeof(obj) { return typeof obj; }; } else { _typeof$k = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$k(obj); }
-
-function _classCallCheck$h(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$h(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$h(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$h(Constructor.prototype, protoProps); if (staticProps) _defineProperties$h(Constructor, staticProps); return Constructor; }
-
-function _inherits$h(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$h(subClass, superClass); }
-
-function _setPrototypeOf$h(o, p) { _setPrototypeOf$h = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$h(o, p); }
-
-function _createSuper$h(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$h(); return function _createSuperInternal() { var Super = _getPrototypeOf$h(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$h(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$h(this, result); }; }
-
-function _possibleConstructorReturn$h(self, call) { if (call && (_typeof$k(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$h(self); }
-
-function _assertThisInitialized$h(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$h() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$h(o) { _getPrototypeOf$h = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$h(o); }
-
-function _defineProperty$h(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var DayParser = /*#__PURE__*/function (_Parser) {
-  _inherits$h(DayParser, _Parser);
-
-  var _super = _createSuper$h(DayParser);
-
+  _inherits(DayParser, _Parser);
+  var _super = _createSuper(DayParser);
   function DayParser() {
     var _this;
-
-    _classCallCheck$h(this, DayParser);
-
+    _classCallCheck(this, DayParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$h(_assertThisInitialized$h(_this), "priority", 90);
-
-    _defineProperty$h(_assertThisInitialized$h(_this), "incompatibleTokens", ['D', 'i', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 90);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['D', 'i', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$h(DayParser, [{
+  _createClass(DayParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
@@ -9756,14 +9053,12 @@ var DayParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           });
         // T
-
         case 'EEEEE':
           return match.day(dateString, {
             width: 'narrow',
             context: 'formatting'
           });
         // Tu
-
         case 'EEEEEE':
           return match.day(dateString, {
             width: 'short',
@@ -9773,7 +9068,6 @@ var DayParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           });
         // Tuesday
-
         case 'EEEE':
         default:
           return match.day(dateString, {
@@ -9804,65 +9098,30 @@ var DayParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return DayParser;
 }(Parser);
 
-function _typeof$j(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$j = function _typeof(obj) { return typeof obj; }; } else { _typeof$j = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$j(obj); }
-
-function _classCallCheck$g(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$g(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$g(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$g(Constructor.prototype, protoProps); if (staticProps) _defineProperties$g(Constructor, staticProps); return Constructor; }
-
-function _inherits$g(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$g(subClass, superClass); }
-
-function _setPrototypeOf$g(o, p) { _setPrototypeOf$g = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$g(o, p); }
-
-function _createSuper$g(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$g(); return function _createSuperInternal() { var Super = _getPrototypeOf$g(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$g(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$g(this, result); }; }
-
-function _possibleConstructorReturn$g(self, call) { if (call && (_typeof$j(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$g(self); }
-
-function _assertThisInitialized$g(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$g() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$g(o) { _getPrototypeOf$g = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$g(o); }
-
-function _defineProperty$g(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var LocalDayParser = /*#__PURE__*/function (_Parser) {
-  _inherits$g(LocalDayParser, _Parser);
-
-  var _super = _createSuper$g(LocalDayParser);
-
+  _inherits(LocalDayParser, _Parser);
+  var _super = _createSuper(LocalDayParser);
   function LocalDayParser() {
     var _this;
-
-    _classCallCheck$g(this, LocalDayParser);
-
+    _classCallCheck(this, LocalDayParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$g(_assertThisInitialized$g(_this), "priority", 90);
-
-    _defineProperty$g(_assertThisInitialized$g(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 90);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$g(LocalDayParser, [{
+  _createClass(LocalDayParser, [{
     key: "parse",
     value: function parse(dateString, token, match, options) {
       var valueCallback = function valueCallback(value) {
         var wholeWeekDays = Math.floor((value - 1) / 7) * 7;
         return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
       };
-
       switch (token) {
         // 3
         case 'e':
@@ -9870,13 +9129,11 @@ var LocalDayParser = /*#__PURE__*/function (_Parser) {
           // 03
           return mapValue(parseNDigits(token.length, dateString), valueCallback);
         // 3rd
-
         case 'eo':
           return mapValue(match.ordinalNumber(dateString, {
             unit: 'day'
           }), valueCallback);
         // Tue
-
         case 'eee':
           return match.day(dateString, {
             width: 'abbreviated',
@@ -9889,14 +9146,12 @@ var LocalDayParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           });
         // T
-
         case 'eeeee':
           return match.day(dateString, {
             width: 'narrow',
             context: 'formatting'
           });
         // Tu
-
         case 'eeeeee':
           return match.day(dateString, {
             width: 'short',
@@ -9906,7 +9161,6 @@ var LocalDayParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           });
         // Tuesday
-
         case 'eeee':
         default:
           return match.day(dateString, {
@@ -9937,65 +9191,30 @@ var LocalDayParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return LocalDayParser;
 }(Parser);
 
-function _typeof$i(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$i = function _typeof(obj) { return typeof obj; }; } else { _typeof$i = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$i(obj); }
-
-function _classCallCheck$f(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$f(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$f(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$f(Constructor.prototype, protoProps); if (staticProps) _defineProperties$f(Constructor, staticProps); return Constructor; }
-
-function _inherits$f(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$f(subClass, superClass); }
-
-function _setPrototypeOf$f(o, p) { _setPrototypeOf$f = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$f(o, p); }
-
-function _createSuper$f(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$f(); return function _createSuperInternal() { var Super = _getPrototypeOf$f(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$f(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$f(this, result); }; }
-
-function _possibleConstructorReturn$f(self, call) { if (call && (_typeof$i(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$f(self); }
-
-function _assertThisInitialized$f(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$f() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$f(o) { _getPrototypeOf$f = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$f(o); }
-
-function _defineProperty$f(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var StandAloneLocalDayParser = /*#__PURE__*/function (_Parser) {
-  _inherits$f(StandAloneLocalDayParser, _Parser);
-
-  var _super = _createSuper$f(StandAloneLocalDayParser);
-
+  _inherits(StandAloneLocalDayParser, _Parser);
+  var _super = _createSuper(StandAloneLocalDayParser);
   function StandAloneLocalDayParser() {
     var _this;
-
-    _classCallCheck$f(this, StandAloneLocalDayParser);
-
+    _classCallCheck(this, StandAloneLocalDayParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$f(_assertThisInitialized$f(_this), "priority", 90);
-
-    _defineProperty$f(_assertThisInitialized$f(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'e', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 90);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['y', 'R', 'u', 'q', 'Q', 'M', 'L', 'I', 'd', 'D', 'E', 'i', 'e', 't', 'T']);
     return _this;
   }
-
-  _createClass$f(StandAloneLocalDayParser, [{
+  _createClass(StandAloneLocalDayParser, [{
     key: "parse",
     value: function parse(dateString, token, match, options) {
       var valueCallback = function valueCallback(value) {
         var wholeWeekDays = Math.floor((value - 1) / 7) * 7;
         return (value + options.weekStartsOn + 6) % 7 + wholeWeekDays;
       };
-
       switch (token) {
         // 3
         case 'c':
@@ -10003,13 +9222,11 @@ var StandAloneLocalDayParser = /*#__PURE__*/function (_Parser) {
           // 03
           return mapValue(parseNDigits(token.length, dateString), valueCallback);
         // 3rd
-
         case 'co':
           return mapValue(match.ordinalNumber(dateString, {
             unit: 'day'
           }), valueCallback);
         // Tue
-
         case 'ccc':
           return match.day(dateString, {
             width: 'abbreviated',
@@ -10022,14 +9239,12 @@ var StandAloneLocalDayParser = /*#__PURE__*/function (_Parser) {
             context: 'standalone'
           });
         // T
-
         case 'ccccc':
           return match.day(dateString, {
             width: 'narrow',
             context: 'standalone'
           });
         // Tu
-
         case 'cccccc':
           return match.day(dateString, {
             width: 'short',
@@ -10039,7 +9254,6 @@ var StandAloneLocalDayParser = /*#__PURE__*/function (_Parser) {
             context: 'standalone'
           });
         // Tuesday
-
         case 'cccc':
         default:
           return match.day(dateString, {
@@ -10070,18 +9284,15 @@ var StandAloneLocalDayParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return StandAloneLocalDayParser;
 }(Parser);
 
 function setUTCISODay(dirtyDate, dirtyDay) {
   requiredArgs(2, arguments);
   var day = toInteger(dirtyDay);
-
   if (day % 7 === 0) {
     day = day - 7;
   }
-
   var weekStartsOn = 1;
   var date = toDate(dirtyDate);
   var currentDay = date.getUTCDay();
@@ -10092,64 +9303,29 @@ function setUTCISODay(dirtyDate, dirtyDay) {
   return date;
 }
 
-function _typeof$h(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$h = function _typeof(obj) { return typeof obj; }; } else { _typeof$h = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$h(obj); }
-
-function _classCallCheck$e(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$e(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$e(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$e(Constructor.prototype, protoProps); if (staticProps) _defineProperties$e(Constructor, staticProps); return Constructor; }
-
-function _inherits$e(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$e(subClass, superClass); }
-
-function _setPrototypeOf$e(o, p) { _setPrototypeOf$e = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$e(o, p); }
-
-function _createSuper$e(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$e(); return function _createSuperInternal() { var Super = _getPrototypeOf$e(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$e(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$e(this, result); }; }
-
-function _possibleConstructorReturn$e(self, call) { if (call && (_typeof$h(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$e(self); }
-
-function _assertThisInitialized$e(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$e() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$e(o) { _getPrototypeOf$e = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$e(o); }
-
-function _defineProperty$e(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var ISODayParser = /*#__PURE__*/function (_Parser) {
-  _inherits$e(ISODayParser, _Parser);
-
-  var _super = _createSuper$e(ISODayParser);
-
+  _inherits(ISODayParser, _Parser);
+  var _super = _createSuper(ISODayParser);
   function ISODayParser() {
     var _this;
-
-    _classCallCheck$e(this, ISODayParser);
-
+    _classCallCheck(this, ISODayParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$e(_assertThisInitialized$e(_this), "priority", 90);
-
-    _defineProperty$e(_assertThisInitialized$e(_this), "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'E', 'e', 'c', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 90);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['y', 'Y', 'u', 'q', 'Q', 'M', 'L', 'w', 'd', 'D', 'E', 'e', 'c', 't', 'T']);
     return _this;
   }
-
-  _createClass$e(ISODayParser, [{
+  _createClass(ISODayParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       var valueCallback = function valueCallback(value) {
         if (value === 0) {
           return 7;
         }
-
         return value;
       };
-
       switch (token) {
         // 2
         case 'i':
@@ -10157,13 +9333,11 @@ var ISODayParser = /*#__PURE__*/function (_Parser) {
           // 02
           return parseNDigits(token.length, dateString);
         // 2nd
-
         case 'io':
           return match.ordinalNumber(dateString, {
             unit: 'day'
           });
         // Tue
-
         case 'iii':
           return mapValue(match.day(dateString, {
             width: 'abbreviated',
@@ -10176,14 +9350,12 @@ var ISODayParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           }), valueCallback);
         // T
-
         case 'iiiii':
           return mapValue(match.day(dateString, {
             width: 'narrow',
             context: 'formatting'
           }), valueCallback);
         // Tu
-
         case 'iiiiii':
           return mapValue(match.day(dateString, {
             width: 'short',
@@ -10193,7 +9365,6 @@ var ISODayParser = /*#__PURE__*/function (_Parser) {
             context: 'formatting'
           }), valueCallback);
         // Tuesday
-
         case 'iiii':
         default:
           return mapValue(match.day(dateString, {
@@ -10224,57 +9395,24 @@ var ISODayParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return ISODayParser;
 }(Parser);
 
-function _typeof$g(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$g = function _typeof(obj) { return typeof obj; }; } else { _typeof$g = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$g(obj); }
-
-function _classCallCheck$d(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$d(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$d(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$d(Constructor.prototype, protoProps); if (staticProps) _defineProperties$d(Constructor, staticProps); return Constructor; }
-
-function _inherits$d(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$d(subClass, superClass); }
-
-function _setPrototypeOf$d(o, p) { _setPrototypeOf$d = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$d(o, p); }
-
-function _createSuper$d(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$d(); return function _createSuperInternal() { var Super = _getPrototypeOf$d(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$d(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$d(this, result); }; }
-
-function _possibleConstructorReturn$d(self, call) { if (call && (_typeof$g(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$d(self); }
-
-function _assertThisInitialized$d(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$d() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$d(o) { _getPrototypeOf$d = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$d(o); }
-
-function _defineProperty$d(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var AMPMParser = /*#__PURE__*/function (_Parser) {
-  _inherits$d(AMPMParser, _Parser);
-
-  var _super = _createSuper$d(AMPMParser);
-
+  _inherits(AMPMParser, _Parser);
+  var _super = _createSuper(AMPMParser);
   function AMPMParser() {
     var _this;
-
-    _classCallCheck$d(this, AMPMParser);
-
+    _classCallCheck(this, AMPMParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$d(_assertThisInitialized$d(_this), "priority", 80);
-
-    _defineProperty$d(_assertThisInitialized$d(_this), "incompatibleTokens", ['b', 'B', 'H', 'k', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 80);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['b', 'B', 'H', 'k', 't', 'T']);
     return _this;
   }
-
-  _createClass$d(AMPMParser, [{
+  _createClass(AMPMParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
@@ -10288,13 +9426,11 @@ var AMPMParser = /*#__PURE__*/function (_Parser) {
             width: 'narrow',
             context: 'formatting'
           });
-
         case 'aaaaa':
           return match.dayPeriod(dateString, {
             width: 'narrow',
             context: 'formatting'
           });
-
         case 'aaaa':
         default:
           return match.dayPeriod(dateString, {
@@ -10316,57 +9452,24 @@ var AMPMParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return AMPMParser;
 }(Parser);
 
-function _typeof$f(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$f = function _typeof(obj) { return typeof obj; }; } else { _typeof$f = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$f(obj); }
-
-function _classCallCheck$c(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$c(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$c(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$c(Constructor.prototype, protoProps); if (staticProps) _defineProperties$c(Constructor, staticProps); return Constructor; }
-
-function _inherits$c(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$c(subClass, superClass); }
-
-function _setPrototypeOf$c(o, p) { _setPrototypeOf$c = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$c(o, p); }
-
-function _createSuper$c(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$c(); return function _createSuperInternal() { var Super = _getPrototypeOf$c(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$c(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$c(this, result); }; }
-
-function _possibleConstructorReturn$c(self, call) { if (call && (_typeof$f(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$c(self); }
-
-function _assertThisInitialized$c(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$c() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$c(o) { _getPrototypeOf$c = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$c(o); }
-
-function _defineProperty$c(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var AMPMMidnightParser = /*#__PURE__*/function (_Parser) {
-  _inherits$c(AMPMMidnightParser, _Parser);
-
-  var _super = _createSuper$c(AMPMMidnightParser);
-
+  _inherits(AMPMMidnightParser, _Parser);
+  var _super = _createSuper(AMPMMidnightParser);
   function AMPMMidnightParser() {
     var _this;
-
-    _classCallCheck$c(this, AMPMMidnightParser);
-
+    _classCallCheck(this, AMPMMidnightParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$c(_assertThisInitialized$c(_this), "priority", 80);
-
-    _defineProperty$c(_assertThisInitialized$c(_this), "incompatibleTokens", ['a', 'B', 'H', 'k', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 80);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['a', 'B', 'H', 'k', 't', 'T']);
     return _this;
   }
-
-  _createClass$c(AMPMMidnightParser, [{
+  _createClass(AMPMMidnightParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
@@ -10380,13 +9483,11 @@ var AMPMMidnightParser = /*#__PURE__*/function (_Parser) {
             width: 'narrow',
             context: 'formatting'
           });
-
         case 'bbbbb':
           return match.dayPeriod(dateString, {
             width: 'narrow',
             context: 'formatting'
           });
-
         case 'bbbb':
         default:
           return match.dayPeriod(dateString, {
@@ -10408,58 +9509,24 @@ var AMPMMidnightParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return AMPMMidnightParser;
 }(Parser);
 
-function _typeof$e(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$e = function _typeof(obj) { return typeof obj; }; } else { _typeof$e = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$e(obj); }
-
-function _classCallCheck$b(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$b(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$b(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$b(Constructor.prototype, protoProps); if (staticProps) _defineProperties$b(Constructor, staticProps); return Constructor; }
-
-function _inherits$b(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$b(subClass, superClass); }
-
-function _setPrototypeOf$b(o, p) { _setPrototypeOf$b = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$b(o, p); }
-
-function _createSuper$b(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$b(); return function _createSuperInternal() { var Super = _getPrototypeOf$b(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$b(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$b(this, result); }; }
-
-function _possibleConstructorReturn$b(self, call) { if (call && (_typeof$e(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$b(self); }
-
-function _assertThisInitialized$b(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$b() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$b(o) { _getPrototypeOf$b = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$b(o); }
-
-function _defineProperty$b(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var DayPeriodParser = /*#__PURE__*/function (_Parser) {
-  _inherits$b(DayPeriodParser, _Parser);
-
-  var _super = _createSuper$b(DayPeriodParser);
-
+  _inherits(DayPeriodParser, _Parser);
+  var _super = _createSuper(DayPeriodParser);
   function DayPeriodParser() {
     var _this;
-
-    _classCallCheck$b(this, DayPeriodParser);
-
+    _classCallCheck(this, DayPeriodParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$b(_assertThisInitialized$b(_this), "priority", 80);
-
-    _defineProperty$b(_assertThisInitialized$b(_this), "incompatibleTokens", ['a', 'b', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 80);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['a', 'b', 't', 'T']);
     return _this;
   }
-
-  _createClass$b(DayPeriodParser, [{
+  _createClass(DayPeriodParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
@@ -10473,13 +9540,11 @@ var DayPeriodParser = /*#__PURE__*/function (_Parser) {
             width: 'narrow',
             context: 'formatting'
           });
-
         case 'BBBBB':
           return match.dayPeriod(dateString, {
             width: 'narrow',
             context: 'formatting'
           });
-
         case 'BBBB':
         default:
           return match.dayPeriod(dateString, {
@@ -10501,68 +9566,33 @@ var DayPeriodParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return DayPeriodParser;
 }(Parser);
 
-function _typeof$d(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$d = function _typeof(obj) { return typeof obj; }; } else { _typeof$d = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$d(obj); }
-
-function _classCallCheck$a(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$a(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$a(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$a(Constructor.prototype, protoProps); if (staticProps) _defineProperties$a(Constructor, staticProps); return Constructor; }
-
-function _inherits$a(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$a(subClass, superClass); }
-
-function _setPrototypeOf$a(o, p) { _setPrototypeOf$a = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$a(o, p); }
-
-function _createSuper$a(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$a(); return function _createSuperInternal() { var Super = _getPrototypeOf$a(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$a(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$a(this, result); }; }
-
-function _possibleConstructorReturn$a(self, call) { if (call && (_typeof$d(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$a(self); }
-
-function _assertThisInitialized$a(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$a() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$a(o) { _getPrototypeOf$a = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$a(o); }
-
-function _defineProperty$a(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var Hour1to12Parser = /*#__PURE__*/function (_Parser) {
-  _inherits$a(Hour1to12Parser, _Parser);
-
-  var _super = _createSuper$a(Hour1to12Parser);
-
+  _inherits(Hour1to12Parser, _Parser);
+  var _super = _createSuper(Hour1to12Parser);
   function Hour1to12Parser() {
     var _this;
-
-    _classCallCheck$a(this, Hour1to12Parser);
-
+    _classCallCheck(this, Hour1to12Parser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$a(_assertThisInitialized$a(_this), "priority", 70);
-
-    _defineProperty$a(_assertThisInitialized$a(_this), "incompatibleTokens", ['H', 'K', 'k', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 70);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['H', 'K', 'k', 't', 'T']);
     return _this;
   }
-
-  _createClass$a(Hour1to12Parser, [{
+  _createClass(Hour1to12Parser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'h':
           return parseNumericPattern(numericPatterns.hour12h, dateString);
-
         case 'ho':
           return match.ordinalNumber(dateString, {
             unit: 'hour'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -10576,7 +9606,6 @@ var Hour1to12Parser = /*#__PURE__*/function (_Parser) {
     key: "set",
     value: function set(date, _flags, value) {
       var isPM = date.getUTCHours() >= 12;
-
       if (isPM && value < 12) {
         date.setUTCHours(value + 12, 0, 0, 0);
       } else if (!isPM && value === 12) {
@@ -10584,72 +9613,36 @@ var Hour1to12Parser = /*#__PURE__*/function (_Parser) {
       } else {
         date.setUTCHours(value, 0, 0, 0);
       }
-
       return date;
     }
   }]);
-
   return Hour1to12Parser;
 }(Parser);
 
-function _typeof$c(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$c = function _typeof(obj) { return typeof obj; }; } else { _typeof$c = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$c(obj); }
-
-function _classCallCheck$9(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$9(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$9(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$9(Constructor.prototype, protoProps); if (staticProps) _defineProperties$9(Constructor, staticProps); return Constructor; }
-
-function _inherits$9(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$9(subClass, superClass); }
-
-function _setPrototypeOf$9(o, p) { _setPrototypeOf$9 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$9(o, p); }
-
-function _createSuper$9(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$9(); return function _createSuperInternal() { var Super = _getPrototypeOf$9(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$9(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$9(this, result); }; }
-
-function _possibleConstructorReturn$9(self, call) { if (call && (_typeof$c(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$9(self); }
-
-function _assertThisInitialized$9(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$9() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$9(o) { _getPrototypeOf$9 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$9(o); }
-
-function _defineProperty$9(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var Hour0to23Parser = /*#__PURE__*/function (_Parser) {
-  _inherits$9(Hour0to23Parser, _Parser);
-
-  var _super = _createSuper$9(Hour0to23Parser);
-
+  _inherits(Hour0to23Parser, _Parser);
+  var _super = _createSuper(Hour0to23Parser);
   function Hour0to23Parser() {
     var _this;
-
-    _classCallCheck$9(this, Hour0to23Parser);
-
+    _classCallCheck(this, Hour0to23Parser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$9(_assertThisInitialized$9(_this), "priority", 70);
-
-    _defineProperty$9(_assertThisInitialized$9(_this), "incompatibleTokens", ['a', 'b', 'h', 'K', 'k', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 70);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['a', 'b', 'h', 'K', 'k', 't', 'T']);
     return _this;
   }
-
-  _createClass$9(Hour0to23Parser, [{
+  _createClass(Hour0to23Parser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'H':
           return parseNumericPattern(numericPatterns.hour23h, dateString);
-
         case 'Ho':
           return match.ordinalNumber(dateString, {
             unit: 'hour'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -10666,68 +9659,33 @@ var Hour0to23Parser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return Hour0to23Parser;
 }(Parser);
 
-function _typeof$b(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$b = function _typeof(obj) { return typeof obj; }; } else { _typeof$b = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$b(obj); }
-
-function _classCallCheck$8(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$8(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$8(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$8(Constructor.prototype, protoProps); if (staticProps) _defineProperties$8(Constructor, staticProps); return Constructor; }
-
-function _inherits$8(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$8(subClass, superClass); }
-
-function _setPrototypeOf$8(o, p) { _setPrototypeOf$8 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$8(o, p); }
-
-function _createSuper$8(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$8(); return function _createSuperInternal() { var Super = _getPrototypeOf$8(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$8(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$8(this, result); }; }
-
-function _possibleConstructorReturn$8(self, call) { if (call && (_typeof$b(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$8(self); }
-
-function _assertThisInitialized$8(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$8() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$8(o) { _getPrototypeOf$8 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$8(o); }
-
-function _defineProperty$8(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var Hour0To11Parser = /*#__PURE__*/function (_Parser) {
-  _inherits$8(Hour0To11Parser, _Parser);
-
-  var _super = _createSuper$8(Hour0To11Parser);
-
+  _inherits(Hour0To11Parser, _Parser);
+  var _super = _createSuper(Hour0To11Parser);
   function Hour0To11Parser() {
     var _this;
-
-    _classCallCheck$8(this, Hour0To11Parser);
-
+    _classCallCheck(this, Hour0To11Parser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$8(_assertThisInitialized$8(_this), "priority", 70);
-
-    _defineProperty$8(_assertThisInitialized$8(_this), "incompatibleTokens", ['h', 'H', 'k', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 70);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['h', 'H', 'k', 't', 'T']);
     return _this;
   }
-
-  _createClass$8(Hour0To11Parser, [{
+  _createClass(Hour0To11Parser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'K':
           return parseNumericPattern(numericPatterns.hour11h, dateString);
-
         case 'Ko':
           return match.ordinalNumber(dateString, {
             unit: 'hour'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -10741,78 +9699,41 @@ var Hour0To11Parser = /*#__PURE__*/function (_Parser) {
     key: "set",
     value: function set(date, _flags, value) {
       var isPM = date.getUTCHours() >= 12;
-
       if (isPM && value < 12) {
         date.setUTCHours(value + 12, 0, 0, 0);
       } else {
         date.setUTCHours(value, 0, 0, 0);
       }
-
       return date;
     }
   }]);
-
   return Hour0To11Parser;
 }(Parser);
 
-function _typeof$a(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$a = function _typeof(obj) { return typeof obj; }; } else { _typeof$a = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$a(obj); }
-
-function _classCallCheck$7(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$7(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$7(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$7(Constructor.prototype, protoProps); if (staticProps) _defineProperties$7(Constructor, staticProps); return Constructor; }
-
-function _inherits$7(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$7(subClass, superClass); }
-
-function _setPrototypeOf$7(o, p) { _setPrototypeOf$7 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$7(o, p); }
-
-function _createSuper$7(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$7(); return function _createSuperInternal() { var Super = _getPrototypeOf$7(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$7(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$7(this, result); }; }
-
-function _possibleConstructorReturn$7(self, call) { if (call && (_typeof$a(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$7(self); }
-
-function _assertThisInitialized$7(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$7() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$7(o) { _getPrototypeOf$7 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$7(o); }
-
-function _defineProperty$7(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var Hour1To24Parser = /*#__PURE__*/function (_Parser) {
-  _inherits$7(Hour1To24Parser, _Parser);
-
-  var _super = _createSuper$7(Hour1To24Parser);
-
+  _inherits(Hour1To24Parser, _Parser);
+  var _super = _createSuper(Hour1To24Parser);
   function Hour1To24Parser() {
     var _this;
-
-    _classCallCheck$7(this, Hour1To24Parser);
-
+    _classCallCheck(this, Hour1To24Parser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$7(_assertThisInitialized$7(_this), "priority", 70);
-
-    _defineProperty$7(_assertThisInitialized$7(_this), "incompatibleTokens", ['a', 'b', 'h', 'H', 'K', 't', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 70);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['a', 'b', 'h', 'H', 'K', 't', 'T']);
     return _this;
   }
-
-  _createClass$7(Hour1To24Parser, [{
+  _createClass(Hour1To24Parser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'k':
           return parseNumericPattern(numericPatterns.hour24h, dateString);
-
         case 'ko':
           return match.ordinalNumber(dateString, {
             unit: 'hour'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -10830,68 +9751,33 @@ var Hour1To24Parser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return Hour1To24Parser;
 }(Parser);
 
-function _typeof$9(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$9 = function _typeof(obj) { return typeof obj; }; } else { _typeof$9 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$9(obj); }
-
-function _classCallCheck$6(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$6(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$6(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$6(Constructor.prototype, protoProps); if (staticProps) _defineProperties$6(Constructor, staticProps); return Constructor; }
-
-function _inherits$6(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$6(subClass, superClass); }
-
-function _setPrototypeOf$6(o, p) { _setPrototypeOf$6 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$6(o, p); }
-
-function _createSuper$6(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$6(); return function _createSuperInternal() { var Super = _getPrototypeOf$6(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$6(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$6(this, result); }; }
-
-function _possibleConstructorReturn$6(self, call) { if (call && (_typeof$9(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$6(self); }
-
-function _assertThisInitialized$6(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$6() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$6(o) { _getPrototypeOf$6 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$6(o); }
-
-function _defineProperty$6(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var MinuteParser = /*#__PURE__*/function (_Parser) {
-  _inherits$6(MinuteParser, _Parser);
-
-  var _super = _createSuper$6(MinuteParser);
-
+  _inherits(MinuteParser, _Parser);
+  var _super = _createSuper(MinuteParser);
   function MinuteParser() {
     var _this;
-
-    _classCallCheck$6(this, MinuteParser);
-
+    _classCallCheck(this, MinuteParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$6(_assertThisInitialized$6(_this), "priority", 60);
-
-    _defineProperty$6(_assertThisInitialized$6(_this), "incompatibleTokens", ['t', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 60);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['t', 'T']);
     return _this;
   }
-
-  _createClass$6(MinuteParser, [{
+  _createClass(MinuteParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 'm':
           return parseNumericPattern(numericPatterns.minute, dateString);
-
         case 'mo':
           return match.ordinalNumber(dateString, {
             unit: 'minute'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -10908,68 +9794,33 @@ var MinuteParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return MinuteParser;
 }(Parser);
 
-function _typeof$8(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$8 = function _typeof(obj) { return typeof obj; }; } else { _typeof$8 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$8(obj); }
-
-function _classCallCheck$5(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$5(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$5(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$5(Constructor.prototype, protoProps); if (staticProps) _defineProperties$5(Constructor, staticProps); return Constructor; }
-
-function _inherits$5(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$5(subClass, superClass); }
-
-function _setPrototypeOf$5(o, p) { _setPrototypeOf$5 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$5(o, p); }
-
-function _createSuper$5(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$5(); return function _createSuperInternal() { var Super = _getPrototypeOf$5(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$5(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$5(this, result); }; }
-
-function _possibleConstructorReturn$5(self, call) { if (call && (_typeof$8(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$5(self); }
-
-function _assertThisInitialized$5(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$5() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$5(o) { _getPrototypeOf$5 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$5(o); }
-
-function _defineProperty$5(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var SecondParser = /*#__PURE__*/function (_Parser) {
-  _inherits$5(SecondParser, _Parser);
-
-  var _super = _createSuper$5(SecondParser);
-
+  _inherits(SecondParser, _Parser);
+  var _super = _createSuper(SecondParser);
   function SecondParser() {
     var _this;
-
-    _classCallCheck$5(this, SecondParser);
-
+    _classCallCheck(this, SecondParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$5(_assertThisInitialized$5(_this), "priority", 50);
-
-    _defineProperty$5(_assertThisInitialized$5(_this), "incompatibleTokens", ['t', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 50);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['t', 'T']);
     return _this;
   }
-
-  _createClass$5(SecondParser, [{
+  _createClass(SecondParser, [{
     key: "parse",
     value: function parse(dateString, token, match) {
       switch (token) {
         case 's':
           return parseNumericPattern(numericPatterns.second, dateString);
-
         case 'so':
           return match.ordinalNumber(dateString, {
             unit: 'second'
           });
-
         default:
           return parseNDigits(token.length, dateString);
       }
@@ -10986,63 +9837,29 @@ var SecondParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return SecondParser;
 }(Parser);
 
-function _typeof$7(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$7 = function _typeof(obj) { return typeof obj; }; } else { _typeof$7 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$7(obj); }
-
-function _classCallCheck$4(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$4(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$4(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$4(Constructor.prototype, protoProps); if (staticProps) _defineProperties$4(Constructor, staticProps); return Constructor; }
-
-function _inherits$4(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$4(subClass, superClass); }
-
-function _setPrototypeOf$4(o, p) { _setPrototypeOf$4 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$4(o, p); }
-
-function _createSuper$4(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$4(); return function _createSuperInternal() { var Super = _getPrototypeOf$4(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$4(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$4(this, result); }; }
-
-function _possibleConstructorReturn$4(self, call) { if (call && (_typeof$7(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$4(self); }
-
-function _assertThisInitialized$4(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$4() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$4(o) { _getPrototypeOf$4 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$4(o); }
-
-function _defineProperty$4(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var FractionOfSecondParser = /*#__PURE__*/function (_Parser) {
-  _inherits$4(FractionOfSecondParser, _Parser);
-
-  var _super = _createSuper$4(FractionOfSecondParser);
-
+  _inherits(FractionOfSecondParser, _Parser);
+  var _super = _createSuper(FractionOfSecondParser);
   function FractionOfSecondParser() {
     var _this;
-
-    _classCallCheck$4(this, FractionOfSecondParser);
-
+    _classCallCheck(this, FractionOfSecondParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$4(_assertThisInitialized$4(_this), "priority", 30);
-
-    _defineProperty$4(_assertThisInitialized$4(_this), "incompatibleTokens", ['t', 'T']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 30);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['t', 'T']);
     return _this;
   }
-
-  _createClass$4(FractionOfSecondParser, [{
+  _createClass(FractionOfSecondParser, [{
     key: "parse",
     value: function parse(dateString, token) {
       var valueCallback = function valueCallback(value) {
         return Math.floor(value * Math.pow(10, -token.length + 3));
       };
-
       return mapValue(parseNDigits(token.length, dateString), valueCallback);
     }
   }, {
@@ -11052,73 +9869,35 @@ var FractionOfSecondParser = /*#__PURE__*/function (_Parser) {
       return date;
     }
   }]);
-
   return FractionOfSecondParser;
 }(Parser);
 
-function _typeof$6(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$6 = function _typeof(obj) { return typeof obj; }; } else { _typeof$6 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$6(obj); }
-
-function _classCallCheck$3(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$3(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$3(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$3(Constructor.prototype, protoProps); if (staticProps) _defineProperties$3(Constructor, staticProps); return Constructor; }
-
-function _inherits$3(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$3(subClass, superClass); }
-
-function _setPrototypeOf$3(o, p) { _setPrototypeOf$3 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$3(o, p); }
-
-function _createSuper$3(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$3(); return function _createSuperInternal() { var Super = _getPrototypeOf$3(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$3(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$3(this, result); }; }
-
-function _possibleConstructorReturn$3(self, call) { if (call && (_typeof$6(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$3(self); }
-
-function _assertThisInitialized$3(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$3() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$3(o) { _getPrototypeOf$3 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$3(o); }
-
-function _defineProperty$3(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var ISOTimezoneWithZParser = /*#__PURE__*/function (_Parser) {
-  _inherits$3(ISOTimezoneWithZParser, _Parser);
-
-  var _super = _createSuper$3(ISOTimezoneWithZParser);
-
+  _inherits(ISOTimezoneWithZParser, _Parser);
+  var _super = _createSuper(ISOTimezoneWithZParser);
   function ISOTimezoneWithZParser() {
     var _this;
-
-    _classCallCheck$3(this, ISOTimezoneWithZParser);
-
+    _classCallCheck(this, ISOTimezoneWithZParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$3(_assertThisInitialized$3(_this), "priority", 10);
-
-    _defineProperty$3(_assertThisInitialized$3(_this), "incompatibleTokens", ['t', 'T', 'x']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 10);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['t', 'T', 'x']);
     return _this;
   }
-
-  _createClass$3(ISOTimezoneWithZParser, [{
+  _createClass(ISOTimezoneWithZParser, [{
     key: "parse",
     value: function parse(dateString, token) {
       switch (token) {
         case 'X':
           return parseTimezonePattern(timezonePatterns.basicOptionalMinutes, dateString);
-
         case 'XX':
           return parseTimezonePattern(timezonePatterns.basic, dateString);
-
         case 'XXXX':
           return parseTimezonePattern(timezonePatterns.basicOptionalSeconds, dateString);
-
         case 'XXXXX':
           return parseTimezonePattern(timezonePatterns.extendedOptionalSeconds, dateString);
-
         case 'XXX':
         default:
           return parseTimezonePattern(timezonePatterns.extended, dateString);
@@ -11130,77 +9909,38 @@ var ISOTimezoneWithZParser = /*#__PURE__*/function (_Parser) {
       if (flags.timestampIsSet) {
         return date;
       }
-
       return new Date(date.getTime() - value);
     }
   }]);
-
   return ISOTimezoneWithZParser;
 }(Parser);
 
-function _typeof$5(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$5 = function _typeof(obj) { return typeof obj; }; } else { _typeof$5 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$5(obj); }
-
-function _classCallCheck$2(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$2(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$2(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$2(Constructor.prototype, protoProps); if (staticProps) _defineProperties$2(Constructor, staticProps); return Constructor; }
-
-function _inherits$2(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$2(subClass, superClass); }
-
-function _setPrototypeOf$2(o, p) { _setPrototypeOf$2 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$2(o, p); }
-
-function _createSuper$2(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$2(); return function _createSuperInternal() { var Super = _getPrototypeOf$2(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$2(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$2(this, result); }; }
-
-function _possibleConstructorReturn$2(self, call) { if (call && (_typeof$5(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$2(self); }
-
-function _assertThisInitialized$2(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$2() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$2(o) { _getPrototypeOf$2 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$2(o); }
-
-function _defineProperty$2(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 var ISOTimezoneParser = /*#__PURE__*/function (_Parser) {
-  _inherits$2(ISOTimezoneParser, _Parser);
-
-  var _super = _createSuper$2(ISOTimezoneParser);
-
+  _inherits(ISOTimezoneParser, _Parser);
+  var _super = _createSuper(ISOTimezoneParser);
   function ISOTimezoneParser() {
     var _this;
-
-    _classCallCheck$2(this, ISOTimezoneParser);
-
+    _classCallCheck(this, ISOTimezoneParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$2(_assertThisInitialized$2(_this), "priority", 10);
-
-    _defineProperty$2(_assertThisInitialized$2(_this), "incompatibleTokens", ['t', 'T', 'X']);
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 10);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", ['t', 'T', 'X']);
     return _this;
   }
-
-  _createClass$2(ISOTimezoneParser, [{
+  _createClass(ISOTimezoneParser, [{
     key: "parse",
     value: function parse(dateString, token) {
       switch (token) {
         case 'x':
           return parseTimezonePattern(timezonePatterns.basicOptionalMinutes, dateString);
-
         case 'xx':
           return parseTimezonePattern(timezonePatterns.basic, dateString);
-
         case 'xxxx':
           return parseTimezonePattern(timezonePatterns.basicOptionalSeconds, dateString);
-
         case 'xxxxx':
           return parseTimezonePattern(timezonePatterns.extendedOptionalSeconds, dateString);
-
         case 'xxx':
         default:
           return parseTimezonePattern(timezonePatterns.extended, dateString);
@@ -11212,61 +9952,27 @@ var ISOTimezoneParser = /*#__PURE__*/function (_Parser) {
       if (flags.timestampIsSet) {
         return date;
       }
-
       return new Date(date.getTime() - value);
     }
   }]);
-
   return ISOTimezoneParser;
 }(Parser);
 
-function _typeof$4(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$4 = function _typeof(obj) { return typeof obj; }; } else { _typeof$4 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$4(obj); }
-
-function _classCallCheck$1(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties$1(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass$1(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties$1(Constructor.prototype, protoProps); if (staticProps) _defineProperties$1(Constructor, staticProps); return Constructor; }
-
-function _inherits$1(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf$1(subClass, superClass); }
-
-function _setPrototypeOf$1(o, p) { _setPrototypeOf$1 = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf$1(o, p); }
-
-function _createSuper$1(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct$1(); return function _createSuperInternal() { var Super = _getPrototypeOf$1(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf$1(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn$1(this, result); }; }
-
-function _possibleConstructorReturn$1(self, call) { if (call && (_typeof$4(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized$1(self); }
-
-function _assertThisInitialized$1(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct$1() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf$1(o) { _getPrototypeOf$1 = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf$1(o); }
-
-function _defineProperty$1(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var TimestampSecondsParser = /*#__PURE__*/function (_Parser) {
-  _inherits$1(TimestampSecondsParser, _Parser);
-
-  var _super = _createSuper$1(TimestampSecondsParser);
-
+  _inherits(TimestampSecondsParser, _Parser);
+  var _super = _createSuper(TimestampSecondsParser);
   function TimestampSecondsParser() {
     var _this;
-
-    _classCallCheck$1(this, TimestampSecondsParser);
-
+    _classCallCheck(this, TimestampSecondsParser);
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
-    _defineProperty$1(_assertThisInitialized$1(_this), "priority", 40);
-
-    _defineProperty$1(_assertThisInitialized$1(_this), "incompatibleTokens", '*');
-
+    _defineProperty(_assertThisInitialized(_this), "priority", 40);
+    _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", '*');
     return _this;
   }
-
-  _createClass$1(TimestampSecondsParser, [{
+  _createClass(TimestampSecondsParser, [{
     key: "parse",
     value: function parse(dateString) {
       return parseAnyDigitsSigned(dateString);
@@ -11279,56 +9985,23 @@ var TimestampSecondsParser = /*#__PURE__*/function (_Parser) {
       }];
     }
   }]);
-
   return TimestampSecondsParser;
 }(Parser);
 
-function _typeof$3(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$3 = function _typeof(obj) { return typeof obj; }; } else { _typeof$3 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$3(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof$3(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 var TimestampMillisecondsParser = /*#__PURE__*/function (_Parser) {
   _inherits(TimestampMillisecondsParser, _Parser);
-
   var _super = _createSuper(TimestampMillisecondsParser);
-
   function TimestampMillisecondsParser() {
     var _this;
-
     _classCallCheck(this, TimestampMillisecondsParser);
-
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
-
     _defineProperty(_assertThisInitialized(_this), "priority", 20);
-
     _defineProperty(_assertThisInitialized(_this), "incompatibleTokens", '*');
-
     return _this;
   }
-
   _createClass(TimestampMillisecondsParser, [{
     key: "parse",
     value: function parse(dateString) {
@@ -11342,7 +10015,6 @@ var TimestampMillisecondsParser = /*#__PURE__*/function (_Parser) {
       }];
     }
   }]);
-
   return TimestampMillisecondsParser;
 }(Parser);
 
@@ -11389,7 +10061,6 @@ var TimestampMillisecondsParser = /*#__PURE__*/function (_Parser) {
  *   `Y` is supposed to be used in conjunction with `w` and `e`
  *   for week-numbering date specific to the locale.
  */
-
 var parsers = {
   G: new EraParser(),
   y: new YearParser(),
@@ -11424,13 +10095,6 @@ var parsers = {
   T: new TimestampMillisecondsParser()
 };
 
-function _typeof$2(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$2 = function _typeof(obj) { return typeof obj; }; } else { _typeof$2 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$2(obj); }
-
-function _createForOfIteratorHelper(o, allowArrayLike) { var it; if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
-
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 // - [yYQqMLwIdDecihHKkms]o matches any available ordinal number token
 //   (one of the certain letters followed by `o`)
 // - (\w)\1* matches any sequences of the same letter
@@ -11441,15 +10105,16 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 //   If there is no matching single quote
 //   then the sequence will continue until the end of the string.
 // - . matches any single character unmatched by previous parts of the RegExps
+var formattingTokensRegExp$1 = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g;
 
-var formattingTokensRegExp$1 = /[yYQqMLwIdDecihHKkms]o|(\w)\1*|''|'(''|[^'])+('|$)|./g; // This RegExp catches symbols escaped by quotes, and also
+// This RegExp catches symbols escaped by quotes, and also
 // sequences of symbols P, p, and the combinations like `PPPPPPPppppp`
-
 var longFormattingTokensRegExp = /P+p+|P+|p+|''|'(''|[^'])+('|$)|./g;
 var escapedStringRegExp$1 = /^'([^]*?)'?$/;
 var doubleQuoteRegExp$1 = /''/g;
 var notWhitespaceRegExp = /\S/;
 var unescapedLatinCharacterRegExp$1 = /[a-zA-Z]/;
+
 /**
  * @name parse
  * @category Common Helpers
@@ -11751,32 +10416,28 @@ var unescapedLatinCharacterRegExp$1 = /[a-zA-Z]/;
  * })
  * //=> Sun Feb 28 2010 00:00:00
  */
-
 function parse(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options) {
   var _ref, _options$locale, _ref2, _ref3, _ref4, _options$firstWeekCon, _options$locale2, _options$locale2$opti, _defaultOptions$local, _defaultOptions$local2, _ref5, _ref6, _ref7, _options$weekStartsOn, _options$locale3, _options$locale3$opti, _defaultOptions$local3, _defaultOptions$local4;
-
   requiredArgs(3, arguments);
   var dateString = String(dirtyDateString);
   var formatString = String(dirtyFormatString);
   var defaultOptions = getDefaultOptions$1();
   var locale = (_ref = (_options$locale = options === null || options === void 0 ? void 0 : options.locale) !== null && _options$locale !== void 0 ? _options$locale : defaultOptions.locale) !== null && _ref !== void 0 ? _ref : locale$1s;
-
   if (!locale.match) {
     throw new RangeError('locale must contain match property');
   }
+  var firstWeekContainsDate = toInteger((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1);
 
-  var firstWeekContainsDate = toInteger((_ref2 = (_ref3 = (_ref4 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale2 = options.locale) === null || _options$locale2 === void 0 ? void 0 : (_options$locale2$opti = _options$locale2.options) === null || _options$locale2$opti === void 0 ? void 0 : _options$locale2$opti.firstWeekContainsDate) !== null && _ref4 !== void 0 ? _ref4 : defaultOptions.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : 1); // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
-
+  // Test if weekStartsOn is between 1 and 7 _and_ is not NaN
   if (!(firstWeekContainsDate >= 1 && firstWeekContainsDate <= 7)) {
     throw new RangeError('firstWeekContainsDate must be between 1 and 7 inclusively');
   }
+  var weekStartsOn = toInteger((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0);
 
-  var weekStartsOn = toInteger((_ref5 = (_ref6 = (_ref7 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale3 = options.locale) === null || _options$locale3 === void 0 ? void 0 : (_options$locale3$opti = _options$locale3.options) === null || _options$locale3$opti === void 0 ? void 0 : _options$locale3$opti.weekStartsOn) !== null && _ref7 !== void 0 ? _ref7 : defaultOptions.weekStartsOn) !== null && _ref6 !== void 0 ? _ref6 : (_defaultOptions$local3 = defaultOptions.locale) === null || _defaultOptions$local3 === void 0 ? void 0 : (_defaultOptions$local4 = _defaultOptions$local3.options) === null || _defaultOptions$local4 === void 0 ? void 0 : _defaultOptions$local4.weekStartsOn) !== null && _ref5 !== void 0 ? _ref5 : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
-
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   if (formatString === '') {
     if (dateString === '') {
       return toDate(dirtyReferenceDate);
@@ -11784,86 +10445,73 @@ function parse(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options) 
       return new Date(NaN);
     }
   }
-
   var subFnOptions = {
     firstWeekContainsDate: firstWeekContainsDate,
     weekStartsOn: weekStartsOn,
     locale: locale
-  }; // If timezone isn't specified, it will be set to the system timezone
+  };
 
+  // If timezone isn't specified, it will be set to the system timezone
   var setters = [new DateToSystemTimezoneSetter()];
   var tokens = formatString.match(longFormattingTokensRegExp).map(function (substring) {
     var firstCharacter = substring[0];
-
     if (firstCharacter in longFormatters) {
       var longFormatter = longFormatters[firstCharacter];
       return longFormatter(substring, locale.formatLong);
     }
-
     return substring;
   }).join('').match(formattingTokensRegExp$1);
   var usedTokens = [];
-
   var _iterator = _createForOfIteratorHelper(tokens),
-      _step;
-
+    _step;
   try {
     var _loop = function _loop() {
       var token = _step.value;
-
       if (!(options !== null && options !== void 0 && options.useAdditionalWeekYearTokens) && isProtectedWeekYearToken(token)) {
         throwProtectedError(token, formatString, dirtyDateString);
       }
-
       if (!(options !== null && options !== void 0 && options.useAdditionalDayOfYearTokens) && isProtectedDayOfYearToken(token)) {
         throwProtectedError(token, formatString, dirtyDateString);
       }
-
       var firstCharacter = token[0];
       var parser = parsers[firstCharacter];
-
       if (parser) {
         var incompatibleTokens = parser.incompatibleTokens;
-
         if (Array.isArray(incompatibleTokens)) {
           var incompatibleToken = usedTokens.find(function (usedToken) {
             return incompatibleTokens.includes(usedToken.token) || usedToken.token === firstCharacter;
           });
-
           if (incompatibleToken) {
             throw new RangeError("The format string mustn't contain `".concat(incompatibleToken.fullToken, "` and `").concat(token, "` at the same time"));
           }
         } else if (parser.incompatibleTokens === '*' && usedTokens.length > 0) {
           throw new RangeError("The format string mustn't contain `".concat(token, "` and any other token at the same time"));
         }
-
         usedTokens.push({
           token: firstCharacter,
           fullToken: token
         });
         var parseResult = parser.run(dateString, token, locale.match, subFnOptions);
-
         if (!parseResult) {
           return {
             v: new Date(NaN)
           };
         }
-
         setters.push(parseResult.setter);
         dateString = parseResult.rest;
       } else {
         if (firstCharacter.match(unescapedLatinCharacterRegExp$1)) {
           throw new RangeError('Format string contains an unescaped latin alphabet character `' + firstCharacter + '`');
-        } // Replace two single quote characters with one single quote character
+        }
 
-
+        // Replace two single quote characters with one single quote character
         if (token === "''") {
           token = "'";
         } else if (firstCharacter === "'") {
           token = cleanEscapedString$1(token);
-        } // Cut token from string, or, if string doesn't match the token, return Invalid Date
+        }
 
-
+        // Cut token from string, or, if string doesn't match the token, return Invalid Date
         if (dateString.indexOf(token) === 0) {
           dateString = dateString.slice(token.length);
         } else {
@@ -11873,23 +10521,20 @@ function parse(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options) 
         }
       }
     };
-
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var _ret = _loop();
+      if (_typeof(_ret) === "object") return _ret.v;
+    }
 
-      if (_typeof$2(_ret) === "object") return _ret.v;
-    } // Check if the remaining input contains something other than whitespace
-
+    // Check if the remaining input contains something other than whitespace
   } catch (err) {
     _iterator.e(err);
   } finally {
     _iterator.f();
   }
-
   if (dateString.length > 0 && notWhitespaceRegExp.test(dateString)) {
     return new Date(NaN);
   }
-
   var uniquePrioritySetters = setters.map(function (setter) {
     return setter.priority;
   }).sort(function (a, b) {
@@ -11906,31 +10551,27 @@ function parse(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options) 
     return setterArray[0];
   });
   var date = toDate(dirtyReferenceDate);
-
   if (isNaN(date.getTime())) {
     return new Date(NaN);
-  } // Convert the date in system timezone to the same date in UTC+00:00 timezone.
+  }
 
-
+  // Convert the date in system timezone to the same date in UTC+00:00 timezone.
   var utcDate = subMilliseconds(date, getTimezoneOffsetInMilliseconds(date));
   var flags = {};
-
   var _iterator2 = _createForOfIteratorHelper(uniquePrioritySetters),
-      _step2;
-
+    _step2;
   try {
     for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
       var setter = _step2.value;
-
       if (!setter.validate(utcDate, subFnOptions)) {
         return new Date(NaN);
       }
-
-      var result = setter.set(utcDate, flags, subFnOptions); // Result is tuple (date, flags)
-
+      var result = setter.set(utcDate, flags, subFnOptions);
+      // Result is tuple (date, flags)
       if (Array.isArray(result)) {
         utcDate = result[0];
-        assign(flags, result[1]); // Result is date
+        assign(flags, result[1]);
+        // Result is date
       } else {
         utcDate = result;
       }
@@ -11940,10 +10581,8 @@ function parse(dirtyDateString, dirtyFormatString, dirtyReferenceDate, options) 
   } finally {
     _iterator2.f();
   }
-
   return utcDate;
 }
-
 function cleanEscapedString$1(input) {
   return input.match(escapedStringRegExp$1)[1].replace(doubleQuoteRegExp$1, "'");
 }
@@ -12262,7 +10901,6 @@ function isMatch(dateString, formatString, options) {
  * const result = isMonday(new Date(2014, 8, 22))
  * //=> true
  */
-
 function isMonday(date) {
   requiredArgs(1, arguments);
   return toDate(date).getDay() === 1;
@@ -12289,7 +10927,6 @@ function isMonday(date) {
  * const result = isPast(new Date(2014, 6, 2))
  * //=> true
  */
-
 function isPast(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getTime() < Date.now();
@@ -12313,7 +10950,6 @@ function isPast(dirtyDate) {
  * const result = startOfHour(new Date(2014, 8, 2, 11, 55))
  * //=> Tue Sep 02 2014 11:00:00
  */
-
 function startOfHour(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -12344,7 +10980,6 @@ function startOfHour(dirtyDate) {
  * const result = isSameHour(new Date(2014, 8, 4, 6, 0), new Date(2014, 8, 5, 6, 0))
  * //=> false
  */
-
 function isSameHour(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeftStartOfHour = startOfHour(dirtyDateLeft);
@@ -12419,7 +11054,6 @@ function isSameWeek(dirtyDateLeft, dirtyDateRight, options) {
  * const result = isSameISOWeek(new Date(2014, 8, 1), new Date(2015, 8, 1))
  * //=> false
  */
-
 function isSameISOWeek(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   return isSameWeek(dirtyDateLeft, dirtyDateRight, {
@@ -12447,7 +11081,6 @@ function isSameISOWeek(dirtyDateLeft, dirtyDateRight) {
  * const result = isSameISOWeekYear(new Date(2003, 11, 29), new Date(2005, 0, 2))
  * //=> true
  */
-
 function isSameISOWeekYear(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeftStartOfYear = startOfISOWeekYear(dirtyDateLeft);
@@ -12484,7 +11117,6 @@ function isSameISOWeekYear(dirtyDateLeft, dirtyDateRight) {
  * )
  * //=> false
  */
-
 function isSameMinute(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeftStartOfMinute = startOfMinute(dirtyDateLeft);
@@ -12515,7 +11147,6 @@ function isSameMinute(dirtyDateLeft, dirtyDateRight) {
  * const result = isSameMonth(new Date(2014, 8, 2), new Date(2015, 8, 25))
  * //=> false
  */
-
 function isSameMonth(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
@@ -12546,7 +11177,6 @@ function isSameMonth(dirtyDateLeft, dirtyDateRight) {
  * const result = isSameQuarter(new Date(2014, 0, 1), new Date(2015, 0, 1))
  * //=> false
  */
-
 function isSameQuarter(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeftStartOfQuarter = startOfQuarter(dirtyDateLeft);
@@ -12572,7 +11202,6 @@ function isSameQuarter(dirtyDateLeft, dirtyDateRight) {
  * const result = startOfSecond(new Date(2014, 11, 1, 22, 15, 45, 400))
  * //=> Mon Dec 01 2014 22:15:45.000
  */
-
 function startOfSecond(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -12617,7 +11246,6 @@ function startOfSecond(dirtyDate) {
  * )
  * //=> false
  */
-
 function isSameSecond(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeftStartOfSecond = startOfSecond(dirtyDateLeft);
@@ -12643,7 +11271,6 @@ function isSameSecond(dirtyDateLeft, dirtyDateRight) {
  * const result = isSameYear(new Date(2014, 8, 2), new Date(2014, 8, 25))
  * //=> true
  */
-
 function isSameYear(dirtyDateLeft, dirtyDateRight) {
   requiredArgs(2, arguments);
   var dateLeft = toDate(dirtyDateLeft);
@@ -12673,7 +11300,6 @@ function isSameYear(dirtyDateLeft, dirtyDateRight) {
  * const result = isThisHour(new Date(2014, 8, 25, 18))
  * //=> true
  */
-
 function isThisHour(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameHour(Date.now(), dirtyDate);
@@ -12702,7 +11328,6 @@ function isThisHour(dirtyDate) {
  * const result = isThisISOWeek(new Date(2014, 8, 22))
  * //=> true
  */
-
 function isThisISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameISOWeek(dirtyDate, Date.now());
@@ -12730,7 +11355,6 @@ function isThisISOWeek(dirtyDate) {
  * const result = isThisMinute(new Date(2014, 8, 25, 18, 30))
  * //=> true
  */
-
 function isThisMinute(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameMinute(Date.now(), dirtyDate);
@@ -12757,7 +11381,6 @@ function isThisMinute(dirtyDate) {
  * const result = isThisMonth(new Date(2014, 8, 15))
  * //=> true
  */
-
 function isThisMonth(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameMonth(Date.now(), dirtyDate);
@@ -12784,7 +11407,6 @@ function isThisMonth(dirtyDate) {
  * const result = isThisQuarter(new Date(2014, 6, 2))
  * //=> true
  */
-
 function isThisQuarter(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameQuarter(Date.now(), dirtyDate);
@@ -12812,7 +11434,6 @@ function isThisQuarter(dirtyDate) {
  * const result = isThisSecond(new Date(2014, 8, 25, 18, 30, 15))
  * //=> true
  */
-
 function isThisSecond(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameSecond(Date.now(), dirtyDate);
@@ -12849,6 +11470,7 @@ function isThisSecond(dirtyDate) {
  * const result = isThisWeek(new Date(2014, 8, 21), { weekStartsOn: 1 })
  * //=> false
  */
+
 function isThisWeek(dirtyDate, options) {
   requiredArgs(1, arguments);
   return isSameWeek(dirtyDate, Date.now(), options);
@@ -12875,7 +11497,6 @@ function isThisWeek(dirtyDate, options) {
  * const result = isThisYear(new Date(2014, 6, 2))
  * //=> true
  */
-
 function isThisYear(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameYear(dirtyDate, Date.now());
@@ -12898,7 +11519,6 @@ function isThisYear(dirtyDate) {
  * const result = isThursday(new Date(2014, 8, 25))
  * //=> true
  */
-
 function isThursday(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getDay() === 4;
@@ -12925,7 +11545,6 @@ function isThursday(dirtyDate) {
  * const result = isToday(new Date(2014, 9, 6, 14, 0))
  * //=> true
  */
-
 function isToday(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameDay(dirtyDate, Date.now());
@@ -12952,7 +11571,6 @@ function isToday(dirtyDate) {
  * const result = isTomorrow(new Date(2014, 9, 7, 14, 0))
  * //=> true
  */
-
 function isTomorrow(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameDay(dirtyDate, addDays(Date.now(), 1));
@@ -12975,7 +11593,6 @@ function isTomorrow(dirtyDate) {
  * const result = isTuesday(new Date(2014, 8, 23))
  * //=> true
  */
-
 function isTuesday(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getDay() === 2;
@@ -12998,7 +11615,6 @@ function isTuesday(dirtyDate) {
  * const result = isWednesday(new Date(2014, 8, 24))
  * //=> true
  */
-
 function isWednesday(dirtyDate) {
   requiredArgs(1, arguments);
   return toDate(dirtyDate).getDay() === 3;
@@ -13047,12 +11663,12 @@ function isWithinInterval(dirtyDate, interval) {
   requiredArgs(2, arguments);
   var time = toDate(dirtyDate).getTime();
   var startTime = toDate(interval.start).getTime();
-  var endTime = toDate(interval.end).getTime(); // Throw an exception if start date is after end date or if any date is `Invalid Date`
+  var endTime = toDate(interval.end).getTime();
 
+  // Throw an exception if start date is after end date or if any date is `Invalid Date`
   if (!(startTime <= endTime)) {
     throw new RangeError('Invalid interval');
   }
-
   return time >= startTime && time <= endTime;
 }
 
@@ -13074,7 +11690,6 @@ function isWithinInterval(dirtyDate, interval) {
  * const result = subDays(new Date(2014, 8, 1), 10)
  * //=> Fri Aug 22 2014 00:00:00
  */
-
 function subDays(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -13102,7 +11717,6 @@ function subDays(dirtyDate, dirtyAmount) {
  * const result = isYesterday(new Date(2014, 9, 5, 14, 0))
  * //=> true
  */
-
 function isYesterday(dirtyDate) {
   requiredArgs(1, arguments);
   return isSameDay(dirtyDate, subDays(Date.now(), 1));
@@ -13125,7 +11739,6 @@ function isYesterday(dirtyDate) {
  * const result = lastDayOfDecade(new Date(2012, 11, 21, 21, 12, 00))
  * //=> Wed Dec 31 2019 00:00:00
  */
-
 function lastDayOfDecade(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -13163,18 +11776,16 @@ function lastDayOfDecade(dirtyDate) {
  * const result = lastDayOfWeek(new Date(2014, 8, 2, 11, 55, 0), { weekStartsOn: 1 })
  * //=> Sun Sep 07 2014 00:00:00
  */
-
 function lastDayOfWeek(dirtyDate, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(1, arguments);
   var defaultOptions = getDefaultOptions$1();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6');
   }
-
   var date = toDate(dirtyDate);
   var day = date.getDay();
   var diff = (day < weekStartsOn ? -7 : 0) + 6 - (day - weekStartsOn);
@@ -13203,7 +11814,6 @@ function lastDayOfWeek(dirtyDate, options) {
  * const result = lastDayOfISOWeek(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Sun Sep 07 2014 00:00:00
  */
-
 function lastDayOfISOWeek(dirtyDate) {
   requiredArgs(1, arguments);
   return lastDayOfWeek(dirtyDate, {
@@ -13232,7 +11842,6 @@ function lastDayOfISOWeek(dirtyDate) {
  * const result = lastDayOfISOWeekYear(new Date(2005, 6, 2))
  * //=> Sun Jan 01 2006 00:00:00
  */
-
 function lastDayOfISOWeekYear(dirtyDate) {
   requiredArgs(1, arguments);
   var year = getISOWeekYear(dirtyDate);
@@ -13265,7 +11874,6 @@ function lastDayOfISOWeekYear(dirtyDate) {
  * const result = lastDayOfQuarter(new Date(2014, 8, 2, 11, 55, 0))
  * //=> Tue Sep 30 2014 00:00:00
  */
-
 function lastDayOfQuarter(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -13294,7 +11902,6 @@ function lastDayOfQuarter(dirtyDate) {
  * const result = lastDayOfYear(new Date(2014, 8, 2, 11, 55, 00))
  * //=> Wed Dec 31 2014 00:00:00
  */
-
 function lastDayOfYear(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -13312,11 +11919,11 @@ function lastDayOfYear(dirtyDate) {
 //   If there is no matching single quote
 //   then the sequence will continue until the end of the string.
 // - . matches any single character unmatched by previous parts of the RegExps
-
 var formattingTokensRegExp = /(\w)\1*|''|'(''|[^'])+('|$)|./g;
 var escapedStringRegExp = /^'([^]*?)'?$/;
 var doubleQuoteRegExp = /''/g;
 var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
+
 /**
  * @name lightFormat
  * @category Common Helpers
@@ -13376,59 +11983,51 @@ var unescapedLatinCharacterRegExp = /[a-zA-Z]/;
 function lightFormat(dirtyDate, formatStr) {
   requiredArgs(2, arguments);
   var originalDate = toDate(dirtyDate);
-
   if (!isValid(originalDate)) {
     throw new RangeError('Invalid time value');
-  } // Convert the date in system timezone to the same date in UTC+00:00 timezone.
+  }
+
+  // Convert the date in system timezone to the same date in UTC+00:00 timezone.
   // This ensures that when UTC functions will be implemented, locales will be compatible with them.
   // See an issue about UTC functions: https://github.com/date-fns/date-fns/issues/376
-
-
   var timezoneOffset = getTimezoneOffsetInMilliseconds(originalDate);
   var utcDate = subMilliseconds(originalDate, timezoneOffset);
-  var tokens = formatStr.match(formattingTokensRegExp); // The only case when formattingTokensRegExp doesn't match the string is when it's empty
+  var tokens = formatStr.match(formattingTokensRegExp);
 
+  // The only case when formattingTokensRegExp doesn't match the string is when it's empty
   if (!tokens) return '';
   var result = tokens.map(function (substring) {
     // Replace two single quote characters with one single quote character
     if (substring === "''") {
       return "'";
     }
-
     var firstCharacter = substring[0];
-
     if (firstCharacter === "'") {
       return cleanEscapedString(substring);
     }
-
     var formatter = formatters$1[firstCharacter];
-
     if (formatter) {
       return formatter(utcDate, substring);
     }
-
     if (firstCharacter.match(unescapedLatinCharacterRegExp)) {
       throw new RangeError('Format string contains an unescaped latin alphabet character `' + firstCharacter + '`');
     }
-
     return substring;
   }).join('');
   return result;
 }
-
 function cleanEscapedString(input) {
   var matches = input.match(escapedStringRegExp);
-
   if (!matches) {
     return input;
   }
-
   return matches[1].replace(doubleQuoteRegExp, "'");
 }
 
 // Leap year occures every 4 years, except for years that are divisable by 100 and not divisable by 400.
 // 1 mean year = (365+1/4-1/100+1/400) days = 365.2425 days
 var daysInYear = 365.2425;
+
 /**
  * @name milliseconds
  * @category Millisecond Helpers
@@ -13458,15 +12057,14 @@ var daysInYear = 365.2425;
  * milliseconds({ months: 3 })
  * //=> 7889238000
  */
-
 function milliseconds(_ref) {
   var years = _ref.years,
-      months = _ref.months,
-      weeks = _ref.weeks,
-      days = _ref.days,
-      hours = _ref.hours,
-      minutes = _ref.minutes,
-      seconds = _ref.seconds;
+    months = _ref.months,
+    weeks = _ref.weeks,
+    days = _ref.days,
+    hours = _ref.hours,
+    minutes = _ref.minutes,
+    seconds = _ref.seconds;
   requiredArgs(1, arguments);
   var totalDays = 0;
   if (years) totalDays += years * daysInYear;
@@ -13503,7 +12101,6 @@ function milliseconds(_ref) {
  * const result = millisecondsToHours(7199999)
  * //=> 1
  */
-
 function millisecondsToHours(milliseconds) {
   requiredArgs(1, arguments);
   var hours = milliseconds / millisecondsInHour;
@@ -13533,7 +12130,6 @@ function millisecondsToHours(milliseconds) {
  * const result = millisecondsToMinutes(119999)
  * //=> 1
  */
-
 function millisecondsToMinutes(milliseconds) {
   requiredArgs(1, arguments);
   var minutes = milliseconds / millisecondsInMinute;
@@ -13563,7 +12159,6 @@ function millisecondsToMinutes(milliseconds) {
  * const result = millisecondsToSeconds(1999)
  * //=> 1
  */
-
 function millisecondsToSeconds(milliseconds) {
   requiredArgs(1, arguments);
   var seconds = milliseconds / millisecondsInSecond;
@@ -13593,7 +12188,6 @@ function millisecondsToSeconds(milliseconds) {
  * const result = minutesToHours(179)
  * //=> 2
  */
-
 function minutesToHours(minutes) {
   requiredArgs(1, arguments);
   var hours = minutes / minutesInHour;
@@ -13618,7 +12212,6 @@ function minutesToHours(minutes) {
  * const result = minutesToMilliseconds(2)
  * //=> 120000
  */
-
 function minutesToMilliseconds(minutes) {
   requiredArgs(1, arguments);
   return Math.floor(minutes * millisecondsInMinute);
@@ -13642,7 +12235,6 @@ function minutesToMilliseconds(minutes) {
  * const result = minutesToSeconds(2)
  * //=> 120
  */
-
 function minutesToSeconds(minutes) {
   requiredArgs(1, arguments);
   return Math.floor(minutes * secondsInMinute);
@@ -13671,7 +12263,6 @@ function minutesToSeconds(minutes) {
  * const result = monthsToQuarters(7)
  * //=> 2
  */
-
 function monthsToQuarters(months) {
   requiredArgs(1, arguments);
   var quarters = months / monthsInQuarter;
@@ -13700,7 +12291,6 @@ function monthsToQuarters(months) {
  * const result = monthsToYears(40)
  * //=> 3
  */
-
 function monthsToYears(months) {
   requiredArgs(1, arguments);
   var years = months / monthsInYear;
@@ -13730,7 +12320,6 @@ function monthsToYears(months) {
  * const result = nextDay(new Date(2020, 2, 21), 2)
  * //=> Tue Mar 24 2020 00:00:00
  */
-
 function nextDay(date, day) {
   requiredArgs(2, arguments);
   var delta = day - getDay(date);
@@ -13755,7 +12344,6 @@ function nextDay(date, day) {
  * const result = nextFriday(new Date(2020, 2, 22))
  * //=> Fri Mar 27 2020 00:00:00
  */
-
 function nextFriday(date) {
   requiredArgs(1, arguments);
   return nextDay(date, 5);
@@ -13778,7 +12366,6 @@ function nextFriday(date) {
  * const result = nextMonday(new Date(2020, 2, 22))
  * //=> Mon Mar 23 2020 00:00:00
  */
-
 function nextMonday(date) {
   requiredArgs(1, arguments);
   return nextDay(date, 1);
@@ -13801,7 +12388,6 @@ function nextMonday(date) {
  * const result = nextSaturday(new Date(2020, 2, 22))
  * //=> Sat Mar 28 2020 00:00:00
  */
-
 function nextSaturday(date) {
   requiredArgs(1, arguments);
   return nextDay(date, 6);
@@ -13824,7 +12410,6 @@ function nextSaturday(date) {
  * const result = nextSunday(new Date(2020, 2, 22))
  * //=> Sun Mar 29 2020 00:00:00
  */
-
 function nextSunday(date) {
   requiredArgs(1, arguments);
   return nextDay(date, 0);
@@ -13847,7 +12432,6 @@ function nextSunday(date) {
  * const result = nextThursday(new Date(2020, 2, 22))
  * //=> Thur Mar 26 2020 00:00:00
  */
-
 function nextThursday(date) {
   requiredArgs(1, arguments);
   return nextDay(date, 4);
@@ -13870,7 +12454,6 @@ function nextThursday(date) {
  * const result = nextTuesday(new Date(2020, 2, 22))
  * //=> Tue Mar 24 2020 00:00:00
  */
-
 function nextTuesday(date) {
   requiredArgs(1, arguments);
   return nextDay(date, 2);
@@ -13893,7 +12476,6 @@ function nextTuesday(date) {
  * const result = nextWednesday(new Date(2020, 2, 22))
  * //=> Wed Mar 25 2020 00:00:00
  */
-
 function nextWednesday(date) {
   requiredArgs(1, arguments);
   return nextDay(date, 3);
@@ -13931,64 +12513,51 @@ function nextWednesday(date) {
  * const result = parseISO('+02014101', { additionalDigits: 1 })
  * //=> Fri Apr 11 2014 00:00:00
  */
-
 function parseISO(argument, options) {
   var _options$additionalDi;
-
   requiredArgs(1, arguments);
   var additionalDigits = toInteger((_options$additionalDi = options === null || options === void 0 ? void 0 : options.additionalDigits) !== null && _options$additionalDi !== void 0 ? _options$additionalDi : 2);
-
   if (additionalDigits !== 2 && additionalDigits !== 1 && additionalDigits !== 0) {
     throw new RangeError('additionalDigits must be 0, 1 or 2');
   }
-
   if (!(typeof argument === 'string' || Object.prototype.toString.call(argument) === '[object String]')) {
     return new Date(NaN);
   }
-
   var dateStrings = splitDateString(argument);
   var date;
-
   if (dateStrings.date) {
     var parseYearResult = parseYear(dateStrings.date, additionalDigits);
     date = parseDate(parseYearResult.restDateString, parseYearResult.year);
   }
-
   if (!date || isNaN(date.getTime())) {
     return new Date(NaN);
   }
-
   var timestamp = date.getTime();
   var time = 0;
   var offset;
-
   if (dateStrings.time) {
     time = parseTime(dateStrings.time);
-
     if (isNaN(time)) {
       return new Date(NaN);
     }
   }
-
   if (dateStrings.timezone) {
     offset = parseTimezone(dateStrings.timezone);
-
     if (isNaN(offset)) {
       return new Date(NaN);
     }
   } else {
-    var dirtyDate = new Date(timestamp + time); // js parsed string assuming it's in UTC timezone
+    var dirtyDate = new Date(timestamp + time);
+    // js parsed string assuming it's in UTC timezone
     // but we need it to be parsed in our timezone
     // so we use utc values to build date in our timezone.
     // Year values from 0 to 99 map to the years 1900 to 1999
     // so set year explicitly with setFullYear.
-
     var result = new Date(0);
     result.setFullYear(dirtyDate.getUTCFullYear(), dirtyDate.getUTCMonth(), dirtyDate.getUTCDate());
     result.setHours(dirtyDate.getUTCHours(), dirtyDate.getUTCMinutes(), dirtyDate.getUTCSeconds(), dirtyDate.getUTCMilliseconds());
     return result;
   }
-
   return new Date(timestamp + time + offset);
 }
 var patterns = {
@@ -13999,32 +12568,28 @@ var patterns = {
 var dateRegex = /^-?(?:(\d{3})|(\d{2})(?:-?(\d{2}))?|W(\d{2})(?:-?(\d{1}))?|)$/;
 var timeRegex = /^(\d{2}(?:[.,]\d*)?)(?::?(\d{2}(?:[.,]\d*)?))?(?::?(\d{2}(?:[.,]\d*)?))?$/;
 var timezoneRegex = /^([+-])(\d{2})(?::?(\d{2}))?$/;
-
 function splitDateString(dateString) {
   var dateStrings = {};
   var array = dateString.split(patterns.dateTimeDelimiter);
-  var timeString; // The regex match should only return at maximum two array elements.
-  // [date], [time], or [date, time].
+  var timeString;
 
+  // The regex match should only return at maximum two array elements.
+  // [date], [time], or [date, time].
   if (array.length > 2) {
     return dateStrings;
   }
-
   if (/:/.test(array[0])) {
     timeString = array[0];
   } else {
     dateStrings.date = array[0];
     timeString = array[1];
-
     if (patterns.timeZoneDelimiter.test(dateStrings.date)) {
       dateStrings.date = dateString.split(patterns.timeZoneDelimiter)[0];
       timeString = dateString.substr(dateStrings.date.length, dateString.length);
     }
   }
-
   if (timeString) {
     var token = patterns.timezone.exec(timeString);
-
     if (token) {
       dateStrings.time = timeString.replace(token[1], '');
       dateStrings.timezone = token[1];
@@ -14032,32 +12597,30 @@ function splitDateString(dateString) {
       dateStrings.time = timeString;
     }
   }
-
   return dateStrings;
 }
-
 function parseYear(dateString, additionalDigits) {
   var regex = new RegExp('^(?:(\\d{4}|[+-]\\d{' + (4 + additionalDigits) + '})|(\\d{2}|[+-]\\d{' + (2 + additionalDigits) + '})$)');
-  var captures = dateString.match(regex); // Invalid ISO-formatted year
-
+  var captures = dateString.match(regex);
+  // Invalid ISO-formatted year
   if (!captures) return {
     year: NaN,
     restDateString: ''
   };
   var year = captures[1] ? parseInt(captures[1]) : null;
-  var century = captures[2] ? parseInt(captures[2]) : null; // either year or century is null, not both
+  var century = captures[2] ? parseInt(captures[2]) : null;
 
+  // either year or century is null, not both
   return {
     year: century === null ? year : century * 100,
     restDateString: dateString.slice((captures[1] || captures[2]).length)
   };
 }
-
 function parseDate(dateString, year) {
   // Invalid ISO-formatted year
   if (year === null) return new Date(NaN);
-  var captures = dateString.match(dateRegex); // Invalid ISO-formatted string
-
+  var captures = dateString.match(dateRegex);
+  // Invalid ISO-formatted string
   if (!captures) return new Date(NaN);
   var isWeekDate = !!captures[4];
   var dayOfYear = parseDateUnit(captures[1]);
@@ -14065,29 +12628,23 @@ function parseDate(dateString, year) {
   var day = parseDateUnit(captures[3]);
   var week = parseDateUnit(captures[4]);
   var dayOfWeek = parseDateUnit(captures[5]) - 1;
-
   if (isWeekDate) {
     if (!validateWeekDate(year, week, dayOfWeek)) {
       return new Date(NaN);
     }
-
     return dayOfISOWeekYear(year, week, dayOfWeek);
   } else {
     var date = new Date(0);
-
     if (!validateDate(year, month, day) || !validateDayOfYearDate(year, dayOfYear)) {
       return new Date(NaN);
     }
-
     date.setUTCFullYear(year, month, Math.max(dayOfYear, day));
     return date;
   }
 }
-
 function parseDateUnit(value) {
   return value ? parseInt(value) : 1;
 }
-
 function parseTime(timeString) {
   var captures = timeString.match(timeRegex);
   if (!captures) return NaN; // Invalid ISO-formatted time
@@ -14095,18 +12652,14 @@ function parseTime(timeString) {
   var hours = parseTimeUnit(captures[1]);
   var minutes = parseTimeUnit(captures[2]);
   var seconds = parseTimeUnit(captures[3]);
-
   if (!validateTime(hours, minutes, seconds)) {
     return NaN;
   }
-
   return hours * millisecondsInHour + minutes * millisecondsInMinute + seconds * 1000;
 }
-
 function parseTimeUnit(value) {
   return value && parseFloat(value.replace(',', '.')) || 0;
 }
-
 function parseTimezone(timezoneString) {
   if (timezoneString === 'Z') return 0;
   var captures = timezoneString.match(timezoneRegex);
@@ -14114,14 +12667,11 @@ function parseTimezone(timezoneString) {
   var sign = captures[1] === '+' ? -1 : 1;
   var hours = parseInt(captures[2]);
   var minutes = captures[3] && parseInt(captures[3]) || 0;
-
   if (!validateTimezone(hours, minutes)) {
     return NaN;
   }
-
   return sign * (hours * millisecondsInHour + minutes * millisecondsInMinute);
 }
-
 function dayOfISOWeekYear(isoWeekYear, week, day) {
   var date = new Date(0);
   date.setUTCFullYear(isoWeekYear, 0, 4);
@@ -14129,36 +12679,30 @@ function dayOfISOWeekYear(isoWeekYear, week, day) {
   var diff = (week - 1) * 7 + day + 1 - fourthOfJanuaryDay;
   date.setUTCDate(date.getUTCDate() + diff);
   return date;
-} // Validation functions
+}
+
+// Validation functions
+
 // February is null to handle the leap year (using ||)
-
-
 var daysInMonths = [31, null, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
 function isLeapYearIndex(year) {
   return year % 400 === 0 || year % 4 === 0 && year % 100 !== 0;
 }
-
 function validateDate(year, month, date) {
   return month >= 0 && month <= 11 && date >= 1 && date <= (daysInMonths[month] || (isLeapYearIndex(year) ? 29 : 28));
 }
-
 function validateDayOfYearDate(year, dayOfYear) {
   return dayOfYear >= 1 && dayOfYear <= (isLeapYearIndex(year) ? 366 : 365);
 }
-
 function validateWeekDate(_year, week, day) {
   return week >= 1 && week <= 53 && day >= 0 && day <= 6;
 }
-
 function validateTime(hours, minutes, seconds) {
   if (hours === 24) {
     return minutes === 0 && seconds === 0;
   }
-
   return seconds >= 0 && seconds < 60 && minutes >= 0 && minutes < 60 && hours >= 0 && hours < 25;
 }
-
 function validateTimezone(_hours, minutes) {
   return minutes >= 0 && minutes <= 59;
 }
@@ -14197,21 +12741,16 @@ function validateTimezone(_hours, minutes) {
  * @returns {Date} the parsed date in the local time zone
  * @throws {TypeError} 1 argument required
  */
-
 function parseJSON(argument) {
   requiredArgs(1, arguments);
-
   if (typeof argument === 'string') {
     var parts = argument.match(/(\d{4})-(\d{2})-(\d{2})[T ](\d{2}):(\d{2}):(\d{2})(?:\.(\d{0,7}))?(?:Z|(.)(\d{2}):?(\d{2})?)?/);
-
     if (parts) {
       // Group 8 matches the sign
       return new Date(Date.UTC(+parts[1], +parts[2] - 1, +parts[3], +parts[4] - (+parts[9] || 0) * (parts[8] == '-' ? -1 : 1), +parts[5] - (+parts[10] || 0) * (parts[8] == '-' ? -1 : 1), +parts[6], +((parts[7] || '0') + '00').substring(0, 3)));
     }
-
     return new Date(NaN);
   }
-
   return toDate(argument);
 }
 
@@ -14262,7 +12801,6 @@ function previousDay(date, day) {
  * const result = previousFriday(new Date(2021, 5, 19))
  * //=> Fri June 18 2021 00:00:00
  */
-
 function previousFriday(date) {
   requiredArgs(1, arguments);
   return previousDay(date, 5);
@@ -14285,7 +12823,6 @@ function previousFriday(date) {
  * const result = previousMonday(new Date(2021, 5, 18))
  * //=> Mon June 14 2021 00:00:00
  */
-
 function previousMonday(date) {
   requiredArgs(1, arguments);
   return previousDay(date, 1);
@@ -14308,7 +12845,6 @@ function previousMonday(date) {
  * const result = previousSaturday(new Date(2021, 5, 20))
  * //=> Sat June 19 2021 00:00:00
  */
-
 function previousSaturday(date) {
   requiredArgs(1, arguments);
   return previousDay(date, 6);
@@ -14331,7 +12867,6 @@ function previousSaturday(date) {
  * const result = previousSunday(new Date(2021, 5, 21))
  * //=> Sun June 20 2021 00:00:00
  */
-
 function previousSunday(date) {
   requiredArgs(1, arguments);
   return previousDay(date, 0);
@@ -14354,7 +12889,6 @@ function previousSunday(date) {
  * const result = previousThursday(new Date(2021, 5, 18))
  * //=> Thu June 17 2021 00:00:00
  */
-
 function previousThursday(date) {
   requiredArgs(1, arguments);
   return previousDay(date, 4);
@@ -14377,7 +12911,6 @@ function previousThursday(date) {
  * const result = previousTuesday(new Date(2021, 5, 18))
  * //=> Tue June 15 2021 00:00:00
  */
-
 function previousTuesday(date) {
   requiredArgs(1, arguments);
   return previousDay(date, 2);
@@ -14400,7 +12933,6 @@ function previousTuesday(date) {
  * const result = previousWednesday(new Date(2021, 5, 18))
  * //=> Wed June 16 2021 00:00:00
  */
-
 function previousWednesday(date) {
   requiredArgs(1, arguments);
   return previousDay(date, 3);
@@ -14424,7 +12956,6 @@ function previousWednesday(date) {
  * const result = quartersToMonths(2)
  * //=> 6
  */
-
 function quartersToMonths(quarters) {
   requiredArgs(1, arguments);
   return Math.floor(quarters * monthsInQuarter);
@@ -14453,7 +12984,6 @@ function quartersToMonths(quarters) {
  * const result = quartersToYears(11)
  * //=> 2
  */
-
 function quartersToYears(quarters) {
   requiredArgs(1, arguments);
   var years = quarters / quartersInYear;
@@ -14488,23 +13018,17 @@ function quartersToYears(quarters) {
  * // rounds up because given date is exactly between 12:00:00 and 12:15:00
  * //=> Thu Jul 10 2014 12:15:00
  */
-
 function roundToNearestMinutes(dirtyDate, options) {
   var _options$nearestTo;
-
   if (arguments.length < 1) {
     throw new TypeError('1 argument required, but only none provided present');
   }
-
   var nearestTo = toInteger((_options$nearestTo = options === null || options === void 0 ? void 0 : options.nearestTo) !== null && _options$nearestTo !== void 0 ? _options$nearestTo : 1);
-
   if (nearestTo < 1 || nearestTo > 30) {
     throw new RangeError('`options.nearestTo` must be between 1 and 30');
   }
-
   var date = toDate(dirtyDate);
   var seconds = date.getSeconds(); // relevant if nearestTo is 1, which is the default case
-
   var minutes = date.getMinutes() + seconds / 60;
   var roundingMethod = getRoundingMethod(options === null || options === void 0 ? void 0 : options.roundingMethod);
   var roundedMinutes = roundingMethod(minutes / nearestTo) * nearestTo;
@@ -14536,7 +13060,6 @@ function roundToNearestMinutes(dirtyDate, options) {
  * const result = secondsToHours(7199)
  * //=> 1
  */
-
 function secondsToHours(seconds) {
   requiredArgs(1, arguments);
   var hours = seconds / secondsInHour;
@@ -14561,7 +13084,6 @@ function secondsToHours(seconds) {
  * const result = secondsToMilliseconds(2)
  * //=> 2000
  */
-
 function secondsToMilliseconds(seconds) {
   requiredArgs(1, arguments);
   return seconds * millisecondsInSecond;
@@ -14590,7 +13112,6 @@ function secondsToMilliseconds(seconds) {
  * const result = secondsToMinutes(119)
  * //=> 1
  */
-
 function secondsToMinutes(seconds) {
   requiredArgs(1, arguments);
   var minutes = seconds / secondsInMinute;
@@ -14615,7 +13136,6 @@ function secondsToMinutes(seconds) {
  * const result = setMonth(new Date(2014, 8, 1), 1)
  * //=> Sat Feb 01 2014 00:00:00
  */
-
 function setMonth(dirtyDate, dirtyMonth) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -14625,14 +13145,12 @@ function setMonth(dirtyDate, dirtyMonth) {
   var dateWithDesiredMonth = new Date(0);
   dateWithDesiredMonth.setFullYear(year, month, 15);
   dateWithDesiredMonth.setHours(0, 0, 0, 0);
-  var daysInMonth = getDaysInMonth(dateWithDesiredMonth); // Set the last day of the new month
+  var daysInMonth = getDaysInMonth(dateWithDesiredMonth);
+  // Set the last day of the new month
   // if the original date was the last day of the longer month
-
   date.setMonth(month, Math.min(day, daysInMonth));
   return date;
 }
-
-function _typeof$1(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof$1 = function _typeof(obj) { return typeof obj; }; } else { _typeof$1 = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof$1(obj); }
 
 /**
  * @name set
@@ -14674,45 +13192,36 @@ function _typeof$1(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "func
  */
 function set(dirtyDate, values) {
   requiredArgs(2, arguments);
-
-  if (_typeof$1(values) !== 'object' || values === null) {
+  if (_typeof(values) !== 'object' || values === null) {
     throw new RangeError('values parameter must be an object');
   }
+  var date = toDate(dirtyDate);
 
-  var date = toDate(dirtyDate); // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
-
+  // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
   if (isNaN(date.getTime())) {
     return new Date(NaN);
   }
-
   if (values.year != null) {
     date.setFullYear(values.year);
   }
-
   if (values.month != null) {
     date = setMonth(date, values.month);
   }
-
   if (values.date != null) {
     date.setDate(toInteger(values.date));
   }
-
   if (values.hours != null) {
     date.setHours(toInteger(values.hours));
   }
-
   if (values.minutes != null) {
     date.setMinutes(toInteger(values.minutes));
   }
-
   if (values.seconds != null) {
     date.setSeconds(toInteger(values.seconds));
   }
-
   if (values.milliseconds != null) {
     date.setMilliseconds(toInteger(values.milliseconds));
   }
-
   return date;
 }
 
@@ -14734,7 +13243,6 @@ function set(dirtyDate, values) {
  * const result = setDate(new Date(2014, 8, 1), 30)
  * //=> Tue Sep 30 2014 00:00:00
  */
-
 function setDate(dirtyDate, dirtyDayOfMonth) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -14770,18 +13278,16 @@ function setDate(dirtyDate, dirtyDayOfMonth) {
  * const result = setDay(new Date(2014, 8, 1), 0, { weekStartsOn: 1 })
  * //=> Sun Sep 07 2014 00:00:00
  */
-
 function setDay(dirtyDate, dirtyDay, options) {
   var _ref, _ref2, _ref3, _options$weekStartsOn, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(2, arguments);
   var defaultOptions = getDefaultOptions$1();
-  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0); // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
+  var weekStartsOn = toInteger((_ref = (_ref2 = (_ref3 = (_options$weekStartsOn = options === null || options === void 0 ? void 0 : options.weekStartsOn) !== null && _options$weekStartsOn !== void 0 ? _options$weekStartsOn : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.weekStartsOn) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.weekStartsOn) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.weekStartsOn) !== null && _ref !== void 0 ? _ref : 0);
 
+  // Test if weekStartsOn is between 0 and 6 _and_ is not NaN
   if (!(weekStartsOn >= 0 && weekStartsOn <= 6)) {
     throw new RangeError('weekStartsOn must be between 0 and 6 inclusively');
   }
-
   var date = toDate(dirtyDate);
   var day = toInteger(dirtyDay);
   var currentDay = date.getDay();
@@ -14810,7 +13316,6 @@ function setDay(dirtyDate, dirtyDay, options) {
  * const result = setDayOfYear(new Date(2014, 6, 2), 2)
  * //=> Thu Jan 02 2014 00:00:00
  */
-
 function setDayOfYear(dirtyDate, dirtyDayOfYear) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -14869,18 +13374,15 @@ function setDayOfYear(dirtyDate, dirtyDayOfYear) {
  * const result = startOfWeek(new Date(2014, 8, 2))
  * //=> Sun Aug 31 2014 00:00:00
  */
-
 function setDefaultOptions(newOptions) {
   requiredArgs(1, arguments);
   var result = {};
   var defaultOptions = getDefaultOptions$1();
-
   for (var property in defaultOptions) {
     if (Object.prototype.hasOwnProperty.call(defaultOptions, property)) {
       result[property] = defaultOptions[property];
     }
   }
-
   for (var _property in newOptions) {
     if (Object.prototype.hasOwnProperty.call(newOptions, _property)) {
       if (newOptions[_property] === undefined) {
@@ -14890,7 +13392,6 @@ function setDefaultOptions(newOptions) {
       }
     }
   }
-
   setDefaultOptions$1(result);
 }
 
@@ -14912,7 +13413,6 @@ function setDefaultOptions(newOptions) {
  * const result = setHours(new Date(2014, 8, 1, 11, 30), 4)
  * //=> Mon Sep 01 2014 04:30:00
  */
-
 function setHours(dirtyDate, dirtyHours) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -14941,7 +13441,6 @@ function setHours(dirtyDate, dirtyHours) {
  * const result = setISODay(new Date(2014, 8, 1), 7)
  * //=> Sun Sep 07 2014 00:00:00
  */
-
 function setISODay(dirtyDate, dirtyDay) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -14971,7 +13470,6 @@ function setISODay(dirtyDate, dirtyDay) {
  * const result = setISOWeek(new Date(2004, 7, 7), 53)
  * //=> Sat Jan 01 2005 00:00:00
  */
-
 function setISOWeek(dirtyDate, dirtyISOWeek) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -14999,7 +13497,6 @@ function setISOWeek(dirtyDate, dirtyISOWeek) {
  * const result = setMilliseconds(new Date(2014, 8, 1, 11, 30, 40, 500), 300)
  * //=> Mon Sep 01 2014 11:30:40.300
  */
-
 function setMilliseconds(dirtyDate, dirtyMilliseconds) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -15026,7 +13523,6 @@ function setMilliseconds(dirtyDate, dirtyMilliseconds) {
  * const result = setMinutes(new Date(2014, 8, 1, 11, 30, 40), 45)
  * //=> Mon Sep 01 2014 11:45:40
  */
-
 function setMinutes(dirtyDate, dirtyMinutes) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -15053,7 +13549,6 @@ function setMinutes(dirtyDate, dirtyMinutes) {
  * const result = setQuarter(new Date(2014, 6, 2), 2)
  * //=> Wed Apr 02 2014 00:00:00
  */
-
 function setQuarter(dirtyDate, dirtyQuarter) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -15081,7 +13576,6 @@ function setQuarter(dirtyDate, dirtyQuarter) {
  * const result = setSeconds(new Date(2014, 8, 1, 11, 30, 40), 45)
  * //=> Mon Sep 01 2014 11:30:45
  */
-
 function setSeconds(dirtyDate, dirtySeconds) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -15130,7 +13624,6 @@ function setSeconds(dirtyDate, dirtySeconds) {
  * })
  * //=> Sun Jan 4 2004 00:00:00
  */
-
 function setWeek(dirtyDate, dirtyWeek, options) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
@@ -15181,10 +13674,8 @@ function setWeek(dirtyDate, dirtyWeek, options) {
  * })
  * //=> Sat Jan 01 2005 00:00:00
  */
-
 function setWeekYear(dirtyDate, dirtyWeekYear, options) {
   var _ref, _ref2, _ref3, _options$firstWeekCon, _options$locale, _options$locale$optio, _defaultOptions$local, _defaultOptions$local2;
-
   requiredArgs(2, arguments);
   var defaultOptions = getDefaultOptions$1();
   var firstWeekContainsDate = toInteger((_ref = (_ref2 = (_ref3 = (_options$firstWeekCon = options === null || options === void 0 ? void 0 : options.firstWeekContainsDate) !== null && _options$firstWeekCon !== void 0 ? _options$firstWeekCon : options === null || options === void 0 ? void 0 : (_options$locale = options.locale) === null || _options$locale === void 0 ? void 0 : (_options$locale$optio = _options$locale.options) === null || _options$locale$optio === void 0 ? void 0 : _options$locale$optio.firstWeekContainsDate) !== null && _ref3 !== void 0 ? _ref3 : defaultOptions.firstWeekContainsDate) !== null && _ref2 !== void 0 ? _ref2 : (_defaultOptions$local = defaultOptions.locale) === null || _defaultOptions$local === void 0 ? void 0 : (_defaultOptions$local2 = _defaultOptions$local.options) === null || _defaultOptions$local2 === void 0 ? void 0 : _defaultOptions$local2.firstWeekContainsDate) !== null && _ref !== void 0 ? _ref : 1);
@@ -15217,16 +13708,15 @@ function setWeekYear(dirtyDate, dirtyWeekYear, options) {
  * const result = setYear(new Date(2014, 8, 1), 2013)
  * //=> Sun Sep 01 2013 00:00:00
  */
-
 function setYear(dirtyDate, dirtyYear) {
   requiredArgs(2, arguments);
   var date = toDate(dirtyDate);
-  var year = toInteger(dirtyYear); // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
+  var year = toInteger(dirtyYear);
 
+  // Check if date is Invalid Date because Date.prototype.setFullYear ignores the value of Invalid Date
   if (isNaN(date.getTime())) {
     return new Date(NaN);
   }
-
   date.setFullYear(year);
   return date;
 }
@@ -15248,7 +13738,6 @@ function setYear(dirtyDate, dirtyYear) {
  * const result = startOfDecade(new Date(2015, 9, 21, 00, 00, 00))
  * //=> Jan 01 2010 00:00:00
  */
-
 function startOfDecade(dirtyDate) {
   requiredArgs(1, arguments);
   var date = toDate(dirtyDate);
@@ -15278,7 +13767,6 @@ function startOfDecade(dirtyDate) {
  * const result = startOfToday()
  * //=> Mon Oct 6 2014 00:00:00
  */
-
 function startOfToday() {
   return startOfDay(Date.now());
 }
@@ -15361,14 +13849,12 @@ function startOfYesterday() {
  * const result = subMonths(new Date(2015, 1, 1), 5)
  * //=> Mon Sep 01 2014 00:00:00
  */
-
 function subMonths(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
   return addMonths(dirtyDate, -amount);
 }
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 /**
  * @name sub
  * @category Common Helpers
@@ -15408,7 +13894,6 @@ function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "functi
  * })
  * //=> Mon Sep 1 2014 10:19:50
  */
-
 function sub(date, duration) {
   requiredArgs(2, arguments);
   if (!duration || _typeof(duration) !== 'object') return new Date(NaN);
@@ -15418,12 +13903,15 @@ function sub(date, duration) {
   var days = duration.days ? toInteger(duration.days) : 0;
   var hours = duration.hours ? toInteger(duration.hours) : 0;
   var minutes = duration.minutes ? toInteger(duration.minutes) : 0;
-  var seconds = duration.seconds ? toInteger(duration.seconds) : 0; // Subtract years and months
+  var seconds = duration.seconds ? toInteger(duration.seconds) : 0;
 
-  var dateWithoutMonths = subMonths(date, months + years * 12); // Subtract weeks and days
+  // Subtract years and months
+  var dateWithoutMonths = subMonths(date, months + years * 12);
 
-  var dateWithoutDays = subDays(dateWithoutMonths, days + weeks * 7); // Subtract hours, minutes and seconds
+  // Subtract weeks and days
+  var dateWithoutDays = subDays(dateWithoutMonths, days + weeks * 7);
 
+  // Subtract hours, minutes and seconds
   var minutestoSub = minutes + hours * 60;
   var secondstoSub = seconds + minutestoSub * 60;
   var mstoSub = secondstoSub * 1000;
@@ -15449,7 +13937,6 @@ function sub(date, duration) {
  * const result = subBusinessDays(new Date(2014, 8, 1), 10)
  * //=> Mon Aug 18 2014 00:00:00 (skipped weekend days)
  */
-
 function subBusinessDays(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -15474,7 +13961,6 @@ function subBusinessDays(dirtyDate, dirtyAmount) {
  * const result = subHours(new Date(2014, 6, 11, 1, 0), 2)
  * //=> Thu Jul 10 2014 23:00:00
  */
-
 function subHours(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -15499,7 +13985,6 @@ function subHours(dirtyDate, dirtyAmount) {
  * const result = subMinutes(new Date(2014, 6, 10, 12, 0), 30)
  * //=> Thu Jul 10 2014 11:30:00
  */
-
 function subMinutes(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -15524,7 +14009,6 @@ function subMinutes(dirtyDate, dirtyAmount) {
  * const result = subQuarters(new Date(2014, 8, 1), 3)
  * //=> Sun Dec 01 2013 00:00:00
  */
-
 function subQuarters(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -15549,7 +14033,6 @@ function subQuarters(dirtyDate, dirtyAmount) {
  * const result = subSeconds(new Date(2014, 6, 10, 12, 45, 0), 30)
  * //=> Thu Jul 10 2014 12:44:30
  */
-
 function subSeconds(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -15574,7 +14057,6 @@ function subSeconds(dirtyDate, dirtyAmount) {
  * const result = subWeeks(new Date(2014, 8, 1), 4)
  * //=> Mon Aug 04 2014 00:00:00
  */
-
 function subWeeks(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -15599,7 +14081,6 @@ function subWeeks(dirtyDate, dirtyAmount) {
  * const result = subYears(new Date(2014, 8, 1), 5)
  * //=> Tue Sep 01 2009 00:00:00
  */
-
 function subYears(dirtyDate, dirtyAmount) {
   requiredArgs(2, arguments);
   var amount = toInteger(dirtyAmount);
@@ -15624,7 +14105,6 @@ function subYears(dirtyDate, dirtyAmount) {
  * const result = weeksToDays(2)
  * //=> 14
  */
-
 function weeksToDays(weeks) {
   requiredArgs(1, arguments);
   return Math.floor(weeks * daysInWeek);
@@ -15648,7 +14128,6 @@ function weeksToDays(weeks) {
  * const result = yearsToMonths(2)
  * //=> 24
  */
-
 function yearsToMonths(years) {
   requiredArgs(1, arguments);
   return Math.floor(years * monthsInYear);
@@ -15672,7 +14151,6 @@ function yearsToMonths(years) {
  * const result = yearsToQuarters(2)
  * //=> 8
  */
-
 function yearsToQuarters(years) {
   requiredArgs(1, arguments);
   return Math.floor(years * quartersInYear);
@@ -15741,11 +14219,9 @@ var formatDistanceLocale$1g = {
     other: 'byna {{count}} jaar'
   }
 };
-
 var formatDistance$1h = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1g[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -15753,7 +14229,6 @@ var formatDistance$1h = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'oor ' + result;
@@ -15761,7 +14236,6 @@ var formatDistance$1h = function formatDistance(token, count, options) {
       return result + ' gelede';
     }
   }
-
   return result;
 };
 
@@ -15806,7 +14280,6 @@ var formatRelativeLocale$1h = {
   nextWeek: "eeee 'om' p",
   other: 'P'
 };
-
 var formatRelative$1h = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1h[token];
 };
@@ -15896,25 +14369,20 @@ var formattingDayPeriodValues$12 = {
     night: 'uur die aand'
   }
 };
-
 var ordinalNumber$1h = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
-
   if (rem100 < 20) {
     switch (rem100) {
       case 1:
       case 8:
         return number + 'ste';
-
       default:
         return number + 'de';
     }
   }
-
   return number + 'ste';
 };
-
 var localize$1h = {
   ordinalNumber: ordinalNumber$1h,
   era: buildLocalizeFn({
@@ -16047,7 +14515,6 @@ var match$1g = {
  * @iso-639-2 afr
  * @author Marnus Weststrate [@marnusw]{@link https://github.com/marnusw}
  */
-
 var locale$1r = {
   code: 'af',
   formatDistance: formatDistance$1h,
@@ -16056,9 +14523,7 @@ var locale$1r = {
   localize: localize$1h,
   match: match$1g,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -16156,11 +14621,9 @@ var formatDistanceLocale$1f = {
     other: 'ما يقارب {{count}} سنة'
   }
 };
-
 var formatDistance$1g = function formatDistance(token, count, options) {
   var usageGroup = formatDistanceLocale$1f[token];
   var result;
-
   if (typeof usageGroup === 'string') {
     result = usageGroup;
   } else if (count === 1) {
@@ -16172,7 +14635,6 @@ var formatDistance$1g = function formatDistance(token, count, options) {
   } else {
     result = usageGroup.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'خلال ' + result;
@@ -16180,7 +14642,6 @@ var formatDistance$1g = function formatDistance(token, count, options) {
       return 'منذ ' + result;
     }
   }
-
   return result;
 };
 
@@ -16225,7 +14686,6 @@ var formatRelativeLocale$1g = {
   nextWeek: "eeee 'القادم عند الساعة' p",
   other: 'P'
 };
-
 var formatRelative$1g = function formatRelative(token) {
   return formatRelativeLocale$1g[token];
 };
@@ -16315,11 +14775,9 @@ var formattingDayPeriodValues$11 = {
     midnight: 'منتصف الليل'
   }
 };
-
 var ordinalNumber$1g = function ordinalNumber(num) {
   return String(num);
 };
-
 var localize$1g = {
   ordinalNumber: ordinalNumber$1g,
   era: buildLocalizeFn({
@@ -16463,9 +14921,7 @@ var locale$1q = {
   localize: localize$1g,
   match: match$1f,
   options: {
-    weekStartsOn: 6
-    /* Saturday */
-    ,
+    weekStartsOn: 6 /* Saturday */,
     firstWeekContainsDate: 1
   }
 };
@@ -16563,12 +15019,10 @@ var formatDistanceLocale$1e = {
     other: '{{count}} عام تقريباً'
   }
 };
-
 var formatDistance$1f = function formatDistance(token, count, options) {
   options = options || {};
   var usageGroup = formatDistanceLocale$1e[token];
   var result;
-
   if (typeof usageGroup === 'string') {
     result = usageGroup;
   } else if (count === 1) {
@@ -16580,7 +15034,6 @@ var formatDistance$1f = function formatDistance(token, count, options) {
   } else {
     result = usageGroup.other.replace('{{count}}', String(count));
   }
-
   if (options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'في خلال ' + result;
@@ -16588,7 +15041,6 @@ var formatDistance$1f = function formatDistance(token, count, options) {
       return 'منذ ' + result;
     }
   }
-
   return result;
 };
 
@@ -16633,7 +15085,6 @@ var formatRelativeLocale$1f = {
   nextWeek: "eeee 'عند' p",
   other: 'P'
 };
-
 var formatRelative$1f = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1f[token];
 };
@@ -16723,11 +15174,9 @@ var formattingDayPeriodValues$10 = {
     night: 'في الليل'
   }
 };
-
 var ordinalNumber$1f = function ordinalNumber(dirtyNumber) {
   return String(dirtyNumber);
 };
-
 var localize$1f = {
   ordinalNumber: ordinalNumber$1f,
   era: buildLocalizeFn({
@@ -16871,9 +15320,7 @@ var locale$1p = {
   localize: localize$1f,
   match: match$1e,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -16971,11 +15418,9 @@ var formatDistanceLocale$1d = {
     other: '{{count}} عام تقريبًا'
   }
 };
-
 var formatDistance$1e = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1d[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -16987,7 +15432,6 @@ var formatDistance$1e = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return "\u0641\u064A \u062E\u0644\u0627\u0644 ".concat(result);
@@ -16995,7 +15439,6 @@ var formatDistance$1e = function formatDistance(token, count, options) {
       return "\u0645\u0646\u0630 ".concat(result);
     }
   }
-
   return result;
 };
 
@@ -17040,7 +15483,6 @@ var formatRelativeLocale$1e = {
   nextWeek: "eeee 'الساعة' p",
   other: 'P'
 };
-
 var formatRelative$1e = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1e[token];
 };
@@ -17130,11 +15572,9 @@ var formattingDayPeriodValues$$ = {
     night: 'في الليل'
   }
 };
-
 var ordinalNumber$1e = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$1e = {
   ordinalNumber: ordinalNumber$1e,
   era: buildLocalizeFn({
@@ -17279,9 +15719,7 @@ var locale$1o = {
   localize: localize$1e,
   match: match$1d,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -17379,12 +15817,10 @@ var formatDistanceLocale$1c = {
     other: '{{count}} عام تقريباً'
   }
 };
-
 var formatDistance$1d = function formatDistance(token, count, options) {
   options = options || {};
   var usageGroup = formatDistanceLocale$1c[token];
   var result;
-
   if (typeof usageGroup === 'string') {
     result = usageGroup;
   } else if (count === 1) {
@@ -17396,7 +15832,6 @@ var formatDistance$1d = function formatDistance(token, count, options) {
   } else {
     result = usageGroup.other.replace('{{count}}', String(count));
   }
-
   if (options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'في خلال ' + result;
@@ -17404,7 +15839,6 @@ var formatDistance$1d = function formatDistance(token, count, options) {
       return 'منذ ' + result;
     }
   }
-
   return result;
 };
 
@@ -17449,7 +15883,6 @@ var formatRelativeLocale$1d = {
   nextWeek: "eeee 'عند' p",
   other: 'P'
 };
-
 var formatRelative$1d = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1d[token];
 };
@@ -17539,11 +15972,9 @@ var formattingDayPeriodValues$_ = {
     night: 'في الليل'
   }
 };
-
 var ordinalNumber$1d = function ordinalNumber(dirtyNumber) {
   return String(dirtyNumber);
 };
-
 var localize$1d = {
   ordinalNumber: ordinalNumber$1d,
   era: buildLocalizeFn({
@@ -17785,11 +16216,9 @@ var formatDistanceLocale$1b = {
     other: '{{count}} عام تقريباً'
   }
 };
-
 var formatDistance$1c = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1b[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -17801,7 +16230,6 @@ var formatDistance$1c = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'في خلال ' + result;
@@ -17809,7 +16237,6 @@ var formatDistance$1c = function formatDistance(token, count, options) {
       return 'منذ ' + result;
     }
   }
-
   return result;
 };
 
@@ -17854,7 +16281,6 @@ var formatRelativeLocale$1c = {
   nextWeek: "eeee 'عند' p",
   other: 'P'
 };
-
 var formatRelative$1c = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1c[token];
 };
@@ -17944,11 +16370,9 @@ var formattingDayPeriodValues$Z = {
     night: 'في الليل'
   }
 };
-
 var ordinalNumber$1c = function ordinalNumber(dirtyNumber) {
   return String(dirtyNumber);
 };
-
 var localize$1c = {
   ordinalNumber: ordinalNumber$1c,
   era: buildLocalizeFn({
@@ -18083,7 +16507,6 @@ var match$1b = {
  * @iso-639-2 ara
  * @author Dhaifallah Alwadani [@dalwadani]{@link https://github.com/dalwadani}
  */
-
 var locale$1m = {
   code: 'ar-SA',
   formatDistance: formatDistance$1c,
@@ -18092,9 +16515,7 @@ var locale$1m = {
   localize: localize$1c,
   match: match$1b,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -18192,11 +16613,9 @@ var formatDistanceLocale$1a = {
     other: '{{count}} عام تقريب'
   }
 };
-
 var formatDistance$1b = function formatDistance(token, count, options) {
   var usageGroup = formatDistanceLocale$1a[token];
   var result;
-
   if (typeof usageGroup === 'string') {
     result = usageGroup;
   } else if (count === 1) {
@@ -18208,7 +16627,6 @@ var formatDistance$1b = function formatDistance(token, count, options) {
   } else {
     result = usageGroup.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'في ' + result;
@@ -18216,7 +16634,6 @@ var formatDistance$1b = function formatDistance(token, count, options) {
       return 'عندو ' + result;
     }
   }
-
   return result;
 };
 
@@ -18261,7 +16678,6 @@ var formatRelativeLocale$1b = {
   nextWeek: "eeee 'الجمعة الجاية مع' p 'نهار'",
   other: 'P'
 };
-
 var formatRelative$1b = function formatRelative(token) {
   return formatRelativeLocale$1b[token];
 };
@@ -18351,11 +16767,9 @@ var formattingDayPeriodValues$Y = {
     midnight: 'نص الليل'
   }
 };
-
 var ordinalNumber$1b = function ordinalNumber(num) {
   return String(num);
 };
-
 var localize$1b = {
   ordinalNumber: ordinalNumber$1b,
   era: buildLocalizeFn({
@@ -18498,9 +16912,7 @@ var locale$1l = {
   localize: localize$1b,
   match: match$1a,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -18568,11 +16980,9 @@ var formatDistanceLocale$19 = {
     other: 'demək olar ki {{count}} il'
   }
 };
-
 var formatDistance$1a = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$19[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -18580,7 +16990,6 @@ var formatDistance$1a = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' sonra';
@@ -18588,7 +16997,6 @@ var formatDistance$1a = function formatDistance(token, count, options) {
       return result + ' əvvəl';
     }
   }
-
   return result;
 };
 
@@ -18633,7 +17041,6 @@ var formatRelativeLocale$1a = {
   nextWeek: "eeee p -'də'",
   other: 'P'
 };
-
 var formatRelative$1a = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1a[token];
 };
@@ -18743,17 +17150,14 @@ var suffixes$1 = {
   60: '-ıncı',
   90: '-ıncı'
 };
-
 var getSuffix = function getSuffix(number) {
   if (number === 0) {
     // special case for zero
     return number + '-ıncı';
   }
-
   var a = number % 10;
   var b = number % 100 - a;
   var c = number >= 100 ? 100 : null;
-
   if (suffixes$1[a]) {
     return suffixes$1[a];
   } else if (suffixes$1[b]) {
@@ -18761,16 +17165,13 @@ var getSuffix = function getSuffix(number) {
   } else if (c !== null) {
     return suffixes$1[c];
   }
-
   return '';
 };
-
 var ordinalNumber$1a = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var suffix = getSuffix(number);
   return number + suffix;
 };
-
 var localize$1a = {
   ordinalNumber: ordinalNumber$1a,
   era: buildLocalizeFn({
@@ -18906,7 +17307,6 @@ var match$19 = {
  * @language Azerbaijani
  * @iso-639-2 aze
  */
-
 var locale$1k = {
   code: 'az',
   formatDistance: formatDistance$1a,
@@ -18925,19 +17325,22 @@ function declension$6(scheme, count) {
   if (scheme.one !== undefined && count === 1) {
     return scheme.one;
   }
-
   var rem10 = count % 10;
-  var rem100 = count % 100; // 1, 21, 31, ...
+  var rem100 = count % 100;
 
+  // 1, 21, 31, ...
   if (rem10 === 1 && rem100 !== 11) {
-    return scheme.singularNominative.replace('{{count}}', String(count)); // 2, 3, 4, 22, 23, 24, 32 ...
+    return scheme.singularNominative.replace('{{count}}', String(count));
+
+    // 2, 3, 4, 22, 23, 24, 32 ...
   } else if (rem10 >= 2 && rem10 <= 4 && (rem100 < 10 || rem100 > 20)) {
-    return scheme.singularGenitive.replace('{{count}}', String(count)); // 5, 6, 7, 8, 9, 10, 11, ...
+    return scheme.singularGenitive.replace('{{count}}', String(count));
+
+    // 5, 6, 7, 8, 9, 10, 11, ...
   } else {
     return scheme.pluralGenitive.replace('{{count}}', String(count));
   }
 }
-
 function buildLocalizeTokenFn$4(scheme) {
   return function (count, options) {
     if (options && options.addSuffix) {
@@ -18959,7 +17362,6 @@ function buildLocalizeTokenFn$4(scheme) {
     }
   };
 }
-
 var halfAMinute$1 = function halfAMinute(_, options) {
   if (options && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
@@ -18968,10 +17370,8 @@ var halfAMinute$1 = function halfAMinute(_, options) {
       return 'паўхвіліны таму';
     }
   }
-
   return 'паўхвіліны';
 };
-
 var formatDistanceLocale$18 = {
   lessThanXSeconds: buildLocalizeTokenFn$4({
     regular: {
@@ -19079,17 +17479,17 @@ var formatDistanceLocale$18 = {
       singularGenitive: 'каля {{count}} месяцаў',
       // TODO
       pluralGenitive: 'каля {{count}} месяцаў' // TODO
-
     },
+
     future: {
       singularNominative: 'прыблізна праз {{count}} месяц',
       // TODO
       singularGenitive: 'прыблізна праз {{count}} месяцы',
       // TODO
       pluralGenitive: 'прыблізна праз {{count}} месяцаў' // TODO
-
     }
   }),
+
   xWeeks: buildLocalizeTokenFn$4({
     regular: {
       singularNominative: '{{count}} месяц',
@@ -19160,7 +17560,6 @@ var formatDistanceLocale$18 = {
     }
   })
 };
-
 var formatDistance$19 = function formatDistance(token, count, options) {
   options = options || {};
   return formatDistanceLocale$18[token](count, options);
@@ -19204,68 +17603,56 @@ function isSameUTCWeek(dirtyDateLeft, dirtyDateRight, options) {
 }
 
 var accusativeWeekdays$7 = ['нядзелю', 'панядзелак', 'аўторак', 'сераду', 'чацвер', 'пятніцу', 'суботу'];
-
 function lastWeek$3(day) {
   var weekday = accusativeWeekdays$7[day];
-
   switch (day) {
     case 0:
     case 3:
     case 5:
     case 6:
       return "'у мінулую " + weekday + " а' p";
-
     case 1:
     case 2:
     case 4:
       return "'у мінулы " + weekday + " а' p";
   }
 }
-
 function thisWeek$8(day) {
   var weekday = accusativeWeekdays$7[day];
   return "'у " + weekday + " а' p";
 }
-
 function nextWeek$3(day) {
   var weekday = accusativeWeekdays$7[day];
-
   switch (day) {
     case 0:
     case 3:
     case 5:
     case 6:
       return "'у наступную " + weekday + " а' p";
-
     case 1:
     case 2:
     case 4:
       return "'у наступны " + weekday + " а' p";
   }
 }
-
 var lastWeekFormat$2 = function lastWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$8(day);
   } else {
     return lastWeek$3(day);
   }
 };
-
 var nextWeekFormat$2 = function nextWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$8(day);
   } else {
     return nextWeek$3(day);
   }
 };
-
 var formatRelativeLocale$19 = {
   lastWeek: lastWeekFormat$2,
   yesterday: "'учора а' p",
@@ -19274,14 +17661,11 @@ var formatRelativeLocale$19 = {
   nextWeek: nextWeekFormat$2,
   other: 'P'
 };
-
 var formatRelative$19 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$19[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -19375,11 +17759,11 @@ var formattingDayPeriodValues$W = {
     night: 'ночы'
   }
 };
-
 var ordinalNumber$19 = function ordinalNumber(dirtyNumber, options) {
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
   var number = Number(dirtyNumber);
   var suffix;
+
   /** Though it's an incorrect ordinal form of a date we use it here for consistency with other similar locales (ru, uk)
    *  For date-month combinations should be used `d` formatter.
    *  Correct:   `d MMMM` (4 верасня)
@@ -19392,7 +17776,6 @@ var ordinalNumber$19 = function ordinalNumber(dirtyNumber, options) {
    *
    *  So I guess there should be a stand-alone and a formatting version of "day of month" formatters
    */
-
   if (unit === 'date') {
     suffix = '-га';
   } else if (unit === 'hour' || unit === 'minute' || unit === 'second') {
@@ -19400,10 +17783,8 @@ var ordinalNumber$19 = function ordinalNumber(dirtyNumber, options) {
   } else {
     suffix = (number % 10 === 2 || number % 10 === 3) && number % 100 !== 12 && number % 100 !== 13 ? '-і' : '-ы';
   }
-
   return number + suffix;
 };
-
 var localize$19 = {
   ordinalNumber: ordinalNumber$19,
   era: buildLocalizeFn({
@@ -19541,7 +17922,6 @@ var match$18 = {
  * @author Kiryl Anokhin [@alyrik]{@link https://github.com/alyrik}
  * @author Martin Wind [@arvigeus]{@link https://github.com/mawi12345}
  */
-
 var locale$1j = {
   code: 'be',
   formatDistance: formatDistance$19,
@@ -19550,9 +17930,7 @@ var locale$1j = {
   localize: localize$19,
   match: match$18,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -19562,19 +17940,22 @@ function declension$5(scheme, count) {
   if (scheme.one !== undefined && count === 1) {
     return scheme.one;
   }
-
   var rem10 = count % 10;
-  var rem100 = count % 100; // 1, 21, 31, ...
+  var rem100 = count % 100;
 
+  // 1, 21, 31, ...
   if (rem10 === 1 && rem100 !== 11) {
-    return scheme.singularNominative.replace('{{count}}', String(count)); // 2, 3, 4, 22, 23, 24, 32 ...
+    return scheme.singularNominative.replace('{{count}}', String(count));
+
+    // 2, 3, 4, 22, 23, 24, 32 ...
   } else if (rem10 >= 2 && rem10 <= 4 && (rem100 < 10 || rem100 > 20)) {
-    return scheme.singularGenitive.replace('{{count}}', String(count)); // 5, 6, 7, 8, 9, 10, 11, ...
+    return scheme.singularGenitive.replace('{{count}}', String(count));
+
+    // 5, 6, 7, 8, 9, 10, 11, ...
   } else {
     return scheme.pluralGenitive.replace('{{count}}', String(count));
   }
 }
-
 function buildLocalizeTokenFn$3(scheme) {
   return function (count, options) {
     if (options && options.addSuffix) {
@@ -19596,7 +17977,6 @@ function buildLocalizeTokenFn$3(scheme) {
     }
   };
 }
-
 var halfAMinute = function halfAMinute(_, options) {
   if (options && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
@@ -19605,10 +17985,8 @@ var halfAMinute = function halfAMinute(_, options) {
       return 'паўхвіліны таму';
     }
   }
-
   return 'паўхвіліны';
 };
-
 var formatDistanceLocale$17 = {
   lessThanXSeconds: buildLocalizeTokenFn$3({
     regular: {
@@ -19716,17 +18094,17 @@ var formatDistanceLocale$17 = {
       singularGenitive: 'каля {{count}} месяцаў',
       // TODO
       pluralGenitive: 'каля {{count}} месяцаў' // TODO
-
     },
+
     future: {
       singularNominative: 'прыблізна праз {{count}} месяц',
       // TODO
       singularGenitive: 'прыблізна праз {{count}} месяцы',
       // TODO
       pluralGenitive: 'прыблізна праз {{count}} месяцаў' // TODO
-
     }
   }),
+
   xWeeks: buildLocalizeTokenFn$3({
     regular: {
       singularNominative: '{{count}} месяц',
@@ -19797,7 +18175,6 @@ var formatDistanceLocale$17 = {
     }
   })
 };
-
 var formatDistance$18 = function formatDistance(token, count, options) {
   options = options || {};
   return formatDistanceLocale$17[token](count, options);
@@ -19834,68 +18211,56 @@ var formatLong$1g = {
 };
 
 var accusativeWeekdays$6 = ['нядзелю', 'панядзелак', 'аўторак', 'сераду', 'чацьвер', 'пятніцу', 'суботу'];
-
 function lastWeek$2(day) {
   var weekday = accusativeWeekdays$6[day];
-
   switch (day) {
     case 0:
     case 3:
     case 5:
     case 6:
       return "'у мінулую " + weekday + " а' p";
-
     case 1:
     case 2:
     case 4:
       return "'у мінулы " + weekday + " а' p";
   }
 }
-
 function thisWeek$7(day) {
   var weekday = accusativeWeekdays$6[day];
   return "'у " + weekday + " а' p";
 }
-
 function nextWeek$2(day) {
   var weekday = accusativeWeekdays$6[day];
-
   switch (day) {
     case 0:
     case 3:
     case 5:
     case 6:
       return "'у наступную " + weekday + " а' p";
-
     case 1:
     case 2:
     case 4:
       return "'у наступны " + weekday + " а' p";
   }
 }
-
 var lastWeekFormat$1 = function lastWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$7(day);
   } else {
     return lastWeek$2(day);
   }
 };
-
 var nextWeekFormat$1 = function nextWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$7(day);
   } else {
     return nextWeek$2(day);
   }
 };
-
 var formatRelativeLocale$18 = {
   lastWeek: lastWeekFormat$1,
   yesterday: "'учора а' p",
@@ -19904,14 +18269,11 @@ var formatRelativeLocale$18 = {
   nextWeek: nextWeekFormat$1,
   other: 'P'
 };
-
 var formatRelative$18 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$18[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -20005,11 +18367,11 @@ var formattingDayPeriodValues$V = {
     night: 'ночы'
   }
 };
-
 var ordinalNumber$18 = function ordinalNumber(dirtyNumber, options) {
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
   var number = Number(dirtyNumber);
   var suffix;
+
   /** Though it's an incorrect ordinal form of a date we use it here for consistency with other similar locales (ru, uk)
    *  For date-month combinations should be used `d` formatter.
    *  Correct:   `d MMMM` (4 верасня)
@@ -20022,7 +18384,6 @@ var ordinalNumber$18 = function ordinalNumber(dirtyNumber, options) {
    *
    *  So I guess there should be a stand-alone and a formatting version of "day of month" formatters
    */
-
   if (unit === 'date') {
     suffix = '-га';
   } else if (unit === 'hour' || unit === 'minute' || unit === 'second') {
@@ -20030,10 +18391,8 @@ var ordinalNumber$18 = function ordinalNumber(dirtyNumber, options) {
   } else {
     suffix = (number % 10 === 2 || number % 10 === 3) && number % 100 !== 12 && number % 100 !== 13 ? '-і' : '-ы';
   }
-
   return number + suffix;
 };
-
 var localize$18 = {
   ordinalNumber: ordinalNumber$18,
   era: buildLocalizeFn({
@@ -20170,7 +18529,6 @@ var match$17 = {
  * @iso-639-2 bel
  * @author Ryhor Nopears [@nopears]{@link https://github.com/nopears}
  */
-
 var locale$1i = {
   code: 'be-tarask',
   formatDistance: formatDistance$18,
@@ -20179,9 +18537,7 @@ var locale$1i = {
   localize: localize$18,
   match: match$17,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -20249,11 +18605,9 @@ var formatDistanceLocale$16 = {
     other: 'почти {{count}} години'
   }
 };
-
 var formatDistance$17 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$16[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -20261,7 +18615,6 @@ var formatDistance$17 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'след ' + result;
@@ -20269,7 +18622,6 @@ var formatDistance$17 = function formatDistance(token, count, options) {
       return 'преди ' + result;
     }
   }
-
   return result;
 };
 
@@ -20304,17 +18656,15 @@ var formatLong$1f = {
 };
 
 // Adapted from the `ru` translation
-var weekdays$3 = ['неделя', 'понеделник', 'вторник', 'сряда', 'четвъртък', 'петък', 'събота'];
 
+var weekdays$3 = ['неделя', 'понеделник', 'вторник', 'сряда', 'четвъртък', 'петък', 'събота'];
 function lastWeek$1(day) {
   var weekday = weekdays$3[day];
-
   switch (day) {
     case 0:
     case 3:
     case 6:
       return "'миналата " + weekday + " в' p";
-
     case 1:
     case 2:
     case 4:
@@ -20322,28 +18672,21 @@ function lastWeek$1(day) {
       return "'миналия " + weekday + " в' p";
   }
 }
-
 function thisWeek$6(day) {
   var weekday = weekdays$3[day];
-
-  if (day === 2
-  /* Tue */
-  ) {
-      return "'във " + weekday + " в' p";
-    } else {
+  if (day === 2 /* Tue */) {
+    return "'във " + weekday + " в' p";
+  } else {
     return "'в " + weekday + " в' p";
   }
 }
-
 function nextWeek$1(day) {
   var weekday = weekdays$3[day];
-
   switch (day) {
     case 0:
     case 3:
     case 6:
       return "'следващата " + weekday + " в' p";
-
     case 1:
     case 2:
     case 4:
@@ -20351,29 +18694,24 @@ function nextWeek$1(day) {
       return "'следващия " + weekday + " в' p";
   }
 }
-
 var lastWeekFormatToken = function lastWeekFormatToken(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$6(day);
   } else {
     return lastWeek$1(day);
   }
 };
-
 var nextWeekFormatToken = function nextWeekFormatToken(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek$6(day);
   } else {
     return nextWeek$1(day);
   }
 };
-
 var formatRelativeLocale$17 = {
   lastWeek: lastWeekFormatToken,
   yesterday: "'вчера в' p",
@@ -20382,14 +18720,11 @@ var formatRelativeLocale$17 = {
   nextWeek: nextWeekFormatToken,
   other: 'P'
 };
-
 var formatRelative$17 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$17[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -20425,24 +18760,19 @@ var dayPeriodValues$17 = {
     night: 'през нощта'
   }
 };
-
 function isFeminine(unit) {
   return unit === 'year' || unit === 'week' || unit === 'minute' || unit === 'second';
 }
-
 function isNeuter(unit) {
   return unit === 'quarter';
 }
-
 function numberWithSuffix(number, unit, masculine, feminine, neuter) {
   var suffix = isNeuter(unit) ? neuter : isFeminine(unit) ? feminine : masculine;
   return number + '-' + suffix;
 }
-
 var ordinalNumber$17 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
-
   if (number === 0) {
     return numberWithSuffix(0, unit, 'ев', 'ева', 'ево');
   } else if (number % 1000 === 0) {
@@ -20450,26 +18780,20 @@ var ordinalNumber$17 = function ordinalNumber(dirtyNumber, options) {
   } else if (number % 100 === 0) {
     return numberWithSuffix(number, unit, 'тен', 'тна', 'тно');
   }
-
   var rem100 = number % 100;
-
   if (rem100 > 20 || rem100 < 10) {
     switch (rem100 % 10) {
       case 1:
         return numberWithSuffix(number, unit, 'ви', 'ва', 'во');
-
       case 2:
         return numberWithSuffix(number, unit, 'ри', 'ра', 'ро');
-
       case 7:
       case 8:
         return numberWithSuffix(number, unit, 'ми', 'ма', 'мо');
     }
   }
-
   return numberWithSuffix(number, unit, 'ти', 'та', 'то');
 };
-
 var localize$17 = {
   ordinalNumber: ordinalNumber$17,
   era: buildLocalizeFn({
@@ -20599,7 +18923,6 @@ var match$16 = {
  * @author Nikolay Stoynov [@arvigeus]{@link https://github.com/arvigeus}
  * @author Tsvetan Ovedenski [@fintara]{@link https://github.com/fintara}
  */
-
 var locale$1h = {
   code: 'bg',
   formatDistance: formatDistance$17,
@@ -20608,9 +18931,7 @@ var locale$1h = {
   localize: localize$17,
   match: match$16,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -20726,7 +19047,6 @@ var formattingDayPeriodValues$U = {
     night: 'রাত'
   }
 };
-
 function dateOrdinalNumber(number, localeNumber) {
   if (number > 18 && number <= 31) {
     return localeNumber + 'শে';
@@ -20734,53 +19054,44 @@ function dateOrdinalNumber(number, localeNumber) {
     switch (number) {
       case 1:
         return localeNumber + 'লা';
-
       case 2:
       case 3:
         return localeNumber + 'রা';
-
       case 4:
         return localeNumber + 'ঠা';
-
       default:
         return localeNumber + 'ই';
     }
   }
 }
-
 var ordinalNumber$16 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var localeNumber = numberToLocale$1(number);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
-
   if (unit === 'date') {
     return dateOrdinalNumber(number, localeNumber);
   }
-
   if (number > 10 || number === 0) return localeNumber + 'তম';
   var rem10 = number % 10;
-
   switch (rem10) {
     case 2:
     case 3:
       return localeNumber + 'য়';
-
     case 4:
       return localeNumber + 'র্থ';
-
     case 6:
       return localeNumber + 'ষ্ঠ';
-
     default:
       return localeNumber + 'ম';
   }
-}; // function localeToNumber(locale: string): number {
+};
+
+// function localeToNumber(locale: string): number {
 //   const enNumber = locale.toString().replace(/[১২৩৪৫৬৭৮৯০]/g, function (match) {
 //     return numberValues.number[match as keyof typeof numberValues.number]
 //   })
 //   return Number(enNumber)
 // }
-
 
 function numberToLocale$1(enNumber) {
   return enNumber.toString().replace(/\d/g, function (match) {
@@ -20879,11 +19190,9 @@ var formatDistanceLocale$15 = {
     other: 'প্রায় {{count}} বছর'
   }
 };
-
 var formatDistance$16 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$15[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -20891,7 +19200,6 @@ var formatDistance$16 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', numberToLocale$1(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' এর মধ্যে';
@@ -20899,7 +19207,6 @@ var formatDistance$16 = function formatDistance(token, count, options) {
       return result + ' আগে';
     }
   }
-
   return result;
 };
 
@@ -20944,7 +19251,6 @@ var formatRelativeLocale$16 = {
   nextWeek: "eeee 'সময়' p",
   other: 'P'
 };
-
 var formatRelative$16 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$16[token];
 };
@@ -21058,7 +19364,6 @@ var match$15 = {
  * @author Touhidur Rahman [@touhidrahman]{@link https://github.com/touhidrahman}
  * @author Farhad Yasir [@nutboltu]{@link https://github.com/nutboltu}
  */
-
 var locale$1g = {
   code: 'bn',
   formatDistance: formatDistance$16,
@@ -21067,9 +19372,7 @@ var locale$1g = {
   localize: localize$16,
   match: match$15,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -21212,11 +19515,9 @@ var formatDistanceLocale$14 = {
     other: 'gotovo {{count}} godina'
   }
 };
-
 var formatDistance$15 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$14[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -21229,14 +19530,14 @@ var formatDistance$15 = function formatDistance(token, count, options) {
     } else {
       result = tokenValue.one.standalone;
     }
-  } else if (count % 10 > 1 && count % 10 < 5 && // if last digit is between 2 and 4
+  } else if (count % 10 > 1 && count % 10 < 5 &&
+  // if last digit is between 2 and 4
   String(count).substr(-2, 1) !== '1' // unless the 2nd to last digit is "1"
   ) {
-      result = tokenValue.dual.replace('{{count}}', String(count));
-    } else {
+    result = tokenValue.dual.replace('{{count}}', String(count));
+  } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'za ' + result;
@@ -21244,7 +19545,6 @@ var formatDistance$15 = function formatDistance(token, count, options) {
       return 'prije ' + result;
     }
   }
-
   return result;
 };
 
@@ -21286,13 +19586,10 @@ var formatRelativeLocale$15 = {
     switch (date.getUTCDay()) {
       case 0:
         return "'prošle nedjelje u' p";
-
       case 3:
         return "'prošle srijede u' p";
-
       case 6:
         return "'prošle subote u' p";
-
       default:
         return "'prošli' EEEE 'u' p";
     }
@@ -21304,27 +19601,21 @@ var formatRelativeLocale$15 = {
     switch (date.getUTCDay()) {
       case 0:
         return "'sljedeće nedjelje u' p";
-
       case 3:
         return "'sljedeću srijedu u' p";
-
       case 6:
         return "'sljedeću subotu u' p";
-
       default:
         return "'sljedeći' EEEE 'u' p";
     }
   },
   other: 'P'
 };
-
 var formatRelative$15 = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$15[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -21418,12 +19709,10 @@ var formattingDayPeriodValues$T = {
     night: 'noću'
   }
 };
-
 var ordinalNumber$15 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return String(number) + '.';
 };
-
 var localize$15 = {
   ordinalNumber: ordinalNumber$15,
   era: buildLocalizeFn({
@@ -21558,7 +19847,6 @@ var match$14 = {
  * @iso-639-2 bos
  * @author Branislav Lazić [@branislavlazic]{@link https://github.com/branislavlazic}
  */
-
 var locale$1f = {
   code: 'bs',
   formatDistance: formatDistance$15,
@@ -21567,9 +19855,7 @@ var locale$1f = {
   localize: localize$15,
   match: match$14,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -21584,6 +19870,7 @@ var locale$1f = {
  *
  * Reference: https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=apostrofaci%25F3+davant+xifres&action=Principal&method=detall_completa&numPagina=1&idHit=11236&database=FITXES_PUB&tipusFont=Fitxes%20de%20l%27Optimot&idFont=11236&titol=apostrofaci%F3%20davant%20de%20xifres%20%2F%20apostrofaci%F3%20davant%20de%201%20i%2011&numeroResultat=1&clickLink=detall&tipusCerca=cerca.normes
  */
+
 var formatDistanceLocale$13 = {
   lessThanXSeconds: {
     one: "menys d'un segon",
@@ -21650,11 +19937,9 @@ var formatDistanceLocale$13 = {
     other: 'gairebé {{count}} anys'
   }
 };
-
 var formatDistance$14 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$13[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -21664,7 +19949,6 @@ var formatDistance$14 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'en ' + result;
@@ -21672,7 +19956,6 @@ var formatDistance$14 = function formatDistance(token, count, options) {
       return 'fa ' + result;
     }
   }
-
   return result;
 };
 
@@ -21725,12 +20008,10 @@ var formatRelativeLocalePlural$3 = {
   nextWeek: "eeee 'a les' p",
   other: 'P'
 };
-
 var formatRelative$14 = function formatRelative(token, date, _baseDate, _options) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural$3[token];
   }
-
   return formatRelativeLocale$14[token];
 };
 
@@ -21739,12 +20020,10 @@ var formatRelative$14 = function formatRelative(token, date, _baseDate, _options
  * Reference: https://aplicacions.llengua.gencat.cat
  * Reference: https://www.uoc.edu/portal/ca/servei-linguistic/convencions/abreviacions/simbols/simbols-habituals.html
  */
-
 /**
  * Abans de Crist: https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=abans+de+crist&action=Principal&method=detall_completa&numPagina=1&idHit=6876&database=FITXES_PUB&tipusFont=Fitxes%20de%20l%27Optimot&idFont=6876&titol=abans%20de%20Crist%20(abreviatura)%20/%20abans%20de%20Crist%20(sigla)&numeroResultat=1&clickLink=detall&tipusCerca=cerca.fitxes
  * Desprest de Crist: https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=despr%E9s+de+crist&action=Principal&method=detall_completa&numPagina=1&idHit=6879&database=FITXES_PUB&tipusFont=Fitxes%20de%20l%27Optimot&idFont=6879&titol=despr%E9s%20de%20Crist%20(sigla)%20/%20despr%E9s%20de%20Crist%20(abreviatura)&numeroResultat=1&clickLink=detall&tipusCerca=cerca.fitxes
  */
-
 var eraValues$14 = {
   narrow: ['aC', 'dC'],
   abbreviated: ['a. de C.', 'd. de C.'],
@@ -21755,16 +20034,15 @@ var quarterValues$14 = {
   abbreviated: ['T1', 'T2', 'T3', 'T4'],
   wide: ['1r trimestre', '2n trimestre', '3r trimestre', '4t trimestre']
 };
+
 /**
  * Dins d'un text convé fer servir la forma sencera dels mesos, ja que sempre és més clar el mot sencer que l'abreviatura, encara que aquesta sigui força coneguda.
  * Cal reservar, doncs, les abreviatures per a les llistes o classificacions, els gràfics, les taules o quadres estadístics, els textos publicitaris, etc.
  *
  * Reference: https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=abreviacions+mesos&action=Principal&method=detall_completa&numPagina=1&idHit=8402&database=FITXES_PUB&tipusFont=Fitxes%20de%20l%27Optimot&idFont=8402&titol=abreviatures%20dels%20mesos%20de%20l%27any&numeroResultat=5&clickLink=detall&tipusCerca=cerca.fitxes
  */
-
 var monthValues$14 = {
   narrow: ['GN', 'FB', 'MÇ', 'AB', 'MG', 'JN', 'JL', 'AG', 'ST', 'OC', 'NV', 'DS'],
-
   /**
    * Les abreviatures dels mesos de l'any es formen seguint una de les normes generals de formació d'abreviatures.
    * S'escriu la primera síl·laba i les consonants de la síl·laba següent anteriors a la primera vocal.
@@ -21773,6 +20051,7 @@ var monthValues$14 = {
   abbreviated: ['gen.', 'febr.', 'març', 'abr.', 'maig', 'juny', 'jul.', 'ag.', 'set.', 'oct.', 'nov.', 'des.'],
   wide: ['gener', 'febrer', 'març', 'abril', 'maig', 'juny', 'juliol', 'agost', 'setembre', 'octubre', 'novembre', 'desembre']
 };
+
 /**
  * Les abreviatures dels dies de la setmana comencen totes amb la lletra d.
  * Tot seguit porten la consonant següent a la i, excepte en el cas de dimarts, dimecres i diumenge, en què aquesta consonant és la m i, per tant, hi podria haver confusió.
@@ -21784,17 +20063,16 @@ var monthValues$14 = {
  *
  * Reference: https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?input_cercar=abreviatures+dies&action=Principal&method=detall_completa&numPagina=1&idHit=8387&database=FITXES_PUB&tipusFont=Fitxes%20de%20l%27Optimot&idFont=8387&titol=abreviatures%20dels%20dies%20de%20la%20setmana&numeroResultat=1&clickLink=detall&tipusCerca=cerca.tot
  */
-
 var dayValues$14 = {
   narrow: ['dg.', 'dl.', 'dt.', 'dm.', 'dj.', 'dv.', 'ds.'],
   short: ['dg.', 'dl.', 'dt.', 'dm.', 'dj.', 'dv.', 'ds.'],
   abbreviated: ['dg.', 'dl.', 'dt.', 'dm.', 'dj.', 'dv.', 'ds.'],
   wide: ['diumenge', 'dilluns', 'dimarts', 'dimecres', 'dijous', 'divendres', 'dissabte']
 };
+
 /**
  * Reference: https://aplicacions.llengua.gencat.cat/llc/AppJava/index.html?action=Principal&method=detall&input_cercar=parts+del+dia&numPagina=1&database=FITXES_PUB&idFont=12801&idHit=12801&tipusFont=Fitxes+de+l%27Optimot&numeroResultat=1&databases_avansada=&categories_avansada=&clickLink=detall&titol=Nom+de+les+parts+del+dia&tematica=&tipusCerca=cerca.fitxes
  */
-
 var dayPeriodValues$14 = {
   narrow: {
     am: 'am',
@@ -21859,36 +20137,30 @@ var formattingDayPeriodValues$S = {
     night: 'de la nit'
   }
 };
+
 /**
  * Quan van en singular, els nombres ordinals es representen, en forma d’abreviatura, amb la xifra seguida de l’última lletra del mot desplegat.
  * És optatiu posar punt després de la lletra.
  *
  * Reference: https://aplicacions.llengua.gencat.cat/llc/AppJava/pdf/abrevia.pdf#page=18
  */
-
 var ordinalNumber$14 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
-
   if (rem100 > 20 || rem100 < 10) {
     switch (rem100 % 10) {
       case 1:
         return number + 'r';
-
       case 2:
         return number + 'n';
-
       case 3:
         return number + 'r';
-
       case 4:
         return number + 't';
     }
   }
-
   return number + 'è';
 };
-
 var localize$14 = {
   ordinalNumber: ordinalNumber$14,
   era: buildLocalizeFn({
@@ -22028,7 +20300,6 @@ var match$13 = {
  * @author Guillermo Grau [@guigrpa]{@link https://github.com/guigrpa}
  * @author Alex Vizcaino [@avizcaino]{@link https://github.com/avizcaino}
  */
-
 var locale$1e = {
   code: 'ca',
   formatDistance: formatDistance$14,
@@ -22037,13 +20308,12 @@ var locale$1e = {
   localize: localize$14,
   match: match$13,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
- // throw new Error('ca locale is currently unavailable. Please check the progress of converting this locale to v2.0.0 in this issue on Github: TBA')
+
+// throw new Error('ca locale is currently unavailable. Please check the progress of converting this locale to v2.0.0 in this issue on Github: TBA')
 
 var formatDistanceLocale$12 = {
   lessThanXSeconds: {
@@ -22310,11 +20580,11 @@ var formatDistanceLocale$12 = {
     }
   }
 };
-
 var formatDistance$13 = function formatDistance(token, count, options) {
   var pluralResult;
-  var tokenValue = formatDistanceLocale$12[token]; // cs pluralization
+  var tokenValue = formatDistanceLocale$12[token];
 
+  // cs pluralization
   if (tokenValue.type === 'other') {
     pluralResult = tokenValue.other;
   } else if (count === 1) {
@@ -22323,13 +20593,12 @@ var formatDistance$13 = function formatDistance(token, count, options) {
     pluralResult = tokenValue.few;
   } else {
     pluralResult = tokenValue.many;
-  } // times
+  }
 
-
+  // times
   var suffixExist = (options === null || options === void 0 ? void 0 : options.addSuffix) === true;
   var comparison = options === null || options === void 0 ? void 0 : options.comparison;
   var timeResult;
-
   if (suffixExist && comparison === -1) {
     timeResult = pluralResult.past;
   } else if (suffixExist && comparison === 1) {
@@ -22337,7 +20606,6 @@ var formatDistance$13 = function formatDistance(token, count, options) {
   } else {
     timeResult = pluralResult.regular;
   }
-
   return timeResult.replace('{{count}}', String(count));
 };
 
@@ -22386,14 +20654,11 @@ var formatRelativeLocale$13 = {
   },
   other: 'P'
 };
-
 var formatRelative$13 = function formatRelative(token, date) {
   var format = formatRelativeLocale$13[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -22487,12 +20752,10 @@ var formattingDayPeriodValues$R = {
     night: 'noc'
   }
 };
-
 var ordinalNumber$13 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$13 = {
   ordinalNumber: ordinalNumber$13,
   era: buildLocalizeFn({
@@ -22629,7 +20892,6 @@ var match$12 = {
  * @author Pavel Hrách [@SilenY]{@link https://github.com/SilenY}
  * @author Jozef Bíroš [@JozefBiros]{@link https://github.com/JozefBiros}
  */
-
 var locale$1d = {
   code: 'cs',
   formatDistance: formatDistance$13,
@@ -22638,9 +20900,7 @@ var locale$1d = {
   localize: localize$13,
   match: match$12,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -22719,11 +20979,9 @@ var formatDistanceLocale$11 = {
     other: 'bron {{count}} mlynedd'
   }
 };
-
 var formatDistance$12 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$11[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -22733,7 +20991,6 @@ var formatDistance$12 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'mewn ' + result;
@@ -22741,7 +20998,6 @@ var formatDistance$12 = function formatDistance(token, count, options) {
       return result + ' yn ôl';
     }
   }
-
   return result;
 };
 
@@ -22786,7 +21042,6 @@ var formatRelativeLocale$12 = {
   nextWeek: "eeee 'am' p",
   other: 'P'
 };
-
 var formatRelative$12 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$12[token];
 };
@@ -22800,11 +21055,12 @@ var quarterValues$12 = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['Ch1', 'Ch2', 'Ch3', 'Ch4'],
   wide: ['Chwarter 1af', '2ail chwarter', '3ydd chwarter', '4ydd chwarter']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$12 = {
   narrow: ['I', 'Ch', 'Ma', 'E', 'Mi', 'Me', 'G', 'A', 'Md', 'H', 'T', 'Rh'],
   abbreviated: ['Ion', 'Chwe', 'Maw', 'Ebr', 'Mai', 'Meh', 'Gor', 'Aws', 'Med', 'Hyd', 'Tach', 'Rhag'],
@@ -22880,29 +21136,22 @@ var formattingDayPeriodValues$Q = {
     night: 'yn y nos'
   }
 };
-
 var ordinalNumber$12 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
-
   if (number < 20) {
     switch (number) {
       case 0:
         return number + 'fed';
-
       case 1:
         return number + 'af';
-
       case 2:
         return number + 'ail';
-
       case 3:
       case 4:
         return number + 'ydd';
-
       case 5:
       case 6:
         return number + 'ed';
-
       case 7:
       case 8:
       case 9:
@@ -22911,7 +21160,6 @@ var ordinalNumber$12 = function ordinalNumber(dirtyNumber, _options) {
       case 15:
       case 18:
         return number + 'fed';
-
       case 11:
       case 13:
       case 14:
@@ -22923,10 +21171,8 @@ var ordinalNumber$12 = function ordinalNumber(dirtyNumber, _options) {
   } else if (number >= 50 && number <= 60 || number === 80 || number >= 100) {
     return number + 'fed';
   }
-
   return number + 'ain';
 };
-
 var localize$12 = {
   ordinalNumber: ordinalNumber$12,
   era: buildLocalizeFn({
@@ -23062,7 +21308,6 @@ var match$11 = {
  * @iso-639-2 cym
  * @author Elwyn Malethan [@elmomalmo]{@link https://github.com/elmomalmo}
  */
-
 var locale$1c = {
   code: 'cy',
   formatDistance: formatDistance$12,
@@ -23071,9 +21316,7 @@ var locale$1c = {
   localize: localize$12,
   match: match$11,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -23141,11 +21384,9 @@ var formatDistanceLocale$10 = {
     other: 'næsten {{count}} år'
   }
 };
-
 var formatDistance$11 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$10[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -23153,7 +21394,6 @@ var formatDistance$11 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'om ' + result;
@@ -23161,7 +21401,6 @@ var formatDistance$11 = function formatDistance(token, count, options) {
       return result + ' siden';
     }
   }
-
   return result;
 };
 
@@ -23206,7 +21445,6 @@ var formatRelativeLocale$11 = {
   nextWeek: "'på' eeee 'kl.' p",
   other: 'P'
 };
-
 var formatRelative$11 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$11[token];
 };
@@ -23225,10 +21463,11 @@ var monthValues$11 = {
   narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
   abbreviated: ['jan.', 'feb.', 'mar.', 'apr.', 'maj', 'jun.', 'jul.', 'aug.', 'sep.', 'okt.', 'nov.', 'dec.'],
   wide: ['januar', 'februar', 'marts', 'april', 'maj', 'juni', 'juli', 'august', 'september', 'oktober', 'november', 'december']
-}; // Note that 'Days - abbreviated - Formatting' has periods at the end.
+};
+
+// Note that 'Days - abbreviated - Formatting' has periods at the end.
 // https://www.unicode.org/cldr/charts/32/summary/da.html#1760
 // This makes grammatical sense in danish, as most abbreviations have periods.
-
 var dayValues$11 = {
   narrow: ['S', 'M', 'T', 'O', 'T', 'F', 'L'],
   short: ['sø', 'ma', 'ti', 'on', 'to', 'fr', 'lø'],
@@ -23299,12 +21538,10 @@ var formattingDayPeriodValues$P = {
     night: 'om natten'
   }
 };
-
 var ordinalNumber$11 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$11 = {
   ordinalNumber: ordinalNumber$11,
   era: buildLocalizeFn({
@@ -23441,7 +21678,6 @@ var match$10 = {
  * @author [@kgram]{@link https://github.com/kgram}
  * @author [@stefanbugge]{@link https://github.com/stefanbugge}
  */
-
 var locale$1b = {
   code: 'da',
   formatDistance: formatDistance$11,
@@ -23450,9 +21686,7 @@ var locale$1b = {
   localize: localize$11,
   match: match$10,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -23613,11 +21847,9 @@ var formatDistanceLocale$$ = {
     }
   }
 };
-
 var formatDistance$10 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = options !== null && options !== void 0 && options.addSuffix ? formatDistanceLocale$$[token].withPreposition : formatDistanceLocale$$[token].standalone;
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -23625,7 +21857,6 @@ var formatDistance$10 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'in ' + result;
@@ -23633,7 +21864,6 @@ var formatDistance$10 = function formatDistance(token, count, options) {
       return 'vor ' + result;
     }
   }
-
   return result;
 };
 
@@ -23646,8 +21876,8 @@ var dateFormats$18 = {
   medium: 'do MMM y',
   // 7. Jan. 2018
   short: 'dd.MM.y' // 07.01.2018
-
 };
+
 var timeFormats$18 = {
   full: 'HH:mm:ss zzzz',
   long: 'HH:mm:ss z',
@@ -23683,7 +21913,6 @@ var formatRelativeLocale$10 = {
   nextWeek: "eeee 'um' p",
   other: 'P'
 };
-
 var formatRelative$10 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$10[token];
 };
@@ -23697,17 +21926,19 @@ var quarterValues$10 = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
   wide: ['1. Quartal', '2. Quartal', '3. Quartal', '4. Quartal']
-}; // Note: in German, the names of days of the week and months are capitalized.
+};
+
+// Note: in German, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$10 = {
   narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
   abbreviated: ['Jan', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
   wide: ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
-}; // https://st.unicode.org/cldr-apps/v#/de/Gregorian/
+};
 
+// https://st.unicode.org/cldr-apps/v#/de/Gregorian/
 var formattingMonthValues$e = {
   narrow: monthValues$10.narrow,
   abbreviated: ['Jan.', 'Feb.', 'März', 'Apr.', 'Mai', 'Juni', 'Juli', 'Aug.', 'Sep.', 'Okt.', 'Nov.', 'Dez.'],
@@ -23718,8 +21949,9 @@ var dayValues$10 = {
   short: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
   abbreviated: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
   wide: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
-}; // https://www.unicode.org/cldr/charts/32/summary/de.html#1881
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/de.html#1881
 var dayPeriodValues$10 = {
   narrow: {
     am: 'vm.',
@@ -23784,12 +22016,10 @@ var formattingDayPeriodValues$O = {
     night: 'nachts'
   }
 };
-
 var ordinalNumber$10 = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$10 = {
   ordinalNumber: ordinalNumber$10,
   era: buildLocalizeFn({
@@ -23872,9 +22102,9 @@ var parseDayPeriodPatterns$$ = {
     // will never be matched. Afternoon is matched by `pm`
     evening: /abends/i,
     night: /nachts/i // will never be matched. Night is matched by `pm`
-
   }
 };
+
 var match$$ = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$$,
@@ -23938,9 +22168,7 @@ var locale$1a = {
   localize: localize$10,
   match: match$$,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -23954,17 +22182,19 @@ var quarterValues$$ = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
   wide: ['1. Quartal', '2. Quartal', '3. Quartal', '4. Quartal']
-}; // Note: in German, the names of days of the week and months are capitalized.
+};
+
+// Note: in German, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$$ = {
   narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
   abbreviated: ['Jän', 'Feb', 'Mär', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez'],
   wide: ['Jänner', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember']
-}; // https://st.unicode.org/cldr-apps/v#/de_AT/Gregorian/
+};
 
+// https://st.unicode.org/cldr-apps/v#/de_AT/Gregorian/
 var formattingMonthValues$d = {
   narrow: monthValues$$.narrow,
   abbreviated: ['Jän.', 'Feb.', 'März', 'Apr.', 'Mai', 'Juni', 'Juli', 'Aug.', 'Sep.', 'Okt.', 'Nov.', 'Dez.'],
@@ -23975,8 +22205,9 @@ var dayValues$$ = {
   short: ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'],
   abbreviated: ['So.', 'Mo.', 'Di.', 'Mi.', 'Do.', 'Fr.', 'Sa.'],
   wide: ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag']
-}; // https://www.unicode.org/cldr/charts/32/summary/de.html#1881
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/de.html#1881
 var dayPeriodValues$$ = {
   narrow: {
     am: 'vm.',
@@ -24041,12 +22272,10 @@ var formattingDayPeriodValues$N = {
     night: 'nachts'
   }
 };
-
 var ordinalNumber$$ = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$$ = {
   ordinalNumber: ordinalNumber$$,
   era: buildLocalizeFn({
@@ -24085,7 +22314,6 @@ var localize$$ = {
  * @iso-639-2 deu
  * @author Christoph Tobias Stenglein [@cstenglein]{@link https://github.com/cstenglein}
  */
-
 var locale$19 = {
   code: 'de-AT',
   formatDistance: formatDistance$10,
@@ -24094,9 +22322,7 @@ var locale$19 = {
   localize: localize$$,
   match: match$$,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -24164,11 +22390,9 @@ var formatDistanceLocale$_ = {
     other: 'περίπου {{count}} χρόνια'
   }
 };
-
 var formatDistance$$ = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$_[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -24176,7 +22400,6 @@ var formatDistance$$ = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'σε ' + result;
@@ -24184,7 +22407,6 @@ var formatDistance$$ = function formatDistance(token, count, options) {
       return result + ' πριν';
     }
   }
-
   return result;
 };
 
@@ -24227,7 +22449,6 @@ var formatRelativeLocale$$ = {
       case 6:
         //Σάββατο
         return "'το προηγούμενο' eeee 'στις' p";
-
       default:
         return "'την προηγούμενη' eeee 'στις' p";
     }
@@ -24238,7 +22459,6 @@ var formatRelativeLocale$$ = {
   nextWeek: "eeee 'στις' p",
   other: 'P'
 };
-
 var formatRelative$$ = function formatRelative(token, date) {
   var format = formatRelativeLocale$$[token];
   if (typeof format === 'function') return format(date);
@@ -24303,12 +22523,10 @@ var dayPeriodValues$_ = {
     night: 'νύχτα'
   }
 };
-
 var ordinalNumber$_ = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   var suffix;
-
   if (unit === 'year' || unit === 'month') {
     suffix = 'ος';
   } else if (unit === 'week' || unit === 'dayOfYear' || unit === 'day' || unit === 'hour' || unit === 'date') {
@@ -24316,10 +22534,8 @@ var ordinalNumber$_ = function ordinalNumber(dirtyNumber, options) {
   } else {
     suffix = 'ο';
   }
-
   return number + suffix;
 };
-
 var localize$_ = {
   ordinalNumber: ordinalNumber$_,
   era: buildLocalizeFn({
@@ -24454,7 +22670,6 @@ var match$_ = {
  * @author Fanis Katsimpas [@fanixk]{@link https://github.com/fanixk}
  * @author Theodoros Orfanidis [@teoulas]{@link https://github.com/teoulas}
  */
-
 var locale$18 = {
   code: 'el',
   formatDistance: formatDistance$$,
@@ -24463,9 +22678,7 @@ var locale$18 = {
   localize: localize$_,
   match: match$_,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -24519,9 +22732,7 @@ var locale$17 = {
   localize: localize$1i,
   match: match$1h,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -24589,11 +22800,9 @@ var formatDistanceLocale$Z = {
     other: 'almost {{count}} years'
   }
 };
-
 var formatDistance$_ = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$Z[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -24601,7 +22810,6 @@ var formatDistance$_ = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'in ' + result;
@@ -24609,7 +22817,6 @@ var formatDistance$_ = function formatDistance(token, count, options) {
       return result + ' ago';
     }
   }
-
   return result;
 };
 
@@ -24655,7 +22862,6 @@ var formatLong$15 = {
  * @author Mark Owsiak [@markowsiak]{@link https://github.com/markowsiak}
  * @author Marco Imperatore [@mimperatore]{@link https://github.com/mimperatore}
  */
-
 var locale$16 = {
   code: 'en-CA',
   formatDistance: formatDistance$_,
@@ -24664,9 +22870,7 @@ var locale$16 = {
   localize: localize$1i,
   match: match$1h,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -24712,7 +22916,6 @@ var formatLong$14 = {
  * @iso-639-2 eng
  * @author Alex [@glintik]{@link https://github.com/glintik}
  */
-
 var locale$15 = {
   code: 'en-GB',
   formatDistance: formatDistance$1j,
@@ -24721,9 +22924,7 @@ var locale$15 = {
   localize: localize$1i,
   match: match$1h,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -24736,7 +22937,6 @@ var locale$15 = {
  * @iso-639-2 eng
  * @author Tetiana [@tan75]{@link https://github.com/tan75}
  */
-
 var locale$14 = {
   code: 'en-IE',
   formatDistance: formatDistance$1j,
@@ -24745,9 +22945,7 @@ var locale$14 = {
   localize: localize$1i,
   match: match$1h,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -24793,7 +22991,6 @@ var formatLong$13 = {
  * @iso-639-2 eng
  * @author Galeel Bhasha Satthar [@gbhasha]{@link https://github.com/gbhasha}
  */
-
 var locale$13 = {
   code: 'en-IN',
   formatDistance: formatDistance$1j,
@@ -24805,7 +23002,6 @@ var locale$13 = {
     weekStartsOn: 1,
     // Monday is the first day of the week.
     firstWeekContainsDate: 4 // The week that contains Jan 4th is the first week of the year.
-
   }
 };
 
@@ -24850,7 +23046,6 @@ var formatLong$12 = {
  * @iso-639-2 eng
  * @author Murray Lucas [@muntact]{@link https://github.com/muntact}
  */
-
 var locale$12 = {
   code: 'en-NZ',
   formatDistance: formatDistance$1j,
@@ -24859,9 +23054,7 @@ var locale$12 = {
   localize: localize$1i,
   match: match$1h,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -24907,7 +23100,6 @@ var formatLong$11 = {
  * @iso-639-2 eng
  * @author Shaila Kavrakova [@shaykav]{@link https://github.com/shaykav}
  */
-
 var locale$11 = {
   code: 'en-ZA',
   formatDistance: formatDistance$1j,
@@ -24919,7 +23111,6 @@ var locale$11 = {
     weekStartsOn: 0,
     // Sunday is the first day of the week.
     firstWeekContainsDate: 1 // The week that contains Jan 1st is the first week of the year.
-
   }
 };
 
@@ -24986,11 +23177,9 @@ var formatDistanceLocale$Y = {
     other: 'preskaŭ {{count}} jaroj'
   }
 };
-
 var formatDistance$Z = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$Y[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -24998,7 +23187,6 @@ var formatDistance$Z = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options !== null && options !== void 0 && options.comparison && options.comparison > 0) {
       return 'post ' + result;
@@ -25006,7 +23194,6 @@ var formatDistance$Z = function formatDistance(token, count, options) {
       return 'antaŭ ' + result;
     }
   }
-
   return result;
 };
 
@@ -25048,7 +23235,6 @@ var formatRelativeLocale$_ = {
   nextWeek: "eeee 'je' p",
   other: 'P'
 };
-
 var formatRelative$_ = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$_[token];
 };
@@ -25106,12 +23292,10 @@ var dayPeriodValues$Z = {
     night: 'nokte'
   }
 };
-
 var ordinalNumber$Z = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   return number + '-a';
 };
-
 var localize$Z = {
   ordinalNumber: ordinalNumber$Z,
   era: buildLocalizeFn({
@@ -25252,9 +23436,7 @@ var locale$10 = {
   localize: localize$Z,
   match: match$Z,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -25322,11 +23504,9 @@ var formatDistanceLocale$X = {
     other: 'casi {{count}} años'
   }
 };
-
 var formatDistance$Y = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$X[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -25334,7 +23514,6 @@ var formatDistance$Y = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'en ' + result;
@@ -25342,7 +23521,6 @@ var formatDistance$Y = function formatDistance(token, count, options) {
       return 'hace ' + result;
     }
   }
-
   return result;
 };
 
@@ -25395,7 +23573,6 @@ var formatRelativeLocalePlural$2 = {
   nextWeek: "eeee 'a las' p",
   other: 'P'
 };
-
 var formatRelative$Z = function formatRelative(token, date, _baseDate, _options) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural$2[token];
@@ -25489,12 +23666,10 @@ var formattingDayPeriodValues$M = {
     night: 'de la noche'
   }
 };
-
 var ordinalNumber$Y = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
-
 var localize$Y = {
   ordinalNumber: ordinalNumber$Y,
   era: buildLocalizeFn({
@@ -25641,9 +23816,7 @@ var locale$$ = {
   localize: localize$Y,
   match: match$Y,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -25804,11 +23977,9 @@ var formatDistanceLocale$W = {
     }
   }
 };
-
 var formatDistance$X = function formatDistance(token, count, options) {
   var usageGroup = options !== null && options !== void 0 && options.addSuffix ? formatDistanceLocale$W[token].withPreposition : formatDistanceLocale$W[token].standalone;
   var result;
-
   if (typeof usageGroup === 'string') {
     result = usageGroup;
   } else if (count === 1) {
@@ -25816,7 +23987,6 @@ var formatDistance$X = function formatDistance(token, count, options) {
   } else {
     result = usageGroup.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' pärast';
@@ -25824,7 +23994,6 @@ var formatDistance$X = function formatDistance(token, count, options) {
       return result + ' eest';
     }
   }
-
   return result;
 };
 
@@ -25869,7 +24038,6 @@ var formatRelativeLocale$Y = {
   nextWeek: "'järgmine' eeee 'kell' p",
   other: 'P'
 };
-
 var formatRelative$Y = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$Y[token];
 };
@@ -25959,12 +24127,10 @@ var formattingDayPeriodValues$L = {
     night: 'öösel'
   }
 };
-
 var ordinalNumber$X = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$X = {
   ordinalNumber: ordinalNumber$X,
   era: buildLocalizeFn({
@@ -26100,7 +24266,6 @@ var match$X = {
  * @iso-639-2 est
  * @author Priit Hansen [@HansenPriit]{@link https://github.com/priithansen}
  */
-
 var locale$_ = {
   code: 'et',
   formatDistance: formatDistance$X,
@@ -26109,9 +24274,7 @@ var locale$_ = {
   localize: localize$X,
   match: match$X,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -26179,11 +24342,9 @@ var formatDistanceLocale$V = {
     other: 'ia {{count}} urte'
   }
 };
-
 var formatDistance$W = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$V[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -26191,7 +24352,6 @@ var formatDistance$W = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'en ' + result;
@@ -26199,7 +24359,6 @@ var formatDistance$W = function formatDistance(token, count, options) {
       return 'duela ' + result;
     }
   }
-
   return result;
 };
 
@@ -26252,12 +24411,10 @@ var formatRelativeLocalePlural$1 = {
   nextWeek: 'eeee, p',
   other: 'P'
 };
-
 var formatRelative$X = function formatRelative(token, date) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural$1[token];
   }
-
   return formatRelativeLocale$X[token];
 };
 
@@ -26346,12 +24503,10 @@ var formattingDayPeriodValues$K = {
     night: 'gauean'
   }
 };
-
 var ordinalNumber$W = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$W = {
   ordinalNumber: ordinalNumber$W,
   era: buildLocalizeFn({
@@ -26499,7 +24654,6 @@ var match$W = {
  * @iso-639-2 eus
  * @author Jacob Söderblom [@JacobSoderblom]{@link https://github.com/JacobSoderblom}
  */
-
 var locale$Z = {
   code: 'eu',
   formatDistance: formatDistance$W,
@@ -26508,9 +24662,7 @@ var locale$Z = {
   localize: localize$W,
   match: match$W,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -26578,11 +24730,9 @@ var formatDistanceLocale$U = {
     other: 'نزدیک {{count}} سال'
   }
 };
-
 var formatDistance$V = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$U[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -26590,7 +24740,6 @@ var formatDistance$V = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'در ' + result;
@@ -26598,7 +24747,6 @@ var formatDistance$V = function formatDistance(token, count, options) {
       return result + ' قبل';
     }
   }
-
   return result;
 };
 
@@ -26643,7 +24791,6 @@ var formatRelativeLocale$W = {
   nextWeek: "eeee 'در' p",
   other: 'P'
 };
-
 var formatRelative$W = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$W[token];
 };
@@ -26657,11 +24804,12 @@ var quarterValues$V = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['س‌م1', 'س‌م2', 'س‌م3', 'س‌م4'],
   wide: ['سه‌ماهه 1', 'سه‌ماهه 2', 'سه‌ماهه 3', 'سه‌ماهه 4']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$V = {
   narrow: ['ژ', 'ف', 'م', 'آ', 'م', 'ج', 'ج', 'آ', 'س', 'ا', 'ن', 'د'],
   abbreviated: ['ژانـ', 'فور', 'مارس', 'آپر', 'می', 'جون', 'جولـ', 'آگو', 'سپتـ', 'اکتـ', 'نوامـ', 'دسامـ'],
@@ -26737,11 +24885,9 @@ var formattingDayPeriodValues$J = {
     night: 'شب'
   }
 };
-
 var ordinalNumber$V = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$V = {
   ordinalNumber: ordinalNumber$V,
   era: buildLocalizeFn({
@@ -26876,7 +25022,6 @@ var match$V = {
  * @iso-639-2 ira
  * @author Morteza Ziyae [@mort3za]{@link https://github.com/mort3za}
  */
-
 var locale$Y = {
   code: 'fa-IR',
   formatDistance: formatDistance$V,
@@ -26885,9 +25030,7 @@ var locale$Y = {
   localize: localize$V,
   match: match$V,
   options: {
-    weekStartsOn: 6
-    /* Saturday */
-    ,
+    weekStartsOn: 6 /* Saturday */,
     firstWeekContainsDate: 1
   }
 };
@@ -26895,31 +25038,24 @@ var locale$Y = {
 function futureSeconds(text) {
   return text.replace(/sekuntia?/, 'sekunnin');
 }
-
 function futureMinutes(text) {
   return text.replace(/minuuttia?/, 'minuutin');
 }
-
 function futureHours(text) {
   return text.replace(/tuntia?/, 'tunnin');
 }
-
 function futureDays(text) {
   return text.replace(/päivää?/, 'päivän');
 }
-
 function futureWeeks(text) {
   return text.replace(/(viikko|viikkoa)/, 'viikon');
 }
-
 function futureMonths(text) {
   return text.replace(/(kuukausi|kuukautta)/, 'kuukauden');
 }
-
 function futureYears(text) {
   return text.replace(/(vuosi|vuotta)/, 'vuoden');
 }
-
 var formatDistanceLocale$T = {
   lessThanXSeconds: {
     one: 'alle sekunti',
@@ -27004,11 +25140,9 @@ var formatDistanceLocale$T = {
     futureTense: futureYears
   }
 };
-
 var formatDistance$U = function formatDistance(token, count, options) {
   var tokenValue = formatDistanceLocale$T[token];
   var result = count === 1 ? tokenValue.one : tokenValue.other.replace('{{count}}', String(count));
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return tokenValue.futureTense(result) + ' kuluttua';
@@ -27016,7 +25150,6 @@ var formatDistance$U = function formatDistance(token, count, options) {
       return result + ' sitten';
     }
   }
-
   return result;
 };
 
@@ -27061,7 +25194,6 @@ var formatRelativeLocale$V = {
   nextWeek: "'ensi' eeee 'klo' p",
   other: 'P'
 };
-
 var formatRelative$V = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$V[token];
 };
@@ -27130,12 +25262,10 @@ var dayPeriodValues$U = {
     night: 'yöllä'
   }
 };
-
 var ordinalNumber$U = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$U = {
   ordinalNumber: ordinalNumber$U,
   era: buildLocalizeFn({
@@ -27273,7 +25403,6 @@ var match$U = {
  * @author Edo Rivai [@mikolajgrzyb]{@link https://github.com/mikolajgrzyb}
  * @author Samu Juvonen [@sjuvonen]{@link https://github.com/sjuvonen}
  */
-
 var locale$X = {
   code: 'fi',
   formatDistance: formatDistance$U,
@@ -27282,9 +25411,7 @@ var locale$X = {
   localize: localize$U,
   match: match$U,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -27352,11 +25479,9 @@ var formatDistanceLocale$S = {
     other: 'presque {{count}} ans'
   }
 };
-
 var formatDistance$T = function formatDistance(token, count, options) {
   var result;
   var form = formatDistanceLocale$S[token];
-
   if (typeof form === 'string') {
     result = form;
   } else if (count === 1) {
@@ -27364,7 +25489,6 @@ var formatDistance$T = function formatDistance(token, count, options) {
   } else {
     result = form.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'dans ' + result;
@@ -27372,7 +25496,6 @@ var formatDistance$T = function formatDistance(token, count, options) {
       return 'il y a ' + result;
     }
   }
-
   return result;
 };
 
@@ -27417,7 +25540,6 @@ var formatRelativeLocale$U = {
   nextWeek: "eeee 'prochain à' p",
   other: 'P'
 };
-
 var formatRelative$U = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$U[token];
 };
@@ -27475,23 +25597,19 @@ var dayPeriodValues$T = {
     night: 'du matin'
   }
 };
-
 var ordinalNumber$T = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   if (number === 0) return '0';
   var feminineUnits = ['year', 'week', 'hour', 'minute', 'second'];
   var suffix;
-
   if (number === 1) {
     suffix = unit && feminineUnits.includes(unit) ? 'ère' : 'er';
   } else {
     suffix = 'ème';
   }
-
   return number + suffix;
 };
-
 var localize$T = {
   ordinalNumber: ordinalNumber$T,
   era: buildLocalizeFn({
@@ -27624,7 +25742,6 @@ var match$T = {
  * @author Jean Dupouy [@izeau]{@link https://github.com/izeau}
  * @author François B [@fbonzon]{@link https://github.com/fbonzon}
  */
-
 var locale$W = {
   code: 'fr',
   formatDistance: formatDistance$T,
@@ -27633,9 +25750,7 @@ var locale$W = {
   localize: localize$T,
   match: match$T,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -27684,7 +25799,6 @@ var formatLong$V = {
  * @author François B [@fbonzon]{@link https://github.com/fbonzon}
  * @author Gabriele Petrioli [@gpetrioli]{@link https://github.com/gpetrioli}
  */
-
 var locale$V = {
   code: 'fr-CA',
   formatDistance: formatDistance$T,
@@ -27694,9 +25808,7 @@ var locale$V = {
   match: match$T,
   // Unique for fr-CA
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -27742,7 +25854,6 @@ var formatRelativeLocale$T = {
   nextWeek: "eeee 'la semaine prochaine à' p",
   other: 'P'
 };
-
 var formatRelative$T = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$T[token];
 };
@@ -27759,7 +25870,6 @@ var formatRelative$T = function formatRelative(token, _date, _baseDate, _options
  * @author Van Vuong Ngo [@vanvuongngo]{@link https://github.com/vanvuongngo}
  * @author Alex Hoeing [@dcbn]{@link https://github.com/dcbn}
  */
-
 var locale$U = {
   code: 'fr-CH',
   formatDistance: formatDistance$T,
@@ -27768,9 +25878,7 @@ var locale$U = {
   localize: localize$T,
   match: match$T,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -27838,11 +25946,9 @@ var formatDistanceLocale$R = {
     other: 'hast {{count}} jier'
   }
 };
-
 var formatDistance$S = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$R[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -27850,7 +25956,6 @@ var formatDistance$S = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'oer ' + result;
@@ -27858,7 +25963,6 @@ var formatDistance$S = function formatDistance(token, count, options) {
       return result + ' lyn';
     }
   }
-
   return result;
 };
 
@@ -27903,7 +26007,6 @@ var formatRelativeLocale$S = {
   nextWeek: "eeee 'om' p",
   other: 'P'
 };
-
 var formatRelative$S = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$S[token];
 };
@@ -27961,12 +26064,10 @@ var dayPeriodValues$S = {
     night: 'nachts'
   }
 };
-
 var ordinalNumber$S = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'e';
 };
-
 var localize$S = {
   ordinalNumber: ordinalNumber$S,
   era: buildLocalizeFn({
@@ -28097,7 +26198,6 @@ var match$S = {
  * @iso-639-2 fry
  * @author Damon Asberg [@damon02]{@link https://github.com/damon02}
  */
-
 var locale$T = {
   code: 'fy',
   formatDistance: formatDistance$S,
@@ -28106,9 +26206,7 @@ var locale$T = {
   localize: localize$S,
   match: match$S,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -28182,11 +26280,9 @@ var formatDistanceLocale$Q = {
     other: 'cha mhòr {{count}} bliadhnaichean'
   }
 };
-
 var formatDistance$R = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$Q[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -28198,7 +26294,6 @@ var formatDistance$R = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'ann an ' + result;
@@ -28206,7 +26301,6 @@ var formatDistance$R = function formatDistance(token, count, options) {
       return 'o chionn ' + result;
     }
   }
-
   return result;
 };
 
@@ -28252,7 +26346,6 @@ var formatRelativeLocale$R = {
   nextWeek: "eeee 'aig' p",
   other: 'P'
 };
-
 var formatRelative$R = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$R[token];
 };
@@ -28266,11 +26359,12 @@ var quarterValues$R = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['C1', 'C2', 'C3', 'C4'],
   wide: ["a' chiad chairteal", 'an dàrna cairteal', 'an treas cairteal', 'an ceathramh cairteal']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$R = {
   narrow: ['F', 'G', 'M', 'G', 'C', 'Ò', 'I', 'L', 'S', 'D', 'S', 'D'],
   abbreviated: ['Faoi', 'Gear', 'Màrt', 'Gibl', 'Cèit', 'Ògmh', 'Iuch', 'Lùn', 'Sult', 'Dàmh', 'Samh', 'Dùbh'],
@@ -28346,28 +26440,22 @@ var formattingDayPeriodValues$I = {
     night: 'air an oidhche'
   }
 };
-
 var ordinalNumber$R = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
-
   if (rem100 > 20 || rem100 < 10) {
     switch (rem100 % 10) {
       case 1:
         return number + 'd';
-
       case 2:
         return number + 'na';
     }
   }
-
   if (rem100 === 12) {
     return number + 'na';
   }
-
   return number + 'mh';
 };
-
 var localize$R = {
   ordinalNumber: ordinalNumber$R,
   era: buildLocalizeFn({
@@ -28501,7 +26589,6 @@ var match$R = {
  * @iso-639-2 gla
  * @author Lee Driscoll [@leedriscoll]{@link https://github.com/leedriscoll}
  */
-
 var locale$S = {
   code: 'gd',
   formatDistance: formatDistance$R,
@@ -28510,9 +26597,7 @@ var locale$S = {
   localize: localize$R,
   match: match$R,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -28580,11 +26665,9 @@ var formatDistanceLocale$P = {
     other: 'case {{count}} anos'
   }
 };
-
 var formatDistance$Q = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$P[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -28592,7 +26675,6 @@ var formatDistance$Q = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'en ' + result;
@@ -28600,7 +26682,6 @@ var formatDistance$Q = function formatDistance(token, count, options) {
       return 'hai ' + result;
     }
   }
-
   return result;
 };
 
@@ -28653,12 +26734,10 @@ var formatRelativeLocalePlural = {
   nextWeek: "eeee 'ás' p",
   other: 'P'
 };
-
 var formatRelative$Q = function formatRelative(token, date, _baseDate, _options) {
   if (date.getUTCHours() !== 1) {
     return formatRelativeLocalePlural[token];
   }
-
   return formatRelativeLocale$Q[token];
 };
 
@@ -28747,12 +26826,10 @@ var formattingDayPeriodValues$H = {
     night: 'da noite'
   }
 };
-
 var ordinalNumber$Q = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
-
 var localize$Q = {
   ordinalNumber: ordinalNumber$Q,
   era: buildLocalizeFn({
@@ -28888,7 +26965,6 @@ var match$Q = {
  * @author Alberto Doval - Cocodin Technology[@cocodinTech]{@link https://github.com/cocodinTech}
  * @author Fidel Pita [@fidelpita]{@link https://github.com/fidelpita}
  */
-
 var locale$R = {
   code: 'gl',
   formatDistance: formatDistance$Q,
@@ -28897,9 +26973,7 @@ var locale$R = {
   localize: localize$Q,
   match: match$Q,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -28970,11 +27044,9 @@ var formatDistanceLocale$O = {
     other: 'લગભગ {{count}} વર્ષ'
   }
 };
-
 var formatDistance$P = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$O[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -28982,7 +27054,6 @@ var formatDistance$P = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + 'માં';
@@ -28990,7 +27061,6 @@ var formatDistance$P = function formatDistance(token, count, options) {
       return result + ' પહેલાં';
     }
   }
-
   return result;
 };
 
@@ -29002,8 +27072,8 @@ var dateFormats$Q = {
   medium: 'd MMM, y',
   // CLDR #1827
   short: 'd/M/yy' // CLDR #1828
-
 };
+
 var timeFormats$Q = {
   full: 'hh:mm:ss a zzzz',
   // CLDR #1829
@@ -29012,8 +27082,8 @@ var timeFormats$Q = {
   medium: 'hh:mm:ss a',
   // CLDR #1831
   short: 'hh:mm a' // CLDR #1832
-
 };
+
 var dateTimeFormats$Q = {
   full: '{{date}} {{time}}',
   // CLDR #1833
@@ -29022,8 +27092,8 @@ var dateTimeFormats$Q = {
   medium: '{{date}} {{time}}',
   // CLDR #1835
   short: '{{date}} {{time}}' // CLDR #1836
-
 };
+
 var formatLong$Q = {
   date: buildFormatLongFn({
     formats: dateFormats$Q,
@@ -29040,6 +27110,7 @@ var formatLong$Q = {
 };
 
 // Source: https://www.unicode.org/cldr/charts/32/summary/gu.html
+
 var formatRelativeLocale$P = {
   lastWeek: "'પાછલા' eeee p",
   // CLDR #1384
@@ -29053,60 +27124,49 @@ var formatRelativeLocale$P = {
   // CLDR #1386
   other: 'P'
 };
-
 var formatRelative$P = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$P[token];
 };
 
 // #1621 - #1630
-
 var eraValues$P = {
   narrow: ['ઈસપૂ', 'ઈસ'],
   abbreviated: ['ઈ.સ.પૂર્વે', 'ઈ.સ.'],
   wide: ['ઈસવીસન પૂર્વે', 'ઈસવીસન']
-}; // https://www.unicode.org/cldr/charts/32/summary/gu.html
-// #1631 - #1654
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/gu.html
+// #1631 - #1654
 var quarterValues$P = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
   wide: ['1લો ત્રિમાસ', '2જો ત્રિમાસ', '3જો ત્રિમાસ', '4થો ત્રિમાસ']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
+
 // https://www.unicode.org/cldr/charts/32/summary/gu.html
 // #1655 - #1726
-
 var monthValues$P = {
   narrow: ['જા', 'ફે', 'મા', 'એ', 'મે', 'જૂ', 'જુ', 'ઓ', 'સ', 'ઓ', 'ન', 'ડિ'],
   abbreviated: ['જાન્યુ', 'ફેબ્રુ', 'માર્ચ', 'એપ્રિલ', 'મે', 'જૂન', 'જુલાઈ', 'ઑગસ્ટ', 'સપ્ટે', 'ઓક્ટો', 'નવે', 'ડિસે'],
   wide: ['જાન્યુઆરી', 'ફેબ્રુઆરી', 'માર્ચ', 'એપ્રિલ', 'મે', 'જૂન', 'જુલાઇ', 'ઓગસ્ટ', 'સપ્ટેમ્બર', 'ઓક્ટોબર', 'નવેમ્બર', 'ડિસેમ્બર']
-}; // https://www.unicode.org/cldr/charts/32/summary/gu.html
-// #1727 - #1768
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/gu.html
+// #1727 - #1768
 var dayValues$P = {
   narrow: ['ર', 'સો', 'મં', 'બુ', 'ગુ', 'શુ', 'શ'],
   short: ['ર', 'સો', 'મં', 'બુ', 'ગુ', 'શુ', 'શ'],
   abbreviated: ['રવિ', 'સોમ', 'મંગળ', 'બુધ', 'ગુરુ', 'શુક્ર', 'શનિ'],
-  wide: ['રવિવાર'
-  /* Sunday */
-  , 'સોમવાર'
-  /* Monday */
-  , 'મંગળવાર'
-  /* Tuesday */
-  , 'બુધવાર'
-  /* Wednesday */
-  , 'ગુરુવાર'
-  /* Thursday */
-  , 'શુક્રવાર'
-  /* Friday */
-  , 'શનિવાર'
-  /* Saturday */
-  ]
-}; // https://www.unicode.org/cldr/charts/32/summary/gu.html
-// #1783 - #1824
+  wide: ['રવિવાર' /* Sunday */, 'સોમવાર' /* Monday */, 'મંગળવાર' /* Tuesday */, 'બુધવાર' /* Wednesday */, 'ગુરુવાર' /* Thursday */, 'શુક્રવાર' /* Friday */, 'શનિવાર' /* Saturday */]
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/gu.html
+// #1783 - #1824
 var dayPeriodValues$P = {
   narrow: {
     am: 'AM',
@@ -29171,11 +27231,9 @@ var formattingDayPeriodValues$G = {
     night: 'રાત્રે'
   }
 };
-
 var ordinalNumber$P = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$P = {
   ordinalNumber: ordinalNumber$P,
   era: buildLocalizeFn({
@@ -29310,7 +27368,6 @@ var match$P = {
  * @iso-639-2 guj
  * @author Manaday Mavani [@ManadayM]{@link https://github.com/manadaym}
  */
-
 var locale$Q = {
   code: 'gu',
   formatDistance: formatDistance$P,
@@ -29319,9 +27376,7 @@ var locale$Q = {
   localize: localize$P,
   match: match$P,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -29404,20 +27459,16 @@ var formatDistanceLocale$N = {
     other: 'כמעט {{count}} שנים'
   }
 };
-
 var formatDistance$O = function formatDistance(token, count, options) {
   // Return word instead of `in one day` or `one day ago`
   if (token === 'xDays' && options !== null && options !== void 0 && options.addSuffix && count <= 2) {
     if (options.comparison && options.comparison > 0) {
       return count === 1 ? 'מחר' : 'מחרתיים';
     }
-
     return count === 1 ? 'אתמול' : 'שלשום';
   }
-
   var result;
   var tokenValue = formatDistanceLocale$N[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -29427,7 +27478,6 @@ var formatDistance$O = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'בעוד ' + result;
@@ -29435,7 +27485,6 @@ var formatDistance$O = function formatDistance(token, count, options) {
       return 'לפני ' + result;
     }
   }
-
   return result;
 };
 
@@ -29480,7 +27529,6 @@ var formatRelativeLocale$O = {
   nextWeek: "eeee 'בשעה' p",
   other: 'P'
 };
-
 var formatRelative$O = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$O[token];
 };
@@ -29570,10 +27618,10 @@ var formattingDayPeriodValues$F = {
     night: 'בלילה'
   }
 };
-
 var ordinalNumber$O = function ordinalNumber(dirtyNumber, options) {
-  var number = Number(dirtyNumber); // We only show words till 10
+  var number = Number(dirtyNumber);
 
+  // We only show words till 10
   if (number <= 0 || number > 10) return String(number);
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
   var isFemale = ['year', 'hour', 'minute', 'second'].indexOf(unit) >= 0;
@@ -29582,7 +27630,6 @@ var ordinalNumber$O = function ordinalNumber(dirtyNumber, options) {
   var index = number - 1;
   return isFemale ? female[index] : male[index];
 };
-
 var localize$O = {
   ordinalNumber: ordinalNumber$O,
   era: buildLocalizeFn({
@@ -29718,7 +27765,6 @@ var match$O = {
  * @iso-639-2 heb
  * @author Nir Lahad [@nirlah]{@link https://github.com/nirlah}
  */
-
 var locale$P = {
   code: 'he',
   formatDistance: formatDistance$O,
@@ -29727,9 +27773,7 @@ var locale$P = {
   localize: localize$O,
   match: match$O,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -29759,31 +27803,35 @@ var numberValues = {
     '९': '9',
     '०': '0'
   }
-}; // CLDR #1585 - #1592
+};
 
+// CLDR #1585 - #1592
 var eraValues$N = {
   narrow: ['ईसा-पूर्व', 'ईस्वी'],
   abbreviated: ['ईसा-पूर्व', 'ईस्वी'],
   wide: ['ईसा-पूर्व', 'ईसवी सन']
-}; // CLDR #1593 - #1616
+};
 
+// CLDR #1593 - #1616
 var quarterValues$N = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['ति1', 'ति2', 'ति3', 'ति4'],
   wide: ['पहली तिमाही', 'दूसरी तिमाही', 'तीसरी तिमाही', 'चौथी तिमाही']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
 // https://www.unicode.org/cldr/charts/32/summary/hi.html
 // CLDR #1617 - #1688
-
 var monthValues$N = {
   narrow: ['ज', 'फ़', 'मा', 'अ', 'मई', 'जू', 'जु', 'अग', 'सि', 'अक्टू', 'न', 'दि'],
   abbreviated: ['जन', 'फ़र', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुल', 'अग', 'सित', 'अक्टू', 'नव', 'दिस'],
   wide: ['जनवरी', 'फ़रवरी', 'मार्च', 'अप्रैल', 'मई', 'जून', 'जुलाई', 'अगस्त', 'सितंबर', 'अक्टूबर', 'नवंबर', 'दिसंबर']
-}; // CLDR #1689 - #1744
+};
 
+// CLDR #1689 - #1744
 var dayValues$N = {
   narrow: ['र', 'सो', 'मं', 'बु', 'गु', 'शु', 'श'],
   short: ['र', 'सो', 'मं', 'बु', 'गु', 'शु', 'श'],
@@ -29854,12 +27902,10 @@ var formattingDayPeriodValues$E = {
     night: 'रात'
   }
 };
-
 var ordinalNumber$N = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return numberToLocale(number);
 };
-
 function localeToNumber(locale) {
   var enNumber = locale.toString().replace(/[१२३४५६७८९०]/g, function (match) {
     return numberValues.number[match];
@@ -29928,8 +27974,8 @@ var formatDistanceLocale$M = {
     one: '१ घंटा',
     // CLDR #1304
     other: '{{count}} घंटे' // CLDR #4467
-
   },
+
   xDays: {
     one: '१ दिन',
     // CLDR #1286
@@ -29954,8 +28000,8 @@ var formatDistanceLocale$M = {
   aboutXYears: {
     one: 'लगभग १ वर्ष',
     other: 'लगभग {{count}} वर्ष' // CLDR #4823
-
   },
+
   xYears: {
     one: '१ वर्ष',
     other: '{{count}} वर्ष'
@@ -29969,11 +28015,9 @@ var formatDistanceLocale$M = {
     other: 'लगभग {{count}} वर्ष'
   }
 };
-
 var formatDistance$N = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$M[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -29981,7 +28025,6 @@ var formatDistance$N = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', numberToLocale(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + 'मे ';
@@ -29989,7 +28032,6 @@ var formatDistance$N = function formatDistance(token, count, options) {
       return result + ' पहले';
     }
   }
-
   return result;
 };
 
@@ -30001,8 +28043,8 @@ var dateFormats$O = {
   medium: 'd MMM, y',
   // CLDR #1789
   short: 'dd/MM/yyyy' // CLDR #1790
-
 };
+
 var timeFormats$O = {
   full: 'h:mm:ss a zzzz',
   // CLDR #1791
@@ -30011,8 +28053,8 @@ var timeFormats$O = {
   medium: 'h:mm:ss a',
   // CLDR #1793
   short: 'h:mm a' // CLDR #1794
-
 };
+
 var dateTimeFormats$O = {
   full: "{{date}} 'को' {{time}}",
   // CLDR #1795
@@ -30021,8 +28063,8 @@ var dateTimeFormats$O = {
   medium: '{{date}}, {{time}}',
   // CLDR #1797
   short: '{{date}}, {{time}}' // CLDR #1798
-
 };
+
 var formatLong$O = {
   date: buildFormatLongFn({
     formats: dateFormats$O,
@@ -30046,7 +28088,6 @@ var formatRelativeLocale$N = {
   nextWeek: "eeee 'को' p",
   other: 'P'
 };
-
 var formatRelative$N = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$N[token];
 };
@@ -30155,7 +28196,6 @@ var match$N = {
  * @iso-639-2 hin
  * @author Mukesh Mandiwal [@mukeshmandiwal]{@link https://github.com/mukeshmandiwal}
  */
-
 var locale$O = {
   code: 'hi',
   formatDistance: formatDistance$N,
@@ -30164,9 +28204,7 @@ var locale$O = {
   localize: localize$N,
   match: match$N,
   options: {
-    weekStartsOn: 0
-    /* Monday */
-    ,
+    weekStartsOn: 0 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -30309,11 +28347,9 @@ var formatDistanceLocale$L = {
     other: 'gotovo {{count}} godina'
   }
 };
-
 var formatDistance$M = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$L[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -30326,14 +28362,14 @@ var formatDistance$M = function formatDistance(token, count, options) {
     } else {
       result = tokenValue.one.standalone;
     }
-  } else if (count % 10 > 1 && count % 10 < 5 && // if last digit is between 2 and 4
+  } else if (count % 10 > 1 && count % 10 < 5 &&
+  // if last digit is between 2 and 4
   String(count).substr(-2, 1) !== '1' // unless the 2nd to last digit is "1"
   ) {
-      result = tokenValue.dual.replace('{{count}}', String(count));
-    } else {
+    result = tokenValue.dual.replace('{{count}}', String(count));
+  } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'za ' + result;
@@ -30341,7 +28377,6 @@ var formatDistance$M = function formatDistance(token, count, options) {
       return 'prije ' + result;
     }
   }
-
   return result;
 };
 
@@ -30383,13 +28418,10 @@ var formatRelativeLocale$M = {
     switch (date.getUTCDay()) {
       case 0:
         return "'prošlu nedjelju u' p";
-
       case 3:
         return "'prošlu srijedu u' p";
-
       case 6:
         return "'prošlu subotu u' p";
-
       default:
         return "'prošli' EEEE 'u' p";
     }
@@ -30401,27 +28433,21 @@ var formatRelativeLocale$M = {
     switch (date.getUTCDay()) {
       case 0:
         return "'iduću nedjelju u' p";
-
       case 3:
         return "'iduću srijedu u' p";
-
       case 6:
         return "'iduću subotu u' p";
-
       default:
         return "'prošli' EEEE 'u' p";
     }
   },
   other: 'P'
 };
-
 var formatRelative$M = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$M[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -30515,12 +28541,10 @@ var dayPeriodValues$M = {
     night: 'noću'
   }
 };
-
 var ordinalNumber$M = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$M = {
   ordinalNumber: ordinalNumber$M,
   era: buildLocalizeFn({
@@ -30658,7 +28682,6 @@ var match$M = {
  * @author Manico [@manico]{@link https://github.com/manico}
  * @author Ivan Jeržabek [@jerzabek]{@link https://github.com/jerzabek}
  */
-
 var locale$N = {
   code: 'hr',
   formatDistance: formatDistance$M,
@@ -30667,9 +28690,7 @@ var locale$N = {
   localize: localize$M,
   match: match$M,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -30737,11 +28758,9 @@ var formatDistanceLocale$K = {
     other: 'prèske {{count}} an'
   }
 };
-
 var formatDistance$L = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$K[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -30749,7 +28768,6 @@ var formatDistance$L = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'nan ' + result;
@@ -30757,7 +28775,6 @@ var formatDistance$L = function formatDistance(token, count, options) {
       return 'sa fè ' + result;
     }
   }
-
   return result;
 };
 
@@ -30802,7 +28819,6 @@ var formatRelativeLocale$L = {
   nextWeek: "eeee 'pwochen nan lè' p",
   other: 'P'
 };
-
 var formatRelative$L = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$L[token];
 };
@@ -30860,14 +28876,12 @@ var dayPeriodValues$L = {
     night: 'nan maten'
   }
 };
-
 var ordinalNumber$L = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   if (number === 0) return String(number);
   var suffix = number === 1 ? 'ye' : 'yèm';
   return number + suffix;
 };
-
 var localize$L = {
   ordinalNumber: ordinalNumber$L,
   era: buildLocalizeFn({
@@ -31000,7 +29014,6 @@ var match$L = {
  * @author Rubens Mariuzzo [@rmariuzzo]{@link https://github.com/rmariuzzo}
  * @author Watson Marcelain [@watsongm24]{@link https://github.com/watsongm24}
  */
-
 var locale$M = {
   code: 'ht',
   formatDistance: formatDistance$L,
@@ -31009,9 +29022,7 @@ var locale$M = {
   localize: localize$L,
   match: match$L,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -31074,7 +29085,6 @@ var withSuffixes = {
     '0': ' éve'
   }
 };
-
 var formatDistance$K = function formatDistance(token, count, options) {
   var adverb = token.match(/about|over|almost|lessthan/i);
   var unit = adverb ? token.replace(adverb[0], '') : token;
@@ -31083,12 +29093,10 @@ var formatDistance$K = function formatDistance(token, count, options) {
   var comparison = (options === null || options === void 0 ? void 0 : options.comparison) || 0;
   var translated = addSuffix ? withSuffixes[key][comparison] : withoutSuffixes[key];
   var result = key === 'halfaminute' ? translated : count + translated;
-
   if (adverb) {
     var adv = adverb[0].toLowerCase();
     result = translations$1[adv] + ' ' + result;
   }
-
   return result;
 };
 
@@ -31126,7 +29134,6 @@ var formatLong$L = {
 };
 
 var accusativeWeekdays$4 = ['vasárnap', 'hétfőn', 'kedden', 'szerdán', 'csütörtökön', 'pénteken', 'szombaton'];
-
 function week(isFuture) {
   return function (date) {
     var weekday = accusativeWeekdays$4[date.getUTCDay()];
@@ -31134,7 +29141,6 @@ function week(isFuture) {
     return "".concat(prefix, "'").concat(weekday, "' p'-kor'");
   };
 }
-
 var formatRelativeLocale$K = {
   lastWeek: week(false),
   yesterday: "'tegnap' p'-kor'",
@@ -31143,14 +29149,11 @@ var formatRelativeLocale$K = {
   nextWeek: week(true),
   other: 'P'
 };
-
 var formatRelative$K = function formatRelative(token, date) {
   var format = formatRelativeLocale$K[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -31212,12 +29215,10 @@ var dayPeriodValues$K = {
     night: 'éjjel'
   }
 };
-
 var ordinalNumber$K = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$K = {
   ordinalNumber: ordinalNumber$K,
   era: buildLocalizeFn({
@@ -31354,7 +29355,6 @@ var match$K = {
  * @author Eduardo Pardo [@eduardopsll]{@link https://github.com/eduardopsll}
  * @author Zoltan Szepesi [@twodcube]{@link https://github.com/twodcube}
  */
-
 var locale$L = {
   code: 'hu',
   formatDistance: formatDistance$K,
@@ -31363,9 +29363,7 @@ var locale$L = {
   localize: localize$K,
   match: match$K,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -31433,11 +29431,9 @@ var formatDistanceLocale$J = {
     other: 'համարյա {{count}} տարի'
   }
 };
-
 var formatDistance$J = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$J[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -31445,7 +29441,6 @@ var formatDistance$J = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' հետո';
@@ -31453,7 +29448,6 @@ var formatDistance$J = function formatDistance(token, count, options) {
       return result + ' առաջ';
     }
   }
-
   return result;
 };
 
@@ -31498,7 +29492,6 @@ var formatRelativeLocale$J = {
   nextWeek: "'հաջորդ' eeee p'֊ին'",
   other: 'P'
 };
-
 var formatRelative$J = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$J[token];
 };
@@ -31588,9 +29581,10 @@ var formattingDayPeriodValues$C = {
     night: 'գիշերը'
   }
 };
-
 var ordinalNumber$J = function ordinalNumber(dirtyNumber, _options) {
-  var number = Number(dirtyNumber); // If ordinal numbers depend on context, for example,
+  var number = Number(dirtyNumber);
+
+  // If ordinal numbers depend on context, for example,
   // if they are different for different grammatical genders,
   // use `options.unit`.
   //
@@ -31598,16 +29592,13 @@ var ordinalNumber$J = function ordinalNumber(dirtyNumber, _options) {
   // 'day', 'hour', 'minute', 'second'.
 
   var rem100 = number % 100;
-
   if (rem100 < 10) {
     if (rem100 % 10 === 1) {
       return number + '֊ին';
     }
   }
-
   return number + '֊րդ';
 };
-
 var localize$J = {
   ordinalNumber: ordinalNumber$J,
   era: buildLocalizeFn({
@@ -31743,7 +29734,6 @@ var match$J = {
  * @iso-639-2 arm
  * @author Alex Igityan [@alexigityan]{@link https://github.com/alexigityan}
  */
-
 var locale$K = {
   code: 'hy',
   formatDistance: formatDistance$J,
@@ -31752,9 +29742,7 @@ var locale$K = {
   localize: localize$J,
   match: match$J,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -31822,11 +29810,9 @@ var formatDistanceLocale$I = {
     other: 'hampir {{count}} tahun'
   }
 };
-
 var formatDistance$I = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$I[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -31834,7 +29820,6 @@ var formatDistance$I = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'dalam waktu ' + result;
@@ -31842,7 +29827,6 @@ var formatDistance$I = function formatDistance(token, count, options) {
       return result + ' yang lalu';
     }
   }
-
   return result;
 };
 
@@ -31887,13 +29871,11 @@ var formatRelativeLocale$I = {
   nextWeek: "eeee 'pukul' p",
   other: 'P'
 };
-
 var formatRelative$I = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$I[token];
 };
 
 // https://www.unicode.org/cldr/charts/32/summary/id.html
-
 var eraValues$I = {
   narrow: ['SM', 'M'],
   abbreviated: ['SM', 'M'],
@@ -31903,11 +29885,12 @@ var quarterValues$I = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['K1', 'K2', 'K3', 'K4'],
   wide: ['Kuartal ke-1', 'Kuartal ke-2', 'Kuartal ke-3', 'Kuartal ke-4']
-}; // Note: in Indonesian, the names of days of the week and months are capitalized.
+};
+
+// Note: in Indonesian, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$I = {
   narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'A', 'S', 'O', 'N', 'D'],
   abbreviated: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agt', 'Sep', 'Okt', 'Nov', 'Des'],
@@ -31983,13 +29966,13 @@ var formattingDayPeriodValues$B = {
     night: 'malam'
   }
 };
-
 var ordinalNumber$I = function ordinalNumber(dirtyNumber, _options) {
-  var number = Number(dirtyNumber); // Can't use "pertama", "kedua" because can't be parsed
+  var number = Number(dirtyNumber);
+
+  // Can't use "pertama", "kedua" because can't be parsed
 
   return 'ke-' + number;
 };
-
 var localize$I = {
   ordinalNumber: ordinalNumber$I,
   era: buildLocalizeFn({
@@ -32126,7 +30109,6 @@ var match$I = {
  * @author Budi Irawan [@deerawan]{@link https://github.com/deerawan}
  * @author Try Ajitiono [@imballinst]{@link https://github.com/imballinst}
  */
-
 var locale$J = {
   code: 'id',
   formatDistance: formatDistance$I,
@@ -32135,9 +30117,7 @@ var locale$J = {
   localize: localize$I,
   match: match$I,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -32205,11 +30185,9 @@ var formatDistanceLocale$H = {
     other: 'næstum {{count}} ár'
   }
 };
-
 var formatDistance$H = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$H[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -32217,7 +30195,6 @@ var formatDistance$H = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'í ' + result;
@@ -32225,7 +30202,6 @@ var formatDistance$H = function formatDistance(token, count, options) {
       return result + ' síðan';
     }
   }
-
   return result;
 };
 
@@ -32270,7 +30246,6 @@ var formatRelativeLocale$H = {
   nextWeek: "dddd 'kl.' p",
   other: 'P'
 };
-
 var formatRelative$H = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$H[token];
 };
@@ -32360,12 +30335,10 @@ var formattingDayPeriodValues$A = {
     night: 'um nótt'
   }
 };
-
 var ordinalNumber$H = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$H = {
   ordinalNumber: ordinalNumber$H,
   era: buildLocalizeFn({
@@ -32500,7 +30473,6 @@ var match$H = {
  * @author Derek Blank [@derekblank]{@link https://github.com/derekblank}
  * @author Arnór Ýmir [@lamayg]{@link https://github.com/lamayg}
  */
-
 var locale$I = {
   code: 'is',
   formatDistance: formatDistance$H,
@@ -32509,9 +30481,7 @@ var locale$I = {
   localize: localize$H,
   match: match$H,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -32579,11 +30549,9 @@ var formatDistanceLocale$G = {
     other: 'quasi {{count}} anni'
   }
 };
-
 var formatDistance$G = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$G[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -32591,7 +30559,6 @@ var formatDistance$G = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'tra ' + result;
@@ -32599,7 +30566,6 @@ var formatDistance$G = function formatDistance(token, count, options) {
       return result + ' fa';
     }
   }
-
   return result;
 };
 
@@ -32637,35 +30603,28 @@ var formatLong$H = {
 };
 
 var weekdays$2 = ['domenica', 'lunedì', 'martedì', 'mercoledì', 'giovedì', 'venerdì', 'sabato'];
-
 function _lastWeek$4(day) {
   switch (day) {
     case 0:
       return "'domenica scorsa alle' p";
-
     default:
       return "'" + weekdays$2[day] + " scorso alle' p";
   }
 }
-
 function thisWeek$5(day) {
   return "'" + weekdays$2[day] + " alle' p";
 }
-
 function _nextWeek$4(day) {
   switch (day) {
     case 0:
       return "'domenica prossima alle' p";
-
     default:
       return "'" + weekdays$2[day] + " prossimo alle' p";
   }
 }
-
 var formatRelativeLocale$G = {
   lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$5(day);
     } else {
@@ -32677,7 +30636,6 @@ var formatRelativeLocale$G = {
   tomorrow: "'domani alle' p",
   nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$5(day);
     } else {
@@ -32686,14 +30644,11 @@ var formatRelativeLocale$G = {
   },
   other: 'P'
 };
-
 var formatRelative$G = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$G[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -32782,12 +30737,10 @@ var formattingDayPeriodValues$z = {
     night: 'di notte'
   }
 };
-
 var ordinalNumber$G = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return String(number);
 };
-
 var localize$G = {
   ordinalNumber: ordinalNumber$G,
   era: buildLocalizeFn({
@@ -32923,7 +30876,6 @@ var match$G = {
  * @author Giovanni Polimeni [@giofilo]{@link https://github.com/giofilo}
  * @author Vincenzo Carrese [@vin-car]{@link https://github.com/vin-car}
  */
-
 var locale$H = {
   code: 'it',
   formatDistance: formatDistance$G,
@@ -32932,9 +30884,7 @@ var locale$H = {
   localize: localize$G,
   match: match$G,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -32980,7 +30930,6 @@ var formatLong$G = {
  * @iso-639-2 ita
  * @author Mike Peyer [@maic66]{@link https://github.com/maic66}
  */
-
 var locale$G = {
   code: 'it-CH',
   formatDistance: formatDistance$G,
@@ -32989,9 +30938,7 @@ var locale$G = {
   localize: localize$G,
   match: match$G,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -33063,12 +31010,10 @@ var formatDistanceLocale$F = {
     other: '{{count}}年近く'
   }
 };
-
 var formatDistance$F = function formatDistance(token, count, options) {
   options = options || {};
   var result;
   var tokenValue = formatDistanceLocale$F[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -33084,7 +31029,6 @@ var formatDistance$F = function formatDistance(token, count, options) {
       result = tokenValue.other.replace('{{count}}', String(count));
     }
   }
-
   if (options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + '後';
@@ -33092,7 +31036,6 @@ var formatDistance$F = function formatDistance(token, count, options) {
       return result + '前';
     }
   }
-
   return result;
 };
 
@@ -33137,7 +31080,6 @@ var formatRelativeLocale$F = {
   nextWeek: '翌週のeeeeのp',
   other: 'P'
 };
-
 var formatRelative$F = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$F[token];
 };
@@ -33227,41 +31169,30 @@ var formattingDayPeriodValues$y = {
     night: '深夜'
   }
 };
-
 var ordinalNumber$F = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
-
   switch (unit) {
     case 'year':
       return "".concat(number, "\u5E74");
-
     case 'quarter':
       return "\u7B2C".concat(number, "\u56DB\u534A\u671F");
-
     case 'month':
       return "".concat(number, "\u6708");
-
     case 'week':
       return "\u7B2C".concat(number, "\u9031");
-
     case 'date':
       return "".concat(number, "\u65E5");
-
     case 'hour':
       return "".concat(number, "\u6642");
-
     case 'minute':
       return "".concat(number, "\u5206");
-
     case 'second':
       return "".concat(number, "\u79D2");
-
     default:
       return "".concat(number);
   }
 };
-
 var localize$F = {
   ordinalNumber: ordinalNumber$F,
   era: buildLocalizeFn({
@@ -33405,9 +31336,7 @@ var locale$F = {
   localize: localize$F,
   match: match$F,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -33479,12 +31408,10 @@ var formatDistanceLocale$E = {
     other: '{{count}}ねんちかく'
   }
 };
-
 var formatDistance$E = function formatDistance(token, count, options) {
   options = options || {};
   var result;
   var tokenValue = formatDistanceLocale$E[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -33500,7 +31427,6 @@ var formatDistance$E = function formatDistance(token, count, options) {
       result = tokenValue.other.replace('{{count}}', String(count));
     }
   }
-
   if (options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + 'あと';
@@ -33508,7 +31434,6 @@ var formatDistance$E = function formatDistance(token, count, options) {
       return result + 'まえ';
     }
   }
-
   return result;
 };
 
@@ -33553,7 +31478,6 @@ var formatRelativeLocale$E = {
   nextWeek: 'よくしゅうのeeeeのp',
   other: 'P'
 };
-
 var formatRelative$E = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$E[token];
 };
@@ -33643,41 +31567,30 @@ var formattingDayPeriodValues$x = {
     night: 'しんや'
   }
 };
-
 var ordinalNumber$E = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
-
   switch (unit) {
     case 'year':
       return "".concat(number, "\u306D\u3093");
-
     case 'quarter':
       return "\u3060\u3044".concat(number, "\u3057\u306F\u3093\u304D");
-
     case 'month':
       return "".concat(number, "\u304C\u3064");
-
     case 'week':
       return "\u3060\u3044".concat(number, "\u3057\u3085\u3046");
-
     case 'date':
       return "".concat(number, "\u306B\u3061");
-
     case 'hour':
       return "".concat(number, "\u3058");
-
     case 'minute':
       return "".concat(number, "\u3075\u3093");
-
     case 'second':
       return "".concat(number, "\u3073\u3087\u3046");
-
     default:
       return "".concat(number);
   }
 };
-
 var localize$E = {
   ordinalNumber: ordinalNumber$E,
   era: buildLocalizeFn({
@@ -33809,7 +31722,6 @@ var match$E = {
  * @iso-639-2 jpn
  * @author Eri Hiramatsu [@Eritutteo]{@link https://github.com/Eritutteo}
  */
-
 var locale$E = {
   code: 'ja-Hira',
   formatDistance: formatDistance$E,
@@ -33818,9 +31730,7 @@ var locale$E = {
   localize: localize$E,
   match: match$E,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -33907,11 +31817,9 @@ var formatDistanceLocale$D = {
     future: 'თითქმის {{count}} წელში'
   }
 };
-
 var formatDistance$D = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$D[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (options !== null && options !== void 0 && options.addSuffix && options.comparison && options.comparison > 0) {
@@ -33921,7 +31829,6 @@ var formatDistance$D = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.present.replace('{{count}}', String(count));
   }
-
   return result;
 };
 
@@ -33966,7 +31873,6 @@ var formatRelativeLocale$D = {
   nextWeek: "'შემდეგი' eeee p'-ზე'",
   other: 'P'
 };
-
 var formatRelative$D = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$D[token];
 };
@@ -33980,11 +31886,12 @@ var quarterValues$D = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['1-ლი კვ', '2-ე კვ', '3-ე კვ', '4-ე კვ'],
   wide: ['1-ლი კვარტალი', '2-ე კვარტალი', '3-ე კვარტალი', '4-ე კვარტალი']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$D = {
   narrow: ['ია', 'თე', 'მა', 'აპ', 'მს', 'ვნ', 'ვლ', 'აგ', 'სე', 'ოქ', 'ნო', 'დე'],
   abbreviated: ['იან', 'თებ', 'მარ', 'აპრ', 'მაი', 'ივნ', 'ივლ', 'აგვ', 'სექ', 'ოქტ', 'ნოე', 'დეკ'],
@@ -34060,17 +31967,13 @@ var formattingDayPeriodValues$w = {
     night: 'ღამით'
   }
 };
-
 var ordinalNumber$D = function ordinalNumber(dirtyNumber) {
   var number = Number(dirtyNumber);
-
   if (number === 1) {
     return number + '-ლი';
   }
-
   return number + '-ე';
 };
-
 var localize$D = {
   ordinalNumber: ordinalNumber$D,
   era: buildLocalizeFn({
@@ -34199,7 +32102,6 @@ var match$D = {
  * @author Lado Lomidze [@Landish]{@link https://github.com/Landish}
  * @author Nick Shvelidze [@shvelo]{@link https://github.com/shvelo}
  */
-
 var locale$D = {
   code: 'ka',
   formatDistance: formatDistance$D,
@@ -34208,9 +32110,7 @@ var locale$D = {
   localize: localize$D,
   match: match$D,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -34255,7 +32155,6 @@ var formatDistanceLocale$C = {
         return 'жарты минут бұрын';
       }
     }
-
     return 'жарты минут';
   },
   lessThanXMinutes: {
@@ -34398,30 +32297,31 @@ var formatDistanceLocale$C = {
     }
   }
 };
-
 function declension$4(scheme, count) {
   // scheme for count=1 exists
   if (scheme.one && count === 1) return scheme.one;
   var rem10 = count % 10;
-  var rem100 = count % 100; // 1, 21, 31, ...
+  var rem100 = count % 100;
 
+  // 1, 21, 31, ...
   if (rem10 === 1 && rem100 !== 11) {
-    return scheme.singularNominative.replace('{{count}}', String(count)); // 2, 3, 4, 22, 23, 24, 32 ...
+    return scheme.singularNominative.replace('{{count}}', String(count));
+
+    // 2, 3, 4, 22, 23, 24, 32 ...
   } else if (rem10 >= 2 && rem10 <= 4 && (rem100 < 10 || rem100 > 20)) {
-    return scheme.singularGenitive.replace('{{count}}', String(count)); // 5, 6, 7, 8, 9, 10, 11, ...
+    return scheme.singularGenitive.replace('{{count}}', String(count));
+
+    // 5, 6, 7, 8, 9, 10, 11, ...
   } else {
     return scheme.pluralGenitive.replace('{{count}}', String(count));
   }
 }
-
 var formatDistance$C = function formatDistance(token, count, options) {
   var tokenValue = formatDistanceLocale$C[token];
   if (typeof tokenValue === 'function') return tokenValue(options);
-
   if (tokenValue.type === 'weeks') {
     return count === 1 ? tokenValue.one : tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       if (tokenValue.future) {
@@ -34472,26 +32372,21 @@ var formatLong$C = {
 };
 
 var accusativeWeekdays$3 = ['жексенбіде', 'дүйсенбіде', 'сейсенбіде', 'сәрсенбіде', 'бейсенбіде', 'жұмада', 'сенбіде'];
-
 function _lastWeek$3(day) {
   var weekday = accusativeWeekdays$3[day];
   return "'өткен " + weekday + " сағат' p'-де'";
 }
-
 function thisWeek$4(day) {
   var weekday = accusativeWeekdays$3[day];
   return "'" + weekday + " сағат' p'-де'";
 }
-
 function _nextWeek$3(day) {
   var weekday = accusativeWeekdays$3[day];
   return "'келесі " + weekday + " сағат' p'-де'";
 }
-
 var formatRelativeLocale$C = {
   lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$4(day);
     } else {
@@ -34503,7 +32398,6 @@ var formatRelativeLocale$C = {
   tomorrow: "'ертең сағат' p'-де'",
   nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$4(day);
     } else {
@@ -34512,14 +32406,11 @@ var formatRelativeLocale$C = {
   },
   other: 'P'
 };
-
 var formatRelative$C = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$C[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -34615,7 +32506,6 @@ var suffixes = {
   90: '-шы',
   100: '-ші'
 };
-
 var ordinalNumber$C = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var mod10 = number % 10;
@@ -34623,7 +32513,6 @@ var ordinalNumber$C = function ordinalNumber(dirtyNumber, _options) {
   var suffix = suffixes[number] || suffixes[mod10] || b && suffixes[b] || '';
   return number + suffix;
 };
-
 var localize$C = {
   ordinalNumber: ordinalNumber$C,
   era: buildLocalizeFn({
@@ -34761,7 +32650,6 @@ var match$C = {
  * @iso-639-2 kaz
  * @author Nikita Bayev [@drugoi]{@link https://github.com/drugoi}
  */
-
 var locale$C = {
   code: 'kk',
   formatDistance: formatDistance$C,
@@ -34770,9 +32658,7 @@ var locale$C = {
   localize: localize$C,
   match: match$C,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -34795,15 +32681,12 @@ var formatDistanceLocale$B = {
   overXYears: 'ជាង {{count}} ឆ្នាំ',
   almostXYears: 'ជិត {{count}} ឆ្នាំ'
 };
-
 var formatDistance$B = function formatDistance(token, count, options) {
   var tokenValue = formatDistanceLocale$B[token];
   var result = tokenValue;
-
   if (typeof count === 'number') {
     result = result.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'ក្នុងរយៈពេល ' + result;
@@ -34811,7 +32694,6 @@ var formatDistance$B = function formatDistance(token, count, options) {
       return result + 'មុន';
     }
   }
-
   return result;
 };
 
@@ -34856,7 +32738,6 @@ var formatRelativeLocale$B = {
   nextWeek: "'ថ្ងៃ'eeee'ស​ប្តា​ហ៍​ក្រោយម៉ោង' p",
   other: 'P'
 };
-
 var formatRelative$B = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$B[token];
 };
@@ -34946,12 +32827,10 @@ var formattingDayPeriodValues$u = {
     night: 'ពេលយប់'
   }
 };
-
 var ordinalNumber$B = function ordinalNumber(dirtyNumber, _) {
   var number = Number(dirtyNumber);
   return number.toString();
 };
-
 var localize$B = {
   ordinalNumber: ordinalNumber$B,
   era: buildLocalizeFn({
@@ -35085,7 +32964,6 @@ var match$B = {
  * @iso-639-2 khm
  * @author Seanghay Yath [@seanghay]{@link https://github.com/seanghay}
  */
-
 var locale$B = {
   code: 'km',
   formatDistance: formatDistance$B,
@@ -35094,14 +32972,13 @@ var locale$B = {
   localize: localize$B,
   match: match$B,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
 
 // note: no implementation for weeks
+
 var formatDistanceLocale$A = {
   lessThanXSeconds: {
     one: {
@@ -35196,8 +33073,10 @@ var formatDistanceLocale$A = {
   },
   // TODO
   // aboutXWeeks: {},
+
   // TODO
   // xWeeks: {},
+
   aboutXMonths: {
     one: {
       default: 'ಸುಮಾರು 1 ತಿಂಗಳು',
@@ -35271,7 +33150,6 @@ var formatDistanceLocale$A = {
     }
   }
 };
-
 function getResultByTense(parentToken, options) {
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
@@ -35280,20 +33158,16 @@ function getResultByTense(parentToken, options) {
       return parentToken.past;
     }
   }
-
   return parentToken.default;
 }
-
 var formatDistance$A = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$A[token];
-
   if (tokenValue.one && count === 1) {
     result = getResultByTense(tokenValue.one, options);
   } else {
     result = getResultByTense(tokenValue.other, options);
   }
-
   return result.replace('{{count}}', String(count));
 };
 
@@ -35305,8 +33179,8 @@ var dateFormats$A = {
   medium: 'MMM d, y',
   // CLDR 1818
   short: 'd/M/yy' // CLDR 1819
-
 };
+
 var timeFormats$A = {
   full: 'hh:mm:ss a zzzz',
   // CLDR 1820
@@ -35315,8 +33189,8 @@ var timeFormats$A = {
   medium: 'hh:mm:ss a',
   // CLDR 1822
   short: 'hh:mm a' // CLDR 1823
-
 };
+
 var dateTimeFormats$A = {
   full: '{{date}} {{time}}',
   // CLDR 1824
@@ -35325,8 +33199,8 @@ var dateTimeFormats$A = {
   medium: '{{date}} {{time}}',
   // CLDR 1826
   short: '{{date}} {{time}}' // CLDR 1827
-
 };
+
 var formatLong$A = {
   date: buildFormatLongFn({
     formats: dateFormats$A,
@@ -35350,7 +33224,6 @@ var formatRelativeLocale$A = {
   nextWeek: "eeee p 'ಕ್ಕೆ'",
   other: 'P'
 };
-
 var formatRelative$A = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$A[token];
 };
@@ -35360,29 +33233,31 @@ var eraValues$A = {
   abbreviated: ['ಕ್ರಿ.ಪೂ', 'ಕ್ರಿ.ಶ'],
   // CLDR #1618, #1620
   wide: ['ಕ್ರಿಸ್ತ ಪೂರ್ವ', 'ಕ್ರಿಸ್ತ ಶಕ'] // CLDR #1614, #1616
-
 };
+
 var quarterValues$A = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['ತ್ರೈ 1', 'ತ್ರೈ 2', 'ತ್ರೈ 3', 'ತ್ರೈ 4'],
   // CLDR #1630 - #1638
   wide: ['1ನೇ ತ್ರೈಮಾಸಿಕ', '2ನೇ ತ್ರೈಮಾಸಿಕ', '3ನೇ ತ್ರೈಮಾಸಿಕ', '4ನೇ ತ್ರೈಮಾಸಿಕ'] // CLDR #1622 - #1629
+};
 
-}; // CLDR #1646 - #1717
-
+// CLDR #1646 - #1717
 var monthValues$A = {
   narrow: ['ಜ', 'ಫೆ', 'ಮಾ', 'ಏ', 'ಮೇ', 'ಜೂ', 'ಜು', 'ಆ', 'ಸೆ', 'ಅ', 'ನ', 'ಡಿ'],
   abbreviated: ['ಜನ', 'ಫೆಬ್ರ', 'ಮಾರ್ಚ್', 'ಏಪ್ರಿ', 'ಮೇ', 'ಜೂನ್', 'ಜುಲೈ', 'ಆಗ', 'ಸೆಪ್ಟೆಂ', 'ಅಕ್ಟೋ', 'ನವೆಂ', 'ಡಿಸೆಂ'],
   wide: ['ಜನವರಿ', 'ಫೆಬ್ರವರಿ', 'ಮಾರ್ಚ್', 'ಏಪ್ರಿಲ್', 'ಮೇ', 'ಜೂನ್', 'ಜುಲೈ', 'ಆಗಸ್ಟ್', 'ಸೆಪ್ಟೆಂಬರ್', 'ಅಕ್ಟೋಬರ್', 'ನವೆಂಬರ್', 'ಡಿಸೆಂಬರ್']
-}; // CLDR #1718 - #1773
+};
 
+// CLDR #1718 - #1773
 var dayValues$A = {
   narrow: ['ಭಾ', 'ಸೋ', 'ಮಂ', 'ಬು', 'ಗು', 'ಶು', 'ಶ'],
   short: ['ಭಾನು', 'ಸೋಮ', 'ಮಂಗಳ', 'ಬುಧ', 'ಗುರು', 'ಶುಕ್ರ', 'ಶನಿ'],
   abbreviated: ['ಭಾನು', 'ಸೋಮ', 'ಮಂಗಳ', 'ಬುಧ', 'ಗುರು', 'ಶುಕ್ರ', 'ಶನಿ'],
   wide: ['ಭಾನುವಾರ', 'ಸೋಮವಾರ', 'ಮಂಗಳವಾರ', 'ಬುಧವಾರ', 'ಗುರುವಾರ', 'ಶುಕ್ರವಾರ', 'ಶನಿವಾರ']
-}; // CLDR #1774 - #1815
+};
 
+// CLDR #1774 - #1815
 var dayPeriodValues$A = {
   narrow: {
     am: 'ಪೂರ್ವಾಹ್ನ',
@@ -35447,12 +33322,10 @@ var formattingDayPeriodValues$t = {
     night: 'ರಾತ್ರಿ'
   }
 };
-
 var ordinalNumber$A = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'ನೇ';
 };
-
 var localize$A = {
   ordinalNumber: ordinalNumber$A,
   era: buildLocalizeFn({
@@ -35586,7 +33459,6 @@ var match$A = {
  * @iso-639-2 kan
  * @author Manjunatha Gouli [@developergouli]{@link https://github.com/developergouli}
  */
-
 var locale$A = {
   code: 'kn',
   formatDistance: formatDistance$A,
@@ -35595,9 +33467,7 @@ var locale$A = {
   localize: localize$A,
   match: match$A,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -35665,11 +33535,9 @@ var formatDistanceLocale$z = {
     other: '거의 {{count}}년'
   }
 };
-
 var formatDistance$z = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$z[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -35677,7 +33545,6 @@ var formatDistance$z = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' 후';
@@ -35685,7 +33552,6 @@ var formatDistance$z = function formatDistance(token, count, options) {
       return result + ' 전';
     }
   }
-
   return result;
 };
 
@@ -35730,7 +33596,6 @@ var formatRelativeLocale$z = {
   nextWeek: "'다음' eeee p",
   other: 'P'
 };
-
 var formatRelative$z = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$z[token];
 };
@@ -35820,24 +33685,19 @@ var formattingDayPeriodValues$s = {
     night: '밤'
   }
 };
-
 var ordinalNumber$z = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
-
   switch (unit) {
     case 'minute':
     case 'second':
       return String(number);
-
     case 'date':
       return number + '일';
-
     default:
       return number + '번째';
   }
 };
-
 var localize$z = {
   ordinalNumber: ordinalNumber$z,
   era: buildLocalizeFn({
@@ -35970,7 +33830,6 @@ var match$z = {
  * @author Lee Seoyoen [@iamssen]{@link https://github.com/iamssen}
  * @author Taiki IKeda [@so99ynoodles]{@link https://github.com/so99ynoodles}
  */
-
 var locale$z = {
   code: 'ko',
   formatDistance: formatDistance$z,
@@ -35979,9 +33838,7 @@ var locale$z = {
   localize: localize$z,
   match: match$z,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -36145,33 +34002,30 @@ var formatDistanceLocale$y = {
 var EXCEPTION_CONSONANTS = ['d', 'h', 'n', 't', 'z'];
 var VOWELS = ['a,', 'e', 'i', 'o', 'u'];
 var DIGITS_SPOKEN_N_NEEDED = [0, 1, 2, 3, 8, 9];
-var FIRST_TWO_DIGITS_SPOKEN_NO_N_NEEDED = [40, 50, 60, 70]; // Eifeler Regel
+var FIRST_TWO_DIGITS_SPOKEN_NO_N_NEEDED = [40, 50, 60, 70];
 
+// Eifeler Regel
 function isFinalNNeeded(nextWords) {
   var firstLetter = nextWords.charAt(0).toLowerCase();
-
   if (VOWELS.indexOf(firstLetter) != -1 || EXCEPTION_CONSONANTS.indexOf(firstLetter) != -1) {
     return true;
-  } // Numbers would need to converted into words for checking.
+  }
+
+  // Numbers would need to converted into words for checking.
   // Therefore, I have listed the digits that require a preceeding n with a few exceptions.
-
-
   var firstWord = nextWords.split(' ')[0];
   var number = parseInt(firstWord);
-
   if (!isNaN(number) && DIGITS_SPOKEN_N_NEEDED.indexOf(number % 10) != -1 && FIRST_TWO_DIGITS_SPOKEN_NO_N_NEEDED.indexOf(parseInt(firstWord.substring(0, 2))) == -1) {
     return true;
-  } // Omit other checks as they are not expected here.
+  }
 
-
+  // Omit other checks as they are not expected here.
   return false;
 }
-
 var formatDistance$y = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$y[token];
   var usageGroup = options !== null && options !== void 0 && options.addSuffix ? tokenValue.withPreposition : tokenValue.standalone;
-
   if (typeof usageGroup === 'string') {
     result = usageGroup;
   } else if (count === 1) {
@@ -36179,7 +34033,6 @@ var formatDistance$y = function formatDistance(token, count, options) {
   } else {
     result = usageGroup.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'a' + (isFinalNNeeded(result) ? 'n' : '') + ' ' + result;
@@ -36187,7 +34040,6 @@ var formatDistance$y = function formatDistance(token, count, options) {
       return 'viru' + (isFinalNNeeded(result) ? 'n' : '') + ' ' + result;
     }
   }
-
   return result;
 };
 
@@ -36199,8 +34051,8 @@ var dateFormats$y = {
   medium: 'do MMM y',
   // 7. Jan 2018
   short: 'dd.MM.yy' // 07.01.18
-
 };
+
 var timeFormats$y = {
   full: 'HH:mm:ss zzzz',
   long: 'HH:mm:ss z',
@@ -36232,12 +34084,10 @@ var formatRelativeLocale$y = {
   lastWeek: function lastWeek(date) {
     var day = date.getUTCDay();
     var result = "'läschte";
-
     if (day === 2 || day === 4) {
       // Eifeler Regel: Add an n before the consonant d; Here "Dënschdeg" "and Donneschde".
       result += 'n';
     }
-
     result += "' eeee 'um' p";
     return result;
   },
@@ -36247,14 +34097,11 @@ var formatRelativeLocale$y = {
   nextWeek: "eeee 'um' p",
   other: 'P'
 };
-
 var formatRelative$y = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$y[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -36343,12 +34190,10 @@ var formattingDayPeriodValues$r = {
     night: 'nuets'
   }
 };
-
 var ordinalNumber$y = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$y = {
   ordinalNumber: ordinalNumber$y,
   era: buildLocalizeFn({
@@ -36430,9 +34275,9 @@ var parseDayPeriodPatterns$y = {
     // will never be matched. Afternoon is matched by `pm`
     evening: /owes/i,
     night: /nuets/i // will never be matched. Night is matched by `pm`
-
   }
 };
+
 var match$y = {
   ordinalNumber: buildMatchPatternFn({
     matchPattern: matchOrdinalNumberPattern$y,
@@ -36484,7 +34329,6 @@ var match$y = {
  * @iso-639-2 ltz
  * @author Daniel Waxweiler [@dwaxweiler]{@link https://github.com/dwaxweiler}
  */
-
 var locale$y = {
   code: 'lb',
   formatDistance: formatDistance$y,
@@ -36493,9 +34337,7 @@ var locale$y = {
   localize: localize$y,
   match: match$y,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -36519,7 +34361,6 @@ var translations = {
   almost: 'beveik',
   lessthan: 'mažiau nei'
 };
-
 var translateSeconds = function translateSeconds(_number, addSuffix, _key, isFuture) {
   if (!addSuffix) {
     return 'kelios sekundės';
@@ -36527,14 +34368,11 @@ var translateSeconds = function translateSeconds(_number, addSuffix, _key, isFut
     return isFuture ? 'kelių sekundžių' : 'kelias sekundes';
   }
 };
-
 var translateSingular = function translateSingular(_number, addSuffix, key, isFuture) {
   return !addSuffix ? forms(key)[0] : isFuture ? forms(key)[1] : forms(key)[2];
 };
-
 var translate = function translate(number, addSuffix, key, isFuture) {
   var result = number + ' ';
-
   if (number === 1) {
     return result + translateSingular(number, addSuffix, key, isFuture);
   } else if (!addSuffix) {
@@ -36547,15 +34385,12 @@ var translate = function translate(number, addSuffix, key, isFuture) {
     }
   }
 };
-
 function special(number) {
   return number % 10 === 0 || number > 10 && number < 20;
 }
-
 function forms(key) {
   return translations[key].split('_');
 }
-
 var formatDistanceLocale$x = {
   lessThanXSeconds: {
     one: translateSeconds,
@@ -36619,14 +34454,12 @@ var formatDistanceLocale$x = {
     other: translate
   }
 };
-
 var formatDistance$x = function formatDistance(token, count, options) {
   var adverb = token.match(/about|over|almost|lessthan/i);
   var unit = adverb ? token.replace(adverb[0], '') : token;
   var isFuture = (options === null || options === void 0 ? void 0 : options.comparison) !== undefined && options.comparison > 0;
   var result;
   var tokenValue = formatDistanceLocale$x[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -36634,13 +34467,10 @@ var formatDistance$x = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other(count, (options === null || options === void 0 ? void 0 : options.addSuffix) === true, unit.toLowerCase() + '_other', isFuture);
   }
-
   if (adverb) {
     var _key2 = adverb[0].toLowerCase();
-
     result = translations[_key2] + ' ' + result;
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'po ' + result;
@@ -36648,7 +34478,6 @@ var formatDistance$x = function formatDistance(token, count, options) {
       return 'prieš ' + result;
     }
   }
-
   return result;
 };
 
@@ -36693,7 +34522,6 @@ var formatRelativeLocale$x = {
   nextWeek: 'eeee p',
   other: 'P'
 };
-
 var formatRelative$x = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$x[token];
 };
@@ -36799,12 +34627,10 @@ var formattingDayPeriodValues$q = {
     night: 'naktis'
   }
 };
-
 var ordinalNumber$x = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '-oji';
 };
-
 var localize$x = {
   ordinalNumber: ordinalNumber$x,
   era: buildLocalizeFn({
@@ -36958,7 +34784,6 @@ var match$x = {
  * @author Pavlo Shpak [@pshpak]{@link https://github.com/pshpak}
  * @author Eduardo Pardo [@eduardopsll]{@link https://github.com/eduardopsll}
  */
-
 var locale$x = {
   code: 'lt',
   formatDistance: formatDistance$x,
@@ -36967,9 +34792,7 @@ var locale$x = {
   localize: localize$x,
   match: match$x,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -36984,7 +34807,6 @@ function buildLocalizeTokenFn$2(schema) {
       }
     } else {
       var rem = count % 10 === 1 && count % 100 !== 11;
-
       if (options !== null && options !== void 0 && options.addSuffix) {
         return schema.other[0].replace('{{time}}', rem ? schema.other[3] : schema.other[4]).replace('{{count}}', String(count));
       } else {
@@ -36993,7 +34815,6 @@ function buildLocalizeTokenFn$2(schema) {
     }
   };
 }
-
 var formatDistanceLocale$w = {
   lessThanXSeconds: buildLocalizeTokenFn$2({
     one: ['mazāk par {{time}}', 'sekundi', 'sekundi'],
@@ -37036,7 +34857,8 @@ var formatDistanceLocale$w = {
   }),
   xWeeks: buildLocalizeTokenFn$2({
     one: ['1 {{time}}', 'nedēļa', 'nedēļas'],
-    other: ['{{count}} {{time}}', // TODO
+    other: ['{{count}} {{time}}',
+    // TODO
     'nedēļa', 'nedēļu', 'nedēļas', 'nedēļām']
   }),
   aboutXMonths: buildLocalizeTokenFn$2({
@@ -37064,10 +34886,8 @@ var formatDistanceLocale$w = {
     other: ['vairāk nekā {{count}} {{time}}', 'gads', 'gadi', 'gada', 'gadiem']
   })
 };
-
 var formatDistance$w = function formatDistance(token, count, options) {
   var result = formatDistanceLocale$w[token](count, options);
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'pēc ' + result;
@@ -37075,7 +34895,6 @@ var formatDistance$w = function formatDistance(token, count, options) {
       return 'pirms ' + result;
     }
   }
-
   return result;
 };
 
@@ -37118,7 +34937,6 @@ var formatRelativeLocale$w = {
     if (isSameUTCWeek(date, baseDate, options)) {
       return "eeee 'plkst.' p";
     }
-
     var weekday = weekdays$1[date.getUTCDay()];
     return "'Pagājušā " + weekday + " plkst.' p";
   },
@@ -37129,20 +34947,16 @@ var formatRelativeLocale$w = {
     if (isSameUTCWeek(date, baseDate, options)) {
       return "eeee 'plkst.' p";
     }
-
     var weekday = weekdays$1[date.getUTCDay()];
     return "'Nākamajā " + weekday + " plkst.' p";
   },
   other: 'P'
 };
-
 var formatRelative$w = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$w[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -37247,12 +35061,10 @@ var formattingDayPeriodValues$p = {
     night: 'naktī'
   }
 };
-
 var ordinalNumber$w = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$w = {
   ordinalNumber: ordinalNumber$w,
   era: buildLocalizeFn({
@@ -37395,7 +35207,6 @@ var match$w = {
  * @iso-639-2 lav
  * @author Rūdolfs Puķītis [@prudolfs]{@link https://github.com/prudolfs}
  */
-
 var locale$w = {
   code: 'lv',
   formatDistance: formatDistance$w,
@@ -37404,9 +35215,7 @@ var locale$w = {
   localize: localize$w,
   match: match$w,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -37474,11 +35283,9 @@ var formatDistanceLocale$v = {
     other: 'безмалку {{count}} години'
   }
 };
-
 var formatDistance$v = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$v[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -37486,7 +35293,6 @@ var formatDistance$v = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'за ' + result;
@@ -37494,7 +35300,6 @@ var formatDistance$v = function formatDistance(token, count, options) {
       return 'пред ' + result;
     }
   }
-
   return result;
 };
 
@@ -37529,16 +35334,13 @@ var formatLong$v = {
 };
 
 var weekdays = ['недела', 'понеделник', 'вторник', 'среда', 'четврток', 'петок', 'сабота'];
-
 function _lastWeek$2(day) {
   var weekday = weekdays[day];
-
   switch (day) {
     case 0:
     case 3:
     case 6:
       return "'минатата " + weekday + " во' p";
-
     case 1:
     case 2:
     case 4:
@@ -37546,16 +35348,13 @@ function _lastWeek$2(day) {
       return "'минатиот " + weekday + " во' p";
   }
 }
-
 function thisWeek$3(day) {
   var weekday = weekdays[day];
-
   switch (day) {
     case 0:
     case 3:
     case 6:
       return "'ова " + weekday + " вo' p";
-
     case 1:
     case 2:
     case 4:
@@ -37563,16 +35362,13 @@ function thisWeek$3(day) {
       return "'овој " + weekday + " вo' p";
   }
 }
-
 function _nextWeek$2(day) {
   var weekday = weekdays[day];
-
   switch (day) {
     case 0:
     case 3:
     case 6:
       return "'следната " + weekday + " вo' p";
-
     case 1:
     case 2:
     case 4:
@@ -37580,11 +35376,9 @@ function _nextWeek$2(day) {
       return "'следниот " + weekday + " вo' p";
   }
 }
-
 var formatRelativeLocale$v = {
   lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$3(day);
     } else {
@@ -37596,7 +35390,6 @@ var formatRelativeLocale$v = {
   tomorrow: "'утре во' p",
   nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$3(day);
     } else {
@@ -37605,14 +35398,11 @@ var formatRelativeLocale$v = {
   },
   other: 'P'
 };
-
 var formatRelative$v = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$v[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -37648,28 +35438,22 @@ var dayPeriodValues$v = {
     night: 'ноќе'
   }
 };
-
 var ordinalNumber$v = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
-
   if (rem100 > 20 || rem100 < 10) {
     switch (rem100 % 10) {
       case 1:
         return number + '-ви';
-
       case 2:
         return number + '-ри';
-
       case 7:
       case 8:
         return number + '-ми';
     }
   }
-
   return number + '-ти';
 };
-
 var localize$v = {
   ordinalNumber: ordinalNumber$v,
   era: buildLocalizeFn({
@@ -37799,7 +35583,6 @@ var match$v = {
  * @author Petar Vlahu [@vlahupetar]{@link https://github.com/vlahupetar}
  * @author Altrim Beqiri [@altrim]{@link https://github.com/altrim}
  */
-
 var locale$v = {
   code: 'mk',
   formatDistance: formatDistance$v,
@@ -37808,9 +35591,7 @@ var locale$v = {
   localize: localize$v,
   match: match$v,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -37878,11 +35659,9 @@ var formatDistanceLocale$u = {
     other: 'бараг {{count}} жил'
   }
 };
-
 var formatDistance$u = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$u[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -37890,7 +35669,6 @@ var formatDistance$u = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     /**
      * Append genitive case
@@ -37898,55 +35676,43 @@ var formatDistance$u = function formatDistance(token, count, options) {
     var words = result.split(' ');
     var lastword = words.pop();
     result = words.join(' ');
-
     switch (lastword) {
       case 'секунд':
         result += ' секундийн';
         break;
-
       case 'минут':
         result += ' минутын';
         break;
-
       case 'цаг':
         result += ' цагийн';
         break;
-
       case 'өдөр':
         result += ' өдрийн';
         break;
-
       case 'сар':
         result += ' сарын';
         break;
-
       case 'жил':
         result += ' жилийн';
         break;
-
       case 'хоног':
         result += ' хоногийн';
         break;
-
       case 'гаран':
         result += ' гараны';
         break;
-
       case 'хүрэхгүй':
         result += ' хүрэхгүй хугацааны';
         break;
-
       default:
         result += lastword + '-н';
     }
-
     if (options.comparison && options.comparison > 0) {
       return result + ' дараа';
     } else {
       return result + ' өмнө';
     }
   }
-
   return result;
 };
 
@@ -37991,7 +35757,6 @@ var formatRelativeLocale$u = {
   nextWeek: "'ирэх' eeee 'гарагийн' p 'цагт'",
   other: 'P'
 };
-
 var formatRelative$u = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$u[token];
 };
@@ -38005,11 +35770,12 @@ var quarterValues$u = {
   narrow: ['I', 'II', 'III', 'IV'],
   abbreviated: ['I улирал', 'II улирал', 'III улирал', 'IV улирал'],
   wide: ['1-р улирал', '2-р улирал', '3-р улирал', '4-р улирал']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$u = {
   narrow: ['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII'],
   abbreviated: ['1-р сар', '2-р сар', '3-р сар', '4-р сар', '5-р сар', '6-р сар', '7-р сар', '8-р сар', '9-р сар', '10-р сар', '11-р сар', '12-р сар'],
@@ -38064,11 +35830,9 @@ var dayPeriodValues$u = {
     night: 'шөнө'
   }
 };
-
 var ordinalNumber$u = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$u = {
   ordinalNumber: ordinalNumber$u,
   era: buildLocalizeFn({
@@ -38204,7 +35968,6 @@ var match$u = {
  * @iso-639-2 mon
  * @author Bilguun Ochirbat [@bilguun0203]{@link https://github.com/bilguun0203}
  */
-
 var locale$u = {
   code: 'mn',
   formatDistance: formatDistance$u,
@@ -38213,9 +35976,7 @@ var locale$u = {
   localize: localize$u,
   match: match$u,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -38283,11 +36044,9 @@ var formatDistanceLocale$t = {
     other: 'hampir {{count}} tahun'
   }
 };
-
 var formatDistance$t = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$t[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -38295,7 +36054,6 @@ var formatDistance$t = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'dalam masa ' + result;
@@ -38303,7 +36061,6 @@ var formatDistance$t = function formatDistance(token, count, options) {
       return result + ' yang lalu';
     }
   }
-
   return result;
 };
 
@@ -38348,13 +36105,11 @@ var formatRelativeLocale$t = {
   nextWeek: "eeee 'pada jam' p",
   other: 'P'
 };
-
 var formatRelative$t = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$t[token];
 };
 
 // https://www.unicode.org/cldr/charts/32/summary/ms.html
-
 var eraValues$t = {
   narrow: ['SM', 'M'],
   abbreviated: ['SM', 'M'],
@@ -38364,11 +36119,12 @@ var quarterValues$t = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['S1', 'S2', 'S3', 'S4'],
   wide: ['Suku pertama', 'Suku kedua', 'Suku ketiga', 'Suku keempat']
-}; // Note: in Malay, the names of days of the week and months are capitalized.
+};
+
+// Note: in Malay, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$t = {
   narrow: ['J', 'F', 'M', 'A', 'M', 'J', 'J', 'O', 'S', 'O', 'N', 'D'],
   abbreviated: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'],
@@ -38444,12 +36200,10 @@ var formattingDayPeriodValues$o = {
     night: 'malam'
   }
 };
-
 var ordinalNumber$t = function ordinalNumber(dirtyNumber, _options) {
   // Can't use "pertama", "kedua" because can't be parsed
   return 'ke-' + Number(dirtyNumber);
 };
-
 var localize$t = {
   ordinalNumber: ordinalNumber$t,
   era: buildLocalizeFn({
@@ -38583,7 +36337,6 @@ var match$t = {
  * @iso-639-2 msa
  * @author Ruban Selvarajah [@Zyten]{@link https://github.com/Zyten}
  */
-
 var locale$t = {
   code: 'ms',
   formatDistance: formatDistance$t,
@@ -38592,9 +36345,7 @@ var locale$t = {
   localize: localize$t,
   match: match$t,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -38666,11 +36417,9 @@ var formatDistanceLocale$s = {
     other: 'kważi {{count}} snin'
   }
 };
-
 var formatDistance$s = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$s[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -38680,7 +36429,6 @@ var formatDistance$s = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return "f'" + result;
@@ -38688,7 +36436,6 @@ var formatDistance$s = function formatDistance(token, count, options) {
       return result + ' ilu';
     }
   }
-
   return result;
 };
 
@@ -38733,7 +36480,6 @@ var formatRelativeLocale$s = {
   nextWeek: "eeee 'fil-'p",
   other: 'P'
 };
-
 var formatRelative$s = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$s[token];
 };
@@ -38823,12 +36569,10 @@ var formattingDayPeriodValues$n = {
     night: 'billejl'
   }
 };
-
 var ordinalNumber$s = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
-
 var localize$s = {
   ordinalNumber: ordinalNumber$s,
   era: buildLocalizeFn({
@@ -38963,7 +36707,6 @@ var match$s = {
  * @author Andras Matzon [@amatzon](@link https://github.com/amatzon)
  * @author Bryan Borg [@bryanMt](@link https://github.com/bryanMt)
  */
-
 var locale$s = {
   code: 'mt',
   formatDistance: formatDistance$s,
@@ -38972,9 +36715,7 @@ var locale$s = {
   localize: localize$s,
   match: match$s,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -39042,11 +36783,9 @@ var formatDistanceLocale$r = {
     other: 'nesten {{count}} år'
   }
 };
-
 var formatDistance$r = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$r[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -39054,7 +36793,6 @@ var formatDistance$r = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'om ' + result;
@@ -39062,7 +36800,6 @@ var formatDistance$r = function formatDistance(token, count, options) {
       return result + ' siden';
     }
   }
-
   return result;
 };
 
@@ -39107,7 +36844,6 @@ var formatRelativeLocale$r = {
   nextWeek: "EEEE 'kl.' p",
   other: 'P'
 };
-
 var formatRelative$r = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$r[token];
 };
@@ -39165,12 +36901,10 @@ var dayPeriodValues$r = {
     night: 'på natten'
   }
 };
-
 var ordinalNumber$r = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$r = {
   ordinalNumber: ordinalNumber$r,
   era: buildLocalizeFn({
@@ -39303,7 +37037,6 @@ var match$r = {
  * @author Mikolaj Grzyb [@mikolajgrzyb]{@link https://github.com/mikolajgrzyb}
  * @author Dag Stuan [@dagstuan]{@link https://github.com/dagstuan}
  */
-
 var locale$r = {
   code: 'nb',
   formatDistance: formatDistance$r,
@@ -39312,9 +37045,7 @@ var locale$r = {
   localize: localize$r,
   match: match$r,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -39382,11 +37113,9 @@ var formatDistanceLocale$q = {
     other: 'bijna {{count}} jaar'
   }
 };
-
 var formatDistance$q = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$q[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -39394,7 +37123,6 @@ var formatDistance$q = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'over ' + result;
@@ -39402,7 +37130,6 @@ var formatDistance$q = function formatDistance(token, count, options) {
       return result + ' geleden';
     }
   }
-
   return result;
 };
 
@@ -39447,7 +37174,6 @@ var formatRelativeLocale$q = {
   nextWeek: "eeee 'om' p",
   other: 'P'
 };
-
 var formatRelative$q = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$q[token];
 };
@@ -39505,12 +37231,10 @@ var dayPeriodValues$q = {
     night: "'s nachts"
   }
 };
-
 var ordinalNumber$q = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'e';
 };
-
 var localize$q = {
   ordinalNumber: ordinalNumber$q,
   era: buildLocalizeFn({
@@ -39646,7 +37370,6 @@ var match$q = {
  * @author Niels Keurentjes [@curry684]{@link https://github.com/curry684}
  * @author Stefan Vermaas [@stefanvermaas]{@link https://github.com/stefanvermaas}
  */
-
 var locale$q = {
   code: 'nl',
   formatDistance: formatDistance$q,
@@ -39655,9 +37378,7 @@ var locale$q = {
   localize: localize$q,
   match: match$q,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -39725,11 +37446,9 @@ var formatDistanceLocale$p = {
     other: 'bijna {{count}} jaar'
   }
 };
-
 var formatDistance$p = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$p[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -39737,7 +37456,6 @@ var formatDistance$p = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'over ' + result;
@@ -39745,7 +37463,6 @@ var formatDistance$p = function formatDistance(token, count, options) {
       return result + ' geleden';
     }
   }
-
   return result;
 };
 
@@ -39790,7 +37507,6 @@ var formatRelativeLocale$p = {
   nextWeek: "eeee 'om' p",
   other: 'P'
 };
-
 var formatRelative$p = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$p[token];
 };
@@ -39848,12 +37564,10 @@ var dayPeriodValues$p = {
     night: "'s nachts"
   }
 };
-
 var ordinalNumber$p = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'e';
 };
-
 var localize$p = {
   ordinalNumber: ordinalNumber$p,
   era: buildLocalizeFn({
@@ -39987,7 +37701,6 @@ var match$p = {
  * @author Lode Vanhove [@bitcrumb]{@link https://github.com/bitcrumb}
  * @author Alex Hoeing [@dcbn]{@link https://github.com/dcbn}
  */
-
 var locale$p = {
   code: 'nl-BE',
   formatDistance: formatDistance$p,
@@ -39996,9 +37709,7 @@ var locale$p = {
   localize: localize$p,
   match: match$p,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -40067,11 +37778,9 @@ var formatDistanceLocale$o = {
   }
 };
 var wordMapping$1 = ['null', 'ein', 'to', 'tre', 'fire', 'fem', 'seks', 'sju', 'åtte', 'ni', 'ti', 'elleve', 'tolv'];
-
 var formatDistance$o = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$o[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -40083,7 +37792,6 @@ var formatDistance$o = function formatDistance(token, count, options) {
       result = tokenValue.other.replace('{{count}}', count < 13 ? wordMapping$1[count] : String(count));
     }
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'om ' + result;
@@ -40091,7 +37799,6 @@ var formatDistance$o = function formatDistance(token, count, options) {
       return result + ' sidan';
     }
   }
-
   return result;
 };
 
@@ -40136,7 +37843,6 @@ var formatRelativeLocale$o = {
   nextWeek: "EEEE 'kl.' p",
   other: 'P'
 };
-
 var formatRelative$o = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$o[token];
 };
@@ -40194,12 +37900,10 @@ var dayPeriodValues$o = {
     night: 'på natta'
   }
 };
-
 var ordinalNumber$o = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$o = {
   ordinalNumber: ordinalNumber$o,
   era: buildLocalizeFn({
@@ -40330,7 +38034,6 @@ var match$o = {
  * @iso-639-2 nno
  * @author Mats Byrkjeland [@draperunner]{@link https://github.com/draperunner}
  */
-
 var locale$o = {
   code: 'nn',
   formatDistance: formatDistance$o,
@@ -40339,9 +38042,7 @@ var locale$o = {
   localize: localize$o,
   match: match$o,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -40409,11 +38110,9 @@ var formatDistanceLocale$n = {
     other: 'gaireben {{count}} ans'
   }
 };
-
 var formatDistance$n = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$n[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -40421,7 +38120,6 @@ var formatDistance$n = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'd’aquí ' + result;
@@ -40429,7 +38127,6 @@ var formatDistance$n = function formatDistance(token, count, options) {
       return 'fa ' + result;
     }
   }
-
   return result;
 };
 
@@ -40474,7 +38171,6 @@ var formatRelativeLocale$n = {
   nextWeek: "eeee 'a' p",
   other: 'P'
 };
-
 var formatRelative$n = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$n[token];
 };
@@ -40564,33 +38260,27 @@ var formattingDayPeriodValues$m = {
     night: 'de la nuèch'
   }
 };
-
 var ordinalNumber$n = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   var ordinal;
-
   switch (number) {
     case 1:
       ordinal = 'èr';
       break;
-
     case 2:
       ordinal = 'nd';
       break;
-
     default:
       ordinal = 'en';
-  } // feminine for year, week, hour, minute, second
+  }
 
-
+  // feminine for year, week, hour, minute, second
   if (unit === 'year' || unit === 'week' || unit === 'hour' || unit === 'minute' || unit === 'second') {
     ordinal += 'a';
   }
-
   return number + ordinal;
 };
-
 var localize$n = {
   ordinalNumber: ordinalNumber$n,
   era: buildLocalizeFn({
@@ -40724,7 +38414,6 @@ var match$n = {
  * @iso-639-2 oci
  * @author Quentin PAGÈS
  */
-
 var locale$n = {
   code: 'oc',
   formatDistance: formatDistance$n,
@@ -40733,9 +38422,7 @@ var locale$n = {
   localize: localize$n,
   match: match$n,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -40850,40 +38537,34 @@ var formatDistanceLocale$m = {
     other: 'prawie {{count}} lat'
   }
 };
-
 function declensionGroup$1(scheme, count) {
   if (count === 1) {
     return scheme.one;
   }
+  var rem100 = count % 100;
 
-  var rem100 = count % 100; // ends with 11-20
-
+  // ends with 11-20
   if (rem100 <= 20 && rem100 > 10) {
     return scheme.other;
   }
+  var rem10 = rem100 % 10;
 
-  var rem10 = rem100 % 10; // ends with 2, 3, 4
-
+  // ends with 2, 3, 4
   if (rem10 >= 2 && rem10 <= 4) {
     return scheme.twoFour;
   }
-
   return scheme.other;
 }
-
 function declension$3(scheme, count, time) {
   var group = declensionGroup$1(scheme, count);
   var finalText = typeof group === 'string' ? group : group[time];
   return finalText.replace('{{count}}', String(count));
 }
-
 var formatDistance$m = function formatDistance(token, count, options) {
   var scheme = formatDistanceLocale$m[token];
-
   if (!(options !== null && options !== void 0 && options.addSuffix)) {
     return declension$3(scheme, count, 'regular');
   }
-
   if (options.comparison && options.comparison > 0) {
     return 'za ' + declension$3(scheme, count, 'future');
   } else {
@@ -40945,10 +38626,8 @@ var dayGrammaticalGender = {
   5: 'masculine',
   6: 'feminine'
 };
-
 function dayAndTimeWithAdjective(token, date, baseDate, options) {
   var adjectives;
-
   if (isSameUTCWeek(date, baseDate, options)) {
     adjectives = adjectivesThisWeek;
   } else if (token === 'lastWeek') {
@@ -40958,13 +38637,11 @@ function dayAndTimeWithAdjective(token, date, baseDate, options) {
   } else {
     throw new Error("Cannot determine adjectives for token ".concat(token));
   }
-
   var day = date.getUTCDay();
   var grammaticalGender = dayGrammaticalGender[day];
   var adjective = adjectives[grammaticalGender];
   return "'".concat(adjective, "' eeee 'o' p");
 }
-
 var formatRelativeLocale$m = {
   lastWeek: dayAndTimeWithAdjective,
   yesterday: "'wczoraj o' p",
@@ -40973,14 +38650,11 @@ var formatRelativeLocale$m = {
   nextWeek: dayAndTimeWithAdjective,
   other: 'P'
 };
-
 var formatRelative$m = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$m[token];
-
   if (typeof format === 'function') {
     return format(token, date, baseDate, options);
   }
-
   return format;
 };
 
@@ -41080,11 +38754,9 @@ var dayPeriodFormattingValues = {
     night: 'w nocy'
   }
 };
-
 var ordinalNumber$m = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$m = {
   ordinalNumber: ordinalNumber$m,
   era: buildLocalizeFn({
@@ -41237,7 +38909,6 @@ var match$m = {
  * @author Mikolaj Grzyb [@mikolajgrzyb]{@link https://github.com/mikolajgrzyb}
  * @author Mateusz Tokarski [@mutisz]{@link https://github.com/mutisz}
  */
-
 var locale$m = {
   code: 'pl',
   formatDistance: formatDistance$m,
@@ -41246,9 +38917,7 @@ var locale$m = {
   localize: localize$m,
   match: match$m,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -41316,11 +38985,9 @@ var formatDistanceLocale$l = {
     other: 'quase {{count}} anos'
   }
 };
-
 var formatDistance$l = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$l[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -41328,7 +38995,6 @@ var formatDistance$l = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'daqui a ' + result;
@@ -41336,7 +39002,6 @@ var formatDistance$l = function formatDistance(token, count, options) {
       return 'há ' + result;
     }
   }
-
   return result;
 };
 
@@ -41385,14 +39050,11 @@ var formatRelativeLocale$l = {
   nextWeek: "eeee 'às' p",
   other: 'P'
 };
-
 var formatRelative$l = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$l[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -41481,12 +39143,10 @@ var formattingDayPeriodValues$l = {
     night: 'da madrugada'
   }
 };
-
 var ordinalNumber$l = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'º';
 };
-
 var localize$l = {
   ordinalNumber: ordinalNumber$l,
   era: buildLocalizeFn({
@@ -41622,7 +39282,6 @@ var match$l = {
  * @author Dário Freire [@dfreire]{@link https://github.com/dfreire}
  * @author Adrián de la Rosa [@adrm]{@link https://github.com/adrm}
  */
-
 var locale$l = {
   code: 'pt',
   formatDistance: formatDistance$l,
@@ -41631,9 +39290,7 @@ var locale$l = {
   localize: localize$l,
   match: match$l,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -41701,11 +39358,9 @@ var formatDistanceLocale$k = {
     other: 'quase {{count}} anos'
   }
 };
-
 var formatDistance$k = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$k[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -41713,7 +39368,6 @@ var formatDistance$k = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'em ' + result;
@@ -41721,7 +39375,6 @@ var formatDistance$k = function formatDistance(token, count, options) {
       return 'há ' + result;
     }
   }
-
   return result;
 };
 
@@ -41770,14 +39423,11 @@ var formatRelativeLocale$k = {
   nextWeek: "eeee 'às' p",
   other: 'P'
 };
-
 var formatRelative$k = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$k[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -41866,17 +39516,13 @@ var formattingDayPeriodValues$k = {
     night: 'da noite'
   }
 };
-
 var ordinalNumber$k = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
-
   if ((options === null || options === void 0 ? void 0 : options.unit) === 'week') {
     return number + 'ª';
   }
-
   return number + 'º';
 };
-
 var localize$k = {
   ordinalNumber: ordinalNumber$k,
   era: buildLocalizeFn({
@@ -42013,7 +39659,6 @@ var match$k = {
  * @author Lucas Duailibe [@duailibe]{@link https://github.com/duailibe}
  * @author Yago Carballo [@yagocarballo]{@link https://github.com/YagoCarballo}
  */
-
 var locale$k = {
   code: 'pt-BR',
   formatDistance: formatDistance$k,
@@ -42022,9 +39667,7 @@ var locale$k = {
   localize: localize$k,
   match: match$k,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -42092,11 +39735,9 @@ var formatDistanceLocale$j = {
     other: 'aproape {{count}} ani'
   }
 };
-
 var formatDistance$j = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$j[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -42104,7 +39745,6 @@ var formatDistance$j = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'în ' + result;
@@ -42112,7 +39752,6 @@ var formatDistance$j = function formatDistance(token, count, options) {
       return result + ' în urmă';
     }
   }
-
   return result;
 };
 
@@ -42157,7 +39796,6 @@ var formatRelativeLocale$j = {
   nextWeek: "eeee 'viitoare la' p",
   other: 'P'
 };
-
 var formatRelative$j = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$j[token];
 };
@@ -42247,11 +39885,9 @@ var formattingDayPeriodValues$j = {
     night: 'noapte'
   }
 };
-
 var ordinalNumber$j = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$j = {
   ordinalNumber: ordinalNumber$j,
   era: buildLocalizeFn({
@@ -42388,7 +40024,6 @@ var match$j = {
  * @author Adrian Ocneanu [@aocneanu]{@link https://github.com/aocneanu}
  * @author Mihai Ocneanu [@gandesc]{@link https://github.com/gandesc}
  */
-
 var locale$j = {
   code: 'ro',
   formatDistance: formatDistance$j,
@@ -42397,9 +40032,7 @@ var locale$j = {
   localize: localize$j,
   match: match$j,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -42409,19 +40042,22 @@ function declension$2(scheme, count) {
   if (scheme.one !== undefined && count === 1) {
     return scheme.one;
   }
-
   var rem10 = count % 10;
-  var rem100 = count % 100; // 1, 21, 31, ...
+  var rem100 = count % 100;
 
+  // 1, 21, 31, ...
   if (rem10 === 1 && rem100 !== 11) {
-    return scheme.singularNominative.replace('{{count}}', String(count)); // 2, 3, 4, 22, 23, 24, 32 ...
+    return scheme.singularNominative.replace('{{count}}', String(count));
+
+    // 2, 3, 4, 22, 23, 24, 32 ...
   } else if (rem10 >= 2 && rem10 <= 4 && (rem100 < 10 || rem100 > 20)) {
-    return scheme.singularGenitive.replace('{{count}}', String(count)); // 5, 6, 7, 8, 9, 10, 11, ...
+    return scheme.singularGenitive.replace('{{count}}', String(count));
+
+    // 5, 6, 7, 8, 9, 10, 11, ...
   } else {
     return scheme.pluralGenitive.replace('{{count}}', String(count));
   }
 }
-
 function buildLocalizeTokenFn$1(scheme) {
   return function (count, options) {
     if (options !== null && options !== void 0 && options.addSuffix) {
@@ -42443,7 +40079,6 @@ function buildLocalizeTokenFn$1(scheme) {
     }
   };
 }
-
 var formatDistanceLocale$i = {
   lessThanXSeconds: buildLocalizeTokenFn$1({
     regular: {
@@ -42484,7 +40119,6 @@ var formatDistanceLocale$i = {
         return 'полминуты назад';
       }
     }
-
     return 'полминуты';
   },
   lessThanXMinutes: buildLocalizeTokenFn$1({
@@ -42626,7 +40260,6 @@ var formatDistanceLocale$i = {
     }
   })
 };
-
 var formatDistance$i = function formatDistance(token, count, options) {
   return formatDistanceLocale$i[token](count, options);
 };
@@ -42662,61 +40295,47 @@ var formatLong$i = {
 };
 
 var accusativeWeekdays$2 = ['воскресенье', 'понедельник', 'вторник', 'среду', 'четверг', 'пятницу', 'субботу'];
-
 function _lastWeek$1(day) {
   var weekday = accusativeWeekdays$2[day];
-
   switch (day) {
     case 0:
       return "'в прошлое " + weekday + " в' p";
-
     case 1:
     case 2:
     case 4:
       return "'в прошлый " + weekday + " в' p";
-
     case 3:
     case 5:
     case 6:
       return "'в прошлую " + weekday + " в' p";
   }
 }
-
 function thisWeek$2(day) {
   var weekday = accusativeWeekdays$2[day];
-
-  if (day === 2
-  /* Tue */
-  ) {
-      return "'во " + weekday + " в' p";
-    } else {
+  if (day === 2 /* Tue */) {
+    return "'во " + weekday + " в' p";
+  } else {
     return "'в " + weekday + " в' p";
   }
 }
-
 function _nextWeek$1(day) {
   var weekday = accusativeWeekdays$2[day];
-
   switch (day) {
     case 0:
       return "'в следующее " + weekday + " в' p";
-
     case 1:
     case 2:
     case 4:
       return "'в следующий " + weekday + " в' p";
-
     case 3:
     case 5:
     case 6:
       return "'в следующую " + weekday + " в' p";
   }
 }
-
 var formatRelativeLocale$i = {
   lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$2(day);
     } else {
@@ -42728,7 +40347,6 @@ var formatRelativeLocale$i = {
   tomorrow: "'завтра в' p",
   nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$2(day);
     } else {
@@ -42737,14 +40355,11 @@ var formatRelativeLocale$i = {
   },
   other: 'P'
 };
-
 var formatRelative$i = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$i[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -42838,12 +40453,10 @@ var formattingDayPeriodValues$i = {
     night: 'ночи'
   }
 };
-
 var ordinalNumber$i = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
   var suffix;
-
   if (unit === 'date') {
     suffix = '-е';
   } else if (unit === 'week' || unit === 'minute' || unit === 'second') {
@@ -42851,10 +40464,8 @@ var ordinalNumber$i = function ordinalNumber(dirtyNumber, options) {
   } else {
     suffix = '-й';
   }
-
   return number + suffix;
 };
-
 var localize$i = {
   ordinalNumber: ordinalNumber$i,
   era: buildLocalizeFn({
@@ -42992,7 +40603,6 @@ var match$i = {
  * @author Sasha Koss [@kossnocorp]{@link https://github.com/kossnocorp}
  * @author Lesha Koss [@leshakoss]{@link https://github.com/leshakoss}
  */
-
 var locale$i = {
   code: 'ru',
   formatDistance: formatDistance$i,
@@ -43001,9 +40611,7 @@ var locale$i = {
   localize: localize$i,
   match: match$i,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -43012,60 +40620,47 @@ function declensionGroup(scheme, count) {
   if (count === 1 && scheme.one) {
     return scheme.one;
   }
-
   if (count >= 2 && count <= 4 && scheme.twoFour) {
     return scheme.twoFour;
-  } // if count === null || count === 0 || count >= 5
+  }
 
-
+  // if count === null || count === 0 || count >= 5
   return scheme.other;
 }
-
 function declension$1(scheme, count, time) {
   var group = declensionGroup(scheme, count);
   var finalText = group[time];
   return finalText.replace('{{count}}', String(count));
 }
-
 function extractPreposition(token) {
   var result = ['lessThan', 'about', 'over', 'almost'].filter(function (preposition) {
     return !!token.match(new RegExp('^' + preposition));
   });
   return result[0];
 }
-
 function prefixPreposition(preposition) {
   var translation = '';
-
   if (preposition === 'almost') {
     translation = 'takmer';
   }
-
   if (preposition === 'about') {
     translation = 'približne';
   }
-
   return translation.length > 0 ? translation + ' ' : '';
 }
-
 function suffixPreposition(preposition) {
   var translation = '';
-
   if (preposition === 'lessThan') {
     translation = 'menej než';
   }
-
   if (preposition === 'over') {
     translation = 'viac než';
   }
-
   return translation.length > 0 ? translation + ' ' : '';
 }
-
 function lowercaseFirstLetter(string) {
   return string.charAt(0).toLowerCase() + string.slice(1);
 }
-
 var formatDistanceLocale$h = {
   xSeconds: {
     one: {
@@ -43194,16 +40789,13 @@ var formatDistanceLocale$h = {
     }
   }
 };
-
 var formatDistance$h = function formatDistance(token, count, options) {
   var preposition = extractPreposition(token) || '';
   var key = lowercaseFirstLetter(token.substring(preposition.length));
   var scheme = formatDistanceLocale$h[key];
-
   if (!(options !== null && options !== void 0 && options.addSuffix)) {
     return prefixPreposition(preposition) + suffixPreposition(preposition) + declension$1(scheme, count, 'present');
   }
-
   if (options.comparison && options.comparison > 0) {
     return prefixPreposition(preposition) + 'o ' + suffixPreposition(preposition) + declension$1(scheme, count, 'future');
   } else {
@@ -43216,15 +40808,17 @@ var dateFormats$h = {
   long: 'd. MMMM y',
   medium: 'd. M. y',
   short: 'd. M. y'
-}; // https://www.unicode.org/cldr/charts/32/summary/sk.html?hide#2149
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/sk.html?hide#2149
 var timeFormats$h = {
   full: 'H:mm:ss zzzz',
   long: 'H:mm:ss z',
   medium: 'H:mm:ss',
   short: 'H:mm'
-}; // https://www.unicode.org/cldr/charts/32/summary/sk.html?hide#1994
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/sk.html?hide#1994
 var dateTimeFormats$h = {
   full: '{{date}}, {{time}}',
   long: '{{date}}, {{time}}',
@@ -43248,63 +40842,39 @@ var formatLong$h = {
 
 // https://www.unicode.org/cldr/charts/32/summary/sk.html?hide#1308
 var accusativeWeekdays$1 = ['nedeľu', 'pondelok', 'utorok', 'stredu', 'štvrtok', 'piatok', 'sobotu'];
-
 function _lastWeek(day) {
   var weekday = accusativeWeekdays$1[day];
-
   switch (day) {
-    case 0:
-    /* Sun */
-
-    case 3:
-    /* Wed */
-
-    case 6
-    /* Sat */
-    :
+    case 0: /* Sun */
+    case 3: /* Wed */
+    case 6 /* Sat */:
       return "'minulú " + weekday + " o' p";
-
     default:
       return "'minulý' eeee 'o' p";
   }
 }
-
 function thisWeek$1(day) {
   var weekday = accusativeWeekdays$1[day];
-
-  if (day === 4
-  /* Thu */
-  ) {
-      return "'vo' eeee 'o' p";
-    } else {
+  if (day === 4 /* Thu */) {
+    return "'vo' eeee 'o' p";
+  } else {
     return "'v " + weekday + " o' p";
   }
 }
-
 function _nextWeek(day) {
   var weekday = accusativeWeekdays$1[day];
-
   switch (day) {
-    case 0:
-    /* Sun */
-
-    case 4:
-    /* Wed */
-
-    case 6
-    /* Sat */
-    :
+    case 0: /* Sun */
+    case 4: /* Wed */
+    case 6 /* Sat */:
       return "'budúcu " + weekday + " o' p";
-
     default:
       return "'budúci' eeee 'o' p";
   }
 }
-
 var formatRelativeLocale$h = {
   lastWeek: function lastWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$1(day);
     } else {
@@ -43316,7 +40886,6 @@ var formatRelativeLocale$h = {
   tomorrow: "'zajtra o' p",
   nextWeek: function nextWeek(date, baseDate, options) {
     var day = date.getUTCDay();
-
     if (isSameUTCWeek(date, baseDate, options)) {
       return thisWeek$1(day);
     } else {
@@ -43325,14 +40894,11 @@ var formatRelativeLocale$h = {
   },
   other: 'P'
 };
-
 var formatRelative$h = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$h[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -43340,14 +40906,16 @@ var eraValues$h = {
   narrow: ['pred Kr.', 'po Kr.'],
   abbreviated: ['pred Kr.', 'po Kr.'],
   wide: ['pred Kristom', 'po Kristovi']
-}; // https://www.unicode.org/cldr/charts/32/summary/sk.html#1780
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/sk.html#1780
 var quarterValues$h = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
   wide: ['1. štvrťrok', '2. štvrťrok', '3. štvrťrok', '4. štvrťrok']
-}; // https://www.unicode.org/cldr/charts/32/summary/sk.html#1804
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/sk.html#1804
 var monthValues$h = {
   narrow: ['j', 'f', 'm', 'a', 'm', 'j', 'j', 'a', 's', 'o', 'n', 'd'],
   abbreviated: ['jan', 'feb', 'mar', 'apr', 'máj', 'jún', 'júl', 'aug', 'sep', 'okt', 'nov', 'dec'],
@@ -43357,15 +40925,17 @@ var formattingMonthValues$4 = {
   narrow: ['j', 'f', 'm', 'a', 'm', 'j', 'j', 'a', 's', 'o', 'n', 'd'],
   abbreviated: ['jan', 'feb', 'mar', 'apr', 'máj', 'jún', 'júl', 'aug', 'sep', 'okt', 'nov', 'dec'],
   wide: ['januára', 'februára', 'marca', 'apríla', 'mája', 'júna', 'júla', 'augusta', 'septembra', 'októbra', 'novembra', 'decembra']
-}; // https://www.unicode.org/cldr/charts/32/summary/sk.html#1876
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/sk.html#1876
 var dayValues$h = {
   narrow: ['n', 'p', 'u', 's', 'š', 'p', 's'],
   short: ['ne', 'po', 'ut', 'st', 'št', 'pi', 'so'],
   abbreviated: ['ne', 'po', 'ut', 'st', 'št', 'pi', 'so'],
   wide: ['nedeľa', 'pondelok', 'utorok', 'streda', 'štvrtok', 'piatok', 'sobota']
-}; // https://www.unicode.org/cldr/charts/32/summary/sk.html#1932
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/sk.html#1932
 var dayPeriodValues$h = {
   narrow: {
     am: 'AM',
@@ -43430,12 +41000,10 @@ var formattingDayPeriodValues$h = {
     night: 'v noci'
   }
 };
-
 var ordinalNumber$h = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$h = {
   ordinalNumber: ordinalNumber$h,
   era: buildLocalizeFn({
@@ -43572,7 +41140,6 @@ var match$h = {
  * @iso-639-2 slk
  * @author Marek Suscak [@mareksuscak]{@link https://github.com/mareksuscak}
  */
-
 var locale$h = {
   code: 'sk',
   formatDistance: formatDistance$h,
@@ -43581,9 +41148,7 @@ var locale$h = {
   localize: localize$h,
   match: match$h,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -43591,7 +41156,6 @@ var locale$h = {
 function isPluralType$1(val) {
   return val.one !== undefined;
 }
-
 var formatDistanceLocale$g = {
   lessThanXSeconds: {
     present: {
@@ -43869,28 +41433,22 @@ var formatDistanceLocale$g = {
     }
   }
 };
-
 function getFormFromCount(count) {
   switch (count % 100) {
     case 1:
       return 'one';
-
     case 2:
       return 'two';
-
     case 3:
     case 4:
       return 'few';
-
     default:
       return 'other';
   }
 }
-
 var formatDistance$g = function formatDistance(token, count, options) {
   var result = '';
   var tense = 'present';
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       tense = 'future';
@@ -43900,21 +41458,17 @@ var formatDistance$g = function formatDistance(token, count, options) {
       result = 'pred ';
     }
   }
-
   var tokenValue = formatDistanceLocale$g[token];
-
   if (typeof tokenValue === 'string') {
     result += tokenValue;
   } else {
     var form = getFormFromCount(count);
-
     if (isPluralType$1(tokenValue)) {
       result += tokenValue[form].replace('{{count}}', String(count));
     } else {
       result += tokenValue[tense][form].replace('{{count}}', String(count));
     }
   }
-
   return result;
 };
 
@@ -43954,17 +41508,13 @@ var formatLong$g = {
 var formatRelativeLocale$g = {
   lastWeek: function lastWeek(date) {
     var day = date.getUTCDay();
-
     switch (day) {
       case 0:
         return "'prejšnjo nedeljo ob' p";
-
       case 3:
         return "'prejšnjo sredo ob' p";
-
       case 6:
         return "'prejšnjo soboto ob' p";
-
       default:
         return "'prejšnji' EEEE 'ob' p";
     }
@@ -43974,31 +41524,24 @@ var formatRelativeLocale$g = {
   tomorrow: "'jutri ob' p",
   nextWeek: function nextWeek(date) {
     var day = date.getUTCDay();
-
     switch (day) {
       case 0:
         return "'naslednjo nedeljo ob' p";
-
       case 3:
         return "'naslednjo sredo ob' p";
-
       case 6:
         return "'naslednjo soboto ob' p";
-
       default:
         return "'naslednji' EEEE 'ob' p";
     }
   },
   other: 'P'
 };
-
 var formatRelative$g = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$g[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -44087,12 +41630,10 @@ var formattingDayPeriodValues$g = {
     night: 'ponoči'
   }
 };
-
 var ordinalNumber$g = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$g = {
   ordinalNumber: ordinalNumber$g,
   era: buildLocalizeFn({
@@ -44237,7 +41778,6 @@ var match$g = {
  * @author Adam Stradovnik [@Neoglyph]{@link https://github.com/Neoglyph}
  * @author Mato Žgajner [@mzgajner]{@link https://github.com/mzgajner}
  */
-
 var locale$g = {
   code: 'sl',
   formatDistance: formatDistance$g,
@@ -44246,9 +41786,7 @@ var locale$g = {
   localize: localize$g,
   match: match$g,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -44316,11 +41854,9 @@ var formatDistanceLocale$f = {
     other: 'pothuajse {{count}} vite'
   }
 };
-
 var formatDistance$f = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$f[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -44328,7 +41864,6 @@ var formatDistance$f = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'në ' + result;
@@ -44336,7 +41871,6 @@ var formatDistance$f = function formatDistance(token, count, options) {
       return result + ' më parë';
     }
   }
-
   return result;
 };
 
@@ -44381,7 +41915,6 @@ var formatRelativeLocale$f = {
   nextWeek: "eeee 'at' p",
   other: 'P'
 };
-
 var formatRelative$f = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$f[token];
 };
@@ -44395,11 +41928,12 @@ var quarterValues$f = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
   wide: ['4-mujori I', '4-mujori II', '4-mujori III', '4-mujori IV']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$f = {
   narrow: ['J', 'S', 'M', 'P', 'M', 'Q', 'K', 'G', 'S', 'T', 'N', 'D'],
   abbreviated: ['Jan', 'Shk', 'Mar', 'Pri', 'Maj', 'Qer', 'Kor', 'Gus', 'Sht', 'Tet', 'Nën', 'Dhj'],
@@ -44475,7 +42009,6 @@ var formattingDayPeriodValues$f = {
     night: 'në mesnatë'
   }
 };
-
 var ordinalNumber$f = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   if ((options === null || options === void 0 ? void 0 : options.unit) === 'hour') return String(number);
@@ -44483,7 +42016,6 @@ var ordinalNumber$f = function ordinalNumber(dirtyNumber, options) {
   if (number === 4) return number + 't';
   return number + '-të';
 };
-
 var localize$f = {
   ordinalNumber: ordinalNumber$f,
   era: buildLocalizeFn({
@@ -44617,7 +42149,6 @@ var match$f = {
  * @iso-639-2 sqi
  * @author Ardit Dine [@arditdine]{@link https://github.com/arditdine}
  */
-
 var locale$f = {
   code: 'sq',
   formatDistance: formatDistance$f,
@@ -44626,9 +42157,7 @@ var locale$f = {
   localize: localize$f,
   match: match$f,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -44771,11 +42300,9 @@ var formatDistanceLocale$e = {
     other: 'готово {{count}} година'
   }
 };
-
 var formatDistance$e = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$e[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -44788,14 +42315,14 @@ var formatDistance$e = function formatDistance(token, count, options) {
     } else {
       result = tokenValue.one.standalone;
     }
-  } else if (count % 10 > 1 && count % 10 < 5 && // if last digit is between 2 and 4
+  } else if (count % 10 > 1 && count % 10 < 5 &&
+  // if last digit is between 2 and 4
   String(count).substr(-2, 1) !== '1' // unless the 2nd to last digit is "1"
   ) {
-      result = tokenValue.dual.replace('{{count}}', String(count));
-    } else {
+    result = tokenValue.dual.replace('{{count}}', String(count));
+  } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'за ' + result;
@@ -44803,7 +42330,6 @@ var formatDistance$e = function formatDistance(token, count, options) {
       return 'пре ' + result;
     }
   }
-
   return result;
 };
 
@@ -44843,17 +42369,13 @@ var formatLong$e = {
 var formatRelativeLocale$e = {
   lastWeek: function lastWeek(date) {
     var day = date.getUTCDay();
-
     switch (day) {
       case 0:
         return "'прошле недеље у' p";
-
       case 3:
         return "'прошле среде у' p";
-
       case 6:
         return "'прошле суботе у' p";
-
       default:
         return "'прошли' EEEE 'у' p";
     }
@@ -44863,31 +42385,24 @@ var formatRelativeLocale$e = {
   tomorrow: "'сутра у' p",
   nextWeek: function nextWeek(date) {
     var day = date.getUTCDay();
-
     switch (day) {
       case 0:
         return "'следеће недеље у' p";
-
       case 3:
         return "'следећу среду у' p";
-
       case 6:
         return "'следећу суботу у' p";
-
       default:
         return "'следећи' EEEE 'у' p";
     }
   },
   other: 'P'
 };
-
 var formatRelative$e = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$e[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -44981,12 +42496,10 @@ var dayPeriodValues$e = {
     night: 'ноћу'
   }
 };
-
 var ordinalNumber$e = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$e = {
   ordinalNumber: ordinalNumber$e,
   era: buildLocalizeFn({
@@ -45121,7 +42634,6 @@ var match$e = {
  * @iso-639-2 srp
  * @author Igor Radivojević [@rogyvoje]{@link https://github.com/rogyvoje}
  */
-
 var locale$e = {
   code: 'sr',
   formatDistance: formatDistance$e,
@@ -45130,9 +42642,7 @@ var locale$e = {
   localize: localize$e,
   match: match$e,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -45275,11 +42785,9 @@ var formatDistanceLocale$d = {
     other: 'gotovo {{count}} godina'
   }
 };
-
 var formatDistance$d = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$d[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -45292,14 +42800,14 @@ var formatDistance$d = function formatDistance(token, count, options) {
     } else {
       result = tokenValue.one.standalone;
     }
-  } else if (count % 10 > 1 && count % 10 < 5 && // if last digit is between 2 and 4
+  } else if (count % 10 > 1 && count % 10 < 5 &&
+  // if last digit is between 2 and 4
   String(count).substr(-2, 1) !== '1' // unless the 2nd to last digit is "1"
   ) {
-      result = tokenValue.dual.replace('{{count}}', String(count));
-    } else {
+    result = tokenValue.dual.replace('{{count}}', String(count));
+  } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'za ' + result;
@@ -45307,7 +42815,6 @@ var formatDistance$d = function formatDistance(token, count, options) {
       return 'pre ' + result;
     }
   }
-
   return result;
 };
 
@@ -45349,13 +42856,10 @@ var formatRelativeLocale$d = {
     switch (date.getUTCDay()) {
       case 0:
         return "'prošle nedelje u' p";
-
       case 3:
         return "'prošle srede u' p";
-
       case 6:
         return "'prošle subote u' p";
-
       default:
         return "'prošli' EEEE 'u' p";
     }
@@ -45367,27 +42871,21 @@ var formatRelativeLocale$d = {
     switch (date.getUTCDay()) {
       case 0:
         return "'sledeće nedelje u' p";
-
       case 3:
         return "'sledeću sredu u' p";
-
       case 6:
         return "'sledeću subotu u' p";
-
       default:
         return "'sledeći' EEEE 'u' p";
     }
   },
   other: 'P'
 };
-
 var formatRelative$d = function formatRelative(token, date, _baseDate, _options) {
   var format = formatRelativeLocale$d[token];
-
   if (typeof format === 'function') {
     return format(date);
   }
-
   return format;
 };
 
@@ -45481,12 +42979,10 @@ var dayPeriodValues$d = {
     night: 'noću'
   }
 };
-
 var ordinalNumber$d = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$d = {
   ordinalNumber: ordinalNumber$d,
   era: buildLocalizeFn({
@@ -45621,7 +43117,6 @@ var match$d = {
  * @iso-639-2 srp
  * @author Igor Radivojević [@rogyvoje]{@link https://github.com/rogyvoje}
  */
-
 var locale$d = {
   code: 'sr-Latn',
   formatDistance: formatDistance$d,
@@ -45630,9 +43125,7 @@ var locale$d = {
   localize: localize$d,
   match: match$d,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -45701,11 +43194,9 @@ var formatDistanceLocale$c = {
   }
 };
 var wordMapping = ['noll', 'en', 'två', 'tre', 'fyra', 'fem', 'sex', 'sju', 'åtta', 'nio', 'tio', 'elva', 'tolv'];
-
 var formatDistance$c = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$c[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -45717,7 +43208,6 @@ var formatDistance$c = function formatDistance(token, count, options) {
       result = tokenValue.other.replace('{{count}}', count < 13 ? wordMapping[count] : String(count));
     }
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return 'om ' + result;
@@ -45725,7 +43215,6 @@ var formatDistance$c = function formatDistance(token, count, options) {
       return result + ' sedan';
     }
   }
-
   return result;
 };
 
@@ -45770,7 +43259,6 @@ var formatRelativeLocale$c = {
   nextWeek: "EEEE 'kl.' p",
   other: 'P'
 };
-
 var formatRelative$c = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$c[token];
 };
@@ -45795,8 +43283,9 @@ var dayValues$c = {
   short: ['sö', 'må', 'ti', 'on', 'to', 'fr', 'lö'],
   abbreviated: ['sön', 'mån', 'tis', 'ons', 'tors', 'fre', 'lör'],
   wide: ['söndag', 'måndag', 'tisdag', 'onsdag', 'torsdag', 'fredag', 'lördag']
-}; // https://www.unicode.org/cldr/charts/32/summary/sv.html#1888
+};
 
+// https://www.unicode.org/cldr/charts/32/summary/sv.html#1888
 var dayPeriodValues$c = {
   narrow: {
     am: 'fm',
@@ -45861,11 +43350,9 @@ var formattingDayPeriodValues$c = {
     night: 'på natten'
   }
 };
-
 var ordinalNumber$c = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   var rem100 = number % 100;
-
   if (rem100 > 20 || rem100 < 10) {
     switch (rem100 % 10) {
       case 1:
@@ -45873,10 +43360,8 @@ var ordinalNumber$c = function ordinalNumber(dirtyNumber, _options) {
         return number + ':a';
     }
   }
-
   return number + ':e';
 };
-
 var localize$c = {
   ordinalNumber: ordinalNumber$c,
   era: buildLocalizeFn({
@@ -46010,7 +43495,6 @@ var match$c = {
  * @author Alexander Nanberg [@alexandernanberg]{@link https://github.com/alexandernanberg}
  * @author Henrik Andersson [@limelights]{@link https://github.com/limelights}
  */
-
 var locale$c = {
   code: 'sv',
   formatDistance: formatDistance$c,
@@ -46019,9 +43503,7 @@ var locale$c = {
   localize: localize$c,
   match: match$c,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -46029,7 +43511,6 @@ var locale$c = {
 function isPluralType(val) {
   return val.one !== undefined;
 }
-
 var formatDistanceLocale$b = {
   lessThanXSeconds: {
     one: {
@@ -46217,12 +43698,10 @@ var formatDistanceLocale$b = {
     }
   }
 };
-
 var formatDistance$b = function formatDistance(token, count, options) {
   var tense = options !== null && options !== void 0 && options.addSuffix ? options.comparison && options.comparison > 0 ? 'in' : 'ago' : 'default';
   var tokenValue = formatDistanceLocale$b[token];
   if (!isPluralType(tokenValue)) return tokenValue[tense];
-
   if (count === 1) {
     return tokenValue.one[tense];
   } else {
@@ -46231,14 +43710,14 @@ var formatDistance$b = function formatDistance(token, count, options) {
 };
 
 // CLDR #1846 - #1849
-
 var dateFormats$b = {
   full: 'EEEE, d MMMM, y',
   long: 'd MMMM, y',
   medium: 'd MMM, y',
   short: 'd/M/yy'
-}; // CLDR #1850 - #1853
+};
 
+// CLDR #1850 - #1853
 var timeFormats$b = {
   full: 'a h:mm:ss zzzz',
   long: 'a h:mm:ss z',
@@ -46274,7 +43753,6 @@ var formatRelativeLocale$b = {
   nextWeek: "eeee p 'மணிக்கு'",
   other: 'P'
 };
-
 var formatRelative$b = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$b[token];
 };
@@ -46284,8 +43762,8 @@ var eraValues$b = {
   abbreviated: ['கி.மு.', 'கி.பி.'],
   // CLDR #1624, #1626
   wide: ['கிறிஸ்துவுக்கு முன்', 'அன்னோ டோமினி'] // CLDR #1620, #1622
-
 };
+
 var quarterValues$b = {
   // CLDR #1644 - #1647
   narrow: ['1', '2', '3', '4'],
@@ -46300,20 +43778,32 @@ var monthValues$b = {
   // CLDR #1676 - #1687
   abbreviated: ['ஜன.', 'பிப்.', 'மார்.', 'ஏப்.', 'மே', 'ஜூன்', 'ஜூலை', 'ஆக.', 'செப்.', 'அக்.', 'நவ.', 'டிச.'],
   // CLDR #1652 - #1663
-  wide: ['ஜனவரி', // January
-  'பிப்ரவரி', // February
-  'மார்ச்', // March
-  'ஏப்ரல்', // April
-  'மே', // May
-  'ஜூன்', // June
-  'ஜூலை', // July
-  'ஆகஸ்ட்', // August
-  'செப்டம்பர்', // September
-  'அக்டோபர்', // October
-  'நவம்பர்', // November
+  wide: ['ஜனவரி',
+  // January
+  'பிப்ரவரி',
+  // February
+  'மார்ச்',
+  // March
+  'ஏப்ரல்',
+  // April
+  'மே',
+  // May
+  'ஜூன்',
+  // June
+  'ஜூலை',
+  // July
+  'ஆகஸ்ட்',
+  // August
+  'செப்டம்பர்',
+  // September
+  'அக்டோபர்',
+  // October
+  'நவம்பர்',
+  // November
   'டிசம்பர்' // December
   ]
 };
+
 var dayValues$b = {
   // CLDR #1766 - #1772
   narrow: ['ஞா', 'தி', 'செ', 'பு', 'வி', 'வெ', 'ச'],
@@ -46322,16 +43812,23 @@ var dayValues$b = {
   // CLDR #1738 - #1744
   abbreviated: ['ஞாயி.', 'திங்.', 'செவ்.', 'புத.', 'வியா.', 'வெள்.', 'சனி'],
   // CLDR #1724 - #1730
-  wide: ['ஞாயிறு', // Sunday
-  'திங்கள்', // Monday
-  'செவ்வாய்', // Tuesday
-  'புதன்', // Wednesday
-  'வியாழன்', // Thursday
-  'வெள்ளி', // Friday
+  wide: ['ஞாயிறு',
+  // Sunday
+  'திங்கள்',
+  // Monday
+  'செவ்வாய்',
+  // Tuesday
+  'புதன்',
+  // Wednesday
+  'வியாழன்',
+  // Thursday
+  'வெள்ளி',
+  // Friday
   'சனி' // Saturday
   ]
-}; // CLDR #1780 - #1845
+};
 
+// CLDR #1780 - #1845
 var dayPeriodValues$b = {
   narrow: {
     am: 'மு.ப',
@@ -46363,8 +43860,9 @@ var dayPeriodValues$b = {
     evening: 'மாலை',
     night: 'இரவு'
   }
-}; // CLDR #1780 - #1845
+};
 
+// CLDR #1780 - #1845
 var formattingDayPeriodValues$b = {
   narrow: {
     am: 'மு.ப',
@@ -46397,11 +43895,9 @@ var formattingDayPeriodValues$b = {
     night: 'இரவு'
   }
 };
-
 var ordinalNumber$b = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$b = {
   ordinalNumber: ordinalNumber$b,
   era: buildLocalizeFn({
@@ -46536,7 +44032,6 @@ var match$b = {
  * @iso-639-2 tam
  * @author Sibiraj [@sibiraj-s]{@link https://github.com/sibiraj-s}
  */
-
 var locale$b = {
   code: 'ta',
   formatDistance: formatDistance$b,
@@ -46545,14 +44040,13 @@ var locale$b = {
   localize: localize$b,
   match: match$b,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
 
 // Source: https://www.unicode.org/cldr/charts/32/summary/te.html
+
 var formatDistanceLocale$a = {
   lessThanXSeconds: {
     standalone: {
@@ -46716,11 +44210,9 @@ var formatDistanceLocale$a = {
     }
   }
 };
-
 var formatDistance$a = function formatDistance(token, count, options) {
   var result;
   var tokenValue = options !== null && options !== void 0 && options.addSuffix ? formatDistanceLocale$a[token].withPreposition : formatDistanceLocale$a[token].standalone;
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -46728,7 +44220,6 @@ var formatDistance$a = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + 'లో';
@@ -46736,26 +44227,26 @@ var formatDistance$a = function formatDistance(token, count, options) {
       return result + ' క్రితం';
     }
   }
-
   return result;
 };
 
 // CLDR #1807 - #1811
-
 var dateFormats$a = {
   full: 'd, MMMM y, EEEE',
   long: 'd MMMM, y',
   medium: 'd MMM, y',
   short: 'dd-MM-yy'
-}; // CLDR #1807 - #1811
+};
 
+// CLDR #1807 - #1811
 var timeFormats$a = {
   full: 'h:mm:ss a zzzz',
   long: 'h:mm:ss a z',
   medium: 'h:mm:ss a',
   short: 'h:mm a'
-}; // CLDR #1815 - #1818
+};
 
+// CLDR #1815 - #1818
 var dateTimeFormats$a = {
   full: "{{date}} {{time}}'కి'",
   long: "{{date}} {{time}}'కి'",
@@ -46778,6 +44269,7 @@ var formatLong$a = {
 };
 
 // Source: https://www.unicode.org/cldr/charts/32/summary/te.html
+
 var formatRelativeLocale$a = {
   lastWeek: "'గత' eeee p",
   // CLDR #1384
@@ -46791,39 +44283,41 @@ var formatRelativeLocale$a = {
   // CLDR #1386
   other: 'P'
 };
-
 var formatRelative$a = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$a[token];
 };
 
 // Source: https://dsal.uchicago.edu/dictionaries/brown/
 // CLDR #1605 - #1608
-
 var eraValues$a = {
   narrow: ['క్రీ.పూ.', 'క్రీ.శ.'],
   abbreviated: ['క్రీ.పూ.', 'క్రీ.శ.'],
   wide: ['క్రీస్తు పూర్వం', 'క్రీస్తుశకం']
-}; // CLDR #1613 - #1628
+};
 
+// CLDR #1613 - #1628
 var quarterValues$a = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['త్రై1', 'త్రై2', 'త్రై3', 'త్రై4'],
   wide: ['1వ త్రైమాసికం', '2వ త్రైమాసికం', '3వ త్రైమాసికం', '4వ త్రైమాసికం']
-}; // CLDR #1637 - #1708
+};
 
+// CLDR #1637 - #1708
 var monthValues$a = {
   narrow: ['జ', 'ఫి', 'మా', 'ఏ', 'మే', 'జూ', 'జు', 'ఆ', 'సె', 'అ', 'న', 'డి'],
   abbreviated: ['జన', 'ఫిబ్ర', 'మార్చి', 'ఏప్రి', 'మే', 'జూన్', 'జులై', 'ఆగ', 'సెప్టెం', 'అక్టో', 'నవం', 'డిసెం'],
   wide: ['జనవరి', 'ఫిబ్రవరి', 'మార్చి', 'ఏప్రిల్', 'మే', 'జూన్', 'జులై', 'ఆగస్టు', 'సెప్టెంబర్', 'అక్టోబర్', 'నవంబర్', 'డిసెంబర్']
-}; // CLDR #1709 - #1764
+};
 
+// CLDR #1709 - #1764
 var dayValues$a = {
   narrow: ['ఆ', 'సో', 'మ', 'బు', 'గు', 'శు', 'శ'],
   short: ['ఆది', 'సోమ', 'మంగళ', 'బుధ', 'గురు', 'శుక్ర', 'శని'],
   abbreviated: ['ఆది', 'సోమ', 'మంగళ', 'బుధ', 'గురు', 'శుక్ర', 'శని'],
   wide: ['ఆదివారం', 'సోమవారం', 'మంగళవారం', 'బుధవారం', 'గురువారం', 'శుక్రవారం', 'శనివారం']
-}; // CLDR #1767 - #1806
+};
 
+// CLDR #1767 - #1806
 var dayPeriodValues$a = {
   narrow: {
     am: 'పూర్వాహ్నం',
@@ -46888,12 +44382,10 @@ var formattingDayPeriodValues$a = {
     night: 'రాత్రి'
   }
 };
-
 var ordinalNumber$a = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + 'వ';
 };
-
 var localize$a = {
   ordinalNumber: ordinalNumber$a,
   era: buildLocalizeFn({
@@ -47027,7 +44519,6 @@ var match$a = {
  * @iso-639-2 tel
  * @author Kranthi Lakum [@kranthilakum]{@link https://github.com/kranthilakum}
  */
-
 var locale$a = {
   code: 'te',
   formatDistance: formatDistance$a,
@@ -47036,9 +44527,7 @@ var locale$a = {
   localize: localize$a,
   match: match$a,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -47106,11 +44595,9 @@ var formatDistanceLocale$9 = {
     other: 'เกือบ {{count}} ปี'
   }
 };
-
 var formatDistance$9 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$9[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -47118,7 +44605,6 @@ var formatDistance$9 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       if (token === 'halfAMinute') {
@@ -47130,7 +44616,6 @@ var formatDistance$9 = function formatDistance(token, count, options) {
       return result + 'ที่ผ่านมา';
     }
   }
-
   return result;
 };
 
@@ -47175,7 +44660,6 @@ var formatRelativeLocale$9 = {
   nextWeek: "eeee 'เวลา' p",
   other: 'P'
 };
-
 var formatRelative$9 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$9[token];
 };
@@ -47265,11 +44749,9 @@ var formattingDayPeriodValues$9 = {
     night: 'ตอนกลางคืน'
   }
 };
-
 var ordinalNumber$9 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$9 = {
   ordinalNumber: ordinalNumber$9,
   era: buildLocalizeFn({
@@ -47404,7 +44886,6 @@ var match$9 = {
  * @author [@hawkup]{@link https://github.com/hawkup}
  * @author  Jirawat I. [@nodtem66]{@link https://github.com/nodtem66}
  */
-
 var locale$9 = {
   code: 'th',
   formatDistance: formatDistance$9,
@@ -47413,9 +44894,7 @@ var locale$9 = {
   localize: localize$9,
   match: match$9,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -47483,11 +44962,9 @@ var formatDistanceLocale$8 = {
     other: 'neredeyse {{count}} yıl'
   }
 };
-
 var formatDistance$8 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$8[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -47495,7 +44972,6 @@ var formatDistance$8 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', count.toString());
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' sonra';
@@ -47503,7 +44979,6 @@ var formatDistance$8 = function formatDistance(token, count, options) {
       return result + ' önce';
     }
   }
-
   return result;
 };
 
@@ -47548,7 +45023,6 @@ var formatRelativeLocale$8 = {
   nextWeek: "eeee 'saat' p",
   other: 'P'
 };
-
 var formatRelative$8 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$8[token];
 };
@@ -47638,12 +45112,10 @@ var formattingDayPeriodValues$8 = {
     night: 'geceleyin'
   }
 };
-
 var ordinalNumber$8 = function ordinalNumber(dirtyNumber, _options) {
   var number = Number(dirtyNumber);
   return number + '.';
 };
-
 var localize$8 = {
   ordinalNumber: ordinalNumber$8,
   era: buildLocalizeFn({
@@ -47786,7 +45258,6 @@ var match$8 = {
  *
  *
  */
-
 var locale$8 = {
   code: 'tr',
   formatDistance: formatDistance$8,
@@ -47795,9 +45266,7 @@ var locale$8 = {
   localize: localize$8,
   match: match$8,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -47865,11 +45334,9 @@ var formatDistanceLocale$7 = {
     other: 'يىل {{count}} ئاساسەن'
   }
 };
-
 var formatDistance$7 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$7[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -47877,7 +45344,6 @@ var formatDistance$7 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result;
@@ -47885,7 +45351,6 @@ var formatDistance$7 = function formatDistance(token, count, options) {
       return result + ' بولدى';
     }
   }
-
   return result;
 };
 
@@ -47930,7 +45395,6 @@ var formatRelativeLocale$7 = {
   nextWeek: "eeee 'دە' p",
   other: 'P'
 };
-
 var formatRelative$7 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$7[token];
 };
@@ -47944,11 +45408,12 @@ var quarterValues$7 = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['1', '2', '3', '4'],
   wide: ['بىرىنجى چارەك', 'ئىككىنجى چارەك', 'ئۈچىنجى چارەك', 'تۆتىنجى چارەك']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$7 = {
   narrow: ['ي', 'ف', 'م', 'ا', 'م', 'ى', 'ى', 'ا', 'س', 'ۆ', 'ن', 'د'],
   abbreviated: ['يانۋار', 'فېۋىرال', 'مارت', 'ئاپرىل', 'ماي', 'ئىيۇن', 'ئىيول', 'ئاۋغۇست', 'سىنتەبىر', 'ئۆكتەبىر', 'نويابىر', 'دىكابىر'],
@@ -48024,11 +45489,9 @@ var formattingDayPeriodValues$7 = {
     night: 'كىچىدە'
   }
 };
-
 var ordinalNumber$7 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$7 = {
   ordinalNumber: ordinalNumber$7,
   era: buildLocalizeFn({
@@ -48162,7 +45625,6 @@ var match$7 = {
  * @iso-639-2 uig
  * @author Abduwaly M. [@abduwaly]{@link https://github.com/abduwaly}
  */
-
 var locale$7 = {
   code: 'ug',
   formatDistance: formatDistance$7,
@@ -48171,9 +45633,7 @@ var locale$7 = {
   localize: localize$7,
   match: match$7,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -48183,19 +45643,22 @@ function declension(scheme, count) {
   if (scheme.one !== undefined && count === 1) {
     return scheme.one;
   }
-
   var rem10 = count % 10;
-  var rem100 = count % 100; // 1, 21, 31, ...
+  var rem100 = count % 100;
 
+  // 1, 21, 31, ...
   if (rem10 === 1 && rem100 !== 11) {
-    return scheme.singularNominative.replace('{{count}}', String(count)); // 2, 3, 4, 22, 23, 24, 32 ...
+    return scheme.singularNominative.replace('{{count}}', String(count));
+
+    // 2, 3, 4, 22, 23, 24, 32 ...
   } else if (rem10 >= 2 && rem10 <= 4 && (rem100 < 10 || rem100 > 20)) {
-    return scheme.singularGenitive.replace('{{count}}', String(count)); // 5, 6, 7, 8, 9, 10, 11, ...
+    return scheme.singularGenitive.replace('{{count}}', String(count));
+
+    // 5, 6, 7, 8, 9, 10, 11, ...
   } else {
     return scheme.pluralGenitive.replace('{{count}}', String(count));
   }
 }
-
 function buildLocalizeTokenFn(scheme) {
   return function (count, options) {
     if (options && options.addSuffix) {
@@ -48217,7 +45680,6 @@ function buildLocalizeTokenFn(scheme) {
     }
   };
 }
-
 var halfAtMinute = function halfAtMinute(_, options) {
   if (options && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
@@ -48226,10 +45688,8 @@ var halfAtMinute = function halfAtMinute(_, options) {
       return 'півхвилини тому';
     }
   }
-
   return 'півхвилини';
 };
-
 var formatDistanceLocale$6 = {
   lessThanXSeconds: buildLocalizeTokenFn({
     regular: {
@@ -48402,7 +45862,6 @@ var formatDistanceLocale$6 = {
     }
   })
 };
-
 var formatDistance$6 = function formatDistance(token, count, options) {
   options = options || {};
   return formatDistanceLocale$6[token](count, options);
@@ -48442,68 +45901,56 @@ var formatLong$6 = {
 };
 
 var accusativeWeekdays = ['неділю', 'понеділок', 'вівторок', 'середу', 'четвер', 'п’ятницю', 'суботу'];
-
 function lastWeek(day) {
   var weekday = accusativeWeekdays[day];
-
   switch (day) {
     case 0:
     case 3:
     case 5:
     case 6:
       return "'у минулу " + weekday + " о' p";
-
     case 1:
     case 2:
     case 4:
       return "'у минулий " + weekday + " о' p";
   }
 }
-
 function thisWeek(day) {
   var weekday = accusativeWeekdays[day];
   return "'у " + weekday + " о' p";
 }
-
 function nextWeek(day) {
   var weekday = accusativeWeekdays[day];
-
   switch (day) {
     case 0:
     case 3:
     case 5:
     case 6:
       return "'у наступну " + weekday + " о' p";
-
     case 1:
     case 2:
     case 4:
       return "'у наступний " + weekday + " о' p";
   }
 }
-
 var lastWeekFormat = function lastWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek(day);
   } else {
     return lastWeek(day);
   }
 };
-
 var nextWeekFormat = function nextWeekFormat(dirtyDate, baseDate, options) {
   var date = toDate(dirtyDate);
   var day = date.getUTCDay();
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return thisWeek(day);
   } else {
     return nextWeek(day);
   }
 };
-
 var formatRelativeLocale$6 = {
   lastWeek: lastWeekFormat,
   yesterday: "'вчора о' p",
@@ -48512,14 +45959,11 @@ var formatRelativeLocale$6 = {
   nextWeek: nextWeekFormat,
   other: 'P'
 };
-
 var formatRelative$6 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$6[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -48614,12 +46058,10 @@ var formattingDayPeriodValues$6 = {
     night: 'ночі'
   }
 };
-
 var ordinalNumber$6 = function ordinalNumber(dirtyNumber, options) {
   var unit = String(options === null || options === void 0 ? void 0 : options.unit);
   var number = Number(dirtyNumber);
   var suffix;
-
   if (unit === 'date') {
     if (number === 3 || number === 23) {
       suffix = '-є';
@@ -48631,10 +46073,8 @@ var ordinalNumber$6 = function ordinalNumber(dirtyNumber, options) {
   } else {
     suffix = '-й';
   }
-
   return number + suffix;
 };
-
 var localize$6 = {
   ordinalNumber: ordinalNumber$6,
   era: buildLocalizeFn({
@@ -48772,7 +46212,6 @@ var match$6 = {
  * @author Andrii Korzh [@korzhyk]{@link https://github.com/korzhyk}
  * @author Andriy Shcherbyak [@shcherbyakdev]{@link https://github.com/shcherbyakdev}
  */
-
 var locale$6 = {
   code: 'uk',
   formatDistance: formatDistance$6,
@@ -48781,9 +46220,7 @@ var locale$6 = {
   localize: localize$6,
   match: match$6,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -48851,11 +46288,9 @@ var formatDistanceLocale$5 = {
     other: 'deyarli {{count}} yil'
   }
 };
-
 var formatDistance$5 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$5[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -48863,7 +46298,6 @@ var formatDistance$5 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' dan keyin';
@@ -48871,7 +46305,6 @@ var formatDistance$5 = function formatDistance(token, count, options) {
       return result + ' oldin';
     }
   }
-
   return result;
 };
 
@@ -48913,7 +46346,6 @@ var formatRelativeLocale$5 = {
   nextWeek: "eeee p 'da'",
   other: 'P'
 };
-
 var formatRelative$5 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$5[token];
 };
@@ -48927,11 +46359,12 @@ var quarterValues$5 = {
   narrow: ['1', '2', '3', '4'],
   abbreviated: ['CH.1', 'CH.2', 'CH.3', 'CH.4'],
   wide: ['1-chi chorak', '2-chi chorak', '3-chi chorak', '4-chi chorak']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$5 = {
   narrow: ['Y', 'F', 'M', 'A', 'M', 'I', 'I', 'A', 'S', 'O', 'N', 'D'],
   abbreviated: ['Yan', 'Fev', 'Mar', 'Apr', 'May', 'Iyun', 'Iyul', 'Avg', 'Sen', 'Okt', 'Noy', 'Dek'],
@@ -49007,11 +46440,9 @@ var formattingDayPeriodValues$5 = {
     night: 'tun'
   }
 };
-
 var ordinalNumber$5 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$5 = {
   ordinalNumber: ordinalNumber$5,
   era: buildLocalizeFn({
@@ -49145,7 +46576,6 @@ var match$5 = {
  * @iso-639-2 uzb
  * @author Mukhammadali [@mukhammadali]{@link https://github.com/Mukhammadali}
  */
-
 var locale$5 = {
   code: 'uz',
   formatDistance: formatDistance$5,
@@ -49154,9 +46584,7 @@ var locale$5 = {
   localize: localize$5,
   match: match$5,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -49224,11 +46652,9 @@ var formatDistanceLocale$4 = {
     other: 'деярли {{count}} йил'
   }
 };
-
 var formatDistance$4 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$4[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -49236,7 +46662,6 @@ var formatDistance$4 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + 'дан кейин';
@@ -49244,7 +46669,6 @@ var formatDistance$4 = function formatDistance(token, count, options) {
       return result + ' олдин';
     }
   }
-
   return result;
 };
 
@@ -49286,7 +46710,6 @@ var formatRelativeLocale$4 = {
   nextWeek: "eeee p 'да'",
   other: 'P'
 };
-
 var formatRelative$4 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$4[token];
 };
@@ -49336,11 +46759,9 @@ var formattingDayPeriodValues$4 = {
     night: 'тун'
   }
 };
-
 var ordinalNumber$4 = function ordinalNumber(dirtyNumber, _options) {
   return String(dirtyNumber);
 };
-
 var localize$4 = {
   ordinalNumber: ordinalNumber$4,
   era: buildLocalizeFn({
@@ -49473,7 +46894,6 @@ var match$4 = {
  * @iso-639-2 uzb
  * @author Kamronbek Shodmonov [@kamronbek28]{@link https://github.com/kamronbek28}
  */
-
 var locale$4 = {
   code: 'uz-Cyrl',
   formatDistance: formatDistance$4,
@@ -49482,9 +46902,7 @@ var locale$4 = {
   localize: localize$4,
   match: match$4,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 1
   }
 };
@@ -49552,11 +46970,9 @@ var formatDistanceLocale$3 = {
     other: 'gần {{count}} năm'
   }
 };
-
 var formatDistance$3 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$3[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -49564,7 +46980,6 @@ var formatDistance$3 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + ' nữa';
@@ -49572,7 +46987,6 @@ var formatDistance$3 = function formatDistance(token, count, options) {
       return result + ' trước';
     }
   }
-
   return result;
 };
 
@@ -49623,13 +47037,11 @@ var formatRelativeLocale$3 = {
   nextWeek: "eeee 'tới vào lúc' p",
   other: 'P'
 };
-
 var formatRelative$3 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$3[token];
 };
 
 // Capitalization reference: http://hcmup.edu.vn/index.php?option=com_content&view=article&id=4106%3Avit-hoa-trong-vn-bn-hanh-chinh&catid=2345%3Atham-kho&Itemid=4103&lang=vi&site=134
-
 var eraValues$3 = {
   narrow: ['TCN', 'SCN'],
   abbreviated: ['trước CN', 'sau CN'],
@@ -49645,17 +47057,18 @@ var formattingQuarterValues = {
   abbreviated: ['Q1', 'Q2', 'Q3', 'Q4'],
   // I notice many news outlet use this "quý II/2018"
   wide: ['quý I', 'quý II', 'quý III', 'quý IV']
-}; // Note: in English, the names of days of the week and months are capitalized.
+};
+
+// Note: in English, the names of days of the week and months are capitalized.
 // If you are making a new locale based on this one, check if the same is true for the language you're working on.
 // Generally, formatted dates should look like they are in the middle of a sentence,
 // e.g. in Spanish language the weekdays and months should be in the lowercase.
-
 var monthValues$3 = {
   narrow: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'],
   abbreviated: ['Thg 1', 'Thg 2', 'Thg 3', 'Thg 4', 'Thg 5', 'Thg 6', 'Thg 7', 'Thg 8', 'Thg 9', 'Thg 10', 'Thg 11', 'Thg 12'],
   wide: ['Tháng Một', 'Tháng Hai', 'Tháng Ba', 'Tháng Tư', 'Tháng Năm', 'Tháng Sáu', 'Tháng Bảy', 'Tháng Tám', 'Tháng Chín', 'Tháng Mười', 'Tháng Mười Một', 'Tháng Mười Hai']
-}; // In Vietnamese date formatting, month number less than 10 expected to have leading zero
-
+};
+// In Vietnamese date formatting, month number less than 10 expected to have leading zero
 var formattingMonthValues = {
   narrow: ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'],
   abbreviated: ['thg 1', 'thg 2', 'thg 3', 'thg 4', 'thg 5', 'thg 6', 'thg 7', 'thg 8', 'thg 9', 'thg 10', 'thg 11', 'thg 12'],
@@ -49666,11 +47079,12 @@ var dayValues$3 = {
   short: ['CN', 'Th 2', 'Th 3', 'Th 4', 'Th 5', 'Th 6', 'Th 7'],
   abbreviated: ['CN', 'Thứ 2', 'Thứ 3', 'Thứ 4', 'Thứ 5', 'Thứ 6', 'Thứ 7'],
   wide: ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy']
-}; // Vietnamese are used to AM/PM borrowing from English, hence `narrow` and
+};
+
+// Vietnamese are used to AM/PM borrowing from English, hence `narrow` and
 // `abbreviated` are just like English but I'm leaving the `wide`
 // format being localized with abbreviations found in some systems (SÁng / CHiều);
 // however, personally, I don't think `Chiều` sounds appropriate for `PM`
-
 var dayPeriodValues$3 = {
   // narrow date period is extremely rare in Vietnamese
   // I used abbreviated form for noon, morning and afternoon
@@ -49738,23 +47152,18 @@ var formattingDayPeriodValues$3 = {
     night: 'vào ban đêm'
   }
 };
-
 var ordinalNumber$3 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
   var unit = options === null || options === void 0 ? void 0 : options.unit;
-
   if (unit === 'quarter') {
     // many news outlets use "quý I"...
     switch (number) {
       case 1:
         return 'I';
-
       case 2:
         return 'II';
-
       case 3:
         return 'III';
-
       case 4:
         return 'IV';
     }
@@ -49765,24 +47174,18 @@ var ordinalNumber$3 = function ordinalNumber(dirtyNumber, options) {
       case 1:
         return 'thứ 2';
       // meaning 2nd day but it's the first day of the week :D
-
       case 2:
         return 'thứ 3';
       // meaning 3rd day
-
       case 3:
         return 'thứ 4';
       // meaning 4th day and so on
-
       case 4:
         return 'thứ 5';
-
       case 5:
         return 'thứ 6';
-
       case 6:
         return 'thứ 7';
-
       case 7:
         return 'chủ nhật';
       // meaning Sunday, there's no 8th day :D
@@ -49799,12 +47202,11 @@ var ordinalNumber$3 = function ordinalNumber(dirtyNumber, options) {
     } else {
       return 'thứ ' + number;
     }
-  } // there are no different forms of ordinal numbers in Vietnamese
+  }
 
-
+  // there are no different forms of ordinal numbers in Vietnamese
   return String(number);
 };
-
 var localize$3 = {
   ordinalNumber: ordinalNumber$3,
   era: buildLocalizeFn({
@@ -49951,7 +47353,6 @@ var match$3 = {
  * @author Thanh Tran [@trongthanh]{@link https://github.com/trongthanh}
  * @author Leroy Hopson [@lihop]{@link https://github.com/lihop}
  */
-
 var locale$3 = {
   code: 'vi',
   formatDistance: formatDistance$3,
@@ -49960,12 +47361,8 @@ var locale$3 = {
   localize: localize$3,
   match: match$3,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
-    firstWeekContainsDate: 1
-    /* First week of new year contains Jan 1st  */
-
+    weekStartsOn: 1 /* Monday */,
+    firstWeekContainsDate: 1 /* First week of new year contains Jan 1st  */
   }
 };
 
@@ -50032,11 +47429,9 @@ var formatDistanceLocale$2 = {
     other: '将近 {{count}} 年'
   }
 };
-
 var formatDistance$2 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$2[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -50044,7 +47439,6 @@ var formatDistance$2 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + '内';
@@ -50052,7 +47446,6 @@ var formatDistance$2 = function formatDistance(token, count, options) {
       return result + '前';
     }
   }
-
   return result;
 };
 
@@ -50091,7 +47484,6 @@ var formatLong$2 = {
 
 function checkWeek(date, baseDate, options) {
   var baseFormat = 'eeee p';
-
   if (isSameUTCWeek(date, baseDate, options)) {
     return baseFormat; // in same week
   } else if (date.getTime() > baseDate.getTime()) {
@@ -50111,14 +47503,11 @@ var formatRelativeLocale$2 = {
   // days after tomorrow, maybe in this week or next week
   other: 'PP p'
 };
-
 var formatRelative$2 = function formatRelative(token, date, baseDate, options) {
   var format = formatRelativeLocale$2[token];
-
   if (typeof format === 'function') {
     return format(date, baseDate, options);
   }
-
   return format;
 };
 
@@ -50207,28 +47596,21 @@ var formattingDayPeriodValues$2 = {
     night: '夜间'
   }
 };
-
 var ordinalNumber$2 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
-
   switch (options === null || options === void 0 ? void 0 : options.unit) {
     case 'date':
       return number.toString() + '日';
-
     case 'hour':
       return number.toString() + '时';
-
     case 'minute':
       return number.toString() + '分';
-
     case 'second':
       return number.toString() + '秒';
-
     default:
       return '第 ' + number.toString();
   }
 };
-
 var localize$2 = {
   ordinalNumber: ordinalNumber$2,
   era: buildLocalizeFn({
@@ -50364,7 +47746,6 @@ var match$2 = {
  * @author Carney Wu [@cubicwork]{@link https://github.com/cubicwork}
  * @author Terrence Lam [@skyuplam]{@link https://github.com/skyuplam}
  */
-
 var locale$2 = {
   code: 'zh-CN',
   formatDistance: formatDistance$2,
@@ -50373,9 +47754,7 @@ var locale$2 = {
   localize: localize$2,
   match: match$2,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
@@ -50443,11 +47822,9 @@ var formatDistanceLocale$1 = {
     other: '將近 {{count}} 年'
   }
 };
-
 var formatDistance$1 = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale$1[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -50455,7 +47832,6 @@ var formatDistance$1 = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + '內';
@@ -50463,7 +47839,6 @@ var formatDistance$1 = function formatDistance(token, count, options) {
       return result + '前';
     }
   }
-
   return result;
 };
 
@@ -50508,7 +47883,6 @@ var formatRelativeLocale$1 = {
   nextWeek: "'下個'eeee p",
   other: 'P'
 };
-
 var formatRelative$1 = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale$1[token];
 };
@@ -50598,28 +47972,21 @@ var formattingDayPeriodValues$1 = {
     night: '夜晚'
   }
 };
-
 var ordinalNumber$1 = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
-
   switch (options === null || options === void 0 ? void 0 : options.unit) {
     case 'date':
       return number + '日';
-
     case 'hour':
       return number + '時';
-
     case 'minute':
       return number + '分';
-
     case 'second':
       return number + '秒';
-
     default:
       return '第 ' + number;
   }
 };
-
 var localize$1 = {
   ordinalNumber: ordinalNumber$1,
   era: buildLocalizeFn({
@@ -50751,7 +48118,6 @@ var match$1 = {
  * @iso-639-2 zho
  * @author Gary Ip [@gaplo]{@link https://github.com/gaplo}
  */
-
 var locale$1 = {
   code: 'zh-HK',
   formatDistance: formatDistance$1,
@@ -50760,9 +48126,7 @@ var locale$1 = {
   localize: localize$1,
   match: match$1,
   options: {
-    weekStartsOn: 0
-    /* Sunday */
-    ,
+    weekStartsOn: 0 /* Sunday */,
     firstWeekContainsDate: 1
   }
 };
@@ -50830,11 +48194,9 @@ var formatDistanceLocale = {
     other: '將近 {{count}} 年'
   }
 };
-
 var formatDistance = function formatDistance(token, count, options) {
   var result;
   var tokenValue = formatDistanceLocale[token];
-
   if (typeof tokenValue === 'string') {
     result = tokenValue;
   } else if (count === 1) {
@@ -50842,7 +48204,6 @@ var formatDistance = function formatDistance(token, count, options) {
   } else {
     result = tokenValue.other.replace('{{count}}', String(count));
   }
-
   if (options !== null && options !== void 0 && options.addSuffix) {
     if (options.comparison && options.comparison > 0) {
       return result + '內';
@@ -50850,7 +48211,6 @@ var formatDistance = function formatDistance(token, count, options) {
       return result + '前';
     }
   }
-
   return result;
 };
 
@@ -50895,7 +48255,6 @@ var formatRelativeLocale = {
   nextWeek: "'下個'eeee p",
   other: 'P'
 };
-
 var formatRelative = function formatRelative(token, _date, _baseDate, _options) {
   return formatRelativeLocale[token];
 };
@@ -50985,28 +48344,21 @@ var formattingDayPeriodValues = {
     night: '夜間'
   }
 };
-
 var ordinalNumber = function ordinalNumber(dirtyNumber, options) {
   var number = Number(dirtyNumber);
-
   switch (options === null || options === void 0 ? void 0 : options.unit) {
     case 'date':
       return number + '日';
-
     case 'hour':
       return number + '時';
-
     case 'minute':
       return number + '分';
-
     case 'second':
       return number + '秒';
-
     default:
       return '第 ' + number;
   }
 };
-
 var localize = {
   ordinalNumber: ordinalNumber,
   era: buildLocalizeFn({
@@ -51140,7 +48492,6 @@ var match = {
  * @author Jack Hsu [@jackhsu978]{@link https://github.com/jackhsu978}
  * @author Terrence Lam [@skyuplam]{@link https://github.com/skyuplam}
  */
-
 var locale = {
   code: 'zh-TW',
   formatDistance: formatDistance,
@@ -51149,9 +48500,7 @@ var locale = {
   localize: localize,
   match: match,
   options: {
-    weekStartsOn: 1
-    /* Monday */
-    ,
+    weekStartsOn: 1 /* Monday */,
     firstWeekContainsDate: 4
   }
 };
