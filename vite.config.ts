@@ -10,7 +10,7 @@ import AutoImport from "unplugin-auto-import/vite";
 import Inspect from "vite-plugin-inspect";
 import { copyFilePlugin } from "./bundler/plugins/copyFile";
 
-import { esmoduleUrl } from "./src/const/shared";
+import { esmoduleUrlBase } from "./src/const/shared";
 
 const pathSrc = path.resolve(__dirname, "src");
 
@@ -70,7 +70,7 @@ export default defineConfig(async () => {
                         `https://unpkg.com/es-module-shims@1.5.18/dist/es-module-shims.wasm.js`,
                         `./deps/es-module-shims.wasm.js`
                       )
-                      .replace(/https\:\/\/unpkg.com\//g, esmoduleUrl),
+                      .replace(/https\:\/\/unpkg.com\//g, `https:${esmoduleUrlBase}`),
                     "utf-8"
                   );
                 }
