@@ -34,12 +34,12 @@ const install = (app) => {
 const loadResetCss = () => {
   const resetLink = document.createElement('link')
   resetLink.rel = 'stylesheet'
-  resetLink.href = './reset.default.css'
+  resetLink.href = './reset.seer.css'
   document.body.appendChild(resetLink)
 
   const resetScrollLink = document.createElement('link')
   resetScrollLink.rel = 'stylesheet'
-  resetScrollLink.href = './reset-scroll.default.css'
+  resetScrollLink.href = './reset-scroll.seer.css'
   document.body.appendChild(resetScrollLink)
 }
 
