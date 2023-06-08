@@ -9,10 +9,11 @@
     <div class="flex flex-col ixp-height-full">
       <PlaygroundHeader :store="store" />
       <Repl
-        class="grow"
+        :class="className"
         auto-resize
         show-compile-output
         :store="store"
+        :layout="layout"
         :clear-console="false"
       />
     </div>
@@ -42,10 +43,32 @@ store.init().then(() => {
 })
 
 watchEffect(() => history.replaceState({}, '', store.serialize()))
+
+
+let className = ref(['grow'])
+let layout = ref('horizontal')
+
+const isEditor = location.search.indexOf('editor=false') === -1
+
+// 如果非编辑模式下，layout变成垂直布局，隐藏left；
+if (!isEditor) {
+  className.value = ['grow', 'ixp-hidden-left']
+  layout.value = 'vertical'
+}
+
+
 </script>
 
 <style scoped>
 .ixp-height-full {
   height: 100vh;
+}
+
+.ixp-hidden-left /deep/ .left{
+  display: none;
+}
+
+.ixp-hidden-left /deep/ .right{
+  height: 100% !important;
 }
 </style>
