@@ -1,2 +1,2 @@
-export const versionRequestUrl = 'http://npm.uedc.sangfor.com.cn/'
-export const esmoduleUrl = 'https://esm.uedc.sangfor.com.cn/'
+export const versionRequestUrlBase = '//npm.uedc.sangfor.com.cn/'
+export const esmoduleUrlBase = '//esm.uedc.sangfor.com.cn/'
