@@ -163,7 +163,7 @@ export class ReplStore implements Store {
     const componentsStyleHref = genLink(
       '@idux/components',
       version,
-      '/default.css',
+      '/seer.css',
     )
     const cdkStyleHref = genLink(
       '@idux/cdk',
@@ -173,7 +173,7 @@ export class ReplStore implements Store {
     const proStyleHref = genLink(
       '@idux/pro',
       version,
-      '/default.css',
+      '/seer.css',
     )
 
     this.state.files[setupIdux] = new File(
