@@ -1,0 +1,443 @@
+/* transition duration ------------------ */
+/* move ------------------ */
+/* border -------------------------- */
+/* stylelint-disable no-duplicate-selectors */
+/* stylelint-disable */
+/* stylelint-disable declaration-bang-space-before,no-duplicate-selectors,string-no-newline */
+/* base -------------------------- */
+/* Graphite  -------------------------- */
+/* Grey -------------------------- */
+/* Black -------------------------- */
+/* white -------------------------- */
+/* Red -------------------------- */
+/* Orange -------------------------- */
+/* Brown -------------------------- */
+/* Yellow -------------------------- */
+/* Canary -------------------------- */
+/* Bud -------------------------- */
+/* Green -------------------------- */
+/* Turquoise -------------------------- */
+/* Cyan -------------------------- */
+/* Glacier -------------------------- */
+/* Blue -------------------------- */
+/* Indigo -------------------------- */
+/* Purple -------------------------- */
+/* Magenta -------------------------- */
+/* Primary -------------------------- */
+/* Info -------------------------- */
+/* Pending -------------------------- */
+/* Success -------------------------- */
+/* Warning -------------------------- */
+/* Error -------------------------- */
+/* color -------------------------- */
+/* text -------------------------- */
+/* font -------------------------- */
+/* spacing -------------------------- */
+:root {
+  --ix-color-primary: #1c6eff;
+  --ix-color-primary-l50: #e8f4ff;
+  --ix-color-primary-l30: #96c7ff;
+  --ix-color-primary-l10: #458fff;
+  --ix-color-primary-d10: #0d51d9;
+  --ix-color-red: #f52727;
+  --ix-color-red-l10: #ff5752;
+  --ix-color-red-d10: #cf171d;
+  --ix-color-turquoise: #20cc94;
+  --ix-color-turquoise-l10: #45d9a3;
+  --ix-color-turquoise-d10: #12a679;
+  --ix-color-brown: #fdaa1d;
+  --ix-color-brown-l10: #ffc145;
+  --ix-color-brown-d10: #d6860d;
+  --ix-text-color: #1f1f1f;
+  --ix-text-color-inverse: #ffffff;
+  --ix-text-color-disabled: #a3a3a3;
+  --ix-text-color-inverse-disabled: #c2c2c2;
+  --ix-text-color-info: #7a7a7a;
+  --ix-text-color-secondary: #5c5c5c;
+  --ix-text-color-title: #141414;
+  --ix-text-color-title-secondary: #3d3d3d;
+  --ix-background-color: #ffffff;
+  --ix-background-color-inverse: #1f1f1f;
+  --ix-background-color-deep: #eeeeee;
+  --ix-background-color-medium: #f5f5f5;
+  --ix-background-color-light: #fafafa;
+  --ix-border-color: #e0e0e0;
+  --ix-border-color-inverse: #ffffff;
+  --ix-border-color-secondary: #eeeeee;
+  --ix-border-radius-sm: 2px;
+  --ix-border-radius-md: 4px;
+  --ix-border-radius-lg: 8px;
+  --ix-height-xs: 20px;
+  --ix-height-sm: 24px;
+  --ix-height-md: 32px;
+  --ix-height-lg: 40px;
+  --ix-height-xl: 48px;
+  --ix-height-2xl: 56px;
+  --ix-height-3xl: 64px;
+  --ix-line-height-gutter: 8px;
+  --ix-font-size: 14px;
+  --ix-font-size-xs: 10px;
+  --ix-font-size-sm: 12px;
+  --ix-font-size-md: 14px;
+  --ix-font-size-lg: 16px;
+  --ix-font-size-xl: 20px;
+  --ix-font-size-2xl: 24px;
+  --ix-font-size-3xl: 30px;
+  --ix-font-weight-xs: 200;
+  --ix-font-weight-sm: 300;
+  --ix-font-weight-md: 400;
+  --ix-font-weight-lg: 500;
+  --ix-font-weight-xl: 600;
+  --ix-font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --ix-font-family-code: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  --ix-spacing-xs: 4px;
+  --ix-spacing-sm: 8px;
+  --ix-spacing-md: 12px;
+  --ix-spacing-lg: 16px;
+  --ix-spacing-xl: 24px;
+  --ix-spacing-2xl: 32px;
+  --ix-scrollbar-width: 8px;
+  --ix-scrollbar-height: 8px;
+  --ix-scrollbar-thumb-background-color: #eeeeee;
+  --ix-scrollbar-thumb-background-color-hover: #c2c2c2;
+  --ix-scrollbar-thumb-background-color-active: #7a7a7a;
+  --ix-scrollbar-thumb-border-width: 0;
+  --ix-scrollbar-thumb-border-radius: 4px;
+  --ix-scrollbar-thumb-box-shadow: none;
+  --ix-scrollbar-track-background-color: unset;
+  --ix-scrollbar-track-border-radius: 0;
+  --ix-scrollbar-track-box-shadow: unset;
+  --ix-transition-duration-fast: 0.18s;
+  --ix-transition-duration-medium: 0.24s;
+  --ix-transition-duration-slow: 0.3s;
+  --ix-ease-in: cubic-bezier(0.12, 0, 0.39, 0);
+  --ix-ease-out: cubic-bezier(0.61, 1, 0.88, 1);
+  --ix-ease-in-out: cubic-bezier(0.37, 0, 0.63, 1);
+  --ix-ease-in-back: cubic-bezier(0.36, 0, 0.66, -0.56);
+  --ix-ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ix-ease-in-circ: cubic-bezier(0.55, 0, 1, 0.45);
+  --ix-ease-out-circ: cubic-bezier(0, 0.55, 0.45, 1);
+  --ix-ease-in-quint: cubic-bezier(0.64, 0, 0.78, 0);
+  --ix-ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+}
+:root {
+  --ix-text-color: #2f3540;
+  --ix-text-color-disabled: #a1a7b3;
+  --ix-text-color-inverse-disabled: #bec3cc;
+  --ix-text-color-info: #6f7785;
+  --ix-text-color-secondary: #5e6573;
+  --ix-text-color-title: #2f3540;
+  --ix-text-color-title-secondary: #454c59;
+  --ix-background-color-inverse: #2f3540;
+  --ix-background-color-deep: #e1e5eb;
+  --ix-background-color-medium: #edf1f7;
+  --ix-background-color-light: #f7f9fc;
+  --ix-border-color: #d3d7de;
+  --ix-border-color-secondary: #e1e5eb;
+  --ix-font-size: 12px;
+  --ix-scrollbar-width: 12px;
+  --ix-scrollbar-height: 12px;
+  --ix-scrollbar-thumb-background-color: #e1e5eb;
+  --ix-scrollbar-thumb-background-color-hover: #bec3cc;
+  --ix-scrollbar-thumb-background-color-active: #bec3cc;
+  --ix-scrollbar-thumb-border-width: 2px;
+  --ix-scrollbar-thumb-border-radius: 6px;
+}
+/*!
+ * ress.css • v3.0.1
+ * MIT License
+ * github.com/filipelinhares/ress
+ */
+/* # =================================================================
+   # Global selectors
+   # ================================================================= */
+html {
+  box-sizing: border-box;
+  -webkit-text-size-adjust: 100%;
+  /* Prevent adjustments of font size after orientation changes in iOS */
+  word-break: normal;
+  -moz-tab-size: 4;
+  tab-size: 4;
+  font-family: sans-serif;
+}
+body {
+  color: var(--ix-text-color);
+  background-color: var(--ix-background-color);
+  font-family: var(--ix-font-family);
+  font-size: var(--ix-font-size-sm);
+  font-weight: var(--ix-font-weight-md);
+  font-variant: tabular-nums;
+  font-feature-settings: 'tnum';
+}
+*,
+::before,
+::after {
+  background-repeat: no-repeat;
+  /* Set `background-repeat: no-repeat` to all elements and pseudo elements */
+  box-sizing: inherit;
+}
+::before,
+::after {
+  text-decoration: inherit;
+  /* Inherit text-decoration and vertical align to ::before and ::after pseudo elements */
+  vertical-align: inherit;
+}
+* {
+  padding: 0;
+  /* Reset `padding` and `margin` of all elements */
+  margin: 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: var(--ix-text-color-title);
+  font-weight: var(--ix-font-weight-lg);
+}
+/* # =================================================================
+     # General elements
+     # ================================================================= */
+hr {
+  overflow: visible;
+  /* Show the overflow in Edge and IE */
+  height: 0;
+  /* Add the correct box sizing in Firefox */
+}
+details,
+main {
+  display: block;
+  /* Render the `main` element consistently in IE. */
+}
+summary {
+  display: list-item;
+  /* Add the correct display in all browsers */
+}
+small {
+  font-size: 80%;
+  /* Set font-size to 80% in `small` elements */
+}
+[hidden] {
+  display: none;
+  /* Add the correct display in IE */
+}
+abbr[title] {
+  border-bottom: none;
+  /* Remove the bottom border in Chrome 57 */
+  /* Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari */
+  text-decoration: underline;
+  text-decoration: underline dotted;
+}
+p {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+a {
+  color: var(--ix-color-primary);
+  background-color: transparent;
+  /* Remove the gray background on active links in IE 10 */
+}
+a:active,
+a:hover {
+  outline-width: 0;
+  /* Remove the outline when hovering in all browsers */
+}
+ul,
+ol,
+dd {
+  list-style: none;
+}
+code,
+kbd,
+pre,
+samp {
+  font-family: var(--ix-font-family-code);
+}
+pre {
+  font-size: 1em;
+  /* Correct the odd `em` font sizing in all browsers */
+}
+b,
+strong {
+  font-weight: bolder;
+  /* Add the correct font weight in Chrome, Edge, and Safari */
+}
+/* https://gist.github.com/unruthless/413930 */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sub {
+  bottom: -0.25em;
+}
+sup {
+  top: -0.5em;
+}
+/* # =================================================================
+     # Forms
+     # ================================================================= */
+input {
+  border-radius: 0;
+}
+/* Replace pointer cursor in disabled elements */
+[disabled] {
+  cursor: default;
+}
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
+  height: auto;
+  /* Correct the cursor style of increment and decrement buttons in Chrome */
+}
+[type='search'] {
+  -webkit-appearance: textfield;
+  /* Correct the odd appearance in Chrome and Safari */
+  outline-offset: -2px;
+  /* Correct the outline style in Safari */
+}
+[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+  /* Remove the inner padding in Chrome and Safari on macOS */
+}
+textarea {
+  overflow: auto;
+  /* Internet Explorer 11+ */
+  resize: vertical;
+  /* Specify textarea resizability */
+}
+button,
+input,
+optgroup,
+select,
+textarea {
+  font: inherit;
+  /* Specify font inheritance of form elements */
+}
+optgroup {
+  font-weight: bold;
+  /* Restore the font weight unset by the previous rule */
+}
+button {
+  overflow: visible;
+  /* Address `overflow` set to `hidden` in IE 8/9/10/11 */
+}
+button,
+select {
+  text-transform: none;
+  /* Firefox 40+, Internet Explorer 11- */
+}
+/* Apply cursor pointer to button elements */
+button,
+[type='button'],
+[type='reset'],
+[type='submit'],
+[role='button'] {
+  cursor: pointer;
+  color: inherit;
+}
+/* Remove inner padding and border in Firefox 4+ */
+button::-moz-focus-inner,
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+/* Replace focus style removed in the border reset above */
+button:-moz-focusring,
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
+  outline: 1px dotted ButtonText;
+}
+button,
+html [type="button"],
+[type="reset"],
+[type="submit"] {
+  -webkit-appearance: button;
+  /* Correct the inability to style clickable types in iOS */
+}
+/* Remove the default button styling in all browsers */
+button,
+input,
+select,
+textarea {
+  background-color: transparent;
+  border-style: none;
+}
+/* Style select like a standard input */
+select {
+  -moz-appearance: none;
+  /* Firefox 36+ */
+  -webkit-appearance: none;
+  /* Chrome 41+ */
+}
+select::-ms-expand {
+  display: none;
+  /* Internet Explorer 11+ */
+}
+select::-ms-value {
+  color: currentcolor;
+  /* Internet Explorer 11+ */
+}
+legend {
+  border: 0;
+  /* Correct `color` not being inherited in IE 8/9/10/11 */
+  color: inherit;
+  /* Correct the color inheritance from `fieldset` elements in IE */
+  display: table;
+  /* Correct the text wrapping in Edge and IE */
+  /* Correct the text wrapping in Edge and IE */
+  white-space: normal;
+  /* Correct the text wrapping in Edge and IE */
+  max-width: 100%;
+  /* Correct the text wrapping in Edge 18- and IE */
+}
+::-webkit-file-upload-button {
+  /* Correct the inability to style clickable types in iOS and Safari */
+  -webkit-appearance: button;
+  color: inherit;
+  font: inherit;
+  /* Change font properties to `inherit` in Chrome and Safari */
+}
+/* # =================================================================
+     # Specify media element style
+     # ================================================================= */
+img {
+  border-style: none;
+  /* Remove border when inside `a` element in IE 8/9/10 */
+}
+/* Add the correct vertical alignment in Chrome, Firefox, and Opera */
+progress {
+  vertical-align: baseline;
+}
+/* # =================================================================
+     # Accessibility
+     # ================================================================= */
+/* Hide content from screens but not screenreaders */
+@media screen {
+  [hidden~='screen'] {
+    display: inherit;
+  }
+  [hidden~='screen']:not(:active):not(:focus):not(:target) {
+    position: absolute !important;
+    clip: rect(0 0 0 0) !important;
+  }
+}
+/* Specify the progress cursor of updating elements */
+[aria-busy='true'] {
+  cursor: progress;
+}
+/* Specify the pointer cursor of trigger elements */
+[aria-controls] {
+  cursor: pointer;
+}
+/* Specify the unstyled cursor of disabled, not-editable, or otherwise inoperable elements */
+[aria-disabled] {
+  cursor: default;
+}
