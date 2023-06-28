@@ -11,6 +11,8 @@ export const copyFilePlugin = (): Plugin => {
     buildStart() {
       fs.copyFileSync(resetScrollCss, path.resolve('public/reset-scroll.default.css'))
       fs.copyFileSync(resetCss, path.resolve('public/reset.default.css'))
+      fs.copyFileSync(resetScrollCss, path.resolve('public/reset-scroll.seer.css'))
+      fs.copyFileSync(resetCss, path.resolve('public/reset.seer.css'))
     },
   }
 }
