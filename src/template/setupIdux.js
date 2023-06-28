@@ -4,6 +4,7 @@ import IduxComponents, {
   IDUX_ICON_DEPENDENCIES,
   addIconDefinitions,
   createGlobalConfig,
+  IxIcon,
 } from '@idux/components'
 import IduxPro from '@idux/pro'
 
@@ -19,6 +20,35 @@ const loadIconDynamically = (iconName) => {
 // }
 
 const globalConfig = createGlobalConfig({
+  common: {
+    theme: 'seer',
+  },
+  button: {
+    size: 'sm',
+  },
+  desc: {
+    colonless: true,
+    labelAlign: 'start',
+  },
+  form: {
+    colonless: true,
+    labelAlign: 'start',
+  },
+  menu: {
+    offset: [0, 4],
+  },
+  modal: {
+    centered: true,
+    maskClosable: false,
+  },
+  progress: {
+    strokeLinecap: 'square',
+  },
+  table: {
+    columnExpandable: {
+      icon: ({ expanded }) => h(IxIcon, { name: expanded ? 'minus-square' : 'plus-square' }),
+    },
+  },
   icon: { loadIconDynamically },
   // modal: targetConfig,
   // drawer: targetConfig,
