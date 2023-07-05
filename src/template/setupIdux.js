@@ -7,11 +7,12 @@ import IduxComponents, {
   IxIcon,
 } from '@idux/components'
 import IduxPro from '@idux/pro'
+import { iduxIconUrlBase } from "../const/shared";
 
 addIconDefinitions(IDUX_ICON_DEPENDENCIES)
 
 const loadIconDynamically = (iconName) => {
-  return fetch(`https://idux-cdn.sangfor.com.cn/icons/${iconName}.svg`)
+  return fetch(`${iduxIconUrlBase}${iconName}.svg`)
     .then((res) => res.text())
 }
 
