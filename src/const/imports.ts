@@ -39,32 +39,32 @@ export const genImportsMap = async (versions: VersionRecord) => {
       file: '',
     },
     '@idux/cdk': {
-      pkg: '@idux/cdk',
+      pkg: '*@idux/cdk',
       version: cdkVersion,
       file: '',
     },
     '@idux/cdk/': {
-      pkg: '@idux/cdk',
+      pkg: '*@idux/cdk',
       version: cdkVersion,
       file: '/',
     },
-    "@idux/components": {
-      pkg: "@idux/components",
+    '@idux/components': {
+      pkg: '*@idux/components',
       version: iDux,
       file: '',
     },
     '@idux/components/': {
-      pkg: '@idux/components',
+      pkg: '*@idux/components',
       version: iDux,
       file: "/",
     },
-    "@idux/pro": {
-      pkg: "@idux/pro",
+    '@idux/pro': {
+      pkg: '*@idux/pro',
       version: iDux,
       file: '',
     },
-    "@idux/pro/": {
-      pkg: "@idux/pro",
+    '@idux/pro/': {
+      pkg: '*@idux/pro',
       version: iDux,
       file: "/",
     },
