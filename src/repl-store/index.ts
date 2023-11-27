@@ -11,7 +11,7 @@ import iduxCode from '@/template/setupIdux.js?raw'
 
 const getInitFiles = (serializedState = '') => {
   const files: StoreState['files'] = {
-    [playgroundApp]: new File(playgroundApp, playgroundAppCode, true),
+    [playgroundApp]: new File(playgroundApp, playgroundAppCode),
     [defaultFile]: new File(defaultFile, defaultCode),
   }
   if (serializedState) {
@@ -47,9 +47,9 @@ const genVueLink = (version: string) => {
   }
 }
 
-const genImports = (versions: VersionRecord) => {
+const genImports = async (versions: VersionRecord) => {
   const deps = {
-    ...genImportsMap(versions),
+    ...await genImportsMap(versions),
   }
 
   return {
@@ -75,7 +75,7 @@ export class ReplStore implements Store {
 
   constructor({
     serializedState = '',
-    versions = { Vue: 'latest', iDux: 'latest' },
+    versions = { Vue: 'latest', iDux: '1.12.2' },
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
     const mainFile = files[playgroundApp] ? playgroundApp : Object.keys(files)[0]
@@ -136,11 +136,11 @@ export class ReplStore implements Store {
     }
   }
 
-  private addDeps() {
+  private async addDeps() {
     const importMap = this.getImportMap()
     importMap.imports = {
       ...importMap.imports,
-      ...genImports(this.versions),
+      ...await genImports(this.versions),
     }
     this.setImportMap(importMap as Required<ImportMap>)
   }
@@ -159,11 +159,13 @@ export class ReplStore implements Store {
 
   private async setIduxVersion(version: string) {
     this.versions.iDux = version
+    
+    const isVersion2 = version.startsWith('2') || version === 'latest'
 
     const componentsStyleHref = genLink(
       '@idux/components',
       version,
-      '/default.css',
+      isVersion2 ? '/index.css' : '/default.css',
     )
     const cdkStyleHref = genLink(
       '@idux/cdk',
@@ -173,7 +175,7 @@ export class ReplStore implements Store {
     const proStyleHref = genLink(
       '@idux/pro',
       version,
-      '/default.css',
+      isVersion2 ? '/index.css' : '/default.css',
     )
 
     this.state.files[setupIdux] = new File(
@@ -182,7 +184,7 @@ export class ReplStore implements Store {
       true,
     )
 
-    this.addDeps()
+    await this.addDeps()
   }
 
   private async setVueVersion(version: string) {
@@ -196,7 +198,7 @@ export class ReplStore implements Store {
 
     this.versions.Vue = version
 
-    this.addDeps()
+    await this.addDeps()
   }
 
   setActive(filename: string) {
