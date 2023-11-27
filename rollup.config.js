@@ -9,6 +9,7 @@ export default {
     './bundler/ajv.js',
     './bundler/ajv-formats.js',
     './bundler/date-fns.js',
+    './bundler/emotion-hash.js',
   ],
   output: {
     dir: './public/deps',
