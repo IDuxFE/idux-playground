@@ -17,7 +17,17 @@ export const getIduxVersions = () => {
   return computed(() => versions.value?.filter(ver => compare(ver, '1.0.0', '>=')))
 }
 
-export const getIduxCdkVersions = async () => {
+export const fetchVueVersions = async () => {
+  const versions = await fetchVersionsRaw('vue')
+  return versions?.filter((ver: string) => compare(ver, '3.2.9', '>='))
+}
+
+export const fetchIduxVersions = async () => {
+  const versions = await fetchVersionsRaw('@idux/components')
+  return versions?.filter((ver: string) => compare(ver, '1.0.0', '>=')) ?? []
+}
+
+export const fetchIduxCdkVersions = async () => {
   const versions = await fetchVersionsRaw('@idux/cdk')
-  return versions?.filter((ver: string) => compare(ver, '1.0.0', '>='))
+  return versions?.filter((ver: string) => compare(ver, '1.0.0', '>=')) ?? []
 }
