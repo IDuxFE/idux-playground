@@ -19,15 +19,15 @@ export const getIduxVersions = () => {
 
 export const fetchVueVersions = async () => {
   const versions = await fetchVersionsRaw('vue')
-  return versions?.filter((ver: string) => compare(ver, '3.2.9', '>='))
+  return versions?.filter((ver: string) => compare(ver, '3.2.9', '>=')).sort((ver1: string, ver2: string) => compare(ver1, ver2, '>') ? -1 : compare(ver1, ver2, '<') ? 1 : 0) ?? []
 }
 
 export const fetchIduxVersions = async () => {
   const versions = await fetchVersionsRaw('@idux/components')
-  return versions?.filter((ver: string) => compare(ver, '1.0.0', '>=')) ?? []
+  return versions?.filter((ver: string) => compare(ver, '1.0.0', '>=')).sort((ver1: string, ver2: string) => compare(ver1, ver2, '>') ? -1 : compare(ver1, ver2, '<') ? 1 : 0) ?? []
 }
 
 export const fetchIduxCdkVersions = async () => {
   const versions = await fetchVersionsRaw('@idux/cdk')
-  return versions?.filter((ver: string) => compare(ver, '1.0.0', '>=')) ?? []
+  return versions?.filter((ver: string) => compare(ver, '1.0.0', '>=')).sort((ver1: string, ver2: string) => compare(ver1, ver2, '>') ? -1 : compare(ver1, ver2, '<') ? 1 : 0) ?? []
 }
