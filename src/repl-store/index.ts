@@ -4,7 +4,7 @@ import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
 import type { ImportMap, PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
 import { defaultFile, genImportsMap, genLocalImportsMap, playgroundApp, setupIdux } from '@/const'
-import { decodeData, encodeData, genLink } from '@/utils'
+import { decodeData, encodeData, genLink, fetchIduxVersions, fetchVueVersions } from '@/utils'
 import playgroundAppCode from '@/template/PlaygroundApp.vue?raw'
 import defaultCode from '@/template/App.vue?raw'
 import iduxCode from '@/template/setupIdux.js?raw'
@@ -68,14 +68,14 @@ export class ReplStore implements Store {
   state: StoreState
   compiler = defaultCompiler
   options?: SFCOptions
-  versions: VersionRecord
+  versions: VersionRecord = { Vue: 'latest', iDux: 'latest' }
   initialShowOutput = false
   initialOutputMode: OutputModes = 'preview'
+  versionChangeHandlers: ((versions: VersionRecord) => void)[] = []
   private pendingCompiler: PendingCompiler = null
 
   constructor({
-    serializedState = '',
-    versions = { Vue: 'latest', iDux: 'latest' },
+    serializedState = ''
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
     const mainFile = files[playgroundApp] ? playgroundApp : Object.keys(files)[0]
@@ -89,13 +89,15 @@ export class ReplStore implements Store {
       vueServerRendererURL: '',
       resetFlip: true,
     })
-    this.versions = versions
     this.initImportMap()
   }
 
   async init() {
-    await this.setVueVersion(this.versions.Vue)
-    await this.setIduxVersion(this.versions.iDux)
+    const vueVersions = await fetchVueVersions()
+    const iduxVersions = await fetchIduxVersions()
+
+    await this.setVueVersion(vueVersions[0] ?? 'latest')
+    await this.setIduxVersion(iduxVersions[0] ?? 'latest')
 
     watchEffect(() => compileFile(this, this.state.activeFile))
 
@@ -159,7 +161,7 @@ export class ReplStore implements Store {
 
   private async setIduxVersion(version: string) {
     this.versions.iDux = version
-    
+
     const isVersion2 = version.startsWith('2') || version === 'latest'
 
     const componentsStyleHref = genLink(
@@ -184,6 +186,7 @@ export class ReplStore implements Store {
       true,
     )
 
+    this.runVersionChangeCbs()
     await this.addDeps()
   }
 
@@ -198,6 +201,7 @@ export class ReplStore implements Store {
 
     this.versions.Vue = version
 
+    this.runVersionChangeCbs()
     await this.addDeps()
   }
 
@@ -231,6 +235,14 @@ export class ReplStore implements Store {
       exported[filename] = this.state.files[filename].code
     }
     return exported
+  }
+
+  public onVersionChange(cb: (versions: VersionRecord) => void) {
+    this.versionChangeHandlers.push(cb)
+  }
+
+  private runVersionChangeCbs() {
+    this.versionChangeHandlers.forEach(handler => handler(this.versions))
   }
 
   async setFiles(newFiles: Record<string, string>, mainFile = defaultFile) {

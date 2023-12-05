@@ -1,4 +1,4 @@
-import { getIduxCdkVersions } from "./../utils/version";
+import { fetchIduxCdkVersions } from "./../utils";
 import { VersionRecord } from "@/types";
 import { compare } from 'compare-versions'
 import * as compInfo from "@idux/components";
@@ -19,12 +19,12 @@ const iduxCdks = [
 export const genImportsMap = async (versions: VersionRecord) => {
   const { Vue, iDux } = versions;
 
-  let cdkVersions = (await getIduxCdkVersions()) ?? [];
-  if (!iDux.startsWith('2')) {
+  let cdkVersions = (await fetchIduxCdkVersions()) ?? [];
+  if (!iDux.startsWith('2') && iDux !== 'latest') {
     cdkVersions = cdkVersions.filter((ver: string) => ver.startsWith('1'))
   }
 
-  const cdkVersion = cdkVersions.includes(iDux) ? iDux : cdkVersions.find((ver: string) => compare(ver, iDux, '<=')) ?? cdkVersions[0];
+  const cdkVersion = cdkVersions.includes(iDux) || iDux === 'latest' ? iDux : cdkVersions.find((ver: string) => compare(ver, iDux, '<=')) ?? cdkVersions[0];
 
   const iduxCdksMap = Object.fromEntries(
     iduxCdks.map((item) => [
