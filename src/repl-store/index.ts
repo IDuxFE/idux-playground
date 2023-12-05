@@ -75,7 +75,7 @@ export class ReplStore implements Store {
 
   constructor({
     serializedState = '',
-    versions = { Vue: 'latest', iDux: '1.12.2' },
+    versions = { Vue: 'latest', iDux: 'latest' },
   }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
     const mainFile = files[playgroundApp] ? playgroundApp : Object.keys(files)[0]
