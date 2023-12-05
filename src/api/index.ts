@@ -16,5 +16,5 @@ export const fetchVersionsRaw = async (pkg: string) => {
 
   const json = await res.json()
 
-  return json.versions
+  return Object.keys(json.versions)
 }
