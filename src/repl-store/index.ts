@@ -11,7 +11,7 @@ import iduxCode from '@/template/setupIdux.js?raw'
 
 const getInitFiles = (serializedState = '') => {
   const files: StoreState['files'] = {
-    [playgroundApp]: new File(playgroundApp, playgroundAppCode, true),
+    [playgroundApp]: new File(playgroundApp, playgroundAppCode),
     [defaultFile]: new File(defaultFile, defaultCode),
   }
   if (serializedState) {
@@ -73,6 +73,7 @@ export class ReplStore implements Store {
   initialOutputMode: OutputModes = 'preview'
   versionChangeHandlers: ((versions: VersionRecord) => void)[] = []
   private pendingCompiler: PendingCompiler = null
+  private inited = false
 
   constructor({
     serializedState = ''
@@ -93,6 +94,10 @@ export class ReplStore implements Store {
   }
 
   async init() {
+    if (this.inited) {
+      return
+    }
+    
     const vueVersions = await fetchVueVersions()
     const iduxVersions = await fetchIduxVersions()
 
@@ -106,6 +111,8 @@ export class ReplStore implements Store {
         compileFile(this, this.state.files[file])
       }
     }
+
+    this.inited = true
   }
 
   private initImportMap() {

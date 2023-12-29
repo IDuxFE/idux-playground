@@ -12,8 +12,8 @@ dependencies:
     specifier: ^1.7.1
     version: 1.7.1(vue@3.3.4)
   '@vue/repl':
-    specifier: ^1.4.1
-    version: 1.4.1(vue@3.3.4)
+    specifier: ^1.5.0
+    version: 1.5.0(vue@3.3.4)
   '@vueuse/core':
     specifier: ^7.7.1
     version: 7.7.1(vue@3.3.4)
@@ -1162,8 +1162,8 @@ packages:
     dependencies:
       '@vue/shared': 3.3.4
 
-  /@vue/repl@1.4.1(vue@3.3.4):
-    resolution: {integrity: sha512-7ONz/o1OtS611jW6SdAOZXn4HdN8gfyatcOzcEu+3bDMvgbyr7ZUcbRV6Y4xdkxDARKDBzs+sb3/oz1Na5hAeQ==}
+  /@vue/repl@1.5.0(vue@3.3.4):
+    resolution: {integrity: sha512-qFqKtvA2FM9viYXzbWrpGrL8mDGswsqDsEjfaibr/YOqeza7i49VmO0AKPrOdQDOS2qmq9uV+G6OPX1rGhUSIQ==}
     peerDependencies:
       vue: ^3.2.13
     dependencies:

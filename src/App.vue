@@ -6,7 +6,7 @@
     >
       <div class="ixp-height-full" />
     </IxSpin>
-    <div class="flex flex-col ixp-height-full">
+    <div v-else class="flex flex-col ixp-height-full">
       <PlaygroundHeader :store="store" />
       <Repl
         :class="className"
@@ -15,6 +15,7 @@
         :store="store"
         :layout="layout"
         :clear-console="false"
+        :preview-options="{ headHTML: headHTML }"
       />
     </div>
   </IxMessageProvider>
@@ -23,6 +24,8 @@
 <script lang="ts" setup>
 import { ReplStore } from '@/repl-store'
 import { Repl } from '@vue/repl'
+
+const headHTML = `\<script\>__VUE_PROD_DEVTOOLS__ = false\</script\>`
 
 const isLoading = ref(true)
 
