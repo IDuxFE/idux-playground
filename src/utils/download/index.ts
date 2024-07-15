@@ -2,13 +2,14 @@ import { saveAs } from 'file-saver'
 import indexHtml from './template/index.html?raw'
 import mainJs from './template/main.js?raw'
 import iduxJs from './template/idux.js?raw'
+import iduxChartsJs from './template/iduxCharts.js?raw'
 import pkgJson from './template/package.json?raw'
 import viteCfg from './template/vite.config.js?raw'
 import readme from './template/Readme.md?raw'
 import type { ReplStore } from '@/repl-store'
 
 export const downloadProject = async (store: ReplStore) => {
-  const excludes = ['setupIdux.js', 'setupIduxCharts', 'import-map.json']
+  const excludes = ['setupIdux.js', 'setupIduxCharts.js', 'import-map.json']
   const { default: JSZip } = await import('jszip')
   const jsZip = new JSZip()
 
@@ -20,6 +21,7 @@ export const downloadProject = async (store: ReplStore) => {
   const srcFolder = jsZip.folder('src')
   srcFolder?.file('main.js', mainJs)
   srcFolder?.file('idux.js', iduxJs)
+  srcFolder?.file('iduxCharts.js', iduxChartsJs)
 
   const files = store.getFiles()
   for (const file in files) {
