@@ -1,6 +1,6 @@
 <template>
-  <ThemeProvider>
-    <IxDrawerProvider>
+    <ThemeProvider>
+  <IxDrawerProvider>
       <IxNotificationProvider>
         <IxModalProvider>
           <IxMessageProvider>
@@ -15,9 +15,11 @@
 <script lang="ts" setup>
 import { defineComponent, defineAsyncComponent } from "vue";
 import { version } from "@idux/components";
-import { setupIdux } from "./setupIdux.js";
-import App from "./App.vue";
-setupIdux();
+import { setupIdux } from './setupIdux.js'
+import { setupIduxCharts } from './setupIduxCharts.js'
+import App from "./App.vue"
+setupIdux()
+setupIduxCharts()
 
 const ThemeProvider = defineAsyncComponent(async () =>
   version.startsWith("2")

@@ -12,7 +12,6 @@ import { copyFilePlugin } from './bundler/plugins/copyFile'
 const pathSrc = path.resolve(__dirname, 'src')
 
 export default defineConfig(async () => {
-
   return {
     base: './',
     resolve: {
