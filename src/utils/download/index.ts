@@ -8,7 +8,7 @@ import readme from './template/Readme.md?raw'
 import type { ReplStore } from '@/repl-store'
 
 export const downloadProject = async (store: ReplStore) => {
-  const excludes = ['setupIdux.js', 'import-map.json']
+  const excludes = ['setupIdux.js', 'setupIduxCharts', 'import-map.json']
   const { default: JSZip } = await import('jszip')
   const jsZip = new JSZip()
 
@@ -30,7 +30,9 @@ export const downloadProject = async (store: ReplStore) => {
     if (file === 'PlaygroundApp.vue') {
       code = code
         .replace("import { setupIdux } from './setupIdux.js'\n", '')
+        .replace("import { setupIduxCharts } from './setupIduxCharts.js'\n", '')
         .replace('setupIdux()', '')
+        .replace('setupIduxCharts()', '')
     }
     srcFolder?.file(file, code)
   }

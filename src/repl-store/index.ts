@@ -2,12 +2,33 @@ import { reactive, watchEffect } from 'vue'
 import * as defaultCompiler from 'vue/compiler-sfc'
 import { File, compileFile } from '@vue/repl'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
-import type { ImportMap, PendingCompiler, ReplStoreParam, VersionKey, VersionRecord } from '@/types'
-import { defaultFile, genImportsMap, genLocalImportsMap, playgroundApp, setupIdux } from '@/const'
-import { decodeData, encodeData, genLink, fetchIduxVersions, fetchVueVersions } from '@/utils'
+import type {
+  ImportMap,
+  PendingCompiler,
+  ReplStoreParam,
+  VersionKey,
+  VersionRecord,
+} from '@/types'
+import {
+  defaultFile,
+  genImportsMap,
+  genLocalImportsMap,
+  playgroundApp,
+  setupIdux,
+  setupIduxCharts,
+} from '@/const'
+import {
+  decodeData,
+  encodeData,
+  fetchIduxChartsVersions,
+  fetchIduxVersions,
+  fetchVueVersions,
+  genLink,
+} from '@/utils'
 import playgroundAppCode from '@/template/PlaygroundApp.vue?raw'
 import defaultCode from '@/template/App.vue?raw'
 import iduxCode from '@/template/setupIdux.js?raw'
+import iduxChartsCode from '@/template/setupIduxCharts.js?raw'
 
 const getInitFiles = (serializedState = '') => {
   const files: StoreState['files'] = {
@@ -30,16 +51,8 @@ const getInitFiles = (serializedState = '') => {
 }
 
 const genVueLink = (version: string) => {
-  const compilerSfc = genLink(
-    '@vue/compiler-sfc',
-    version,
-    '/dist/compiler-sfc.esm-browser.js',
-  )
-  const runtimeDom = genLink(
-    '@vue/runtime-dom',
-    version,
-    '/dist/runtime-dom.esm-browser.js',
-  )
+  const compilerSfc = genLink('@vue/compiler-sfc', version, '/dist/compiler-sfc.esm-browser.js')
+  const runtimeDom = genLink('@vue/runtime-dom', version, '/dist/runtime-dom.esm-browser.js')
 
   return {
     compilerSfc,
@@ -49,7 +62,7 @@ const genVueLink = (version: string) => {
 
 const genImports = async (versions: VersionRecord) => {
   const deps = {
-    ...await genImportsMap(versions),
+    ...(await genImportsMap(versions)),
   }
 
   return {
@@ -68,16 +81,14 @@ export class ReplStore implements Store {
   state: StoreState
   compiler = defaultCompiler
   options?: SFCOptions
-  versions: VersionRecord = { Vue: 'latest', iDux: 'latest' }
+  versions: VersionRecord = { Vue: 'latest', iDux: 'latest', iduxCharts: 'latest' }
   initialShowOutput = false
   initialOutputMode: OutputModes = 'preview'
   versionChangeHandlers: ((versions: VersionRecord) => void)[] = []
   private pendingCompiler: PendingCompiler = null
   private inited = false
 
-  constructor({
-    serializedState = ''
-  }: ReplStoreParam) {
+  constructor({ serializedState = '' }: ReplStoreParam) {
     const files = getInitFiles(serializedState)
     const mainFile = files[playgroundApp] ? playgroundApp : Object.keys(files)[0]
 
@@ -97,12 +108,14 @@ export class ReplStore implements Store {
     if (this.inited) {
       return
     }
-    
+
     const vueVersions = await fetchVueVersions()
     const iduxVersions = await fetchIduxVersions()
+    const chartsVersions = await fetchIduxChartsVersions()
 
     await this.setVueVersion(vueVersions[0] ?? 'latest')
     await this.setIduxVersion(iduxVersions[0] ?? 'latest')
+    await this.setIduxChartsVersion(chartsVersions[0] ?? 'latest')
 
     watchEffect(() => compileFile(this, this.state.activeFile))
 
@@ -128,9 +141,7 @@ export class ReplStore implements Store {
     try {
       return JSON.parse(this.state.files['import-map.json'].code)
     } catch (e) {
-      this.state.errors = [
-        `Syntax error in import-map.json: ${(e as Error).message}`,
-      ]
+      this.state.errors = [`Syntax error in import-map.json: ${(e as Error).message}`]
       return {}
     }
   }
@@ -139,9 +150,7 @@ export class ReplStore implements Store {
     try {
       this.state.files['import-map.json'].code = JSON.stringify(map, null, 2)
     } catch (e) {
-      this.state.errors = [
-        `stringify error in import-map.json: ${(e as Error).message}`,
-      ]
+      this.state.errors = [`stringify error in import-map.json: ${(e as Error).message}`]
     }
   }
 
@@ -149,7 +158,7 @@ export class ReplStore implements Store {
     const importMap = this.getImportMap()
     importMap.imports = {
       ...importMap.imports,
-      ...await genImports(this.versions),
+      ...(await genImports(this.versions)),
     }
     this.setImportMap(importMap as Required<ImportMap>)
   }
@@ -174,33 +183,40 @@ export class ReplStore implements Store {
     const componentsStyleHref = genLink(
       '@idux/components',
       version,
-      isVersion2 ? '/index.css' : '/seer.css',
+      isVersion2 ? '/index.css' : '/seer.css'
     )
-    const cdkStyleHref = genLink(
-      '@idux/cdk',
-      version,
-      '/index.css',
-    )
-    const proStyleHref = genLink(
-      '@idux/pro',
-      version,
-      isVersion2 ? '/index.css' : '/seer.css',
-    )
+    const cdkStyleHref = genLink('@idux/cdk', version, '/index.css')
+    const proStyleHref = genLink('@idux/pro', version, isVersion2 ? '/index.css' : '/seer.css')
 
     this.state.files[setupIdux] = new File(
       setupIdux,
-      iduxCode.replace('#COMPONENTS_STYLE_HREF#', componentsStyleHref).replace('#CDK_STYLE_HREF#', cdkStyleHref).replace('#PRO_STYLE_HREF#', proStyleHref),
-      true,
+      iduxCode
+        .replace('#COMPONENTS_STYLE_HREF#', componentsStyleHref)
+        .replace('#CDK_STYLE_HREF#', cdkStyleHref)
+        .replace('#PRO_STYLE_HREF#', proStyleHref),
+      true
     )
 
     this.runVersionChangeCbs()
     await this.addDeps()
   }
 
+  private async setIduxChartsVersion(version: string) {
+    this.versions.iduxCharts = version
+
+    const styleHref = genLink('@idux/charts', version, '/dist/style.css')
+
+    this.state.files[setupIduxCharts] = new File(
+      setupIduxCharts,
+      iduxChartsCode.replace('#CHARTS_STYLE_HREF#', styleHref),
+      true
+    )
+  }
+
   private async setVueVersion(version: string) {
     const { compilerSfc, runtimeDom } = genVueLink(version)
 
-    this.pendingCompiler = import(/* @vite-ignore */compilerSfc)
+    this.pendingCompiler = import(/* @vite-ignore */ compilerSfc)
     this.compiler = await this.pendingCompiler
     this.pendingCompiler = null
 
@@ -218,9 +234,7 @@ export class ReplStore implements Store {
 
   // 新增文件
   public addFile(fileOrFilename: string | File) {
-    const file = typeof fileOrFilename === 'string' ?
-      new File(fileOrFilename) :
-      fileOrFilename
+    const file = typeof fileOrFilename === 'string' ? new File(fileOrFilename) : fileOrFilename
     this.state.files[file.filename] = file
 
     if (!file.hidden) this.setActive(file.filename)
@@ -249,7 +263,7 @@ export class ReplStore implements Store {
   }
 
   private runVersionChangeCbs() {
-    this.versionChangeHandlers.forEach(handler => handler(this.versions))
+    this.versionChangeHandlers.forEach((handler) => handler(this.versions))
   }
 
   async setFiles(newFiles: Record<string, string>, mainFile = defaultFile) {
@@ -270,8 +284,7 @@ export class ReplStore implements Store {
   }
 
   serialize() {
-    const arr = Object
-      .entries(this.getFiles())
+    const arr = Object.entries(this.getFiles())
       .filter(([file]) => file !== setupIdux && file !== 'import-map.json')
       .map(([file, content]) => {
         if (file === 'import-map.json') {
@@ -279,7 +292,7 @@ export class ReplStore implements Store {
             const importMap = JSON.stringify(this.getImportMap(), null, 2)
             return [file, importMap]
             // eslint-disable-next-line no-empty
-          } catch { }
+          } catch {}
         }
         return [file, content]
       })

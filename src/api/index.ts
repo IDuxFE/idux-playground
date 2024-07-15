@@ -3,7 +3,7 @@ import { versionRequestUrl } from '@/const'
 export const fetchVersions = (pkg: string) => {
   const { data } = useFetch(`${versionRequestUrl}${pkg}`, {
     afterFetch: (ctx) => {
-      ctx.data = Object.keys(ctx.data.versions)
+      ctx.data = ctx.data.versions
       return ctx
     },
   }).json<string[]>()
@@ -16,5 +16,5 @@ export const fetchVersionsRaw = async (pkg: string) => {
 
   const json = await res.json()
 
-  return Object.keys(json.versions)
+  return json.versions
 }
