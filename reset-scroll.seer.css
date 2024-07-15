@@ -1,0 +1,60 @@
+/* transition duration ------------------ */
+/* zoom ------------------ */
+/* move ------------------ */
+/* slide ----------------- */
+/* border -------------------------- */
+/* stylelint-disable no-duplicate-selectors */
+/* stylelint-disable */
+/* stylelint-disable declaration-bang-space-before,no-duplicate-selectors,string-no-newline */
+/* base -------------------------- */
+/* Graphite  -------------------------- */
+/* Grey -------------------------- */
+/* Black -------------------------- */
+/* white -------------------------- */
+/* Red -------------------------- */
+/* Orange -------------------------- */
+/* Brown -------------------------- */
+/* Yellow -------------------------- */
+/* Canary -------------------------- */
+/* Bud -------------------------- */
+/* Green -------------------------- */
+/* Turquoise -------------------------- */
+/* Cyan -------------------------- */
+/* Glacier -------------------------- */
+/* Blue -------------------------- */
+/* Indigo -------------------------- */
+/* Purple -------------------------- */
+/* Magenta -------------------------- */
+/* Primary -------------------------- */
+/* Info -------------------------- */
+/* Pending -------------------------- */
+/* Success -------------------------- */
+/* Warning -------------------------- */
+/* Error -------------------------- */
+/* color -------------------------- */
+/* text -------------------------- */
+/* font -------------------------- */
+/* spacing -------------------------- */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-clip: padding-box;
+  background-color: #c1c1c1;
+  border: 0 solid transparent;
+  border-radius: 4px;
+  box-shadow: none;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #a8a8a8;
+}
+::-webkit-scrollbar-thumb:active {
+  background-color: #787878;
+}
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-corner {
+  background-color: none;
+  border-radius: 0;
+  box-shadow: none;
+}
