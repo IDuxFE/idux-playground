@@ -102,6 +102,7 @@ const selectors = reactive({
 props.store.onVersionChange((version) => {
   selectors.Vue.activeVer = version.Vue
   selectors.iDux.activeVer = version.iDux
+  selectors.iduxCharts.activeVer = version.iduxCharts
 })
 
 const onVerChange = async (name: string, ver: unknown) => {

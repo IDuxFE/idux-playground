@@ -1,9 +1,12 @@
 import { versionRequestUrl } from '@/const'
+import { compare } from 'compare-versions'
 
 export const fetchVersions = (pkg: string) => {
   const { data } = useFetch(`${versionRequestUrl}${pkg}`, {
     afterFetch: (ctx) => {
-      ctx.data = ctx.data.versions
+      const versions = ctx.data.versions as string[]
+      versions.sort((v1, v2) => compare(v1, v2, '<=') ? 1 : -1)
+      ctx.data = versions
       return ctx
     },
   }).json<string[]>()
@@ -16,5 +19,7 @@ export const fetchVersionsRaw = async (pkg: string) => {
 
   const json = await res.json()
 
-  return json.versions
+  const versions = json.versions as string[]
+
+  return versions.sort((v1, v2) => compare(v1, v2, '<=') ? 1 : -1)
 }
