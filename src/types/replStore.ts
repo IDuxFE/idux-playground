@@ -6,7 +6,7 @@ export interface ReplStoreParam {
   versions?: VersionRecord
 }
 
-export type VersionKey = 'Vue' | 'iDux' | 'iduxCharts'
+export type VersionKey = 'Vue' | 'iDux' | 'iduxCdk' | 'iduxCharts'
 export type VersionRecord = Record<VersionKey, string>
 
 export type PendingCompiler = Promise<typeof import('vue/compiler-sfc')> | null

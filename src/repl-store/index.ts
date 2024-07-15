@@ -1,6 +1,7 @@
 import { reactive, watchEffect } from 'vue'
 import * as defaultCompiler from 'vue/compiler-sfc'
 import { File, compileFile } from '@vue/repl'
+import { compare } from 'compare-versions'
 import type { OutputModes, SFCOptions, Store, StoreState } from '@vue/repl'
 import type {
   ImportMap,
@@ -20,6 +21,7 @@ import {
 import {
   decodeData,
   encodeData,
+  fetchIduxCdkVersions,
   fetchIduxChartsVersions,
   fetchIduxVersions,
   fetchVueVersions,
@@ -60,9 +62,9 @@ const genVueLink = (version: string) => {
   }
 }
 
-const genImports = async (versions: VersionRecord) => {
+const genImports = (versions: VersionRecord) => {
   const deps = {
-    ...(await genImportsMap(versions)),
+    ...genImportsMap(versions),
   }
 
   return {
@@ -81,7 +83,12 @@ export class ReplStore implements Store {
   state: StoreState
   compiler = defaultCompiler
   options?: SFCOptions
-  versions: VersionRecord = { Vue: 'latest', iDux: 'latest', iduxCharts: 'latest' }
+  versions: VersionRecord = {
+    Vue: 'latest',
+    iDux: 'latest',
+    iduxCdk: 'latest',
+    iduxCharts: 'latest',
+  }
   initialShowOutput = false
   initialOutputMode: OutputModes = 'preview'
   versionChangeHandlers: ((versions: VersionRecord) => void)[] = []
@@ -154,11 +161,11 @@ export class ReplStore implements Store {
     }
   }
 
-  private async addDeps() {
+  private addDeps() {
     const importMap = this.getImportMap()
     importMap.imports = {
       ...importMap.imports,
-      ...(await genImports(this.versions)),
+      ...genImports(this.versions)
     }
     this.setImportMap(importMap as Required<ImportMap>)
   }
@@ -172,6 +179,12 @@ export class ReplStore implements Store {
       case 'Vue':
         await this.setVueVersion(version)
         break
+      case 'iduxCharts':
+        await this.setIduxChartsVersion(version)
+        compileFile(this, this.state.files[setupIduxCharts])
+        break
+      default:
+        break
     }
   }
 
@@ -180,12 +193,24 @@ export class ReplStore implements Store {
 
     const isVersion2 = version.startsWith('2') || version === 'latest'
 
+    let cdkVersions = (await fetchIduxCdkVersions()) ?? []
+    if (!version.startsWith('2') && version !== 'latest') {
+      cdkVersions = cdkVersions.filter((ver: string) => ver.startsWith('1'))
+    }
+  
+    const cdkVersion =
+      cdkVersions.includes(version) || version === 'latest'
+        ? version
+        : cdkVersions.find((ver: string) => compare(ver, version, '<=')) ?? cdkVersions[0]
+
+    this.versions.iduxCdk = cdkVersion
+
     const componentsStyleHref = genLink(
       '@idux/components',
       version,
       isVersion2 ? '/index.css' : '/seer.css'
     )
-    const cdkStyleHref = genLink('@idux/cdk', version, '/index.css')
+    const cdkStyleHref = genLink('@idux/cdk', cdkVersion, '/index.css')
     const proStyleHref = genLink('@idux/pro', version, isVersion2 ? '/index.css' : '/seer.css')
 
     this.state.files[setupIdux] = new File(
@@ -198,7 +223,7 @@ export class ReplStore implements Store {
     )
 
     this.runVersionChangeCbs()
-    await this.addDeps()
+    this.addDeps()
   }
 
   private async setIduxChartsVersion(version: string) {
@@ -211,6 +236,9 @@ export class ReplStore implements Store {
       iduxChartsCode.replace('#CHARTS_STYLE_HREF#', styleHref),
       true
     )
+
+    this.runVersionChangeCbs()
+    this.addDeps()
   }
 
   private async setVueVersion(version: string) {
@@ -225,7 +253,7 @@ export class ReplStore implements Store {
     this.versions.Vue = version
 
     this.runVersionChangeCbs()
-    await this.addDeps()
+    this.addDeps()
   }
 
   setActive(filename: string) {

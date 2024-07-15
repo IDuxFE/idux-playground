@@ -6,7 +6,10 @@
     >
       <div class="ixp-height-full" />
     </IxSpin>
-    <div v-else class="flex flex-col ixp-height-full">
+    <div
+      v-else
+      class="flex flex-col ixp-height-full"
+    >
       <PlaygroundHeader :store="store" />
       <Repl
         :class="className"

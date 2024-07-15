@@ -1,20 +1,7 @@
-import { fetchIduxCdkVersions } from './../utils'
 import { VersionRecord } from '@/types'
-import { compare } from 'compare-versions'
 
-export const genImportsMap = async (versions: VersionRecord) => {
-  const { Vue, iDux, iduxCharts } = versions
-
-  let cdkVersions = (await fetchIduxCdkVersions()) ?? []
-  if (!iDux.startsWith('2') && iDux !== 'latest') {
-    cdkVersions = cdkVersions.filter((ver: string) => ver.startsWith('1'))
-  }
-
-  const cdkVersion =
-    cdkVersions.includes(iDux) || iDux === 'latest'
-      ? iDux
-      : cdkVersions.find((ver: string) => compare(ver, iDux, '<=')) ?? cdkVersions[0]
-
+export const genImportsMap = (versions: VersionRecord) => {
+  const { Vue, iDux, iduxCdk, iduxCharts } = versions
   return {
     vue: {
       pkg: '@vue/runtime-dom',
@@ -43,12 +30,12 @@ export const genImportsMap = async (versions: VersionRecord) => {
     },
     '@idux/cdk': {
       pkg: '*@idux/cdk',
-      version: cdkVersion,
+      version: iduxCdk,
       file: '',
     },
     '@idux/cdk/': {
       pkg: '*@idux/cdk',
-      version: cdkVersion,
+      version: iduxCdk,
       file: '/',
     },
     '@idux/components': {
