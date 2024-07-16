@@ -118,16 +118,6 @@ export const genImportsMap = (versions: VersionRecord) => {
       version: 'latest',
       file: '/',
     },
-    'echarts': {
-      pkg: 'echarts',
-      version: 'latest',
-      file: '',
-    },
-    'echarts/': {
-      pkg: 'echarts',
-      version: 'latest',
-      file: '/',
-    },
     'vue-demi': {
       pkg: '*vue-demi',
       version: 'latest',
@@ -137,7 +127,7 @@ export const genImportsMap = (versions: VersionRecord) => {
       pkg: '*vue-demi',
       version: 'latest',
       file: '/',
-    }
+    },
   }
 }
 
@@ -177,6 +167,36 @@ export const genLocalImportsMap = () => {
       pkg: '@emotion/hash',
       version: 'latest',
       file: './deps/emotion-hash.js',
+    },
+    'echarts': {
+      pkg: 'echarts',
+      version: 'latest',
+      file: './deps/echarts.js',
+    },
+    'echarts/core': {
+      pkg: 'echarts',
+      version: 'latest',
+      file: './deps/echarts.js',
+    },
+    'echarts/components': {
+      pkg: 'echarts',
+      version: 'latest',
+      file: './deps/echarts.js',
+    },
+    'echarts/features': {
+      pkg: 'echarts',
+      version: 'latest',
+      file: './deps/echarts.js',
+    },
+    'echarts/renderers': {
+      pkg: 'echarts',
+      version: 'latest',
+      file: './deps/echarts.js',
+    },
+    'echarts/charts': {
+      pkg: 'echarts',
+      version: 'latest',
+      file: './deps/echarts.js',
     },
   }
 }
