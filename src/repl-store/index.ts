@@ -41,8 +41,9 @@ const getInitFiles = (serializedState = '') => {
     try {
       const res: Record<string, string> = JSON.parse(decodeData(serializedState))
       for (const filename of Object.keys(res)) {
-        const isHidden = filename === playgroundApp
-        files[filename] = new File(filename, res[filename], isHidden)
+        if (filename !== playgroundApp) {
+          files[filename] = new File(filename, res[filename])
+        }
       }
     } catch (err) {
       console.log(err)
@@ -313,7 +314,7 @@ export class ReplStore implements Store {
 
   serialize() {
     const arr = Object.entries(this.getFiles())
-      .filter(([file]) => file !== setupIdux && file !== 'import-map.json')
+      .filter(([file]) => ![playgroundApp, setupIduxCharts, setupIdux, 'import-map.json'].includes(file))
       .map(([file, content]) => {
         if (file === 'import-map.json') {
           try {
