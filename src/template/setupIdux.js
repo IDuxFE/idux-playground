@@ -9,9 +9,10 @@ import IduxComponents, {
 import IduxPro from '@idux/pro'
 
 addIconDefinitions(IDUX_ICON_DEPENDENCIES)
+const iduxIconUrlBase = '//gcode.uedc.sangfor.com.cn/idux-icons/'
 
 const loadIconDynamically = (iconName) => {
-  return fetch(`https://idux-cdn.sangfor.com.cn/icons/${iconName}.svg`)
+  return fetch(`${iduxIconUrlBase}${iconName}.svg`)
     .then((res) => res.text())
 }
 

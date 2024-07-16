@@ -11,8 +11,8 @@ export const defaultFile = 'App.vue'
 
 export const playgroundApp = 'PlaygroundApp.vue'
 
-// const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:'
-const protocol = 'https:'
+const protocol = window.location.protocol === 'https:' ? 'https:' : 'http:'
+// const protocol = 'https:'
 
 export const versionRequestUrl = `${protocol}${versionRequestUrlBase}`
 export const esmoduleUrl = `${protocol}${esmoduleUrlBase}`

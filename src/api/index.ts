@@ -4,7 +4,7 @@ import { compare } from 'compare-versions'
 export const fetchVersions = (pkg: string) => {
   const { data } = useFetch(`${versionRequestUrl}${pkg}`, {
     afterFetch: (ctx) => {
-      const versions = ctx.data.versions as string[]
+      const versions = Object.keys(ctx.data.versions)
       versions.sort((v1, v2) => compare(v1, v2, '<=') ? 1 : -1)
       ctx.data = versions
       return ctx
@@ -19,7 +19,7 @@ export const fetchVersionsRaw = async (pkg: string) => {
 
   const json = await res.json()
 
-  const versions = json.versions as string[]
+  const versions = Object.keys(json.versions)
 
   return versions.sort((v1, v2) => compare(v1, v2, '<=') ? 1 : -1)
 }
